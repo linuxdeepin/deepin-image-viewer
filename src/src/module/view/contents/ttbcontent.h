@@ -226,6 +226,11 @@ signals:
     void rotateClockwise();
 
     /**
+     * @brief ocrCurrentPicture  进行ocr对当前图片进行
+     */
+    void ocrCurrentPicture();
+
+    /**
      * @brief rotateCounterClockwise    逆时针旋转
      */
     void rotateCounterClockwise();
@@ -417,6 +422,8 @@ public slots:
     void slotMovePress(const QString &path);
 
     void slotClickPress(int index, int indexNow, bool iRet);
+
+    void slotChangeOcrBtn(bool iRet);
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 //    void updateFilenameLayout();
@@ -428,6 +435,7 @@ private:
     DIconButton *m_adaptImageBtn {nullptr};
     DIconButton *m_adaptScreenBtn {nullptr};
 //    DIconButton* m_clBT;
+    DIconButton *m_ocrBtn {nullptr};
     DIconButton *m_rotateLBtn {nullptr};
     DIconButton *m_rotateRBtn {nullptr};
     DIconButton *m_trashBtn {nullptr};

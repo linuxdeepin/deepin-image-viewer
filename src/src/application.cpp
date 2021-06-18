@@ -43,6 +43,7 @@
 #include <DSysInfo>
 
 #include "controller/commandline.h"
+#include "service/ocrinterface.h"
 #ifdef USE_UNIONIMAGE
 #include "utils/unionimage.h"
 #endif
@@ -445,6 +446,13 @@ Application *Application::getinstance()
     return m_signalapp;
 }
 
+void Application::sendOcrPicture(const QImage &img)
+{
+    if (m_ocrInterface != nullptr) {
+        m_ocrInterface->openImage(img);
+    }
+}
+
 Application::Application(int &argc, char **argv)
 {
     //判断DTK版本是否支持Deepin-turbo优化
@@ -511,6 +519,10 @@ Application::Application(int &argc, char **argv)
     });
     Dtk::Core::DSysInfo::UosEdition edition =  Dtk::Core::DSysInfo::uosEditionType();
     m_isEuler =  Dtk::Core::DSysInfo::UosEuler == edition || Dtk::Core::DSysInfo::UosEnterpriseC == edition;
+
+    if (!m_ocrInterface) {
+        m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
+    }
 }
 bool Application::eventFilter(QObject *obj, QEvent *event)
 {

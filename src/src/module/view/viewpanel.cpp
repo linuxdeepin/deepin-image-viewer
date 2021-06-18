@@ -225,6 +225,7 @@ void ViewPanel::initConnect()
     connect(dApp->signalM, &SignalManager::sigOpenFileDialog, this, [ = ] {
         emit m_emptyWidget->openImageInDialog();
     });
+    connect(m_viewB, &ImageView::currentIsDynamic, this, &ViewPanel::slotOpenOcrBtn);
 #ifdef LITE_DIV
 
     //LMH
@@ -480,6 +481,14 @@ bool ViewPanel::GetPixmapStatus(QString filename)
     return !pic.isNull();
 }
 
+void ViewPanel::slotOpenOcrBtn(bool iRet)
+{
+    m_isDynamicPic = iRet;
+    if (ttbc) {
+        ttbc->slotChangeOcrBtn(!m_isDynamicPic);
+    }
+}
+
 void ViewPanel::slotCurrentStackWidget(QString &path, bool bpix)
 {
     //bpix表示图片加载成功，不用切换到撕裂图widget
@@ -502,6 +511,7 @@ void ViewPanel::slotCurrentStackWidget(QString &path, bool bpix)
         else
             m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
+        slotOpenOcrBtn(true);
     } else if (!QFileInfo(path).isReadable() || !bpix) {
         emit sigDisenablebutton();
         //lmh2020/11/12 bug54164
@@ -509,6 +519,7 @@ void ViewPanel::slotCurrentStackWidget(QString &path, bool bpix)
             emit m_viewB->disCheckAdaptImageBtn();
         }
         m_stack->setCurrentIndex(2);
+        slotOpenOcrBtn(true);
     } else {
         m_stack->setCurrentIndex(0);
         // open success.
@@ -874,7 +885,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     else
         flag = false;
     ttbc = new TTBContent(m_vinfo.inDatabase, m_infos, flag, this);
-
+    ttbc->slotChangeOcrBtn(!m_isDynamicPic);
     if (!ttbc) {
         return nullptr;
     }
@@ -893,6 +904,9 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage);
     connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); });
     connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); });
+
+    connect(ttbc, &TTBContent::ocrCurrentPicture, m_viewB, &ImageView::slotsOcrCurrentPicture);
+
     connect(ttbc, &TTBContent::removed, this, [ = ] {
 
         if (m_dtr->isActive())

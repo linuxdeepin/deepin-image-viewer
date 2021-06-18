@@ -62,8 +62,8 @@ const QString LOCMAP_NOT_SELECTED_DAMAGED_DARK = ":/dark/images/picture_damaged_
 const QString LOCMAP_SELECTED_DAMAGED_LIGHT = ":/light/images/picture_damaged_58.svg";
 const QString LOCMAP_NOT_SELECTED_DAMAGED_LIGHT = ":/light/images/picture_damaged.svg";
 
-const int TOOLBAR_MINIMUN_WIDTH = 610 - 3;
-const int TOOLBAR_JUSTONE_WIDTH = 310;
+const int TOOLBAR_MINIMUN_WIDTH = 710 - 3;//610->650
+const int TOOLBAR_JUSTONE_WIDTH = 350;
 const int RT_SPACING = 20 + 5;
 const int TOOLBAR_HEIGHT = 60;
 
@@ -72,7 +72,7 @@ const int TOOLBAR_DVALUE = 154 + 8;
 const int THUMBNAIL_WIDTH = 32;
 const int THUMBNAIL_ADD_WIDTH = 32;
 const int THUMBNAIL_LIST_ADJUST = 9 + 5;
-const int THUMBNAIL_VIEW_DVALUE = 496 + 10;
+const int THUMBNAIL_VIEW_DVALUE = 650 + 10;//ocr增加后从496到580
 
 const unsigned int IMAGE_TYPE_JEPG = 0xFFD8FF;
 const unsigned int IMAGE_TYPE_JPG1 = 0xFFD8FFE0;
@@ -738,6 +738,16 @@ void TTBContent::initBtn()
     hb->addWidget(m_adaptScreenBtn);
     hb->addSpacing(ICON_SPACING);
 
+    // ocr
+    m_ocrBtn = new DIconButton(this);
+    m_ocrBtn->setFixedSize(ICON_SIZE);
+    m_ocrBtn->setObjectName("OcrBtn");
+    m_ocrBtn->setIcon(QIcon::fromTheme("dcc_ocr"));
+    m_ocrBtn->setIconSize(QSize(36, 36));
+    m_ocrBtn->setToolTip(tr("Extract text"));
+    hb->addWidget(m_ocrBtn);
+    hb->addSpacing(ICON_SPACING);
+
     // rotateLBtn
     m_rotateLBtn = new DIconButton(this);
     m_rotateLBtn->setFixedSize(ICON_SIZE);
@@ -923,6 +933,7 @@ void TTBContent::toolbarSigConnection()
         }
     });
 
+    connect(m_ocrBtn, &DIconButton::clicked, this, &TTBContent::ocrCurrentPicture);
     connect(m_adaptScreenBtn, &DIconButton::clicked, this, [ = ] {
         emit resetTransform(true);
         setAdaptButtonChecked(false);
@@ -1453,6 +1464,7 @@ void TTBContent::setBtnAttribute(const QString strPath)
         m_trashBtn->setEnabled(false);
         m_adaptImageBtn->setEnabled(false);
         m_adaptScreenBtn->setEnabled(false);
+        m_ocrBtn->setEnabled(false);
         return;
     }
     if (!utils::image::imageSupportRead(strPath)) {
@@ -1460,7 +1472,7 @@ void TTBContent::setBtnAttribute(const QString strPath)
         m_rotateRBtn->setEnabled(false);
         m_adaptImageBtn->setEnabled(false);
         m_adaptScreenBtn->setEnabled(false);
-
+        m_ocrBtn->setEnabled(false);
         //apple设备，不能旋转和删除 //新增保险箱的判断，保险箱无法删除,回收站也无法删除
         if (!QFileInfo(strPath).isWritable() || dApp->IsApplePhone() ||  !utils::image::isCanRemove(strPath)) {
             m_trashBtn->setEnabled(false);
@@ -1607,6 +1619,13 @@ void TTBContent::slotClickPress(int index, int indexNow, bool iRet)
     m_nowIndex = index;
     emit imageMoveEnded(index, (index - indexNow), iRet);
     m_lastIndex = m_nowIndex;
+}
+
+void TTBContent::slotChangeOcrBtn(bool iRet)
+{
+    if (m_ocrBtn) {
+        m_ocrBtn->setEnabled(iRet);
+    }
 }
 
 void TTBContent::onChangeHideFlags(bool bFlags)

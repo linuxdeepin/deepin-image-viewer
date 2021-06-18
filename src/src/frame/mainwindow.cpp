@@ -52,7 +52,7 @@
 namespace {
 
 const int MAINWIDGET_MINIMUN_HEIGHT = 335;
-const int MAINWIDGET_MINIMUN_WIDTH = 630;
+const int MAINWIDGET_MINIMUN_WIDTH = 730;//增加了ocr，最小宽度为630到现在730
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
 const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";

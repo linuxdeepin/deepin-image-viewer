@@ -39,6 +39,7 @@ class SignalManager;
 class WallpaperSetter;
 class ViewerThemeManager;
 class QCloseEvent;
+class OcrInterface;
 #if defined(dApp)
 #undef dApp
 #endif
@@ -120,6 +121,8 @@ public:
         return m_rwLock;
     }
 
+    //dbus发送ocr识别
+    void sendOcrPicture(const QImage &img);
     //20210111判断是否是平板模式
     bool isPanelDev()
     {
@@ -140,10 +143,11 @@ public:
     QThread *m_LoadThread;
     bool m_firstLoad = true;
     DApplication *m_app;
-    /*lmh0806儒码优化*/
+    /*儒码优化*/
     int  m_timer = 0;
     bool m_bMove = false;
     bool m_bIsPanel = false;
+
 
     bool eventFilter(QObject *obj, QEvent *event);
 
@@ -262,6 +266,9 @@ private:
     bool m_isapplePhone = false;
     bool m_isOnlyOnePic = false;
     bool m_isEuler = false;
+
+    //ocr接口
+    OcrInterface *m_ocrInterface{nullptr};
 };
 
 #endif  // APPLICATION_H_

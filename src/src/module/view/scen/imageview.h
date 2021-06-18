@@ -205,7 +205,10 @@ signals:
 
     void sigRequestShowVaguePix(QString, bool &);
 
+    void currentIsDynamic(bool);
 public slots:
+
+    void slotsOcrCurrentPicture();
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
 
     /**

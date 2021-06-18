@@ -184,5 +184,7 @@
         <file>light/images/return_normal.svg</file>
         <file>light/images/return_press.svg</file>
         <file>light/images/scale_background.svg</file>
+        <file>dark/icons/ocr_normal.svg</file>
+        <file>light/icons/ocr_normal.svg</file>
     </qresource>
 </RCC>

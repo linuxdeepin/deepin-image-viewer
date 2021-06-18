@@ -280,6 +280,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         emit dApp->signalM->sigDrawingBoard(pathlist);
         break;
     }
+    case IdOcr: {
+        m_viewB->slotsOcrCurrentPicture();
+    }
     default:
         break;
     }
@@ -304,12 +307,13 @@ void ViewPanel::updateMenuContent()
         }
 
         appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
+        //ocr按钮
+        if (!m_isDynamicPic) {
+            appendAction(IdOcr, tr("Extract text"), ss("Extract text", "Alt+O"));
+        }
         //修复打开不支持显示的图片在缩略图中没有，current出现超出界限崩溃问题
         if (m_current >= m_infos.size()) m_current = 0;
         QFileInfo currfileinfo(m_infos.at(m_current).filePath);
-        if (currfileinfo.isReadable() &&
-                currfileinfo.isWritable())
-            appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
 
         //判断图片数量大于0才能执行幻灯片播放
         if (m_infos.size() > 0) {
@@ -319,7 +323,9 @@ void ViewPanel::updateMenuContent()
         m_menu->addSeparator();
         /**************************************************************************/
         appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-
+        if (currfileinfo.isReadable() &&
+                currfileinfo.isWritable())
+            appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
         //apple phone的delete没有权限,保险箱无法删除,垃圾箱也无法删除
         if ((currfileinfo.isReadable() && currfileinfo.isWritable()) && !dApp->IsApplePhone() && utils::image::isCanRemove(m_currentImagePath)) {
             appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));

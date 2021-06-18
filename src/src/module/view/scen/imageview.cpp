@@ -926,6 +926,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
     m_bRoate = UnionImage_NameSpace::isImageSupportRotate(strPath) && QFileInfo(strPath).isWritable();
     switch (type) {
     case PICTURE_TYPE::SVG: {
+        emit currentIsDynamic(false);
         //svg采用svgRender显示
         m_movieItem = nullptr;
         m_pixmapItem = nullptr;
@@ -963,6 +964,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         break;
     }
     case PICTURE_TYPE::NORMAL: {
+        emit currentIsDynamic(false);
         m_movieItem = nullptr;
         m_imgSvgItem = nullptr;
         qDebug() << "cache start!";
@@ -1025,6 +1027,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
     }
 
     case PICTURE_TYPE::KINETOGRAM: {
+        emit currentIsDynamic(true);
         if (m_morePicFloatWidget) {
             m_morePicFloatWidget->setVisible(false);
         }
@@ -1919,4 +1922,9 @@ void ImageView::setCurrentImage(int index)
     }
 
     emit dApp->signalM->UpdateNavImg();
+}
+
+void ImageView::slotsOcrCurrentPicture()
+{
+    dApp->sendOcrPicture(image());
 }

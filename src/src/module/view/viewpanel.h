@@ -85,7 +85,8 @@ public:
         IdDisplayInFileManager,
         IdImageInfo,
         IdSubMenu,
-        IdDraw
+        IdDraw,
+        IdOcr
     };
 
     explicit ViewPanel(QWidget *parent = nullptr);
@@ -407,6 +408,7 @@ private:
     bool GetPixmapStatus(QString filename);
 
 private slots:
+    void slotOpenOcrBtn(bool iRet);
     /**
      *
      * @date 2020/08/28
@@ -516,6 +518,7 @@ private:
 
     bool m_screentoNormal = false;
     QTimer *m_tSaveImage = nullptr;//保存旋转图片定时器
+    bool m_isDynamicPic = false;
 
 };
 #endif  // VIEWPANEL_H

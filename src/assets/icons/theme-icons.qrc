@@ -24,6 +24,9 @@
         <file>texts/dcc_down_dark_36px.svg</file>
         <file>texts/dcc_up_36px.svg</file>
         <file>texts/dcc_up_dark_36px.svg</file>
+        <file>icons/dcc_ocr_36px.svg</file>
+        <file>texts/dcc_ocr_dark_36px.svg</file>
+        <file>texts/dcc_ocr_36px.svg</file>
     </qresource>
     <qresource prefix="/icons/deepin/builtin/light"/>
     <qresource prefix="/icons/deepin/builtin/dark"/>
