@@ -16,7 +16,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Εικόνες</translation>
+        <translation type="vanished">Εικόνες</translation>
     </message>
 </context>
 <context>
@@ -160,43 +160,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>χωρίς κλίμακα</translation>
+        <translation type="vanished">χωρίς κλίμακα</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Προσαρμογή σελίδας σε εικόνα</translation>
+        <translation type="vanished">Προσαρμογή σελίδας σε εικόνα</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Προσαρμογή εικόνας σε σελίδα</translation>
+        <translation type="vanished">Προσαρμογή εικόνας σε σελίδα</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Θέσε κλίμακα σε:</translation>
+        <translation type="vanished">Θέσε κλίμακα σε:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Χιλιοστά</translation>
+        <translation type="vanished">Χιλιοστά</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Εκατοστά</translation>
+        <translation type="vanished">Εκατοστά</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Ίντσες</translation>
+        <translation type="vanished">Ίντσες</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Θέση εικόνας</translation>
+        <translation type="vanished">Θέση εικόνας</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Κλιμάκωση</translation>
+        <translation type="vanished">Κλιμάκωση</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Ρυθμίσεις εικόνας</translation>
+        <translation type="vanished">Ρυθμίσεις εικόνας</translation>
     </message>
 </context>
 <context>
@@ -240,46 +240,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Επιλογή φακέλου</translation>
+        <translation type="vanished">Επιλογή φακέλου</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>ο συγχρονισμός είναι σωστός για το φάκελο</translation>
+        <translation type="vanished">ο συγχρονισμός είναι σωστός για το φάκελο</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Προσθήκη φακέλου</translation>
+        <translation type="vanished">Προσθήκη φακέλου</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Διαχειριστής συγχρονισμού</translation>
+        <translation type="vanished">Διαχειριστής συγχρονισμού</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>Η λίστα των φακέλων είναι άδεια</translation>
+        <translation type="vanished">Η λίστα των φακέλων είναι άδεια</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Ακύρωση συγχρονισμού</translation>
+        <translation type="vanished">Ακύρωση συγχρονισμού</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Εικόνες</translation>
+        <translation type="vanished">Εικόνες</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Η συσκευή έχει αφαιρεθεί</translation>
+        <translation type="vanished">Η συσκευή έχει αφαιρεθεί</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Ο φάκελος δεν υπάρχει</translation>
+        <translation type="vanished">Ο φάκελος δεν υπάρχει</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Υπολογισμός...</translation>
+        <translation type="vanished">Υπολογισμός...</translation>
     </message>
 </context>
 <context>
@@ -290,7 +290,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Άλμπουμ</translation>
+        <translation type="vanished">Άλμπουμ</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -298,7 +298,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Προβολή</translation>
+        <translation type="vanished">Προβολή</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -310,7 +310,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Τέλος παρουσίασης</translation>
+        <translation type="vanished">Τέλος παρουσίασης</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -318,15 +318,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Αφαίρεση από το άλμπουμ</translation>
+        <translation type="vanished">Αφαίρεση από το άλμπουμ</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Αγαπημένο</translation>
+        <translation type="vanished">Αγαπημένο</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Μη αγαπημένο</translation>
+        <translation type="vanished">Μη αγαπημένο</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -358,15 +358,11 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Προηγούμενη οθόνη </translation>
+        <translation type="vanished">Προηγούμενη οθόνη </translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Επόμενη οθόνη</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Επόμενη οθόνη</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -524,17 +520,13 @@
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image management</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>My favorite</source>
         <translation type="unfinished"></translation>
@@ -604,18 +596,6 @@
 <context>
     <name>ViewPanel</name>
     <message>
-        <source>Timeline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Exit fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
@@ -637,15 +617,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Αφαίρεση από το άλμπουμ</translation>
+        <translation type="obsolete">Αφαίρεση από το άλμπουμ</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Αγαπημένο</translation>
+        <translation type="obsolete">Αγαπημένο</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Μη αγαπημένο</translation>
+        <translation type="obsolete">Μη αγαπημένο</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -690,6 +670,10 @@
     <message>
         <source>Rename</source>
         <translation>Μετονομασία</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

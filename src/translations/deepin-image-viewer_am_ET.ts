@@ -16,7 +16,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>ምስሎች</translation>
+        <translation type="vanished">ምስሎች</translation>
     </message>
 </context>
 <context>
@@ -161,49 +161,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
@@ -241,46 +198,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>ዳይሬክቶሪ ይምረጡ</translation>
+        <translation type="vanished">ዳይሬክቶሪ ይምረጡ</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>የዚህ ዳይሬክቶሪ ማዋሀጃ ተሰናክሏል</translation>
+        <translation type="vanished">የዚህ ዳይሬክቶሪ ማዋሀጃ ተሰናክሏል</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>ፎልደር መጨመሪያ</translation>
+        <translation type="vanished">ፎልደር መጨመሪያ</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>የ ዳይሬክቶሪ ማዋሀጃ አስተዳዳሪ</translation>
+        <translation type="vanished">የ ዳይሬክቶሪ ማዋሀጃ አስተዳዳሪ</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>የ ዳይሬክቶሪ ዝርዝር ባዶ ነው</translation>
+        <translation type="vanished">የ ዳይሬክቶሪ ዝርዝር ባዶ ነው</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>ማዋሀጃ መሰረዣ </translation>
+        <translation type="vanished">ማዋሀጃ መሰረዣ </translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>ምስሎች</translation>
+        <translation type="vanished">ምስሎች</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>አካሉ ተወግዷል</translation>
+        <translation type="vanished">አካሉ ተወግዷል</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>ዳይሬክቶሪው አልተገኘም</translation>
+        <translation type="vanished">ዳይሬክቶሪው አልተገኘም</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>በ ማስላት ላይ...</translation>
+        <translation type="vanished">በ ማስላት ላይ...</translation>
     </message>
 </context>
 <context>
@@ -291,7 +248,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>አልበም</translation>
+        <translation type="vanished">አልበም</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -299,7 +256,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>መመልከቻ</translation>
+        <translation type="vanished">መመልከቻ</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -311,7 +268,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>ማሳያ መጨረሻ</translation>
+        <translation type="vanished">ማሳያ መጨረሻ</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -319,15 +276,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>ከ አልበም ውስጥ ማስወገጃ</translation>
+        <translation type="vanished">ከ አልበም ውስጥ ማስወገጃ</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>የምወዳቸው</translation>
+        <translation type="vanished">የምወዳቸው</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>የማልወዳቸው</translation>
+        <translation type="vanished">የማልወዳቸው</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -359,15 +316,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>ያለፈው መመልከቻ</translation>
+        <translation type="vanished">ያለፈው መመልከቻ</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>የሚቀጥለው መመልከቻ</translation>
+        <translation type="vanished">የሚቀጥለው መመልከቻ</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>አዲስ አልበም</translation>
+        <translation type="vanished">አዲስ አልበም</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -579,16 +536,20 @@
         <source>Delete</source>
         <translation type="unfinished">ማጥፊያ</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>ወደ ኋላ</translation>
+        <translation type="vanished">ወደ ኋላ</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>የ ምስል አስተዳዳሪ</translation>
+        <translation type="vanished">የ ምስል አስተዳዳሪ</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -680,15 +641,15 @@
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>የ ሰአት መስመር</translation>
+        <translation type="vanished">የ ሰአት መስመር</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>ወደ አልበም መጨመሪያ</translation>
+        <translation type="vanished">ወደ አልበም መጨመሪያ</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>ወደ አዲስ አልበም መጨመሪያ</translation>
+        <translation type="vanished">ወደ አዲስ አልበም መጨመሪያ</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -712,15 +673,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>ከ አልበም ውስጥ ማስወገጃ</translation>
+        <translation type="vanished">ከ አልበም ውስጥ ማስወገጃ</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>የምወዳቸው</translation>
+        <translation type="vanished">የምወዳቸው</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>የማልወዳቸው</translation>
+        <translation type="vanished">የማልወዳቸው</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -765,6 +726,10 @@
     <message>
         <source>Rename</source>
         <translation>እንደገና መሰየሚያ</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

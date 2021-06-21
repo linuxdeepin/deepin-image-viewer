@@ -14,7 +14,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Billeder</translation>
+        <translation type="vanished">Billeder</translation>
     </message>
 </context>
 <context>
@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Retur</translation>
+        <translation type="vanished">Alt+Retur</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -54,7 +58,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Åbn mappe</translation>
+        <translation type="vanished">Åbn mappe</translation>
     </message>
 </context>
 <context>
@@ -68,15 +72,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Annuller</translation>
+        <translation type="vanished">Annuller</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Slet</translation>
+        <translation type="vanished">Slet</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Billedfil ikke fundet</translation>
+        <translation type="vanished">Billedfil ikke fundet</translation>
     </message>
 </context>
 <context>
@@ -95,7 +99,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Dimension</translation>
+        <translation type="vanished">Dimension</translation>
     </message>
     <message>
         <source>File size</source>
@@ -174,73 +178,73 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Ingen skalering</translation>
+        <translation type="vanished">Ingen skalering</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Tilpas side til billede</translation>
+        <translation type="vanished">Tilpas side til billede</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Tilpas billede til side</translation>
+        <translation type="vanished">Tilpas billede til side</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Skaler til:</translation>
+        <translation type="vanished">Skaler til:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeter</translation>
+        <translation type="vanished">Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimeter</translation>
+        <translation type="vanished">Centimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Tommer</translation>
+        <translation type="vanished">Tommer</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Placering af billede</translation>
+        <translation type="vanished">Placering af billede</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Skalering</translation>
+        <translation type="vanished">Skalering</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Indstillinger for billede</translation>
+        <translation type="vanished">Indstillinger for billede</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Billedindstillinger</translation>
+        <translation type="vanished">Billedindstillinger</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Persienner</translation>
+        <translation type="vanished">Persienner</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Skifter</translation>
+        <translation type="vanished">Skifter</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Glider</translation>
+        <translation type="vanished">Glider</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Cirkel</translation>
+        <translation type="vanished">Cirkel</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>dd/MM/yyyy HH:mm:dd</translation>
+        <translation type="vanished">dd/MM/yyyy HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -262,46 +266,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Vælg mappe</translation>
+        <translation type="vanished">Vælg mappe</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Denne mappe er deaktiveret til synkronisering</translation>
+        <translation type="vanished">Denne mappe er deaktiveret til synkronisering</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Tilføj mappe</translation>
+        <translation type="vanished">Tilføj mappe</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Synkronisér mappehåndtering</translation>
+        <translation type="vanished">Synkronisér mappehåndtering</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>Mappelisten er tom</translation>
+        <translation type="vanished">Mappelisten er tom</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Annuller synkronisering</translation>
+        <translation type="vanished">Annuller synkronisering</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Billeder</translation>
+        <translation type="vanished">Billeder</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Enheden er blevet fjernet</translation>
+        <translation type="vanished">Enheden er blevet fjernet</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Mappen findes ikke længere</translation>
+        <translation type="vanished">Mappen findes ikke længere</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Udregner...</translation>
+        <translation type="vanished">Udregner...</translation>
     </message>
 </context>
 <context>
@@ -312,7 +316,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -320,7 +324,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Vis</translation>
+        <translation type="vanished">Vis</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -332,7 +336,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Afslut show</translation>
+        <translation type="vanished">Afslut show</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,15 +344,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Fjern fra album</translation>
+        <translation type="vanished">Fjern fra album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sæt som favorit</translation>
+        <translation type="vanished">Sæt som favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Fjern fra favorit</translation>
+        <translation type="vanished">Fjern fra favorit</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -380,15 +384,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Forrige skærm</translation>
+        <translation type="vanished">Forrige skærm</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Næste skærm</translation>
+        <translation type="vanished">Næste skærm</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nyt album</translation>
+        <translation type="vanished">Nyt album</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -427,97 +431,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Indtast venligst en ny genvej</translation>
+        <translation type="vanished">Indtast venligst en ny genvej</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Genveje</translation>
+        <translation type="vanished">Genveje</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Vis billede</translation>
+        <translation type="vanished">Vis billede</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Nulstil standarder</translation>
+        <translation type="vanished">Nulstil standarder</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Vis</translation>
+        <translation type="vanished">Vis</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fuldskærm</translation>
+        <translation type="vanished">Fuldskærm</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diasshow</translation>
+        <translation type="vanished">Diasshow</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Afslut show</translation>
+        <translation type="vanished">Afslut show</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Udskriv</translation>
+        <translation type="vanished">Udskriv</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiér</translation>
+        <translation type="vanished">Kopiér</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Fjern fra album</translation>
+        <translation type="vanished">Fjern fra album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sæt som favorit</translation>
+        <translation type="vanished">Sæt som favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Fjern fra favorit</translation>
+        <translation type="vanished">Fjern fra favorit</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotér med uret</translation>
+        <translation type="vanished">Rotér med uret</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotér mod uret</translation>
+        <translation type="vanished">Rotér mod uret</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Sæt som tapet</translation>
+        <translation type="vanished">Sæt som tapet</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Vis i filhåndtering</translation>
+        <translation type="vanished">Vis i filhåndtering</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Billedinfo</translation>
+        <translation type="vanished">Billedinfo</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nyt album</translation>
+        <translation type="vanished">Nyt album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Omdøb</translation>
+        <translation type="vanished">Omdøb</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Slet</translation>
+        <translation type="vanished">Slet</translation>
     </message>
 </context>
 <context>
@@ -547,23 +551,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diasindstillinger</translation>
+        <translation type="vanished">Diasindstillinger</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Skifteffekt</translation>
+        <translation type="vanished">Skifteffekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Varighed</translation>
+        <translation type="vanished">Varighed</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Skiftvarighed</translation>
+        <translation type="vanished">Skiftvarighed</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>sekund</translation>
+        <translation type="vanished">sekund</translation>
     </message>
 </context>
 <context>
@@ -600,16 +604,20 @@
         <source>Delete</source>
         <translation>Slet</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Tilbage</translation>
+        <translation type="vanished">Tilbage</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Billedhåndtering</translation>
+        <translation type="vanished">Billedhåndtering</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -663,53 +671,53 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diasindstillinger</translation>
+        <translation type="vanished">Diasindstillinger</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Effekt</translation>
+        <translation type="vanished">Effekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Varighed</translation>
+        <translation type="vanished">Varighed</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Genveje</translation>
+        <translation type="vanished">Genveje</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Vis</translation>
+        <translation type="vanished">Vis</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Nyt album</translation>
+        <translation type="vanished">Nyt album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Indstillinger</translation>
+        <translation type="vanished">Indstillinger</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Tidslinje</translation>
+        <translation type="vanished">Tidslinje</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Tilføj til album</translation>
+        <translation type="vanished">Tilføj til album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Tilføj til nyt album</translation>
+        <translation type="vanished">Tilføj til nyt album</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -733,15 +741,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Fjern fra album</translation>
+        <translation type="vanished">Fjern fra album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sæt som favorit</translation>
+        <translation type="vanished">Sæt som favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Fjern fra favorit</translation>
+        <translation type="vanished">Fjern fra favorit</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -789,6 +797,10 @@
     </message>
     <message>
         <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Extract text</source>
         <translation type="unfinished"/>
     </message>
 </context>

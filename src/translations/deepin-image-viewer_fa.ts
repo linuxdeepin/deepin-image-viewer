@@ -14,7 +14,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>تصاویر</translation>
+        <translation type="vanished">تصاویر</translation>
     </message>
 </context>
 <context>
@@ -29,6 +29,10 @@
     </message>
     <message>
         <source>Alt+Enter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -54,7 +58,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>باز کردن دایرکتوری</translation>
+        <translation type="vanished">باز کردن دایرکتوری</translation>
     </message>
 </context>
 <context>
@@ -95,7 +99,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>ابعاد</translation>
+        <translation type="vanished">ابعاد</translation>
     </message>
     <message>
         <source>File size</source>
@@ -174,69 +178,69 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>بدون مقیاس بندی</translation>
+        <translation type="vanished">بدون مقیاس بندی</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>صفحه متناسب با تصویر</translation>
+        <translation type="vanished">صفحه متناسب با تصویر</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>تناسب تصویر با صفحه</translation>
+        <translation type="vanished">تناسب تصویر با صفحه</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>مقیاس به:</translation>
+        <translation type="vanished">مقیاس به:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>میلی متر</translation>
+        <translation type="vanished">میلی متر</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>سانتی متر</translation>
+        <translation type="vanished">سانتی متر</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>اینچ</translation>
+        <translation type="vanished">اینچ</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>موقعیت تصویر</translation>
+        <translation type="vanished">موقعیت تصویر</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>مقیاس بندی</translation>
+        <translation type="vanished">مقیاس بندی</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>تنظیمات تصویر</translation>
+        <translation type="vanished">تنظیمات تصویر</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>تنظیمات تصویر</translation>
+        <translation type="vanished">تنظیمات تصویر</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>پرده‌ها</translation>
+        <translation type="vanished">پرده‌ها</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>تعویض کننده</translation>
+        <translation type="vanished">تعویض کننده</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>کشویی</translation>
+        <translation type="vanished">کشویی</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>حلقه</translation>
+        <translation type="vanished">حلقه</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
@@ -262,46 +266,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>انتخاب دایرکتوری</translation>
+        <translation type="vanished">انتخاب دایرکتوری</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>این فهرست برای همگام سازی غیرفعال است</translation>
+        <translation type="vanished">این فهرست برای همگام سازی غیرفعال است</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>اضافه کردن پوشه</translation>
+        <translation type="vanished">اضافه کردن پوشه</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>همگام سازی مدیریت دایرکتوری</translation>
+        <translation type="vanished">همگام سازی مدیریت دایرکتوری</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>لیست دایرکتوری ها خالی است</translation>
+        <translation type="vanished">لیست دایرکتوری ها خالی است</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>لغو همگام سازی</translation>
+        <translation type="vanished">لغو همگام سازی</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>تصاویر</translation>
+        <translation type="vanished">تصاویر</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>دستگاه حذف شده است</translation>
+        <translation type="vanished">دستگاه حذف شده است</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>این دایرکتوری دیگر وجود ندارد</translation>
+        <translation type="vanished">این دایرکتوری دیگر وجود ندارد</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>در حال محاسبه ...</translation>
+        <translation type="vanished">در حال محاسبه ...</translation>
     </message>
 </context>
 <context>
@@ -312,7 +316,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation type="vanished">آلبوم</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -320,7 +324,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation type="vanished">نما</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -332,7 +336,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>نمایش تمام</translation>
+        <translation type="vanished">نمایش تمام</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,15 +344,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation type="vanished">حذف از آلبوم</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation type="vanished">علاقه مندی</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation type="vanished">غیر علاقه مندی</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -380,15 +384,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>صفحه قبلی</translation>
+        <translation type="vanished">صفحه قبلی</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>صفحه بعدی</translation>
+        <translation type="vanished">صفحه بعدی</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation type="vanished">آلبوم جدید</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -427,97 +431,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>لطفا میانبر جدید وارد کنید</translation>
+        <translation type="vanished">لطفا میانبر جدید وارد کنید</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>میانبرها</translation>
+        <translation type="vanished">میانبرها</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>مشاهده تصویر</translation>
+        <translation type="vanished">مشاهده تصویر</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation type="vanished">آلبوم</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>بازگرداندن پیش‌فرض‌ها</translation>
+        <translation type="vanished">بازگرداندن پیش‌فرض‌ها</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation type="vanished">نما</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تمام صفحه</translation>
+        <translation type="vanished">تمام صفحه</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>نمایش اسلاید</translation>
+        <translation type="vanished">نمایش اسلاید</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>نمایش تمام</translation>
+        <translation type="vanished">نمایش تمام</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>چاپ</translation>
+        <translation type="vanished">چاپ</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>کپی</translation>
+        <translation type="vanished">کپی</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation type="vanished">حذف از آلبوم</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation type="vanished">علاقه مندی</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation type="vanished">غیر علاقه مندی</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation type="vanished">چرخش در جهت عقربه های ساعت</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation type="vanished">چرخش در جهت خلاف عقربه های ساعت</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
+        <translation type="vanished">تنظیم به عنوان تصویر پس زمینه</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>نمایش در مدیر فایل</translation>
+        <translation type="vanished">نمایش در مدیر فایل</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>اطلاعات تصویر</translation>
+        <translation type="vanished">اطلاعات تصویر</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation type="vanished">آلبوم جدید</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>تغییر اسم</translation>
+        <translation type="vanished">تغییر اسم</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation type="vanished">حذف</translation>
     </message>
 </context>
 <context>
@@ -547,23 +551,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>تنظیمات اسلاید</translation>
+        <translation type="vanished">تنظیمات اسلاید</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>افکت تعویض کردن</translation>
+        <translation type="vanished">افکت تعویض کردن</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>مدت</translation>
+        <translation type="vanished">مدت</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>مدت تعویض کردن</translation>
+        <translation type="vanished">مدت تعویض کردن</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>ثانیه</translation>
+        <translation type="vanished">ثانیه</translation>
     </message>
 </context>
 <context>
@@ -600,16 +604,20 @@
         <source>Delete</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>برگشت</translation>
+        <translation type="vanished">برگشت</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>مدیریت تصویر</translation>
+        <translation type="vanished">مدیریت تصویر</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -663,53 +671,53 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>تنظیمات اسلاید</translation>
+        <translation type="vanished">تنظیمات اسلاید</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>افکت</translation>
+        <translation type="vanished">افکت</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>مدت</translation>
+        <translation type="vanished">مدت</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>میانبرها</translation>
+        <translation type="vanished">میانبرها</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation type="vanished">نما</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation type="vanished">آلبوم</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation type="vanished">آلبوم جدید</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>تنظیمات</translation>
+        <translation type="vanished">تنظیمات</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>جدول زمانی</translation>
+        <translation type="vanished">جدول زمانی</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>اضافه کردن به آلبوم</translation>
+        <translation type="vanished">اضافه کردن به آلبوم</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>اضافه کردن به آلبوم جدید</translation>
+        <translation type="vanished">اضافه کردن به آلبوم جدید</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -733,15 +741,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation type="vanished">حذف از آلبوم</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation type="vanished">علاقه مندی</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation type="vanished">غیر علاقه مندی</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -789,6 +797,10 @@
     </message>
     <message>
         <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Extract text</source>
         <translation type="unfinished"/>
     </message>
 </context>

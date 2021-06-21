@@ -14,7 +14,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Слика</translation>
+        <translation type="vanished">Слика</translation>
     </message>
 </context>
 <context>
@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Return</translation>
+        <translation type="vanished">Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -54,7 +58,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Отвори директоријум</translation>
+        <translation type="vanished">Отвори директоријум</translation>
     </message>
 </context>
 <context>
@@ -68,15 +72,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Откажи</translation>
+        <translation type="vanished">Откажи</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Обриши</translation>
+        <translation type="vanished">Обриши</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Датотека слике није пронађена</translation>
+        <translation type="vanished">Датотека слике није пронађена</translation>
     </message>
 </context>
 <context>
@@ -95,7 +99,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Димензије</translation>
+        <translation type="vanished">Димензије</translation>
     </message>
     <message>
         <source>File size</source>
@@ -174,73 +178,73 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Без скалирања</translation>
+        <translation type="vanished">Без скалирања</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Прилагоди страницу слици</translation>
+        <translation type="vanished">Прилагоди страницу слици</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Прилагоди слику страници</translation>
+        <translation type="vanished">Прилагоди слику страници</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Скалирај у:</translation>
+        <translation type="vanished">Скалирај у:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Милиметри</translation>
+        <translation type="vanished">Милиметри</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Сантиметри</translation>
+        <translation type="vanished">Сантиметри</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Инчи</translation>
+        <translation type="vanished">Инчи</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Позиција слике</translation>
+        <translation type="vanished">Позиција слике</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Скалирање</translation>
+        <translation type="vanished">Скалирање</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Подешавање слике</translation>
+        <translation type="vanished">Подешавање слике</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Подешавање слике</translation>
+        <translation type="vanished">Подешавање слике</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Ролетне</translation>
+        <translation type="vanished">Ролетне</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Клапна</translation>
+        <translation type="vanished">Клапна</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Клизање</translation>
+        <translation type="vanished">Клизање</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Прстен</translation>
+        <translation type="vanished">Прстен</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>HH:mm:dd dd/MM/yyyy</translation>
+        <translation type="vanished">HH:mm:dd dd/MM/yyyy</translation>
     </message>
 </context>
 <context>
@@ -262,46 +266,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Изабери директоријум</translation>
+        <translation type="vanished">Изабери директоријум</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Синхронизација онемогућена за овај директоријум</translation>
+        <translation type="vanished">Синхронизација онемогућена за овај директоријум</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Додај фасциклу</translation>
+        <translation type="vanished">Додај фасциклу</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Управљање синхронизацијом директоријума</translation>
+        <translation type="vanished">Управљање синхронизацијом директоријума</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>Листа диркторијума је празна</translation>
+        <translation type="vanished">Листа диркторијума је празна</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Откажи синхро.</translation>
+        <translation type="vanished">Откажи синхро.</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Слике</translation>
+        <translation type="vanished">Слике</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Уређај је уклоњен</translation>
+        <translation type="vanished">Уређај је уклоњен</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Овај директоријум више не постоји</translation>
+        <translation type="vanished">Овај директоријум више не постоји</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Рачунање...</translation>
+        <translation type="vanished">Рачунање...</translation>
     </message>
 </context>
 <context>
@@ -312,7 +316,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Албум</translation>
+        <translation type="vanished">Албум</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -320,7 +324,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Прегледај</translation>
+        <translation type="vanished">Прегледај</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -332,7 +336,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Окончај</translation>
+        <translation type="vanished">Окончај</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,15 +344,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Уклони из албума</translation>
+        <translation type="vanished">Уклони из албума</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>У омиљено</translation>
+        <translation type="vanished">У омиљено</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Из омиљеног</translation>
+        <translation type="vanished">Из омиљеног</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -380,15 +384,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Претходни екран</translation>
+        <translation type="vanished">Претходни екран</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Следећи екран</translation>
+        <translation type="vanished">Следећи екран</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Нови албум</translation>
+        <translation type="vanished">Нови албум</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -427,97 +431,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Молимо унесите нову пречицу</translation>
+        <translation type="vanished">Молимо унесите нову пречицу</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Пречице</translation>
+        <translation type="vanished">Пречице</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Преглед слике</translation>
+        <translation type="vanished">Преглед слике</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Албум</translation>
+        <translation type="vanished">Албум</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Врати Подразумевано</translation>
+        <translation type="vanished">Врати Подразумевано</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Прегледај</translation>
+        <translation type="vanished">Прегледај</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Цео екран</translation>
+        <translation type="vanished">Цео екран</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Покретни приказ</translation>
+        <translation type="vanished">Покретни приказ</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Окончај</translation>
+        <translation type="vanished">Окончај</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Штампај</translation>
+        <translation type="vanished">Штампај</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Копирај</translation>
+        <translation type="vanished">Копирај</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Уклони из албума</translation>
+        <translation type="vanished">Уклони из албума</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>У омиљено</translation>
+        <translation type="vanished">У омиљено</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Из омиљеног</translation>
+        <translation type="vanished">Из омиљеног</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Ротирај удесно</translation>
+        <translation type="vanished">Ротирај удесно</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Ротирај улево</translation>
+        <translation type="vanished">Ротирај улево</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Постави као позадину</translation>
+        <translation type="vanished">Постави као позадину</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Прикажи у управнику података</translation>
+        <translation type="vanished">Прикажи у управнику података</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Својства слике</translation>
+        <translation type="vanished">Својства слике</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Нови албум</translation>
+        <translation type="vanished">Нови албум</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Преименуј</translation>
+        <translation type="vanished">Преименуј</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Обриши</translation>
+        <translation type="vanished">Обриши</translation>
     </message>
 </context>
 <context>
@@ -547,23 +551,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Подешавање покретног приказа</translation>
+        <translation type="vanished">Подешавање покретног приказа</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Прелазни ефекти</translation>
+        <translation type="vanished">Прелазни ефекти</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Трајање</translation>
+        <translation type="vanished">Трајање</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Трајање приказа</translation>
+        <translation type="vanished">Трајање приказа</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>секунде</translation>
+        <translation type="vanished">секунде</translation>
     </message>
 </context>
 <context>
@@ -600,16 +604,20 @@
         <source>Delete</source>
         <translation>Обриши</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Назад</translation>
+        <translation type="vanished">Назад</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Управљање сликама</translation>
+        <translation type="vanished">Управљање сликама</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -663,53 +671,53 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Покретни приказ</translation>
+        <translation type="vanished">Покретни приказ</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Ефекат</translation>
+        <translation type="vanished">Ефекат</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Трајање</translation>
+        <translation type="vanished">Трајање</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Пречице</translation>
+        <translation type="vanished">Пречице</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Прегледај</translation>
+        <translation type="vanished">Прегледај</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Албум</translation>
+        <translation type="vanished">Албум</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Нови албум</translation>
+        <translation type="vanished">Нови албум</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Подешавања</translation>
+        <translation type="vanished">Подешавања</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Временска линија</translation>
+        <translation type="vanished">Временска линија</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Додај у албум</translation>
+        <translation type="vanished">Додај у албум</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Додај у нови албум</translation>
+        <translation type="vanished">Додај у нови албум</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -733,15 +741,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Уклони из албума</translation>
+        <translation type="vanished">Уклони из албума</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>У омиљено</translation>
+        <translation type="vanished">У омиљено</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Из омиљеног</translation>
+        <translation type="vanished">Из омиљеног</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -789,7 +797,11 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>Цртај</translation>
+        <translation type="vanished">Цртај</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

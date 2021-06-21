@@ -14,7 +14,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Afbeeldingen</translation>
+        <translation type="vanished">Afbeeldingen</translation>
     </message>
 </context>
 <context>
@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -54,7 +58,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Map openen</translation>
+        <translation type="vanished">Map openen</translation>
     </message>
 </context>
 <context>
@@ -68,15 +72,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="vanished">Annuleren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Verwijderen</translation>
+        <translation type="vanished">Verwijderen</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Afbeelding niet aangetroffen</translation>
+        <translation type="vanished">Afbeelding niet aangetroffen</translation>
     </message>
 </context>
 <context>
@@ -95,7 +99,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Afmetingen</translation>
+        <translation type="vanished">Afmetingen</translation>
     </message>
     <message>
         <source>File size</source>
@@ -174,73 +178,73 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Niet aanpassen</translation>
+        <translation type="vanished">Niet aanpassen</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Pagina aanpassen aan afbeelding</translation>
+        <translation type="vanished">Pagina aanpassen aan afbeelding</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Afbeelding aanpassen aan pagina</translation>
+        <translation type="vanished">Afbeelding aanpassen aan pagina</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Aanpassen aan:</translation>
+        <translation type="vanished">Aanpassen aan:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeter</translation>
+        <translation type="vanished">Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimeter</translation>
+        <translation type="vanished">Centimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inch</translation>
+        <translation type="vanished">Inch</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Afbeeldingspositie</translation>
+        <translation type="vanished">Afbeeldingspositie</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Aanpassing</translation>
+        <translation type="vanished">Aanpassing</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Afbeeldingsinstellingen</translation>
+        <translation type="vanished">Afbeeldingsinstellingen</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Afbeeldingsinstellingen</translation>
+        <translation type="vanished">Afbeeldingsinstellingen</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Rolgordijn</translation>
+        <translation type="vanished">Rolgordijn</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Wisselaar</translation>
+        <translation type="vanished">Wisselaar</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Schuiven</translation>
+        <translation type="vanished">Schuiven</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Ring</translation>
+        <translation type="vanished">Ring</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>yyyy/MM/dd HH:mm:dd</translation>
+        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -262,46 +266,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Kies een map</translation>
+        <translation type="vanished">Kies een map</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Deze map wordt niet gesynchroniseerd</translation>
+        <translation type="vanished">Deze map wordt niet gesynchroniseerd</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Map toevoegen</translation>
+        <translation type="vanished">Map toevoegen</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Mapsynchronisatie beheren</translation>
+        <translation type="vanished">Mapsynchronisatie beheren</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>De mappenlijst is leeg</translation>
+        <translation type="vanished">De mappenlijst is leeg</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Synchronisatie afbreken</translation>
+        <translation type="vanished">Synchronisatie afbreken</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Afbeeldingen</translation>
+        <translation type="vanished">Afbeeldingen</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Het apparaat is afgekoppeld</translation>
+        <translation type="vanished">Het apparaat is afgekoppeld</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Deze map bestaat niet meer</translation>
+        <translation type="vanished">Deze map bestaat niet meer</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Bezig met berekenen...</translation>
+        <translation type="vanished">Bezig met berekenen...</translation>
     </message>
 </context>
 <context>
@@ -312,7 +316,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -320,7 +324,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Bekijken</translation>
+        <translation type="vanished">Bekijken</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -332,7 +336,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Diavoorstelling beëindigen</translation>
+        <translation type="vanished">Diavoorstelling beëindigen</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,15 +344,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Verwijderen uit album</translation>
+        <translation type="vanished">Verwijderen uit album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Toev. aan favorieten</translation>
+        <translation type="vanished">Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Verw. uit favorieten</translation>
+        <translation type="vanished">Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -380,15 +384,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Vorig scherm</translation>
+        <translation type="vanished">Vorig scherm</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Volgend scherm</translation>
+        <translation type="vanished">Volgend scherm</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nieuw album</translation>
+        <translation type="vanished">Nieuw album</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -427,97 +431,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Druk op een nieuwe sneltoets</translation>
+        <translation type="vanished">Druk op een nieuwe sneltoets</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Sneltoetsen</translation>
+        <translation type="vanished">Sneltoetsen</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Afbeelding bekijken</translation>
+        <translation type="vanished">Afbeelding bekijken</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Standaardwaarden herstellen</translation>
+        <translation type="vanished">Standaardwaarden herstellen</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Bekijken</translation>
+        <translation type="vanished">Bekijken</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Beeldvullend</translation>
+        <translation type="vanished">Beeldvullend</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diavoorstelling</translation>
+        <translation type="vanished">Diavoorstelling</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Diavoorstelling beëindigen</translation>
+        <translation type="vanished">Diavoorstelling beëindigen</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Afdrukken</translation>
+        <translation type="vanished">Afdrukken</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiëren</translation>
+        <translation type="vanished">Kopiëren</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Verwijderen uit album</translation>
+        <translation type="vanished">Verwijderen uit album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Toev. aan favorieten</translation>
+        <translation type="vanished">Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Verw. uit favorieten</translation>
+        <translation type="vanished">Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Naar rechts draaien</translation>
+        <translation type="vanished">Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Naar links draaien</translation>
+        <translation type="vanished">Naar links draaien</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Instellen als achtergrond</translation>
+        <translation type="vanished">Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Tonen in bestandsbeheerder</translation>
+        <translation type="vanished">Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Eigenschappen</translation>
+        <translation type="vanished">Eigenschappen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nieuw album</translation>
+        <translation type="vanished">Nieuw album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Naam wijzigen</translation>
+        <translation type="vanished">Naam wijzigen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Verwijderen</translation>
+        <translation type="vanished">Verwijderen</translation>
     </message>
 </context>
 <context>
@@ -547,23 +551,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diavoorstellingsinstellingen</translation>
+        <translation type="vanished">Diavoorstellingsinstellingen</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Overgangseffect</translation>
+        <translation type="vanished">Overgangseffect</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duur</translation>
+        <translation type="vanished">Duur</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Overgangsduur</translation>
+        <translation type="vanished">Overgangsduur</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>seconde</translation>
+        <translation type="vanished">seconde</translation>
     </message>
 </context>
 <context>
@@ -600,16 +604,20 @@
         <source>Delete</source>
         <translation>Verwijderen</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Terug</translation>
+        <translation type="vanished">Terug</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Afbeeldingsbeheer</translation>
+        <translation type="vanished">Afbeeldingsbeheer</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -663,53 +671,53 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diavoorstellingsinstellingen</translation>
+        <translation type="vanished">Diavoorstellingsinstellingen</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Effect</translation>
+        <translation type="vanished">Effect</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duur</translation>
+        <translation type="vanished">Duur</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Sneltoetsen</translation>
+        <translation type="vanished">Sneltoetsen</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Bekijken</translation>
+        <translation type="vanished">Bekijken</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Nieuw album</translation>
+        <translation type="vanished">Nieuw album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Instellingen</translation>
+        <translation type="vanished">Instellingen</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Tijdlijn</translation>
+        <translation type="vanished">Tijdlijn</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Toevoegen aan album</translation>
+        <translation type="vanished">Toevoegen aan album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Toevoegen aan nieuw album</translation>
+        <translation type="vanished">Toevoegen aan nieuw album</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -733,15 +741,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Verwijderen uit album</translation>
+        <translation type="vanished">Verwijderen uit album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Toev. aan favorieten</translation>
+        <translation type="vanished">Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Verw. uit favorieten</translation>
+        <translation type="vanished">Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -789,7 +797,11 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>Tekenen</translation>
+        <translation type="vanished">Tekenen</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

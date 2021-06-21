@@ -14,7 +14,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Képek</translation>
+        <translation type="vanished">Képek</translation>
     </message>
 </context>
 <context>
@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Return</translation>
+        <translation type="vanished">Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -54,7 +58,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Mappa megnyitása</translation>
+        <translation type="vanished">Mappa megnyitása</translation>
     </message>
 </context>
 <context>
@@ -68,15 +72,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Mégsem</translation>
+        <translation type="vanished">Mégsem</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Törlés</translation>
+        <translation type="vanished">Törlés</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>A képfájl nem található</translation>
+        <translation type="vanished">A képfájl nem található</translation>
     </message>
 </context>
 <context>
@@ -95,7 +99,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Méret</translation>
+        <translation type="vanished">Méret</translation>
     </message>
     <message>
         <source>File size</source>
@@ -174,73 +178,73 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Nincs méretezés</translation>
+        <translation type="vanished">Nincs méretezés</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Oldal illesztése a képhez</translation>
+        <translation type="vanished">Oldal illesztése a képhez</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Kép illesztése az oldalhoz</translation>
+        <translation type="vanished">Kép illesztése az oldalhoz</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Méretezés:</translation>
+        <translation type="vanished">Méretezés:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milliméter</translation>
+        <translation type="vanished">Milliméter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centiméter</translation>
+        <translation type="vanished">Centiméter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Hüvelyk</translation>
+        <translation type="vanished">Hüvelyk</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Kép pozíciója</translation>
+        <translation type="vanished">Kép pozíciója</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Méretezés</translation>
+        <translation type="vanished">Méretezés</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Kép beállításai</translation>
+        <translation type="vanished">Kép beállításai</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Kép beállítások</translation>
+        <translation type="vanished">Kép beállítások</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Árnyékolók</translation>
+        <translation type="vanished">Árnyékolók</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Kapcsoló</translation>
+        <translation type="vanished">Kapcsoló</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Csúszó</translation>
+        <translation type="vanished">Csúszó</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Gyűrű</translation>
+        <translation type="vanished">Gyűrű</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>éééé/HH/nn ÓÓ:pp:mpmp</translation>
+        <translation type="vanished">éééé/HH/nn ÓÓ:pp:mpmp</translation>
     </message>
 </context>
 <context>
@@ -262,46 +266,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Mappa kiválasztása</translation>
+        <translation type="vanished">Mappa kiválasztása</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Ennek a könyvtárnak a szinkronizálása tiltva van</translation>
+        <translation type="vanished">Ennek a könyvtárnak a szinkronizálása tiltva van</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Mappa hozzáadása</translation>
+        <translation type="vanished">Mappa hozzáadása</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Mappaszinkronizáció kezelése</translation>
+        <translation type="vanished">Mappaszinkronizáció kezelése</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>A mappalista üres</translation>
+        <translation type="vanished">A mappalista üres</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Szinkronizálás megszakítása</translation>
+        <translation type="vanished">Szinkronizálás megszakítása</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Képek</translation>
+        <translation type="vanished">Képek</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Az eszköz eltávolításra került</translation>
+        <translation type="vanished">Az eszköz eltávolításra került</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Ez a mappa nem létezik többé</translation>
+        <translation type="vanished">Ez a mappa nem létezik többé</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Kiszámítás...</translation>
+        <translation type="vanished">Kiszámítás...</translation>
     </message>
 </context>
 <context>
@@ -312,7 +316,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -320,7 +324,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Megtekintés</translation>
+        <translation type="vanished">Megtekintés</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -332,7 +336,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Diavetítés vége</translation>
+        <translation type="vanished">Diavetítés vége</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,15 +344,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eltávolítás az albumból</translation>
+        <translation type="vanished">Eltávolítás az albumból</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Kedvenc</translation>
+        <translation type="vanished">Kedvenc</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Eltávolítás a kedvencekből</translation>
+        <translation type="vanished">Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -380,15 +384,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Előző képernyő</translation>
+        <translation type="vanished">Előző képernyő</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Következő képernyő</translation>
+        <translation type="vanished">Következő képernyő</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Új album</translation>
+        <translation type="vanished">Új album</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -427,97 +431,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Kérjük adjon meg egy új gyorsbillentyűt</translation>
+        <translation type="vanished">Kérjük adjon meg egy új gyorsbillentyűt</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Gyorsbillentyűk</translation>
+        <translation type="vanished">Gyorsbillentyűk</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Kép megtekintése</translation>
+        <translation type="vanished">Kép megtekintése</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Alapértelmezések visszaállítása</translation>
+        <translation type="vanished">Alapértelmezések visszaállítása</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Megtekintés</translation>
+        <translation type="vanished">Megtekintés</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Teljes képernyő</translation>
+        <translation type="vanished">Teljes képernyő</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diavetítés</translation>
+        <translation type="vanished">Diavetítés</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Diavetítés vége</translation>
+        <translation type="vanished">Diavetítés vége</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Nyomtatás</translation>
+        <translation type="vanished">Nyomtatás</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Másolás</translation>
+        <translation type="vanished">Másolás</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eltávolítás az albumból</translation>
+        <translation type="vanished">Eltávolítás az albumból</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Kedvenc</translation>
+        <translation type="vanished">Kedvenc</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Eltávolítás a kedvencekből</translation>
+        <translation type="vanished">Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Forgatás az óramutató járásával megegyezően</translation>
+        <translation type="vanished">Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
+        <translation type="vanished">Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Beállítás háttérképként</translation>
+        <translation type="vanished">Beállítás háttérképként</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Megtekintés a fájlkezelőben</translation>
+        <translation type="vanished">Megtekintés a fájlkezelőben</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Kép információk</translation>
+        <translation type="vanished">Kép információk</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Új album</translation>
+        <translation type="vanished">Új album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Átnevezés</translation>
+        <translation type="vanished">Átnevezés</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Törlés</translation>
+        <translation type="vanished">Törlés</translation>
     </message>
 </context>
 <context>
@@ -547,23 +551,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diavetítési beállítások</translation>
+        <translation type="vanished">Diavetítési beállítások</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Effekt kiválasztása</translation>
+        <translation type="vanished">Effekt kiválasztása</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Időtartam</translation>
+        <translation type="vanished">Időtartam</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Időtartam kiválasztása</translation>
+        <translation type="vanished">Időtartam kiválasztása</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>másodperc</translation>
+        <translation type="vanished">másodperc</translation>
     </message>
 </context>
 <context>
@@ -600,16 +604,20 @@
         <source>Delete</source>
         <translation>Törlés</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Vissza</translation>
+        <translation type="vanished">Vissza</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Képkezelés</translation>
+        <translation type="vanished">Képkezelés</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -663,53 +671,53 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diavetítési beállítások</translation>
+        <translation type="vanished">Diavetítési beállítások</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Hatás</translation>
+        <translation type="vanished">Hatás</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Időtartam</translation>
+        <translation type="vanished">Időtartam</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Gyorsbillentyűk</translation>
+        <translation type="vanished">Gyorsbillentyűk</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Megtekintés</translation>
+        <translation type="vanished">Megtekintés</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Új album</translation>
+        <translation type="vanished">Új album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Beállítások</translation>
+        <translation type="vanished">Beállítások</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Idővonal</translation>
+        <translation type="vanished">Idővonal</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Hozzáadás az albumhoz</translation>
+        <translation type="vanished">Hozzáadás az albumhoz</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Hozzáadás új albumhoz</translation>
+        <translation type="vanished">Hozzáadás új albumhoz</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -733,15 +741,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eltávolítás az albumból</translation>
+        <translation type="vanished">Eltávolítás az albumból</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Kedvenc</translation>
+        <translation type="vanished">Kedvenc</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Eltávolítás a kedvencekből</translation>
+        <translation type="vanished">Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -789,7 +797,11 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>Rajzoló</translation>
+        <translation type="vanished">Rajzoló</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

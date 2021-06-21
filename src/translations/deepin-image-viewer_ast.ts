@@ -16,7 +16,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Imáxenes</translation>
+        <translation type="vanished">Imáxenes</translation>
     </message>
 </context>
 <context>
@@ -163,44 +163,32 @@
 <context>
     <name>PrintOptionsPage</name>
     <message>
-        <source>No scaling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Fit page to image</source>
-        <translation>Axustar páxina a la imaxe</translation>
+        <translation type="vanished">Axustar páxina a la imaxe</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Axustar imaxe a la páxina</translation>
+        <translation type="vanished">Axustar imaxe a la páxina</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Escalar a:</translation>
+        <translation type="vanished">Escalar a:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milímetros</translation>
+        <translation type="vanished">Milímetros</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centímetros</translation>
+        <translation type="vanished">Centímetros</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Pulgaes</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Pulgaes</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Escaláu</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Escaláu</translation>
     </message>
 </context>
 <context>
@@ -237,46 +225,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Esbillar direutoriu</translation>
+        <translation type="vanished">Esbillar direutoriu</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Esti direutoriu tien desactivao&apos;l sincronizar</translation>
+        <translation type="vanished">Esti direutoriu tien desactivao&apos;l sincronizar</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Amestar carpeta</translation>
+        <translation type="vanished">Amestar carpeta</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Xestión de direutorios de sincronización</translation>
+        <translation type="vanished">Xestión de direutorios de sincronización</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>El llistáu de direutorios ta baleru</translation>
+        <translation type="vanished">El llistáu de direutorios ta baleru</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Encaboxar sincronización</translation>
+        <translation type="vanished">Encaboxar sincronización</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Imáxenes</translation>
+        <translation type="vanished">Imáxenes</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Estráxose&apos;l preséu</translation>
+        <translation type="vanished">Estráxose&apos;l preséu</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Esti direutoriu yá nun esiste</translation>
+        <translation type="vanished">Esti direutoriu yá nun esiste</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Calculando...</translation>
+        <translation type="vanished">Calculando...</translation>
     </message>
 </context>
 <context>
@@ -287,7 +275,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation type="vanished">Álbum</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -295,7 +283,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation type="vanished">Ver</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -307,7 +295,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Finar presentación</translation>
+        <translation type="vanished">Finar presentación</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -315,15 +303,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Desaniciar del álbum</translation>
+        <translation type="vanished">Desaniciar del álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorita</translation>
+        <translation type="vanished">Favorita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Non favorita</translation>
+        <translation type="vanished">Non favorita</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -355,15 +343,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Pantalla previa</translation>
+        <translation type="vanished">Pantalla previa</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Pantalla siguiente</translation>
+        <translation type="vanished">Pantalla siguiente</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Álbum nuevu</translation>
+        <translation type="vanished">Álbum nuevu</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -571,16 +559,20 @@
         <source>Delete</source>
         <translation type="unfinished">Desaniciar</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Atrás</translation>
+        <translation type="vanished">Atrás</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Xestión d&apos;imáxenes</translation>
+        <translation type="vanished">Xestión d&apos;imáxenes</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -668,15 +660,15 @@
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Llinia temporal</translation>
+        <translation type="vanished">Llinia temporal</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Amestar al álbum</translation>
+        <translation type="vanished">Amestar al álbum</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Amestar al álbum nuevu</translation>
+        <translation type="vanished">Amestar al álbum nuevu</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -700,15 +692,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Desaniciar del álbum</translation>
+        <translation type="vanished">Desaniciar del álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorita</translation>
+        <translation type="vanished">Favorita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Non favorita</translation>
+        <translation type="vanished">Non favorita</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -753,6 +745,10 @@
     <message>
         <source>Rename</source>
         <translation>Renomar</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

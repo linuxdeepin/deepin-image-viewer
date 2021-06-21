@@ -14,7 +14,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Зображення</translation>
+        <translation type="vanished">Зображення</translation>
     </message>
 </context>
 <context>
@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -54,7 +58,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Відкрити Директорію</translation>
+        <translation type="vanished">Відкрити Директорію</translation>
     </message>
 </context>
 <context>
@@ -68,15 +72,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Скасувати</translation>
+        <translation type="vanished">Скасувати</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Вилучити</translation>
+        <translation type="vanished">Вилучити</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Файл зображення не знайдено</translation>
+        <translation type="vanished">Файл зображення не знайдено</translation>
     </message>
 </context>
 <context>
@@ -95,7 +99,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Розмірність</translation>
+        <translation type="vanished">Розмірність</translation>
     </message>
     <message>
         <source>File size</source>
@@ -174,73 +178,73 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Не масштабувати</translation>
+        <translation type="vanished">Не масштабувати</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Вписати сторінку у зображення</translation>
+        <translation type="vanished">Вписати сторінку у зображення</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Вписати зображення у сторінку</translation>
+        <translation type="vanished">Вписати зображення у сторінку</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Масштабувати:</translation>
+        <translation type="vanished">Масштабувати:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Міліметри</translation>
+        <translation type="vanished">Міліметри</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Сантиметри</translation>
+        <translation type="vanished">Сантиметри</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Дюйми</translation>
+        <translation type="vanished">Дюйми</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Позиція зображення</translation>
+        <translation type="vanished">Позиція зображення</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Масштаб</translation>
+        <translation type="vanished">Масштаб</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Налаштування зображення</translation>
+        <translation type="vanished">Налаштування зображення</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Параметри зображення</translation>
+        <translation type="vanished">Параметри зображення</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Blinds</translation>
+        <translation type="vanished">Blinds</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Switcher</translation>
+        <translation type="vanished">Switcher</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Sliding</translation>
+        <translation type="vanished">Sliding</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Ring</translation>
+        <translation type="vanished">Ring</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>dd-MM-yyyy HH:mm:dd</translation>
+        <translation type="vanished">dd-MM-yyyy HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -262,46 +266,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Вибрати Директорію</translation>
+        <translation type="vanished">Вибрати Директорію</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Цю директорію вимкнено для синхронізації</translation>
+        <translation type="vanished">Цю директорію вимкнено для синхронізації</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Додати теку</translation>
+        <translation type="vanished">Додати теку</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Керування Директорією Синхронізації</translation>
+        <translation type="vanished">Керування Директорією Синхронізації</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>Список директорій порожній</translation>
+        <translation type="vanished">Список директорій порожній</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Скасувати синхронізацію</translation>
+        <translation type="vanished">Скасувати синхронізацію</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Зображення</translation>
+        <translation type="vanished">Зображення</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Пристрій було вилучено</translation>
+        <translation type="vanished">Пристрій було вилучено</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Ця директорія більше не існує</translation>
+        <translation type="vanished">Ця директорія більше не існує</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Розрахунок...</translation>
+        <translation type="vanished">Розрахунок...</translation>
     </message>
 </context>
 <context>
@@ -312,7 +316,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Альбом</translation>
+        <translation type="vanished">Альбом</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -320,7 +324,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Вид</translation>
+        <translation type="vanished">Вид</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -332,7 +336,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Кінець шоу</translation>
+        <translation type="vanished">Кінець шоу</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,15 +344,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Видалити з альбому</translation>
+        <translation type="vanished">Видалити з альбому</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Обране</translation>
+        <translation type="vanished">Обране</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Вилучити з Обраного</translation>
+        <translation type="vanished">Вилучити з Обраного</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -380,15 +384,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Попередній екран</translation>
+        <translation type="vanished">Попередній екран</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Наступний екран</translation>
+        <translation type="vanished">Наступний екран</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Новий альбом</translation>
+        <translation type="vanished">Новий альбом</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -427,97 +431,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Будь ласка, введіть новий ярлик</translation>
+        <translation type="vanished">Будь ласка, введіть новий ярлик</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Ярлики</translation>
+        <translation type="vanished">Ярлики</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Переглянути фотографію</translation>
+        <translation type="vanished">Переглянути фотографію</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Альбом</translation>
+        <translation type="vanished">Альбом</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Відновити за замовчуванням</translation>
+        <translation type="vanished">Відновити за замовчуванням</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Вид</translation>
+        <translation type="vanished">Вид</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Повноекранний</translation>
+        <translation type="vanished">Повноекранний</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Слайд шоу</translation>
+        <translation type="vanished">Слайд шоу</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Кінець шоу</translation>
+        <translation type="vanished">Кінець шоу</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Друк</translation>
+        <translation type="vanished">Друк</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Скопіювати</translation>
+        <translation type="vanished">Скопіювати</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Видалити з альбому</translation>
+        <translation type="vanished">Видалити з альбому</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Обране</translation>
+        <translation type="vanished">Обране</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Вилучити з Обраного</translation>
+        <translation type="vanished">Вилучити з Обраного</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Повернути за годинниковою стрілкою</translation>
+        <translation type="vanished">Повернути за годинниковою стрілкою</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Повернути проти годинникової стрілки</translation>
+        <translation type="vanished">Повернути проти годинникової стрілки</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Встановити як шпалери</translation>
+        <translation type="vanished">Встановити як шпалери</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Показати в файловому менеджері</translation>
+        <translation type="vanished">Показати в файловому менеджері</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Інформація про зображення</translation>
+        <translation type="vanished">Інформація про зображення</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Новий альбом</translation>
+        <translation type="vanished">Новий альбом</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Перейменувати</translation>
+        <translation type="vanished">Перейменувати</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Вилучити</translation>
+        <translation type="vanished">Вилучити</translation>
     </message>
 </context>
 <context>
@@ -547,23 +551,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Параметри слайдів</translation>
+        <translation type="vanished">Параметри слайдів</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Ефект перемикання</translation>
+        <translation type="vanished">Ефект перемикання</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Тривалість</translation>
+        <translation type="vanished">Тривалість</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Тривалість перемикання</translation>
+        <translation type="vanished">Тривалість перемикання</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>секунд</translation>
+        <translation type="vanished">секунд</translation>
     </message>
 </context>
 <context>
@@ -600,16 +604,20 @@
         <source>Delete</source>
         <translation>Вилучити</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Назад</translation>
+        <translation type="vanished">Назад</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Керування зображеннями</translation>
+        <translation type="vanished">Керування зображеннями</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -663,53 +671,53 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Параметри слайдів</translation>
+        <translation type="vanished">Параметри слайдів</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Ефект</translation>
+        <translation type="vanished">Ефект</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Тривалість</translation>
+        <translation type="vanished">Тривалість</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Ярлики</translation>
+        <translation type="vanished">Ярлики</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Вид</translation>
+        <translation type="vanished">Вид</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Альбом</translation>
+        <translation type="vanished">Альбом</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Новий альбом</translation>
+        <translation type="vanished">Новий альбом</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Налаштування</translation>
+        <translation type="vanished">Налаштування</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Шкала часу</translation>
+        <translation type="vanished">Шкала часу</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Додати до альбому</translation>
+        <translation type="vanished">Додати до альбому</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Додати до нового альбому</translation>
+        <translation type="vanished">Додати до нового альбому</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -733,15 +741,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Видалити з альбому</translation>
+        <translation type="vanished">Видалити з альбому</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Обране</translation>
+        <translation type="vanished">Обране</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Вилучити з Обраного</translation>
+        <translation type="vanished">Вилучити з Обраного</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -789,7 +797,11 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>Малювати</translation>
+        <translation type="vanished">Малювати</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

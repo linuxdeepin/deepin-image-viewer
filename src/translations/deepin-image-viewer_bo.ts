@@ -14,7 +14,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>པར།</translation>
+        <translation type="vanished">པར།</translation>
     </message>
 </context>
 <context>
@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Return</translation>
+        <translation type="vanished">Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -54,7 +58,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>པར་གྱི་དཀར་ཆག་ཁ་ཕྱེ་བ།</translation>
+        <translation type="vanished">པར་གྱི་དཀར་ཆག་ཁ་ཕྱེ་བ།</translation>
     </message>
 </context>
 <context>
@@ -68,15 +72,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>འདོར་བ། </translation>
+        <translation type="vanished">འདོར་བ། </translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>སུབ་པ། </translation>
+        <translation type="vanished">སུབ་པ། </translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>པར་གྱི་ཡིག་ཆ་ཪྙེད་མ་བྱུང་།</translation>
+        <translation type="vanished">པར་གྱི་ཡིག་ཆ་ཪྙེད་མ་བྱུང་།</translation>
     </message>
 </context>
 <context>
@@ -95,7 +99,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>ཆེ་ཆུང་།</translation>
+        <translation type="vanished">ཆེ་ཆུང་།</translation>
     </message>
     <message>
         <source>File size</source>
@@ -174,73 +178,73 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>སྐྱེས་སྐྱུང་མེད་པ།</translation>
+        <translation type="vanished">སྐྱེས་སྐྱུང་མེད་པ།</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>ཤོག་ངོས་པར་དང་འཚམ་པ།</translation>
+        <translation type="vanished">ཤོག་ངོས་པར་དང་འཚམ་པ།</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>པར་ཤོག་ངོས་དང་འཚམ་པ།</translation>
+        <translation type="vanished">པར་ཤོག་ངོས་དང་འཚམ་པ།</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>བར་སྐྱེད་སྐྱུང་།</translation>
+        <translation type="vanished">བར་སྐྱེད་སྐྱུང་།</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>ཧའོ་སྨི།</translation>
+        <translation type="vanished">ཧའོ་སྨི།</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>ལི་སྨི། </translation>
+        <translation type="vanished">ལི་སྨི། </translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>དབྱིན་ཚུན།</translation>
+        <translation type="vanished">དབྱིན་ཚུན།</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>པར་གནས་ས།</translation>
+        <translation type="vanished">པར་གནས་ས།</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>སྐྱེད་སྐྱུང་།</translation>
+        <translation type="vanished">སྐྱེད་སྐྱུང་།</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>པར་གྱི་སྒྲིག་འགོད།</translation>
+        <translation type="vanished">པར་གྱི་སྒྲིག་འགོད།</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>པར་གྱི་སྒྲིག་འགོད།</translation>
+        <translation type="vanished">པར་གྱི་སྒྲིག་འགོད།</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>ཁྲ་ཡོལ།</translation>
+        <translation type="vanished">ཁྲ་ཡོལ།</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>བསད་སྤར།</translation>
+        <translation type="vanished">བསད་སྤར།</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>ཧྱང་སྐྱོད།</translation>
+        <translation type="vanished">ཧྱང་སྐྱོད།</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>སྒོར་སྒོར།</translation>
+        <translation type="vanished">སྒོར་སྒོར།</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>yyyy/MM/dd HH:mm:dd</translation>
+        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -262,46 +266,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>དཀར་ཆག་འདེམས་པ།</translation>
+        <translation type="vanished">དཀར་ཆག་འདེམས་པ།</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>དཀར་ཆག་འདིས་མཉམ་འགྲོས་རྒྱབ་སྐྱོར་མི་བྱེད།</translation>
+        <translation type="vanished">དཀར་ཆག་འདིས་མཉམ་འགྲོས་རྒྱབ་སྐྱོར་མི་བྱེད།</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>ཡིག་ཁུག་སྣོན་པ།</translation>
+        <translation type="vanished">ཡིག་ཁུག་སྣོན་པ།</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>དཀར་ཆག་དོ་དམ་མཉམ་འགྲོས།</translation>
+        <translation type="vanished">དཀར་ཆག་དོ་དམ་མཉམ་འགྲོས།</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>དཀར་ཆག་རེའུ་མིག་སྟོང་པ་རེད།</translation>
+        <translation type="vanished">དཀར་ཆག་རེའུ་མིག་སྟོང་པ་རེད།</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>མཉམ་འགྲོས་འདོར་བ།</translation>
+        <translation type="vanished">མཉམ་འགྲོས་འདོར་བ།</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>པར།</translation>
+        <translation type="vanished">པར།</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>སྒྲིག་ཆས་སྤོ་འབུད་བྱས་ཟིན།</translation>
+        <translation type="vanished">སྒྲིག་ཆས་སྤོ་འབུད་བྱས་ཟིན།</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>དཀར་ཆག་འདི་གནས་མེད།</translation>
+        <translation type="vanished">དཀར་ཆག་འདི་གནས་མེད།</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>རྩིས་རྒྱག་བཞིན་པ།</translation>
+        <translation type="vanished">རྩིས་རྒྱག་བཞིན་པ།</translation>
     </message>
 </context>
 <context>
@@ -312,7 +316,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>པར་དེབ།</translation>
+        <translation type="vanished">པར་དེབ།</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -320,7 +324,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>ལྟ་བ།</translation>
+        <translation type="vanished">ལྟ་བ།</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -332,7 +336,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>སྒྲོན་བཪྙན་པར་ཤེལ་ཕྱིར་འཐེན་པ།</translation>
+        <translation type="vanished">སྒྲོན་བཪྙན་པར་ཤེལ་ཕྱིར་འཐེན་པ།</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,15 +344,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>པར་དེབ་ནས་སྤོ་འབུད་བྱེད་པ།</translation>
+        <translation type="vanished">པར་དེབ་ནས་སྤོ་འབུད་བྱེད་པ།</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>ཉར་ཚགས།</translation>
+        <translation type="vanished">ཉར་ཚགས།</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>ཉར་ཚགས་འདོར་བ།</translation>
+        <translation type="vanished">ཉར་ཚགས་འདོར་བ།</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -380,15 +384,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>གོང་གི་བཪྙན་ཡོལ།</translation>
+        <translation type="vanished">གོང་གི་བཪྙན་ཡོལ།</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>རྗེས་ཀྱི་བཪྙན་ཡོལ།</translation>
+        <translation type="vanished">རྗེས་ཀྱི་བཪྙན་ཡོལ།</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>པར་དེབ་གསར་བཟོ།</translation>
+        <translation type="vanished">པར་དེབ་གསར་བཟོ།</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -427,97 +431,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>མྱུར་མཐེབ་གསར་འཇུག་རོགས།</translation>
+        <translation type="vanished">མྱུར་མཐེབ་གསར་འཇུག་རོགས།</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>མྱུར་མཐེབ།</translation>
+        <translation type="vanished">མྱུར་མཐེབ།</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>པར་རིས་ལྟ་བ།</translation>
+        <translation type="vanished">པར་རིས་ལྟ་བ།</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>པར་དེབ།</translation>
+        <translation type="vanished">པར་དེབ།</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>སོར་བཞག་སླར་གསོ།</translation>
+        <translation type="vanished">སོར་བཞག་སླར་གསོ།</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>ལྟ་བ།</translation>
+        <translation type="vanished">ལྟ་བ།</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>ཡོལ་གང་།</translation>
+        <translation type="vanished">ཡོལ་གང་།</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>སྒྲོན་བཪྙན་པར་ཤེལ་གཏོང་བ།</translation>
+        <translation type="vanished">སྒྲོན་བཪྙན་པར་ཤེལ་གཏོང་བ།</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>སྒྲོན་བཪྙན་པར་ཤེལ་ཕྱིར་འཐེན་པ།</translation>
+        <translation type="vanished">སྒྲོན་བཪྙན་པར་ཤེལ་ཕྱིར་འཐེན་པ།</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>པར་འདེབས།</translation>
+        <translation type="vanished">པར་འདེབས།</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>འདྲ་བཟོ།</translation>
+        <translation type="vanished">འདྲ་བཟོ།</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>པར་དེབ་ནས་སྤོ་འབུད་བྱེད་པ།</translation>
+        <translation type="vanished">པར་དེབ་ནས་སྤོ་འབུད་བྱེད་པ།</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>ཉར་ཚགས།</translation>
+        <translation type="vanished">ཉར་ཚགས།</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>ཉར་ཚགས་འདོར་བ།</translation>
+        <translation type="vanished">ཉར་ཚགས་འདོར་བ།</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>ནང་སྐོར་ལྟར་སྐོར་བ།</translation>
+        <translation type="vanished">ནང་སྐོར་ལྟར་སྐོར་བ།</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>ཕྱི་སྐོར་ལྟར་སྐོར་བ།</translation>
+        <translation type="vanished">ཕྱི་སྐོར་ལྟར་སྐོར་བ།</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>རྩིག་ཤོག་བྱེད་པ།</translation>
+        <translation type="vanished">རྩིག་ཤོག་བྱེད་པ།</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>ཡིག་ཆ་དོ་དམ་ཆས་ནང་དུ་མངོན་པ།</translation>
+        <translation type="vanished">ཡིག་ཆ་དོ་དམ་ཆས་ནང་དུ་མངོན་པ།</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>པར་གྱི་ཆ་འཕྲིན།</translation>
+        <translation type="vanished">པར་གྱི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>པར་དེབ་གསར་བཟོ།</translation>
+        <translation type="vanished">པར་དེབ་གསར་བཟོ།</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>མིང་བསྐྱར་འདོགས།</translation>
+        <translation type="vanished">མིང་བསྐྱར་འདོགས།</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>སུབ་པ། </translation>
+        <translation type="vanished">སུབ་པ། </translation>
     </message>
 </context>
 <context>
@@ -547,23 +551,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>སྒྲོན་བཪྙན་པར་ཤེལ་གྱི་སྒྲིག་འགོད།</translation>
+        <translation type="vanished">སྒྲོན་བཪྙན་པར་ཤེལ་གྱི་སྒྲིག་འགོད།</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>ཕན་འབྲས་བརྗེ་བ། </translation>
+        <translation type="vanished">ཕན་འབྲས་བརྗེ་བ། </translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>དུས་ཚོད།</translation>
+        <translation type="vanished">དུས་ཚོད།</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>དུས་ཚོད་བརྗེ་བ། </translation>
+        <translation type="vanished">དུས་ཚོད་བརྗེ་བ། </translation>
     </message>
     <message>
         <source>second</source>
-        <translation>སྐར་ཆ། </translation>
+        <translation type="vanished">སྐར་ཆ། </translation>
     </message>
 </context>
 <context>
@@ -600,16 +604,20 @@
         <source>Delete</source>
         <translation>སུབ་པ། </translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>ཕྱིར་ལོག</translation>
+        <translation type="vanished">ཕྱིར་ལོག</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>པར་རིས་དོ་དམ།</translation>
+        <translation type="vanished">པར་རིས་དོ་དམ།</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -663,53 +671,53 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>སྒྲོན་བཪྙན་པར་ཤེལ་གྱི་སྒྲིག་འགོད།</translation>
+        <translation type="vanished">སྒྲོན་བཪྙན་པར་ཤེལ་གྱི་སྒྲིག་འགོད།</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>ཕན་འབྲས།</translation>
+        <translation type="vanished">ཕན་འབྲས།</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>དུས་ཚོད།</translation>
+        <translation type="vanished">དུས་ཚོད།</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>མྱུར་མཐེབ།</translation>
+        <translation type="vanished">མྱུར་མཐེབ།</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>ལྟ་བ།</translation>
+        <translation type="vanished">ལྟ་བ།</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>པར་དེབ།</translation>
+        <translation type="vanished">པར་དེབ།</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>པར་དེབ་གསར་བཟོ།</translation>
+        <translation type="vanished">པར་དེབ་གསར་བཟོ།</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>སྒྲིག་འགོད།</translation>
+        <translation type="vanished">སྒྲིག་འགོད།</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>དུས་ཚོད་ཐིག</translation>
+        <translation type="vanished">དུས་ཚོད་ཐིག</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>པར་དེབ་ཏུ་སྣོན་པ། </translation>
+        <translation type="vanished">པར་དེབ་ཏུ་སྣོན་པ། </translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>པར་དེབ་གསར་པར་སྣོན་པ། </translation>
+        <translation type="vanished">པར་དེབ་གསར་པར་སྣོན་པ། </translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -733,15 +741,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>པར་དེབ་ནས་སྤོ་འབུད་བྱེད་པ།</translation>
+        <translation type="vanished">པར་དེབ་ནས་སྤོ་འབུད་བྱེད་པ།</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>ཉར་ཚགས།</translation>
+        <translation type="vanished">ཉར་ཚགས།</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>ཉར་ཚགས་འདོར་བ།</translation>
+        <translation type="vanished">ཉར་ཚགས་འདོར་བ།</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -789,7 +797,11 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>རི་མོ་བྲི་གདན།</translation>
+        <translation type="vanished">རི་མོ་བྲི་གདན།</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

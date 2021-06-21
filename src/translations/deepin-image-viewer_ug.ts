@@ -14,7 +14,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>رەسىملەر</translation>
+        <translation type="vanished">رەسىملەر</translation>
     </message>
 </context>
 <context>
@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Return</translation>
+        <translation type="vanished">Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -54,7 +58,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>رەسىم مۇندەرىجىسىنى ئېچىش</translation>
+        <translation type="vanished">رەسىم مۇندەرىجىسىنى ئېچىش</translation>
     </message>
 </context>
 <context>
@@ -68,15 +72,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>بىكار قىلىش</translation>
+        <translation type="vanished">بىكار قىلىش</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>ئۆچۈرۈش</translation>
+        <translation type="vanished">ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>رەسىم ھۆججىتى بايقالمىدى</translation>
+        <translation type="vanished">رەسىم ھۆججىتى بايقالمىدى</translation>
     </message>
 </context>
 <context>
@@ -95,7 +99,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>رازمېرى</translation>
+        <translation type="vanished">رازمېرى</translation>
     </message>
     <message>
         <source>File size</source>
@@ -174,73 +178,73 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>سوزۇلمىغان</translation>
+        <translation type="vanished">سوزۇلمىغان</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>بەتنى رەسىمگە ماسلاشتۇرۇش</translation>
+        <translation type="vanished">بەتنى رەسىمگە ماسلاشتۇرۇش</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>رەسىمنى بەتكە ماسلاشتۇرۇش</translation>
+        <translation type="vanished">رەسىمنى بەتكە ماسلاشتۇرۇش</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>سوزۇلغان:</translation>
+        <translation type="vanished">سوزۇلغان:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>مىللىمېتىر</translation>
+        <translation type="vanished">مىللىمېتىر</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>سانتىمېتىر</translation>
+        <translation type="vanished">سانتىمېتىر</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>دىيۇيم</translation>
+        <translation type="vanished">دىيۇيم</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>رەسىم ئورنى</translation>
+        <translation type="vanished">رەسىم ئورنى</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>سوزۇش</translation>
+        <translation type="vanished">سوزۇش</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>رەسىم تەڭشىكى</translation>
+        <translation type="vanished">رەسىم تەڭشىكى</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>رەسىم تەڭشىكى</translation>
+        <translation type="vanished">رەسىم تەڭشىكى</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>ياپراقلىق ئۈنۈم</translation>
+        <translation type="vanished">ياپراقلىق ئۈنۈم</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>ئۈزچات</translation>
+        <translation type="vanished">ئۈزچات</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>سىيرىلىش</translation>
+        <translation type="vanished">سىيرىلىش</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>ھالقا</translation>
+        <translation type="vanished">ھالقا</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>yyyy/MM/dd HH:mm:dd</translation>
+        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -262,46 +266,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>مۇندەرىجە تاللاڭ</translation>
+        <translation type="vanished">مۇندەرىجە تاللاڭ</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>بۇ مۇندەرىجە ماسقەدەملەشنى قوللىمايدۇ</translation>
+        <translation type="vanished">بۇ مۇندەرىجە ماسقەدەملەشنى قوللىمايدۇ</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>قىسقۇچ قوشۇش</translation>
+        <translation type="vanished">قىسقۇچ قوشۇش</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>ماسقەدەملەيدىغان مۇندەرىجىنى باشقۇرۇش</translation>
+        <translation type="vanished">ماسقەدەملەيدىغان مۇندەرىجىنى باشقۇرۇش</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>مۇندەرىجە قۇرۇق</translation>
+        <translation type="vanished">مۇندەرىجە قۇرۇق</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>ماسقەدەملەشنى بىكار قىلىش</translation>
+        <translation type="vanished">ماسقەدەملەشنى بىكار قىلىش</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>رەسىملەر</translation>
+        <translation type="vanished">رەسىملەر</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>كۆچمە ئۈسكۈنە ئۆچۈرۈلدى</translation>
+        <translation type="vanished">كۆچمە ئۈسكۈنە ئۆچۈرۈلدى</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>بۇ مۇندەرىجە مەۋجۇت ئەمەس</translation>
+        <translation type="vanished">بۇ مۇندەرىجە مەۋجۇت ئەمەس</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>ھېسابلاۋاتىدۇ...</translation>
+        <translation type="vanished">ھېسابلاۋاتىدۇ...</translation>
     </message>
 </context>
 <context>
@@ -312,7 +316,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>ئالبۇم</translation>
+        <translation type="vanished">ئالبۇم</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -320,7 +324,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>كۆرۈش</translation>
+        <translation type="vanished">كۆرۈش</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -332,7 +336,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>پىرويېكسيەدىن چېكىنىش</translation>
+        <translation type="vanished">پىرويېكسيەدىن چېكىنىش</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,15 +344,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>ئالبومدىن چىقىرىۋېتىش</translation>
+        <translation type="vanished">ئالبومدىن چىقىرىۋېتىش</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>ساقلاش</translation>
+        <translation type="vanished">ساقلاش</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>ياقتۇرمىدىم</translation>
+        <translation type="vanished">ياقتۇرمىدىم</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -380,15 +384,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>ئالدىنقى</translation>
+        <translation type="vanished">ئالدىنقى</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>كېيىنكى</translation>
+        <translation type="vanished">كېيىنكى</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ئالبوم قۇرۇش</translation>
+        <translation type="vanished">ئالبوم قۇرۇش</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -427,97 +431,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>يېڭى تېزلەتمىنى كىرگۈزۈڭ</translation>
+        <translation type="vanished">يېڭى تېزلەتمىنى كىرگۈزۈڭ</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>تىزلەتمىلەر</translation>
+        <translation type="vanished">تىزلەتمىلەر</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>رەسىمنى كۆرۈش</translation>
+        <translation type="vanished">رەسىمنى كۆرۈش</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>ئالبۇم</translation>
+        <translation type="vanished">ئالبۇم</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>سۈكۈتتىكىگە قايتۇرۇش</translation>
+        <translation type="vanished">سۈكۈتتىكىگە قايتۇرۇش</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>كۆرۈش</translation>
+        <translation type="vanished">كۆرۈش</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تولۇق ئىكران</translation>
+        <translation type="vanished">تولۇق ئىكران</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>تام تەسۋىر</translation>
+        <translation type="vanished">تام تەسۋىر</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>كۆرۈشنى ئاخىرلاشتۇرۇش</translation>
+        <translation type="vanished">كۆرۈشنى ئاخىرلاشتۇرۇش</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>بېسىش</translation>
+        <translation type="vanished">بېسىش</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>كۆچۈرۈش</translation>
+        <translation type="vanished">كۆچۈرۈش</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>ئالبومدىن چىقىرىۋېتىش</translation>
+        <translation type="vanished">ئالبومدىن چىقىرىۋېتىش</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>ساقلاش</translation>
+        <translation type="vanished">ساقلاش</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>ياقتۇرمىدىم</translation>
+        <translation type="vanished">ياقتۇرمىدىم</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>سائەت ئىستېرىلكىسى بويىچە ئايلاندۇرۇش</translation>
+        <translation type="vanished">سائەت ئىستېرىلكىسى بويىچە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>سائەت ئىستېرىلكىسىغا قارشى يۆنىلىشتە ئايلاندۇرۇش</translation>
+        <translation type="vanished">سائەت ئىستېرىلكىسىغا قارشى يۆنىلىشتە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تام رەسىمى قىلىپ تەڭشەش</translation>
+        <translation type="vanished">تام رەسىمى قىلىپ تەڭشەش</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>ھۆججەت باشقۇرغۇچتا كۆرسىتىش</translation>
+        <translation type="vanished">ھۆججەت باشقۇرغۇچتا كۆرسىتىش</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>رەسىم ئۇچۇرى</translation>
+        <translation type="vanished">رەسىم ئۇچۇرى</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ئالبوم قۇرۇش</translation>
+        <translation type="vanished">ئالبوم قۇرۇش</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>نام قويۇش</translation>
+        <translation type="vanished">نام قويۇش</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>ئۆچۈرۈش</translation>
+        <translation type="vanished">ئۆچۈرۈش</translation>
     </message>
 </context>
 <context>
@@ -547,23 +551,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>تام تەسۋىر تەڭشىكى</translation>
+        <translation type="vanished">تام تەسۋىر تەڭشىكى</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>ئۈنۈم ئالماشتۇرۇش</translation>
+        <translation type="vanished">ئۈنۈم ئالماشتۇرۇش</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>ۋاقىت</translation>
+        <translation type="vanished">ۋاقىت</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>ۋاقىت ئالماشتۇرۇش</translation>
+        <translation type="vanished">ۋاقىت ئالماشتۇرۇش</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>سېكونت</translation>
+        <translation type="vanished">سېكونت</translation>
     </message>
 </context>
 <context>
@@ -600,16 +604,20 @@
         <source>Delete</source>
         <translation>ئۆچۈرۈش</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>قايتىش</translation>
+        <translation type="vanished">قايتىش</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>رەسىم باشقۇرۇش</translation>
+        <translation type="vanished">رەسىم باشقۇرۇش</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -663,53 +671,53 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>تام تەسۋىر تەڭشىكى</translation>
+        <translation type="vanished">تام تەسۋىر تەڭشىكى</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>ئۈنۈم</translation>
+        <translation type="vanished">ئۈنۈم</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>ۋاقىت</translation>
+        <translation type="vanished">ۋاقىت</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>تىزلەتمىلەر</translation>
+        <translation type="vanished">تىزلەتمىلەر</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>كۆرۈش</translation>
+        <translation type="vanished">كۆرۈش</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>ئالبۇم</translation>
+        <translation type="vanished">ئالبۇم</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>ئالبوم قۇرۇش</translation>
+        <translation type="vanished">ئالبوم قۇرۇش</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>تەڭشەكلەر</translation>
+        <translation type="vanished">تەڭشەكلەر</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>ۋاقىت سىزىقى</translation>
+        <translation type="vanished">ۋاقىت سىزىقى</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>ئالبومغا قوشۇش</translation>
+        <translation type="vanished">ئالبومغا قوشۇش</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>يېڭى ئالبومغا قوشۇش</translation>
+        <translation type="vanished">يېڭى ئالبومغا قوشۇش</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -733,15 +741,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>ئالبومدىن چىقىرىۋېتىش</translation>
+        <translation type="vanished">ئالبومدىن چىقىرىۋېتىش</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>ساقلاش</translation>
+        <translation type="vanished">ساقلاش</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>ياقتۇرمىدىم</translation>
+        <translation type="vanished">ياقتۇرمىدىم</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -789,7 +797,11 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>رەسىم سىزىش</translation>
+        <translation type="vanished">رەسىم سىزىش</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

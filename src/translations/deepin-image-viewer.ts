@@ -14,7 +14,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Images</translation>
+        <translation type="vanished">Images</translation>
     </message>
 </context>
 <context>
@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Return</translation>
+        <translation type="vanished">Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation>Ctrl+I</translation>
     </message>
 </context>
 <context>
@@ -54,7 +58,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Open Directory</translation>
+        <translation type="vanished">Open Directory</translation>
     </message>
 </context>
 <context>
@@ -68,15 +72,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation type="vanished">Cancel</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation type="vanished">Delete</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Image file not found</translation>
+        <translation type="vanished">Image file not found</translation>
     </message>
 </context>
 <context>
@@ -95,7 +99,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Dimension</translation>
+        <translation type="vanished">Dimension</translation>
     </message>
     <message>
         <source>File size</source>
@@ -174,73 +178,73 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>No scaling</translation>
+        <translation type="vanished">No scaling</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Fit page to image</translation>
+        <translation type="vanished">Fit page to image</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Fit image to page</translation>
+        <translation type="vanished">Fit image to page</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Scale to:</translation>
+        <translation type="vanished">Scale to:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeters</translation>
+        <translation type="vanished">Millimeters</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimeters</translation>
+        <translation type="vanished">Centimeters</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inches</translation>
+        <translation type="vanished">Inches</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Image Position</translation>
+        <translation type="vanished">Image Position</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Scaling</translation>
+        <translation type="vanished">Scaling</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation type="vanished">Image Settings</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation type="vanished">Image Settings</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Blinds</translation>
+        <translation type="vanished">Blinds</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Switcher</translation>
+        <translation type="vanished">Switcher</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Sliding</translation>
+        <translation type="vanished">Sliding</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Ring</translation>
+        <translation type="vanished">Ring</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>yyyy/MM/dd HH:mm:dd</translation>
+        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -262,46 +266,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Select Directory</translation>
+        <translation type="vanished">Select Directory</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>This directory is disabled to sync</translation>
+        <translation type="vanished">This directory is disabled to sync</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Add folder</translation>
+        <translation type="vanished">Add folder</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Sync Directory Management</translation>
+        <translation type="vanished">Sync Directory Management</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>The directory list is empty</translation>
+        <translation type="vanished">The directory list is empty</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Cancel sync</translation>
+        <translation type="vanished">Cancel sync</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Images</translation>
+        <translation type="vanished">Images</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>The device has been removed</translation>
+        <translation type="vanished">The device has been removed</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>This directory no longer exists</translation>
+        <translation type="vanished">This directory no longer exists</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Calculating...</translation>
+        <translation type="vanished">Calculating...</translation>
     </message>
 </context>
 <context>
@@ -312,7 +316,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -320,7 +324,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>View</translation>
+        <translation type="vanished">View</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -332,7 +336,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>End show</translation>
+        <translation type="vanished">End show</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,15 +344,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remove from album</translation>
+        <translation type="vanished">Remove from album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation type="vanished">Favorite</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation type="vanished">Unfavorite</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -380,15 +384,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Previous screen</translation>
+        <translation type="vanished">Previous screen</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Next screen</translation>
+        <translation type="vanished">Next screen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation type="vanished">New album</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -427,97 +431,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Please enter a new shortcut</translation>
+        <translation type="vanished">Please enter a new shortcut</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Shortcuts</translation>
+        <translation type="vanished">Shortcuts</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>View Picture</translation>
+        <translation type="vanished">View Picture</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Restore Defaults</translation>
+        <translation type="vanished">Restore Defaults</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>View</translation>
+        <translation type="vanished">View</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation type="vanished">Fullscreen</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation type="vanished">Slide show</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>End show</translation>
+        <translation type="vanished">End show</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Print</translation>
+        <translation type="vanished">Print</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation type="vanished">Copy</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remove from album</translation>
+        <translation type="vanished">Remove from album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation type="vanished">Favorite</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation type="vanished">Unfavorite</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation type="vanished">Rotate clockwise</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation type="vanished">Rotate counterclockwise</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation type="vanished">Set as wallpaper</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation type="vanished">Display in file manager</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Image info</translation>
+        <translation type="vanished">Image info</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation type="vanished">New album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Rename</translation>
+        <translation type="vanished">Rename</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation type="vanished">Delete</translation>
     </message>
 </context>
 <context>
@@ -547,23 +551,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Slide Settings</translation>
+        <translation type="vanished">Slide Settings</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Switch effect</translation>
+        <translation type="vanished">Switch effect</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duration</translation>
+        <translation type="vanished">Duration</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Switch duration</translation>
+        <translation type="vanished">Switch duration</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>second</translation>
+        <translation type="vanished">second</translation>
     </message>
 </context>
 <context>
@@ -600,16 +604,20 @@
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Extract text</translation>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Back</translation>
+        <translation type="vanished">Back</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Image management</translation>
+        <translation type="vanished">Image management</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -663,53 +671,53 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Slide Settings</translation>
+        <translation type="vanished">Slide Settings</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Effect</translation>
+        <translation type="vanished">Effect</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duration</translation>
+        <translation type="vanished">Duration</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Shortcuts</translation>
+        <translation type="vanished">Shortcuts</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>View</translation>
+        <translation type="vanished">View</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation type="vanished">New album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Settings</translation>
+        <translation type="vanished">Settings</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Timeline</translation>
+        <translation type="vanished">Timeline</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Add to album</translation>
+        <translation type="vanished">Add to album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Add to new album</translation>
+        <translation type="vanished">Add to new album</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -733,15 +741,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remove from album</translation>
+        <translation type="vanished">Remove from album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation type="vanished">Favorite</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation type="vanished">Unfavorite</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -789,7 +797,11 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>Draw</translation>
+        <translation type="vanished">Draw</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Extract text</translation>
     </message>
 </context>
 </TS>

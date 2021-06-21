@@ -16,7 +16,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>תמונות</translation>
+        <translation type="vanished">תמונות</translation>
     </message>
 </context>
 <context>
@@ -157,49 +157,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
@@ -218,46 +175,18 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>בחירת תיקייה</translation>
-    </message>
-    <message>
-        <source>This directory is disabled to sync</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">בחירת תיקייה</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>הוספת תיקייה</translation>
-    </message>
-    <message>
-        <source>Sync Directory Management</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The directory list is empty</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">הוספת תיקייה</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
-        <source>Cancel sync</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Images</source>
-        <translation type="unfinished">תמונות</translation>
-    </message>
-    <message>
-        <source>The device has been removed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This directory no longer exists</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Calculating...</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">תמונות</translation>
     </message>
 </context>
 <context>
@@ -267,15 +196,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -287,23 +208,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>End show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -332,18 +237,6 @@
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -443,17 +336,13 @@
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image management</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>My favorite</source>
         <translation type="unfinished"></translation>
@@ -505,18 +394,6 @@
 <context>
     <name>ViewPanel</name>
     <message>
-        <source>Timeline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Exit fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
@@ -534,18 +411,6 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -591,6 +456,10 @@
     <message>
         <source>Rename</source>
         <translation>שינוי שם</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

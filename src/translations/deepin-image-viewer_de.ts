@@ -14,7 +14,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Bilder</translation>
+        <translation type="vanished">Bilder</translation>
     </message>
 </context>
 <context>
@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Return</translation>
+        <translation type="vanished">Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -54,7 +58,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Verzeichnis öffnen</translation>
+        <translation type="vanished">Verzeichnis öffnen</translation>
     </message>
 </context>
 <context>
@@ -68,15 +72,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <translation type="vanished">Abbrechen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Löschen</translation>
+        <translation type="vanished">Löschen</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Bilddatei nicht gefunden</translation>
+        <translation type="vanished">Bilddatei nicht gefunden</translation>
     </message>
 </context>
 <context>
@@ -95,7 +99,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Maße</translation>
+        <translation type="vanished">Maße</translation>
     </message>
     <message>
         <source>File size</source>
@@ -174,73 +178,73 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Keine Skalierung</translation>
+        <translation type="vanished">Keine Skalierung</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Seite an Bild anpassen</translation>
+        <translation type="vanished">Seite an Bild anpassen</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Bild an Seite anpassen</translation>
+        <translation type="vanished">Bild an Seite anpassen</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Skalieren auf:</translation>
+        <translation type="vanished">Skalieren auf:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeter</translation>
+        <translation type="vanished">Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Zentimeter</translation>
+        <translation type="vanished">Zentimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Zoll</translation>
+        <translation type="vanished">Zoll</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Bildposition</translation>
+        <translation type="vanished">Bildposition</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Skalierung</translation>
+        <translation type="vanished">Skalierung</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Bildeinstellungen</translation>
+        <translation type="vanished">Bildeinstellungen</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Bildeinstellungen</translation>
+        <translation type="vanished">Bildeinstellungen</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Jalousie</translation>
+        <translation type="vanished">Jalousie</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Überdecken</translation>
+        <translation type="vanished">Überdecken</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Wischen</translation>
+        <translation type="vanished">Wischen</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Oval</translation>
+        <translation type="vanished">Oval</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>jjjj/MM/tt HH:mm:dd</translation>
+        <translation type="vanished">jjjj/MM/tt HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -262,46 +266,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Verzeichnis auswählen</translation>
+        <translation type="vanished">Verzeichnis auswählen</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Dieses Verzeichnis wird nicht synchronisiert</translation>
+        <translation type="vanished">Dieses Verzeichnis wird nicht synchronisiert</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Ordner hinzufügen</translation>
+        <translation type="vanished">Ordner hinzufügen</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Synchronisierungsverzeichnisverwaltung</translation>
+        <translation type="vanished">Synchronisierungsverzeichnisverwaltung</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>Die Verzeichnisliste ist leer</translation>
+        <translation type="vanished">Die Verzeichnisliste ist leer</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Synchronisierung abbrechen</translation>
+        <translation type="vanished">Synchronisierung abbrechen</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Bilder</translation>
+        <translation type="vanished">Bilder</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Das Gerät wurde entfernt</translation>
+        <translation type="vanished">Das Gerät wurde entfernt</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Dieses Verzeichnis existiert nicht mehr</translation>
+        <translation type="vanished">Dieses Verzeichnis existiert nicht mehr</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Wird berechnet ...</translation>
+        <translation type="vanished">Wird berechnet ...</translation>
     </message>
 </context>
 <context>
@@ -312,7 +316,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -320,7 +324,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Ansicht</translation>
+        <translation type="vanished">Ansicht</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -332,7 +336,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Diashow beenden</translation>
+        <translation type="vanished">Diashow beenden</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,15 +344,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Aus Album entfernen</translation>
+        <translation type="vanished">Aus Album entfernen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation type="vanished">Favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Als Favorit entfernen</translation>
+        <translation type="vanished">Als Favorit entfernen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -380,15 +384,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Vorheriger Bildschirm</translation>
+        <translation type="vanished">Vorheriger Bildschirm</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Nächster Bildschirm</translation>
+        <translation type="vanished">Nächster Bildschirm</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Neues Album</translation>
+        <translation type="vanished">Neues Album</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -427,97 +431,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Bitte geben Sie ein neues Tastenkürzel ein</translation>
+        <translation type="vanished">Bitte geben Sie ein neues Tastenkürzel ein</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Tastenkürzel</translation>
+        <translation type="vanished">Tastenkürzel</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Bild anzeigen</translation>
+        <translation type="vanished">Bild anzeigen</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Standardeinstellungen wiederherstellen</translation>
+        <translation type="vanished">Standardeinstellungen wiederherstellen</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Ansicht</translation>
+        <translation type="vanished">Ansicht</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Vollbild</translation>
+        <translation type="vanished">Vollbild</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diashow</translation>
+        <translation type="vanished">Diashow</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Diashow beenden</translation>
+        <translation type="vanished">Diashow beenden</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Drucken</translation>
+        <translation type="vanished">Drucken</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopieren</translation>
+        <translation type="vanished">Kopieren</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Aus Album entfernen</translation>
+        <translation type="vanished">Aus Album entfernen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation type="vanished">Favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Als Favorit entfernen</translation>
+        <translation type="vanished">Als Favorit entfernen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Im Uhrzeigersinn drehen</translation>
+        <translation type="vanished">Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gegen den Uhrzeigersinn drehen</translation>
+        <translation type="vanished">Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Als Hintergrundbild festlegen</translation>
+        <translation type="vanished">Als Hintergrundbild festlegen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>In Dateiverwaltung anzeigen</translation>
+        <translation type="vanished">In Dateiverwaltung anzeigen</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Bildinformation</translation>
+        <translation type="vanished">Bildinformation</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Neues Album</translation>
+        <translation type="vanished">Neues Album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Umbenennen</translation>
+        <translation type="vanished">Umbenennen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Löschen</translation>
+        <translation type="vanished">Löschen</translation>
     </message>
 </context>
 <context>
@@ -547,23 +551,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Präsentationseinstellungen</translation>
+        <translation type="vanished">Präsentationseinstellungen</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Übergangseffekt</translation>
+        <translation type="vanished">Übergangseffekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Dauer</translation>
+        <translation type="vanished">Dauer</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Übergangsdauer</translation>
+        <translation type="vanished">Übergangsdauer</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>Sekunde</translation>
+        <translation type="vanished">Sekunde</translation>
     </message>
 </context>
 <context>
@@ -600,16 +604,20 @@
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Zurück</translation>
+        <translation type="vanished">Zurück</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Bildverwaltung</translation>
+        <translation type="vanished">Bildverwaltung</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -663,53 +671,53 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Animationseinstellungen</translation>
+        <translation type="vanished">Animationseinstellungen</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Effekt</translation>
+        <translation type="vanished">Effekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Dauer</translation>
+        <translation type="vanished">Dauer</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Tastenkürzel</translation>
+        <translation type="vanished">Tastenkürzel</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ansicht</translation>
+        <translation type="vanished">Ansicht</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Neues Album</translation>
+        <translation type="vanished">Neues Album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Einstellungen</translation>
+        <translation type="vanished">Einstellungen</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Zeitleiste</translation>
+        <translation type="vanished">Zeitleiste</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Zu Album hinzufügen</translation>
+        <translation type="vanished">Zu Album hinzufügen</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Zu neuem Album hinzufügen</translation>
+        <translation type="vanished">Zu neuem Album hinzufügen</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -733,15 +741,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Aus Album entfernen</translation>
+        <translation type="vanished">Aus Album entfernen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation type="vanished">Favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Als Favorit entfernen</translation>
+        <translation type="vanished">Als Favorit entfernen</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -789,7 +797,11 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>Zeichnen</translation>
+        <translation type="vanished">Zeichnen</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

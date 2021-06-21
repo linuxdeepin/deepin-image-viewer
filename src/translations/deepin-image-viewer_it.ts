@@ -15,7 +15,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Immagini</translation>
+        <translation type="vanished">Immagini</translation>
     </message>
 </context>
 <context>
@@ -26,11 +26,15 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Indietro</translation>
+        <translation type="vanished">Alt+Indietro</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Invio</translation>
+        <translation type="vanished">Alt+Invio</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -55,7 +59,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Apri cartella</translation>
+        <translation type="vanished">Apri cartella</translation>
     </message>
 </context>
 <context>
@@ -69,15 +73,15 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation type="vanished">Annulla</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation type="vanished">Elimina</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>File immagine non trovato</translation>
+        <translation type="vanished">File immagine non trovato</translation>
     </message>
 </context>
 <context>
@@ -96,7 +100,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Dimensione</translation>
+        <translation type="vanished">Dimensione</translation>
     </message>
     <message>
         <source>File size</source>
@@ -175,73 +179,73 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Nessuna scala</translation>
+        <translation type="vanished">Nessuna scala</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Riempi la pagina</translation>
+        <translation type="vanished">Riempi la pagina</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Riempi la pagina</translation>
+        <translation type="vanished">Riempi la pagina</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Scala: </translation>
+        <translation type="vanished">Scala: </translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimetri</translation>
+        <translation type="vanished">Millimetri</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimetri</translation>
+        <translation type="vanished">Centimetri</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Pollici</translation>
+        <translation type="vanished">Pollici</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Posizione immagine</translation>
+        <translation type="vanished">Posizione immagine</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Scala</translation>
+        <translation type="vanished">Scala</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Impostazioni immagine</translation>
+        <translation type="vanished">Impostazioni immagine</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Impostazioni immagine</translation>
+        <translation type="vanished">Impostazioni immagine</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Oscuramento</translation>
+        <translation type="vanished">Oscuramento</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Switcher</translation>
+        <translation type="vanished">Switcher</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Sliding</translation>
+        <translation type="vanished">Sliding</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Ring</translation>
+        <translation type="vanished">Ring</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>yyyy/MM/dd HH:mm:dd</translation>
+        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -263,46 +267,46 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Seleziona cartella</translation>
+        <translation type="vanished">Seleziona cartella</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Questa cartella non può esser sincronizzata</translation>
+        <translation type="vanished">Questa cartella non può esser sincronizzata</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Aggiungi cartella</translation>
+        <translation type="vanished">Aggiungi cartella</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Gestione sincronizzazione cartella</translation>
+        <translation type="vanished">Gestione sincronizzazione cartella</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>La lista della cartella è vuota</translation>
+        <translation type="vanished">La lista della cartella è vuota</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Cancella sincronizzazione</translation>
+        <translation type="vanished">Cancella sincronizzazione</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Immagini</translation>
+        <translation type="vanished">Immagini</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Il dispositivo è stato rimosso</translation>
+        <translation type="vanished">Il dispositivo è stato rimosso</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Questa cartella non esiste più</translation>
+        <translation type="vanished">Questa cartella non esiste più</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Calcolo in corso...</translation>
+        <translation type="vanished">Calcolo in corso...</translation>
     </message>
 </context>
 <context>
@@ -313,7 +317,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -321,7 +325,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Visualizza</translation>
+        <translation type="vanished">Visualizza</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -333,7 +337,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Termina presentazione</translation>
+        <translation type="vanished">Termina presentazione</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -341,15 +345,15 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Rimuovi dall&apos;album</translation>
+        <translation type="vanished">Rimuovi dall&apos;album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Preferita</translation>
+        <translation type="vanished">Preferita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Elimina dai preferiti</translation>
+        <translation type="vanished">Elimina dai preferiti</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -381,15 +385,15 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Immagine precedente</translation>
+        <translation type="vanished">Immagine precedente</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Prossima immagine</translation>
+        <translation type="vanished">Prossima immagine</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nuovo album</translation>
+        <translation type="vanished">Nuovo album</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -428,97 +432,97 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Inserisci una nuova scorciatoia</translation>
+        <translation type="vanished">Inserisci una nuova scorciatoia</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Scorciatoie</translation>
+        <translation type="vanished">Scorciatoie</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Visualizza immagine</translation>
+        <translation type="vanished">Visualizza immagine</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Ripristina predefiniti</translation>
+        <translation type="vanished">Ripristina predefiniti</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Visualizza</translation>
+        <translation type="vanished">Visualizza</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Schermo intero</translation>
+        <translation type="vanished">Schermo intero</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentazione</translation>
+        <translation type="vanished">Presentazione</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Termina presentazione</translation>
+        <translation type="vanished">Termina presentazione</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Stampa</translation>
+        <translation type="vanished">Stampa</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation type="vanished">Copia</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Rimuovi dall&apos;album</translation>
+        <translation type="vanished">Rimuovi dall&apos;album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Preferita</translation>
+        <translation type="vanished">Preferita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Elimina dai preferiti</translation>
+        <translation type="vanished">Elimina dai preferiti</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Ruota in senso orario</translation>
+        <translation type="vanished">Ruota in senso orario</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Ruota in senso antiorario</translation>
+        <translation type="vanished">Ruota in senso antiorario</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Imposta come wallpaper</translation>
+        <translation type="vanished">Imposta come wallpaper</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Visualizza nel file manager</translation>
+        <translation type="vanished">Visualizza nel file manager</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Info immagine</translation>
+        <translation type="vanished">Info immagine</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nuovo album</translation>
+        <translation type="vanished">Nuovo album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Rinomina</translation>
+        <translation type="vanished">Rinomina</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation type="vanished">Elimina</translation>
     </message>
 </context>
 <context>
@@ -548,23 +552,23 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Impostazioni slide</translation>
+        <translation type="vanished">Impostazioni slide</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Effetto transizione</translation>
+        <translation type="vanished">Effetto transizione</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Durata</translation>
+        <translation type="vanished">Durata</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Durata transizione</translation>
+        <translation type="vanished">Durata transizione</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>secondi</translation>
+        <translation type="vanished">secondi</translation>
     </message>
 </context>
 <context>
@@ -601,16 +605,20 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Indietro</translation>
+        <translation type="vanished">Indietro</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Gestione immagine</translation>
+        <translation type="vanished">Gestione immagine</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -664,53 +672,53 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Impostazioni slide</translation>
+        <translation type="vanished">Impostazioni slide</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Effetto</translation>
+        <translation type="vanished">Effetto</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Durata</translation>
+        <translation type="vanished">Durata</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Scorciatoie</translation>
+        <translation type="vanished">Scorciatoie</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Visualizza</translation>
+        <translation type="vanished">Visualizza</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Nuovo album</translation>
+        <translation type="vanished">Nuovo album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Impostazioni</translation>
+        <translation type="vanished">Impostazioni</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Timeline</translation>
+        <translation type="vanished">Timeline</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Aggiungi ad un album esistente</translation>
+        <translation type="vanished">Aggiungi ad un album esistente</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Aggiungi in un nuovo album</translation>
+        <translation type="vanished">Aggiungi in un nuovo album</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -734,15 +742,15 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Rimuovi dall&apos;album</translation>
+        <translation type="vanished">Rimuovi dall&apos;album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Preferita</translation>
+        <translation type="vanished">Preferita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Elimina dai preferiti</translation>
+        <translation type="vanished">Elimina dai preferiti</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -790,7 +798,11 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation>Disegno</translation>
+        <translation type="vanished">Disegno</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

@@ -14,7 +14,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>images </translation>
+        <translation type="vanished">images </translation>
     </message>
 </context>
 <context>
@@ -25,11 +25,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Entrée</translation>
+        <translation type="vanished">Alt+Entrée</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Entrée</translation>
+        <translation type="vanished">Alt+Entrée</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -54,7 +58,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Ouvrir le dossier</translation>
+        <translation type="vanished">Ouvrir le dossier</translation>
     </message>
 </context>
 <context>
@@ -68,15 +72,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation type="vanished">Annuler</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Supprimer</translation>
+        <translation type="vanished">Supprimer</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Fichier image non trouvé</translation>
+        <translation type="vanished">Fichier image non trouvé</translation>
     </message>
 </context>
 <context>
@@ -95,7 +99,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Dimension</translation>
+        <translation type="vanished">Dimension</translation>
     </message>
     <message>
         <source>File size</source>
@@ -174,73 +178,73 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Pas de mise à l&apos;échelle</translation>
+        <translation type="vanished">Pas de mise à l&apos;échelle</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Adapter la page à l&apos;image</translation>
+        <translation type="vanished">Adapter la page à l&apos;image</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Ajuster l&apos;image à la page</translation>
+        <translation type="vanished">Ajuster l&apos;image à la page</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Échelle jusqu&apos;à :</translation>
+        <translation type="vanished">Échelle jusqu&apos;à :</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimètres</translation>
+        <translation type="vanished">Millimètres</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimètres</translation>
+        <translation type="vanished">Centimètres</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Pouces</translation>
+        <translation type="vanished">Pouces</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Position de l&apos;image</translation>
+        <translation type="vanished">Position de l&apos;image</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Mise à l&apos;échelle</translation>
+        <translation type="vanished">Mise à l&apos;échelle</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Paramètres d&apos;image</translation>
+        <translation type="vanished">Paramètres d&apos;image</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Paramètres d&apos;image</translation>
+        <translation type="vanished">Paramètres d&apos;image</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Stores</translation>
+        <translation type="vanished">Stores</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Basculer</translation>
+        <translation type="vanished">Basculer</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Glisser</translation>
+        <translation type="vanished">Glisser</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Cercle</translation>
+        <translation type="vanished">Cercle</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>yyyy/MM/dd HH:mm:dd</translation>
+        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -262,46 +266,46 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Sélectionner dossier</translation>
+        <translation type="vanished">Sélectionner dossier</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Ce répertoire est désactivé pour la synchronisation</translation>
+        <translation type="vanished">Ce répertoire est désactivé pour la synchronisation</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Ajouter un dossier</translation>
+        <translation type="vanished">Ajouter un dossier</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Dossier à synchroniser </translation>
+        <translation type="vanished">Dossier à synchroniser </translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>La liste de dossier est vide</translation>
+        <translation type="vanished">La liste de dossier est vide</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Annuler la synchronisation </translation>
+        <translation type="vanished">Annuler la synchronisation </translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Images </translation>
+        <translation type="vanished">Images </translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Le périphérique a été enlevé</translation>
+        <translation type="vanished">Le périphérique a été enlevé</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Ce dossier n&apos;existe plus</translation>
+        <translation type="vanished">Ce dossier n&apos;existe plus</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Calcul en cours...</translation>
+        <translation type="vanished">Calcul en cours...</translation>
     </message>
 </context>
 <context>
@@ -312,7 +316,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Album </translation>
+        <translation type="vanished">Album </translation>
     </message>
     <message>
         <source>Settings</source>
@@ -320,7 +324,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Affichage</translation>
+        <translation type="vanished">Affichage</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -332,7 +336,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Fin du diaporama</translation>
+        <translation type="vanished">Fin du diaporama</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,15 +344,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Enlever de l&apos;album</translation>
+        <translation type="vanished">Enlever de l&apos;album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoris </translation>
+        <translation type="vanished">Favoris </translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Retirer des favoris</translation>
+        <translation type="vanished">Retirer des favoris</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -380,15 +384,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Écran précédent </translation>
+        <translation type="vanished">Écran précédent </translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Écran suivant</translation>
+        <translation type="vanished">Écran suivant</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nouvel Album</translation>
+        <translation type="vanished">Nouvel Album</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -427,97 +431,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Créer un nouveau raccourci</translation>
+        <translation type="vanished">Créer un nouveau raccourci</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Raccourcis</translation>
+        <translation type="vanished">Raccourcis</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Afficher l&apos;image</translation>
+        <translation type="vanished">Afficher l&apos;image</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album </translation>
+        <translation type="vanished">Album </translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Paramètres par défaut</translation>
+        <translation type="vanished">Paramètres par défaut</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Affichage</translation>
+        <translation type="vanished">Affichage</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Plein écran</translation>
+        <translation type="vanished">Plein écran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diaporama</translation>
+        <translation type="vanished">Diaporama</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Fin du diaporama</translation>
+        <translation type="vanished">Fin du diaporama</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimer</translation>
+        <translation type="vanished">Imprimer</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copier</translation>
+        <translation type="vanished">Copier</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Enlever de l&apos;album</translation>
+        <translation type="vanished">Enlever de l&apos;album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoris </translation>
+        <translation type="vanished">Favoris </translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Retirer des favoris</translation>
+        <translation type="vanished">Retirer des favoris</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotation droite</translation>
+        <translation type="vanished">Rotation droite</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotation gauche</translation>
+        <translation type="vanished">Rotation gauche</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Définir comme fond d&apos;écran</translation>
+        <translation type="vanished">Définir comme fond d&apos;écran</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Afficher dans le gestionnaire de fichier</translation>
+        <translation type="vanished">Afficher dans le gestionnaire de fichier</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Image infos</translation>
+        <translation type="vanished">Image infos</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nouvel Album</translation>
+        <translation type="vanished">Nouvel Album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renommer </translation>
+        <translation type="vanished">Renommer </translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Supprimer</translation>
+        <translation type="vanished">Supprimer</translation>
     </message>
 </context>
 <context>
@@ -547,23 +551,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Paramètres de défilement</translation>
+        <translation type="vanished">Paramètres de défilement</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Effet de transition</translation>
+        <translation type="vanished">Effet de transition</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Durée</translation>
+        <translation type="vanished">Durée</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Durée de transition</translation>
+        <translation type="vanished">Durée de transition</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>secondes</translation>
+        <translation type="vanished">secondes</translation>
     </message>
 </context>
 <context>
@@ -600,16 +604,20 @@
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Retour</translation>
+        <translation type="vanished">Retour</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Gestionnaire d&apos;image</translation>
+        <translation type="vanished">Gestionnaire d&apos;image</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -663,53 +671,53 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Paramètres de défilement</translation>
+        <translation type="vanished">Paramètres de défilement</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Effet </translation>
+        <translation type="vanished">Effet </translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Durée</translation>
+        <translation type="vanished">Durée</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Raccourcis</translation>
+        <translation type="vanished">Raccourcis</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Affichage</translation>
+        <translation type="vanished">Affichage</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album </translation>
+        <translation type="vanished">Album </translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Nouvel Album</translation>
+        <translation type="vanished">Nouvel Album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Paramètres </translation>
+        <translation type="vanished">Paramètres </translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Chronologie</translation>
+        <translation type="vanished">Chronologie</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Ajouter à l&apos;album</translation>
+        <translation type="vanished">Ajouter à l&apos;album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Ajouter à un nouvel album</translation>
+        <translation type="vanished">Ajouter à un nouvel album</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -733,15 +741,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Enlever de l&apos;album</translation>
+        <translation type="vanished">Enlever de l&apos;album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoris </translation>
+        <translation type="vanished">Favoris </translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Retirer des favoris</translation>
+        <translation type="vanished">Retirer des favoris</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -789,7 +797,11 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>Dessin</translation>
+        <translation type="vanished">Dessin</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

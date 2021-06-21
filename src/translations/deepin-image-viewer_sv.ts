@@ -16,7 +16,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Bilder</translation>
+        <translation type="vanished">Bilder</translation>
     </message>
 </context>
 <context>
@@ -168,43 +168,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Ingen skalning</translation>
+        <translation type="vanished">Ingen skalning</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Anpassa sida efter bild</translation>
+        <translation type="vanished">Anpassa sida efter bild</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Anpassa bild efter sida</translation>
+        <translation type="vanished">Anpassa bild efter sida</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Skala till:</translation>
+        <translation type="vanished">Skala till:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeter</translation>
+        <translation type="vanished">Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimeter</translation>
+        <translation type="vanished">Centimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Tum</translation>
+        <translation type="vanished">Tum</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Bild position</translation>
+        <translation type="vanished">Bild position</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Skalning</translation>
+        <translation type="vanished">Skalning</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Bild inställningar</translation>
+        <translation type="vanished">Bild inställningar</translation>
     </message>
 </context>
 <context>
@@ -233,46 +233,38 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Välj mapp</translation>
+        <translation type="vanished">Välj mapp</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Synkronisering är inaktiverad för denna mapp</translation>
+        <translation type="vanished">Synkronisering är inaktiverad för denna mapp</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Lägg till mapp</translation>
-    </message>
-    <message>
-        <source>Sync Directory Management</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The directory list is empty</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Lägg till mapp</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Avbryt synkronisering</translation>
+        <translation type="vanished">Avbryt synkronisering</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Bilder</translation>
+        <translation type="vanished">Bilder</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Enheten har tagits bort</translation>
+        <translation type="vanished">Enheten har tagits bort</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Denna mappen finns ej längre</translation>
+        <translation type="vanished">Denna mappen finns ej längre</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Beräknar...</translation>
+        <translation type="vanished">Beräknar...</translation>
     </message>
 </context>
 <context>
@@ -283,7 +275,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -291,7 +283,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Visa</translation>
+        <translation type="vanished">Visa</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -303,7 +295,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Avsluta bildspel</translation>
+        <translation type="vanished">Avsluta bildspel</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -311,15 +303,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Ta bort från album</translation>
+        <translation type="vanished">Ta bort från album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation type="vanished">Favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Ta bort favorit</translation>
+        <translation type="vanished">Ta bort favorit</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -351,15 +343,15 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Föregående skärm</translation>
+        <translation type="vanished">Föregående skärm</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Nästa skärm</translation>
+        <translation type="vanished">Nästa skärm</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nytt album</translation>
+        <translation type="vanished">Nytt album</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -571,16 +563,20 @@
         <source>Delete</source>
         <translation type="unfinished">Radera</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Tillbaka</translation>
+        <translation type="vanished">Tillbaka</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Bildhantering</translation>
+        <translation type="vanished">Bildhantering</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -672,15 +668,15 @@
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Tidslinje</translation>
+        <translation type="vanished">Tidslinje</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Lägg till i album</translation>
+        <translation type="vanished">Lägg till i album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Lägg till i nytt album</translation>
+        <translation type="vanished">Lägg till i nytt album</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -704,15 +700,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Radera från album</translation>
+        <translation type="vanished">Radera från album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation type="vanished">Favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Ta bort favorit</translation>
+        <translation type="vanished">Ta bort favorit</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -757,6 +753,10 @@
     <message>
         <source>Rename</source>
         <translation>Ändra namn</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
