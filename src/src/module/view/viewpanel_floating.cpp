@@ -110,7 +110,8 @@ void ViewPanel::initNavigation()
     });
     connect(m_viewB, &ImageView::transformChanged, [this]() {
         //如果stackindex不为2，全屏会出现导航窗口
-        if (m_stack->currentIndex() != 2) {
+        //如果是正在移动的情况，将不会出现导航栏窗口
+        if (m_stack->currentIndex() != 2 && !dApp->m_bMove) {
             m_nav->setVisible((! m_nav->isAlwaysHidden() && ! m_viewB->isWholeImageVisible()));
             m_nav->setRectInImage(m_viewB->visibleImageRect());
         }

@@ -701,37 +701,23 @@ qreal ImageView::imageRelativeScale() const
 
 qreal ImageView::windowRelativeScale() const
 {
+    //替换为相册的撑满方案
     QRectF bf = sceneRect();
-    if (this->window()->isFullScreen()) {
-        if (1.0 * (width()) / (height() + 15) > 1.0 * bf.width() / bf.height()) {
-            return 1.0 * (height() + 15) / bf.height();
-        } else {
-            return 1.0 * (width()) / bf.width();
-        }
+    if (1.0 * width() / height() > 1.0 * bf.width() / bf.height()) {
+        return 1.0 * height() / bf.height();
     } else {
-        if (1.0 * (width() - 20) / (height() - 180) > 1.0 * bf.width() / bf.height()) {
-            return 1.0 * (height() - 180) / bf.height();
-        } else {
-            return 1.0 * (width() - 20) / bf.width();
-        }
+        return 1.0 * width() / bf.width();
     }
 }
 
 qreal ImageView::windowRelativeScale_origin() const
 {
+    //替换为相册的撑满方案
     QRectF bf = sceneRect();
-    if (this->window()->isFullScreen()) {
-        if (1.0 * (width()) / (height()) > 1.0 * bf.width() / bf.height()) {
-            return 1.0 * (height()) / bf.height();
-        } else {
-            return 1.0 * (width()) / bf.width();
-        }
+    if (1.0 * width() / height() > 1.0 * bf.width() / bf.height()) {
+        return 1.0 * height() / bf.height();
     } else {
-        if (1.0 * (width()) / (height()) > 1.0 * bf.width() / bf.height()) {
-            return 1.0 * (height()) / bf.height();
-        } else {
-            return 1.0 * (width()) / bf.width();
-        }
+        return 1.0 * width() / bf.width();
     }
 }
 
