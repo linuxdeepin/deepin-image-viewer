@@ -168,8 +168,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
     }
 
     m_mainWindow->show();
-    //看图居中打开
-    Dtk::Widget::moveToCenter(m_mainWindow);
+
     // Load image after all UI elements has been init
     // BottomToolbar pos not correct on init
     emit dApp->signalM->hideBottomToolbar(true);
