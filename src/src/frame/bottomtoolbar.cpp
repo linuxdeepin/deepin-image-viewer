@@ -27,7 +27,7 @@ const QColor DARK_COVERCOLOR = QColor(26, 26, 26, 204);
 const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
 const int BOTTOM_TOOLBAR_HEIGHT = 70;
 const int BOTTOM_TOOLBAR_WIDTH_1 = 310;
-const int BOTTOM_TOOLBAR_WIDTH_2 = 610;
+const int BOTTOM_TOOLBAR_WIDTH_2 = 710;
 }
 
 BottomToolbar::BottomToolbar(QWidget *parent)

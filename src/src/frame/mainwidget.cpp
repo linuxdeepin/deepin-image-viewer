@@ -48,12 +48,12 @@ const int TOP_TOOLBAR_HEIGHT = 50;
 const int BOTTOM_TOOLBAR_HEIGHT = 70 + 10;
 const int EXTENSION_PANEL_WIDTH = 300;
 const int BOTTOM_TOOLBAR_WIDTH_1 = 355 + 10 + 2;
-const int BOTTOM_TOOLBAR_WIDTH_2 = 710 + 10 + 2;
+const int BOTTOM_TOOLBAR_WIDTH_2 = 680 + 10 + 2;
 const int THUMBNAIL_ADD_WIDTH = 32;
 const int BOTTOM_SPACING = 10;
 const int RT_SPACING = 10;
 const int BOTTOM_REPAIR_SPACING = 5;
-const int TOOLBAR_MINIMUN_WIDTH = 650 + 2;
+const int TOOLBAR_MINIMUN_WIDTH = 670 + 2;
 const int BOTTOM_ADJUST = 0;
 
 const QString SETTINGS_GROUP = "MAINWIDGET";

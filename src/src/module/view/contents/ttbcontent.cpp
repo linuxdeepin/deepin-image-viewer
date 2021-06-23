@@ -62,17 +62,17 @@ const QString LOCMAP_NOT_SELECTED_DAMAGED_DARK = ":/dark/images/picture_damaged_
 const QString LOCMAP_SELECTED_DAMAGED_LIGHT = ":/light/images/picture_damaged_58.svg";
 const QString LOCMAP_NOT_SELECTED_DAMAGED_LIGHT = ":/light/images/picture_damaged.svg";
 
-const int TOOLBAR_MINIMUN_WIDTH = 710 - 3;//610->650
-const int TOOLBAR_JUSTONE_WIDTH = 350;
+const int TOOLBAR_MINIMUN_WIDTH = 680 - 3;//610->680
+const int TOOLBAR_JUSTONE_WIDTH = 310;
 const int RT_SPACING = 20 + 5;
 const int TOOLBAR_HEIGHT = 60;
 
-const int TOOLBAR_DVALUE = 154 + 8;
+const int TOOLBAR_DVALUE = 124 + 8;
 
 const int THUMBNAIL_WIDTH = 32;
 const int THUMBNAIL_ADD_WIDTH = 32;
 const int THUMBNAIL_LIST_ADJUST = 9 + 5;
-const int THUMBNAIL_VIEW_DVALUE = 650 + 10;//ocr增加后从496到580
+const int THUMBNAIL_VIEW_DVALUE = 550 + 10;//ocr增加后从496到550
 
 const unsigned int IMAGE_TYPE_JEPG = 0xFFD8FF;
 const unsigned int IMAGE_TYPE_JPG1 = 0xFFD8FFE0;
@@ -783,6 +783,7 @@ void TTBContent::initBtn()
                        qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) -
                   THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST,
                   TOOLBAR_HEIGHT));
+
     }
 
     m_imgList->setEnabled(true);
