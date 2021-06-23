@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hr" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hr">
 <context>
     <name>Application</name>
     <message>
@@ -7,7 +9,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -33,7 +35,7 @@
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -51,7 +53,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -107,7 +109,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -127,7 +129,7 @@
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Focal length</source>
@@ -139,11 +141,11 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>White balance</source>
@@ -151,7 +153,7 @@
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Lens model</source>
@@ -171,27 +173,11 @@
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <source>Millimeters</source>
         <translation type="vanished">Milimetri</translation>
@@ -209,10 +195,6 @@
         <translation type="vanished">Pozicija slike</translation>
     </message>
     <message>
-        <source>Scaling</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Image Settings</source>
         <translation type="vanished">Postavke slike</translation>
     </message>
@@ -222,29 +204,6 @@
     <message>
         <source>Image Settings</source>
         <translation type="vanished">Postavke slike</translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <source>Blinds</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Switcher</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Sliding</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Ring</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -267,10 +226,6 @@
     <message>
         <source>Select Directory</source>
         <translation type="vanished">Odaberi direktorij</translation>
-    </message>
-    <message>
-        <source>This directory is disabled to sync</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add folder</source>
@@ -416,15 +371,19 @@
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open</source>
         <translation>Otvori</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -536,7 +495,7 @@
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Next</source>
@@ -550,20 +509,8 @@
 <context>
     <name>SlideshowFrame</name>
     <message>
-        <source>Slide Settings</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Switch effect</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Duration</source>
         <translation type="vanished">Trajanje</translation>
-    </message>
-    <message>
-        <source>Switch duration</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>second</source>
@@ -574,7 +521,7 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Moj omiljeni</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -606,7 +553,7 @@
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -669,10 +616,6 @@
 </context>
 <context>
     <name>TitleFrame</name>
-    <message>
-        <source>Slide Settings</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <source>Effect</source>
         <translation type="vanished">Efekt</translation>
@@ -796,12 +739,8 @@
         <translation>Preimenuj</translation>
     </message>
     <message>
-        <source>Draw</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

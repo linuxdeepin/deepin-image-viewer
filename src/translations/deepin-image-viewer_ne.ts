@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ne" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ne">
 <context>
     <name>Application</name>
     <message>
@@ -28,12 +30,8 @@
         <translation type="vanished">अल्त +रीतर्न / Alt +Return</translation>
     </message>
     <message>
-        <source>Alt+Enter</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Ctrl+I</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -190,7 +188,7 @@
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="vanished"> स्केल तु</translation>
+        <translation type="vanished">&#xa0;स्केल तु</translation>
     </message>
     <message>
         <source>Millimeters</source>
@@ -251,7 +249,7 @@
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -259,7 +257,7 @@
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -426,6 +424,10 @@
         <source>Open</source>
         <translation>खोल्नुहोस्</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -532,11 +534,11 @@
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Next</source>
@@ -544,7 +546,7 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -606,7 +608,7 @@
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -796,12 +798,8 @@
         <translation>नाम बदल्नुहोस्</translation>
     </message>
     <message>
-        <source>Draw</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

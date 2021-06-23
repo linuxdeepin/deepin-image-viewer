@@ -360,6 +360,10 @@
         <source>Open</source>
         <translation>Ava</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>

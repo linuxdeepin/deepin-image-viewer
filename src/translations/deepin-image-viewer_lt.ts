@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="lt">
 <context>
     <name>Application</name>
     <message>
@@ -28,12 +30,8 @@
         <translation type="vanished">Alt+Įvesti</translation>
     </message>
     <message>
-        <source>Alt+Enter</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Ctrl+I</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -426,6 +424,10 @@
         <source>Open</source>
         <translation>Atverti</translation>
     </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -606,7 +608,7 @@
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -796,12 +798,8 @@
         <translation>Pervadinti</translation>
     </message>
     <message>
-        <source>Draw</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

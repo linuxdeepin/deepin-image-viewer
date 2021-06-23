@@ -50,6 +50,7 @@ Shortcut::Shortcut(QObject *parent)
     //整理代码结构，解决显示界面出现和快捷键不一致问题，是由于配置文件导致，但配置文件无效，改为不使用配置文件
     group1.groupItems << ShortcutItem(tr("Fullscreen"),  "F11")
                       << ShortcutItem(tr("Exit fullscreen"), "Esc")
+                      << ShortcutItem(tr("Extract text"), "Alt + O")
                       << ShortcutItem(tr("Slide show"), "F5")
                       << ShortcutItem(tr("Rename"), "F2")
                       << ShortcutItem(tr("Copy"), "Ctrl + C")

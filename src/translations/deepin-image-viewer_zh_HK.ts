@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_HK" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_HK">
 <context>
     <name>Application</name>
     <message>
@@ -425,6 +427,10 @@
     <message>
         <source>Open</source>
         <translation>打開</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>識別文字</translation>
     </message>
 </context>
 <context>
