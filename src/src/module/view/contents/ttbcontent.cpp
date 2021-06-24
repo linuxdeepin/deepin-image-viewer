@@ -63,7 +63,7 @@ const QString LOCMAP_SELECTED_DAMAGED_LIGHT = ":/light/images/picture_damaged_58
 const QString LOCMAP_NOT_SELECTED_DAMAGED_LIGHT = ":/light/images/picture_damaged.svg";
 
 const int TOOLBAR_MINIMUN_WIDTH = 680 - 3;//610->680
-const int TOOLBAR_JUSTONE_WIDTH = 310;
+const int TOOLBAR_JUSTONE_WIDTH = 350;
 const int RT_SPACING = 20 + 5;
 const int TOOLBAR_HEIGHT = 60;
 
