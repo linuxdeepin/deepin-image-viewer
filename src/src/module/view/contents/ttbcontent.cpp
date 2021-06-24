@@ -1543,6 +1543,7 @@ void TTBContent::DisEnablettbButton()
     m_rotateRBtn->setEnabled(false);
     m_adaptImageBtn->setEnabled(false);
     m_adaptScreenBtn->setEnabled(false);
+    m_ocrBtn->setEnabled(false);
     m_NotImageViewFlag = true;
 }
 
@@ -1576,6 +1577,9 @@ void TTBContent::setAllEnabled(bool iRet)
     }
     if (m_adaptScreenBtn) {
         m_adaptScreenBtn->setEnabled(iRet);
+    }
+    if (m_ocrBtn) {
+        m_ocrBtn->setEnabled(iRet);
     }
 }
 
@@ -1922,6 +1926,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
         m_rotateLBtn->setEnabled(false);
         m_rotateRBtn->setEnabled(false);
         m_trashBtn->setEnabled(false);
+        m_ocrBtn->setEnabled(false);
 
         m_imgList->setEnabled(true);
 
@@ -1934,6 +1939,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
         //        btFit->setEnabled(true);
         m_adaptImageBtn->setEnabled(true);
         m_adaptScreenBtn->setEnabled(true);
+        m_ocrBtn->setEnabled(true);
 #endif
 
         if (m_imgInfos.size() > 3) {

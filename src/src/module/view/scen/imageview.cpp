@@ -1912,5 +1912,8 @@ void ImageView::setCurrentImage(int index)
 
 void ImageView::slotsOcrCurrentPicture()
 {
-    dApp->sendOcrPicture(image(), m_path);
+    //如果不是移动过程中，才可以调用OCR
+    if (!dApp->m_bMove) {
+        dApp->sendOcrPicture(image(), m_path);
+    }
 }
