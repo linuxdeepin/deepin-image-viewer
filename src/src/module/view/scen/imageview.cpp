@@ -1912,5 +1912,5 @@ void ImageView::setCurrentImage(int index)
 
 void ImageView::slotsOcrCurrentPicture()
 {
-    dApp->sendOcrPicture(image());
+    dApp->sendOcrPicture(image(), m_path);
 }

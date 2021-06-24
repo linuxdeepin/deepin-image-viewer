@@ -446,10 +446,19 @@ Application *Application::getinstance()
     return m_signalapp;
 }
 
-void Application::sendOcrPicture(const QImage &img)
+void Application::sendOcrPicture(const QImage &img, const QString &path)
 {
+    //图片过大，会导致崩溃，超过4K，智能裁剪
     if (m_ocrInterface != nullptr) {
-        m_ocrInterface->openImage(img);
+        QImage image = img;
+        if (image.width() > 5000) {
+            image = image.scaledToWidth(5000, Qt::SmoothTransformation);
+        }
+        if (image.height() > 5000) {
+            image = image.scaledToHeight(5000, Qt::SmoothTransformation);
+        }
+        QFileInfo info(path);
+        m_ocrInterface->openImageAndName(image, info.completeBaseName());
     }
 }
 

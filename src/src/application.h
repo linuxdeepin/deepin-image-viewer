@@ -122,7 +122,7 @@ public:
     }
 
     //dbus发送ocr识别
-    void sendOcrPicture(const QImage &img);
+    void sendOcrPicture(const QImage &img, const QString &path);
     //20210111判断是否是平板模式
     bool isPanelDev()
     {
@@ -266,7 +266,6 @@ private:
     bool m_isapplePhone = false;
     bool m_isOnlyOnePic = false;
     bool m_isEuler = false;
-
     //ocr接口
     OcrInterface *m_ocrInterface{nullptr};
 };
