@@ -458,7 +458,8 @@ void Application::sendOcrPicture(const QImage &img, const QString &path)
             image = image.scaledToHeight(5000, Qt::SmoothTransformation);
         }
         QFileInfo info(path);
-        m_ocrInterface->openImageAndName(image, info.completeBaseName());
+        //采用路径，以防止名字出错
+        m_ocrInterface->openImageAndName(image, path);
     }
 }
 
