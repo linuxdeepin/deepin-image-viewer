@@ -1939,7 +1939,8 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
         //        btFit->setEnabled(true);
         m_adaptImageBtn->setEnabled(true);
         m_adaptScreenBtn->setEnabled(true);
-        m_ocrBtn->setEnabled(true);
+        //解决动态图没有屏蔽ocr按钮的问题
+//        m_ocrBtn->setEnabled(true);
 #endif
 
         if (m_imgInfos.size() > 3) {
