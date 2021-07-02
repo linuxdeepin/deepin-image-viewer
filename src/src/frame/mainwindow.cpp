@@ -547,25 +547,11 @@ void MainWindow::OpenImage(const QString &path)
         info.inDatabase = false;
 #endif
         info.lastPanel = nullptr;
-        info.path = spath;
+        info.path = path;
         info.paths = pathlist;
 
         emit dApp->signalM->viewImage(info);
-
-        //20210111lmh平板可以多次改变，正常模式不需要
-        if (dApp->isPanelDev()) {
-            m_flag = false;
-        } else {
-            m_flag = true;
-        }
+        //dbus接口修复,可以通过dbus接口打开图片
+        m_flag = false;
     }
-    //新的图片打开需要激活窗口20210113
-    activateWindow();
-
-//    qint64 temptime = m_currenttime.secsTo(stime);
-//    if (temptime < 0) return;
-//    if (temptime < 2) {
-
-
-//    }
 }
