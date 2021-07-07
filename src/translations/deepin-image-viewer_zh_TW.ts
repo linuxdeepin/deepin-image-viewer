@@ -253,11 +253,11 @@
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation>確定</translation>
+        <translation>確 定</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>取 消</translation>
     </message>
     <message>
         <source>Input a new name</source>
