@@ -30,7 +30,7 @@
 
 在看圖界面，使用快捷鍵 **Ctrl + Shift + ?** 打開快捷鍵預覽界面。熟練地使用快捷鍵，將大大提升您的操作效率。
 
-![1|hotkey](fig/hotkey.png)
+![1|hotkey](fig/d_hotkey.png)
 
 ## 圖片查看
 
@@ -49,7 +49,7 @@
 
 ### 界面介紹
 
-![1|main](fig/main.png)
+![1|main](fig/d_main.png)
 
 | 圖標                                                   | 名稱       | 說明                   |
 | ------------------------------------------------------ | ---------- | ---------------------- |
@@ -57,6 +57,7 @@
 | ![next](../common/next.svg)                            | 下一張     | 顯示下一張圖片。       |
 | ![adapt_image](../common/adaptimage.svg)               | 1:1視圖    | 圖片按照實際尺寸顯示。 |
 | ![adapt_screen](../common/adaptscreen.svg)             | 適應窗口   | 圖片適應窗口尺寸顯示。 |
+| ![ocr](../common/ocr.svg)             | 識別文字 | 識別圖片中的文字。 |
 | ![clockwise_rotation](../common/clockwiserotation.svg) | 順時針旋轉 | 圖片順時針旋轉90度。   |
 | ![contrarotate](../common/contrarotate.svg)            | 逆時針旋轉 | 圖片逆時針旋轉90度。   |
 | ![delete](../common/delete.svg)                        | 刪除       | 刪除當前圖片。         |
@@ -71,7 +72,7 @@
    
    關閉導航窗口後下次不會再顯示，需在右鍵菜單中選擇 **顯示導航窗口** 來開啟。
 
-![1|main](fig/navigation.png)
+![1|main](fig/d_navigation.png)
 
 ### 打印圖片
 
@@ -80,6 +81,12 @@
 3. 選擇一個打印機，根據需要設置打印屬性。
 4. 選擇 **打印**，將圖片發送到打印機進行打印。
 
+### 識別文字
+
+1. 在看圖界面，單擊工具欄上的按鈕 ![ocr](../common/ocr.svg) 或右鍵單擊圖片，選擇 **識別文字**，彈出圖文識別窗口，識別圖片中的文字。
+4. 單擊右側文本區域可以編輯文字內容；在圖文識別窗口右下角，單擊複製按鈕 ![copy](../common/copy.svg) 將文字內容複製到剪貼板；單擊下載按鈕 ![copy](../common/download.svg) 將文字內容保存為TXT文件。
+
+![ocr](fig/ocr.png)
 
 ### 重命名
 
@@ -102,7 +109,7 @@
 3. 在桌面或者指定位置，單擊鼠標右鍵。
 4. 選擇 **黏貼**，將圖片文件複製到該位置。
 
-![0|copy](fig/copy.png)
+![0|copy](fig/d_copy.png)
 
 
 
@@ -112,15 +119,15 @@
 2. 選擇 **順時針旋轉/逆時針旋轉**。
 3. 圖片將會順時針轉旋轉90°/逆時針旋轉90°。
 
-![0|rotate](fig/rotate.png)
+![0|rotate](fig/d_rotate.png)
 
 
 ### 設置為壁紙
 
 1. 在看圖界面，單擊鼠標右鍵。
-2. 選擇 **設為壁紙** 即可將當前圖片設置為壁紙。
+2. 選擇 **設為壁紙**，將當前圖片設置為壁紙。
 
-![0|wallpaper](fig/wallpaper.png)
+![0|wallpaper](fig/d_wallpaper.png)
 
 ### 在檔案管理員中顯示
 1. 在看圖界面，單擊鼠標右鍵。
@@ -131,7 +138,7 @@
 1. 在看圖界面，單擊鼠標右鍵。
 2. 選擇 **圖片訊息** ，查看圖片詳細訊息。
 
-![info](fig/info.png)
+![info](fig/d_info.png)
 
 ### 刪除圖片
 

@@ -10,24 +10,24 @@ You can run, close, and create shortcuts for Image Viewer in the following ways.
 
 ### Run Image Viewer
 
-1. Click ![deepin_launcher](../common/deepin_launcher.svg) in the dock to enter the Launcher interface.
-2. Locate ![viewer](../common/deepin_image_viewer.svg) by scrolling the mouse wheel or searching "image viewer" in the Launcher interface.
+1. Click the Launcher icon ![deepin_launcher](../common/deepin_launcher.svg) in the Dock to enter the Launcher interface.
+2. Locate Image Viewer ![viewer](../common/deepin_image_viewer.svg) by scrolling the mouse wheel or searching "image viewer" in the Launcher interface.
 3. Right-click ![viewer](../common/deepin_image_viewer.svg) and the user can:
  - Click **Send to desktop** to create a desktop shortcut.
- - Click **Send to dock** to fix the application in the dock.
+ - Click **Send to dock** to fix the application in the Dock.
  - Click **Add to startup** to add the application to startup, and it will automatically run when the system starts up.
 
 ### Exit Image Viewer
 
-1. On the Image Viewer interface, click ![close](../common/close_icon.svg) to exit Image Viewer.
-2. Right-click ![viewer](../common/deepin_image_viewer.svg) in the dock and select **Close All** to exit Image Viewer.
-3. Click ![Settings](../common/icon_menu.svg) on the Image Viewer interface and select **Exit** to exit Image Viewer.
+- On the Image Viewer interface, click ![close](../common/close_icon.svg) to exit Image Viewer.
+- Right-click ![viewer](../common/deepin_image_viewer.svg) in the Dock and select **Close All** to exit Image Viewer.
+- Click ![Settings](../common/icon_menu.svg) on the Image Viewer interface and select **Exit** to exit Image Viewer.
 
 ### View Shortcuts 
 
 On the Image Viewer interface, press **Ctrl + Shift + ?** on the keyboard to view shortcuts. 
 
-![1|hotkey](fig/hotkey.png)
+![1|hotkey](fig/d_hotkey.png)
 
 ## Image Viewing
 
@@ -39,17 +39,16 @@ You can use one of the following ways to open image files:
 - Double-click an image to open if Image Viewer has been set as the default application for image viewing.
 - Open Image Viewer, click **Open Image** and select the image file to open it.
 - Open Image Viewer and drag the image to the interface to open it.
-- Drag the image to the Image Viewer icon on the desktop or in the dock to open it.
+- Drag the image to the Image Viewer icon on the desktop or in the Dock to open it.
 
-> ![tips](../common/tips.svg) Tips: In Control Center, you can set Image Viewer as the default image viewer. Please refer to [Default Applications](dman:///dde#Default Application Settings) for specific operations.
+> ![tips](../common/tips.svg) Tips: In Control Center, you can set Image Viewer as the default image viewer. Please refer to [Default Applications](dman:///dde#Default Applications) for specific operations.
 
 Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIFF, XPM, GIF, WEBP, CR2, NEF, DNG, RAF, MEF, MRW, XBM, SVG, ORF, MNG, etc.
 
 
-
 ### Main Interface
 
-![1|main-interface](fig/main-interface.png)
+![1|main-interface](fig/d_maininterface.png)
 
 | Icon                                                   | Name                    | Description                                               |
 | ------------------------------------------------------ | ----------------------- | --------------------------------------------------------- |
@@ -57,6 +56,7 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 | ![next](../common/next.svg)                            | Next                    | Switch to the next image.                                 |
 | ![adapt_image](../common/adaptimage.svg)               | 1:1 Size                | The image will show in 1:1 size.                          |
 | ![fit_hover](../common/adaptscreen.svg)                | Fit to window           | The image will be resized to adapt to the current window. |
+| ![ocr](../common/ocr.svg)                | Extract text          | Texts on the image will be recognized. |
 | ![clockwise_rotation](../common/clockwiserotation.svg) | Rotate clockwise        | Rotate the image 90 degrees clockwise.                    |
 | ![contrarotate](../common/contrarotate.svg)            | Rotate counterclockwise | Rotate the image 90 degrees counterclockwise.             |
 | ![delete](../common/delete.svg)                        | Delete                  | Delete the current image.                                 |
@@ -73,6 +73,14 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 3. Click **Print**.
 
 > ![notes](../common/notes.svg) Notes: Click **Advanced** to customize the printing parameters.
+
+### Extract Texts
+
+1. Click ![ocr](../common/ocr.svg)on the tool-bar or right-click to select **Extract text** on the Image Viewer interface to enter the text extraction interface and extract the texts on the image.
+
+2. You are able to edit the recognized texts in the text area in the right column. Click the ![copy](../common/copy.svg) icon on the lower right corner to copy the texts recognized to the clipboard and click the ![copy](../common/download.svg) icon to save the texts recognized as TXT .
+
+   ![ocr](fig/ocr.png)
 
 ### Rename Images
 
@@ -93,7 +101,7 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 1. Right-click the image on the Image Viewer interface and select **Copy**.
 2. On the desktop or in the target place, right-click the blank area and select **Paste** to copy the image to that location.
 
-![0|copy](fig/copy.png)
+![0|copy](fig/d_copy.png)
 
 
 ### Rotate Images
@@ -101,13 +109,13 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 1. Right-click the image on the Image Viewer interface and select **Rotate clockwise** or **Rotate counterclockwise**.
 2. The image will be rotated clockwise or counterclockwise for 90 degrees.
 
-![0|rotate](fig/rotate.png)
+![0|rotate](fig/d_rotate.png)
 
 ### Set as Wallpaper
 
 You can set an image as desktop wallpaper. Right-click the image on the Image Viewer interface and select **Set as wallpaper**.
 
-![0|wallpaper](fig/wallpaper.png)
+![0|wallpaper](fig/d_wallpaper.png)
 
 ### Display in File Manager
 
@@ -120,7 +128,7 @@ You can view detailed information of the image.
 1. Right-click the image in the Image Viewer interface and select **Image info**.
 2. The image info window will pop up displaying the detailed information of the Image.
 
-![1|view info](fig/info.png)
+![1|view info](fig/d_info.png)
 
 ### Delete Images
 

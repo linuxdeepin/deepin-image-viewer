@@ -30,7 +30,7 @@
 
 在看图界面，使用快捷键 **Ctrl + Shift + ?** 打开快捷键预览界面。熟练地使用快捷键，将大大提升您的操作效率。
 
-![1|hotkey](fig/hotkey.png)
+![1|hotkey](fig/d_hotkey.png)
 
 ## 图片查看
 
@@ -50,7 +50,7 @@
 
 ### 界面介绍
 
-![1|main](fig/main.png)
+![1|main](fig/d_main.png)
 
 | 图标                                                  | 名称       | 说明                   |
 | ----------------------------------------------------- | ---------- | ---------------------- |
@@ -58,6 +58,7 @@
 | ![next](../common/next.svg)                           | 下一张     | 显示下一张图片。       |
 | ![adaptimage](../common/adaptimage.svg)               | 1:1视图    | 图片按照实际尺寸显示。 |
 | ![adaptscreen](../common/adaptscreen.svg)             | 适应窗口   | 图片适应窗口尺寸显示。 |
+| ![ocr](../common/ocr.svg)             | 识别文字 | 识别图片中的文字。 |
 | ![clockwiserotation](../common/clockwiserotation.svg) | 顺时针旋转 | 图片顺时针旋转90度。   |
 | ![contrarotate](../common/contrarotate.svg)           | 逆时针旋转 | 图片逆时针旋转90度。   |
 | ![delete](../common/delete.svg)                       | 删除       | 删除当前图片。         |
@@ -75,7 +76,7 @@
    
    关闭导航窗口后下次不会再显示，需在右键菜单中选择 **显示导航窗口** 来开启。
 
-![1|main](fig/navigation.png)
+![1|main](fig/d_navigation.png)
 
 ### 打印图片
 
@@ -84,6 +85,12 @@
 3. 选择一个打印机，根据需要设置打印属性。
 4. 单击 **打印**，将图片发送到打印机进行打印。
 
+### 识别文字
+
+1. 在看图界面，单击工具栏上的按钮 ![ocr](../common/ocr.svg) 或右键单击图片，选择 **识别文字**，弹出图文识别窗口，识别图片中的文字。
+4. 单击右侧文本区域可以编辑文字内容；在图文识别窗口右下角，单击复制按钮 ![copy](../common/copy.svg) 将文字内容复制到剪贴板；单击下载按钮 ![copy](../common/download.svg) 将文字内容保存为TXT文件。
+
+![ocr](fig/ocr.png)
 
 ### 重命名
 
@@ -107,7 +114,7 @@
 3. 在桌面或者指定位置，单击鼠标右键。
 4. 选择 **粘贴**，将图片文件复制到该位置。
 
-![0|copy](fig/copy.png)
+![0|copy](fig/d_copy.png)
 
 
 ### 旋转图片
@@ -117,7 +124,7 @@
 3. 图片将会顺时针转旋转90°/逆时针旋转90°。
    
 
-![0|rotate](fig/rotate.png)
+![0|rotate](fig/d_rotate.png)
 
 
 ### 设置为壁纸
@@ -125,7 +132,7 @@
 1. 在看图界面，单击鼠标右键。
 2. 选择 **设为壁纸** ，将当前图片设置为壁纸。
 
-![0|wallpaper](fig/wallpaper.png)
+![0|wallpaper](fig/d_wallpaper.png)
 
 ### 在文件管理器中显示
 1. 在看图界面，单击鼠标右键。
@@ -136,7 +143,7 @@
 1. 在看图界面，单击鼠标右键。
 2. 选择 **图片信息** ，查看图片详细信息。
 
-![info](fig/info.png)
+![info](fig/d_info.png)
 
 ### 删除图片
 
