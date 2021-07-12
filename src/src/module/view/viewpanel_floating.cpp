@@ -104,6 +104,11 @@ void ViewPanel::initNavigation()
     connect(dApp->signalM, &SignalManager::UpdateNavImg, this, [ = ]() {
         m_nav->setImage(m_viewB->image(true));
         m_nav->setRectInImage(m_viewB->visibleImageRect());
+
+        //正在滑动缩略图的时候不再显示
+        if (m_nav->isVisible() && dApp->m_bMove) {
+            m_nav->setVisible(false);
+        }
     });
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y) {
         m_viewB->centerOn(x, y);
