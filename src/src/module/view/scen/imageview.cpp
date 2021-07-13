@@ -559,18 +559,14 @@ void ImageView::autoFit()
 
 void ImageView::titleBarControl()
 {
-    qDebug() << "imageHeight:"
-             << image().size().height() * imageRelativeScale() * devicePixelRatioF()
-             << image().size().height() * imageRelativeScale() << "&&&&&&"
-             << "currentHeight" << height() << "currentRatio" << devicePixelRatioF();
-
     qreal realHeight = 0.0;
-
+    //简化image()的使用
+    QImage img = image();
     if (m_movieItem /*|| m_imgSvgItem*/) {
-        realHeight = image().size().height() * imageRelativeScale() * devicePixelRatioF();
+        realHeight = img.size().height() * imageRelativeScale() * devicePixelRatioF();
 
     } else {
-        realHeight = image().size().height() * imageRelativeScale();
+        realHeight = img.size().height() * imageRelativeScale();
     }
 
     if (realHeight > height() - 100) {
@@ -621,8 +617,11 @@ void ImageView::fitWindow()
     m_isFitWindow = true;
     scaled(imageRelativeScale() * devicePixelRatioF() * 100);
     emit transformChanged();
-    //20210115lmh因为每次退出全屏需要先reisizeEvent，所以image的尺寸没有刷新，这里需要再次判断
-    titleBarControl();
+    //20210115因为每次退出全屏需要先reisizeEvent，所以image的尺寸没有刷新，这里需要再次判断
+    //需要延时去处理标题的透明与否操作，否则无效，事件存在异步的问题
+    QTimer::singleShot(100, [ = ] {
+        titleBarControl();
+    });
 }
 
 void ImageView::fitWindow_btnclicked()
@@ -662,7 +661,10 @@ void ImageView::fitImage()
     emit transformChanged();
 
     //20210115lmh因为每次退出全屏需要先reisizeEvent，所以image的尺寸没有刷新，这里需要再次判断,解决68086
-    titleBarControl();
+    //需要延时去处理标题的透明与否操作，否则无效，事件存在异步的问题
+    QTimer::singleShot(100, [ = ] {
+        titleBarControl();
+    });
 }
 
 bool ImageView::rotateClockWise()
@@ -1291,7 +1293,6 @@ void ImageView::resizeEvent(QResizeEvent *event)
     }
     // when resize window, make titlebar changed.
     if (!image().isNull()) {
-
         titleBarControl();
     }
 
