@@ -305,7 +305,29 @@ void ImageLoader::loadInterface(QString path)
 {
     /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
-    QImage tImg(IMAGE_HEIGHT_DEFAULT, IMAGE_HEIGHT_DEFAULT, QImage::Format_RGB32);
+    //切换到按照图片的比例加载缩略图
+    QImageReader reader(path);
+    int height = reader.size().height();
+    int width = reader.size().width();
+    double w = 1;
+    if (height != 0 && width != 0) {
+        w = static_cast <double>(width) / static_cast <double>(height);
+    }
+    double dWidth;
+    double dHeight;
+
+    dWidth = IMAGE_HEIGHT_DEFAULT * w;
+    dHeight = IMAGE_HEIGHT_DEFAULT ;
+    if (dWidth > 300) {
+        dWidth = 300;
+        dHeight = 300 / w;
+    }
+    if (w <= 0) {
+        dWidth = IMAGE_HEIGHT_DEFAULT;
+        dHeight = IMAGE_HEIGHT_DEFAULT;
+    }
+
+    QImage tImg(static_cast<int>(dWidth), static_cast<int>(dHeight), QImage::Format_RGB32);
     QString errMsg;
     QSize realSize;
     if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg)) {
