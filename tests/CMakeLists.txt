@@ -84,7 +84,6 @@ pkg_check_modules(3rd_lib REQUIRED
     dtkcore
     dtkwidget
     gio-qt
-    udisks2-qt5
     gio-unix-2.0
     gsettings-qt
 #    freeimage

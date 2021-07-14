@@ -60,7 +60,6 @@ pkg_check_modules(3rd_lib REQUIRED
     dtkwidget
     dtkcore
     gio-qt
-    udisks2-qt5
     libexif
     )
 

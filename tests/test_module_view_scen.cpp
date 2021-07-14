@@ -130,17 +130,17 @@ TEST_F(gtestview, QWheelEvent_1)
     ImageView *view = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
     if (view) {
 
-        QTest::mouseDClick(view, Qt::LeftButton, Qt::NoModifier, QPoint(30, 30), 50);
+//        QTest::mouseDClick(view, Qt::LeftButton, Qt::NoModifier, QPoint(30, 30), 50);
 
-        QTest::mouseDClick(view, Qt::MidButton, Qt::NoModifier, QPoint(30, 30), 50);
+//        QTest::mouseDClick(view, Qt::MidButton, Qt::NoModifier, QPoint(30, 30), 50);
 
-        QTest::mousePress(view, Qt::MidButton, Qt::NoModifier, QPoint(40, 50), 50);
+//        QTest::mousePress(view, Qt::MidButton, Qt::NoModifier, QPoint(40, 50), 50);
 
-        QTest::mouseRelease(view, Qt::MidButton, Qt::NoModifier, QPoint(80, 90), 50);
+//        QTest::mouseRelease(view, Qt::MidButton, Qt::NoModifier, QPoint(80, 90), 50);
 
-        QTest::mousePress(view, Qt::MiddleButton, Qt::NoModifier, QPoint(40, 50), 50);
+//        QTest::mousePress(view, Qt::MiddleButton, Qt::NoModifier, QPoint(40, 50), 50);
 
-        QTest::mouseRelease(view, Qt::MiddleButton, Qt::NoModifier, QPoint(80, 90), 50);
+//        QTest::mouseRelease(view, Qt::MiddleButton, Qt::NoModifier, QPoint(80, 90), 50);
 
         QMouseEvent event(QEvent::MouseButtonDblClick, QPoint(30, 30), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
 

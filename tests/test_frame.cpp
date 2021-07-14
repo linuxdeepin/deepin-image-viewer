@@ -39,8 +39,8 @@ TEST_F(gtestview, frame_mainwindow)
     if (!m_frameMainWindow) {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    m_frameMainWindow->m_diskManager->mountAdded("", "");
-    m_frameMainWindow->m_diskManager->diskDeviceRemoved("");
+//    m_frameMainWindow->m_diskManager->mountAdded("", "");
+//    m_frameMainWindow->m_diskManager->diskDeviceRemoved("");
 
     m_frameMainWindow->windowAtEdge();
 

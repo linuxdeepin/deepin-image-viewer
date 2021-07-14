@@ -33,9 +33,9 @@
 #include <QDebug>
 #include <QWidget>
 #include <DStackedWidget>
-#include <ddiskmanager.h>
-#include <dblockdevice.h>
-#include <ddiskdevice.h>
+//#include <ddiskmanager.h>
+//#include <dblockdevice.h>
+//#include <ddiskdevice.h>
 #include <QSharedMemory>
 
 DWIDGET_USE_NAMESPACE
@@ -107,7 +107,7 @@ private:
     MainWidget *m_mainWidget;
     QSWToDStackedWidget *m_pCenterWidget;
     DGioVolumeManager *m_vfsManager;
-    DDiskManager *m_diskManager;
+//    DDiskManager *m_diskManager;
     SlideShowPanel *m_slidePanel;
     bool m_picInUSB = false;
     bool               m_flag = false;
