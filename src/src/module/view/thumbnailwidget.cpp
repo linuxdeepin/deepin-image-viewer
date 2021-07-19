@@ -142,6 +142,8 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
         if (visible) {
             button->hide();
             tips->show();
+            //当显示图片是不存在时，应该让标题栏不透明
+            dApp->signalM->sigImageOutTitleBar(false);
         } else {
             button->show();
             tips->hide();
