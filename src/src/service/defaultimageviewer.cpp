@@ -68,43 +68,43 @@ bool isDefaultImageViewer()
     return state;
 }
 
-bool setDefaultImageViewer(bool isDefault)
-{
-    QString mimeAppFilePath(getMimeAppPath());
-    if (!isDefault && !QFile::exists(mimeAppFilePath)) {
-        return false;
-    }
+//bool setDefaultImageViewer(bool isDefault)
+//{
+//    QString mimeAppFilePath(getMimeAppPath());
+//    if (!isDefault && !QFile::exists(mimeAppFilePath)) {
+//        return false;
+//    }
 
-    QSettings settings(mimeAppFilePath, QSettings::IniFormat);
+//    QSettings settings(mimeAppFilePath, QSettings::IniFormat);
 
-    foreach (const QString &mime, supportImageFormat) {
-        if (isDefault) {
-            settings.beginGroup(defaultApplicationsSection);
-            settings.setValue(mime, appDesktopFile);
-            settings.endGroup();
-            settings.sync();
-            settings.beginGroup(addedAssociationsSection);
-            settings.setValue(mime, appDesktopFile);
-            settings.endGroup();
-            settings.sync();
-        } else {
-            settings.beginGroup(defaultApplicationsSection);
-            const QString appName = settings.value(mime).toString();
+//    foreach (const QString &mime, supportImageFormat) {
+//        if (isDefault) {
+//            settings.beginGroup(defaultApplicationsSection);
+//            settings.setValue(mime, appDesktopFile);
+//            settings.endGroup();
+//            settings.sync();
+//            settings.beginGroup(addedAssociationsSection);
+//            settings.setValue(mime, appDesktopFile);
+//            settings.endGroup();
+//            settings.sync();
+//        } else {
+//            settings.beginGroup(defaultApplicationsSection);
+//            const QString appName = settings.value(mime).toString();
 
-            if (appName == QString(appDesktopFile)) {
-                settings.beginGroup(defaultApplicationsSection);
-                settings.remove(mime);
-                settings.endGroup();
-            }
+//            if (appName == QString(appDesktopFile)) {
+//                settings.beginGroup(defaultApplicationsSection);
+//                settings.remove(mime);
+//                settings.endGroup();
+//            }
 
-            settings.beginGroup(addedAssociationsSection);
-            const QString appName2 = settings.value(mime).toString();
-            if (appName2 == QString(appDesktopFile)) {
-                settings.remove(mime);
-            }
-        }
-    }
+//            settings.beginGroup(addedAssociationsSection);
+//            const QString appName2 = settings.value(mime).toString();
+//            if (appName2 == QString(appDesktopFile)) {
+//                settings.remove(mime);
+//            }
+//        }
+//    }
 
-    return true;
-}
+//    return true;
+//}
 }

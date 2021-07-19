@@ -28,8 +28,9 @@
 TEST_F(gtestview, defaultimageviewer)
 {
     service::isDefaultImageViewer();
-    service::setDefaultImageViewer(false);
-    service::setDefaultImageViewer(true);
+    //修改此处，不再修改默认的打开方式，因为其他的，比如文件管理器等也会收到影响
+//    service::setDefaultImageViewer(false);
+//    service::setDefaultImageViewer(true);
 }
 
 TEST_F(gtestview, deepinimageviewerdbus)
