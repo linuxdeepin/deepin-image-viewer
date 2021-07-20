@@ -16,13 +16,15 @@ PKGCONFIG +=   libexif dtkwidget  gio-qt
  QT += dbus
 #CONFIG += object_parallel_to_source
 LIBS += -lfreeimage
+LIBS += -L$$PWD/../../out/ -limage-viewer
 
+DESTDIR = $$PWD/../../out/
 #gtk+-2.0
 TARGET = deepin-image-viewer
 TEMPLATE = app
 INCLUDEPATH += src/utils
 INCLUDEPATH += src
-
+INCLUDEPATH += ../libimage-viewer
 isEmpty(FULL_FUNCTIONALITY) {
     DEFINES += LITE_DIV
     DEFINES += USE_UNIONIMAGE
@@ -32,26 +34,26 @@ isEmpty(PREFIX){
     PREFIX = /usr
 }
 
-include (src/frame/frame.pri)
+#include (src/frame/frame.pri)
 include (src/module/modules.pri)
-include (src/widgets/widgets.pri)
-include (src/utils/utils.pri)
-include (src/controller/controller.pri)
-include (src/service/service.pri)
-include (src/third-party/accessibility/accessibility-suite.pri)
+#include (src/widgets/widgets.pri)
+#include (src/utils/utils.pri)
+#include (src/controller/controller.pri)
+#include (src/service/service.pri)
+#include (src/third-party/accessibility/accessibility-suite.pri)
 
-!isEmpty(FULL_FUNCTIONALITY) {
-    include (src/settings/settings.pri)
-    include (src/dirwatcher/dirwatcher.pri)
-}
+#!isEmpty(FULL_FUNCTIONALITY) {
+#    include (src/settings/settings.pri)
+#    include (src/dirwatcher/dirwatcher.pri)
+#}
 
 HEADERS += \
-    src/application.h \
+#    src/application.h \
     src/accessibility/acobjectlist.h \
     src/accessibility/ac-desktop-define.h
 
 SOURCES += src/main.cpp \
-    src/application.cpp
+#    src/application.cpp
 
 RESOURCES += \
     assets/images/resources.qrc \

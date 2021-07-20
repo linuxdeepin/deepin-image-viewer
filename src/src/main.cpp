@@ -18,14 +18,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "application.h"
-#include "controller/commandline.h"
-#include "service/defaultimageviewer.h"
-#include "accessibility/acobjectlist.h"
+
 #ifdef CMAKE_BUILD
 #include "config.h"
 #endif
-#include <QApplication>
+#include <DApplication>
 #include <DLog>
 #include <QTranslator>
 #include <DApplicationSettings>
@@ -33,7 +30,12 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+
+#include "module/view/thumbnailwidget.h"
 using namespace Dtk::Core;
+
+DWIDGET_USE_NAMESPACE
+DCORE_USE_NAMESPACE
 
 bool checkOnly()
 {
@@ -71,13 +73,8 @@ int main(int argc, char *argv[])
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
 //    Application::loadDXcbPlugin();
-    Application::instance(argc, argv);
+    DApplication  a(argc, argv);
 
-    dApp->m_app->setAttribute(Qt::AA_ForceRasterWidgets);
-    dApp->m_app->installEventFilter(dApp);
-#ifdef INSTALLACCESSIBLEFACTORY
-    QAccessible::installFactory(accessibleFactory);
-#endif
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
@@ -85,43 +82,9 @@ int main(int argc, char *argv[])
     //增加版本号
     qApp->setApplicationVersion(DApplication::buildVersion(VERSION));
 #endif
-    if (dApp->isPanelDev()) {
-        //将时间写入QDataStream
-        QDateTime wstime = QDateTime::currentDateTime();
-        bool newflag = true;
 
-        if (!checkOnly()) {
-            newflag = false;
-        }
-        //save theme
-        DApplicationSettings saveTheme;
-        CommandLine *cl = CommandLine::instance();
-
-        qDebug() << "133行";
-        if (cl->processOption(wstime, newflag)) {
-            qDebug() << "135行dApp->m_app->exec()";
-            return dApp->m_app->exec();
-        } else {
-            qDebug() << "138行return0";
-            return 0;
-        }
-
-    } else {
-#ifndef LITE_DIV
-        if (!service::isDefaultImageViewer()) {
-            qDebug() << "Set defaultImage viewer succeed:" << service::setDefaultImageViewer(true);
-        } else {
-            qDebug() << "Deepin Image Viewer is defaultImage!";
-        }
-#endif
-        //save theme
-        DApplicationSettings saveTheme;
-        CommandLine *cl = CommandLine::instance();
-        if (cl->processOption()) {
-            return dApp->m_app->exec();
-        } else {
-            return 0;
-        }
-    }
-
+    ThumbnailWidget *Widget = new ThumbnailWidget();
+    Widget->setMinimumSize(QSize(800, 600));
+    Widget->show();
+    return a.exec();
 }

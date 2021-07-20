@@ -1,35 +1,15 @@
-﻿/*
- * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
- *
- * Author:     LiuMingHang <liuminghang@uniontech.com>
- *
- * Maintainer: ZhangYong <ZhangYong@uniontech.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 #ifndef THUMBNAILWIDGET_H
 #define THUMBNAILWIDGET_H
 
-#include <QLabel>
+#include <DWidget>
+#include <DLabel>
+#include <DGuiApplicationHelper>
+#include <QVBoxLayout>
+#include <DSuggestButton>
+#include <DFontSizeManager>
 #include <QPaintEvent>
 #include <QMouseEvent>
-
-
-#include "controller/viewerthememanager.h"
-#include "widgets/themewidget.h"
-
-#include <DLabel>
+#include <QObject>
 
 class QGestureEvent;
 class QPinchGesture;
@@ -37,43 +17,26 @@ class QSwipeGesture;
 class QPanGesture;
 
 DWIDGET_USE_NAMESPACE
-typedef DLabel QLbtoDLabel;
+using namespace Dtk::Widget;
 
-class ThumbnailWidget : public ThemeWidget
+class ThumbnailWidget : public DWidget
 {
     Q_OBJECT
 public:
-    ThumbnailWidget(const QString &darkFile, const QString
-                    &lightFile, QWidget *parent = 0);
-    ~ThumbnailWidget();
-signals:
-    void mouseHoverMoved();
-    void nextRequested();
-    void previousRequested();
-#ifdef LITE_DIV
-    void openImageInDialog();
-#endif
+    explicit ThumbnailWidget(QWidget *parent = nullptr);
+    ~ThumbnailWidget() override;
 
 public slots:
-    void handleGestureEvent(QGestureEvent *gesture);
-    void setThumbnailImage(const QPixmap thumbnail);
-protected:
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *e) override;
-    void mousePressEvent(QMouseEvent *e) override;
-    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    bool event(QEvent *event) override;
-private slots:
-    void pinchTriggered(QPinchGesture *gesture);
-private:
-    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
+    void ThemeChange(DGuiApplicationHelper::ColorType type);
+
+    void openImageInDialog();
+
+private:
     bool m_isDefaultThumbnail = false;
-    QLbtoDLabel *m_thumbnailLabel;
+    DLabel *m_thumbnailLabel;
     QPixmap m_logo;
-#ifndef LITE_DIV
-    QLabel *m_tips;
-#endif
+
     QPixmap m_defaultImage;
     QColor m_inBorderColor;
     QString m_picString;
@@ -81,6 +44,8 @@ private:
     bool m_usb = false;
     int m_startx = 0;
     int m_maxTouchPoints = 0;
+    DLabel *m_tips;
+    bool m_deepMode = false;
 };
 
 #endif // THUMBNAILWIDGET_H
