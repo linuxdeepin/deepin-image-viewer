@@ -36,11 +36,11 @@ pkg_check_modules(3rd_lib REQUIRED
     )
 
 #需要打开的头文件
-FILE (GLOB allHeaders "*.h")
-
+FILE (GLOB allHeaders "*.h" "*/*.h")
 #需要打开的代码文件
 FILE (GLOB allSources
     "*.cpp"                                   "*.c"
+    "*/*.cpp"                                 "*/*.c"
     )
 
 #------------------添加第三方库begins--------------------------#
