@@ -28,9 +28,9 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-file(GLOB_RECURSE  SOURCES  "src/*.cpp")
+file(GLOB_RECURSE  SOURCES  "src/*.cpp" "src/*/*.cpp")
 file(GLOB_RECURSE SOURCESC "src/*.c")
-file(GLOB_RECURSE HEADERS "src/module/modulepanel.h")
+file(GLOB_RECURSE HEADERS "src/module/modulepanel.h" "src/*/*.h")
 file(GLOB_RECURSE FORMS "src/*.ui")
 file(GLOB_RECURSE RESOURCES "*.qrc")
 

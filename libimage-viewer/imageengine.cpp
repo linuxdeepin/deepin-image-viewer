@@ -2,38 +2,33 @@
 
 #include <QDebug>
 #include <QThread>
+#include <QStandardPaths>
+#include <QDir>
 
 #include "unionimage/imgoperate.h"
 
-class ImageEnginePrivate : public QObject
+class ImageEnginePrivate
 {
 public:
     explicit ImageEnginePrivate(ImageEngine *parent = nullptr);
     ~ImageEnginePrivate();
 
-private:
+public:
     ImageEngine *const q_ptr;
     ImgOperate *m_worker = nullptr;
+//    QString m_thumbnailSavePath;//缩略图保存路径
     Q_DECLARE_PUBLIC(ImageEngine)
 };
 
-ImageEnginePrivate::ImageEnginePrivate(ImageEngine *parent): QObject(parent), q_ptr(parent)
+ImageEnginePrivate::ImageEnginePrivate(ImageEngine *parent): q_ptr(parent)
 {
-    QThread *workerThread = new QThread(this);
+    Q_Q(ImageEngine);
+
+    QThread *workerThread = new QThread(q_ptr);
     m_worker = new ImgOperate(workerThread);
-
     m_worker->moveToThread(workerThread);
-//    //开始录制
-//    connect(this, &ImageEngineApi::sigLoadThumbnailsByNum, m_worker, &DBandImgOperate::sltLoadThumbnailByNum);
-//    connect(this, &ImageEngineApi::sigLoadThumbnailIMG, m_worker, &DBandImgOperate::loadOneImg);
-//    //加载设备中文件列表
-//    connect(this, &ImageEngineApi::sigLoadMountFileList, m_worker, &DBandImgOperate::sltLoadMountFileList);
-
-//    //收到获取全部照片信息成功信号
-//    connect(m_worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
-//    connect(m_worker, &DBandImgOperate::sigOneImgReady, this, &ImageEngineApi::sigOneImgReady);
-//    //加载设备中文件列表完成，发送到主线程
-//    connect(m_worker, &DBandImgOperate::sigMountFileListLoadReady, this, &ImageEngineApi::sigMountFileListLoadReady);
+    //一张缩略图制作完成，发送到主线程
+    q->connect(m_worker, &ImgOperate::sigOneImgReady, q, &ImageEngine::sigOneImgReady);
     workerThread->start();
 }
 
@@ -55,11 +50,26 @@ ImageEngine *ImageEngine::instance(QObject *parent)
 
 ImageEngine::ImageEngine(QWidget *parent)
     : QObject(parent)
+    , d_ptr(new ImageEnginePrivate(this))
 {
-    qDebug() << "test";
+//    Q_D(ImageEngine);
 }
 
 ImageEngine::~ImageEngine()
 {
 
+}
+
+const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
+                           + QDir::separator() + "deepin" + QDir::separator() + "image-view-plugin"/* + QDir::separator()*/;
+
+void ImageEngine::makeImgThumbnail(QString thumbnailSavePath, QStringList paths)
+{
+    Q_D(ImageEngine);
+//    d->m_thumbnailSavePath = thumbnailSavePath;
+    //执行子线程制作缩略图动作
+    QStringList list;
+    list << "/home/zouya/Desktop/test/001.jpg";
+    list << "/home/zouya/Desktop/test/002.jpg";
+    QMetaObject::invokeMethod(d->m_worker, "slotMakeImgThumbnail", Q_ARG(QString, CACHE_PATH), Q_ARG(QStringList, list));
 }

@@ -25,6 +25,7 @@
 #include <QDateTime>
 #include <QMutex>
 #include <QDebug>
+#include <QImage>
 
 class ImgOperate : public QObject
 {
@@ -32,7 +33,12 @@ class ImgOperate : public QObject
 public:
     explicit ImgOperate(QObject *parent = nullptr);
     ~ImgOperate();
+
 public slots:
+    void slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths);
+
+signals:
+    void sigOneImgReady(QString imagepath, QImage image);
 
 private:
 

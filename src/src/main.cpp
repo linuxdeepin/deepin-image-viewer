@@ -23,6 +23,7 @@
 #include "config.h"
 #endif
 #include <DApplication>
+#include <DWidgetUtil>
 #include <DLog>
 #include <QTranslator>
 #include <DApplicationSettings>
@@ -31,8 +32,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "module/view/thumbnailwidget.h"
-using namespace Dtk::Core;
+#include "mainwindow/mainwindow.h"
+
+//using namespace Dtk::Core;
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -83,8 +85,9 @@ int main(int argc, char *argv[])
     qApp->setApplicationVersion(DApplication::buildVersion(VERSION));
 #endif
 
-    ThumbnailWidget *Widget = new ThumbnailWidget();
-    Widget->setMinimumSize(QSize(800, 600));
-    Widget->show();
+    auto &w = MainWindow::instance(); //修改为从单例获取
+//    dApp->setMainWindow(&w);
+    w.show();
+    Dtk::Widget::moveToCenter(&w);
     return a.exec();
 }

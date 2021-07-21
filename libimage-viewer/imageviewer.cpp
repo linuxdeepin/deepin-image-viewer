@@ -2,6 +2,8 @@
 
 #include <QDebug>
 
+#include "imageengine.h"
+
 class ImageViewerPrivate
 {
 public:
@@ -25,6 +27,7 @@ ImageViewer::ImageViewer(ImgViewerType imgViewerType, QWidget *parent)
 {
     Q_D(ImageViewer);
     d->m_imgViewerType = imgViewerType;
+    ImageEngine::instance()->makeImgThumbnail("", QStringList());
 }
 
 ImageViewer::~ImageViewer()

@@ -5,6 +5,7 @@
 
 #include <DWidget>
 #include <QtCore/qglobal.h>
+#include <QImage>
 
 DWIDGET_USE_NAMESPACE
 
@@ -17,13 +18,17 @@ public:
     explicit ImageEngine(QWidget *parent = nullptr);
     ~ImageEngine() override;
 
-    QImage getImg(QStringList paths, bool synchronous = true);
+    //制作图片缩略图
+    void makeImgThumbnail(QString thumbnailSavePath, QStringList paths);
+signals:
+    //一张缩略图制作完成
+    void sigOneImgReady(QString path, QImage image);
 private:
 
     static ImageEngine *m_ImageEngine;
 
-    Q_DECLARE_PRIVATE(ImageEngine)
-    Q_DISABLE_COPY(ImageEngine)
+    QScopedPointer<ImageEnginePrivate> d_ptr;
+    Q_DECLARE_PRIVATE_D(qGetPtrHelper(d_ptr), ImageEngine)
 };
 
 #endif // IMAGEENGINE_H
