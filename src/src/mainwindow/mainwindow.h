@@ -38,7 +38,8 @@
 #include <DProgressBar>
 
 DWIDGET_USE_NAMESPACE
-
+class HomePageWidget;
+class ImageViewer;
 class MainWindow : public DMainWindow
 {
     Q_OBJECT
@@ -62,8 +63,11 @@ protected:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 public slots:
+    void slotOpenImg();
 private:
-    QStackedWidget *m_pCenterWidget = nullptr;
+    QStackedWidget *m_centerWidget = nullptr;
+    HomePageWidget *m_homePageWidget = nullptr;
+    ImageViewer *m_imageViewer = nullptr;
 };
 
 #endif // MAINWINDOW_H

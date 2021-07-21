@@ -1,5 +1,5 @@
-#ifndef THUMBNAILWIDGET_H
-#define THUMBNAILWIDGET_H
+#ifndef HOMEPAGEWIDGET_H
+#define HOMEPAGEWIDGET_H
 
 #include <DWidget>
 #include <DLabel>
@@ -19,12 +19,12 @@ class QPanGesture;
 DWIDGET_USE_NAMESPACE
 using namespace Dtk::Widget;
 
-class ThumbnailWidget : public DWidget
+class HomePageWidget : public DWidget
 {
     Q_OBJECT
 public:
-    explicit ThumbnailWidget(QWidget *parent = nullptr);
-    ~ThumbnailWidget() override;
+    explicit HomePageWidget(QWidget *parent = nullptr);
+    ~HomePageWidget() override;
 
 signals:
     void sigOpenImage();
@@ -50,4 +50,4 @@ private:
     bool m_deepMode = false;
 };
 
-#endif // THUMBNAILWIDGET_H
+#endif // HOMEPAGEWIDGET_H

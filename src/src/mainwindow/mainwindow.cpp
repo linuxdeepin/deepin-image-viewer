@@ -43,24 +43,43 @@
 #include <DWidgetUtil>
 #include <DStandardPaths>
 
-//#include <thumbna>
+#include "module/view/homepagewidget.h"
+#include "../libimage-viewer/imageviewer.h"
 
 MainWindow::MainWindow()
 {
     this->setObjectName("drawMainWindow");
     setMinimumSize(880, 500);
     resize(1300, 848);
-}
-//初始化QStackedWidget和展示
-void MainWindow::initUI()
-{
-    m_pCenterWidget = new QStackedWidget(this);
-    this->setCentralWidget(m_pCenterWidget);
-//    ThumbnailWidget *Widget = new ThumbnailWidget(m_pCenterWidget);
+    initUI();
 }
 
 MainWindow::~MainWindow()
 {
+}
+
+//初始化QStackedWidget和展示
+void MainWindow::initUI()
+{
+    m_centerWidget = new QStackedWidget(this);
+    this->setCentralWidget(m_centerWidget);
+
+    m_homePageWidget = new HomePageWidget(this);
+    m_centerWidget->addWidget(m_homePageWidget);
+
+    m_imageViewer = new ImageViewer(ImgViewerType::ImgViewerTypeLocal);
+    m_centerWidget->addWidget(m_imageViewer);
+
+    m_centerWidget->setCurrentWidget(m_homePageWidget);
+
+    connect(m_homePageWidget, &HomePageWidget::sigOpenImage,
+            this, &MainWindow::slotOpenImg);
+}
+
+void MainWindow::slotOpenImg()
+{
+    m_centerWidget->setCurrentWidget(m_imageViewer);
+    m_imageViewer->startChooseFileDialog();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)

@@ -1,5 +1,7 @@
-#include "thumbnailwidget.h"
 #include "../libimage-viewer/image-viewer_global.h"
+#include "homepagewidget.h"
+
+#include "accessibility/ac-desktop-define.h"
 #include "../libimage-viewer/imageviewer.h"
 #include "accessibility/ac-desktop-define.h"
 
@@ -11,7 +13,7 @@ const QString ICON_IMPORT_PHOTO_LIGHT = ":/light/images/icon_import_photo.svg";
 const QColor DARK_BORDER_COLOR = QColor(255, 255, 255, 26);
 const QColor LIGHT_BORDER_COLOR = QColor(0, 0, 0, 15);
 }  // namespace
-ThumbnailWidget::ThumbnailWidget(QWidget *parent)
+HomePageWidget::HomePageWidget(QWidget *parent)
     : DWidget(parent)
 {
 #ifdef OPENACCESSIBLE
@@ -57,22 +59,22 @@ ThumbnailWidget::ThumbnailWidget(QWidget *parent)
     setLayout(layout);
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
-                     this, &ThumbnailWidget::ThemeChange);
+                     this, &HomePageWidget::ThemeChange);
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-                     this, &ThumbnailWidget::ThemeChange);
+                     this, &HomePageWidget::ThemeChange);
 
-    QObject::connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
+    QObject::connect(button, &DSuggestButton::clicked, this, &HomePageWidget::openImageInDialog);
 
     this->ThemeChange(DGuiApplicationHelper::instance()->themeType());
 }
 
-ThumbnailWidget::~ThumbnailWidget()
+HomePageWidget::~HomePageWidget()
 {
 
 }
 
-void ThumbnailWidget::ThemeChange(DGuiApplicationHelper::ColorType type)
+void HomePageWidget::ThemeChange(DGuiApplicationHelper::ColorType type)
 {
     //更改主题颜色的信号,图片跟着变化
     if (type == DGuiApplicationHelper::DarkType) {
@@ -105,12 +107,7 @@ void ThumbnailWidget::ThemeChange(DGuiApplicationHelper::ColorType type)
     update();
 }
 
-void ThumbnailWidget::openImageInDialog()
+void HomePageWidget::openImageInDialog()
 {
-
-    ImageViewer *widget = new ImageViewer(ImgViewerType::ImgViewerTypeLocal);
-    widget->setMinimumSize(QSize(800, 600));
-    widget->show();
-
-
+    emit sigOpenImage();
 }
