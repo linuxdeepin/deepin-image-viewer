@@ -106,7 +106,7 @@ void ThumbnailWidget::ThemeChange(DGuiApplicationHelper::ColorType type)
 
 void ThumbnailWidget::openImageInDialog()
 {
-    ImageViewer *widget = new ImageViewer();
+    ImageViewer *widget = new ImageViewer(ImgViewerType::ImgViewerTypeLocal);
     widget->setMinimumSize(QSize(800, 600));
     widget->show();
 }
