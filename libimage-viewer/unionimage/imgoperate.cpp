@@ -59,7 +59,8 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
             continue;
         }
         QString errMsg;
-        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+        QSize readSize;
+        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, readSize, errMsg)) {
             qDebug() << errMsg;
             return;
         }

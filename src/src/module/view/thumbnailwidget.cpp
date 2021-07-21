@@ -1,7 +1,8 @@
 #include "thumbnailwidget.h"
-
-#include "accessibility/ac-desktop-define.h"
+#include "../libimage-viewer/image-viewer_global.h"
 #include "../libimage-viewer/imageviewer.h"
+#include "accessibility/ac-desktop-define.h"
+
 namespace {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
 const QSize THUMBNAIL_SIZE = QSize(128, 128);
@@ -106,7 +107,10 @@ void ThumbnailWidget::ThemeChange(DGuiApplicationHelper::ColorType type)
 
 void ThumbnailWidget::openImageInDialog()
 {
+
     ImageViewer *widget = new ImageViewer(ImgViewerType::ImgViewerTypeLocal);
     widget->setMinimumSize(QSize(800, 600));
     widget->show();
+
+
 }

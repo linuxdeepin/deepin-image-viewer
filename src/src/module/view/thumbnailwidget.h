@@ -26,6 +26,8 @@ public:
     explicit ThumbnailWidget(QWidget *parent = nullptr);
     ~ThumbnailWidget() override;
 
+signals:
+    void sigOpenImage();
 public slots:
 
     void ThemeChange(DGuiApplicationHelper::ColorType type);

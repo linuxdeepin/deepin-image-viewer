@@ -11,7 +11,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 #Qt需要的包
-set(QtModule Core Gui Widgets Svg Concurrent)
+set(QtModule Core Gui Widgets Svg DBus Concurrent)
 
 set(TARGET_NAME image-viewer)
 set(CMD_NAME image-viewer)
@@ -26,6 +26,10 @@ find_package(Qt5 REQUIRED ${QtModule})
 include_directories(${CMAKE_INCLUDE_CURRENT_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
+add_definitions( -DLITE_DIV )
+add_definitions( -DUSE_UNIONIMAGE )
+add_definitions( -DCMAKE_BUILD )
+
 #库目录
 aux_source_directory(image-viewer allSources)
 
@@ -33,14 +37,16 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(3rd_lib REQUIRED
     dtkwidget
     dtkcore
+    libexif
     )
 
 #需要打开的头文件
-FILE (GLOB allHeaders "*.h" "*/*.h")
+FILE (GLOB allHeaders "*.h" "*/*.h" "*/*/*.h")
 #需要打开的代码文件
 FILE (GLOB allSources
     "*.cpp"                                   "*.c"
     "*/*.cpp"                                 "*/*.c"
+    "*/*/*.cpp"                              "*/*/*.c"
     )
 
 #------------------添加第三方库begins--------------------------#
@@ -78,4 +84,4 @@ COMMAND sudo ln -s ${image-viewer}/libimage-viewer.so ${image-viewer}/libimage-v
 )
 
 target_include_directories(${CMD_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS}  )
-target_link_libraries(image-viewer ${3rd_lib_LIBRARIES} freeimage)
+target_link_libraries(image-viewer ${3rd_lib_LIBRARIES} freeimage )

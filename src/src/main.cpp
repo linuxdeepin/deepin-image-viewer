@@ -24,6 +24,7 @@
 #endif
 #include <DApplication>
 #include <DWidgetUtil>
+
 #include <DLog>
 #include <QTranslator>
 #include <DApplicationSettings>
@@ -35,6 +36,7 @@
 #include "mainwindow/mainwindow.h"
 
 //using namespace Dtk::Core;
+
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -89,5 +91,6 @@ int main(int argc, char *argv[])
 //    dApp->setMainWindow(&w);
     w.show();
     Dtk::Widget::moveToCenter(&w);
+
     return a.exec();
 }
