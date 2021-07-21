@@ -62,6 +62,7 @@ MainWindow::~MainWindow()
 void MainWindow::initUI()
 {
     m_centerWidget = new QStackedWidget(this);
+
     this->setCentralWidget(m_centerWidget);
 
     m_homePageWidget = new HomePageWidget(this);
@@ -69,6 +70,7 @@ void MainWindow::initUI()
 
     m_imageViewer = new ImageViewer(ImgViewerType::ImgViewerTypeLocal);
     m_centerWidget->addWidget(m_imageViewer);
+    m_imageViewer->setStyleSheet("background-color:blue;");
 
     m_centerWidget->setCurrentWidget(m_homePageWidget);
 

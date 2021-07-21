@@ -24,7 +24,7 @@
 #include <QFrame>
 
 #include <DStackedWidget>
-
+#include "scen/imageview.h"
 DWIDGET_USE_NAMESPACE
 class ViewPanel : public QFrame
 {
@@ -58,8 +58,11 @@ public:
 
     explicit ViewPanel(QWidget *parent = nullptr);
     ~ViewPanel();
+
+    void loadImage(const QString &path);
 private :
     DStackedWidget *m_stack = nullptr;
+    ImageView *m_view = nullptr;
 
 };
 #endif  // VIEWPANEL_H

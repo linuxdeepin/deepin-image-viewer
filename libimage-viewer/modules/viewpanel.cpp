@@ -25,14 +25,20 @@ ViewPanel::ViewPanel(QWidget *parent)
     : QFrame(parent)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
-
     m_stack = new DStackedWidget(this);
-
     layout->addWidget(m_stack, 0, Qt::AlignCenter);
-
+    m_view = new ImageView(this);
+    m_stack->addWidget(m_view);
 }
 
 ViewPanel::~ViewPanel()
 {
 
+}
+
+void ViewPanel::loadImage(const QString &path)
+{
+    if (m_view) {
+        m_view->setImage(path);
+    }
 }

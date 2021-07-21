@@ -3,7 +3,8 @@
 #include <QDebug>
 
 #include "imageengine.h"
-
+#include "modules/viewpanel.h"
+#include <QVBoxLayout>
 class ImageViewerPrivate
 {
 public:
@@ -11,6 +12,7 @@ public:
 
 public:
     ImageViewer *q_ptr;
+    ViewPanel *m_panel = nullptr;
     ImgViewerType m_imgViewerType;
     Q_DECLARE_PUBLIC(ImageViewer)
 };
@@ -18,6 +20,13 @@ public:
 ImageViewerPrivate::ImageViewerPrivate(ImageViewer *parent)
     : q_ptr(parent)
 {
+    Q_Q(ImageViewer);
+    qDebug() << "xxx";
+    QVBoxLayout *layout = new QVBoxLayout(q);
+    m_panel = new ViewPanel(q);
+    m_panel->loadImage("/home/lmh/Pictures/12213.jpg");
+    layout->addWidget(m_panel, 0, Qt::AlignCenter);
+
 }
 
 
