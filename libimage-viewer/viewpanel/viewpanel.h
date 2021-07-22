@@ -36,30 +36,30 @@ class ViewPanel : public QFrame
 
     Q_OBJECT
 public:
-//    enum MenuItemId {
-//        IdFullScreen,
-//        IdExitFullScreen,
-//        IdStartSlideShow,
-//        IdRename,
-//        IdPrint,
-//        IdAddToAlbum,
-//        IdCopy,
-//        IdMoveToTrash,
-//        IdRemoveFromTimeline,
-//        IdRemoveFromAlbum,
-//        IdAddToFavorites,
-//        IdRemoveFromFavorites,
-//        IdShowNavigationWindow,
-//        IdHideNavigationWindow,
-//        IdRotateClockwise,
-//        IdRotateCounterclockwise,
-//        IdSetAsWallpaper,
-//        IdDisplayInFileManager,
-//        IdImageInfo,
-//        IdSubMenu,
-//        IdDraw,
-//        IdOcr
-//    };
+    enum MenuItemId {
+        IdFullScreen,
+        IdExitFullScreen,
+        IdStartSlideShow,
+        IdRename,
+        IdPrint,
+        IdAddToAlbum,
+        IdCopy,
+        IdMoveToTrash,
+        IdRemoveFromTimeline,
+        IdRemoveFromAlbum,
+        IdAddToFavorites,
+        IdRemoveFromFavorites,
+        IdShowNavigationWindow,
+        IdHideNavigationWindow,
+        IdRotateClockwise,
+        IdRotateCounterclockwise,
+        IdSetAsWallpaper,
+        IdDisplayInFileManager,
+        IdImageInfo,
+        IdSubMenu,
+        IdDraw,
+        IdOcr
+    };
 
     explicit ViewPanel(QWidget *parent = nullptr);
     ~ViewPanel();
@@ -73,6 +73,32 @@ public:
     void initScaleLabel();
     //初始化导航窗口
     void initNavigation();
+    //初始化右键菜单
+    void initRightMenu();
+
+    //更新右键菜单
+    void updateMenuContent();
+
+    //控制全屏和返回全屏
+    void toggleFullScreen();
+
+    //全屏
+    void showFullScreen();
+
+    //退出全屏
+    void showNormal();
+    /**
+     * @brief appendAction  添加右键菜单按钮
+     * @param id            按钮枚举ID
+     * @param text          按钮名称
+     * @param shortcut      按钮快捷键
+     */
+    void appendAction(int id, const QString &text, const QString &shortcut = "");
+
+private slots:
+
+    void onMenuItemClicked(QAction *action);
+
 private :
     //刷新底部工具栏大小与位置
     void resetBottomToolbarGeometry(bool visible);
@@ -87,5 +113,10 @@ private :
     BottomToolbar *m_bottomToolbar = nullptr;
 
     DAnchors<NavigationWidget> m_nav ;
+
+    DMenu *m_menu = nullptr;
+
+    bool m_isMaximized = false;
+
 };
 #endif  // VIEWPANEL_H
