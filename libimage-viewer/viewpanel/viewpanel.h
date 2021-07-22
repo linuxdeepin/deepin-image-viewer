@@ -24,11 +24,12 @@
 #include <QFrame>
 
 #include <DStackedWidget>
-
+#include <DAnchors>
 #include "scen/imageview.h"
 
 DWIDGET_USE_NAMESPACE
 
+class NavigationWidget;
 class BottomToolbar;
 class ViewPanel : public QFrame
 {
@@ -64,14 +65,27 @@ public:
     ~ViewPanel();
 
     void loadImage(const QString &path);
+
+    void initConnect();
+    //初始化缩放比和导航窗口
+    void initFloatingComponent();
+    //初始化缩放比例的窗口
+    void initScaleLabel();
+    //初始化导航窗口
+    void initNavigation();
 private :
     //刷新底部工具栏大小与位置
     void resetBottomToolbarGeometry(bool visible);
 protected:
     void resizeEvent(QResizeEvent *e) override;
+
+signals:
+    void imageChanged(const QString &path);
 private :
     DStackedWidget *m_stack = nullptr;
     ImageView *m_view = nullptr;
     BottomToolbar *m_bottomToolbar = nullptr;
+
+    DAnchors<NavigationWidget> m_nav ;
 };
 #endif  // VIEWPANEL_H
