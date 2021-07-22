@@ -231,6 +231,7 @@ ImageView::ImageView(QWidget *parent)
     setAccessibleName(IMAGE_VIEW);
 #endif
     setScene(new QGraphicsScene(this));
+    setSceneRect(0, 0, 1920, 1080);
     setMouseTracking(true);
     setTransformationAnchor(AnchorUnderMouse);
     setDragMode(ScrollHandDrag);
@@ -317,7 +318,7 @@ ImageView::ImageView(QWidget *parent)
         connect(th, &QThread::finished, th, &QObject::deleteLater);
         th->start();
     });
-
+//    setFixedSize(QSize(600, 500));
 }
 
 void ImageView::clear()

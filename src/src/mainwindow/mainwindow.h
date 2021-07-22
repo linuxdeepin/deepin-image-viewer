@@ -21,12 +21,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <DMainWindow>
+#include <DWidget>
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFrame>
+#include <DMainWindow>
 #include <DTitlebar>
 #include <QStackedWidget>
 #include <DSearchEdit>
@@ -36,11 +37,11 @@
 #include <QButtonGroup>
 #include <DSuggestButton>
 #include <DProgressBar>
-
+#include "toptoolbar.h"
 DWIDGET_USE_NAMESPACE
 class HomePageWidget;
 class ImageViewer;
-class MainWindow : public DMainWindow
+class MainWindow : public DWidget
 {
     Q_OBJECT
 
@@ -53,6 +54,7 @@ public:
     }
 
     ~MainWindow() override;
+    void setDMainWindow(DMainWindow *mainwidow);
 private:
     explicit MainWindow();
     void initUI();
@@ -65,9 +67,11 @@ protected:
 public slots:
     void slotOpenImg();
 private:
-    QStackedWidget *m_centerWidget = nullptr;
-    HomePageWidget *m_homePageWidget = nullptr;
-    ImageViewer *m_imageViewer = nullptr;
+    QStackedWidget   *m_centerWidget = nullptr;
+    HomePageWidget   *m_homePageWidget = nullptr;
+    ImageViewer      *m_imageViewer = nullptr;
+    TopToolbar       *m_topToolbar = nullptr;
+    DMainWindow      *m_mainwidow = nullptr;
 };
 
 #endif // MAINWINDOW_H

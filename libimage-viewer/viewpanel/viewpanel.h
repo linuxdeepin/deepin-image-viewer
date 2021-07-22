@@ -24,8 +24,12 @@
 #include <QFrame>
 
 #include <DStackedWidget>
+
 #include "scen/imageview.h"
+
 DWIDGET_USE_NAMESPACE
+
+class BottomToolbar;
 class ViewPanel : public QFrame
 {
 
@@ -61,8 +65,13 @@ public:
 
     void loadImage(const QString &path);
 private :
+    //刷新底部工具栏大小与位置
+    void resetBottomToolbarGeometry(bool visible);
+protected:
+    void resizeEvent(QResizeEvent *e) override;
+private :
     DStackedWidget *m_stack = nullptr;
     ImageView *m_view = nullptr;
-
+    BottomToolbar *m_bottomToolbar = nullptr;
 };
 #endif  // VIEWPANEL_H

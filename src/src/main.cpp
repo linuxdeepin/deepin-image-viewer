@@ -24,7 +24,7 @@
 #endif
 #include <DApplication>
 #include <DWidgetUtil>
-
+#include <DMainWindow>
 #include <DLog>
 #include <QTranslator>
 #include <DApplicationSettings>
@@ -88,9 +88,15 @@ int main(int argc, char *argv[])
 #endif
 
     auto &w = MainWindow::instance(); //修改为从单例获取
-//    dApp->setMainWindow(&w);
-    w.show();
-    Dtk::Widget::moveToCenter(&w);
+    DMainWindow *mainwindow = new DMainWindow();
+    mainwindow->setCentralWidget(&w);
+    w.setDMainWindow(mainwindow);
+//    mainwindow->titlebar()->setBackgroundTransparent(true);
+    mainwindow->setMinimumSize(880, 500);
+    mainwindow->resize(880, 600);
+    mainwindow->show();
+
+    Dtk::Widget::moveToCenter(mainwindow);
 
     return a.exec();
 }

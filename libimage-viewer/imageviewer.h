@@ -19,6 +19,8 @@ public:
     void startChooseFileDialog();
     //启动图片展示入口
     void startImgView(QString currentPath, QStringList paths = QStringList());
+protected:
+    void resizeEvent(QResizeEvent *e) override;
 
 private:
     QScopedPointer<ImageViewerPrivate> d_ptr;

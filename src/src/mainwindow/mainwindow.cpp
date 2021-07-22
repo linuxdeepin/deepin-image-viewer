@@ -49,8 +49,9 @@
 MainWindow::MainWindow()
 {
     this->setObjectName("drawMainWindow");
+    setContentsMargins(0, 0, 0, 0);
     setMinimumSize(880, 500);
-    resize(1300, 848);
+    resize(880, 600);
     initUI();
 }
 
@@ -58,53 +59,95 @@ MainWindow::~MainWindow()
 {
 }
 
+void MainWindow::setDMainWindow(DMainWindow *mainwidow)
+{
+    m_mainwidow = mainwidow;
+}
+
 //初始化QStackedWidget和展示
 void MainWindow::initUI()
 {
-    m_centerWidget = new QStackedWidget(this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    this->setLayout(layout);
 
-    this->setCentralWidget(m_centerWidget);
+    m_centerWidget = new QStackedWidget(this);
+    layout->addWidget(m_centerWidget);
 
     m_homePageWidget = new HomePageWidget(this);
     m_centerWidget->addWidget(m_homePageWidget);
 
     m_imageViewer = new ImageViewer(ImgViewerType::ImgViewerTypeLocal);
     m_centerWidget->addWidget(m_imageViewer);
-    m_imageViewer->setStyleSheet("background-color:blue;");
-
     m_centerWidget->setCurrentWidget(m_homePageWidget);
 
     connect(m_homePageWidget, &HomePageWidget::sigOpenImage,
             this, &MainWindow::slotOpenImg);
+
+    m_topToolbar = new TopToolbar(false, this);
+    m_topToolbar->resize(width(), 50);
+    m_topToolbar->move(0, 0);
 }
 
 void MainWindow::slotOpenImg()
 {
-    m_centerWidget->setCurrentWidget(m_imageViewer);
     m_imageViewer->startChooseFileDialog();
+    m_centerWidget->setCurrentWidget(m_imageViewer);
+
+    if (m_mainwidow->titlebar()) {
+        //隐藏原有DMainWindow titlebar，使用自定义标题栏
+        m_mainwidow->titlebar()->setFixedHeight(0);
+        m_mainwidow->titlebar()->setTitle("");
+        m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
+        m_mainwidow->setTitlebarShadowEnabled(true);
+//        connect(dApp->signalM, &SignalManager::enterView, this, [ = ](bool a) {
+//            if (a) {
+//                win->titlebar()->setFixedHeight(0);
+//                win->titlebar()->setTitle("");
+//                QIcon empty;
+//                win->titlebar()->setIcon(empty);
+//                win->setTitlebarShadowEnabled(false);
+//            } else {
+//                win->titlebar()->setFixedHeight(50);
+//                win->titlebar()->setTitle("");
+//                win->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
+//                win->setTitlebarShadowEnabled(true);
+//            }
+//        });
+    }
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
-    DMainWindow::resizeEvent(e);
+    if (this->m_topToolbar) {
+        this->m_topToolbar->resize(width(), 50);
+
+
+        if (window()->isFullScreen()) {
+            this->m_topToolbar->setVisible(false);
+        } else {
+            this-> m_topToolbar->setVisible(true);
+        }
+    }
+    DWidget::resizeEvent(e);
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
-    return DMainWindow::eventFilter(obj, event);
+    return DWidget::eventFilter(obj, event);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    DMainWindow::closeEvent(event);
+    DWidget::closeEvent(event);
 }
 
 void MainWindow::showEvent(QShowEvent *event)
 {
-    DMainWindow::showEvent(event);
+    DWidget::showEvent(event);
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
-    DMainWindow::wheelEvent(event);
+    DWidget::wheelEvent(event);
 }
