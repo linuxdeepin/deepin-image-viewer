@@ -27,6 +27,7 @@
         <file>icons/dcc_ocr_36px.svg</file>
         <file>texts/dcc_ocr_dark_36px.svg</file>
         <file>texts/dcc_ocr_36px.svg</file>
+        <file>actions/imgView_titlebar.svg</file>
     </qresource>
     <qresource prefix="/icons/deepin/builtin/light"/>
     <qresource prefix="/icons/deepin/builtin/dark"/>

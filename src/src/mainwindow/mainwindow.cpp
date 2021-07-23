@@ -62,6 +62,7 @@ MainWindow::~MainWindow()
 void MainWindow::setDMainWindow(DMainWindow *mainwidow)
 {
     m_mainwidow = mainwidow;
+    m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
 }
 
 //初始化QStackedWidget和展示
@@ -90,6 +91,7 @@ void MainWindow::initUI()
     m_topToolbar = new TopToolbar(false, this);
     m_topToolbar->resize(width(), 50);
     m_topToolbar->move(0, 0);
+    m_topToolbar->hide();
 }
 
 void MainWindow::slotOpenImg()
@@ -100,9 +102,11 @@ void MainWindow::slotOpenImg()
     if (m_mainwidow->titlebar()) {
         //隐藏原有DMainWindow titlebar，使用自定义标题栏
         m_mainwidow->titlebar()->setFixedHeight(0);
-        m_mainwidow->titlebar()->setTitle("");
+//        m_mainwidow->titlebar()->setTitle("");
         m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
         m_mainwidow->setTitlebarShadowEnabled(true);
+        m_topToolbar->show();
+//        m_topToolbar->resize(width(), 50);
 //        connect(dApp->signalM, &SignalManager::enterView, this, [ = ](bool a) {
 //            if (a) {
 //                win->titlebar()->setFixedHeight(0);
@@ -122,7 +126,7 @@ void MainWindow::slotOpenImg()
 
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
-    if (this->m_topToolbar) {
+    if (this->m_topToolbar && m_topToolbar->isVisible()) {
         this->m_topToolbar->resize(width(), 50);
 
 

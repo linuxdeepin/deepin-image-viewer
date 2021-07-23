@@ -48,6 +48,7 @@ FILE (GLOB allSources
     "*/*.cpp"                                 "*/*.c"
     "*/*/*.cpp"                              "*/*/*.c"
     )
+file(GLOB_RECURSE RESOURCES "*.qrc")
 
 #------------------添加第三方库begins--------------------------#
 #使用第三方库需要用到的一个包
@@ -58,13 +59,10 @@ set(LINK_DIR /usr/lib/)
 include_directories(${INC_DIR})
 link_directories(${LINK_DIR})
 
-
 link_libraries(freeimage)
 
-
-
 #编译为库
-add_library(image-viewer SHARED ${allHeaders} ${allSources})
+add_library(image-viewer SHARED ${allHeaders} ${allSources} ${RESOURCES})
 
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 

@@ -80,7 +80,7 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
     QPainter p(this);
-    QPixmap pixmap(":/icons/deepin/builtin/frame/titlebar.svg");
+    QPixmap pixmap(":/icons/deepin/builtin/actions/imgView_titlebar.svg");
     const QPalette pal = QGuiApplication::palette();
     QBrush bgColor = QBrush(pixmap.scaled(size().width(), 74));
     QRectF bgRect;
@@ -105,7 +105,7 @@ void TopToolbar::initWidgets()
 //    QIcon icon = QIcon::fromTheme("deepin-album");
 //    pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
 //    m_titlebar->addWidget(pLabel, Qt::AlignLeft);
-    m_titlebar->setIcon(QIcon::fromTheme("deepin-album"));
+    m_titlebar->setIcon(QIcon::fromTheme("deepin-image-viewer"));
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &TopToolbar::onThemeTypeChanged);
     m_titlebar->setTitle("");
     m_titletxt = new DLabel;
