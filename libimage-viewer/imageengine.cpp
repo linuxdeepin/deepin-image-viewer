@@ -8,6 +8,7 @@
 #include <QUrl>
 #include <QCryptographicHash>
 
+#include "service/commonservice.h"
 #include "unionimage/imgoperate.h"
 #include "unionimage/unionimage.h"
 class ImageEnginePrivate
@@ -31,7 +32,7 @@ ImageEnginePrivate::ImageEnginePrivate(ImageEngine *parent): q_ptr(parent)
     m_worker = new ImgOperate(workerThread);
     m_worker->moveToThread(workerThread);
     //一张缩略图制作完成，发送到主线程
-    q->connect(m_worker, &ImgOperate::sigOneImgReady, q, &ImageEngine::sigOneImgReady);
+    q->connect(m_worker, &ImgOperate::sigOneImgReady, CommonService::instance(), &CommonService::slotOneImgReady);
     workerThread->start();
 }
 

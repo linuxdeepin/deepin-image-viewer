@@ -229,19 +229,17 @@ void ImgViewListView::removeCurrent()
     }
 }
 
-void ImgViewListView::slotOneImgReady(QString path, QImage pix)
+void ImgViewListView::slotOneImgReady(QString path, imageViewerSpace::ItemInfo pix)
 {
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
         imageViewerSpace::ItemInfo data = index.data(Qt::DisplayRole).value<imageViewerSpace::ItemInfo>();
         if (data.path == path) {
-            data.image = pix;
-            cutPixmap(data);
+            pix.imgWidth = data.imgWidth;
+            pix.imgHeight = data.imgHeight;
+            cutPixmap(pix);
             QVariant meta;
-            meta.setValue(data);
-            CommonService::instance()->setImgByPath(path, pix);
-//            ImageEngine::instance()->m_AllImageMap[data.path] = data.image;
-//            ImageEngine::instance()->m_AllImageData[data.path].imgpixmap = pix;
+            meta.setValue(pix);
             m_model->setData(index, meta, Qt::DisplayRole);
             this->update(index);
             this->viewport()->update();

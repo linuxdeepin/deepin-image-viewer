@@ -93,18 +93,27 @@ void ImageViewer::startChooseFileDialog()
     if (image_list.isEmpty())
         return;
 
-    QString DirPath = image_list.first().left(image_list.first().lastIndexOf("/"));
-    QDir _dirinit(DirPath);
-    QFileInfoList m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
-    //修复Ｑt带后缀排序错误的问题
-    qSort(m_AllPath.begin(), m_AllPath.end(), compareByFileInfo);
+    QString path = image_list.first();
+    if ((path.indexOf("smb-share:server=") != -1 || path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1)) {
+        image_list.clear();
+        image_list << path;
+    } else {
+        QString DirPath = image_list.first().left(image_list.first().lastIndexOf("/"));
+        QDir _dirinit(DirPath);
+        QFileInfoList m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
+        //修复Ｑt带后缀排序错误的问题
+        qSort(m_AllPath.begin(), m_AllPath.end(), compareByFileInfo);
 
-    image_list.clear();
-    for (int i = 0; i < m_AllPath.size(); i++) {
-        QString path = m_AllPath.at(i).filePath();
-        //判断是否图片格式
-        if (ImageEngine::instance()->isImage(path)) {
-            image_list << path;
+        image_list.clear();
+        for (int i = 0; i < m_AllPath.size(); i++) {
+            QString path = m_AllPath.at(i).filePath();
+            if (path.isEmpty()) {
+                continue;
+            }
+            //判断是否图片格式
+            if (ImageEngine::instance()->isImage(path)) {
+                image_list << path;
+            }
         }
     }
 

@@ -27,6 +27,7 @@
 #include <QDirIterator>
 #include <QThread>
 #include <QImage>
+#include <QImageReader>
 
 #include "unionimage.h"
 #include "pluginbaseutils.h"
@@ -44,29 +45,35 @@ ImgOperate::~ImgOperate()
 
 void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount)
 {
-    qDebug() << "---" << __FUNCTION__ << "---thumbnailSavePath = " << thumbnailSavePath;
-    qDebug() << "---" << __FUNCTION__ << "---" << QThread::currentThread();
     QString path;
+    QImage tImg;
+    imageViewerSpace::ItemInfo itemInfo;
     for (int i = 0; i < paths.size(); i++) {
         //达到制作数量则停止
         if (i == makeCount) {
             break;
         }
         path = paths.at(i);
-        //路径为空，继续执行下一个路径
-        if (path.isEmpty()) {
-            continue;
-        }
-        QImage tImg;
-        //缩略图路径
-        QString savePath = thumbnailSavePath + path;
 
+        //获取图片类型
+        itemInfo.imageType = getImageType(path);
+        //获取路径类型
+        itemInfo.pathType = getPathType(path);
+        //获取原图分辨率
+        QImageReader imagreader(path);
+        itemInfo.imgOriginalWidth = imagreader.size().width();
+        itemInfo.imgOriginalHeight = imagreader.size().height();
+
+        //缩略图保存路径
+        QString savePath = thumbnailSavePath + path;
         //保存为jpg格式
         savePath = savePath.mid(0, savePath.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(savePath) + ".png";
-
         QFileInfo file(savePath);
         //缩略图已存在，执行下一个路径
         if (file.exists()) {
+            tImg = QImage(savePath);
+            itemInfo.image = tImg;
+            emit sigOneImgReady(path, itemInfo);
             continue;
         }
         QString errMsg;
@@ -79,7 +86,6 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
             qDebug() << errMsg;
             continue;
         }
-
         if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
             bool cache_exist = false;
             if (tImg.height() != 200 && tImg.width() != 200) {
@@ -101,9 +107,23 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
         }
         //创建路径
         pluginUtils::base::mkMutiDir(savePath.mid(0, savePath.lastIndexOf('/')));
-
         if (tImg.save(savePath)) {
-            emit sigOneImgReady(path, tImg);
+            itemInfo.image = tImg;
+            emit sigOneImgReady(path, itemInfo);
         }
     }
+}
+
+imageViewerSpace::ImageType ImgOperate::getImageType(const QString &imagepath)
+{
+    imageViewerSpace::ImageType type = imageViewerSpace::ImageType::ImageTypeBlank;
+    //todo
+    return type;
+}
+
+imageViewerSpace::PathType ImgOperate::getPathType(const QString &imagepath)
+{
+    imageViewerSpace::PathType type = imageViewerSpace::PathType::PathTypeBlank;
+    //todo
+    return type;
 }

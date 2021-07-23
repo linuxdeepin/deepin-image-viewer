@@ -67,7 +67,7 @@ protected:
 //    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 public slots:
     //有新的图片加载上来
-    void slotOneImgReady(QString path, QImage pix);
+    void slotOneImgReady(QString path, imageViewerSpace::ItemInfo pix);
     //列表点击事件
     void onClicked(const QModelIndex &index);
 private:

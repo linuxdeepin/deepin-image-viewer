@@ -31,7 +31,7 @@ public:
 
 signals:
     //一张缩略图制作完成
-    void sigOneImgReady(QString path, QImage image);
+    void sigOneImgReady(QString path, imageViewerSpace::ItemInfo itemInfo);
 private:
 
     static ImageEngine *m_ImageEngine;

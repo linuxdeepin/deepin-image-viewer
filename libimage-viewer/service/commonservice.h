@@ -39,11 +39,14 @@ public:
     //设置缩略图保存路径
     void setImgSavePath(QString path);
     QString getImgSavePath();
-    //保存制作好的缩略图
-    void setImgByPath(QString path, QImage image);
-    QImage getImgByPath(QString path);
+    //保存制作好的图片信息
+    void setImgInfoByPath(QString path, imageViewerSpace::ItemInfo itemInfo);
+    imageViewerSpace::ItemInfo getImgInfoByPath(QString path);
 signals:
 
+public slots:
+    //有新的图片加载上来
+    void slotOneImgReady(QString path, imageViewerSpace::ItemInfo itemInfo);
 private:
     explicit CommonService(QObject *parent = nullptr);
 
@@ -52,7 +55,6 @@ private:
 
     imageViewerSpace::ImgViewerType m_imgViewerType = imageViewerSpace::ImgViewerTypeNull;
     QString       m_imgSavePath;
-    QMap<QString, QImage> m_allImageMap;
     QMap<QString, imageViewerSpace::ItemInfo> m_allInfoMap;//图片所有信息map
 };
 

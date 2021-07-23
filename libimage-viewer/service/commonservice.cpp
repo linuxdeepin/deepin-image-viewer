@@ -22,6 +22,8 @@
 
 #include <QImage>
 
+#include "imageengine.h"
+
 CommonService *CommonService::m_commonService = nullptr;
 CommonService *CommonService::instance()
 {
@@ -52,14 +54,20 @@ QString CommonService::getImgSavePath()
     return m_imgSavePath;
 }
 
-void CommonService::setImgByPath(QString path, QImage image)
+void CommonService::setImgInfoByPath(QString path, imageViewerSpace::ItemInfo itemInfo)
 {
-    m_allImageMap[path] = image;
+    m_allInfoMap[path] = itemInfo;
 }
 
-QImage CommonService::getImgByPath(QString path)
+imageViewerSpace::ItemInfo CommonService::getImgInfoByPath(QString path)
 {
-    return m_allImageMap[path];
+    return m_allInfoMap[path];
+}
+
+void CommonService::slotOneImgReady(QString path, imageViewerSpace::ItemInfo itemInfo)
+{
+    m_allInfoMap[path] = itemInfo;
+    emit ImageEngine::instance()->sigOneImgReady(path, itemInfo);
 }
 
 CommonService::CommonService(QObject *parent) : QObject(parent)

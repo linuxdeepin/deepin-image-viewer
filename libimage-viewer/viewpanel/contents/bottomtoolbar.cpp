@@ -255,7 +255,6 @@ void BottomToolbar::resizeEvent(QResizeEvent *event)
 
 void BottomToolbar::setAllFile(QString path, QStringList paths)
 {
-    qDebug() << "---" << __FUNCTION__ << "---paths.size = " << paths.size();
     if (paths.size() <= 1) {
         m_preButton->setVisible(false);
         m_nextButton->setVisible(false);
@@ -269,9 +268,6 @@ void BottomToolbar::setAllFile(QString path, QStringList paths)
     for (int i = 0; i < paths.size(); i++) {
         imageViewerSpace::ItemInfo info;
         info.path = paths.at(i);
-        QString path = CommonService::instance()->getImgSavePath() + info.path;
-        path = path.mid(0, path.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(path) + ".png";
-        info.image = QImage(path);
         itemInfos << info;
     }
 

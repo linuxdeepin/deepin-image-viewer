@@ -27,6 +27,7 @@
 #include <QDebug>
 #include <QImage>
 
+#include "image-viewer_global.h"
 class ImgOperate : public QObject
 {
     Q_OBJECT
@@ -38,10 +39,14 @@ public slots:
     void slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount);
 
 signals:
-    void sigOneImgReady(QString imagepath, QImage image);
+    //图片信息以及缩略图制作完成
+    void sigOneImgReady(QString imagepath, imageViewerSpace::ItemInfo itemInfo);
 
 private:
-
+    //判断图片类型
+    imageViewerSpace::ImageType getImageType(const QString &imagepath);
+    //判断路径类型
+    imageViewerSpace::PathType getPathType(const QString &imagepath);
 };
 
 #endif // ImgOperate_H
