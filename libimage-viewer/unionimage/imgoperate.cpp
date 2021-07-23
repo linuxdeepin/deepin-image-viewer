@@ -28,10 +28,12 @@
 #include <QThread>
 #include <QImage>
 #include <QImageReader>
-
+#include <QMimeDatabase>
 #include "unionimage.h"
 #include "pluginbaseutils.h"
 #include "imageengine.h"
+#include "imageutils.h"
+
 
 ImgOperate::ImgOperate(QObject *parent)
 {
@@ -54,9 +56,8 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
             break;
         }
         path = paths.at(i);
+        itemInfo.path = path;
 
-        //获取图片类型
-        itemInfo.imageType = getImageType(path);
         //获取路径类型
         itemInfo.pathType = getPathType(path);
         //获取原图分辨率
@@ -73,6 +74,8 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
         if (file.exists()) {
             tImg = QImage(savePath);
             itemInfo.image = tImg;
+            //获取图片类型
+            itemInfo.imageType = getImageType(path);
             emit sigOneImgReady(path, itemInfo);
             continue;
         }
@@ -109,21 +112,69 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
         pluginUtils::base::mkMutiDir(savePath.mid(0, savePath.lastIndexOf('/')));
         if (tImg.save(savePath)) {
             itemInfo.image = tImg;
-            emit sigOneImgReady(path, itemInfo);
+
         }
+        if (itemInfo.image.isNull()) {
+            itemInfo.imageType = imageViewerSpace::ImageTypeDamaged;
+        } else {
+            //获取图片类型
+            itemInfo.imageType = getImageType(path);
+        }
+        emit sigOneImgReady(path, itemInfo);
     }
 }
 
 imageViewerSpace::ImageType ImgOperate::getImageType(const QString &imagepath)
 {
     imageViewerSpace::ImageType type = imageViewerSpace::ImageType::ImageTypeBlank;
-    //todo
+    //新增获取图片是属于静态图还是动态图还是多页图
+    if (!imagepath.isEmpty()) {
+        QFileInfo fi(imagepath);
+        QString strType = fi.suffix().toLower();
+        //解决bug57394 【专业版1031】【看图】【5.6.3.74】【修改引入】pic格式图片变为翻页状态，不为动图且首张显示序号为0
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(imagepath, QMimeDatabase::MatchContent);
+        QMimeType mt1 = db.mimeTypeForFile(imagepath, QMimeDatabase::MatchExtension);
+        QString path1 = mt.name();
+        QString path2 = mt1.name();
+        int nSize = -1;
+        QImageReader imgreader(imagepath);
+        nSize = imgreader.imageCount();
+        //
+        if ((strType == "mng")
+                || ((strType == "gif") && nSize > 1)
+                || (strType == "webp" && nSize > 1)
+                || ((mt.name().startsWith("image/gif")) && nSize > 1)
+                || ((mt1.name().startsWith("image/gif")) && nSize > 1)
+                || ((mt.name().startsWith("video/x-mng")))
+                || ((mt1.name().startsWith("video/x-mng")))) {
+            type = imageViewerSpace::ImageTypeDynamic;
+        } else if (nSize > 1) {
+            type = imageViewerSpace::ImageTypeMulti;
+        } else {
+            type = imageViewerSpace::ImageTypeStatic;
+        }
+    }
     return type;
 }
 
 imageViewerSpace::PathType ImgOperate::getPathType(const QString &imagepath)
 {
-    imageViewerSpace::PathType type = imageViewerSpace::PathType::PathTypeBlank;
+    //判断文件路径来自于哪里
+    imageViewerSpace::PathType type = imageViewerSpace::PathType::PathTypeLOCAL;
+    if (imagepath.indexOf("smb-share:server=") != -1) {
+        type = imageViewerSpace::PathTypeSMB;
+    } else if (imagepath.indexOf("mtp:host=") != -1) {
+        type = imageViewerSpace::PathTypeMTP;
+    } else if (imagepath.indexOf("gphoto2:host=") != -1) {
+        type = imageViewerSpace::PathTypePTP;
+    } else if (imagepath.indexOf("gphoto2:host=Apple") != -1) {
+        type = imageViewerSpace::PathTypeAPPLE;
+    } else if (utils::image::isVaultFile(imagepath)) {
+        type = imageViewerSpace::PathTypeSAFEBOX;
+    } else if (imagepath.contains(QDir::homePath() + "/.local/share/Trash")) {
+        type = imageViewerSpace::PathTypeRECYCLEBIN;
+    }
     //todo
     return type;
 }

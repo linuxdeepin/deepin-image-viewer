@@ -27,8 +27,10 @@
 #include <DAnchors>
 #include "scen/imagegraphicsview.h"
 
-DWIDGET_USE_NAMESPACE
 
+DWIDGET_USE_NAMESPACE
+class ImageInfoWidget;
+class ExtensionPanel;
 class NavigationWidget;
 class BottomToolbar;
 class ViewPanel : public QFrame
@@ -75,6 +77,8 @@ public:
     void initNavigation();
     //初始化右键菜单
     void initRightMenu();
+    //初始化详细信息
+    void initExtensionPanel();
     //更新右键菜单
     void updateMenuContent();
     //控制全屏和返回全屏
@@ -109,7 +113,8 @@ private :
     DStackedWidget *m_stack = nullptr;
     ImageGraphicsView *m_view = nullptr;
     BottomToolbar *m_bottomToolbar = nullptr;
-
+    ImageInfoWidget *m_info = nullptr;
+    ExtensionPanel  *m_extensionPanel {nullptr};
     DAnchors<NavigationWidget> m_nav ;
 
     DMenu *m_menu = nullptr;

@@ -32,10 +32,13 @@
 #include "unionimage/baseutils.h"
 #include "imageengine.h"
 #include "widgets/printhelper.h"
+#include "contents/imageinfowidget.h"
+#include "widgets/extensionpanel.h"
 
 const int BOTTOM_TOOLBAR_HEIGHT = 80;   //底部工具看高
 const int BOTTOM_SPACING = 10;          //底部工具栏与底部边缘距离
 const int RT_SPACING = 20;
+const int TOP_TOOLBAR_HEIGHT = 50;
 
 QString ss(const QString &text, const QString &defaultValue)
 {
@@ -65,6 +68,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     initConnect();
     initRightMenu();
     initFloatingComponent();
+    initExtensionPanel();
 }
 
 ViewPanel::~ViewPanel()
@@ -193,6 +197,19 @@ void ViewPanel::initRightMenu()
         m_menu->popup(QCursor::pos());
     });
     connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
+}
+
+void ViewPanel::initExtensionPanel()
+{
+    if (!m_info) {
+        m_info = new ImageInfoWidget("", "", this);
+    }
+    m_info->setImagePath(m_bottomToolbar->getCurrentItemInfo().path);
+    if (!m_extensionPanel) {
+        m_extensionPanel = new ExtensionPanel(this);
+        connect(m_info, &ImageInfoWidget::extensionPanelHeight, m_extensionPanel, &ExtensionPanel::updateRectWithContent);
+        connect(m_view, &ImageGraphicsView::clicked, this, [ = ] { this->m_extensionPanel->hide(); });
+    }
 }
 
 void ViewPanel::updateMenuContent()
@@ -390,6 +407,17 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     case IdImageInfo: {
         //todo,文件信息
+        m_info->setImagePath(m_bottomToolbar->getCurrentItemInfo().path);
+        m_extensionPanel->setContent(m_info);
+        m_extensionPanel->show();
+        if (this->window()->isFullScreen() || this->window()->isMaximized()) {
+            m_extensionPanel->move(this->window()->width() - m_extensionPanel->width() - 24,
+                                   TOP_TOOLBAR_HEIGHT * 2);
+        } else {
+            m_extensionPanel->move(this->window()->pos() +
+                                   QPoint(this->window()->width() - m_extensionPanel->width() - 24,
+                                          TOP_TOOLBAR_HEIGHT * 2));
+        }
         break;
     }
     case IdOcr: {
@@ -421,8 +449,13 @@ void ViewPanel::openImg(int index, QString path)
 
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {
-//    m_view->setFixedSize(QSize(1920, 1080));
-    qDebug() << "ViewPanel::resizeEvent ======= " << e->size();
+    if (m_extensionPanel) {
+        // 获取widget左上角坐标的全局坐标
+        //lmh0826,解决bug44826
+        QPoint p = this->mapToGlobal(QPoint(0, 0));
+        m_extensionPanel->move(p + QPoint(this->window()->width() - m_extensionPanel->width() - 24,
+                                          TOP_TOOLBAR_HEIGHT * 2));
+    }
     resetBottomToolbarGeometry(m_stack->currentWidget() == m_view);
     QFrame::resizeEvent(e);
 }
