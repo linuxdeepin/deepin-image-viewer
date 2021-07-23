@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "imageview.h"
+#include "imagegraphicsview.h"
 
 #include <QDebug>
 #include <QFile>
@@ -88,7 +88,7 @@ QVariantList cachePixmap(const QString &path)
 }
 
 }  // namespace
-ImageView::ImageView(QWidget *parent)
+ImageGraphicsView::ImageGraphicsView(QWidget *parent)
     : QGraphicsView(parent)
     , m_renderer(Native)
     , m_pool(new QThreadPool(this))
@@ -98,7 +98,6 @@ ImageView::ImageView(QWidget *parent)
 {
     this->setObjectName("ImageView");
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-    this->setStyleSheet("background-color:red;");
     setScene(new QGraphicsScene(this));
     setContentsMargins(0, 0, 0, 0);
     setMouseTracking(true);
@@ -116,22 +115,22 @@ ImageView::ImageView(QWidget *parent)
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
 
-    connect(&m_watcher, &QFutureWatcherBase::finished, this, &ImageView::onCacheFinish);
+    connect(&m_watcher, &QFutureWatcherBase::finished, this, &ImageGraphicsView::onCacheFinish);
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
     m_loadTimer = new QTimer(this);
     m_loadTimer->setSingleShot(true);
     m_loadTimer->setInterval(300);
 
-    connect(m_loadTimer, &QTimer::timeout, this, &ImageView::onLoadTimerTimeout);
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ImageView::onThemeTypeChanged);
+    connect(m_loadTimer, &QTimer::timeout, this, &ImageGraphicsView::onLoadTimerTimeout);
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ImageGraphicsView::onThemeTypeChanged);
     m_imgFileWatcher = new QFileSystemWatcher(this);
-    connect(m_imgFileWatcher, &QFileSystemWatcher::fileChanged, this, &ImageView::onImgFileChanged);
+    connect(m_imgFileWatcher, &QFileSystemWatcher::fileChanged, this, &ImageGraphicsView::onImgFileChanged);
     m_isChangedTimer = new QTimer(this);
-    QObject::connect(m_isChangedTimer, &QTimer::timeout, this, &ImageView::onIsChangedTimerTimeout);
+    QObject::connect(m_isChangedTimer, &QTimer::timeout, this, &ImageGraphicsView::onIsChangedTimerTimeout);
 }
 
-ImageView::~ImageView()
+ImageGraphicsView::~ImageGraphicsView()
 {
     if (m_imgFileWatcher) {
 //        m_imgFileWatcher->clear();
@@ -142,7 +141,7 @@ ImageView::~ImageView()
     }
 }
 
-void ImageView::clear()
+void ImageGraphicsView::clear()
 {
     if (m_pixmapItem != nullptr) {
         delete m_pixmapItem;
@@ -152,7 +151,7 @@ void ImageView::clear()
     scene()->clear();
 }
 
-void ImageView::setImage(const QString &path, const QImage &image)
+void ImageGraphicsView::setImage(const QString &path, const QImage &image)
 {
     m_loadPath = path;
     // Empty path will cause crash in release-build mode
@@ -200,7 +199,6 @@ void ImageView::setImage(const QString &path, const QImage &image)
             int hScale = 0;
             int wWindow = 0;
             int hWindow = 0;
-            qDebug() << "---" << __FUNCTION__ << "-1111111111111--" << this->size();
             if (QApplication::activeWindow()) {
                 wWindow = QApplication::activeWindow()->width();
                 hWindow = QApplication::activeWindow()->height();
@@ -274,7 +272,7 @@ void ImageView::setImage(const QString &path, const QImage &image)
     m_firstset = true;
 }
 
-void ImageView::setScaleValue(qreal v)
+void ImageGraphicsView::setScaleValue(qreal v)
 {
     scale(v, v);
 #ifdef tablet_PC
@@ -329,7 +327,7 @@ void ImageView::setScaleValue(qreal v)
     emit transformChanged();
 }
 
-void ImageView::autoFit()
+void ImageGraphicsView::autoFit()
 {
     //确认场景加载出来后，才能调用场景内的item
 //    if (!scene()->isActive())
@@ -346,7 +344,7 @@ void ImageView::autoFit()
     }
 }
 
-const QImage ImageView::image()
+const QImage ImageGraphicsView::image()
 {
     if (m_movieItem) {           // bit-map
         return m_movieItem->pixmap().toImage();
@@ -361,7 +359,7 @@ const QImage ImageView::image()
     }
 }
 
-void ImageView::fitWindow()
+void ImageGraphicsView::fitWindow()
 {
     qreal wrs = windowRelativeScale();
     resetTransform();
@@ -379,7 +377,7 @@ void ImageView::fitWindow()
     emit transformChanged();
 }
 
-void ImageView::fitImage()
+void ImageGraphicsView::fitImage()
 {
     qreal wrs = windowRelativeScale();
     resetTransform();
@@ -397,7 +395,7 @@ void ImageView::fitImage()
     emit transformChanged();
 }
 
-void ImageView::rotateClockWise()
+void ImageGraphicsView::rotateClockWise()
 {
     QString errMsg;
     QImage rotateResult;
@@ -409,7 +407,7 @@ void ImageView::rotateClockWise()
     setImage(m_path, rotateResult);
 }
 
-void ImageView::rotateCounterclockwise()
+void ImageGraphicsView::rotateCounterclockwise()
 {
     QString errMsg;
     QImage rotateResult;
@@ -421,19 +419,19 @@ void ImageView::rotateCounterclockwise()
     setImage(m_path, rotateResult);
 }
 
-void ImageView::centerOn(qreal x, qreal y)
+void ImageGraphicsView::centerOn(qreal x, qreal y)
 {
     QGraphicsView::centerOn(x, y);
     emit transformChanged();
 }
 
-qreal ImageView::imageRelativeScale() const
+qreal ImageGraphicsView::imageRelativeScale() const
 {
     // vertical scale factor are equal to the horizontal one
     return transform().m11();
 }
 
-qreal ImageView::windowRelativeScale() const
+qreal ImageGraphicsView::windowRelativeScale() const
 {
     QRectF bf = sceneRect();
     if (1.0 * width() / height() > 1.0 * bf.width() / bf.height()) {
@@ -443,27 +441,27 @@ qreal ImageView::windowRelativeScale() const
     }
 }
 
-const QString ImageView::path() const
+const QString ImageGraphicsView::path() const
 {
     return m_path;
 }
 
-QPoint ImageView::mapToImage(const QPoint &p) const
+QPoint ImageGraphicsView::mapToImage(const QPoint &p) const
 {
     return viewportTransform().inverted().map(p);
 }
 
-QRect ImageView::mapToImage(const QRect &r) const
+QRect ImageGraphicsView::mapToImage(const QRect &r) const
 {
     return viewportTransform().inverted().mapRect(r);
 }
 
-QRect ImageView::visibleImageRect() const
+QRect ImageGraphicsView::visibleImageRect() const
 {
     return mapToImage(rect()) & QRect(0, 0, static_cast<int>(sceneRect().width()), static_cast<int>(sceneRect().height()));
 }
 
-bool ImageView::isWholeImageVisible() const
+bool ImageGraphicsView::isWholeImageVisible() const
 {
     const QRect &r = visibleImageRect();
     const QRectF &sr = sceneRect();
@@ -471,23 +469,23 @@ bool ImageView::isWholeImageVisible() const
     return r.width() >= sr.width() && r.height() >= sr.height();
 }
 
-bool ImageView::isFitImage() const
+bool ImageGraphicsView::isFitImage() const
 {
     return m_isFitImage;
 }
 
-bool ImageView::isFitWindow() const
+bool ImageGraphicsView::isFitWindow() const
 {
     return m_isFitWindow;
 }
 
-void ImageView::onImgFileChanged(const QString &ddfFile)
+void ImageGraphicsView::onImgFileChanged(const QString &ddfFile)
 {
     Q_UNUSED(ddfFile)
     m_isChangedTimer->start(200);
 }
 
-void ImageView::onLoadTimerTimeout()
+void ImageGraphicsView::onLoadTimerTimeout()
 {
     QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, m_loadPath);
     if (m_watcher.isRunning()) {
@@ -498,7 +496,7 @@ void ImageView::onLoadTimerTimeout()
     emit hideNavigation();
 }
 
-void ImageView::onThemeTypeChanged()
+void ImageGraphicsView::onThemeTypeChanged()
 {
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::DarkType) {
@@ -509,7 +507,7 @@ void ImageView::onThemeTypeChanged()
     update();
 }
 
-void ImageView::onIsChangedTimerTimeout()
+void ImageGraphicsView::onIsChangedTimerTimeout()
 {
     QFileInfo file(m_path);
     if (file.exists()) {
@@ -522,13 +520,13 @@ void ImageView::onIsChangedTimerTimeout()
     }
 }
 
-void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
+void ImageGraphicsView::mouseDoubleClickEvent(QMouseEvent *e)
 {
     emit doubleClicked();
     QGraphicsView::mouseDoubleClickEvent(e);
 }
 
-void ImageView::mouseReleaseEvent(QMouseEvent *e)
+void ImageGraphicsView::mouseReleaseEvent(QMouseEvent *e)
 {
     QGraphicsView::mouseReleaseEvent(e);
 
@@ -558,7 +556,7 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
 #endif
 }
 
-void ImageView::mousePressEvent(QMouseEvent *e)
+void ImageGraphicsView::mousePressEvent(QMouseEvent *e)
 {
 #ifdef tablet_PC
     m_press = true;
@@ -574,7 +572,7 @@ void ImageView::mousePressEvent(QMouseEvent *e)
     m_startpointx = e->pos().x();
 }
 
-void ImageView::mouseMoveEvent(QMouseEvent *e)
+void ImageGraphicsView::mouseMoveEvent(QMouseEvent *e)
 {
     m_press = false;
     if (!(e->buttons() | Qt::NoButton)) {
@@ -592,14 +590,14 @@ void ImageView::mouseMoveEvent(QMouseEvent *e)
 #endif
 }
 
-void ImageView::leaveEvent(QEvent *e)
+void ImageGraphicsView::leaveEvent(QEvent *e)
 {
 //    dApp->getDAppNew()->restoreOverrideCursor();
 
     QGraphicsView::leaveEvent(e);
 }
 
-void ImageView::resizeEvent(QResizeEvent *event)
+void ImageGraphicsView::resizeEvent(QResizeEvent *event)
 {
     qDebug() << "---" << __FUNCTION__ << "---" << event->size();
     QGraphicsView::resizeEvent(event);
@@ -607,12 +605,12 @@ void ImageView::resizeEvent(QResizeEvent *event)
 //                  height() - 80 - m_toast->height() / 2 - 11);
 }
 
-void ImageView::paintEvent(QPaintEvent *event)
+void ImageGraphicsView::paintEvent(QPaintEvent *event)
 {
     QGraphicsView::paintEvent(event);
 }
 
-void ImageView::dragEnterEvent(QDragEnterEvent *e)
+void ImageGraphicsView::dragEnterEvent(QDragEnterEvent *e)
 {
     const QMimeData *mimeData = e->mimeData();
 //    if (!utils::base::checkMimeData(mimeData)) {
@@ -621,7 +619,7 @@ void ImageView::dragEnterEvent(QDragEnterEvent *e)
     e->accept();
 }
 
-void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
+void ImageGraphicsView::drawBackground(QPainter *painter, const QRectF &rect)
 {
 //    QPixmap pm(12, 12);
 //    QPainter pmp(&pm);
@@ -642,7 +640,7 @@ void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
     painter->restore();
 }
 int static count = 0;
-bool ImageView::event(QEvent *event)
+bool ImageGraphicsView::event(QEvent *event)
 {
     QEvent::Type evType = event->type();
     if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
@@ -695,7 +693,7 @@ bool ImageView::event(QEvent *event)
     return QGraphicsView::event(event);
 }
 
-void ImageView::onCacheFinish()
+void ImageGraphicsView::onCacheFinish()
 {
     QVariantList vl = m_watcher.result();
     if (vl.length() == 2) {
@@ -727,7 +725,7 @@ void ImageView::onCacheFinish()
 //    update();
 //}
 
-void ImageView::scaleAtPoint(QPoint pos, qreal factor)
+void ImageGraphicsView::scaleAtPoint(QPoint pos, qreal factor)
 {
     // Remember zoom anchor point.
     const QPointF targetPos = pos;
@@ -747,13 +745,13 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
     centerOn(centerScenePos.x(), centerScenePos.y());
 }
 
-void ImageView::handleGestureEvent(QGestureEvent *gesture)
+void ImageGraphicsView::handleGestureEvent(QGestureEvent *gesture)
 {
     if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
         pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
 
-void ImageView::pinchTriggered(QPinchGesture *gesture)
+void ImageGraphicsView::pinchTriggered(QPinchGesture *gesture)
 {
     m_maxTouchPoints = 2;
     QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
@@ -786,7 +784,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     }
 }
 
-void ImageView::wheelEvent(QWheelEvent *event)
+void ImageGraphicsView::wheelEvent(QWheelEvent *event)
 {
     QFileInfo file(m_path);
     if (!file.exists()) {

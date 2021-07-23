@@ -59,7 +59,7 @@ public:
 signals:
 
 private:
-    ItemInfo itemData(const QModelIndex &index) const;
+    imageViewerSpace::ItemInfo itemData(const QModelIndex &index) const;
 
 public:
 

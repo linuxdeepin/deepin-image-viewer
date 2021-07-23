@@ -68,8 +68,8 @@ void ImgViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     painter->save();
     QString pixmapstring;
     QImage _pixmap;
-    const ItemInfo data = itemData(index);
-    if (data.itemType == ItemTypeBlank) {
+    const imageViewerSpace::ItemInfo data = itemData(index);
+    if (data.itemType == imageViewerSpace::ItemTypeBlank) {
         painter->restore();
         return;
     }
@@ -167,9 +167,9 @@ QSize ImgViewDelegate::sizeHint(const QStyleOptionViewItem &option,
     return index.data(Qt::SizeHintRole).value<QSize>();
 }
 
-ItemInfo ImgViewDelegate::itemData(const QModelIndex &index) const
+imageViewerSpace::ItemInfo ImgViewDelegate::itemData(const QModelIndex &index) const
 {
-    ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
+    imageViewerSpace::ItemInfo data = index.data(Qt::DisplayRole).value<imageViewerSpace::ItemInfo>();
     data.isSelected = index.data(Qt::UserRole).toBool();
     return data;
 }

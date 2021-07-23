@@ -49,15 +49,15 @@ DWIDGET_BEGIN_NAMESPACE
 DWIDGET_END_NAMESPACE
 
 class CFileWatcher;
-class ImageView : public QGraphicsView
+class ImageGraphicsView : public QGraphicsView
 {
     Q_OBJECT
 
 public:
     enum RendererType { Native, OpenGL };
 
-    explicit ImageView(QWidget *parent = nullptr);
-    ~ImageView() override;
+    explicit ImageGraphicsView(QWidget *parent = nullptr);
+    ~ImageGraphicsView() override;
     void clear();
     void fitWindow();
     void fitImage();

@@ -32,12 +32,12 @@ CommonService *CommonService::instance()
     return m_commonService;
 }
 
-void CommonService::setImgViewerType(ImgViewerType type)
+void CommonService::setImgViewerType(imageViewerSpace::ImgViewerType type)
 {
     m_imgViewerType = type;
 }
 
-ImgViewerType CommonService::getImgViewerType()
+imageViewerSpace::ImgViewerType CommonService::getImgViewerType()
 {
     return m_imgViewerType;
 }

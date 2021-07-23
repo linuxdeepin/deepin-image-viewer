@@ -64,9 +64,11 @@ public:
     explicit MyImageListWidget(QWidget *parent = nullptr);
     ~MyImageListWidget() override;
 
-    void setAllFile(QList<ItemInfo> itemInfos, QString path); //设置需要展示的所有缩略图
+    void setAllFile(QList<imageViewerSpace::ItemInfo> itemInfos, QString path); //设置需要展示的所有缩略图
     //通过路径获取图片信息
-    ItemInfo getImgInfo(QString path);
+    imageViewerSpace::ItemInfo getImgInfo(QString path);
+    //获取当前图片信息
+    imageViewerSpace::ItemInfo getCurrentImgInfo();
     //将选中的项居中
     void setSelectCenter();
     //获取当前所有展示图片数量

@@ -25,7 +25,7 @@
 
 #include <DStackedWidget>
 #include <DAnchors>
-#include "scen/imageview.h"
+#include "scen/imagegraphicsview.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -107,7 +107,7 @@ signals:
     void imageChanged(const QString &path);
 private :
     DStackedWidget *m_stack = nullptr;
-    ImageView *m_view = nullptr;
+    ImageGraphicsView *m_view = nullptr;
     BottomToolbar *m_bottomToolbar = nullptr;
 
     DAnchors<NavigationWidget> m_nav ;

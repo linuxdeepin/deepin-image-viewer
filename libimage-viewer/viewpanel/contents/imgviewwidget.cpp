@@ -66,7 +66,7 @@ MyImageListWidget::~MyImageListWidget()
 {
 }
 
-void MyImageListWidget::setAllFile(QList<ItemInfo> itemInfos, QString path)
+void MyImageListWidget::setAllFile(QList<imageViewerSpace::ItemInfo> itemInfos, QString path)
 {
     m_listview->setAllFile(itemInfos, path);
     this->setVisible(itemInfos.size() > 1);
@@ -74,18 +74,28 @@ void MyImageListWidget::setAllFile(QList<ItemInfo> itemInfos, QString path)
     emit openImg(m_listview->getSelectIndexByPath(path), path);
 }
 
-ItemInfo MyImageListWidget::getImgInfo(QString path)
+imageViewerSpace::ItemInfo MyImageListWidget::getImgInfo(QString path)
 {
-    ItemInfo info;
+    imageViewerSpace::ItemInfo info;
     for (int i = 0; i < m_listview->m_model->rowCount(); i++) {
         QModelIndex indexImg = m_listview->m_model->index(i, 0);
-        ItemInfo infoImg = indexImg.data(Qt::DisplayRole).value<ItemInfo>();
+        imageViewerSpace::ItemInfo infoImg = indexImg.data(Qt::DisplayRole).value<imageViewerSpace::ItemInfo>();
         if (infoImg.path == path) {
             info = infoImg;
             break;
         }
     }
     return info;
+}
+
+imageViewerSpace::ItemInfo MyImageListWidget::getCurrentImgInfo()
+{
+    imageViewerSpace::ItemInfo infoImg;
+    if (m_listview->m_currentRow < m_listview->m_model->rowCount()) {
+        QModelIndex indexImg = m_listview->m_model->index(m_listview->m_currentRow, 0);
+        infoImg = indexImg.data(Qt::DisplayRole).value<imageViewerSpace::ItemInfo>();
+    }
+    return infoImg;
 }
 //将选中项移到最前面，后期可能有修改，此时获取的列表宽度不正确
 void MyImageListWidget::setSelectCenter()

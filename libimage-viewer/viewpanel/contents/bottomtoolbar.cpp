@@ -82,6 +82,11 @@ BottomToolbar::BottomToolbar(QWidget *parent) : DFloatingWidget(parent)
     initConnection();
 }
 
+BottomToolbar::~BottomToolbar()
+{
+
+}
+
 int BottomToolbar::getAllFileCount()
 {
     if (m_imgListWidget) {
@@ -95,7 +100,7 @@ int BottomToolbar::getToolbarWidth()
 {
     //默认值，下面会重新计算
     int width = 300;
-    if (CommonService::instance()->getImgViewerType() == ImgViewerType::ImgViewerTypeLocal) {
+    if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeLocal) {
         width = 0;
         m_backButton->setVisible(false);
         m_clBT->setVisible(false);
@@ -117,13 +122,18 @@ int BottomToolbar::getToolbarWidth()
             width += ImgViewListView::ITEM_CURRENT_WH;
             width += (m_imgListWidget->getImgCount() - 1) * (ImgViewListView::ITEM_CURRENT_WH + ImgViewListView::ITEM_SPACING);
         }
-    } else if (CommonService::instance()->getImgViewerType() == ImgViewerType::ImgViewerTypeAlbum) {
+    } else if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum) {
         //相册
         width = 0;
         m_backButton->setVisible(true);
         m_clBT->setVisible(true);
     }
     return width;
+}
+
+imageViewerSpace::ItemInfo BottomToolbar::getCurrentItemInfo()
+{
+    return m_imgListWidget->getCurrentImgInfo();
 }
 
 void BottomToolbar::disCheckAdaptImageBtn()
@@ -225,18 +235,6 @@ void BottomToolbar::onPreButton()
     }
 }
 
-void BottomToolbar::setCurrentDir(const QString &text)
-{
-#ifndef LITE_DIV
-    if (text == COMMON_STR_FAVORITES) {
-        text = tr(COMMON_STR_FAVORITES);
-    }
-    m_returnBtn->setText(text);
-#else
-    Q_UNUSED(text)
-#endif
-}
-
 void BottomToolbar::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
@@ -255,64 +253,6 @@ void BottomToolbar::resizeEvent(QResizeEvent *event)
 //    setFixedWidth(m_contentWidth);
 }
 
-
-void BottomToolbar::setImage(const QString &path)
-{
-    qDebug() << "---" << __FUNCTION__ << "---";
-    if ((m_imgListWidget->getImgCount() > 0) && !QFileInfo(path).exists()) {
-//        emit dApp->signalM->picNotExists(true);
-        m_currentpath = path;
-        if (m_imgListWidget->getImgCount() == 1)
-            return;
-    } else {
-//        emit dApp->signalM->picNotExists(false);
-    }
-    m_currentpath = path;
-    ItemInfo info = m_imgListWidget->getImgInfo(path);
-    if (info.image.isNull()) {
-        m_adaptImageBtn->setDisabled(true);
-        m_adaptScreenBtn->setDisabled(true);
-        m_rotateLBtn->setDisabled(true);
-        m_rotateRBtn->setDisabled(true);
-//        m_trashBtn->setDisabled(true);
-//        m_imgList->setDisabled(false);
-    } else {
-        setCurrentItem();
-    }
-}
-
-bool BottomToolbar::setCurrentItem()
-{
-    if (m_currentpath.isEmpty() || !QFileInfo(m_currentpath).exists()) {
-        m_adaptImageBtn->setDisabled(true);
-        m_adaptScreenBtn->setDisabled(true);
-        m_rotateLBtn->setDisabled(true);
-        m_rotateRBtn->setDisabled(true);
-        m_trashBtn->setDisabled(true);
-        m_clBT->setDisabled(true);
-    } else {
-        m_adaptImageBtn->setDisabled(false);
-        m_adaptScreenBtn->setDisabled(false);
-
-        m_trashBtn->setDisabled(false);
-
-        if (UnionImage_NameSpace::canSave(m_currentpath) && QFile::permissions(m_currentpath).testFlag(QFile::WriteUser)) {
-            m_rotateLBtn->setDisabled(false);
-            m_rotateRBtn->setDisabled(false);
-        } else {
-            m_rotateLBtn->setEnabled(false);
-            m_rotateRBtn->setEnabled(false);
-        }
-    }
-    QString fileName = "";
-    if (m_currentpath != "") {
-        fileName = QFileInfo(m_currentpath).fileName();
-    }
-//    emit dApp0->signalM->updateFileName(fileName);
-    updateCollectButton();
-    return true;
-}
-
 void BottomToolbar::setAllFile(QString path, QStringList paths)
 {
     qDebug() << "---" << __FUNCTION__ << "---paths.size = " << paths.size();
@@ -325,9 +265,9 @@ void BottomToolbar::setAllFile(QString path, QStringList paths)
         m_nextButton->setVisible(true);
     }
 
-    QList<ItemInfo> itemInfos;
+    QList<imageViewerSpace::ItemInfo> itemInfos;
     for (int i = 0; i < paths.size(); i++) {
-        ItemInfo info;
+        imageViewerSpace::ItemInfo info;
         info.path = paths.at(i);
         QString path = CommonService::instance()->getImgSavePath() + info.path;
         path = path.mid(0, path.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(path) + ".png";
@@ -358,27 +298,6 @@ void BottomToolbar::updateCollectButton()
 //    }
 }
 
-void BottomToolbar::onResize()
-{
-    m_windowWidth =  this->window()->geometry().width();
-    if (m_imgListWidget->getImgCount() <= 1) {
-        m_preButton->setVisible(false);
-        m_nextButton->setVisible(false);
-        m_contentWidth = TOOLBAR_JUSTONE_WIDTH_LOCAL;
-    } else if (m_imgListWidget->getImgCount() <= 3) {
-        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-        //todo设置大小
-//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-        m_imgListWidget->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-    } else {
-        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgListWidget->getImgCount() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-        //todo设置大小
-//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-        m_imgListWidget->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgListWidget->getImgCount() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-    }
-    setFixedWidth(m_contentWidth);
-}
-
 void BottomToolbar::initUI()
 {
     QHBoxLayout *hb = new QHBoxLayout(this);
@@ -399,7 +318,7 @@ void BottomToolbar::initUI()
 
     m_spaceWidget = new QWidget(this);
     m_spaceWidget->setFixedSize(ICON_SPACING, ICON_SPACING);
-    if (CommonService::instance()->getImgViewerType() == ImgViewerType::ImgViewerTypeAlbum) {
+    if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum) {
         hb->addWidget(m_spaceWidget);
         m_backButton->setVisible(true);
     }
@@ -425,7 +344,7 @@ void BottomToolbar::initUI()
     m_nextButton->setToolTip(tr("Next"));
     m_nextButton->hide();
     hb->addWidget(m_nextButton);
-    if (CommonService::instance()->getImgViewerType() == ImgViewerType::ImgViewerTypeLocal) {
+    if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeLocal) {
         hb->addWidget(m_spaceWidget);
     }
 

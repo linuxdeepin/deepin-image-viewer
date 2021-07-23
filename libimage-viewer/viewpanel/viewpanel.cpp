@@ -51,7 +51,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     m_stack = new DStackedWidget(this);
     layout->addWidget(m_stack);
 
-    m_view = new ImageView(this);
+    m_view = new ImageGraphicsView(this);
     m_stack->addWidget(m_view);
 
     m_bottomToolbar = new BottomToolbar(this);
@@ -85,7 +85,7 @@ void ViewPanel::initConnect()
     //缩略图列表，单机打开图片
     connect(m_bottomToolbar, &BottomToolbar::openImg, this, &ViewPanel::openImg);
 
-    connect(m_view, &ImageView::imageChanged, this, [ = ](QString path) {
+    connect(m_view, &ImageGraphicsView::imageChanged, this, [ = ](QString path) {
         emit imageChanged(path);
         // Pixmap is cache in thread, make sure the size would correct after
         // cache is finish
@@ -126,7 +126,7 @@ void ViewPanel::initScaleLabel()
     hideT->setSingleShot(true);
     connect(hideT, &QTimer::timeout, scalePerc, &DLabel::hide);
 
-    connect(m_view, &ImageView::scaled, this, [ = ](qreal perc) {
+    connect(m_view, &ImageGraphicsView::scaled, this, [ = ](qreal perc) {
         label->setText(QString("%1%").arg(int(perc)));
         if (perc > 100) {
 
@@ -136,7 +136,7 @@ void ViewPanel::initScaleLabel()
 
         }
     });
-    connect(m_view, &ImageView::showScaleLabel, this, [ = ]() {
+    connect(m_view, &ImageGraphicsView::showScaleLabel, this, [ = ]() {
         scalePerc->show();
         hideT->start(1000);
     });
@@ -158,7 +158,7 @@ void ViewPanel::initNavigation()
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y) {
         m_view->centerOn(x, y);
     });
-    connect(m_view, &ImageView::transformChanged, [this]() {
+    connect(m_view, &ImageGraphicsView::transformChanged, [this]() {
         //如果stackindex不为2，全屏会出现导航窗口
         //如果是正在移动的情况，将不会出现导航栏窗口
         if (m_stack->currentIndex() != 2) {

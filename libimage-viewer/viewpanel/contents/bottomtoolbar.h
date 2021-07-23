@@ -66,14 +66,10 @@ public:
     };
 //    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
     explicit BottomToolbar(QWidget *parent = nullptr);
-    ~BottomToolbar() override
-    {
-    }
+    ~BottomToolbar() override;
 
     void initUI();
     void initConnection();
-//    void reLoad();
-    bool setCurrentItem();
 //    void updateScreenNoAnimation();
     //设置需要浏览的图片信息
     void setAllFile(QString path, QStringList paths);
@@ -81,6 +77,8 @@ public:
     int getAllFileCount();
     //获取不同数量情况下工具栏的宽度
     int getToolbarWidth();
+    //获取当前展示图片信息
+    imageViewerSpace::ItemInfo getCurrentItemInfo();
 signals:
     void resetTransform(bool fitWindow);
     void rotateClockwise();
@@ -96,11 +94,8 @@ signals:
     //由于添加或者删除导致长度变化,参数默认为true
     void sigWidthChanged(bool visible);
 public slots:
-    void setCurrentDir(const QString &text);
-    void setImage(const QString &path);
     void updateCollectButton();
 
-    void onResize();
     void disCheckAdaptImageBtn();
     void disCheckAdaptScreenBtn();
     void checkAdaptImageBtn();

@@ -34,8 +34,8 @@ public:
     static CommonService *instance();
 
     //设置图片展示类型，看图，相册
-    void setImgViewerType(ImgViewerType type);
-    ImgViewerType getImgViewerType();
+    void setImgViewerType(imageViewerSpace::ImgViewerType type);
+    imageViewerSpace::ImgViewerType getImgViewerType();
     //设置缩略图保存路径
     void setImgSavePath(QString path);
     QString getImgSavePath();
@@ -50,9 +50,10 @@ private:
 private:
     static CommonService *m_commonService;
 
-    ImgViewerType m_imgViewerType = ImgViewerTypeNull;
+    imageViewerSpace::ImgViewerType m_imgViewerType = imageViewerSpace::ImgViewerTypeNull;
     QString       m_imgSavePath;
     QMap<QString, QImage> m_allImageMap;
+    QMap<QString, imageViewerSpace::ItemInfo> m_allInfoMap;//图片所有信息map
 };
 
 #endif // COMMONSERVICE_H

@@ -26,16 +26,16 @@ bool compareByFileInfo(const QFileInfo &str1, const QFileInfo &str2)
 class ImageViewerPrivate
 {
 public:
-    ImageViewerPrivate(ImgViewerType imgViewerType, QString savePath, ImageViewer *parent);
+    ImageViewerPrivate(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, ImageViewer *parent);
 
 public:
     ImageViewer     *q_ptr;
     ViewPanel       *m_panel = nullptr;
-    ImgViewerType   m_imgViewerType;
+    imageViewerSpace::ImgViewerType   m_imgViewerType;
     Q_DECLARE_PUBLIC(ImageViewer)
 };
 
-ImageViewerPrivate::ImageViewerPrivate(ImgViewerType imgViewerType, QString savePath, ImageViewer *parent)
+ImageViewerPrivate::ImageViewerPrivate(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, ImageViewer *parent)
     : q_ptr(parent)
 {
     Q_Q(ImageViewer);
@@ -53,7 +53,7 @@ ImageViewerPrivate::ImageViewerPrivate(ImgViewerType imgViewerType, QString save
 }
 
 
-ImageViewer::ImageViewer(ImgViewerType imgViewerType, QString savePath, QWidget *parent)
+ImageViewer::ImageViewer(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, QWidget *parent)
     : DWidget(parent)
     , d_ptr(new ImageViewerPrivate(imgViewerType, savePath, this))
 {
@@ -117,7 +117,7 @@ void ImageViewer::startImgView(QString currentPath, QStringList paths)
     //展示当前图片
     d->m_panel->loadImage(currentPath, paths);
     //启动线程制作缩略图
-    if (CommonService::instance()->getImgViewerType() == ImgViewerTypeLocal) {
+    if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerTypeLocal) {
         //看图制作全部缩略图
         ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), paths, paths.size());
     }
