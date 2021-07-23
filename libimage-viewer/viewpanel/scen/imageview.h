@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
  *
- * Author:     LiuMingHang <liuminghang@uniontech.com>
+ * Author:     ZhangYong <zhangyong@uniontech.com>
  *
  * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
@@ -23,102 +23,58 @@
 
 #include <QGraphicsView>
 #include <QFutureWatcher>
-#include <QHash>
-#include <QReadWriteLock>
+#include <QThread>
+#include <QFileSystemWatcher>
 #include <QTimer>
-#include "../contents/morepicfloatwidget.h"
-#include "graphicsitem.h"
+#include <QGraphicsBlurEffect>
+#include <QPointer>
+#include <QMap>
+#include <QFileSystemWatcher>
 
-#include "unionimage/unionimage.h"
-#include "unionimage/baseutils.h"
-#include "unionimage/imageutils.h"
-#include "unionimage/snifferimageformat.h"
-
-#include <DWidget>
-DWIDGET_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
 class QPaintEvent;
 class QFile;
 class GraphicsMovieItem;
 class GraphicsPixmapItem;
-class ImageSvgItem;
 class QGraphicsSvgItem;
 class QThreadPool;
 class QGestureEvent;
 class QPinchGesture;
 class QSwipeGesture;
-class QPanGesture;
 QT_END_NAMESPACE
 
 #include "dtkwidget_global.h"
 DWIDGET_BEGIN_NAMESPACE
-class Toast;
 DWIDGET_END_NAMESPACE
 
-//#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
-Q_PROPERTY(QPointF pos READ pos WRITE setPos)  //移动
-Q_PROPERTY(int rotation READ rotation WRITE setRotation) //旋转
-
+class CFileWatcher;
 class ImageView : public QGraphicsView
 {
     Q_OBJECT
-
-    //显示的图片类型枚举 add by heyi
-    enum PICTURE_TYPE {
-        NORMAL,         //普通图片
-        SVG,            //SVG
-        KINETOGRAM      //动态图片
-    };
 
 public:
     enum RendererType { Native, OpenGL };
 
     explicit ImageView(QWidget *parent = nullptr);
-
+    ~ImageView() override;
     void clear();
     void fitWindow();
-    void fitWindow_btnclicked();
     void fitImage();
-
-    /**
-     * @brief rotateClockWise   顺时针旋转90度
-     */
-    bool rotateClockWise();
-
-    /**
-     * @brief rotateCounterclockwise 逆时针旋转90度
-     */
-    bool rotateCounterclockwise();
-    void centerOn(int x, int y);
-
-    /**
-     * @brief setImage  设置显示图片
-     * @param path      显示的图片路径
-     */
-    void setImage(const QString path);
-
-    QVariantList cachePixmap(const QString path);
-
-    void setRenderer(RendererType type = Native);
+    void rotateClockWise();
+    void rotateCounterclockwise();
+    void centerOn(qreal x, qreal y);
+    void setImage(const QString &path, const QImage &image = QImage());
+//    void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);
 
     void autoFit();
-    void titleBarControl();
 
-    const QImage image(bool brefresh = false);
+    const QImage image();
     qreal imageRelativeScale() const;
     qreal windowRelativeScale() const;
-    qreal windowRelativeScale_origin() const;
-    const QRectF imageRect() const;
-
-    /**
-     * @brief path  当前显示图片路径
-     * @return      图片路径
-     */
+//    const QRectF imageRect() const;
     const QString path() const;
-
-    void setPath(const QString path);
 
     QPoint mapToImage(const QPoint &p) const;
     QRect mapToImage(const QRect &r) const;
@@ -128,162 +84,32 @@ public:
     bool isFitImage() const;
     bool isFitWindow() const;
 
-    /**
-     * @brief rotatePixCurrent  判断当前图片是否被旋转，如果是，写入本地
-     */
-    void rotatePixCurrent();
-
-//    /**
-//     * @brief cacheThread   缓存图片线程，将缩略图的图片缓存到
-//     * @param strPath       需要缓存的图片路径
-//     */
-//    void cacheThread(const QString strPath);
-
-//    /**
-//     * @brief showPixmap    从hash中获取图片并显示
-//     * @param strPath       显示的图片路径
-//     */
-//    void showPixmap(QString strPath);
-
-    /**
-     * @brief judgePictureType  判断当前图片类型
-     * @param strPath           图片路径
-     * @return                  图片类型枚举
-     */
-    PICTURE_TYPE judgePictureType(const QString strPath);
-
-    /**
-     * @brief loadPictureByType 根据图片类型用不同的方式加载显示
-     * @param type              图片类型
-     * @param strPath           图片路径
-     * @return                  true为加载成功，false为加载失败
-     */
-    bool loadPictureByType(PICTURE_TYPE type, const QString strPath);
-
-    void setFitState(bool isFitImage = false, bool isFitWindow = false);
-
-
-    /**
-     * @brief getcurrentImgCount
-     * 获得当前imgreader的count
-     */
-    int getcurrentImgCount();
-
-    /**
-     * @brief getcurrentImgReader
-     * 获得当前imgreader
-     */
-    QImageReader *getcurrentImgReader();
-
-    /**
-     * @brief setCurrentImage
-     * 设置一文件多图片得到当前imgcount
-     */
-    void setCurrentImage(int index);
 signals:
     void clicked();
     void doubleClicked();
-    void imageChanged(QString path);
+    void imageChanged(const QString &path);
     void mouseHoverMoved();
     void scaled(qreal perc);
     void transformChanged();
     void showScaleLabel();
-//    void hideNavigation();
+    void hideNavigation();
     void nextRequested();
     void previousRequested();
     void disCheckAdaptImageBtn();
+    void disCheckAdaptScreenBtn();
     void checkAdaptImageBtn();
+    void checkAdaptScreenBtn();
+    void sigFIleDelete();
 
-    /**
-     * @brief cacheEnd  当前显示图片缓存
-     */
-    void cacheEnd();
 
-    /**
-     * @brief cacheThreadEnd
-     * @param vl
-     */
-    void cacheThreadEndSig(QVariantList vl);
-    void sigShowImage(QImage);
-    void sigUpdateImageView(QString &);
-
-    void sigStackChange(QString &, bool b = false);
-
-    void sigRequestShowVaguePix(QString, bool &);
-
-    void currentIsDynamic(bool);
 public slots:
+//    void setHighQualityAntialiasing(bool highQualityAntialiasing);
+    void onImgFileChanged(const QString &ddfFile);
+    void onLoadTimerTimeout();
+    void onThemeTypeChanged();
+    void onIsChangedTimerTimeout();
 
-    void slotsOcrCurrentPicture();
-    void setHighQualityAntialiasing(bool highQualityAntialiasing);
 
-    /**
-     * @brief endApp    结束程序触发此槽函数
-     */
-    void endApp();
-
-    /**
-     * @brief reloadSvgPix  重新加载svg图片
-     * @param strPath       图片路径
-     * @param nAngel        旋转角度
-     * @return              true为加载成功，false为加载失败
-     */
-    bool reloadSvgPix(QString strPath, int nAngel, bool fitauto = true);
-
-    /**
-     * @brief rotatePixmap  根据角度旋转pixmap
-     * @param nAngel        旋转的角度
-     */
-    bool rotatePixmap(int nAngel);
-
-//    /**
-//     * @brief recvPathsToCache  接收图片路径进行缓存
-//     * @param pathsList         需要缓存的图片路径
-//     */
-//    void recvPathsToCache(const QStringList pathsList);
-
-//    /**
-//     * @brief delCacheFromPath  根据图片路径删除缓存
-//     * @param strPath           删除的图片路径
-//     */
-//    void delCacheFromPath(const QString strPath);
-
-//    /**
-//     * @brief delAllCache   删除所有缓存
-//     */
-//    void delAllCache();
-
-//    /**
-//     * @brief removeDiff    判断两次图片路径差异，将差异部分缓存删除并缓存新的图片
-//     * @param pathsList     传入的需要缓存的图片
-//     * @return
-//     */
-//    QStringList removeDiff(QStringList pathsList);
-
-    /**recvPathsToCache
-     * @brief showVagueImage
-     * 在触屏拖动窗口的时候，显示模糊的缩略图
-     * @param thumbnailpixmap
-     * 缩略图pixmap
-     */
-    void showVagueImage(QPixmap thumbnailpixmap, QString filePath, bool bloadpic = true);
-
-    /**
-     * @brief showFileImage
-     * 在视图区域显示文件原图
-     */
-    void showFileImage();
-    /**
-     * @brief startLoadPixmap
-     * 开启线程池加载原图
-     */
-    void startLoadPixmap();
-
-    void SlotStopShowThread();
-
-    void slotsUp();
-
-    void slotsDown();
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
@@ -299,90 +125,78 @@ protected:
     bool event(QEvent *event) override;
 
 private slots:
-    /**
-     * @brief onCacheFinish 普通图片缓存结束
-     */
-    void onCacheFinish(QVariantList vl);
-
-//    /**
-//     * @brief onThemeChanged 主题切换
-//     * @param theme          切换的主题
-//     */
+    void onCacheFinish();
 //    void onThemeChanged(ViewerThemeManager::AppTheme theme);
-
-    /**
-     * @brief scaleAtPoint  在指定位置缩放
-     * @param pos           鼠标位置
-     * @param factor        缩放大小
-     */
     void scaleAtPoint(QPoint pos, qreal factor);
-
     void handleGestureEvent(QGestureEvent *gesture);
     void pinchTriggered(QPinchGesture *gesture);
-    void swipeTriggered(QSwipeGesture *gesture);
-
-    /**
-     * @brief OnFinishPinchAnimal
-     * 旋转图片松开手指回到特殊位置结束动画槽函数
-     */
-    void OnFinishPinchAnimal();
-
+//    void swipeTriggered(QSwipeGesture *gesture);
+//    void updateImages(const QStringList &path);
 private:
-    bool m_isFitImage{false};
-    bool m_isFitWindow{false};
+    bool m_isFitImage = false;
+    bool m_isFitWindow = false;
     QColor m_backgroundColor;
     RendererType m_renderer;
     QFutureWatcher<QVariantList> m_watcher;
     QString m_path;
     QString m_loadingIconPath;
-    QThreadPool *m_pool{nullptr};
-    DTK_WIDGET_NAMESPACE::Toast *m_toast;
-    qreal m_scal = 1.0;
-    qreal m_angle = 0;
-    qreal m_endvalue;
-    bool m_rotateflag = true;
-    bool m_bRoate;
-    //允许二指滑动切换上下一张标记
-    bool m_bnextflag = true;
-    int m_startpointx;
-
-    QGraphicsSvgItem *m_svgItem = nullptr;
-
-    ImageSvgItem *m_imgSvgItem {nullptr};
-
+    QThreadPool *m_pool;
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
+    QPointer<QGraphicsBlurEffect> m_blurEffect;
+//    CFileWatcher *m_imgFileWatcher;
+    QFileSystemWatcher *m_imgFileWatcher;
+    QTimer *m_isChangedTimer;
 
-    //缓存锁
-    QReadWriteLock m_rwCacheLock;
-    QHash<QString, QPixmap> m_hsPixap;
-//    QHash<QString, QSvgRenderer> m_hsSvg;
-//    QHash<QString, GraphicsMovieItem> m_hsMovie;
-    QStringList m_pathsList;
-    QStringList m_pLastPaths;
-
-    bool m_loadingDisplay = false;
-    //heyi test 保存旋转的角度
-    int m_rotateAngel = 0;
-    qreal m_rotateAngelTouch = 0;
-    QImage m_svgimg;
-    QTimer m_timerLoadPixmap;
-    QString timerPath;
-    QString sigPath;
-    bool showImageFlag = false;
-
-    /*lmh0729*/
-    bool isFirstPinch = false;
-    QPointF centerPoint;
-    int m_maxTouchPoints = 0;
-    bool m_bStopShowThread = false;
-
-    /*lmh20201027新增tiff多图切换窗口*/
-    MorePicFloatWidget *m_morePicFloatWidget{nullptr};
-    QImageReader *m_imageReader{nullptr};
-    int m_currentMoreImageNum{0};
+    bool m_isFirstPinch = false;
+    QPointF m_centerPoint;
     QTimer *m_loadTimer = nullptr;
+    QString m_loadPath;//需要加载的图片路径
+    int m_startpointx = 0;//触摸操作放下时的x坐标
+    int m_maxTouchPoints = 0;//触摸动作时手指数
 
-    qint64 m_clickTime{0};
+    //平板需求，记录打开图片时初始缩放比例
+    bool m_firstset = false;
+    double m_value = 0.0;
+    double m_max_scale_factor = 2.0;
+    double m_min_scale_factor = 0.0;
+
+    //单指点击标识位
+    bool m_press = false;
 };
+
+//class CFileWatcher: public QThread
+//{
+//    Q_OBJECT
+//public:
+//    enum EFileChangedType {EFileModified, EFileMoved, EFileCount};
+
+//    explicit CFileWatcher(QObject *parent = nullptr);
+//    ~CFileWatcher();
+
+//    bool isVaild();
+
+//    void addWather(const QString &path);
+////    void removePath(const QString &path);
+
+//    void clear();
+
+//signals:
+//    void fileChanged(const QString &path, int tp);
+
+//protected:
+//    void run();
+
+//private:
+//    void doRun();
+
+//    int  _handleId = -1;
+//    bool _running = false;
+
+
+//    QMap<QString, int> watchedFiles;
+//    QMap<int, QString> watchedFilesId;
+
+//    QMutex _mutex;
+//};
 #endif // IMAGEVIEW_H

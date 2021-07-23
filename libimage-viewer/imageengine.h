@@ -18,8 +18,12 @@ public:
     explicit ImageEngine(QWidget *parent = nullptr);
     ~ImageEngine() override;
 
-    //制作图片缩略图
-    void makeImgThumbnail(QString thumbnailSavePath, QStringList paths);
+    //制作图片缩略图, paths:所有图片路径, makeCount:从第一个开始制作缩略图数量
+    void makeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount);
+    //判断是否是图片格式
+    bool isImage(const QString &path);
+    //根据文件路径制作md5
+    QString makeMD5(const QString &path);
 signals:
     //一张缩略图制作完成
     void sigOneImgReady(QString path, QImage image);

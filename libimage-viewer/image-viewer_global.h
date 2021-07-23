@@ -24,6 +24,7 @@ enum ItemInfoType {
 struct ItemInfo {
     QString name = "";
     QString path = "";
+    QString md5Hash = "";
     int imgWidth = 0;
     int imgHeight = 0;
     QString remainDays = "30天";

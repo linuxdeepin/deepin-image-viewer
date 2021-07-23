@@ -146,7 +146,7 @@ void ImgViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
             pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
         }
 
-        QPixmap pixmap = utils::base::renderSVG(pixmapstring, QSize(32, 40));
+//        QPixmap pixmap = utils::base::renderSVG(pixmapstring, QSize(32, 40));
         QPainterPath bg;
         bg.addRoundedRect(pixmapRect, 4, 4);
         painter->setClipPath(bg);

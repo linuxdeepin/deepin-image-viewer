@@ -40,6 +40,7 @@
 #include <DGuiApplicationHelper>
 #include <DLabel>
 
+#include "image-viewer_global.h"
 DWIDGET_USE_NAMESPACE
 
 class ElidedLabel;
@@ -54,6 +55,11 @@ class BottomToolbar : public DFloatingWidget
 {
     Q_OBJECT
 public:
+
+    const int LEFT_RIGHT_MARGIN = 10;
+    const int ICON_SPACING_NOMAL = 10;//普通间距
+    const int ICON_SPACING_Max = 40;//相册返回，看图下一张后，特殊间隔
+
     struct TTBContentData {
         int index;
 //        ImageDataSt data;
@@ -64,15 +70,17 @@ public:
     {
     }
 
+    void initUI();
+    void initConnection();
 //    void reLoad();
     bool setCurrentItem();
-    void updateScreen();
 //    void updateScreenNoAnimation();
-    int itemLoadedSize();
     //设置需要浏览的图片信息
-//    void setAllFileInfo(const SignalManager::ViewInfo &info);
+    void setAllFile(QString path, QStringList paths);
     //获取所有图片数量
     int getAllFileCount();
+    //获取不同数量情况下工具栏的宽度
+    int getToolbarWidth();
 signals:
     void resetTransform(bool fitWindow);
     void rotateClockwise();
@@ -82,10 +90,11 @@ signals:
     void imageEmpty(bool v);
     void contentWidthChanged(int width);
     void showPrevious();
-    void feedBackCurrentIndex(int index, const QString &path);
+    void openImg(int index, QString path);
     //平板需求，退出时重置ttb显隐
     void resetShoworHide();
-
+    //由于添加或者删除导致长度变化,参数默认为true
+    void sigWidthChanged(bool visible);
 public slots:
     void setCurrentDir(const QString &text);
     void setImage(const QString &path);
@@ -107,19 +116,19 @@ public slots:
     void onRotateRBtnClicked();
     void onTrashBtnClicked();
 
-private slots:
-
 protected:
     void resizeEvent(QResizeEvent *event) override;
 public:
     QString m_imageType;
 
 private:
-#ifndef LITE_DIV
-    PushButton *m_folderBtn;
-    ReturnButton *m_returnBtn;
-#endif
     bool m_bClBTChecked;
+
+    DIconButton *m_backButton = nullptr;
+
+    DIconButton *m_preButton = nullptr;
+    DIconButton *m_nextButton = nullptr;
+    QWidget *m_spaceWidget = nullptr;
 
     DIconButton *m_adaptImageBtn = nullptr;
     DIconButton *m_adaptScreenBtn = nullptr;
@@ -127,9 +136,6 @@ private:
     DIconButton *m_rotateLBtn = nullptr;
     DIconButton *m_rotateRBtn = nullptr;
     DIconButton *m_trashBtn = nullptr;
-    DIconButton *m_preButton = nullptr;
-    DIconButton *m_nextButton = nullptr;
-    DIconButton *m_backButton = nullptr;
     MyImageListWidget *m_imgListWidget = nullptr;
     int m_windowWidth;
     int m_contentWidth;

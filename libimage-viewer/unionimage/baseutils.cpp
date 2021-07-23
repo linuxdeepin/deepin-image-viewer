@@ -67,7 +67,10 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
     QImage tImg(size, QImage::Format_ARGB32);
     QString errMsg;
     QSize realSize;
-    if (!UnionImage_NameSpace::loadStaticImageFromFile(filePath, tImg, realSize, errMsg)) {
+//    if (!UnionImage_NameSpace::loadStaticImageFromFile(filePath, tImg, realSize, errMsg)) {
+//        qDebug() << errMsg;
+//    }
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(filePath, tImg, errMsg)) {
         qDebug() << errMsg;
     }
     QPixmap pixmap;

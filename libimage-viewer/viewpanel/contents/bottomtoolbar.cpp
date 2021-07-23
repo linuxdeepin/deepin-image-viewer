@@ -39,8 +39,13 @@
 #include "unionimage/baseutils.h"
 #include "unionimage/imageutils.h"
 #include "unionimage/unionimage.h"
+#include "service/commonservice.h"
+#include "imageengine.h"
 DWIDGET_USE_NAMESPACE
 namespace {
+/////////
+
+/////////////
 const int LEFT_MARGIN = 10;
 const QSize ICON_SIZE = QSize(50, 50);
 const int ICON_SPACING = 10;
@@ -52,7 +57,8 @@ const QString LOCMAP_SELECTED_LIGHT = ":/resources/light/images/58.svg";
 const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.svg";
 
 const int TOOLBAR_MINIMUN_WIDTH = 782;
-const int TOOLBAR_JUSTONE_WIDTH = 532;
+const int TOOLBAR_JUSTONE_WIDTH_ALBUM = 532;
+const int TOOLBAR_JUSTONE_WIDTH_LOCAL = 350;
 const int RT_SPACING = 20;
 const int TOOLBAR_HEIGHT = 60;
 
@@ -72,171 +78,9 @@ BottomToolbar::BottomToolbar(QWidget *parent) : DFloatingWidget(parent)
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 //    m_windowWidth = std::max(this->window()->width(),
 //                             ConfigSetter::instance()->value("MAINWINDOW", "WindowWidth").toInt());
-
-    QHBoxLayout *hb = new QHBoxLayout(this);
-    hb->setContentsMargins(LEFT_MARGIN, 0, LEFT_MARGIN, 3);
-    hb->setSpacing(0);
-    // Adapt buttons////////////////////////////////////////////////////////////
-    m_backButton = new DIconButton(this);
-    m_backButton->setFixedSize(ICON_SIZE);
-//    AC_SET_OBJECT_NAME(m_backButton, BottomToolbar_Back_Button);
-//    AC_SET_ACCESSIBLE_NAME(m_backButton, BottomToolbar_Back_Button);
-    m_backButton->setIcon(QIcon::fromTheme("dcc_back"));
-    m_backButton->setIconSize(QSize(36, 36));
-    m_backButton->setToolTip(tr("Back"));
-
-    hb->addWidget(m_backButton);
-    hb->addStretch();
-    //hb->addSpacing(ICON_SPACING * 5);
-    connect(m_backButton, &DIconButton::clicked, this, &BottomToolbar::onBackButtonClicked);
-
-    // preButton
-    m_preButton = new DIconButton(this);
-//    AC_SET_OBJECT_NAME(m_preButton, BottomToolbar_Pre_Button);
-//    AC_SET_ACCESSIBLE_NAME(m_preButton, BottomToolbar_Pre_Button);
-    m_preButton->setFixedSize(ICON_SIZE);
-    m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
-    m_preButton->setIconSize(QSize(36, 36));
-    m_preButton->setToolTip(tr("Previous"));
-
-    m_preButton->hide();
-
-    connect(m_preButton, &DIconButton::clicked, this, &BottomToolbar::onPreButton);
-    // nextButton
-    m_nextButton = new DIconButton(this);
-//    AC_SET_OBJECT_NAME(m_nextButton, BottomToolbar_Next_Button);
-//    AC_SET_ACCESSIBLE_NAME(m_nextButton, BottomToolbar_Next_Button);
-    m_nextButton->setFixedSize(ICON_SIZE);
-    m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
-    m_nextButton->setIconSize(QSize(36, 36));
-    m_nextButton->setToolTip(tr("Next"));
-
-    m_nextButton->hide();
-
-//    connect(parent, SIGNAL(sigResize()), this, SLOT(onResize()));
-    connect(m_nextButton, &DIconButton::clicked, this, &BottomToolbar::onNextButton);
-
-    hb->addWidget(m_preButton);
-    hb->addSpacing(ICON_SPACING);
-    hb->addWidget(m_nextButton);
-    hb->addSpacing(ICON_SPACING);
-
-    // adaptImageBtn
-    m_adaptImageBtn = new DIconButton(this);
-//    AC_SET_OBJECT_NAME(m_adaptImageBtn, BottomToolbar_AdaptImg_Button);
-//    AC_SET_ACCESSIBLE_NAME(m_adaptImageBtn, BottomToolbar_AdaptImg_Button);
-    m_adaptImageBtn->setFixedSize(ICON_SIZE);
-    m_adaptImageBtn->setIcon(QIcon::fromTheme("dcc_11"));
-    m_adaptImageBtn->setIconSize(QSize(36, 36));
-    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
-    m_adaptImageBtn->setCheckable(true);
-
-
-    hb->addWidget(m_adaptImageBtn);
-    hb->addSpacing(ICON_SPACING);
-    connect(m_adaptImageBtn, &DIconButton::clicked, this, &BottomToolbar::onAdaptImageBtnClicked);
-
-
-    // adaptScreenBtn
-    m_adaptScreenBtn = new DIconButton(this);
-    m_adaptScreenBtn->setFixedSize(ICON_SIZE);
-//    AC_SET_OBJECT_NAME(m_adaptScreenBtn, BottomToolbar_AdaptScreen_Button);
-//    AC_SET_ACCESSIBLE_NAME(m_adaptScreenBtn, BottomToolbar_AdaptScreen_Button);
-    m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
-    m_adaptScreenBtn->setIconSize(QSize(36, 36));
-    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
-//    m_adaptScreenBtn->setCheckable(true);
-
-
-    hb->addWidget(m_adaptScreenBtn);
-    hb->addSpacing(ICON_SPACING);
-    connect(m_adaptScreenBtn, &DIconButton::clicked, this, &BottomToolbar::onAdaptScreenBtnClicked);
-
-    // Collection button
-    m_clBT = new DIconButton(this);
-    m_clBT->setFixedSize(ICON_SIZE);
-//    AC_SET_OBJECT_NAME(m_clBT, BottomToolbar_Collect_Button);
-//    AC_SET_ACCESSIBLE_NAME(m_clBT, BottomToolbar_Collect_Button);
-
-    connect(m_clBT, &DIconButton::clicked, this, &BottomToolbar::onclBTClicked);
-
-    hb->addWidget(m_clBT);
-    hb->addSpacing(ICON_SPACING);
-
-    // rotateLBtn
-    m_rotateLBtn = new DIconButton(this);
-//    AC_SET_OBJECT_NAME(m_rotateLBtn, BottomToolbar_Rotate_Left_Button);
-//    AC_SET_ACCESSIBLE_NAME(m_rotateLBtn, BottomToolbar_Rotate_Left_Button);
-    m_rotateLBtn->setFixedSize(ICON_SIZE);
-    m_rotateLBtn->setIcon(QIcon::fromTheme("dcc_left"));
-    m_rotateLBtn->setIconSize(QSize(36, 36));
-    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
-    hb->addWidget(m_rotateLBtn);
-    hb->addSpacing(ICON_SPACING);
-    connect(m_rotateLBtn, &DIconButton::clicked, this, &BottomToolbar::onRotateLBtnClicked);
-
-    // rotateRBtn
-    m_rotateRBtn = new DIconButton(this);
-//    AC_SET_OBJECT_NAME(m_rotateRBtn, BottomToolbar_Rotate_Right_Button);
-//    AC_SET_ACCESSIBLE_NAME(m_rotateRBtn, BottomToolbar_Rotate_Right_Button);
-    m_rotateRBtn->setFixedSize(ICON_SIZE);
-    m_rotateRBtn->setIcon(QIcon::fromTheme("dcc_right"));
-    m_rotateRBtn->setIconSize(QSize(36, 36));
-    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
-
-    hb->addWidget(m_rotateRBtn);
-    hb->addSpacing(ICON_SPACING + 8);
-    connect(m_rotateRBtn, &DIconButton::clicked, this, &BottomToolbar::onRotateRBtnClicked);
-
-    // imgListView
-    m_imgListWidget = new MyImageListWidget(this);
-    connect(m_imgListWidget, &MyImageListWidget::openImg, this, &BottomToolbar::feedBackCurrentIndex, Qt::QueuedConnection);
-//    connect(m_imgListView, &MyImageListWidget::mouseLeftReleased, this, &BottomToolbar::updateScreen);
-
-    //图片少的时候设置列表大小
-    //todo设置大小
-//    if (m_allfileslist.size() <= 3) {
-//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-//    } else {
-//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_allfileslist.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-//    }
-
-    hb->addWidget(m_imgListWidget);
-    hb->addSpacing(ICON_SPACING + 14);
-
-    m_trashBtn = new DIconButton(this);
-    m_trashBtn->setFixedSize(ICON_SIZE);
-//    AC_SET_OBJECT_NAME(m_trashBtn, BottomToolbar_Trash_Button);
-//    AC_SET_ACCESSIBLE_NAME(m_trashBtn, BottomToolbar_Trash_Button);
-    m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
-    m_trashBtn->setIconSize(QSize(36, 36));
-    m_trashBtn->setToolTip(tr("Delete"));
-
-    hb->addWidget(m_trashBtn);
-    hb->addSpacing(10);
-    connect(m_trashBtn, &DIconButton::clicked, this, &BottomToolbar::onTrashBtnClicked);
+    initUI();
+    initConnection();
 }
-
-//void BottomToolbar::setAllFileInfo(const SignalManager::ViewInfo &info)
-//{
-//    qDebug() << "---" << __FUNCTION__ << "---";
-//    if (info.paths.size() <= 1) {
-//        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-//    } else if (info.paths.size() <= 3) {
-//        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-//        m_preButton->setVisible(true);
-//        m_nextButton->setVisible(true);
-//    } else {
-//        m_preButton->setVisible(true);
-//        m_nextButton->setVisible(true);
-//        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (info.paths.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-//    }
-
-//    setFixedWidth(m_contentWidth);
-//    setFixedHeight(72);
-
-//    m_imgListWidget->setAllFile(info.itemInfos, info.path);
-//}
 
 int BottomToolbar::getAllFileCount()
 {
@@ -247,14 +91,39 @@ int BottomToolbar::getAllFileCount()
     }
 }
 
-int BottomToolbar::itemLoadedSize()
+int BottomToolbar::getToolbarWidth()
 {
-    return m_imgListWidget->getImgCount();
-}
-
-void BottomToolbar::updateScreen()
-{
-//todo,不知道干啥的
+    //默认值，下面会重新计算
+    int width = 300;
+    if (CommonService::instance()->getImgViewerType() == ImgViewerType::ImgViewerTypeLocal) {
+        width = 0;
+        m_backButton->setVisible(false);
+        m_clBT->setVisible(false);
+        //看图，本地图片
+        width += LEFT_RIGHT_MARGIN * 2;//左右边距
+        if (m_preButton->isVisible()) {
+            width += m_preButton->width() + ICON_SPACING;//上一张宽度加边距
+            width += m_nextButton->width() + ICON_SPACING;//上一张宽度加边距
+            width += m_spaceWidget->width();//特殊控件宽度
+        }
+        width += m_adaptImageBtn->width() + ICON_SPACING;//适应图片
+        width += m_adaptScreenBtn->width() + ICON_SPACING;//适应屏幕
+        width += m_rotateLBtn->width() + ICON_SPACING;//左旋
+        width += m_rotateRBtn->width() + ICON_SPACING;//右旋
+        width += m_trashBtn->width();//右旋
+        if (m_imgListWidget->getImgCount() <= 1) {
+            width += 0;
+        } else {
+            width += ImgViewListView::ITEM_CURRENT_WH;
+            width += (m_imgListWidget->getImgCount() - 1) * (ImgViewListView::ITEM_CURRENT_WH + ImgViewListView::ITEM_SPACING);
+        }
+    } else if (CommonService::instance()->getImgViewerType() == ImgViewerType::ImgViewerTypeAlbum) {
+        //相册
+        width = 0;
+        m_backButton->setVisible(true);
+        m_clBT->setVisible(true);
+    }
+    return width;
 }
 
 void BottomToolbar::disCheckAdaptImageBtn()
@@ -290,7 +159,6 @@ void BottomToolbar::deleteImage()
         m_imgListWidget->removeCurrent();
     }
     emit removed();     //删除数据库图片
-    onResize();
 }
 
 void BottomToolbar::onBackButtonClicked()
@@ -372,19 +240,19 @@ void BottomToolbar::setCurrentDir(const QString &text)
 void BottomToolbar::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
-    m_windowWidth =  this->window()->geometry().width();
-    if (m_imgListWidget->getImgCount() <= 1) {
-        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-    } else if (m_imgListWidget->getImgCount() <= 3) {
-        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-        //todo设置大小
-//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-        m_imgListWidget->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-    } else {
-        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgListWidget->getImgCount() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-        m_imgListWidget->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgListWidget->getImgCount() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-    }
-    setFixedWidth(m_contentWidth);
+//    m_windowWidth =  this->window()->geometry().width();
+//    if (m_imgListWidget->getImgCount() <= 1) {
+//        m_contentWidth = TOOLBAR_JUSTONE_WIDTH_LOCAL;
+//    } else if (m_imgListWidget->getImgCount() <= 3) {
+//        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+//        //todo设置大小
+////        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//        m_imgListWidget->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//    } else {
+//        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgListWidget->getImgCount() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+//        m_imgListWidget->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgListWidget->getImgCount() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+//    }
+//    setFixedWidth(m_contentWidth);
 }
 
 
@@ -426,7 +294,6 @@ bool BottomToolbar::setCurrentItem()
         m_adaptImageBtn->setDisabled(false);
         m_adaptScreenBtn->setDisabled(false);
 
-        updateScreen();
         m_trashBtn->setDisabled(false);
 
         if (UnionImage_NameSpace::canSave(m_currentpath) && QFile::permissions(m_currentpath).testFlag(QFile::WriteUser)) {
@@ -444,6 +311,31 @@ bool BottomToolbar::setCurrentItem()
 //    emit dApp0->signalM->updateFileName(fileName);
     updateCollectButton();
     return true;
+}
+
+void BottomToolbar::setAllFile(QString path, QStringList paths)
+{
+    qDebug() << "---" << __FUNCTION__ << "---paths.size = " << paths.size();
+    if (paths.size() <= 1) {
+        m_preButton->setVisible(false);
+        m_nextButton->setVisible(false);
+        m_spaceWidget->setVisible(false);
+    } else {
+        m_preButton->setVisible(true);
+        m_nextButton->setVisible(true);
+    }
+
+    QList<ItemInfo> itemInfos;
+    for (int i = 0; i < paths.size(); i++) {
+        ItemInfo info;
+        info.path = paths.at(i);
+        QString path = CommonService::instance()->getImgSavePath() + info.path;
+        path = path.mid(0, path.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(path) + ".png";
+        info.image = QImage(path);
+        itemInfos << info;
+    }
+
+    m_imgListWidget->setAllFile(itemInfos, path);
 }
 
 void BottomToolbar::updateCollectButton()
@@ -472,7 +364,7 @@ void BottomToolbar::onResize()
     if (m_imgListWidget->getImgCount() <= 1) {
         m_preButton->setVisible(false);
         m_nextButton->setVisible(false);
-        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH_LOCAL;
     } else if (m_imgListWidget->getImgCount() <= 3) {
         m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
         //todo设置大小
@@ -485,4 +377,142 @@ void BottomToolbar::onResize()
         m_imgListWidget->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgListWidget->getImgCount() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
     }
     setFixedWidth(m_contentWidth);
+}
+
+void BottomToolbar::initUI()
+{
+    QHBoxLayout *hb = new QHBoxLayout(this);
+    this->setLayout(hb);
+    hb->setContentsMargins(LEFT_RIGHT_MARGIN, 0, LEFT_RIGHT_MARGIN, 3);
+    hb->setSpacing(ICON_SPACING);
+
+    //返回，相册使用
+    m_backButton = new DIconButton(this);
+    m_backButton->setFixedSize(ICON_SIZE);
+//    AC_SET_OBJECT_NAME(m_backButton, BottomToolbar_Back_Button);
+//    AC_SET_ACCESSIBLE_NAME(m_backButton, BottomToolbar_Back_Button);
+    m_backButton->setIcon(QIcon::fromTheme("dcc_back"));
+    m_backButton->setIconSize(QSize(36, 36));
+    m_backButton->setToolTip(tr("Back"));
+    m_backButton->setVisible(false);
+    hb->addWidget(m_backButton);
+
+    m_spaceWidget = new QWidget(this);
+    m_spaceWidget->setFixedSize(ICON_SPACING, ICON_SPACING);
+    if (CommonService::instance()->getImgViewerType() == ImgViewerType::ImgViewerTypeAlbum) {
+        hb->addWidget(m_spaceWidget);
+        m_backButton->setVisible(true);
+    }
+
+    //上一张
+    m_preButton = new DIconButton(this);
+//    AC_SET_OBJECT_NAME(m_preButton, BottomToolbar_Pre_Button);
+//    AC_SET_ACCESSIBLE_NAME(m_preButton, BottomToolbar_Pre_Button);
+    m_preButton->setFixedSize(ICON_SIZE);
+    m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
+    m_preButton->setIconSize(QSize(36, 36));
+    m_preButton->setToolTip(tr("Previous"));
+    m_preButton->hide();
+    hb->addWidget(m_preButton);
+
+    //下一张
+    m_nextButton = new DIconButton(this);
+//    AC_SET_OBJECT_NAME(m_nextButton, BottomToolbar_Next_Button);
+//    AC_SET_ACCESSIBLE_NAME(m_nextButton, BottomToolbar_Next_Button);
+    m_nextButton->setFixedSize(ICON_SIZE);
+    m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
+    m_nextButton->setIconSize(QSize(36, 36));
+    m_nextButton->setToolTip(tr("Next"));
+    m_nextButton->hide();
+    hb->addWidget(m_nextButton);
+    if (CommonService::instance()->getImgViewerType() == ImgViewerType::ImgViewerTypeLocal) {
+        hb->addWidget(m_spaceWidget);
+    }
+
+    //适应图片
+    m_adaptImageBtn = new DIconButton(this);
+//    AC_SET_OBJECT_NAME(m_adaptImageBtn, BottomToolbar_AdaptImg_Button);
+//    AC_SET_ACCESSIBLE_NAME(m_adaptImageBtn, BottomToolbar_AdaptImg_Button);
+    m_adaptImageBtn->setFixedSize(ICON_SIZE);
+    m_adaptImageBtn->setIcon(QIcon::fromTheme("dcc_11"));
+    m_adaptImageBtn->setIconSize(QSize(36, 36));
+    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
+    m_adaptImageBtn->setCheckable(true);
+    hb->addWidget(m_adaptImageBtn);
+
+    //适应屏幕
+    m_adaptScreenBtn = new DIconButton(this);
+    m_adaptScreenBtn->setFixedSize(ICON_SIZE);
+//    AC_SET_OBJECT_NAME(m_adaptScreenBtn, BottomToolbar_AdaptScreen_Button);
+//    AC_SET_ACCESSIBLE_NAME(m_adaptScreenBtn, BottomToolbar_AdaptScreen_Button);
+    m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
+    m_adaptScreenBtn->setIconSize(QSize(36, 36));
+    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
+//    m_adaptScreenBtn->setCheckable(true);
+    hb->addWidget(m_adaptScreenBtn);
+
+    //收藏，相册使用
+    m_clBT = new DIconButton(this);
+    m_clBT->setFixedSize(ICON_SIZE);
+//    AC_SET_OBJECT_NAME(m_clBT, BottomToolbar_Collect_Button);
+//    AC_SET_ACCESSIBLE_NAME(m_clBT, BottomToolbar_Collect_Button);
+    hb->addWidget(m_clBT);
+
+    //向左旋转
+    m_rotateLBtn = new DIconButton(this);
+//    AC_SET_OBJECT_NAME(m_rotateLBtn, BottomToolbar_Rotate_Left_Button);
+//    AC_SET_ACCESSIBLE_NAME(m_rotateLBtn, BottomToolbar_Rotate_Left_Button);
+    m_rotateLBtn->setFixedSize(ICON_SIZE);
+    m_rotateLBtn->setIcon(QIcon::fromTheme("dcc_left"));
+    m_rotateLBtn->setIconSize(QSize(36, 36));
+    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
+    hb->addWidget(m_rotateLBtn);
+
+    //向右旋转
+    m_rotateRBtn = new DIconButton(this);
+//    AC_SET_OBJECT_NAME(m_rotateRBtn, BottomToolbar_Rotate_Right_Button);
+//    AC_SET_ACCESSIBLE_NAME(m_rotateRBtn, BottomToolbar_Rotate_Right_Button);
+    m_rotateRBtn->setFixedSize(ICON_SIZE);
+    m_rotateRBtn->setIcon(QIcon::fromTheme("dcc_right"));
+    m_rotateRBtn->setIconSize(QSize(36, 36));
+    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
+    hb->addWidget(m_rotateRBtn);
+
+    //缩略图列表
+    m_imgListWidget = new MyImageListWidget(this);
+    hb->addWidget(m_imgListWidget);
+
+    //删除
+    m_trashBtn = new DIconButton(this);
+    m_trashBtn->setFixedSize(ICON_SIZE);
+//    AC_SET_OBJECT_NAME(m_trashBtn, BottomToolbar_Trash_Button);
+//    AC_SET_ACCESSIBLE_NAME(m_trashBtn, BottomToolbar_Trash_Button);
+    m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
+    m_trashBtn->setIconSize(QSize(36, 36));
+    m_trashBtn->setToolTip(tr("Delete"));
+    hb->addWidget(m_trashBtn);
+}
+
+void BottomToolbar::initConnection()
+{
+    //返回按钮，相册使用
+    connect(m_backButton, &DIconButton::clicked, this, &BottomToolbar::onBackButtonClicked);
+    //前一张
+    connect(m_preButton, &DIconButton::clicked, this, &BottomToolbar::onPreButton);
+    //下一张
+    connect(m_nextButton, &DIconButton::clicked, this, &BottomToolbar::onNextButton);
+    //适应图片
+    connect(m_adaptImageBtn, &DIconButton::clicked, this, &BottomToolbar::onAdaptImageBtnClicked);
+    //适应屏幕
+    connect(m_adaptScreenBtn, &DIconButton::clicked, this, &BottomToolbar::onAdaptScreenBtnClicked);
+    //收藏，相册使用
+    connect(m_clBT, &DIconButton::clicked, this, &BottomToolbar::onclBTClicked);
+    //向左旋转
+    connect(m_rotateLBtn, &DIconButton::clicked, this, &BottomToolbar::onRotateLBtnClicked);
+    //向右旋转
+    connect(m_rotateRBtn, &DIconButton::clicked, this, &BottomToolbar::onRotateRBtnClicked);
+    //缩略图列表，单机打开图片
+    connect(m_imgListWidget, &MyImageListWidget::openImg, this, &BottomToolbar::openImg, Qt::QueuedConnection);
+    //删除
+    connect(m_trashBtn, &DIconButton::clicked, this, &BottomToolbar::onTrashBtnClicked);
 }

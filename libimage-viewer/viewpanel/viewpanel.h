@@ -64,7 +64,7 @@ public:
     explicit ViewPanel(QWidget *parent = nullptr);
     ~ViewPanel();
 
-    void loadImage(const QString &path);
+    void loadImage(const QString &path, QStringList paths);
 
     void initConnect();
     //初始化缩放比和导航窗口
@@ -75,16 +75,12 @@ public:
     void initNavigation();
     //初始化右键菜单
     void initRightMenu();
-
     //更新右键菜单
     void updateMenuContent();
-
     //控制全屏和返回全屏
     void toggleFullScreen();
-
     //全屏
     void showFullScreen();
-
     //退出全屏
     void showNormal();
     /**
@@ -96,14 +92,16 @@ public:
     void appendAction(int id, const QString &text, const QString &shortcut = "");
 
 private slots:
-
     void onMenuItemClicked(QAction *action);
-
-private :
+public slots:
     //刷新底部工具栏大小与位置
     void resetBottomToolbarGeometry(bool visible);
+    //打开图片
+    void openImg(int index, QString path);
 protected:
     void resizeEvent(QResizeEvent *e) override;
+    void showEvent(QShowEvent *e) override;
+    void paintEvent(QPaintEvent *event) override;
 
 signals:
     void imageChanged(const QString &path);

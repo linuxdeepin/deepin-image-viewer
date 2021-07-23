@@ -56,7 +56,7 @@ const QImage loadTga(QString filePath, bool &success);
 /*
  * lmh0901，根据后缀是否是图片
 **/
-bool                                suffixisImage(const QString &path);
+//bool                                suffixisImage(const QString &path);
 bool                                imageSupportRead(const QString &path);
 bool                                imageSupportSave(const QString &path);
 //bool                                imageSupportWrite(const QString &path);

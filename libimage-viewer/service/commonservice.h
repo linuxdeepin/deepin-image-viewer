@@ -18,30 +18,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ImgOperate_H
-#define ImgOperate_H
+#ifndef COMMONSERVICE_H
+#define COMMONSERVICE_H
 
 #include <QObject>
-#include <QDateTime>
-#include <QMutex>
-#include <QDebug>
-#include <QImage>
+#include <QStandardPaths>
+#include <QDir>
+#include <QMap>
+#include "image-viewer_global.h"
 
-class ImgOperate : public QObject
+class CommonService : public QObject
 {
     Q_OBJECT
 public:
-    explicit ImgOperate(QObject *parent = nullptr);
-    ~ImgOperate();
+    static CommonService *instance();
 
-public slots:
-    void slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount);
-
+    //设置图片展示类型，看图，相册
+    void setImgViewerType(ImgViewerType type);
+    ImgViewerType getImgViewerType();
+    //设置缩略图保存路径
+    void setImgSavePath(QString path);
+    QString getImgSavePath();
+    //保存制作好的缩略图
+    void setImgByPath(QString path, QImage image);
+    QImage getImgByPath(QString path);
 signals:
-    void sigOneImgReady(QString imagepath, QImage image);
 
 private:
+    explicit CommonService(QObject *parent = nullptr);
 
+private:
+    static CommonService *m_commonService;
+
+    ImgViewerType m_imgViewerType = ImgViewerTypeNull;
+    QString       m_imgSavePath;
+    QMap<QString, QImage> m_allImageMap;
 };
 
-#endif // ImgOperate_H
+#endif // COMMONSERVICE_H

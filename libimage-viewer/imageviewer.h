@@ -12,7 +12,8 @@ class IMAGEVIEWERSHARED_EXPORT ImageViewer : public DWidget
 {
     Q_OBJECT
 public:
-    explicit ImageViewer(ImgViewerType imgViewerType, QWidget *parent = nullptr);
+    //ImgViewerType:图片展示类型, savePath:缩略图保存位置
+    explicit ImageViewer(ImgViewerType imgViewerType, QString savePath, QWidget *parent = nullptr);
     ~ImageViewer() override;
 
     //调用文件选择窗口

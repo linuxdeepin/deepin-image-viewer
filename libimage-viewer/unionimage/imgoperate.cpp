@@ -30,6 +30,7 @@
 
 #include "unionimage.h"
 #include "pluginbaseutils.h"
+#include "imageengine.h"
 
 ImgOperate::ImgOperate(QObject *parent)
 {
@@ -41,28 +42,42 @@ ImgOperate::~ImgOperate()
 
 }
 
-void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths)
+void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount)
 {
-    qDebug() << "---" << __FUNCTION__ << "---";
+    qDebug() << "---" << __FUNCTION__ << "---thumbnailSavePath = " << thumbnailSavePath;
     qDebug() << "---" << __FUNCTION__ << "---" << QThread::currentThread();
     QString path;
     for (int i = 0; i < paths.size(); i++) {
+        //达到制作数量则停止
+        if (i == makeCount) {
+            break;
+        }
         path = paths.at(i);
         //路径为空，继续执行下一个路径
         if (path.isEmpty()) {
             continue;
         }
         QImage tImg;
-        QFileInfo file(thumbnailSavePath + path);
+        //缩略图路径
+        QString savePath = thumbnailSavePath + path;
+
+        //保存为jpg格式
+        savePath = savePath.mid(0, savePath.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(savePath) + ".png";
+
+        QFileInfo file(savePath);
         //缩略图已存在，执行下一个路径
         if (file.exists()) {
             continue;
         }
         QString errMsg;
         QSize readSize;
-        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, readSize, errMsg)) {
+//        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, readSize, errMsg)) {
+//            qDebug() << errMsg;
+//            continue;
+//        }
+        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
             qDebug() << errMsg;
-            return;
+            continue;
         }
 
         if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
@@ -84,11 +99,10 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
                 }
             }
         }
-        QString spath = thumbnailSavePath + path;
         //创建路径
-        pluginUtils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
-        //保存
-        if (tImg.save(spath)) {
+        pluginUtils::base::mkMutiDir(savePath.mid(0, savePath.lastIndexOf('/')));
+
+        if (tImg.save(savePath)) {
             emit sigOneImgReady(path, tImg);
         }
     }

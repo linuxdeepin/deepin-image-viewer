@@ -25,9 +25,12 @@
 #include <DMenu>
 #include "contents/bottomtoolbar.h"
 #include "navigationwidget.h"
+#include "unionimage/imageutils.h"
+#include "unionimage/baseutils.h"
 
 const int BOTTOM_TOOLBAR_HEIGHT = 80;   //底部工具看高
 const int BOTTOM_SPACING = 10;          //底部工具栏与底部边缘距离
+const int RT_SPACING = 20;
 
 QString ss(const QString &text, const QString &defaultValue)
 {
@@ -46,7 +49,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     layout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(layout);
     m_stack = new DStackedWidget(this);
-    layout->addWidget(m_stack, 0, Qt::AlignCenter);
+    layout->addWidget(m_stack);
 
     m_view = new ImageView(this);
     m_stack->addWidget(m_view);
@@ -64,18 +67,24 @@ ViewPanel::~ViewPanel()
 
 }
 
-void ViewPanel::loadImage(const QString &path)
+void ViewPanel::loadImage(const QString &path, QStringList paths)
 {
-    if (m_view) {
-        m_view->setImage(path);
-        m_view->resetTransform();
-        m_stack->setCurrentWidget(m_view);
-        resetBottomToolbarGeometry(true);
-    }
+    //展示图片
+    m_view->setImage(path);
+    m_view->resetTransform();
+    m_stack->setCurrentWidget(m_view);
+    //刷新工具栏
+    m_bottomToolbar->setAllFile(path, paths);
+    //重置底部工具栏位置与大小
+    qDebug() << "---" << __FUNCTION__ << "---111111111111111";
+    resetBottomToolbarGeometry(true);
 }
 
 void ViewPanel::initConnect()
 {
+    //缩略图列表，单机打开图片
+    connect(m_bottomToolbar, &BottomToolbar::openImg, this, &ViewPanel::openImg);
+
     connect(m_view, &ImageView::imageChanged, this, [ = ](QString path) {
         emit imageChanged(path);
         // Pixmap is cache in thread, make sure the size would correct after
@@ -143,7 +152,7 @@ void ViewPanel::initNavigation()
 
     connect(this, &ViewPanel::imageChanged, this, [ = ](const QString & path) {
         if (path.isEmpty()) m_nav->setVisible(false);
-        m_nav->setImage(m_view->image(true));
+        m_nav->setImage(m_view->image());
     });
 
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y) {
@@ -247,7 +256,7 @@ void ViewPanel::updateMenuContent()
 
 void ViewPanel::toggleFullScreen()
 {
-    m_view->setFitState(false, false);
+//    m_view->setFitState(false, false);
     if (window()->isFullScreen()) {
         showNormal();
         m_view->viewport()->setCursor(Qt::ArrowCursor);
@@ -294,7 +303,6 @@ void ViewPanel::showNormal()
         window()->showNormal();
     }
 }
-
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)
 {
@@ -377,15 +385,37 @@ void ViewPanel::resetBottomToolbarGeometry(bool visible)
 {
     m_bottomToolbar->setVisible(visible);
     if (visible) {
-        int width = m_bottomToolbar->width();
-        int x = (this->width() - m_bottomToolbar->width()) / 2;
+        int width = qMin(m_bottomToolbar->getToolbarWidth(), (this->width() - RT_SPACING));
+        int x = (this->width() - width) / 2;
+        //窗口高度-工具栏高度-工具栏到底部距离
         int y = this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING;
         m_bottomToolbar->setGeometry(x, y, width, BOTTOM_TOOLBAR_HEIGHT);
     }
 }
 
+void ViewPanel::openImg(int index, QString path)
+{
+    //展示图片
+    m_view->setImage(path);
+    m_view->resetTransform();
+}
+
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {
+//    m_view->setFixedSize(QSize(1920, 1080));
+    qDebug() << "ViewPanel::resizeEvent ======= " << e->size();
     resetBottomToolbarGeometry(m_stack->currentWidget() == m_view);
     QFrame::resizeEvent(e);
+}
+
+void ViewPanel::showEvent(QShowEvent *e)
+{
+//    resetBottomToolbarGeometry(m_stack->currentWidget() == m_view);
+    QFrame::showEvent(e);
+}
+
+void ViewPanel::paintEvent(QPaintEvent *event)
+{
+    QFrame::paintEvent(event);
+    qDebug() << "windows flgs ========= " << this->windowFlags() << "attributs = " << this->testAttribute(Qt::WA_Resized);
 }

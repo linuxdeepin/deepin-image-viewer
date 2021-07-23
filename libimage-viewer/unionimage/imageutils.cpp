@@ -41,9 +41,7 @@
 #include <QApplication>
 #include <fstream>
 
-#ifdef USE_UNIONIMAGE
 #include "unionimage.h"
-#endif
 namespace utils {
 
 namespace image {
@@ -58,7 +56,10 @@ const QImage scaleImage(const QString &path, const QSize &size)
     QImage tImg(size, QImage::Format_ARGB32);
     QString errMsg;
     QSize realSize;
-    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg)) {
+//    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg)) {
+//        qDebug() << errMsg;
+//    }
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
         qDebug() << errMsg;
     }
     if (tImg.size() != size) { //调用加速接口失败，主动进行缩放
@@ -513,7 +514,10 @@ const QImage getRotatedImage(const QString &path)
 #ifdef USE_UNIONIMAGE
     QString errMsg;
     QSize realSize;
-    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg)) {
+//    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg)) {
+//        qDebug() << errMsg;
+//    }
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
         qDebug() << errMsg;
     }
 #else
@@ -833,25 +837,25 @@ bool imageSupportWallPaper(const QString &path)
     return iRet;
 }
 
-bool suffixisImage(const QString &path)
-{
-#ifdef USE_UNIONIMAGE
-    return UnionImage_NameSpace::suffixisImage(path);
-#else
-    bool iRet = false;
-    QFileInfo info(path);
-    QMimeDatabase db;
-    QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
-    QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
-    QString str = info.suffix();
-    // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
-    if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-            mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-        iRet = true;
-    }
-    return iRet;
-#endif
-}
+//bool suffixisImage(const QString &path)
+//{
+//#ifdef USE_UNIONIMAGE
+//    return UnionImage_NameSpace::suffixisImage(path);
+//#else
+//    bool iRet = false;
+//    QFileInfo info(path);
+//    QMimeDatabase db;
+//    QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
+//    QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
+//    QString str = info.suffix();
+//    // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
+//    if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+//            mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+//        iRet = true;
+//    }
+//    return iRet;
+//#endif
+//}
 
 QString makeVaultLocalPath(const QString &path, const QString &base)
 {

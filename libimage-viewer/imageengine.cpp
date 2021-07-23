@@ -4,6 +4,9 @@
 #include <QThread>
 #include <QStandardPaths>
 #include <QDir>
+#include <QMimeDatabase>
+#include <QUrl>
+#include <QCryptographicHash>
 
 #include "unionimage/imgoperate.h"
 
@@ -60,16 +63,32 @@ ImageEngine::~ImageEngine()
 
 }
 
-const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                           + QDir::separator() + "deepin" + QDir::separator() + "image-view-plugin"/* + QDir::separator()*/;
-
-void ImageEngine::makeImgThumbnail(QString thumbnailSavePath, QStringList paths)
+void ImageEngine::makeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount)
 {
     Q_D(ImageEngine);
-//    d->m_thumbnailSavePath = thumbnailSavePath;
     //执行子线程制作缩略图动作
-    QStringList list;
-    list << "/home/zouya/Desktop/test/001.jpg";
-    list << "/home/zouya/Desktop/test/002.jpg";
-    QMetaObject::invokeMethod(d->m_worker, "slotMakeImgThumbnail", Q_ARG(QString, CACHE_PATH), Q_ARG(QStringList, list));
+    QMetaObject::invokeMethod(d->m_worker, "slotMakeImgThumbnail"
+                              , Q_ARG(QString, thumbnailSavePath)
+                              , Q_ARG(QStringList, paths)
+                              , Q_ARG(int, makeCount)
+                             );
+}
+//判断是否图片格式
+bool ImageEngine::isImage(const QString &path)
+{
+    bool bRet = false;
+    QMimeDatabase db;
+    QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
+    QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
+    if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+            mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+        bRet = true;
+    }
+    return bRet;
+}
+//根据文件路径制作md5
+QString ImageEngine::makeMD5(const QString &path)
+{
+    const QUrl url = QUrl::fromLocalFile(path);
+    return QCryptographicHash::hash(url.toString(QUrl::FullyEncoded).toLocal8Bit(), QCryptographicHash::Md5).toHex();
 }

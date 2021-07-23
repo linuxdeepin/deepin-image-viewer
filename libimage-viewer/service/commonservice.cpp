@@ -18,30 +18,51 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ImgOperate_H
-#define ImgOperate_H
+#include "commonservice.h"
 
-#include <QObject>
-#include <QDateTime>
-#include <QMutex>
-#include <QDebug>
 #include <QImage>
 
-class ImgOperate : public QObject
+CommonService *CommonService::m_commonService = nullptr;
+CommonService *CommonService::instance()
 {
-    Q_OBJECT
-public:
-    explicit ImgOperate(QObject *parent = nullptr);
-    ~ImgOperate();
+    if (m_commonService == nullptr) {
+        m_commonService = new CommonService;
+    }
 
-public slots:
-    void slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount);
+    return m_commonService;
+}
 
-signals:
-    void sigOneImgReady(QString imagepath, QImage image);
+void CommonService::setImgViewerType(ImgViewerType type)
+{
+    m_imgViewerType = type;
+}
 
-private:
+ImgViewerType CommonService::getImgViewerType()
+{
+    return m_imgViewerType;
+}
 
-};
+void CommonService::setImgSavePath(QString path)
+{
+    m_imgSavePath = path;
+}
 
-#endif // ImgOperate_H
+QString CommonService::getImgSavePath()
+{
+    return m_imgSavePath;
+}
+
+void CommonService::setImgByPath(QString path, QImage image)
+{
+    m_allImageMap[path] = image;
+}
+
+QImage CommonService::getImgByPath(QString path)
+{
+    return m_allImageMap[path];
+}
+
+CommonService::CommonService(QObject *parent) : QObject(parent)
+{
+
+}

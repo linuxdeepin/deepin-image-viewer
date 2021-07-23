@@ -77,7 +77,10 @@ void MainWindow::initUI()
     m_homePageWidget = new HomePageWidget(this);
     m_centerWidget->addWidget(m_homePageWidget);
 
-    m_imageViewer = new ImageViewer(ImgViewerType::ImgViewerTypeLocal);
+    QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
+                         + QDir::separator() + "deepin" + QDir::separator() + "image-view-plugin";
+//    QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    m_imageViewer = new ImageViewer(ImgViewerType::ImgViewerTypeLocal, CACHE_PATH);
     m_centerWidget->addWidget(m_imageViewer);
     m_centerWidget->setCurrentWidget(m_homePageWidget);
 

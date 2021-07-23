@@ -34,10 +34,9 @@
 #include "unionimage/imageutils.h"
 #include "unionimage/unionimage.h"
 #include "imageengine.h"
+#include "service/commonservice.h"
 
 #include "accessibility/ac-desktop-define.h"
-
-const int ITEM_SPACING = 2;//间隔
 
 ImgViewListView::ImgViewListView(QWidget *parent)
     :  DListView(parent)
@@ -240,9 +239,12 @@ void ImgViewListView::slotOneImgReady(QString path, QImage pix)
             cutPixmap(data);
             QVariant meta;
             meta.setValue(data);
+            CommonService::instance()->setImgByPath(path, pix);
 //            ImageEngine::instance()->m_AllImageMap[data.path] = data.image;
 //            ImageEngine::instance()->m_AllImageData[data.path].imgpixmap = pix;
             m_model->setData(index, meta, Qt::DisplayRole);
+            this->update(index);
+            this->viewport()->update();
             break;
         }
     }
@@ -271,6 +273,7 @@ void ImgViewListView::onClicked(const QModelIndex &index)
     m_currentRow = index.row();
     m_currentPath = info.path;
     qDebug() << "---" << __FUNCTION__ << "---m_currentRow = " << m_currentRow;
+    qDebug() << "---" << __FUNCTION__ << "---info.path = " << info.path;
     //刷新界面
     doItemsLayout();
     //如果点击的是最后一个则向前移动
