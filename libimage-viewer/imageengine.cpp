@@ -9,7 +9,7 @@
 #include <QCryptographicHash>
 
 #include "unionimage/imgoperate.h"
-
+#include "unionimage/unionimage.h"
 class ImageEnginePrivate
 {
 public:
@@ -85,6 +85,11 @@ bool ImageEngine::isImage(const QString &path)
         bRet = true;
     }
     return bRet;
+}
+
+bool ImageEngine::isRotatable(const QString &path)
+{
+    return UnionImage_NameSpace::isImageSupportRotate(path);
 }
 //根据文件路径制作md5
 QString ImageEngine::makeMD5(const QString &path)

@@ -11,7 +11,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 #Qt需要的包
-set(QtModule Core Gui Widgets Svg DBus Concurrent)
+set(QtModule Core Gui Widgets Svg DBus Concurrent PrintSupport)
 
 set(TARGET_NAME image-viewer)
 set(CMD_NAME image-viewer)

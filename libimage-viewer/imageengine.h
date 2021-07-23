@@ -22,8 +22,13 @@ public:
     void makeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount);
     //判断是否是图片格式
     bool isImage(const QString &path);
+    //是否是可选转的图片
+    bool isRotatable(const QString &path);
+
+
     //根据文件路径制作md5
     QString makeMD5(const QString &path);
+
 signals:
     //一张缩略图制作完成
     void sigOneImgReady(QString path, QImage image);

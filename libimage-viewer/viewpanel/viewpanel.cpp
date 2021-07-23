@@ -22,11 +22,16 @@
 
 #include <QVBoxLayout>
 #include <QShortcut>
+#include <QFileInfo>
+#include <DDesktopServices>
 #include <DMenu>
+
 #include "contents/bottomtoolbar.h"
 #include "navigationwidget.h"
 #include "unionimage/imageutils.h"
 #include "unionimage/baseutils.h"
+#include "imageengine.h"
+#include "widgets/printhelper.h"
 
 const int BOTTOM_TOOLBAR_HEIGHT = 80;   //底部工具看高
 const int BOTTOM_SPACING = 10;          //底部工具栏与底部边缘距离
@@ -195,6 +200,20 @@ void ViewPanel::updateMenuContent()
     if (m_menu) {
         m_menu->clear();
         qDeleteAll(this->actions());
+
+        imageViewerSpace::ItemInfo ItemInfo = m_bottomToolbar->getCurrentItemInfo();
+
+        QFileInfo info(ItemInfo.path);
+        bool isReadable = info.isReadable();//是否可读
+        bool isWritable = info.isWritable();//是否可写
+        bool isRotatable = ImageEngine::instance()->isRotatable(ItemInfo.path);//是否可旋转
+        imageViewerSpace::PathType pathType = ItemInfo.pathType;//路径类型
+        imageViewerSpace::ImageType imageType = ItemInfo.imageType;//图片类型
+
+        if (imageViewerSpace::ImageTypeDamaged == imageType) {
+            return;
+        }
+
         if (window()->isFullScreen()) {
             appendAction(IdExitFullScreen, QObject::tr("Exit fullscreen"), ss("Fullscreen", "F11"));
         } else {
@@ -203,26 +222,24 @@ void ViewPanel::updateMenuContent()
 
         appendAction(IdPrint, QObject::tr("Print"), ss("Print", "Ctrl+P"));
         //ocr按钮,是否是动态图,todo
-        if (true) {
+        if (imageViewerSpace::ImageTypeDynamic != imageType) {
             appendAction(IdOcr, QObject::tr("Extract text"), ss("Extract text", "Alt+O"));
         }
 
         //如果图片数量大于0才能有幻灯片
-        if (true) {
-            appendAction(IdStartSlideShow, QObject::tr("Slide show"), ss("Slide show", "F5"));
-        }
+        appendAction(IdStartSlideShow, QObject::tr("Slide show"), ss("Slide show", "F5"));
 
         m_menu->addSeparator();
 
         appendAction(IdCopy, QObject::tr("Copy"), ss("Copy", "Ctrl+C"));
 
         //如果程序有可读可写的权限,才能重命名,todo
-        if (true) {
+        if (isReadable && isWritable) {
             appendAction(IdRename, QObject::tr("Rename"), ss("Rename", "F2"));
         }
 
         //apple phone的delete没有权限,保险箱无法删除,垃圾箱也无法删除,其他需要判断可读权限,todo
-        if (true) {
+        if (imageViewerSpace::PathTypeAPPLE != pathType  && imageViewerSpace::PathTypeSAFEBOX != pathType && imageViewerSpace::PathTypeRECYCLEBIN != pathType) {
             appendAction(IdMoveToTrash, QObject::tr("Delete"), ss("Throw to trash", "Delete"));
         }
 
@@ -237,14 +254,14 @@ void ViewPanel::updateMenuContent()
                          ss("Hide navigation window", ""));
         }
         //apple手机特殊处理，不具备旋转功能,todo
-        if (true) {
+        if (imageViewerSpace::PathTypeAPPLE != pathType  && imageViewerSpace::PathTypeSAFEBOX != pathType && imageViewerSpace::PathTypeRECYCLEBIN != pathType) {
             appendAction(IdRotateClockwise, QObject::tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
             appendAction(IdRotateCounterclockwise, QObject::tr("Rotate counterclockwise"),
                          ss("Rotate counterclockwise", "Ctrl+Shift+R"));
         }
 
         //需要判断图片是否支持设置壁纸,todo
-        if (true) {
+        if (utils::image::imageSupportWallPaper(ItemInfo.path)) {
             appendAction(IdSetAsWallpaper, QObject::tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
         }
         appendAction(IdDisplayInFileManager, QObject::tr("Display in file manager"),
@@ -330,7 +347,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
-        //todo,打印
+        PrintHelper::getIntance()->showPrintDialog(QStringList(m_bottomToolbar->getCurrentItemInfo().path), this);
         break;
     }
     case IdRename: {
@@ -339,6 +356,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     case IdCopy: {
         //todo,复制
+        utils::base::copyImageToClipboard(QStringList(m_bottomToolbar->getCurrentItemInfo().path));
         break;
     }
     case IdMoveToTrash: {
@@ -367,6 +385,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     case IdDisplayInFileManager : {
         //todo显示在文管
+        utils::base::showInFileManager(m_bottomToolbar->getCurrentItemInfo().path);
         break;
     }
     case IdImageInfo: {

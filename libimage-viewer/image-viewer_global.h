@@ -40,6 +40,8 @@ enum PathType {
     PathTypeMTP,           //
     PathTypePTP,           //
     PathTypeAPPLE,         //苹果手机
+    PathTypeSAFEBOX,       //保险箱
+    PathTypeRECYCLEBIN,    //回收站
 };
 
 struct ItemInfo {
