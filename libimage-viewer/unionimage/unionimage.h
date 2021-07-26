@@ -36,6 +36,7 @@
 #include <QFileInfo>
 #include <QStringList>
 #include <QMap>
+#include "image-viewer_global.h"
 
 namespace  UnionImage_NameSpace {
 
@@ -187,6 +188,16 @@ UNIONIMAGESHARED_EXPORT bool canSave(const QString &path);
  * 获得图片的数据
  */
 UNIONIMAGESHARED_EXPORT const QString getOrientation(const QString &path);
+
+/**
+ * @brief getImageType
+ * @param path
+ * @author LMH
+ * @return QString
+ * 获得图片的类型
+ */
+
+UNIONIMAGESHARED_EXPORT imageViewerSpace::ImageType getImageType(const QString &imagepath);
 
 QT_BEGIN_NAMESPACE
 

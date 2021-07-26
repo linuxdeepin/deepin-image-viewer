@@ -32,6 +32,8 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &suf
         if (m_movie.isNull()) return;
         setPixmap(m_movie->currentPixmap());
     });
+    //自动执行播放
+    m_movie->start();
 }
 
 GraphicsMovieItem::~GraphicsMovieItem()

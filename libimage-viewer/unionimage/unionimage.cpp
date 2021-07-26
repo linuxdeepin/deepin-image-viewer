@@ -33,6 +33,7 @@
 #include <QPainter>
 #include <QSvgGenerator>
 #include <QImageReader>
+#include <QMimeDatabase>
 #include <QtSvg/QSvgRenderer>
 
 
@@ -1316,7 +1317,41 @@ QImage UnionMovieImage::next()
     }
     return d->res;
 }
-
+imageViewerSpace::ImageType getImageType(const QString &imagepath)
+{
+    imageViewerSpace::ImageType type = imageViewerSpace::ImageType::ImageTypeBlank;
+    //新增获取图片是属于静态图还是动态图还是多页图
+    if (!imagepath.isEmpty()) {
+        QFileInfo fi(imagepath);
+        QString strType = fi.suffix().toLower();
+        //解决bug57394 【专业版1031】【看图】【5.6.3.74】【修改引入】pic格式图片变为翻页状态，不为动图且首张显示序号为0
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(imagepath, QMimeDatabase::MatchContent);
+        QMimeType mt1 = db.mimeTypeForFile(imagepath, QMimeDatabase::MatchExtension);
+        QString path1 = mt.name();
+        QString path2 = mt1.name();
+        int nSize = -1;
+        QImageReader imgreader(imagepath);
+        nSize = imgreader.imageCount();
+        //
+        if (strType == "svg" && QSvgRenderer().load(imagepath)) {
+            type = imageViewerSpace::ImageTypeSvg;
+        } else if ((strType == "mng")
+                   || ((strType == "gif") && nSize > 1)
+                   || (strType == "webp" && nSize > 1)
+                   || ((mt.name().startsWith("image/gif")) && nSize > 1)
+                   || ((mt1.name().startsWith("image/gif")) && nSize > 1)
+                   || ((mt.name().startsWith("video/x-mng")))
+                   || ((mt1.name().startsWith("video/x-mng")))) {
+            type = imageViewerSpace::ImageTypeDynamic;
+        } else if (nSize > 1) {
+            type = imageViewerSpace::ImageTypeMulti;
+        } else {
+            type = imageViewerSpace::ImageTypeStatic;
+        }
+    }
+    return type;
+}
 QString PrivateDetectImageFormat(const QString &filepath)
 {
     QFile file(filepath);

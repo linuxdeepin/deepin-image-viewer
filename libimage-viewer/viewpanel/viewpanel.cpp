@@ -68,7 +68,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     initConnect();
     initRightMenu();
     initFloatingComponent();
-    initExtensionPanel();
+//    initExtensionPanel();
 }
 
 ViewPanel::~ViewPanel()
@@ -203,12 +203,16 @@ void ViewPanel::initExtensionPanel()
 {
     if (!m_info) {
         m_info = new ImageInfoWidget("", "", this);
+        m_info->hide();
     }
     m_info->setImagePath(m_bottomToolbar->getCurrentItemInfo().path);
     if (!m_extensionPanel) {
         m_extensionPanel = new ExtensionPanel(this);
         connect(m_info, &ImageInfoWidget::extensionPanelHeight, m_extensionPanel, &ExtensionPanel::updateRectWithContent);
-        connect(m_view, &ImageGraphicsView::clicked, this, [ = ] { this->m_extensionPanel->hide(); });
+        connect(m_view, &ImageGraphicsView::clicked, this, [ = ] {
+            this->m_extensionPanel->hide();
+            this->m_info->show();
+        });
     }
 }
 
@@ -407,6 +411,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     case IdImageInfo: {
         //todo,文件信息
+        if (!m_info && !m_extensionPanel) {
+            initExtensionPanel();
+        }
+        m_info->show();
         m_info->setImagePath(m_bottomToolbar->getCurrentItemInfo().path);
         m_extensionPanel->setContent(m_info);
         m_extensionPanel->show();

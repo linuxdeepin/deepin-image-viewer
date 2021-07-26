@@ -31,6 +31,9 @@
 #include <QMap>
 #include <QFileSystemWatcher>
 
+#include "image-viewer_global.h"
+#include "service/commonservice.h"
+
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
 class QPaintEvent;
@@ -42,6 +45,8 @@ class QThreadPool;
 class QGestureEvent;
 class QPinchGesture;
 class QSwipeGesture;
+class ImageSvgItem;
+class MorePicFloatWidget;
 QT_END_NAMESPACE
 
 #include "dtkwidget_global.h"
@@ -84,6 +89,8 @@ public:
     bool isFitImage() const;
     bool isFitWindow() const;
 
+    //初始化多页图界面
+    void initMorePicWidget();
 signals:
     void clicked();
     void doubleClicked();
@@ -109,7 +116,9 @@ public slots:
     void onThemeTypeChanged();
     void onIsChangedTimerTimeout();
 
-
+    //信号槽
+    void slotsUp();
+    void slotsDown();
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
@@ -133,6 +142,7 @@ private slots:
 //    void swipeTriggered(QSwipeGesture *gesture);
 //    void updateImages(const QStringList &path);
 private:
+    imageViewerSpace::ItemInfo m_currentInfo = imageViewerSpace::ItemInfo();
     bool m_isFitImage = false;
     bool m_isFitWindow = false;
     QColor m_backgroundColor;
@@ -143,6 +153,8 @@ private:
     QThreadPool *m_pool;
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
+    ImageSvgItem *m_imgSvgItem = nullptr;
+
     QPointer<QGraphicsBlurEffect> m_blurEffect;
 //    CFileWatcher *m_imgFileWatcher;
     QFileSystemWatcher *m_imgFileWatcher;
@@ -163,6 +175,11 @@ private:
 
     //单指点击标识位
     bool m_press = false;
+
+    //新增tiff多图切换窗口
+    MorePicFloatWidget *m_morePicFloatWidget{nullptr};
+    QImageReader *m_imageReader{nullptr};
+    int m_currentMoreImageNum{0};
 };
 
 //class CFileWatcher: public QThread
