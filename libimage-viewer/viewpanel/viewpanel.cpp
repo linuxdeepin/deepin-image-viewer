@@ -34,6 +34,7 @@
 #include "widgets/printhelper.h"
 #include "contents/imageinfowidget.h"
 #include "widgets/extensionpanel.h"
+#include "widgets/toptoolbar.h"
 
 const int BOTTOM_TOOLBAR_HEIGHT = 80;   //底部工具看高
 const int BOTTOM_SPACING = 10;          //底部工具栏与底部边缘距离
@@ -68,6 +69,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     initConnect();
     initRightMenu();
     initFloatingComponent();
+    initTopBar();
 //    initExtensionPanel();
 }
 
@@ -100,6 +102,13 @@ void ViewPanel::initConnect()
         // cache is finish
         m_view->autoFit();
     });
+}
+
+void ViewPanel::initTopBar()
+{
+    m_topToolbar = new TopToolbar(false, this);
+    m_topToolbar->resize(width(), 50);
+    m_topToolbar->move(0, 0);
 }
 
 void ViewPanel::initFloatingComponent()
@@ -463,6 +472,18 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         QPoint p = this->mapToGlobal(QPoint(0, 0));
         m_extensionPanel->move(p + QPoint(this->window()->width() - m_extensionPanel->width() - 24,
                                           TOP_TOOLBAR_HEIGHT * 2));
+    }
+    if (this->m_topToolbar) {
+
+        if (window()->isFullScreen()) {
+            this->m_topToolbar->setVisible(false);
+        } else {
+            this->m_topToolbar->setVisible(true);
+        }
+
+        if (m_topToolbar->isVisible()) {
+            this->m_topToolbar->resize(width(), 50);
+        }
     }
     resetBottomToolbarGeometry(m_stack->currentWidget() == m_view);
     QFrame::resizeEvent(e);

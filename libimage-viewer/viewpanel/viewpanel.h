@@ -33,6 +33,7 @@ class ImageInfoWidget;
 class ExtensionPanel;
 class NavigationWidget;
 class BottomToolbar;
+class TopToolbar;
 class ViewPanel : public QFrame
 {
 
@@ -69,6 +70,8 @@ public:
     void loadImage(const QString &path, QStringList paths);
 
     void initConnect();
+    //初始化标题栏
+    void initTopBar();
     //初始化缩放比和导航窗口
     void initFloatingComponent();
     //初始化缩放比例的窗口
@@ -116,6 +119,8 @@ private :
     ImageInfoWidget *m_info = nullptr;
     ExtensionPanel  *m_extensionPanel {nullptr};
     DAnchors<NavigationWidget> m_nav ;
+
+    TopToolbar *m_topToolbar = nullptr;
 
     DMenu *m_menu = nullptr;
 

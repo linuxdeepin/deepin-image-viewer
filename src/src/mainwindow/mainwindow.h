@@ -37,7 +37,7 @@
 #include <QButtonGroup>
 #include <DSuggestButton>
 #include <DProgressBar>
-#include "toptoolbar.h"
+
 DWIDGET_USE_NAMESPACE
 class HomePageWidget;
 class ImageViewer;
@@ -70,7 +70,6 @@ private:
     QStackedWidget   *m_centerWidget = nullptr;
     HomePageWidget   *m_homePageWidget = nullptr;
     ImageViewer      *m_imageViewer = nullptr;
-    TopToolbar       *m_topToolbar = nullptr;
     DMainWindow      *m_mainwidow = nullptr;
 };
 

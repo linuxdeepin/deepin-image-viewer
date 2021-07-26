@@ -88,10 +88,6 @@ void MainWindow::initUI()
     connect(m_homePageWidget, &HomePageWidget::sigOpenImage,
             this, &MainWindow::slotOpenImg);
 
-    m_topToolbar = new TopToolbar(false, this);
-    m_topToolbar->resize(width(), 50);
-    m_topToolbar->move(0, 0);
-    m_topToolbar->hide();
 }
 
 void MainWindow::slotOpenImg()
@@ -104,7 +100,6 @@ void MainWindow::slotOpenImg()
             m_mainwidow->titlebar()->setFixedHeight(0);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
-            m_topToolbar->show();
         }
     }
 
@@ -112,16 +107,6 @@ void MainWindow::slotOpenImg()
 
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
-    if (this->m_topToolbar && m_topToolbar->isVisible()) {
-        this->m_topToolbar->resize(width(), 50);
-
-
-        if (window()->isFullScreen()) {
-            this->m_topToolbar->setVisible(false);
-        } else {
-            this-> m_topToolbar->setVisible(true);
-        }
-    }
     DWidget::resizeEvent(e);
 }
 
