@@ -17,7 +17,7 @@ public:
     ~ImageViewer() override;
 
     //调用文件选择窗口
-    void startChooseFileDialog();
+    bool startChooseFileDialog();
     //启动图片展示入口
     void startImgView(QString currentPath, QStringList paths = QStringList());
 protected:

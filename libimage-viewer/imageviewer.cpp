@@ -65,9 +65,10 @@ ImageViewer::~ImageViewer()
 
 }
 
-void ImageViewer::startChooseFileDialog()
+bool ImageViewer::startChooseFileDialog()
 {
     Q_D(ImageViewer);
+    bool bRet = false;
     QString filter = tr("All images");
 
     filter.append('(');
@@ -91,12 +92,15 @@ void ImageViewer::startChooseFileDialog()
     const QStringList image_list = QStringList(QApplication::applicationDirPath() + "/test/jpg113.jpg");
 #endif
     if (image_list.isEmpty())
-        return;
+        return false;
 
     QString path = image_list.first();
     if ((path.indexOf("smb-share:server=") != -1 || path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1)) {
         image_list.clear();
-        image_list << path;
+        //判断是否图片格式
+        if (ImageEngine::instance()->isImage(path)) {
+            image_list << path;
+        }
     } else {
         QString DirPath = image_list.first().left(image_list.first().lastIndexOf("/"));
         QDir _dirinit(DirPath);
@@ -116,8 +120,20 @@ void ImageViewer::startChooseFileDialog()
             }
         }
     }
+    if (image_list.count() > 0) {
+        bRet = true;
+    } else {
+        bRet = false;
+    }
+    QString loadingPath;
+    if (image_list.contains(path)) {
+        loadingPath = path;
+    } else {
+        loadingPath = image_list.first();
+    }
 
-    startImgView(image_list.first(), image_list);
+    startImgView(loadingPath, image_list);
+    return bRet;
 }
 
 void ImageViewer::startImgView(QString currentPath, QStringList paths)

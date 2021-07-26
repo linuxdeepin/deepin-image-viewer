@@ -96,32 +96,18 @@ void MainWindow::initUI()
 
 void MainWindow::slotOpenImg()
 {
-    m_imageViewer->startChooseFileDialog();
-    m_centerWidget->setCurrentWidget(m_imageViewer);
-
-    if (m_mainwidow->titlebar()) {
-        //隐藏原有DMainWindow titlebar，使用自定义标题栏
-        m_mainwidow->titlebar()->setFixedHeight(0);
-//        m_mainwidow->titlebar()->setTitle("");
-        m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
-        m_mainwidow->setTitlebarShadowEnabled(true);
-        m_topToolbar->show();
-//        m_topToolbar->resize(width(), 50);
-//        connect(dApp->signalM, &SignalManager::enterView, this, [ = ](bool a) {
-//            if (a) {
-//                win->titlebar()->setFixedHeight(0);
-//                win->titlebar()->setTitle("");
-//                QIcon empty;
-//                win->titlebar()->setIcon(empty);
-//                win->setTitlebarShadowEnabled(false);
-//            } else {
-//                win->titlebar()->setFixedHeight(50);
-//                win->titlebar()->setTitle("");
-//                win->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
-//                win->setTitlebarShadowEnabled(true);
-//            }
-//        });
+    bool bRet = m_imageViewer->startChooseFileDialog();
+    if (bRet) {
+        m_centerWidget->setCurrentWidget(m_imageViewer);
+        if (m_mainwidow->titlebar()) {
+            //隐藏原有DMainWindow titlebar，使用自定义标题栏
+            m_mainwidow->titlebar()->setFixedHeight(0);
+            m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
+            m_mainwidow->setTitlebarShadowEnabled(true);
+            m_topToolbar->show();
+        }
     }
+
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
