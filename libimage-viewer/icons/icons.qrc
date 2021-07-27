@@ -21,4 +21,8 @@
         <file>texts/dcc_suspend_normal_36px.svg</file>
         <file>texts/next_disabled_dark.svg</file>
     </qresource>
+    <qresource prefix="/">
+        <file>texts/dcc_ocr_dark_36px.svg</file>
+        <file>texts/dcc_ocr_36px.svg</file>
+    </qresource>
 </RCC>

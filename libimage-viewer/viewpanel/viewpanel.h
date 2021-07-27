@@ -108,6 +108,9 @@ public slots:
 
     //旋转图片
     void slotRotateImage(int angle);
+
+    //适应窗口和图片
+    void slotResetTransform(bool bRet);
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *e) override;

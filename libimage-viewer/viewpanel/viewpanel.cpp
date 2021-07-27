@@ -107,12 +107,22 @@ void ViewPanel::initConnect()
     //旋转信号
     connect(m_bottomToolbar, &BottomToolbar::rotateClockwise, this, [ = ] {
         this->slotRotateImage(-90);
-
     });
 
     connect(m_bottomToolbar, &BottomToolbar::rotateCounterClockwise, this, [ = ] {
         this->slotRotateImage(90);
     });
+
+    //适应窗口和适应图片按钮
+    connect(m_bottomToolbar, &BottomToolbar::resetTransform, this, &ViewPanel::slotResetTransform);
+
+    //适应窗口的状态更新
+    connect(m_view, &ImageGraphicsView::checkAdaptScreenBtn, m_bottomToolbar, &BottomToolbar::checkAdaptImageBtn);
+    connect(m_view, &ImageGraphicsView::disCheckAdaptScreenBtn,  m_bottomToolbar, &BottomToolbar::disCheckAdaptScreenBtn);
+    connect(m_view, &ImageGraphicsView::checkAdaptImageBtn, m_bottomToolbar, &BottomToolbar::checkAdaptImageBtn);
+    connect(m_view, &ImageGraphicsView::disCheckAdaptImageBtn, m_bottomToolbar, &BottomToolbar::disCheckAdaptImageBtn);
+
+
 }
 
 void ViewPanel::initTopBar()
@@ -180,7 +190,9 @@ void ViewPanel::initNavigation()
     m_nav.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
 
     connect(this, &ViewPanel::imageChanged, this, [ = ](const QString & path) {
-        if (path.isEmpty()) m_nav->setVisible(false);
+        if (path.isEmpty()) {
+            m_nav->setVisible(false);
+        }
         m_nav->setImage(m_view->image());
     });
 
@@ -507,6 +519,16 @@ void ViewPanel::slotRotateImage(int angle)
     m_tSaveImage->start(2000);
     m_view->autoFit();
 }
+
+void ViewPanel::slotResetTransform(bool bRet)
+{
+    if (bRet && m_view) {
+        m_view->fitWindow();
+    } else if (!bRet && m_view) {
+        m_view->fitImage();
+    }
+}
+
 
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {

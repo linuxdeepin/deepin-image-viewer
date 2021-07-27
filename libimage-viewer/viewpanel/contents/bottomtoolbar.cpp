@@ -114,6 +114,7 @@ int BottomToolbar::getToolbarWidth()
         width += m_adaptImageBtn->width() + ICON_SPACING;//适应图片
         width += m_adaptScreenBtn->width() + ICON_SPACING;//适应屏幕
         width += m_rotateLBtn->width() + ICON_SPACING;//左旋
+        width += m_ocrBtn->width() + ICON_SPACING;//OCR
         width += m_rotateRBtn->width() + ICON_SPACING;//右旋
         width += m_trashBtn->width();//右旋
         if (m_imgListWidget->getImgCount() <= 1) {
@@ -180,19 +181,19 @@ void BottomToolbar::onBackButtonClicked()
 
 void BottomToolbar::onAdaptImageBtnClicked()
 {
+    emit resetTransform(false);
     m_adaptImageBtn->setChecked(true);
     if (!badaptImageBtnChecked) {
         badaptImageBtnChecked = true;
-        emit resetTransform(false);
     }
 }
 
 void BottomToolbar::onAdaptScreenBtnClicked()
 {
+    emit resetTransform(true);
     m_adaptScreenBtn->setChecked(true);
     if (!badaptScreenBtnChecked) {
         badaptScreenBtnChecked = true;
-        emit resetTransform(true);
     }
 }
 
@@ -380,6 +381,14 @@ void BottomToolbar::initUI()
 //    AC_SET_OBJECT_NAME(m_clBT, BottomToolbar_Collect_Button);
 //    AC_SET_ACCESSIBLE_NAME(m_clBT, BottomToolbar_Collect_Button);
     hb->addWidget(m_clBT);
+
+    //ocr
+    m_ocrBtn = new DIconButton(this);
+    m_ocrBtn->setFixedSize(ICON_SIZE);
+    m_ocrBtn->setIcon(QIcon::fromTheme("dcc_ocr"));
+    m_ocrBtn->setIconSize(QSize(36, 36));
+    m_ocrBtn->setToolTip(tr("Extract text"));
+    hb->addWidget(m_ocrBtn);
 
     //向左旋转
     m_rotateLBtn = new DIconButton(this);

@@ -224,6 +224,7 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
         m_imgSvgItem->setCacheMode(QGraphicsItem::NoCache);
         setSceneRect(m_imgSvgItem->boundingRect());
         s->addItem(m_imgSvgItem);
+        emit imageChanged(path);
     } else {
         //当传入的image无效时，需要重新读取数据
         m_movieItem = nullptr;
@@ -729,6 +730,8 @@ bool ImageGraphicsView::slotRotatePixmap(int nAngel)
 
     autoFit();
     m_rotateAngel += nAngel;
+
+    emit imageChanged(m_path);
     return true;
 }
 

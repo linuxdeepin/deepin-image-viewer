@@ -129,6 +129,7 @@ private:
     DIconButton *m_adaptImageBtn = nullptr;
     DIconButton *m_adaptScreenBtn = nullptr;
     DIconButton *m_clBT = nullptr;
+    DIconButton *m_ocrBtn = nullptr;
     DIconButton *m_rotateLBtn = nullptr;
     DIconButton *m_rotateRBtn = nullptr;
     DIconButton *m_trashBtn = nullptr;
