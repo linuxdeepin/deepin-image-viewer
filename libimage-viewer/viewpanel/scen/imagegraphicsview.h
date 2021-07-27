@@ -120,6 +120,17 @@ public slots:
     void slotsUp();
     void slotsDown();
 
+    /**
+     * @brief slotRotatePixmap  根据角度旋转pixmap
+     * @param nAngel        旋转的角度
+     */
+    bool slotRotatePixmap(int nAngel);
+
+    /**
+     * @brief slotRotatePixCurrent  判断当前图片是否被旋转，如果是，写入本地
+     */
+    void slotRotatePixCurrent();
+
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
@@ -142,7 +153,6 @@ private slots:
 //    void swipeTriggered(QSwipeGesture *gesture);
 //    void updateImages(const QStringList &path);
 private:
-    imageViewerSpace::ItemInfo m_currentInfo = imageViewerSpace::ItemInfo();
     bool m_isFitImage = false;
     bool m_isFitWindow = false;
     QColor m_backgroundColor;
@@ -175,11 +185,15 @@ private:
 
     //单指点击标识位
     bool m_press = false;
+    //旋转角度
+    int m_rotateAngel = 0;
 
     //新增tiff多图切换窗口
     MorePicFloatWidget *m_morePicFloatWidget{nullptr};
     QImageReader *m_imageReader{nullptr};
     int m_currentMoreImageNum{0};
+
+
 };
 
 //class CFileWatcher: public QThread

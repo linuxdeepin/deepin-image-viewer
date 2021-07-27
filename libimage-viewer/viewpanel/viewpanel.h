@@ -105,6 +105,9 @@ public slots:
     void resetBottomToolbarGeometry(bool visible);
     //打开图片
     void openImg(int index, QString path);
+
+    //旋转图片
+    void slotRotateImage(int angle);
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *e) override;
@@ -125,6 +128,8 @@ private :
     DMenu *m_menu = nullptr;
 
     bool m_isMaximized = false;
+
+    QTimer *m_tSaveImage = nullptr;//保存旋转图片定时器
 
 };
 #endif  // VIEWPANEL_H

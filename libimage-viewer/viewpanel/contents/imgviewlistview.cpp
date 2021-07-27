@@ -229,6 +229,27 @@ void ImgViewListView::removeCurrent()
     }
 }
 
+void ImgViewListView::rotate(int index)
+{
+    //取数据
+    QModelIndex currentIndex = m_model->index(m_currentRow, 0);
+    imageViewerSpace::ItemInfo info = currentIndex.data(Qt::DisplayRole).value<imageViewerSpace::ItemInfo>();
+    if (info.path.isEmpty()) {
+        return;
+    }
+    //旋转图片,根据角度
+    QImage img = info.image;
+    QMatrix matrix;
+    matrix.rotate(index);
+    img = img.transformed(matrix);
+    //重新赋值数据
+    info.image = img;
+    QVariant infoVariant;
+    infoVariant.setValue(info);
+    //重新赋值给界面
+    m_model->setData(currentIndex, infoVariant, Qt::DisplayRole);
+}
+
 void ImgViewListView::slotOneImgReady(QString path, imageViewerSpace::ItemInfo pix)
 {
     for (int i = 0; i < m_model->rowCount(); i++) {

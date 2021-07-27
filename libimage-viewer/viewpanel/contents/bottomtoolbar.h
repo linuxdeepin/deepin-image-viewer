@@ -103,6 +103,7 @@ public slots:
     void deleteImage();
     void onNextButton();
     void onPreButton();
+    void onRotate(int matrix);
     void onBackButtonClicked();
     void onAdaptImageBtnClicked();
     void onAdaptScreenBtnClicked();

@@ -115,6 +115,11 @@ void MyImageListWidget::removeCurrent()
     this->setVisible(getImgCount() > 1);
 }
 
+void MyImageListWidget::rotate(int matrix)
+{
+    m_listview->rotate(matrix);
+}
+
 void MyImageListWidget::onScrollBarValueChanged(int value)
 {
     QModelIndex index = m_listview->indexAt(QPoint((m_listview->width() - 15), 10));

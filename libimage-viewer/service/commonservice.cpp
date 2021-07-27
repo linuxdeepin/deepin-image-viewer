@@ -54,17 +54,18 @@ QString CommonService::getImgSavePath()
     return m_imgSavePath;
 }
 
-void CommonService::setImgInfoByPath(QString path, imageViewerSpace::ItemInfo itemInfo)
-{
-    m_allInfoMap[path] = itemInfo;
-}
 
 imageViewerSpace::ItemInfo CommonService::getImgInfoByPath(QString path)
 {
     return m_allInfoMap[path];
 }
 
-void CommonService::slotOneImgReady(QString path, imageViewerSpace::ItemInfo itemInfo)
+void CommonService::setImgInfoByPat(QString path, imageViewerSpace::ItemInfo itemInfo)
+{
+    m_allInfoMap[path] = itemInfo;
+}
+
+void CommonService::slotSetImgInfoByPath(QString path, imageViewerSpace::ItemInfo itemInfo)
 {
     m_allInfoMap[path] = itemInfo;
     emit ImageEngine::instance()->sigOneImgReady(path, itemInfo);

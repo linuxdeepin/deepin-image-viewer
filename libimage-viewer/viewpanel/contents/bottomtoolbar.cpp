@@ -208,16 +208,19 @@ void BottomToolbar::onclBTClicked()
 
 void BottomToolbar::onRotateLBtnClicked()
 {
+    onRotate(-90);
     emit rotateCounterClockwise();
 }
 
 void BottomToolbar::onRotateRBtnClicked()
 {
+    onRotate(90);
     emit rotateClockwise();
 }
 
 void BottomToolbar::onTrashBtnClicked()
 {
+    deleteImage();
 //    emit dApp->signalM->deleteByMenu();
 }
 
@@ -233,6 +236,11 @@ void BottomToolbar::onPreButton()
     if (m_imgListWidget) {
         m_imgListWidget->openPre();
     }
+}
+
+void BottomToolbar::onRotate(int matrix)
+{
+    m_imgListWidget->rotate(matrix);
 }
 
 void BottomToolbar::resizeEvent(QResizeEvent *event)

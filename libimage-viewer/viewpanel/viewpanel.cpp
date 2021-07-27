@@ -102,6 +102,17 @@ void ViewPanel::initConnect()
         // cache is finish
         m_view->autoFit();
     });
+
+
+    //旋转信号
+    connect(m_bottomToolbar, &BottomToolbar::rotateClockwise, this, [ = ] {
+        this->slotRotateImage(-90);
+
+    });
+
+    connect(m_bottomToolbar, &BottomToolbar::rotateCounterClockwise, this, [ = ] {
+        this->slotRotateImage(90);
+    });
 }
 
 void ViewPanel::initTopBar()
@@ -391,6 +402,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     case IdMoveToTrash: {
         //todo,删除
+        if (m_bottomToolbar) {
+            m_bottomToolbar->deleteImage();
+        }
         break;
     }
     case IdShowNavigationWindow: {
@@ -403,10 +417,16 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     case IdRotateClockwise: {
         //todo旋转
+        if (m_bottomToolbar) {
+            m_bottomToolbar->onRotateLBtnClicked();
+        }
         break;
     }
     case IdRotateCounterclockwise: {
         //todo旋转
+        if (m_bottomToolbar) {
+            m_bottomToolbar->onRotateRBtnClicked();
+        }
         break;
     }
     case IdSetAsWallpaper: {
@@ -462,6 +482,24 @@ void ViewPanel::openImg(int index, QString path)
     //展示图片
     m_view->setImage(path);
     m_view->resetTransform();
+}
+
+void ViewPanel::slotRotateImage(int angle)
+{
+    if (m_view) {
+        m_view->slotRotatePixmap(angle);
+    }
+    //实时保存太卡，因此采用2s后延时保存的问题
+    if (!m_tSaveImage) {
+        m_tSaveImage = new QTimer(this);
+        connect(m_tSaveImage, &QTimer::timeout, this, [ = ]() {
+            m_view->slotRotatePixCurrent();
+        });
+    }
+
+    m_tSaveImage->setSingleShot(true);
+    m_tSaveImage->start(2000);
+    m_view->autoFit();
 }
 
 void ViewPanel::resizeEvent(QResizeEvent *e)

@@ -47,6 +47,7 @@
 #include "unionimage/unionimage.h"
 #include "accessibility/ac-desktop-define.h"
 #include "../contents/morepicfloatwidget.h"
+
 #include <DGuiApplicationHelper>
 #include <DApplicationHelper>
 #include <QShortcut>
@@ -698,6 +699,42 @@ void ImageGraphicsView::slotsDown()
 
         //todo ,更新导航栏
 //        emit dApp->signalM->UpdateNavImg();
+    }
+}
+
+bool ImageGraphicsView::slotRotatePixmap(int nAngel)
+{
+    if (!m_pixmapItem) return false;
+    QPixmap pixmap = m_pixmapItem->pixmap();
+    QMatrix rotate;
+    rotate.rotate(nAngel);
+
+    pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    scene()->clear();
+    resetTransform();
+    m_pixmapItem = new GraphicsPixmapItem(pixmap);
+    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    // Make sure item show in center of view after reload
+    QRectF rect = m_pixmapItem->boundingRect();
+    //            rect.setHeight(rect.height() + 50);
+    setSceneRect(rect);
+    //            setSceneRect(m_pixmapItem->boundingRect());
+    scene()->addItem(m_pixmapItem);
+
+    autoFit();
+    m_rotateAngel += nAngel;
+    return true;
+}
+
+void ImageGraphicsView::slotRotatePixCurrent()
+{
+    if (0 != m_rotateAngel) {
+        m_rotateAngel =  m_rotateAngel % 360;
+        if (0 != m_rotateAngel) {
+            utils::image::rotate(m_path, m_rotateAngel);
+            m_rotateAngel = 0;
+        }
     }
 }
 

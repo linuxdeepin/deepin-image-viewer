@@ -63,6 +63,8 @@ public:
     void openPre();
     //移除当前选中
     void removeCurrent();
+    //旋转
+    void rotate(int index);
 protected:
 //    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 public slots:

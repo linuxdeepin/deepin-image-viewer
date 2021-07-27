@@ -73,8 +73,7 @@ public:
     void setSelectCenter();
     //获取当前所有展示图片数量
     int getImgCount();
-    //移除当前选中
-    void removeCurrent();
+
 protected:
 signals:
     void openImg(int index, QString path);
@@ -90,6 +89,10 @@ public slots:
     void openNext();
     //查看前一张
     void openPre();
+    //移除当前选中
+    void removeCurrent();
+    //旋转图片
+    void rotate(int matrix);
 private:
     ImgViewListView *m_listview = nullptr;
     QPoint m_pressPoint;//鼠标按下位置
