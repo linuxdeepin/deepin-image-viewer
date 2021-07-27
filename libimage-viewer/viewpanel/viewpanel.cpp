@@ -376,6 +376,10 @@ void ViewPanel::appendAction(int id, const QString &text, const QString &shortcu
 
 void ViewPanel::onMenuItemClicked(QAction *action)
 {
+    //判断旋转图片本体是否旋转
+    if (m_view) {
+        m_view->slotRotatePixCurrent();
+    }
     const int id = action->property("MenuID").toInt();
     switch (MenuItemId(id)) {
     case IdFullScreen:
@@ -443,6 +447,8 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         if (!m_info && !m_extensionPanel) {
             initExtensionPanel();
         }
+        //重新刷新文件信息
+        m_info->updateInfo();
         m_info->show();
         m_info->setImagePath(m_bottomToolbar->getCurrentItemInfo().path);
         m_extensionPanel->setContent(m_info);

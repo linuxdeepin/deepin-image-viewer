@@ -18,8 +18,8 @@ public:
     explicit ImageEngine(QWidget *parent = nullptr);
     ~ImageEngine() override;
 
-    //制作图片缩略图, paths:所有图片路径, makeCount:从第一个开始制作缩略图数量
-    void makeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount);
+    //制作图片缩略图, paths:所有图片路径, makeCount:从第一个开始制作缩略图数量,remake:缩略图是否重新生成
+    void makeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount, bool remake = false);
     //判断是否是图片格式
     bool isImage(const QString &path);
     //是否是可选转的图片

@@ -47,6 +47,7 @@
 #include "unionimage/unionimage.h"
 #include "accessibility/ac-desktop-define.h"
 #include "../contents/morepicfloatwidget.h"
+#include "imageengine.h"
 
 #include <DGuiApplicationHelper>
 #include <DApplicationHelper>
@@ -157,9 +158,13 @@ void ImageGraphicsView::clear()
 
 void ImageGraphicsView::setImage(const QString &path, const QImage &image)
 {
+    //默认多页图的按钮显示为false
     if (m_morePicFloatWidget) {
         m_morePicFloatWidget->setVisible(false);
     }
+    //重新生成数据缓存
+    ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), QStringList(path), 1, true);
+    //检测数据缓存,如果存在,则使用缓存
     imageViewerSpace::ItemInfo info = CommonService::instance()->getImgInfoByPath(path);
     m_loadPath = path;
     // Empty path will cause crash in release-build mode
@@ -732,7 +737,11 @@ void ImageGraphicsView::slotRotatePixCurrent()
     if (0 != m_rotateAngel) {
         m_rotateAngel =  m_rotateAngel % 360;
         if (0 != m_rotateAngel) {
+            disconnect(m_imgFileWatcher, &QFileSystemWatcher::fileChanged, this, &ImageGraphicsView::onImgFileChanged);
             utils::image::rotate(m_path, m_rotateAngel);
+            QTimer::singleShot(1000, [ = ] {
+                connect(m_imgFileWatcher, &QFileSystemWatcher::fileChanged, this, &ImageGraphicsView::onImgFileChanged);
+            });
             m_rotateAngel = 0;
         }
     }

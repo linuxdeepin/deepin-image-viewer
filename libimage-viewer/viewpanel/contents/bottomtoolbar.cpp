@@ -209,13 +209,13 @@ void BottomToolbar::onclBTClicked()
 void BottomToolbar::onRotateLBtnClicked()
 {
     onRotate(-90);
-    emit rotateCounterClockwise();
+    emit rotateClockwise();
 }
 
 void BottomToolbar::onRotateRBtnClicked()
 {
     onRotate(90);
-    emit rotateClockwise();
+    emit rotateCounterClockwise();
 }
 
 void BottomToolbar::onTrashBtnClicked()

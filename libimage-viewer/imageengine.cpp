@@ -64,7 +64,7 @@ ImageEngine::~ImageEngine()
 
 }
 
-void ImageEngine::makeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount)
+void ImageEngine::makeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount, bool remake)
 {
     Q_D(ImageEngine);
     //执行子线程制作缩略图动作
@@ -72,6 +72,7 @@ void ImageEngine::makeImgThumbnail(QString thumbnailSavePath, QStringList paths,
                               , Q_ARG(QString, thumbnailSavePath)
                               , Q_ARG(QStringList, paths)
                               , Q_ARG(int, makeCount)
+                              , Q_ARG(bool, remake)
                              );
 }
 //判断是否图片格式

@@ -45,7 +45,7 @@ ImgOperate::~ImgOperate()
 
 }
 
-void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount)
+void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount, bool remake)
 {
     QString path;
     QImage tImg;
@@ -71,7 +71,7 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
         savePath = savePath.mid(0, savePath.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(savePath) + ".png";
         QFileInfo file(savePath);
         //缩略图已存在，执行下一个路径
-        if (file.exists()) {
+        if (file.exists() && !remake) {
             tImg = QImage(savePath);
             itemInfo.image = tImg;
             //获取图片类型

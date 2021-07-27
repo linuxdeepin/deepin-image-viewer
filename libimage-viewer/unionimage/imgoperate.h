@@ -36,7 +36,7 @@ public:
     ~ImgOperate();
 
 public slots:
-    void slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount);
+    void slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount, bool remake);
 
 signals:
     //图片信息以及缩略图制作完成
