@@ -79,6 +79,7 @@ public:
     int getToolbarWidth();
     //获取当前展示图片信息
     imageViewerSpace::ItemInfo getCurrentItemInfo();
+
 signals:
     void resetTransform(bool fitWindow);
     void rotateClockwise();
@@ -93,6 +94,9 @@ signals:
     void resetShoworHide();
     //由于添加或者删除导致长度变化,参数默认为true
     void sigWidthChanged(bool visible);
+
+    //ocr信号
+    void sigOcr();
 public slots:
     void updateCollectButton();
 

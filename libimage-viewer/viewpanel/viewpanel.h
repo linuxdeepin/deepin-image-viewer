@@ -34,6 +34,7 @@ class ExtensionPanel;
 class NavigationWidget;
 class BottomToolbar;
 class TopToolbar;
+class OcrInterface;
 
 class ViewPanel : public QFrame
 {
@@ -73,6 +74,8 @@ public:
     void initConnect();
     //初始化标题栏
     void initTopBar();
+    //初始化ocr
+    void initOcr();
     //初始化缩放比和导航窗口
     void initFloatingComponent();
     //初始化缩放比例的窗口
@@ -103,6 +106,7 @@ public:
     //设置壁纸
     void setWallpaper(const QImage &img);
 
+
 private slots:
     void onMenuItemClicked(QAction *action);
 public slots:
@@ -116,6 +120,9 @@ public slots:
 
     //适应窗口和图片
     void slotResetTransform(bool bRet);
+
+    //ocr连接
+    bool slotOcrPicture();
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *e) override;
@@ -130,6 +137,9 @@ private :
     ImageInfoWidget *m_info = nullptr;
     ExtensionPanel  *m_extensionPanel {nullptr};
     DAnchors<NavigationWidget> m_nav ;
+
+    //ocr接口
+    OcrInterface *m_ocrInterface{nullptr};
 
     TopToolbar *m_topToolbar = nullptr;
 

@@ -447,4 +447,6 @@ void BottomToolbar::initConnection()
     connect(m_imgListWidget, &MyImageListWidget::openImg, this, &BottomToolbar::openImg, Qt::QueuedConnection);
     //删除
     connect(m_trashBtn, &DIconButton::clicked, this, &BottomToolbar::onTrashBtnClicked);
+    //ocr
+    connect(m_ocrBtn, &DIconButton::clicked, this, &BottomToolbar::sigOcr);
 }

@@ -40,6 +40,7 @@
 #include "widgets/extensionpanel.h"
 #include "widgets/toptoolbar.h"
 #include "widgets/renamedialog.h"
+#include "service/ocrinterface.h"
 
 const int BOTTOM_TOOLBAR_HEIGHT = 80;   //底部工具看高
 const int BOTTOM_SPACING = 10;          //底部工具栏与底部边缘距离
@@ -129,7 +130,7 @@ void ViewPanel::initConnect()
     connect(m_view, &ImageGraphicsView::checkAdaptImageBtn, m_bottomToolbar, &BottomToolbar::checkAdaptImageBtn);
     connect(m_view, &ImageGraphicsView::disCheckAdaptImageBtn, m_bottomToolbar, &BottomToolbar::disCheckAdaptImageBtn);
 
-
+    connect(m_bottomToolbar, &BottomToolbar::sigOcr, this, &ViewPanel::slotOcrPicture);
 }
 
 void ViewPanel::initTopBar()
@@ -137,6 +138,13 @@ void ViewPanel::initTopBar()
     m_topToolbar = new TopToolbar(false, this);
     m_topToolbar->resize(width(), 50);
     m_topToolbar->move(0, 0);
+}
+
+void ViewPanel::initOcr()
+{
+    if (!m_ocrInterface) {
+        m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
+    }
 }
 
 void ViewPanel::initFloatingComponent()
@@ -426,6 +434,28 @@ void ViewPanel::setWallpaper(const QImage &img)
     th1->start();
 }
 
+bool ViewPanel::slotOcrPicture()
+{
+    if (!m_ocrInterface) {
+        initOcr();
+    }
+    QString path = m_bottomToolbar->getCurrentItemInfo().path;
+    //图片过大，会导致崩溃，超过4K，智能裁剪
+    if (m_ocrInterface != nullptr && m_view != nullptr) {
+        QImage image = m_view->image();
+        if (image.width() > 5000) {
+            image = image.scaledToWidth(5000, Qt::SmoothTransformation);
+        }
+        if (image.height() > 5000) {
+            image = image.scaledToHeight(5000, Qt::SmoothTransformation);
+        }
+        QFileInfo info(path);
+        //采用路径，以防止名字出错
+        m_ocrInterface->openImageAndName(image, path);
+    }
+    return false;
+}
+
 void ViewPanel::onMenuItemClicked(QAction *action)
 {
     //判断旋转图片本体是否旋转
@@ -533,6 +563,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     case IdOcr: {
         //todo,ocr
+        slotOcrPicture();
         break;
     }
     }
