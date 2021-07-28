@@ -34,6 +34,7 @@ class ExtensionPanel;
 class NavigationWidget;
 class BottomToolbar;
 class TopToolbar;
+
 class ViewPanel : public QFrame
 {
 
@@ -97,6 +98,10 @@ public:
      * @param shortcut      按钮快捷键
      */
     void appendAction(int id, const QString &text, const QString &shortcut = "");
+
+
+    //设置壁纸
+    void setWallpaper(const QImage &img);
 
 private slots:
     void onMenuItemClicked(QAction *action);

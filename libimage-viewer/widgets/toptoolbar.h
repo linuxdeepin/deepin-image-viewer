@@ -43,11 +43,11 @@ class TopToolbar : public DBlurEffectWidget
     Q_OBJECT
 public:
     TopToolbar(bool manager, QWidget *parent);
-
+    void setMiddleContent(const QString &path);
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
-
+    void resizeEvent(QResizeEvent *event) override;
 signals:
     void updateMaxBtn();
 
@@ -81,7 +81,7 @@ private:
     QHBoxLayout *m_rLayout = nullptr;
     DTitlebar *m_titlebar = nullptr;
     DLabel *m_titletxt = nullptr;
-
+    QString m_filename;
 #ifndef LITE_DIV
     SettingsWindow *m_settingsWindow;
 #endif

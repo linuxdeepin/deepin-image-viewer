@@ -65,6 +65,18 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
     initWidgets();
 }
 
+void TopToolbar::setMiddleContent(const QString &path)
+{
+    //保存当前名称
+    m_filename = path;
+    //修复名字过长显示不完整bug
+    QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),
+                               path, width() - 500);
+    m_titletxt->setText(a);
+    m_titletxt->setObjectName(a);
+    m_titletxt->setAccessibleName(a);
+}
+
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton) {
@@ -88,6 +100,19 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     QPainterPath pp;
     pp.addRoundedRect(QRectF(bgRect.x(), bgRect.y(), bgRect.width(), 60), 0, 0);
     p.fillPath(pp, bgColor);
+}
+
+void TopToolbar::resizeEvent(QResizeEvent *event)
+{
+    //在resize的时候,需要重新计算大小
+    if (m_filename != "") {
+        QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),
+                                   m_filename, width() - 500);
+        m_titletxt->setText(b);
+        m_titletxt->setObjectName(b);
+        m_titletxt->setAccessibleName(b);
+    }
+    DBlurEffectWidget::resizeEvent(event);
 }
 
 void TopToolbar::initWidgets()

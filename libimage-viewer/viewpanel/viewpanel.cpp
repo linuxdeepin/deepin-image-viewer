@@ -23,6 +23,10 @@
 #include <QVBoxLayout>
 #include <QShortcut>
 #include <QFileInfo>
+#include <QDBusInterface>
+#include <QGuiApplication>
+#include <QScreen>
+
 #include <DDesktopServices>
 #include <DMenu>
 
@@ -35,6 +39,7 @@
 #include "contents/imageinfowidget.h"
 #include "widgets/extensionpanel.h"
 #include "widgets/toptoolbar.h"
+#include "widgets/renamedialog.h"
 
 const int BOTTOM_TOOLBAR_HEIGHT = 80;   //底部工具看高
 const int BOTTOM_SPACING = 10;          //底部工具栏与底部边缘距离
@@ -82,6 +87,8 @@ void ViewPanel::loadImage(const QString &path, QStringList paths)
 {
     //展示图片
     m_view->setImage(path);
+    QFileInfo info(path);
+    m_topToolbar->setMiddleContent(info.fileName());
     m_view->resetTransform();
     m_stack->setCurrentWidget(m_view);
     //刷新工具栏
@@ -386,6 +393,39 @@ void ViewPanel::appendAction(int id, const QString &text, const QString &shortcu
     }
 }
 
+void ViewPanel::setWallpaper(const QImage &img)
+{
+    QThread *th1 = QThread::create([ = ]() {
+        if (!img.isNull()) {
+            QString path = "/tmp/DIVIMG.png";
+            img.save("/tmp/DIVIMG.png", "png");
+            //202011/12 bug54279
+            {
+                //设置壁纸代码改变，采用DBus,原方法保留
+                if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/1) {
+                    // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
+                    qDebug() << "SettingWallpaper: " << "flatpak" << path;
+                    QDBusInterface interface("com.deepin.daemon.Appearance",
+                                                 "/com/deepin/daemon/Appearance",
+                                                 "com.deepin.daemon.Appearance");
+                    if (interface.isValid()) {
+                        QString screenname = QGuiApplication::primaryScreen()->name();
+                        QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"), screenname, path);
+                        qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
+                    }
+                }
+                // Remove the tmp file
+                QTimer::singleShot(5000, [ = ] {
+                    QFile(path).remove();
+                });
+
+
+            }
+        }
+    });
+    th1->start();
+}
+
 void ViewPanel::onMenuItemClicked(QAction *action)
 {
     //判断旋转图片本体是否旋转
@@ -409,6 +449,21 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     case IdRename: {
         //todo,重命名
+        QString oldPath = m_bottomToolbar->getCurrentItemInfo().path;
+        RenameDialog *renamedlg =  new RenameDialog(oldPath, this);
+        if (renamedlg->exec()) {
+            QFile file(oldPath);
+            QString filepath = renamedlg->GetFilePath();
+            QString filename = renamedlg->GetFileName();
+            bool bOk = file.rename(filepath);
+            if (bOk) {
+                //to文件改变后做的事情
+                if (m_topToolbar) {
+                    m_topToolbar->setMiddleContent(filename);
+                    CommonService::instance()->reName(oldPath, filepath);
+                }
+            }
+        }
         break;
     }
     case IdCopy: {
@@ -447,6 +502,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     case IdSetAsWallpaper: {
         //todo设置壁纸
+        setWallpaper(m_view->image());
         break;
     }
     case IdDisplayInFileManager : {
@@ -500,6 +556,8 @@ void ViewPanel::openImg(int index, QString path)
     //展示图片
     m_view->setImage(path);
     m_view->resetTransform();
+    QFileInfo info(path);
+    m_topToolbar->setMiddleContent(info.fileName());
 }
 
 void ViewPanel::slotRotateImage(int angle)

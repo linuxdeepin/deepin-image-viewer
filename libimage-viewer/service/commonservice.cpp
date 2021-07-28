@@ -65,6 +65,15 @@ void CommonService::setImgInfoByPat(QString path, imageViewerSpace::ItemInfo ite
     m_allInfoMap[path] = itemInfo;
 }
 
+void CommonService::reName(const QString &oldPath, const QString &newPath)
+{
+    imageViewerSpace::ItemInfo info = m_allInfoMap[oldPath];
+    info.path = newPath;
+    m_allInfoMap[newPath] = info;
+    m_allInfoMap.remove(oldPath);
+    emit ImageEngine::instance()->sigOneImgReady(oldPath, info);
+}
+
 void CommonService::slotSetImgInfoByPath(QString path, imageViewerSpace::ItemInfo itemInfo)
 {
     m_allInfoMap[path] = itemInfo;
