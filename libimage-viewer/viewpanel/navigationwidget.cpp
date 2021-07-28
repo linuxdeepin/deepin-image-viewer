@@ -31,7 +31,7 @@
 #include <DDialogCloseButton>
 #include <DGuiApplicationHelper>
 #include <QRgb>
-
+#include "service/configsetter.h"
 namespace {
 
 const QString SETTINGS_GROUP = "VIEWPANEL";
@@ -125,8 +125,8 @@ NavigationWidget::NavigationWidget(QWidget *parent)
 
 void NavigationWidget::setAlwaysHidden(bool value)
 {
-//    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_ALWAYSHIDDEN_KEY,
-//                           QVariant(value));
+    ConfigSetter::instance()->setValue(SETTINGS_GROUP, SETTINGS_ALWAYSHIDDEN_KEY,
+                                       QVariant(value));
     if (isAlwaysHidden())
         hide();
     else
@@ -135,8 +135,8 @@ void NavigationWidget::setAlwaysHidden(bool value)
 
 bool NavigationWidget::isAlwaysHidden() const
 {
-//    return dApp->setter->value(SETTINGS_GROUP, SETTINGS_ALWAYSHIDDEN_KEY,
-//                               QVariant(false)).toBool();
+    return ConfigSetter::instance()->value(SETTINGS_GROUP, SETTINGS_ALWAYSHIDDEN_KEY,
+                                           QVariant(false)).toBool();
 }
 
 QPoint NavigationWidget::transImagePos(QPoint pos)
