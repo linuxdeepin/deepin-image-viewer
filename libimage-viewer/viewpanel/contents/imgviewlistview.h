@@ -65,6 +65,12 @@ public:
     void removeCurrent();
     //旋转
     void rotate(int index);
+
+    //设置当前图片
+    void setCurrentPath(const QString &path);
+
+    //获取所有路径
+    QStringList getAllPath();
 protected:
 //    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 public slots:

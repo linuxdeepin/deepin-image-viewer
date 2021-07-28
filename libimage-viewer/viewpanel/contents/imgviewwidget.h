@@ -93,6 +93,11 @@ public slots:
     void removeCurrent();
     //旋转图片
     void rotate(int matrix);
+    //设置当前图片
+    void setCurrentPath(const QString &path);
+
+    //获取所有路径
+    QStringList getAllPath();
 private:
     ImgViewListView *m_listview = nullptr;
     QPoint m_pressPoint;//鼠标按下位置

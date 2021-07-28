@@ -80,6 +80,10 @@ public:
     //获取当前展示图片信息
     imageViewerSpace::ItemInfo getCurrentItemInfo();
 
+    void setCurrentPath(const QString &path);
+
+    //获取所有路径
+    QStringList getAllPath();
 signals:
     void resetTransform(bool fitWindow);
     void rotateClockwise();

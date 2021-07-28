@@ -137,6 +137,16 @@ imageViewerSpace::ItemInfo BottomToolbar::getCurrentItemInfo()
     return m_imgListWidget->getCurrentImgInfo();
 }
 
+void BottomToolbar::setCurrentPath(const QString &path)
+{
+    m_imgListWidget->setCurrentPath(path);
+}
+
+QStringList BottomToolbar::getAllPath()
+{
+    return m_imgListWidget->getAllPath();
+}
+
 void BottomToolbar::disCheckAdaptImageBtn()
 {
     qDebug() << "---" << __FUNCTION__ << "---";

@@ -41,6 +41,7 @@
 #include "widgets/toptoolbar.h"
 #include "widgets/renamedialog.h"
 #include "service/ocrinterface.h"
+#include "slideshow/slideshowpanel.h"
 
 const int BOTTOM_TOOLBAR_HEIGHT = 80;   //底部工具看高
 const int BOTTOM_SPACING = 10;          //底部工具栏与底部边缘距离
@@ -456,6 +457,24 @@ bool ViewPanel::slotOcrPicture()
     return false;
 }
 
+void ViewPanel::backImageView(const QString &path)
+{
+    m_stack->setCurrentWidget(m_view);
+    if (path != "") {
+//        m_view->setImage(path);
+        m_bottomToolbar->setCurrentPath(path);
+    }
+}
+
+void ViewPanel::initSlidePanel()
+{
+    if (!m_sliderPanel) {
+        m_sliderPanel = new SlideShowPanel(this);
+        m_stack->addWidget(m_sliderPanel);
+        connect(m_sliderPanel, &SlideShowPanel::hideSlidePanel, this, &ViewPanel::backImageView);
+    }
+}
+
 void ViewPanel::onMenuItemClicked(QAction *action)
 {
     //判断旋转图片本体是否旋转
@@ -471,6 +490,18 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     case IdStartSlideShow: {
         //todo,幻灯片
+        if (!m_sliderPanel) {
+            initSlidePanel();
+        }
+        ViewInfo vinfo;
+        vinfo.fullScreen = window()->isFullScreen();
+        vinfo.lastPanel = this;
+        vinfo.path = m_bottomToolbar->getCurrentItemInfo().path;
+        vinfo.paths = m_bottomToolbar->getAllPath();
+        vinfo.viewMainWindowID = 0;
+        m_sliderPanel->startSlideShow(vinfo);
+        m_stack->setCurrentWidget(m_sliderPanel);
+
         break;
     }
     case IdPrint: {

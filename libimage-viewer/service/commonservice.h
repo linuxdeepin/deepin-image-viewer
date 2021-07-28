@@ -46,6 +46,7 @@ public:
 
     //重命名更新缓存
     void reName(const QString &oldPath, const QString &newPath);
+
 signals:
 
 public slots:

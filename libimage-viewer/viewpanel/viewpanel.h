@@ -35,6 +35,7 @@ class NavigationWidget;
 class BottomToolbar;
 class TopToolbar;
 class OcrInterface;
+class SlideShowPanel;
 
 class ViewPanel : public QFrame
 {
@@ -86,6 +87,8 @@ public:
     void initRightMenu();
     //初始化详细信息
     void initExtensionPanel();
+    //幻灯片初始化
+    void initSlidePanel();
     //更新右键菜单
     void updateMenuContent();
     //控制全屏和返回全屏
@@ -123,6 +126,9 @@ public slots:
 
     //ocr连接
     bool slotOcrPicture();
+
+    //回到视图界面
+    void backImageView(const QString &path = "");
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *e) override;
@@ -148,6 +154,8 @@ private :
     bool m_isMaximized = false;
 
     QTimer *m_tSaveImage = nullptr;//保存旋转图片定时器
+
+    SlideShowPanel *m_sliderPanel{nullptr};
 
 };
 #endif  // VIEWPANEL_H

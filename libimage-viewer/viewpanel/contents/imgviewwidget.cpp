@@ -120,6 +120,16 @@ void MyImageListWidget::rotate(int matrix)
     m_listview->rotate(matrix);
 }
 
+void MyImageListWidget::setCurrentPath(const QString &path)
+{
+    m_listview->setCurrentPath(path);
+}
+
+QStringList MyImageListWidget::getAllPath()
+{
+    return m_listview->getAllPath();
+}
+
 void MyImageListWidget::onScrollBarValueChanged(int value)
 {
     QModelIndex index = m_listview->indexAt(QPoint((m_listview->width() - 15), 10));

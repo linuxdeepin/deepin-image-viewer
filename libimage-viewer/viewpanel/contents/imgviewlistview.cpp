@@ -69,6 +69,7 @@ ImgViewListView::ImgViewListView(QWidget *parent)
 
 ImgViewListView::~ImgViewListView()
 {
+    qDebug() << "~-------------------ImgViewListView";
 }
 
 void ImgViewListView::setAllFile(QList<imageViewerSpace::ItemInfo> itemInfos, QString path)
@@ -248,6 +249,28 @@ void ImgViewListView::rotate(int index)
     infoVariant.setValue(info);
     //重新赋值给界面
     m_model->setData(currentIndex, infoVariant, Qt::DisplayRole);
+}
+
+void ImgViewListView::setCurrentPath(const QString &path)
+{
+    for (int i = 0; i < m_model->rowCount(); i++) {
+        QModelIndex index = m_model->index(i, 0);
+        imageViewerSpace::ItemInfo data = index.data(Qt::DisplayRole).value<imageViewerSpace::ItemInfo>();
+        if (data.path == path) {
+            onClicked(index);
+        }
+    }
+}
+
+QStringList ImgViewListView::getAllPath()
+{
+    QStringList list;
+    for (int i = 0; i < m_model->rowCount(); i++) {
+        QModelIndex index = m_model->index(i, 0);
+        imageViewerSpace::ItemInfo data = index.data(Qt::DisplayRole).value<imageViewerSpace::ItemInfo>();
+        list << data.path;
+    }
+    return list;
 }
 
 void ImgViewListView::slotOneImgReady(QString path, imageViewerSpace::ItemInfo pix)
