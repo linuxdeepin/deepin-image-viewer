@@ -89,6 +89,8 @@ public:
     void initExtensionPanel();
     //幻灯片初始化
     void initSlidePanel();
+    //初始化快捷键
+    void initShortcut();
     //更新右键菜单
     void updateMenuContent();
     //控制全屏和返回全屏

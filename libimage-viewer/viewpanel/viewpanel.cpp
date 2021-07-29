@@ -77,6 +77,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     initRightMenu();
     initFloatingComponent();
     initTopBar();
+    initShortcut();
 //    initExtensionPanel();
 }
 
@@ -98,6 +99,7 @@ void ViewPanel::loadImage(const QString &path, QStringList paths)
     //重置底部工具栏位置与大小
     qDebug() << "---" << __FUNCTION__ << "---111111111111111";
     resetBottomToolbarGeometry(true);
+
 }
 
 void ViewPanel::initConnect()
@@ -475,6 +477,82 @@ void ViewPanel::initSlidePanel()
     }
 }
 
+void ViewPanel::initShortcut()
+{
+    QShortcut *sc = nullptr;
+    // Delay image toggle
+
+    // Previous
+    sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [ = ] {
+        m_bottomToolbar->onPreButton();
+    });
+    // Next
+    sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [ = ] {
+        m_bottomToolbar->onNextButton();
+    });
+
+    // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)
+    sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
+    sc->setContext(Qt::WindowShortcut);
+    //fix 36530 当图片读取失败时（格式不支持、文件损坏、没有权限），不能进行缩放操作
+    connect(sc, &QShortcut::activated, this, [ = ] {
+        qDebug() << "Qt::Key_Up:";
+        if (!m_view->image().isNull())
+        {
+            m_view->setScaleValue(1.1);
+        }
+    });
+    sc = new QShortcut(QKeySequence("Ctrl++"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [ = ] {
+        if (QFile(m_view->path()).exists() && !m_view->image().isNull())
+            m_view->setScaleValue(1.1);
+    });
+    sc = new QShortcut(QKeySequence("Ctrl+="), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [ = ] {
+        if (QFile(m_view->path()).exists() && !m_view->image().isNull())
+            m_view->setScaleValue(1.1);
+    });
+    // Zoom in
+    sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [ = ] {
+        qDebug() << "Qt::Key_Down:";
+        if (QFile(m_view->path()).exists() && !m_view->image().isNull())
+            m_view->setScaleValue(0.9);
+    });
+    sc = new QShortcut(QKeySequence("Ctrl+-"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [ = ] {
+        if (QFile(m_view->path()).exists() && !m_view->image().isNull())
+            m_view->setScaleValue(0.9);
+    });
+    // Esc
+    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    esc->setContext(Qt::WindowShortcut);
+    connect(esc, &QShortcut::activated, this, [ = ] {
+        if (m_stack->currentWidget() == m_sliderPanel)
+        {
+            m_sliderPanel->backToLastPanel();
+        } else if (window()->isFullScreen())
+        {
+            toggleFullScreen();
+        }
+    });
+    // 1:1 size
+    QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
+    adaptImage->setContext(Qt::WindowShortcut);
+    connect(adaptImage, &QShortcut::activated, this, [ = ] {
+        if (QFile(m_view->path()).exists())
+            m_view->fitImage();
+    });
+}
+
 void ViewPanel::onMenuItemClicked(QAction *action)
 {
     //判断旋转图片本体是否旋转
@@ -620,6 +698,7 @@ void ViewPanel::openImg(int index, QString path)
     m_view->resetTransform();
     QFileInfo info(path);
     m_topToolbar->setMiddleContent(info.fileName());
+    updateMenuContent();
 }
 
 void ViewPanel::slotRotateImage(int angle)
