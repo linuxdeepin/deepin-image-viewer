@@ -29,6 +29,7 @@
 
 #include <DDesktopServices>
 #include <DMenu>
+#include <DFileDialog>
 
 #include "contents/bottomtoolbar.h"
 #include "navigationwidget.h"
@@ -47,6 +48,13 @@ const int BOTTOM_TOOLBAR_HEIGHT = 80;   //底部工具看高
 const int BOTTOM_SPACING = 10;          //底部工具栏与底部边缘距离
 const int RT_SPACING = 20;
 const int TOP_TOOLBAR_HEIGHT = 50;
+
+bool compareByFileInfo(const QFileInfo &str1, const QFileInfo &str2)
+{
+    static QCollator sortCollator;
+    sortCollator.setNumericMode(true);
+    return sortCollator.compare(str1.baseName(), str2.baseName()) < 0;
+}
 
 QString ss(const QString &text, const QString &defaultValue)
 {
@@ -437,6 +445,82 @@ void ViewPanel::setWallpaper(const QImage &img)
     th1->start();
 }
 
+bool ViewPanel::startChooseFileDialog()
+{
+    bool bRet = false;
+    QString filter = tr("All images");
+
+    filter.append('(');
+    filter.append(utils::image::supportedImageFormats().join(" "));
+    filter.append(')');
+
+    static QString cfgGroupName = QStringLiteral("General"),
+                   cfgLastOpenPath = QStringLiteral("LastOpenPath");
+    QString pictureFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    QDir existChecker(pictureFolder);
+    if (!existChecker.exists()) {
+        pictureFolder = QDir::currentPath();
+    }
+//    pictureFolder =
+//        dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
+#ifndef USE_TEST
+    QStringList image_list =
+        DFileDialog::getOpenFileNames(this, tr("Open Image"), pictureFolder, filter, nullptr,
+                                      DFileDialog::HideNameFilterDetails);
+#else
+    const QStringList image_list = QStringList(QApplication::applicationDirPath() + "/test/jpg113.jpg");
+#endif
+    if (image_list.isEmpty())
+        return false;
+
+    QString path = image_list.first();
+    if ((path.indexOf("smb-share:server=") != -1 || path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1)) {
+        image_list.clear();
+        //判断是否图片格式
+        if (ImageEngine::instance()->isImage(path)) {
+            image_list << path;
+        }
+    } else {
+        QString DirPath = image_list.first().left(image_list.first().lastIndexOf("/"));
+        QDir _dirinit(DirPath);
+        QFileInfoList m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
+        //修复Ｑt带后缀排序错误的问题
+        qSort(m_AllPath.begin(), m_AllPath.end(), compareByFileInfo);
+
+        image_list.clear();
+        for (int i = 0; i < m_AllPath.size(); i++) {
+            QString path = m_AllPath.at(i).filePath();
+            if (path.isEmpty()) {
+                continue;
+            }
+            //判断是否图片格式
+            if (ImageEngine::instance()->isImage(path)) {
+                image_list << path;
+            }
+        }
+    }
+    if (image_list.count() > 0) {
+        bRet = true;
+    } else {
+        bRet = false;
+    }
+    QString loadingPath;
+    if (image_list.contains(path)) {
+        loadingPath = path;
+    } else {
+        loadingPath = image_list.first();
+    }
+    //展示当前图片
+    loadImage(loadingPath, image_list);
+    //启动线程制作缩略图
+    if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerTypeLocal) {
+        //看图制作全部缩略图
+        ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), image_list, image_list.size());
+    }
+
+    return bRet;
+}
+
 bool ViewPanel::slotOcrPicture()
 {
     if (!m_ocrInterface) {
@@ -551,6 +635,7 @@ void ViewPanel::initShortcut()
         if (QFile(m_view->path()).exists())
             m_view->fitImage();
     });
+
 }
 
 void ViewPanel::onMenuItemClicked(QAction *action)
@@ -750,6 +835,13 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
             this->m_topToolbar->resize(width(), 50);
         }
     }
+    //当view处于适应窗口状态的时候,resize也会继承状态
+    if (m_view->isFitImage()) {
+        m_view->fitImage();
+    } else if (m_view->isFitWindow()) {
+        m_view->fitWindow();
+    }
+
     resetBottomToolbarGeometry(m_stack->currentWidget() == m_view);
     QFrame::resizeEvent(e);
 }

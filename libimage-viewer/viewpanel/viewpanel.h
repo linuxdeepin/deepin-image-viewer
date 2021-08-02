@@ -111,7 +111,6 @@ public:
     //设置壁纸
     void setWallpaper(const QImage &img);
 
-
 private slots:
     void onMenuItemClicked(QAction *action);
 public slots:
@@ -131,6 +130,9 @@ public slots:
 
     //回到视图界面
     void backImageView(const QString &path = "");
+
+    //选择打开窗口
+    bool startChooseFileDialog();
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *e) override;

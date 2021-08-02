@@ -52,11 +52,11 @@ public:
         static MainWindow w;
         return w;
     }
-
+    explicit MainWindow();
     ~MainWindow() override;
     void setDMainWindow(DMainWindow *mainwidow);
 private:
-    explicit MainWindow();
+
     void initUI();
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;

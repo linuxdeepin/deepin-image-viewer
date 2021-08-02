@@ -73,6 +73,8 @@ public:
     void setSelectCenter();
     //获取当前所有展示图片数量
     int getImgCount();
+    //清空缩略图
+    void clearListView();
 
 protected:
 signals:

@@ -109,6 +109,11 @@ int MyImageListWidget::getImgCount()
     return m_listview->m_model->rowCount();
 }
 
+void MyImageListWidget::clearListView()
+{
+    m_listview->m_model->clear();
+}
+
 void MyImageListWidget::removeCurrent()
 {
     m_listview->removeCurrent();

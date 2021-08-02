@@ -87,10 +87,11 @@ int main(int argc, char *argv[])
     qApp->setApplicationVersion(DApplication::buildVersion(VERSION));
 #endif
 
-    auto &w = MainWindow::instance(); //修改为从单例获取
+    //主窗体应该new出来,不应该是static变量
+    MainWindow *w = new MainWindow();  //修改为从单例获取
     DMainWindow *mainwindow = new DMainWindow();
-    mainwindow->setCentralWidget(&w);
-    w.setDMainWindow(mainwindow);
+    mainwindow->setCentralWidget(w);
+    w->setDMainWindow(mainwindow);
 //    mainwindow->titlebar()->setBackgroundTransparent(true);
     mainwindow->setMinimumSize(880, 500);
     mainwindow->resize(880, 600);

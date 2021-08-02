@@ -274,6 +274,8 @@ void BottomToolbar::resizeEvent(QResizeEvent *event)
 
 void BottomToolbar::setAllFile(QString path, QStringList paths)
 {
+    //每次打开清空一下缩略图
+    m_imgListWidget->clearListView();
     if (paths.size() <= 1) {
         m_preButton->setVisible(false);
         m_nextButton->setVisible(false);

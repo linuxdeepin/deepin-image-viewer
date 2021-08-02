@@ -85,8 +85,13 @@ void MainWindow::initUI()
     m_centerWidget->addWidget(m_imageViewer);
     m_centerWidget->setCurrentWidget(m_homePageWidget);
 
-    connect(m_homePageWidget, &HomePageWidget::sigOpenImage,
-            this, &MainWindow::slotOpenImg);
+    connect(m_homePageWidget, &HomePageWidget::sigOpenImage, this, &MainWindow::slotOpenImg);
+
+    QShortcut *openFileManager = new QShortcut(QKeySequence("Ctrl+o"), this);
+    openFileManager->setContext(Qt::WindowShortcut);
+    connect(openFileManager, &QShortcut::activated, this, [ = ] {
+        this->slotOpenImg();
+    });
 
 }
 
