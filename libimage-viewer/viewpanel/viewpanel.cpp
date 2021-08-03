@@ -43,6 +43,7 @@
 #include "widgets/renamedialog.h"
 #include "service/ocrinterface.h"
 #include "slideshow/slideshowpanel.h"
+#include "service/configsetter.h"
 
 const int BOTTOM_TOOLBAR_HEIGHT = 80;   //底部工具看高
 const int BOTTOM_SPACING = 10;          //底部工具栏与底部边缘距离
@@ -518,8 +519,8 @@ bool ViewPanel::startChooseFileDialog()
     if (!existChecker.exists()) {
         pictureFolder = QDir::currentPath();
     }
-//    pictureFolder =
-//        dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
+
+    pictureFolder = ConfigSetter::instance()->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
 #ifndef USE_TEST
     QStringList image_list =
         DFileDialog::getOpenFileNames(this, tr("Open Image"), pictureFolder, filter, nullptr,
@@ -531,6 +532,9 @@ bool ViewPanel::startChooseFileDialog()
         return false;
 
     QString path = image_list.first();
+    QFileInfo firstFileInfo(path);
+    ConfigSetter::instance()->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
+
     if ((path.indexOf("smb-share:server=") != -1 || path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1)) {
         image_list.clear();
         //判断是否图片格式

@@ -30,6 +30,7 @@
 #include <QShortcut>
 #include <QDir>
 #include <QMimeData>
+#include <QSettings>
 
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
@@ -48,11 +49,13 @@
 #include "../libimage-viewer/imageviewer.h"
 #include "shortcut.h"
 
+const QString CONFIG_PATH =   QDir::homePath() +
+                              "/.config/deepin/deepin-image-viewer/config.conf";
+
 MainWindow::MainWindow()
 {
     this->setObjectName("drawMainWindow");
     setContentsMargins(0, 0, 0, 0);
-    setMinimumSize(880, 500);
     resize(880, 600);
     initUI();
 }
@@ -65,6 +68,29 @@ void MainWindow::setDMainWindow(DMainWindow *mainwidow)
 {
     m_mainwidow = mainwidow;
     m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
+}
+
+void MainWindow::setValue(const QString &group, const QString &key, const QVariant &value)
+{
+    if (!m_settings) {
+        m_settings = new QSettings(CONFIG_PATH, QSettings::IniFormat, this);
+    }
+    m_settings->beginGroup(group);
+    m_settings->setValue(key, value);
+    m_settings->endGroup();
+}
+
+QVariant MainWindow::value(const QString &group, const QString &key, const QVariant &defaultValue)
+{
+    if (!m_settings) {
+        m_settings = new QSettings(CONFIG_PATH, QSettings::IniFormat, this);
+    }
+    QVariant value;
+    m_settings->beginGroup(group);
+    value = m_settings->value(key, defaultValue);
+    m_settings->endGroup();
+
+    return value;
 }
 
 //初始化QStackedWidget和展示
@@ -150,6 +176,10 @@ void MainWindow::slotDrogImg(const QStringList &paths)
 
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
+    if (!isMaximized() && !window()->isFullScreen() && !window()->isMaximized()) {
+        setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, width());
+        setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, height());
+    }
     DWidget::resizeEvent(e);
 }
 

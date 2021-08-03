@@ -38,9 +38,13 @@
 #include <DSuggestButton>
 #include <DProgressBar>
 
+const QString SETTINGS_GROUP = "MAINWINDOW";
+const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
+const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
 DWIDGET_USE_NAMESPACE
 class HomePageWidget;
 class ImageViewer;
+class QSettings;
 class MainWindow : public DWidget
 {
     Q_OBJECT
@@ -55,6 +59,12 @@ public:
     explicit MainWindow();
     ~MainWindow() override;
     void setDMainWindow(DMainWindow *mainwidow);
+
+    void setValue(const QString &group, const QString &key,
+                  const QVariant &value);
+    QVariant value(const QString &group, const QString &key,
+                   const QVariant &defaultValue = QVariant());
+
 private:
 
     void initUI();
@@ -77,6 +87,7 @@ private:
     HomePageWidget   *m_homePageWidget = nullptr;
     ImageViewer      *m_imageViewer = nullptr;
     DMainWindow      *m_mainwidow = nullptr;
+    QSettings        *m_settings = nullptr;
 };
 
 #endif // MAINWINDOW_H
