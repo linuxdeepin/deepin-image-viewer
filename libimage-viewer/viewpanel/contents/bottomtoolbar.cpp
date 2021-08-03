@@ -75,11 +75,17 @@ const int LOAD_LEFT_RIGHT = 25;     //前后加载图片数（动态）
 
 BottomToolbar::BottomToolbar(QWidget *parent) : DFloatingWidget(parent)
 {
-//    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-//    m_windowWidth = std::max(this->window()->width(),
-//                             ConfigSetter::instance()->value("MAINWINDOW", "WindowWidth").toInt());
+    this->setBlurBackgroundEnabled(true);
+    this->blurBackground()->setRadius(30);
+    this->blurBackground()->setBlurEnabled(true);
+    this->blurBackground()->setMode(DBlurEffectWidget::GaussianBlur);
+    QColor backMaskColor(255, 255, 255, 140);
+    this->blurBackground()->setMaskColor(backMaskColor);
     initUI();
     initConnection();
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                     this, &BottomToolbar::slotThemeChanged);
+    slotThemeChanged(DGuiApplicationHelper::instance()->themeType());
 }
 
 BottomToolbar::~BottomToolbar()
@@ -232,7 +238,67 @@ void BottomToolbar::onRotateRBtnClicked()
 void BottomToolbar::onTrashBtnClicked()
 {
     deleteImage();
-//    emit dApp->signalM->deleteByMenu();
+    //    emit dApp->signalM->deleteByMenu();
+}
+
+void BottomToolbar::slotThemeChanged(int type)
+{
+    // 组合按钮无边框
+    QColor framecolor("#FFFFFF");
+    framecolor.setAlphaF(0.00);
+    QString rStr;
+    if (type == 1) {
+        QColor maskColor(247, 247, 247);
+        maskColor.setAlphaF(0.60);
+        m_forwardWidget->setMaskColor(maskColor);
+
+        DPalette pa;
+        pa = m_preButton->palette();
+        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
+        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
+        pa.setColor(DPalette::ButtonText, QColor(Qt::black));
+        // 单个按钮边框
+        QColor btnframecolor("#000000");
+        btnframecolor.setAlphaF(0.00);
+        pa.setColor(DPalette::FrameBorder, btnframecolor);
+        // 取消阴影
+        pa.setColor(DPalette::Shadow, btnframecolor);
+        DApplicationHelper::instance()->setPalette(m_backButton, pa);
+        DApplicationHelper::instance()->setPalette(m_preButton, pa);
+        DApplicationHelper::instance()->setPalette(m_nextButton, pa);
+        DApplicationHelper::instance()->setPalette(m_adaptImageBtn, pa);
+        DApplicationHelper::instance()->setPalette(m_adaptScreenBtn, pa);
+        DApplicationHelper::instance()->setPalette(m_clBT, pa);
+        DApplicationHelper::instance()->setPalette(m_ocrBtn, pa);
+        DApplicationHelper::instance()->setPalette(m_rotateLBtn, pa);
+        DApplicationHelper::instance()->setPalette(m_rotateRBtn, pa);
+        DApplicationHelper::instance()->setPalette(m_trashBtn, pa);
+    } else {
+        QColor maskColor(32, 32, 32);
+        maskColor.setAlphaF(0.80);
+        m_forwardWidget->setMaskColor(maskColor);
+
+        DPalette pa;
+        pa = m_preButton->palette();
+        QColor btnMaskColor("#000000");
+        btnMaskColor.setAlphaF(0.30);
+        pa.setColor(DPalette::Light, btnMaskColor);
+        pa.setColor(DPalette::Dark, btnMaskColor);
+        pa.setColor(DPalette::ButtonText, QColor("#c5cfe0"));
+        pa.setColor(DPalette::FrameBorder, framecolor);
+        // 取消阴影
+        pa.setColor(DPalette::Shadow, framecolor);
+        DApplicationHelper::instance()->setPalette(m_backButton, pa);
+        DApplicationHelper::instance()->setPalette(m_preButton, pa);
+        DApplicationHelper::instance()->setPalette(m_nextButton, pa);
+        DApplicationHelper::instance()->setPalette(m_adaptImageBtn, pa);
+        DApplicationHelper::instance()->setPalette(m_adaptScreenBtn, pa);
+        DApplicationHelper::instance()->setPalette(m_clBT, pa);
+        DApplicationHelper::instance()->setPalette(m_ocrBtn, pa);
+        DApplicationHelper::instance()->setPalette(m_rotateLBtn, pa);
+        DApplicationHelper::instance()->setPalette(m_rotateRBtn, pa);
+        DApplicationHelper::instance()->setPalette(m_trashBtn, pa);
+    }
 }
 
 void BottomToolbar::onNextButton()
@@ -317,7 +383,21 @@ void BottomToolbar::updateCollectButton()
 
 void BottomToolbar::initUI()
 {
-    QHBoxLayout *hb = new QHBoxLayout(this);
+    auto backLayout = new QVBoxLayout(this);
+    backLayout->setSpacing(0);
+    backLayout->setContentsMargins(0, 0, 0, 0);
+
+    m_forwardWidget = new DBlurEffectWidget(this);
+    m_forwardWidget->setBlurRectXRadius(18);
+    m_forwardWidget->setBlurRectYRadius(18);
+    m_forwardWidget->setRadius(30);
+    m_forwardWidget->setBlurEnabled(true);
+    m_forwardWidget->setMode(DBlurEffectWidget::GaussianBlur);
+    QColor maskColor(255, 255, 255, 76);
+    m_forwardWidget->setMaskColor(maskColor);
+    backLayout->addWidget(m_forwardWidget);
+
+    QHBoxLayout *hb = new QHBoxLayout(m_forwardWidget);
     this->setLayout(hb);
     hb->setContentsMargins(LEFT_RIGHT_MARGIN, 0, LEFT_RIGHT_MARGIN, 3);
     hb->setSpacing(ICON_SPACING);

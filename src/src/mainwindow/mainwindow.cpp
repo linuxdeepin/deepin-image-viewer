@@ -102,9 +102,11 @@ void MainWindow::slotOpenImg()
         m_centerWidget->setCurrentWidget(m_imageViewer);
         if (m_mainwidow->titlebar()) {
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
+            int height =  m_mainwidow->titlebar()->height();
             m_mainwidow->titlebar()->setFixedHeight(0);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
+            m_mainwidow->resize(this->width(), this->height() + height);
         }
     }
 

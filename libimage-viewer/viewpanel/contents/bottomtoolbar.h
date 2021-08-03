@@ -119,7 +119,8 @@ public slots:
     void onRotateLBtnClicked();
     void onRotateRBtnClicked();
     void onTrashBtnClicked();
-
+    //主题变化
+    void slotThemeChanged(int type);
 protected:
     void resizeEvent(QResizeEvent *event) override;
 public:
@@ -127,6 +128,7 @@ public:
 
 private:
     bool m_bClBTChecked;
+    DBlurEffectWidget *m_forwardWidget = nullptr;
 
     DIconButton *m_backButton = nullptr;
 
