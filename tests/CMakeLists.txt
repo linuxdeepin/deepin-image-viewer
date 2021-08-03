@@ -85,7 +85,7 @@ pkg_check_modules(3rd_lib REQUIRED
     dtkwidget
     gio-qt
     gio-unix-2.0
-    gsettings-qt
+#    gsettings-qt
 #    freeimage
         )
 
