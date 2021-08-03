@@ -76,11 +76,11 @@ const int LOAD_LEFT_RIGHT = 25;     //前后加载图片数（动态）
 BottomToolbar::BottomToolbar(QWidget *parent) : DFloatingWidget(parent)
 {
     this->setBlurBackgroundEnabled(true);
-    this->blurBackground()->setRadius(30);
-    this->blurBackground()->setBlurEnabled(true);
-    this->blurBackground()->setMode(DBlurEffectWidget::GaussianBlur);
-    QColor backMaskColor(255, 255, 255, 140);
-    this->blurBackground()->setMaskColor(backMaskColor);
+//    this->blurBackground()->setRadius(30);
+//    this->blurBackground()->setBlurEnabled(true);
+//    this->blurBackground()->setMode(DBlurEffectWidget::GaussianBlur);
+//    QColor backMaskColor(255, 255, 255, 140);
+//    this->blurBackground()->setMaskColor(backMaskColor);
     initUI();
     initConnection();
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
@@ -256,7 +256,6 @@ void BottomToolbar::slotThemeChanged(int type)
         pa = m_preButton->palette();
         pa.setColor(DPalette::Light, QColor("#FFFFFF"));
         pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
-        pa.setColor(DPalette::ButtonText, QColor(Qt::black));
         // 单个按钮边框
         QColor btnframecolor("#000000");
         btnframecolor.setAlphaF(0.00);
@@ -274,8 +273,8 @@ void BottomToolbar::slotThemeChanged(int type)
         DApplicationHelper::instance()->setPalette(m_rotateRBtn, pa);
         DApplicationHelper::instance()->setPalette(m_trashBtn, pa);
     } else {
-        QColor maskColor(32, 32, 32);
-        maskColor.setAlphaF(0.80);
+        QColor maskColor("#202020");
+        maskColor.setAlphaF(0.50);
         m_forwardWidget->setMaskColor(maskColor);
 
         DPalette pa;
@@ -284,7 +283,6 @@ void BottomToolbar::slotThemeChanged(int type)
         btnMaskColor.setAlphaF(0.30);
         pa.setColor(DPalette::Light, btnMaskColor);
         pa.setColor(DPalette::Dark, btnMaskColor);
-        pa.setColor(DPalette::ButtonText, QColor("#c5cfe0"));
         pa.setColor(DPalette::FrameBorder, framecolor);
         // 取消阴影
         pa.setColor(DPalette::Shadow, framecolor);
