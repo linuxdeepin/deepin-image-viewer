@@ -5,6 +5,8 @@
 #include "../libimage-viewer/imageviewer.h"
 #include "accessibility/ac-desktop-define.h"
 
+#include <QMimeData>
+
 namespace {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
 const QSize THUMBNAIL_SIZE = QSize(128, 128);
@@ -20,12 +22,11 @@ HomePageWidget::HomePageWidget(QWidget *parent)
     setAccessibleName(Thumbnail_Widget);
     setObjectName(Thumbnail_Widget);
 #endif
-
     this->setAttribute(Qt::WA_AcceptTouchEvents);
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
     grabGesture(Qt::PanGesture);
-
+    setAcceptDrops(true);
     setMouseTracking(true);
     m_thumbnailLabel = new DLabel(this);
     //    m_thumbnailLabel->setObjectName("ThumbnailLabel");
@@ -110,4 +111,33 @@ void HomePageWidget::ThemeChange(DGuiApplicationHelper::ColorType type)
 void HomePageWidget::openImageInDialog()
 {
     emit sigOpenImage();
+}
+
+
+void HomePageWidget::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->setDropAction(Qt::CopyAction);
+    event->accept();
+    event->acceptProposedAction();
+    DWidget::dragEnterEvent(event);
+}
+
+void HomePageWidget::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->accept();
+}
+
+void HomePageWidget::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if (urls.isEmpty()) {
+        return;
+    }
+    QStringList paths;
+    for (QUrl url : urls) {
+        //修复style问题，取消了path
+        //lmh0901判断是否是图片
+        paths << url.toLocalFile();
+    }
+    emit sigDrogImage(paths);
 }

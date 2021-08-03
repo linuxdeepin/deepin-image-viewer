@@ -64,8 +64,14 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
+
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+
 public slots:
     void slotOpenImg();
+    void slotDrogImg(const QStringList &paths);
 private:
     QStackedWidget   *m_centerWidget = nullptr;
     HomePageWidget   *m_homePageWidget = nullptr;

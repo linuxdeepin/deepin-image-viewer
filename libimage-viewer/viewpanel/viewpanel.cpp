@@ -86,6 +86,8 @@ ViewPanel::ViewPanel(QWidget *parent)
     initFloatingComponent();
     initTopBar();
     initShortcut();
+
+    setAcceptDrops(true);
 //    initExtensionPanel();
 }
 
@@ -443,6 +445,61 @@ void ViewPanel::setWallpaper(const QImage &img)
         }
     });
     th1->start();
+}
+
+bool ViewPanel::startdragImage(const QStringList &paths)
+{
+    bool bRet = false;
+    QStringList image_list = paths;
+    if (image_list.isEmpty())
+        return false;
+
+    QString path = image_list.first();
+    if ((path.indexOf("smb-share:server=") != -1 || path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1)) {
+        image_list.clear();
+        //判断是否图片格式
+        if (ImageEngine::instance()->isImage(path)) {
+            image_list << path;
+        }
+    } else {
+        QString DirPath = image_list.first().left(image_list.first().lastIndexOf("/"));
+        QDir _dirinit(DirPath);
+        QFileInfoList m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
+        //修复Ｑt带后缀排序错误的问题
+        qSort(m_AllPath.begin(), m_AllPath.end(), compareByFileInfo);
+
+        image_list.clear();
+        for (int i = 0; i < m_AllPath.size(); i++) {
+            QString path = m_AllPath.at(i).filePath();
+            if (path.isEmpty()) {
+                continue;
+            }
+            //判断是否图片格式
+            if (ImageEngine::instance()->isImage(path)) {
+                image_list << path;
+            }
+        }
+    }
+    if (image_list.count() > 0) {
+        bRet = true;
+    } else {
+        bRet = false;
+    }
+    QString loadingPath;
+    if (image_list.contains(path)) {
+        loadingPath = path;
+    } else {
+        loadingPath = image_list.first();
+    }
+    //展示当前图片
+    loadImage(loadingPath, image_list);
+    //启动线程制作缩略图
+    if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerTypeLocal) {
+        //看图制作全部缩略图
+        ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), image_list, image_list.size());
+    }
+
+    return bRet;
 }
 
 bool ViewPanel::startChooseFileDialog()
@@ -856,4 +913,31 @@ void ViewPanel::paintEvent(QPaintEvent *event)
 {
     QFrame::paintEvent(event);
     qDebug() << "windows flgs ========= " << this->windowFlags() << "attributs = " << this->testAttribute(Qt::WA_Resized);
+}
+
+
+void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->setDropAction(Qt::CopyAction);
+    event->accept();
+    event->acceptProposedAction();
+    DWidget::dragEnterEvent(event);
+}
+
+void ViewPanel::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->accept();
+}
+
+void ViewPanel::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if (urls.isEmpty()) {
+        return;
+    }
+    QStringList paths;
+    for (QUrl url : urls) {
+        paths << url.toLocalFile();
+    }
+    startdragImage(paths);
 }

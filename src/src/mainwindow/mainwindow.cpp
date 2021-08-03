@@ -29,6 +29,7 @@
 #include <QDesktopWidget>
 #include <QShortcut>
 #include <QDir>
+#include <QMimeData>
 
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
@@ -45,6 +46,7 @@
 
 #include "module/view/homepagewidget.h"
 #include "../libimage-viewer/imageviewer.h"
+#include "shortcut.h"
 
 MainWindow::MainWindow()
 {
@@ -87,10 +89,30 @@ void MainWindow::initUI()
 
     connect(m_homePageWidget, &HomePageWidget::sigOpenImage, this, &MainWindow::slotOpenImg);
 
+    connect(m_homePageWidget, &HomePageWidget::sigDrogImage, this, &MainWindow::slotDrogImg);
+
+
+
     QShortcut *openFileManager = new QShortcut(QKeySequence("Ctrl+o"), this);
     openFileManager->setContext(Qt::WindowShortcut);
     connect(openFileManager, &QShortcut::activated, this, [ = ] {
         this->slotOpenImg();
+    });
+
+    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+    scViewShortcut->setObjectName(SC_VIEW_SHORTCUT);
+    // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    connect(scViewShortcut, &QShortcut::activated, this, [ = ] {
+        qDebug() << "receive Ctrl+Shift+/";
+        QRect rect = window()->geometry();
+        QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+        Shortcut sc;
+        QStringList shortcutString;
+        QString param1 = "-j=" + sc.toStr();
+        QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+        shortcutString << "-b" << param1 << param2;
+        qDebug() << shortcutString;
+        QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
     });
 
 }
@@ -112,6 +134,20 @@ void MainWindow::slotOpenImg()
 
 }
 
+void MainWindow::slotDrogImg(const QStringList &paths)
+{
+    bool bRet = m_imageViewer->startdragImage(paths);
+    if (bRet) {
+        m_centerWidget->setCurrentWidget(m_imageViewer);
+        if (m_mainwidow->titlebar()) {
+            //隐藏原有DMainWindow titlebar，使用自定义标题栏
+            m_mainwidow->titlebar()->setFixedHeight(0);
+            m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
+            m_mainwidow->setTitlebarShadowEnabled(true);
+        }
+    }
+}
+
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
     DWidget::resizeEvent(e);
@@ -130,6 +166,33 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::showEvent(QShowEvent *event)
 {
     DWidget::showEvent(event);
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->setDropAction(Qt::CopyAction);
+    event->accept();
+    event->acceptProposedAction();
+    DWidget::dragEnterEvent(event);
+}
+
+void MainWindow::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->accept();
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if (urls.isEmpty()) {
+        return;
+    }
+    QStringList paths;
+    for (QUrl url : urls) {
+        //修复style问题，取消了path
+        //lmh0901判断是否是图片
+        paths << url.toLocalFile();
+    }
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event)

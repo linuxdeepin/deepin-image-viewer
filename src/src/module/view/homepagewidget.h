@@ -28,12 +28,17 @@ public:
 
 signals:
     void sigOpenImage();
+    void sigDrogImage(const QStringList &);
 public slots:
 
     void ThemeChange(DGuiApplicationHelper::ColorType type);
 
     void openImageInDialog();
 
+protected:
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
 private:
     bool m_isDefaultThumbnail = false;
     DLabel *m_thumbnailLabel;

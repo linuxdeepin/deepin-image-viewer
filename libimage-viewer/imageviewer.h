@@ -18,6 +18,10 @@ public:
 
     //调用文件选择窗口
     bool startChooseFileDialog();
+
+    //调用文件选择窗口
+    bool startdragImage(const QStringList &paths);
+
     //启动图片展示入口
     void startImgView(QString currentPath, QStringList paths = QStringList());
 protected:

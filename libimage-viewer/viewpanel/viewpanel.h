@@ -107,10 +107,11 @@ public:
      */
     void appendAction(int id, const QString &text, const QString &shortcut = "");
 
-
     //设置壁纸
     void setWallpaper(const QImage &img);
 
+    //drog事件打开图片
+    bool startdragImage(const QStringList &paths);
 private slots:
     void onMenuItemClicked(QAction *action);
 public slots:
@@ -138,6 +139,9 @@ protected:
     void showEvent(QShowEvent *e) override;
     void paintEvent(QPaintEvent *event) override;
 
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 signals:
     void imageChanged(const QString &path);
 private :
