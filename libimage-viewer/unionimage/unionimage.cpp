@@ -173,7 +173,14 @@ public:
                   << "SVG" << "TGA" << "XPM" << "ICO" << "J2C"
                   << "J2K" << "JNG" << "JP2" ;
 
-        m_qtrotate << "ICNS" << "JPG" << "JPEG";
+        /*
+         * 修改：
+         * PNG保存速度Qt是FreeImage的7倍
+         * FreeImage旋转BMP会导致后续读图失败
+         * PGM保存速度Qt略快于FreeImage
+         * PBM保存速度Qt是FreeImage的20倍，且FreeImage旋转后会反色
+        */
+        m_qtrotate << "ICNS" << "JPG" << "JPEG" << "PNG" << "BMP" << "PGM" << "PBM";
     }
     ~UnionImage_Private()
     {
@@ -626,29 +633,29 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
             reader.setFormat(format_bar.toLatin1());
         }
         reader.setAutoTransform(true);
-        if (!reader.canRead() || reader.imageCount() < 1)
-            return false;
-        res_qt = reader.read();
-        if (res_qt.isNull()) {
-            //try old loading method
-            QString format = PrivateDetectImageFormat(path);
-            QImageReader readerF(path, format.toLatin1());
-            QImage try_res;
-            readerF.setAutoTransform(true);
-            if (readerF.canRead() && readerF.imageCount() > 0) {
-                try_res = readerF.read();
-            } else {
-                errorMsg = "can't read image:" + readerF.errorString() + format;
-                try_res = QImage();
+        if (reader.imageCount() > 0 || file_suffix_upper != "ICNS") {
+            res_qt = reader.read();
+            if (res_qt.isNull()) {
+                //try old loading method
+                QString format = PrivateDetectImageFormat(path);
+                QImageReader readerF(path, format.toLatin1());
+                QImage try_res;
+                readerF.setAutoTransform(true);
+                if (readerF.canRead() && readerF.imageCount() > 0) {
+                    try_res = readerF.read();
+                } else {
+                    errorMsg = "can't read image:" + readerF.errorString() + format;
+                    try_res = QImage();
+                }
+                if (try_res.isNull()) {
+                    errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
+                    res = QImage();
+                    return false;
+                }
+                errorMsg = "use old method to load QImage";
+                res = try_res;
+                return true;
             }
-            if (try_res.isNull()) {
-                errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
-                res = QImage();
-                return false;
-            }
-            errorMsg = "use old method to load QImage";
-            res = try_res;
-            return true;
         }
         errorMsg = "use QImage";
         res = res_qt;
