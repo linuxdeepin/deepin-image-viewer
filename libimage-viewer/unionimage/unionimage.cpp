@@ -541,7 +541,9 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int fla
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
     QFileInfo info(path);
-    if (!info.exists()) {
+
+    //如果文件不存在或者文件权限没有可写的权限,返回false
+    if (!info.exists() || !QFile::permissions(path).testFlag(QFile::WriteUser)) {
         return false;
     }
     QImageReader r(path);
@@ -1162,7 +1164,7 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
 
 UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path)
 {
-    return canSave(path);
+    return canSave(path) ;
 }
 
 UNIONIMAGESHARED_EXPORT bool isSupportsReading(const QString &path)

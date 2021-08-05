@@ -84,6 +84,9 @@ public:
 
     //获取所有路径
     QStringList getAllPath();
+
+    //设置旋转按钮是否可点击
+    void setRotateBtnClicked(const bool &bRet);
 signals:
     void resetTransform(bool fitWindow);
     void rotateClockwise();
@@ -101,6 +104,8 @@ signals:
 
     //ocr信号
     void sigOcr();
+
+
 public slots:
     void updateCollectButton();
 

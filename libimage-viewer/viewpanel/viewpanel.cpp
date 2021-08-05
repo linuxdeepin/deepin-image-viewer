@@ -35,6 +35,7 @@
 #include "navigationwidget.h"
 #include "unionimage/imageutils.h"
 #include "unionimage/baseutils.h"
+#include "unionimage/unionimage.h"
 #include "imageengine.h"
 #include "widgets/printhelper.h"
 #include "contents/imageinfowidget.h"
@@ -340,10 +341,20 @@ void ViewPanel::updateMenuContent()
                          ss("Hide navigation window", ""));
         }
         //apple手机特殊处理，不具备旋转功能,todo
-        if (imageViewerSpace::PathTypeAPPLE != pathType  && imageViewerSpace::PathTypeSAFEBOX != pathType && imageViewerSpace::PathTypeRECYCLEBIN != pathType) {
+        if (imageViewerSpace::PathTypeAPPLE != pathType
+                && imageViewerSpace::PathTypeSAFEBOX != pathType
+                && imageViewerSpace::PathTypeRECYCLEBIN != pathType
+                && isRotatable) {
             appendAction(IdRotateClockwise, QObject::tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
             appendAction(IdRotateCounterclockwise, QObject::tr("Rotate counterclockwise"),
                          ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+            if (m_bottomToolbar) {
+                m_bottomToolbar->setRotateBtnClicked(true);
+            }
+        } else {
+            if (m_bottomToolbar) {
+                m_bottomToolbar->setRotateBtnClicked(false);
+            }
         }
 
         //需要判断图片是否支持设置壁纸,todo

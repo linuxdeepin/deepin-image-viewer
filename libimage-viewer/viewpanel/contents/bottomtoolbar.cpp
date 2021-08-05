@@ -153,6 +153,16 @@ QStringList BottomToolbar::getAllPath()
     return m_imgListWidget->getAllPath();
 }
 
+void BottomToolbar::setRotateBtnClicked(const bool &bRet)
+{
+    if (m_rotateLBtn) {
+        m_rotateLBtn->setEnabled(bRet);
+    }
+    if (m_rotateRBtn) {
+        m_rotateRBtn->setEnabled(bRet);
+    }
+}
+
 void BottomToolbar::disCheckAdaptImageBtn()
 {
     qDebug() << "---" << __FUNCTION__ << "---";
