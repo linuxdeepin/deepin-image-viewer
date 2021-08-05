@@ -77,6 +77,42 @@ void TopToolbar::setMiddleContent(const QString &path)
     m_titletxt->setAccessibleName(a);
 }
 
+void TopToolbar::setTitleBarTransparent(bool a)
+{
+    m_viewChange = a;
+
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    QPalette pa1, pa2;
+    if (a) {
+        m_titlebar->setBackgroundTransparent(true);
+        shadowEffect->setOffset(0, 1);
+        shadowEffect->setBlurRadius(1);
+        m_titletxt->setGraphicsEffect(shadowEffect);
+        //        if (themeType == DGuiApplicationHelper::LightType) {
+        pa1.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
+        pa2.setColor(QPalette::WindowText, QColor(255, 255, 255, 204));
+        m_titlebar->setPalette(pa1);
+        m_titletxt->setPalette(pa2);
+
+    } else {
+        m_titlebar->setBackgroundTransparent(false);
+        shadowEffect->setOffset(0, 0);
+        shadowEffect->setBlurRadius(0);
+        m_titletxt->setGraphicsEffect(shadowEffect);
+        if (themeType == DGuiApplicationHelper::LightType) {
+            pa1.setColor(QPalette::ButtonText, QColor(98, 110, 136, 225));
+            pa2.setColor(QPalette::WindowText, QColor(98, 110, 136, 225));
+            m_titlebar->setPalette(pa1);
+            m_titletxt->setPalette(pa2);
+        } else {
+            pa1.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
+            pa2.setColor(QPalette::WindowText, QColor(255, 255, 255, 204));
+            m_titlebar->setPalette(pa1);
+            m_titletxt->setPalette(pa2);
+        }
+    }
+}
+
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton) {
@@ -120,34 +156,50 @@ void TopToolbar::initWidgets()
     m_layout = new QHBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
+
     m_titlebar = new DTitlebar(this);
-    m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+    m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint |
+                               Qt::WindowCloseButtonHint);
     m_titlebar->setMenu(m_menu);
-    DPalette pa;
-    pa.setColor(DPalette::WindowText, QColor(255, 255, 255, 255));
-//    QLabel *pLabel = new QLabel();
-//    pLabel->setFixedSize(33, 32);
-//    QIcon icon = QIcon::fromTheme("deepin-album");
-//    pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
-//    m_titlebar->addWidget(pLabel, Qt::AlignLeft);
     m_titlebar->setIcon(QIcon::fromTheme("deepin-image-viewer"));
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &TopToolbar::onThemeTypeChanged);
+    QPalette pa;
+    pa.setColor(QPalette::WindowText, QColor(255, 255, 255, 255));
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+    this, [ = ]() {
+        DGuiApplicationHelper::ColorType themeType =
+            DGuiApplicationHelper::instance()->themeType();
+        QPalette pa1, pa2;
+        if (!m_viewChange) {
+            if (themeType == DGuiApplicationHelper::DarkType) {
+                pa1.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
+                pa2.setColor(QPalette::WindowText, QColor(255, 255, 255, 204));
+            } else {
+                pa1.setColor(QPalette::ButtonText, QColor(98, 110, 136, 225));
+                pa2.setColor(QPalette::WindowText, QColor(98, 110, 136, 225));
+            }
+            m_titlebar->setPalette(pa1);
+            m_titletxt->setPalette(pa2);
+        } else {
+        }
+    });
+
+
+    m_titlebar->setPalette(pa);
     m_titlebar->setTitle("");
     m_titletxt = new DLabel;
     m_titletxt->setText("");
     m_titletxt->setObjectName("");
     m_titletxt->setAccessibleName("");
-    DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7/*,QFont::DemiBold*/);
-    DPalette p = DApplicationHelper::instance()->palette(m_titletxt);
-    pa.setBrush(DPalette::Text, p.color(DPalette::TextTitle));
-    m_titletxt->setPalette(pa);
+    DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7 /*,QFont::DemiBold*/);
+
+
+    // add 12.13 by lz.
+    shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
+
     m_titlebar->addWidget(m_titletxt, Qt::AlignCenter);
-    QPalette titleBarPA;
-    titleBarPA.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
-    titleBarPA.setColor(QPalette::WindowText, QColor(255, 255, 255, 255));
-    m_titlebar->setPalette(titleBarPA);
-    m_titlebar->setBackgroundTransparent(true);
+
     m_layout->addWidget(m_titlebar);
+
 //    connect(dApp->signalM, &SignalManager::updateFileName, this, &TopToolbar::onUpdateFileName);
 }
 

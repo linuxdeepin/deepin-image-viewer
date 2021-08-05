@@ -91,6 +91,8 @@ public:
 
     //初始化多页图界面
     void initMorePicWidget();
+
+    void titleBarControl();
 signals:
     void clicked();
     void doubleClicked();
@@ -107,6 +109,9 @@ signals:
     void checkAdaptImageBtn();
     void checkAdaptScreenBtn();
     void sigFIleDelete();
+
+    //当前titlebar是否有阴影
+    void sigImageOutTitleBar(bool);
 
 
 public slots:

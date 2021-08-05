@@ -44,6 +44,8 @@ class TopToolbar : public DBlurEffectWidget
 public:
     TopToolbar(bool manager, QWidget *parent);
     void setMiddleContent(const QString &path);
+public slots:
+    void setTitleBarTransparent(bool a);
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
@@ -87,6 +89,9 @@ private:
 #endif
     DMenu *m_menu;
     bool m_manager;
+
+    bool m_viewChange;
+    QGraphicsDropShadowEffect *shadowEffect {nullptr};
 };
 
 #endif // TOPTOOLBAR_H

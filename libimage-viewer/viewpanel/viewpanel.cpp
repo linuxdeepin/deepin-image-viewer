@@ -82,11 +82,12 @@ ViewPanel::ViewPanel(QWidget *parent)
     m_bottomToolbar = new BottomToolbar(this);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
-    initConnect();
+
     initRightMenu();
     initFloatingComponent();
     initTopBar();
     initShortcut();
+    initConnect();
 
     setAcceptDrops(true);
 //    initExtensionPanel();
@@ -145,6 +146,8 @@ void ViewPanel::initConnect()
     connect(m_view, &ImageGraphicsView::disCheckAdaptImageBtn, m_bottomToolbar, &BottomToolbar::disCheckAdaptImageBtn);
 
     connect(m_bottomToolbar, &BottomToolbar::sigOcr, this, &ViewPanel::slotOcrPicture);
+
+    connect(m_view, &ImageGraphicsView::sigImageOutTitleBar, m_topToolbar, &TopToolbar::setTitleBarTransparent);
 }
 
 void ViewPanel::initTopBar()
@@ -152,6 +155,7 @@ void ViewPanel::initTopBar()
     m_topToolbar = new TopToolbar(false, this);
     m_topToolbar->resize(width(), 50);
     m_topToolbar->move(0, 0);
+    m_topToolbar->setTitleBarTransparent(false);
 }
 
 void ViewPanel::initOcr()

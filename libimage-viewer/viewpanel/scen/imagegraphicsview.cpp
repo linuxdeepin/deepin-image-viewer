@@ -390,6 +390,8 @@ void ImageGraphicsView::setScaleValue(qreal v)
     emit scaled(imageRelativeScale() * 100);
     emit showScaleLabel();
     emit transformChanged();
+
+    titleBarControl();
 }
 
 void ImageGraphicsView::autoFit()
@@ -447,6 +449,8 @@ void ImageGraphicsView::fitWindow()
     m_isFitWindow = true;
     scaled(imageRelativeScale() * 100);
     emit transformChanged();
+
+    titleBarControl();
 }
 
 void ImageGraphicsView::fitImage()
@@ -465,6 +469,8 @@ void ImageGraphicsView::fitImage()
     m_isFitWindow = false;
     scaled(imageRelativeScale() * 100);
     emit transformChanged();
+
+    titleBarControl();
 }
 
 void ImageGraphicsView::rotateClockWise()
@@ -564,6 +570,25 @@ void ImageGraphicsView::initMorePicWidget()
     m_morePicFloatWidget->setFixedWidth(70);
     m_morePicFloatWidget->setFixedHeight(140);
     m_morePicFloatWidget->show();
+}
+
+void ImageGraphicsView::titleBarControl()
+{
+    qreal realHeight = 0.0;
+    //简化image()的使用
+    QImage img = image();
+    if (m_movieItem /*|| m_imgSvgItem*/) {
+        realHeight = img.size().height() * imageRelativeScale() * devicePixelRatioF();
+
+    } else {
+        realHeight = img.size().height() * imageRelativeScale();
+    }
+
+    if (realHeight > height() - 100) {
+        emit sigImageOutTitleBar(true);
+    } else {
+        emit sigImageOutTitleBar(false);
+    }
 }
 
 void ImageGraphicsView::onImgFileChanged(const QString &ddfFile)
@@ -834,6 +859,7 @@ void ImageGraphicsView::resizeEvent(QResizeEvent *event)
     if (m_morePicFloatWidget) {
         m_morePicFloatWidget->move(this->width() - 80, this->height() / 2 - 50);
     }
+    titleBarControl();
     QGraphicsView::resizeEvent(event);
 //    m_toast->move(width() / 2 - m_toast->width() / 2,
 //                  height() - 80 - m_toast->height() / 2 - 11);
