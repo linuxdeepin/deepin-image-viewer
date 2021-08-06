@@ -94,7 +94,11 @@ namespace UnionImage_NameSpace {
 //        WEBP    =  35,
 //        JXR     =  36
 //    };
-
+//由于freeimage 不支持，而在使用过程中，将qt支持的格式也添加到hash里，所以mrw的value也为0，因此重新定义
+//fix 52612
+enum FIF_QTSUPPORT {
+    FIF_MRW = 37
+};
 
 class UnionImage_Private
 {
@@ -105,73 +109,82 @@ public:
     UnionImage_Private()
     {
         //FreeImage_Initialise(true);
-        //m_freeiamge_formats["UNKNOWN"] = -1;
-        m_freeiamge_formats["BMP"]     =  FIF_BMP;
-        m_freeiamge_formats["ICO"]     =  FIF_ICO;
-        m_freeiamge_formats["JPG"]     =  FIF_JPEG;
-        m_freeiamge_formats["JPE"]     =  FIF_JPEG;
-        m_freeiamge_formats["JPS"]     =  FIF_JPEG;
-        m_freeiamge_formats["JPEG"]    =  FIF_JPEG;
-        m_freeiamge_formats["JNG"]     =  FIF_JNG;
-        m_freeiamge_formats["KOALA"]   =  FIF_KOALA;
-        m_freeiamge_formats["KOA"]     =  FIF_KOALA;
-        m_freeiamge_formats["LBM"]     =  FIF_LBM;
-//        m_freeiamge_formats["IFF"]     =  FIF_LBM;
-        m_freeiamge_formats["MNG"]     =  FIF_MNG;
-        m_freeiamge_formats["PBM"]     =  FIF_PBM;
-        m_freeiamge_formats["PNM"]     =  FIF_PBM;
-        m_freeiamge_formats["PBMRAW"]  =  FIF_PBMRAW;
-        m_freeiamge_formats["PCD"]     =  FIF_PCD;
-        m_freeiamge_formats["PCX"]     =  FIF_PCX;
-        m_freeiamge_formats["PGM"]     =  FIF_PGM;
-        m_freeiamge_formats["PGMRAW"]  =  FIF_PGMRAW;
-        m_freeiamge_formats["PNG"]     =  FIF_PNG;
-        m_freeiamge_formats["PPM"]     =  FIF_PPM;
-        m_freeiamge_formats["PPMRAW"]  =  FIF_PPMRAW;
-        m_freeiamge_formats["RAS"]     =  FIF_RAS;
-        m_freeiamge_formats["TGA"]     =  FIF_TARGA;
-        m_freeiamge_formats["TARGA"]   =  FIF_TARGA;
-        m_freeiamge_formats["TIFF"]    =  FIF_TIFF;//use qt
-        m_freeiamge_formats["TIF"]     =  FIF_TIFF;//use qt
-        m_freeiamge_formats["WBMP"]    =  FIF_WBMP;
-        m_freeiamge_formats["PSD"]     =  FIF_PSD;
-        m_freeiamge_formats["CUT"]     =  FIF_CUT;
-        m_freeiamge_formats["XBM"]     =  FIF_XBM;
-        m_freeiamge_formats["XPM"]     =  FIF_XPM;
-        m_freeiamge_formats["DDS"]     =  FIF_DDS;
-        m_freeiamge_formats["GIF"]     =  FIF_GIF;
-        //m_freeiamge_formats["HDR"]     =  FIF_HDR;//FHDR covert failed
-        m_freeiamge_formats["FAX"]     =  FIF_FAXG3;
-        m_freeiamge_formats["G3"]      =  FIF_FAXG3;//FAXG3
-        m_freeiamge_formats["SGI"]     =  FIF_SGI;
-        m_freeiamge_formats["EXR"]     =  FIF_EXR;
-        //m_freeiamge_formats["J2K"]     =  FIF_J2K;
-        m_freeiamge_formats["J2C"]     =  FIF_J2K;
-        m_freeiamge_formats["JPC"]     =  FIF_J2K;
-        //m_freeiamge_formats["JP2"]     =  FIF_JP2;
-        //m_freeiamge_formats["PFM"]     =  FIF_PFM;covert failed
-        m_freeiamge_formats["PCT"]     =  FIF_PICT;
-        m_freeiamge_formats["PIC"]     =  FIF_PICT;
-        m_freeiamge_formats["PICT"]    =  FIF_PICT;
-        m_freeiamge_formats["PIC"]     =  FIF_PICT;
-        m_freeiamge_formats["RAW"]     =  FIF_RAW;
-        m_freeiamge_formats["WEBP"]    =  FIF_WEBP;
-        m_freeiamge_formats["JXR"]     =  FIF_JXR;
+        //m_freeimage_formats["UNKNOWN"] = -1;
+        m_freeimage_formats["BMP"]     =  FIF_BMP;
+        m_freeimage_formats["ICO"]     =  FIF_ICO;
+        m_freeimage_formats["JPG"]     =  FIF_JPEG;
+        m_freeimage_formats["JPE"]     =  FIF_JPEG;
+        m_freeimage_formats["JPS"]     =  FIF_JPEG;
+        m_freeimage_formats["JPEG"]    =  FIF_JPEG;
+        m_freeimage_formats["JNG"]     =  FIF_JNG;
+        m_freeimage_formats["KOALA"]   =  FIF_KOALA;
+        m_freeimage_formats["KOA"]     =  FIF_KOALA;
+        m_freeimage_formats["LBM"]     =  FIF_LBM;
+        m_freeimage_formats["IFF"]     =  FIF_LBM;
+        m_freeimage_formats["MNG"]     =  FIF_MNG;
+        m_freeimage_formats["PBM"]     =  FIF_PBM;
+        m_freeimage_formats["PBMRAW"]  =  FIF_PBMRAW;
+        m_freeimage_formats["PCD"]     =  FIF_PCD;
+        m_freeimage_formats["PCX"]     =  FIF_PCX;
+        m_freeimage_formats["PGM"]     =  FIF_PGM;
+        m_freeimage_formats["PGMRAW"]  =  FIF_PGMRAW;
+        m_freeimage_formats["PNG"]     =  FIF_PNG;
+        m_freeimage_formats["PPM"]     =  FIF_PPM;
+        m_freeimage_formats["PPMRAW"]  =  FIF_PPMRAW;
+        m_freeimage_formats["RAS"]     =  FIF_RAS;
+        m_freeimage_formats["TGA"]     =  FIF_TARGA;
+        m_freeimage_formats["TARGA"]   =  FIF_TARGA;
+        m_freeimage_formats["TIFF"]    =  FIF_TIFF;//use qt
+        m_freeimage_formats["TIF"]     =  FIF_TIFF;//use qt
+        m_freeimage_formats["WBMP"]    =  FIF_WBMP;
+        m_freeimage_formats["PSD"]     =  FIF_PSD;
+        m_freeimage_formats["CUT"]     =  FIF_CUT;
+        m_freeimage_formats["XBM"]     =  FIF_XBM;
+        m_freeimage_formats["XPM"]     =  FIF_XPM;
+        m_freeimage_formats["DDS"]     =  FIF_DDS;
+        m_freeimage_formats["GIF"]     =  FIF_GIF;
+        //m_freeimage_formats["HDR"]     =  FIF_HDR;//FHDR covert failed
+        m_freeimage_formats["FAX"]     =  27;
+        m_freeimage_formats["G3"]      =  27;//FAXG3
+        m_freeimage_formats["SGI"]     =  FIF_SGI;
+        m_freeimage_formats["EXR"]     =  FIF_EXR;
+        //m_freeimage_formats["J2K"]     =  FIF_J2K;
+        //m_freeimage_formats["J2C"]     =  FIF_J2K;
+        // m_freeimage_formats["JPC"]     =  FIF_J2K;
+//        m_freeimage_formats["JP2"]     =  FIF_JP2;
+        //m_freeimage_formats["PFM"]     =  FIF_PFM;covert failed
+        m_freeimage_formats["PCT"]     =  FIF_PICT;
+        m_freeimage_formats["PIC"]     =  FIF_PICT;
+        m_freeimage_formats["PICT"]    =  FIF_PICT;
+        m_freeimage_formats["PIC"]     =  FIF_PICT;
+//        m_freeimage_formats["RAW"]     =  FIF_RAW;
+        m_freeimage_formats["WEBP"]    =  FIF_WEBP;
+        m_freeimage_formats["JXR"]     =  FIF_JXR;
+        m_freeimage_formats["MRW"]     =  FIF_MRW;
         m_movie_formats["MNG"]         =  FIF_MNG;
         m_movie_formats["GIF"]         =  FIF_GIF;
-        m_movie_formats["WEBP"]        =  FIF_WEBP;
-
-        m_qtSupported << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
+        m_movie_formats["WEBP"]         =  FIF_WEBP;
+        /*
+         * 由于原设计方案采用多个key对应一个value的方案，在判断可读可写的过程中是通过value去找key因此造成了多种情况而在下方变量中未将key，写完整因此补全
+         * */
+        m_qtSupported << "BMP" << "JPG" << "JPEG" << "JPS" << "JPE" << "PNG" << "PBM"
                       << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                       << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF"
-                      << "TIFF" << "BMP" << "XPM" << "MRW" << "DNG"
-                      << "RAF"  << "CR2" << "MEF" << "RAW" << "ORF"
+                      << "TIFF" << "BMP" << "XPM"  << "DNG"
+                      << "RAF"  << "CR2" << "MEF" << "ORF" << "ICO"
+                      << "RAW"
+                      << "MRW"
                       << "NEF" ;
-
-        m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
-                  << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
-                  << "SVG" << "TGA" << "XPM" << "ICO" << "J2C"
-                  << "J2K" << "JNG" << "JP2" ;
+        //pic（多张图片） pcx不支持旋转
+        m_canSave << "BMP" << "JPG" << "JPEG"  << "JPS" << "JPE" << "PNG"
+                  << "PGM" << "PPM" << "PNM"
+                  << "TGA" << "XPM" << "ICO"
+                  << "JNG"
+//                << "SVG" //svg不再支持旋转
+//                << "JP2"
+//                << "PCD"
+                  << "RAS"
+                  << "WBMP";
 
         /*
          * 修改：
@@ -188,7 +201,7 @@ public:
     }
     QMutex freeimage_mutex;
     QStringList m_qtSupported;
-    QHash<QString, int> m_freeiamge_formats;
+    QHash<QString, int> m_freeimage_formats;
     QHash<QString, int> m_movie_formats;
     QStringList m_canSave;
     QStringList m_qtrotate;
@@ -213,8 +226,8 @@ UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat()
 {
     static QStringList res;
     if (res.empty()) {
-        QStringList list = union_image_private.m_freeiamge_formats.keys();
-        for (const QString &i : union_image_private.m_freeiamge_formats.keys()) {
+        QStringList list = union_image_private.m_freeimage_formats.keys();
+        for (const QString &i : union_image_private.m_freeimage_formats.keys()) {
             if (!list.contains(i))
                 list.append(i.toLower());
         }
@@ -234,7 +247,7 @@ UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat()
 
 UNIONIMAGESHARED_EXPORT const QStringList supportStaticFormat()
 {
-    return (union_image_private.m_freeiamge_formats.keys() << union_image_private.m_qtSupported);
+    return (union_image_private.m_freeimage_formats.keys() << union_image_private.m_qtSupported);
 }
 
 UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat()
@@ -555,7 +568,7 @@ UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
     fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
     if (fif != FIF_UNKNOWN) {
         // Check that the dib can be saved in this format
-        if (union_image_private.m_canSave.contains(union_image_private.m_freeiamge_formats.key(fif))) {
+        if (union_image_private.m_canSave.contains(union_image_private.m_freeimage_formats.key(fif))) {
             return true;
         }
     }
@@ -614,18 +627,24 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
         errorMsg = "error file!";
         return false;
     }
-    QString file_suffix_upper = file_info.suffix().toUpper();
+    QMap<QString, QString> dataMap = getAllMetaData(path);
+    QString file_suffix_upper = dataMap.value("FileFormat").toUpper();
+
     QByteArray temp_path;
     temp_path.append(path.toUtf8());
     FREE_IMAGE_FORMAT f = FreeImage_GetFileType(temp_path.data());
-    if (f != FIF_UNKNOWN && f != union_image_private.m_freeiamge_formats[file_suffix_upper]) {
-        file_suffix_upper = union_image_private.m_freeiamge_formats.key(f);
+    if (f != FIF_UNKNOWN && f != union_image_private.m_freeimage_formats[file_suffix_upper]) {
+        file_suffix_upper = union_image_private.m_freeimage_formats.key(f);
     }
     if (f == FIF_TIFF) {
         file_suffix_upper = "TIFF";
     }
     QString file_suffix_lower = file_suffix_upper.toLower();
-    if (union_image_private.m_qtSupported.contains(file_suffix_upper)) {
+    //解决欧拉版对于raw格式问题判断为PICT的问题
+    bool usingQimage = false;
+    usingQimage = (f == FIF_RAW || f == FIF_PICT);
+
+    if (usingQimage || union_image_private.m_qtSupported.contains(file_suffix_upper)) {
         QImageReader reader;
         QImage res_qt;
         reader.setFileName(path);
@@ -643,11 +662,11 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
                 QImageReader readerF(path, format.toLatin1());
                 QImage try_res;
                 readerF.setAutoTransform(true);
-                if (readerF.canRead() && readerF.imageCount() > 0) {
+                if (readerF.canRead()) {
                     try_res = readerF.read();
                 } else {
                     errorMsg = "can't read image:" + readerF.errorString() + format;
-                    try_res = QImage();
+                    try_res = QImage(path);
                 }
                 if (try_res.isNull()) {
                     errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
@@ -658,17 +677,20 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
                 res = try_res;
                 return true;
             }
+            errorMsg = "use QImage";
+            res = res_qt;
+        } else {
+            res = QImage();
+            return false;
         }
-        errorMsg = "use QImage";
-        res = res_qt;
         return true;
     } else {
-        if (f != FREE_IMAGE_FORMAT::FIF_UNKNOWN || union_image_private.m_freeiamge_formats.contains(file_suffix_upper)) {
+        if (f != FREE_IMAGE_FORMAT::FIF_UNKNOWN || union_image_private.m_freeimage_formats.contains(file_suffix_upper)) {
             if (f == FREE_IMAGE_FORMAT::FIF_UNKNOWN)
-                f = FREE_IMAGE_FORMAT(union_image_private.m_freeiamge_formats[file_suffix_upper]);
+                f = FREE_IMAGE_FORMAT(union_image_private.m_freeimage_formats[file_suffix_upper]);
             FIBITMAP *dib = FreeImage_Load(f, temp_path.data());
             if (nullptr == dib) {
-                errorMsg = "image load faild, format:" + union_image_private.m_freeiamge_formats.key(f) + " ,path:" + temp_path;
+                errorMsg = "image load faild, format:" + union_image_private.m_freeimage_formats.key(f) + " ,path:" + temp_path;
                 //FreeImage_Unload(dib);
                 res = QImage();
                 return false;
@@ -678,7 +700,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
             //32位以上图片qImage不支持,强行读取和转换可能会乱码
             res = QImage(FIBitmap2QImage(dib));
             if (res.isNull()) {
-                errorMsg = "convert to QImage faild" + union_image_private.m_freeiamge_formats.key(f) + " ,path:" + temp_path;
+                errorMsg = "convert to QImage faild" + union_image_private.m_freeimage_formats.key(f) + " ,path:" + temp_path;
                 FreeImage_Unload(dib);
                 res = QImage();
                 return false;
@@ -698,8 +720,8 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
     QByteArray temp_path;
     temp_path.append(path.toUtf8());
     FREE_IMAGE_FORMAT f = FreeImage_GetFileType(temp_path.data());
-    if (f != FIF_UNKNOWN && f != union_image_private.m_freeiamge_formats[file_suffix_upper]) {
-        file_suffix_upper = union_image_private.m_freeiamge_formats.key(f);
+    if (f != FIF_UNKNOWN && f != union_image_private.m_freeimage_formats[file_suffix_upper]) {
+        file_suffix_upper = union_image_private.m_freeimage_formats.key(f);
     }
     if (f == FIF_TIFF) {
         file_suffix_upper = "TIFF";
@@ -806,8 +828,8 @@ FREE_IMAGE_FORMAT detectImageFormat_f(const QString &path)
     QByteArray temp_path;
     temp_path.append(path.toUtf8());
     FREE_IMAGE_FORMAT f = FreeImage_GetFileType(temp_path.data());
-    if (f != FIF_UNKNOWN && f != union_image_private.m_freeiamge_formats[file_suffix_upper]) {
-        file_suffix_upper = union_image_private.m_freeiamge_formats.key(f);
+    if (f != FIF_UNKNOWN && f != union_image_private.m_freeimage_formats[file_suffix_upper]) {
+        file_suffix_upper = union_image_private.m_freeimage_formats.key(f);
     }
     if (f == FIF_TIFF) {
         file_suffix_upper = "TIFF";
@@ -903,7 +925,7 @@ FREE_IMAGE_FORMAT detectImageFormat_f(const QString &path)
         }
         return FIF_UNKNOWN;
     }
-    f = static_cast<FREE_IMAGE_FORMAT>(union_image_private.m_freeiamge_formats[file_suffix_upper]);
+    f = static_cast<FREE_IMAGE_FORMAT>(union_image_private.m_freeimage_formats[file_suffix_upper]);
     return f >= 0 ? f : FIF_UNKNOWN;
 }
 
@@ -989,7 +1011,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
     }
     QByteArray temp_path;
     temp_path.append(path);
-    FREE_IMAGE_FORMAT f = FREE_IMAGE_FORMAT(union_image_private.m_freeiamge_formats[QFileInfo(path).suffix().toUpper()]);
+    FREE_IMAGE_FORMAT f = FREE_IMAGE_FORMAT(union_image_private.m_freeimage_formats[QFileInfo(path).suffix().toUpper()]);
     if (f == FREE_IMAGE_FORMAT::FIF_UNKNOWN) {
         erroMsg = "rotate image format error";
         FreeImage_Unload(dib);
@@ -1074,7 +1096,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
     }
     QByteArray temp_path;
     temp_path.append(path);
-    FREE_IMAGE_FORMAT f = FREE_IMAGE_FORMAT(union_image_private.m_freeiamge_formats[QFileInfo(path).suffix().toUpper()]);
+    FREE_IMAGE_FORMAT f = FREE_IMAGE_FORMAT(union_image_private.m_freeimage_formats[QFileInfo(path).suffix().toUpper()]);
     if (f == FREE_IMAGE_FORMAT::FIF_UNKNOWN) {
         erroMsg = "rotate image format error";
         FreeImage_Unload(dib);
@@ -1096,10 +1118,6 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
 
 UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &path)
 {
-    //QMutexLocker mutex(&union_image_private.freeimage_mutex);
-
-    //qDebug() << "threadid:" << QThread::currentThread() << "getAllMetaData locking ....";
-
     FIBITMAP *dib = readFile2FIBITMAP(path, FIF_LOAD_NOPIXELS);
     QMap<QString, QString> admMap;
     admMap.unite(getMetaData(FIMD_EXIF_MAIN, dib));
@@ -1109,21 +1127,18 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     admMap.unite(getMetaData(FIMD_EXIF_INTEROP, dib));
     admMap.unite(getMetaData(FIMD_IPTC, dib));
     //移除秒　　2020/6/5 DJH
-    //需要转义才能读出：或者/　　2020/8/21 DJH
-    QFileInfo info(path);
     if (admMap.contains("DateTime")) {
-        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
-        admMap["DateTimeOriginal"] = time.toString("yyyy/MM/dd hh:mm");
-    } else {
-        admMap.insert("DateTimeOriginal",  info.lastModified().toString("yyyy/MM/dd HH:mm"));
+        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm");
+        admMap["DateTime"] = time.toString("yyyy/MM/dd HH:mm");
     }
-    admMap.insert("DateTimeDigitized",  info.lastModified().toString("yyyy/MM/dd HH:mm"));
-//    if (admMap.isEmpty()) {
-//        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0));
-//        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm"));
-//        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
-//    }
-    /* else {
+    // Basic extended data
+    QFileInfo info(path);
+    if (admMap.isEmpty()) {
+        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0));
+        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm"));
+        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
+    } else {
+        // Exif version 0231
         QString qsdto = admMap.value("DateTimeOriginal");
         QString qsdtd = admMap.value("DateTimeDigitized");
         QDateTime ot = QDateTime::fromString(qsdto, "yyyy/MM/dd HH:mm");
@@ -1136,15 +1151,15 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
 
             // NO valid date information
             if (! ot.isValid()) {
-    //                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
+//                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
                 admMap.insert("DateTimeOriginal", info.birthTime().toString("yyyy/MM/dd HH:mm"));
                 admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
-            } else {
-                admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm"));
-                admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm"));
             }
         }
-    }*/
+        admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm"));
+        admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm"));
+
+    }
 
 //    // The value of width and height might incorrect
     QImageReader reader(path);
@@ -1155,10 +1170,10 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
 
     admMap.insert("FileName", info.fileName());
-    admMap.insert("FileFormat", detectImageFormat(path));
+    admMap.insert("FileFormat", getFileFormat(path));
     admMap.insert("FileSize", size2Human(info.size()));
     FreeImage_Unload(dib);
-
+    //qDebug() <<  QThread::currentThread() << "getAllMetaData lock end";
     return admMap;
 }
 
