@@ -36,6 +36,7 @@ class BottomToolbar;
 class TopToolbar;
 class OcrInterface;
 class SlideShowPanel;
+class QPropertyAnimation;
 
 class ViewPanel : public QFrame
 {
@@ -134,6 +135,9 @@ public slots:
 
     //选择打开窗口
     bool startChooseFileDialog();
+
+    //刷新底部工具栏在全屏的隐藏与否
+    void slotBottomMove();
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *e) override;
@@ -165,5 +169,6 @@ private :
 
     SlideShowPanel *m_sliderPanel{nullptr};
 
+    QPropertyAnimation *m_bottomAnimation{nullptr};
 };
 #endif  // VIEWPANEL_H

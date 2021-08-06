@@ -829,10 +829,10 @@ void ImageGraphicsView::mousePressEvent(QMouseEvent *e)
 
 void ImageGraphicsView::mouseMoveEvent(QMouseEvent *e)
 {
+
     m_press = false;
     if (!(e->buttons() | Qt::NoButton)) {
         viewport()->setCursor(Qt::ArrowCursor);
-
         emit mouseHoverMoved();
     } else {
         QGraphicsView::mouseMoveEvent(e);

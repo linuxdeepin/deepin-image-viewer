@@ -149,6 +149,9 @@ void ViewPanel::initConnect()
     connect(m_bottomToolbar, &BottomToolbar::sigOcr, this, &ViewPanel::slotOcrPicture);
 
     connect(m_view, &ImageGraphicsView::sigImageOutTitleBar, m_topToolbar, &TopToolbar::setTitleBarTransparent);
+
+    connect(m_view, &ImageGraphicsView::mouseHoverMoved, this, &ViewPanel::slotBottomMove);
+
 }
 
 void ViewPanel::initTopBar()
@@ -595,6 +598,44 @@ bool ViewPanel::startChooseFileDialog()
     }
 
     return bRet;
+}
+
+void ViewPanel::slotBottomMove()
+{
+    if (m_bottomToolbar) {
+        if (window()->isFullScreen()) {
+            QPoint pos = mapFromGlobal(QCursor::pos());
+            if (height() - 20 < pos.y() && height() > pos.y() && height() == m_bottomToolbar->y()) {
+                m_bottomAnimation = new QPropertyAnimation(m_bottomToolbar, "pos");
+                m_bottomAnimation->setDuration(200);
+                m_bottomAnimation->setEasingCurve(QEasingCurve::NCurveTypes);
+                m_bottomAnimation->setStartValue(
+                    QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
+                m_bottomAnimation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2,
+                                                      height() - m_bottomToolbar->height() - 10));
+                connect(m_bottomAnimation, &QPropertyAnimation::finished, this, [ = ]() {
+                    delete m_bottomAnimation;
+                    m_bottomAnimation = nullptr;
+                });
+                m_bottomAnimation->start();
+            } else if (height() - m_bottomToolbar->height() - 10 > pos.y() &&
+                       height() - m_bottomToolbar->height() - 10 == m_bottomToolbar->y()) {
+                m_bottomAnimation = new QPropertyAnimation(m_bottomToolbar, "pos");
+                m_bottomAnimation->setDuration(200);
+                m_bottomAnimation->setEasingCurve(QEasingCurve::NCurveTypes);
+                m_bottomAnimation->setStartValue(
+                    QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
+                m_bottomAnimation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
+                connect(m_bottomAnimation, &QPropertyAnimation::finished, this, [ = ]() {
+                    delete m_bottomAnimation;
+                    m_bottomAnimation = nullptr;
+                });
+                m_bottomAnimation->start();
+            }
+        } else {
+            resetBottomToolbarGeometry(true);
+        }
+    }
 }
 
 bool ViewPanel::slotOcrPicture()
