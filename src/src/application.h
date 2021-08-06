@@ -142,7 +142,7 @@ public:
 
     QThread *m_LoadThread;
     bool m_firstLoad = true;
-    DApplication *m_app;
+    DApplication *m_app = nullptr;
     /*儒码优化*/
     int  m_timer = 0;
     bool m_bMove = false;

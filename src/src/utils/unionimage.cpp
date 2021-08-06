@@ -191,8 +191,7 @@ public:
         bool isEuler =  Dtk::Core::DSysInfo::UosEuler == edition || Dtk::Core::DSysInfo::UosEnterpriseC == edition;
         if (!isEuler) {
             m_canSave <<   "WEBP";
-        }
-        ;
+        };
         m_qtrotate << "ICNS" << "JPG" << "JPEG";
     }
     ~UnionImage_Private()

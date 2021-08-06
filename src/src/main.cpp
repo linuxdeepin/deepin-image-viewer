@@ -22,9 +22,7 @@
 #include "controller/commandline.h"
 #include "service/defaultimageviewer.h"
 #include "accessibility/acobjectlist.h"
-#ifdef CMAKE_BUILD
-#include "config.h"
-#endif
+
 #include <QApplication>
 #include <DLog>
 #include <QTranslator>
@@ -74,17 +72,14 @@ int main(int argc, char *argv[])
     Application::instance(argc, argv);
 
     dApp->m_app->setAttribute(Qt::AA_ForceRasterWidgets);
-    dApp->m_app->installEventFilter(dApp);
+
 #ifdef INSTALLACCESSIBLEFACTORY
     QAccessible::installFactory(accessibleFactory);
 #endif
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
-#ifdef CMAKE_BUILD
-    //增加版本号
-    qApp->setApplicationVersion(DApplication::buildVersion(VERSION));
-#endif
+
     if (dApp->isPanelDev()) {
         //将时间写入QDataStream
         QDateTime wstime = QDateTime::currentDateTime();
