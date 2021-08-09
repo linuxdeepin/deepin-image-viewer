@@ -26,9 +26,11 @@
 #include <DWidgetUtil>
 #include <DMainWindow>
 #include <DLog>
+#include <DApplicationSettings>
+
 #include <QTranslator>
 #include <QDesktopWidget>
-#include <DApplicationSettings>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>

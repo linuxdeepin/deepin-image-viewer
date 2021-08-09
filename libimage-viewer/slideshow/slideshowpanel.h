@@ -26,8 +26,9 @@
 #include <DMenu>
 #include <DIconButton>
 #include <DLabel>
-#include <QHBoxLayout>
 #include <DFloatingWidget>
+
+#include <QHBoxLayout>
 #include <QShortcut>
 #include <QObject>
 

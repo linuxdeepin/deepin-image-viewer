@@ -22,6 +22,7 @@
 #define IMGUTIL_H
 
 #include "baseutils.h"
+
 #include <QDateTime>
 #include <QFileInfo>
 #include <QPixmap>

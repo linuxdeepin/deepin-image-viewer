@@ -21,30 +21,25 @@
 #ifndef IMGVIEWWIDGET_H
 #define IMGVIEWWIDGET_H
 
-#include <QWidget>
-#include <QLabel>
-//#include "controller/viewerthememanager.h"
-//#include <dlistwidget.h>
-//#include <DListWidget>
+
 #include <DSpinner>
-//#include <DtkWidgets>
-//#include "dlistwidget.h"
-#include <QListWidget>
 #include <DListView>
-#include <QAbstractItemModel>
-#include <QStandardItem>
-//#include "dbmanager/dbmanager.h"
 #include <DAnchors>
-#include <dimagebutton.h>
 #include <DThumbnailProvider>
-#include <QPropertyAnimation>
-#include <QHBoxLayout>
+#include <dimagebutton.h>
 #include <DIconButton>
 #include <DBlurEffectWidget>
 #include <DGuiApplicationHelper>
 #include <DLabel>
+
+#include <QListWidget>
+#include <QAbstractItemModel>
+#include <QStandardItem>
+#include <QPropertyAnimation>
+#include <QHBoxLayout>
 #include <QTime>
-//#include "imageengine/imageengineobject.h"
+#include <QWidget>
+#include <QLabel>
 
 #include "image-viewer_global.h"
 DWIDGET_USE_NAMESPACE

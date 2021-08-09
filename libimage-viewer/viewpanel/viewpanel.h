@@ -25,6 +25,7 @@
 
 #include <DStackedWidget>
 #include <DAnchors>
+
 #include "scen/imagegraphicsview.h"
 
 

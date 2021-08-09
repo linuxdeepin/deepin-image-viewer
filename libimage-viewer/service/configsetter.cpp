@@ -19,8 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "configsetter.h"
-#include <QDebug>
 
+#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
 #include <QProcess>

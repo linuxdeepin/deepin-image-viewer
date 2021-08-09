@@ -24,13 +24,15 @@
 #include "unionimage/baseutils.h"
 
 #include <QPainter>
-#include <dwindowclosebutton.h>
 #include <QMouseEvent>
 #include <QGraphicsDropShadowEffect>
 #include <QtDebug>
+#include <QRgb>
+
 #include <DDialogCloseButton>
 #include <DGuiApplicationHelper>
-#include <QRgb>
+#include <dwindowclosebutton.h>
+
 #include "service/configsetter.h"
 namespace {
 

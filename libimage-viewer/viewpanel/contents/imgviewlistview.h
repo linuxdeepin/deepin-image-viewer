@@ -25,19 +25,20 @@
 #include "dtkwidget_global.h"
 
 #include <QPropertyAnimation>
-#include <DPushButton>
-#include <DIconButton>
-#include <DListView>
 #include <QPixmap>
 #include <QIcon>
-#include <DLabel>
 #include <QFileInfo>
 #include <QSize>
 #include <QStandardItemModel>
 #include <QBuffer>
-#include <DMenu>
 #include <QMouseEvent>
 #include <QPointer>
+
+#include <DListView>
+#include <DLabel>
+#include <DMenu>
+#include <DPushButton>
+#include <DIconButton>
 #include <DApplicationHelper>
 
 #include "image-viewer_global.h"

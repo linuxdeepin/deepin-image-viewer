@@ -29,6 +29,7 @@
 #include <QImage>
 #include <QImageReader>
 #include <QMimeDatabase>
+
 #include "unionimage.h"
 #include "pluginbaseutils.h"
 #include "imageengine.h"

@@ -23,18 +23,19 @@
 
 #include <QWidget>
 #include <QLabel>
-#include <DListWidget>
-#include <DSpinner>
 #include <QListWidget>
-#include <DListView>
 #include <QAbstractItemModel>
 #include <QStandardItem>
-#include <DAnchors>
-#include <DFloatingWidget>
-#include <dimagebutton.h>
-#include <DThumbnailProvider>
 #include <QPropertyAnimation>
 #include <QHBoxLayout>
+
+#include <DListWidget>
+#include <DSpinner>
+#include <DListView>
+#include <DAnchors>
+#include <DFloatingWidget>
+#include <DImageButton>
+#include <DThumbnailProvider>
 #include <DIconButton>
 #include <DBlurEffectWidget>
 #include <DGuiApplicationHelper>

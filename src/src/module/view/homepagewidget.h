@@ -4,9 +4,10 @@
 #include <DWidget>
 #include <DLabel>
 #include <DGuiApplicationHelper>
-#include <QVBoxLayout>
 #include <DSuggestButton>
 #include <DFontSizeManager>
+
+#include <QVBoxLayout>
 #include <QPaintEvent>
 #include <QMouseEvent>
 #include <QObject>

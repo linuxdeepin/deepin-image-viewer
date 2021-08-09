@@ -21,8 +21,8 @@
 #include "imgviewdelegate.h"
 #include "unionimage/imageutils.h"
 #include "unionimage/baseutils.h"
-#include <QDateTime>
 
+#include <QDateTime>
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QPainter>
@@ -34,6 +34,7 @@
 #include <QMouseEvent>
 #include <QImageReader>
 #include <QApplication>
+
 #include <DFontSizeManager>
 #include <DGuiApplicationHelper>
 

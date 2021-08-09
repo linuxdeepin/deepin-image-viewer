@@ -21,6 +21,7 @@
 #include "imgviewlistview.h"
 
 #include <math.h>
+
 #include <QDebug>
 #include <QDrag>
 #include <QFileInfo>
@@ -35,7 +36,6 @@
 #include "unionimage/unionimage.h"
 #include "imageengine.h"
 #include "service/commonservice.h"
-
 #include "accessibility/ac-desktop-define.h"
 
 ImgViewListView::ImgViewListView(QWidget *parent)

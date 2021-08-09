@@ -25,13 +25,14 @@
 #include <QHBoxLayout>
 #include <QDebug>
 #include <QPainterPath>
-#include <DLabel>
 #include <QAbstractItemModel>
+#include <QtMath>
+
+#include <DLabel>
 #include <DImageButton>
 #include <DThumbnailProvider>
 #include <DApplicationHelper>
 #include <DSpinner>
-#include <QtMath>
 
 #include "imgviewlistview.h"
 #include "imgviewwidget.h"

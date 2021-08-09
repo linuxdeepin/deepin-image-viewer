@@ -36,6 +36,7 @@
 #include <QFileInfo>
 #include <QStringList>
 #include <QMap>
+
 #include "image-viewer_global.h"
 
 namespace  UnionImage_NameSpace {

@@ -21,15 +21,13 @@
 #ifndef IMAGEINFOWIDGET_H
 #define IMAGEINFOWIDGET_H
 
-//#include "controller/viewerthememanager.h"
-//#include "widgets/themewidget.h"
-
 #include <QWidget>
 #include <QLabel>
 #include <QScrollArea>
 #include <QVector>
-#include <DScrollArea>
+
 #include <denhancedwidget.h>
+#include <DScrollArea>
 #include <DDrawer>
 #include <DLabel>
 

@@ -23,6 +23,7 @@
 
 #include "baseutils.h"
 #include <libexif/exif-data.h>
+
 #include <QDateTime>
 #include <QFileInfo>
 #include <QString>

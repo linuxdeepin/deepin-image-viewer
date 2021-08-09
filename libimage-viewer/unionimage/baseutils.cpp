@@ -24,6 +24,7 @@
 #include <fcntl.h>
 #include <fstream>
 #include <linux/fs.h>
+
 #include <QApplication>
 #include <QClipboard>
 #include <QCryptographicHash>
@@ -43,10 +44,11 @@
 #include <QDebug>
 #include <QTextStream>
 #include <QtMath>
+#include <QImageReader>
 
 #include <DApplication>
 #include <DDesktopServices>
-#include <QImageReader>
+
 
 #ifdef USE_UNIONIMAGE
 #include "unionimage.h"

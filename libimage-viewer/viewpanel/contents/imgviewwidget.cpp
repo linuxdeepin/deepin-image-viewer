@@ -22,7 +22,7 @@
 #include "unionimage/baseutils.h"
 #include "unionimage/imageutils.h"
 #include "unionimage/unionimage.h"
-
+#include "imgviewlistview.h"
 #include "accessibility/ac-desktop-define.h"
 
 #include <QTimer>
@@ -32,15 +32,15 @@
 #include <QHBoxLayout>
 #include <QDebug>
 #include <QPainterPath>
-#include <DLabel>
 #include <QAbstractItemModel>
+#include <QtMath>
+
+#include <DLabel>
 #include <DImageButton>
 #include <DThumbnailProvider>
 #include <DApplicationHelper>
 #include <DSpinner>
-#include <QtMath>
 
-#include "imgviewlistview.h"
 
 DWIDGET_USE_NAMESPACE
 

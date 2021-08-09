@@ -24,6 +24,9 @@
 #include "imageutils_libexif.h"
 #include "imageutils_freeimage.h"
 #include "snifferimageformat.h"
+#include "unionimage.h"
+#include <fstream>
+
 #include <QBuffer>
 #include <QCryptographicHash>
 #include <QDebug>
@@ -39,9 +42,7 @@
 #include <QReadWriteLock>
 #include <QUrl>
 #include <QApplication>
-#include <fstream>
 
-#include "unionimage.h"
 namespace utils {
 
 namespace image {

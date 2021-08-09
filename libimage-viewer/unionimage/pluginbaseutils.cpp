@@ -19,10 +19,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "pluginbaseutils.h"
+#include "unionimage.h"
+
 #include <stdio.h>
 #include <fcntl.h>
 #include <fstream>
 #include <linux/fs.h>
+
 #include <QApplication>
 #include <QClipboard>
 #include <QCryptographicHash>
@@ -40,13 +43,12 @@
 #include <QTextStream>
 #include <QtMath>
 #include <QDirIterator>
-
-#include <DApplication>
-#include <DDesktopServices>
 #include <QImageReader>
 #include <QMimeDatabase>
 
-#include "unionimage.h"
+#include <DApplication>
+#include <DDesktopServices>
+
 DWIDGET_USE_NAMESPACE
 
 namespace pluginUtils {

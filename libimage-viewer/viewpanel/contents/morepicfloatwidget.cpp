@@ -19,9 +19,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "morepicfloatwidget.h"
-#include <QColor>
-#include <DGuiApplicationHelper>
 #include "accessibility/ac-desktop-define.h"
+
+#include <QColor>
+
+#include <DGuiApplicationHelper>
+
 MorePicFloatWidget::MorePicFloatWidget(QWidget *parent)
     : DFloatingWidget(parent)
 {

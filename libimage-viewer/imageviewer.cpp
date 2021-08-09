@@ -3,9 +3,10 @@
 #include <QDebug>
 #include <QStandardPaths>
 #include <QVBoxLayout>
-#include <DFileDialog>
 #include <QDir>
 #include <QCollator>
+
+#include <DFileDialog>
 
 #include "imageengine.h"
 #include "viewpanel/viewpanel.h"

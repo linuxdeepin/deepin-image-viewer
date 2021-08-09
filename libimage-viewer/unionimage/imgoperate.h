@@ -28,6 +28,7 @@
 #include <QImage>
 
 #include "image-viewer_global.h"
+
 class ImgOperate : public QObject
 {
     Q_OBJECT

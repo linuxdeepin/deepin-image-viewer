@@ -22,21 +22,22 @@
 #define MAINWINDOW_H
 
 #include <DWidget>
+#include <DMainWindow>
+#include <DTitlebar>
+#include <DSearchEdit>
+#include <DLabel>
+#include <DTabBar>
+#include <DSuggestButton>
+#include <DProgressBar>
+
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFrame>
-#include <DMainWindow>
-#include <DTitlebar>
 #include <QStackedWidget>
-#include <DSearchEdit>
-#include <DLabel>
 #include <QStatusBar>
-#include <DTabBar>
 #include <QButtonGroup>
-#include <DSuggestButton>
-#include <DProgressBar>
 
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";

@@ -22,9 +22,9 @@
 #define IMAGESVGITEM_H
 
 #include <QGraphicsObject>
+#include <QRectF>
 
 #include <DSvgRenderer>
-#include <QRectF>
 
 DGUI_USE_NAMESPACE
 

@@ -25,6 +25,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QMap>
+
 #include "image-viewer_global.h"
 
 class CommonService : public QObject

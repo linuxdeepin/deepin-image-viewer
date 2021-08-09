@@ -20,11 +20,13 @@
  */
 #ifndef MOREPICFLOATWIDGET_H
 #define MOREPICFLOATWIDGET_H
-#include <DFloatingWidget>
+
 #include <QWidget>
 #include <QVBoxLayout>
-#include <DIconButton>
 #include <QGuiApplication>
+
+#include <DFloatingWidget>
+#include <DIconButton>
 #include <DLabel>
 #include <DIconButton>
 #include <DWidget>
