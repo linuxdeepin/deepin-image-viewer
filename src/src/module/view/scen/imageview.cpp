@@ -918,38 +918,45 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         //svg采用svgRender显示
         m_movieItem = nullptr;
         m_pixmapItem = nullptr;
+        m_imgSvgItem = nullptr;
         s->clear();
         resetTransform();
 
         QSvgRenderer *svgRenderer = new QSvgRenderer;
         svgRenderer->load(strPath);
-        m_imgSvgItem = new ImageSvgItem();
-        m_imgSvgItem->setSharedRenderer(svgRenderer);
-        //不会出现锯齿
-        m_imgSvgItem->setCacheMode(QGraphicsItem::NoCache);
-        setSceneRect(m_imgSvgItem->boundingRect());
-        s->addItem(m_imgSvgItem);
+        qDebug() << svgRenderer->defaultSize();
+        int width = svgRenderer->defaultSize().width();
+        int height = svgRenderer->defaultSize().height();
+        //图片存在问题,或者过大,直接选择放弃加载
+        if (width != 0 && width <= 100000 && height != 0 && height <= 100000) {
+            m_imgSvgItem = new ImageSvgItem();
+            m_imgSvgItem->setSharedRenderer(svgRenderer);
+            //不会出现锯齿
+            m_imgSvgItem->setCacheMode(QGraphicsItem::NoCache);
+            setSceneRect(m_imgSvgItem->boundingRect());
+            s->addItem(m_imgSvgItem);
 
-        //LMH0603解决svg和gif和mng缩略图不显示问题
-        if (dApp->m_firstLoad) {
-            QPixmap p = QPixmap::fromImage(image());;
-            dApp->m_rectmap.insert(strPath, p.rect());
-            dApp->m_imagemap.insert(strPath, p.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation));
+            //LMH0603解决svg和gif和mng缩略图不显示问题
+            if (dApp->m_firstLoad) {
+                QPixmap p = QPixmap::fromImage(image());;
+                dApp->m_rectmap.insert(strPath, p.rect());
+                dApp->m_imagemap.insert(strPath, p.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation));
 
-            QThread *th = QThread::create([ = ]() {
+                QThread *th = QThread::create([ = ]() {
+                    emit imageChanged(strPath);
+                    qDebug() << "load cache";
+                    emit cacheEnd();
+                });
+                connect(th, &QThread::finished, th, &QObject::deleteLater);
+                th->start();
+                dApp->m_firstLoad = false;
+            } else {
                 emit imageChanged(strPath);
-                qDebug() << "load cache";
-                emit cacheEnd();
-            });
-            connect(th, &QThread::finished, th, &QObject::deleteLater);
-            th->start();
-            dApp->m_firstLoad = false;
-        } else {
-            emit imageChanged(strPath);
+            }
+            //解决66058,svg打开发送更新信号,快捷键,邮件菜单等
+            emit sigStackChange(m_path);
+            break;
         }
-        //解决66058,svg打开发送更新信号,快捷键,邮件菜单等
-        emit sigStackChange(m_path);
-        break;
     }
     case PICTURE_TYPE::NORMAL: {
         emit currentIsDynamic(false);

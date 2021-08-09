@@ -1193,7 +1193,8 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
         m_firstindex = nStartIndex;
     else
         nStartIndex = 0;
-    while (nStartIndex < nCount && !m_bThreadExit) {
+    //count可能会出现变化
+    while (nStartIndex < m_AllPath.count() && !m_bThreadExit) {
         if (!bLoadAll) {
             if (nimgcount >= First_Load_Image) {
                 break;
