@@ -506,6 +506,7 @@ Application::Application(int &argc, char **argv)
 #endif
 
 #endif
+
     //application的设置必须放在最前面,放在Dtk::Core::DVtableHook之后,会出现sanitizer泄露
     m_app->loadTranslator(QList<QLocale>() << QLocale::system());
     m_app->setOrganizationName("deepin");
@@ -517,8 +518,8 @@ Application::Application(int &argc, char **argv)
     //增加版本号
     m_app->setApplicationVersion(DApplication::buildVersion(VERSION));
 #endif
-    m_app->installEventFilter(dApp);
-    Dtk::Core::DVtableHook::overrideVfptrFun(m_app, &DApplication::handleQuitAction, this, &Application::quitApp);
+
+
     m_LoadThread = nullptr;
 
 //    //save theme
@@ -565,6 +566,7 @@ Application::Application(int &argc, char **argv)
     if (!m_ocrInterface) {
         m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
     }
+
 }
 bool Application::eventFilter(QObject *obj, QEvent *event)
 {

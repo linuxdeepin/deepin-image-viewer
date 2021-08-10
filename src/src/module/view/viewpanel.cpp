@@ -678,6 +678,8 @@ void  ViewPanel::slotUpdateImageView(QString &path)
     }
     if (!QFileInfo(path).exists()) {
         m_emptyWidget->setThumbnailImage(pixmapthumb);
+        //修复bug82666,打开图片中,如果图片损坏,应该发送该信号,隐藏button
+        emit dApp->signalM->picNotExists(true);
         m_stack->setCurrentIndex(1);
     } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
         emit sigDisenablebutton();

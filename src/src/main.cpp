@@ -27,6 +27,7 @@
 #include <DLog>
 #include <QTranslator>
 #include <DApplicationSettings>
+#include <DVtableHook>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -72,7 +73,8 @@ int main(int argc, char *argv[])
     Application::instance(argc, argv);
 
     dApp->m_app->setAttribute(Qt::AA_ForceRasterWidgets);
-
+    dApp->m_app->installEventFilter(dApp);
+    Dtk::Core::DVtableHook::overrideVfptrFun(dApp->m_app, &DApplication::handleQuitAction, dApp, &Application::quitApp);
 #ifdef INSTALLACCESSIBLEFACTORY
     QAccessible::installFactory(accessibleFactory);
 #endif
