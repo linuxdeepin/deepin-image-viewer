@@ -162,10 +162,17 @@ void NavigationWidget::setImage(const QImage &img)
     } else {
         m_img = img;
     }
+    //修复尺寸如果接近当前框体尺寸,会出现出界的情况
+    QImage tmpImg = m_img;
+    if (m_img.height() > 85 && m_img.width() >= 139) {
+        m_img = m_img.scaled(m_img.width(), 85);
+    } else if (m_img.height() > 100 && m_img.width() >= 125) {
+        m_img = m_img.scaled(125, m_img.height());
+    }
 
     m_pix = QPixmap::fromImage(m_img);
     m_pix.setDevicePixelRatio(ratio);
-    m_imageScale = qMax(1.0, qMax(qreal(img.width()) / qreal(m_img.width()), qreal(img.height()) / qreal(m_img.height())));
+    m_imageScale = qMax(1.0, qMax(qreal(img.width()) / qreal(tmpImg.width()), qreal(img.height()) / qreal(tmpImg.height())));
 //    m_r = QRectF(0, 0, m_img.width() / ratio, m_img.height() / ratio);
 //    m_widthScale = img.width() / m_img.width();
 //    m_heightScale = img.height() / m_img.height();
