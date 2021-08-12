@@ -514,11 +514,12 @@ Application::Application(int &argc, char **argv)
     m_app->setApplicationDisplayName(tr("Image Viewer"));
     m_app->setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
     m_app->setApplicationDescription(tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
+    //默认版本号应该放在前面
+    m_app->setApplicationVersion(DApplication::buildVersion("5.7.10"));
 #ifdef CMAKE_BUILD
     //增加版本号
     m_app->setApplicationVersion(DApplication::buildVersion(VERSION));
 #endif
-
 
     m_LoadThread = nullptr;
 
@@ -527,7 +528,7 @@ Application::Application(int &argc, char **argv)
 
 //    setApplicationVersion(DApplication::buildVersion("1.3"));
 
-    m_app->setApplicationVersion(DApplication::buildVersion("5.7.10"));
+
     installEventFilter(new GlobalEventFilter());
 
 
