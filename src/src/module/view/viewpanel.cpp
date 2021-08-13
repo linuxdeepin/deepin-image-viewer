@@ -519,6 +519,7 @@ void ViewPanel::slotCurrentStackWidget(QString &path, bool bpix)
             emit m_viewB->disCheckAdaptImageBtn();
         }
         m_stack->setCurrentIndex(2);
+        m_viewB->checkAdaptImageBtn();
         slotOpenOcrBtn(true);
     } else {
         m_stack->setCurrentIndex(0);
@@ -1037,11 +1038,8 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 
     return false;
 }
-
-void ViewPanel::resizeEvent(QResizeEvent *e)
+void ViewPanel::resizeData()
 {
-    ModulePanel::resizeEvent(e);
-
     // There will be several times the size change during switch to full process
     // So correct it every times
     if (window()->isFullScreen()) {
@@ -1100,6 +1098,12 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         }
         m_screentoNormal = false;
     }
+}
+
+void ViewPanel::resizeEvent(QResizeEvent *e)
+{
+    ModulePanel::resizeEvent(e);
+    resizeData();
 }
 
 void ViewPanel::timerEvent(QTimerEvent *e)
@@ -1898,6 +1902,7 @@ void ViewPanel::openImage(const QString path, bool inDB)
         emit updateTopLeftContentImage(path);
         //        emit updateCollectButton();
     }
+    resizeData();
 
     //QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
 }

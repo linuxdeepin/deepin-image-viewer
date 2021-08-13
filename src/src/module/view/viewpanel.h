@@ -128,6 +128,7 @@ public:
 //    */
 //    void refreshPixmap(QString strPath);
 
+    void resizeData();
 signals:
     void updateCollectButton();
     void imageChanged(const QString &path, DBImgInfoList infos);
