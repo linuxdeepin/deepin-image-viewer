@@ -169,10 +169,12 @@ void NavigationWidget::setImage(const QImage &img)
     } else if (m_img.height() > 100 && m_img.width() >= 125) {
         m_img = m_img.scaled(125, m_img.height());
     }
-
+    m_widthScale = qreal(m_img.width()) / qreal(tmpImg.width());
+    m_heightScale = qreal(m_img.height()) / qreal(tmpImg.height());
     m_pix = QPixmap::fromImage(m_img);
     m_pix.setDevicePixelRatio(ratio);
-    m_imageScale = qMax(1.0, qMax(qreal(img.width()) / qreal(tmpImg.width()), qreal(img.height()) / qreal(tmpImg.height())));
+
+    m_imageScale = qMax(1.0, qMax(qreal(img.width()) / qreal(m_img.width()), qreal(img.height()) / qreal(m_img.height())));
 //    m_r = QRectF(0, 0, m_img.width() / ratio, m_img.height() / ratio);
 //    m_widthScale = img.width() / m_img.width();
 //    m_heightScale = img.height() / m_img.height();
@@ -192,10 +194,10 @@ void NavigationWidget::setRectInImage(const QRect &r)
 {
     if (m_img.isNull())
         return;
-    m_r.setX(qreal(r.x()) / m_imageScale);
-    m_r.setY(qreal(r.y()) / m_imageScale);
-    m_r.setWidth(qreal(r.width()) / m_imageScale);
-    m_r.setHeight(qreal(r.height()) / m_imageScale);
+    m_r.setX(qreal(r.x()) / m_imageScale / m_heightScale);
+    m_r.setY(qreal(r.y()) / m_imageScale / m_widthScale);
+    m_r.setWidth(qreal(r.width()) / m_imageScale / m_heightScale);
+    m_r.setHeight(qreal(r.height()) / m_imageScale / m_widthScale);
 
     update();
 }
