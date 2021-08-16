@@ -292,7 +292,7 @@ void ViewPanel::updateMenuContent()
         qDeleteAll(this->actions());
 
         imageViewerSpace::ItemInfo ItemInfo = m_bottomToolbar->getCurrentItemInfo();
-
+        bool isPic = !m_view->image().isNull();//当前视图是否是图片
         QFileInfo info(ItemInfo.path);
         bool isReadable = info.isReadable();//是否可读
         bool isWritable = info.isWritable();//是否可写
@@ -302,6 +302,12 @@ void ViewPanel::updateMenuContent()
 
         if (imageViewerSpace::ImageTypeDamaged == imageType) {
             return;
+        }
+        //如果是图片，按钮恢复，否则按钮置灰
+        if (isPic) {
+            m_bottomToolbar->setPictureDoBtnClicked(true);
+        } else {
+            m_bottomToolbar->setPictureDoBtnClicked(false);
         }
 
         if (window()->isFullScreen()) {

@@ -164,6 +164,25 @@ void BottomToolbar::setRotateBtnClicked(const bool &bRet)
     }
 }
 
+void BottomToolbar::setPictureDoBtnClicked(const bool &bRet)
+{
+    if (m_ocrBtn) {
+        m_ocrBtn->setEnabled(bRet);
+    }
+    if (m_adaptImageBtn) {
+        m_adaptImageBtn->setEnabled(bRet);
+    }
+    if (m_adaptScreenBtn) {
+        m_adaptScreenBtn->setEnabled(bRet);
+    }
+    if (m_rotateLBtn) {
+        m_rotateLBtn->setEnabled(bRet);
+    }
+    if (m_rotateRBtn) {
+        m_rotateRBtn->setEnabled(bRet);
+    }
+}
+
 void BottomToolbar::disCheckAdaptImageBtn()
 {
     qDebug() << "---" << __FUNCTION__ << "---";

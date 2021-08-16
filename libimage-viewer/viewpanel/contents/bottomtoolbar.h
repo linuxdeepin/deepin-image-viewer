@@ -88,6 +88,9 @@ public:
 
     //设置旋转按钮是否可点击
     void setRotateBtnClicked(const bool &bRet);
+
+    //设置图片操作按钮是否可点击(1:1,适应图片，ocr，旋转)
+    void setPictureDoBtnClicked(const bool &bRet);
 signals:
     void resetTransform(bool fitWindow);
     void rotateClockwise();
