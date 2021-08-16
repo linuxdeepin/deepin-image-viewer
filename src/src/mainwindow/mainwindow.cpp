@@ -54,7 +54,7 @@ const QString CONFIG_PATH =   QDir::homePath() +
 
 MainWindow::MainWindow()
 {
-    this->setObjectName("drawMainWindow");
+    this->setObjectName("MainWindow");
     setContentsMargins(0, 0, 0, 0);
     resize(880, 600);
     initUI();
@@ -155,6 +155,8 @@ void MainWindow::slotOpenImg()
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
             m_mainwidow->resize(this->width(), this->height() + height);
+            //防止标题栏出现横杠
+            m_mainwidow->resize(this->width(), this->height());
         }
     }
 
@@ -167,9 +169,13 @@ void MainWindow::slotDrogImg(const QStringList &paths)
         m_centerWidget->setCurrentWidget(m_imageViewer);
         if (m_mainwidow->titlebar()) {
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
+            int height =  m_mainwidow->titlebar()->height();
             m_mainwidow->titlebar()->setFixedHeight(0);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
+            m_mainwidow->resize(this->width(), this->height() + height);
+            //防止标题栏出现横杠
+            m_mainwidow->resize(this->width(), this->height());
         }
     }
 }

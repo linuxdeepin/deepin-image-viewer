@@ -105,3 +105,8 @@ void ImageViewer::resizeEvent(QResizeEvent *e)
 //    }
     DWidget::resizeEvent(e);
 }
+
+void ImageViewer::showEvent(QShowEvent *e)
+{
+    return DWidget::showEvent(e);
+}

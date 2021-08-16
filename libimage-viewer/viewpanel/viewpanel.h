@@ -70,7 +70,7 @@ public:
     };
 
     explicit ViewPanel(QWidget *parent = nullptr);
-    ~ViewPanel();
+    ~ViewPanel() override;
 
     void loadImage(const QString &path, QStringList paths);
 

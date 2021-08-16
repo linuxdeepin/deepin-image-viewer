@@ -156,7 +156,8 @@ void ViewPanel::initConnect()
 
 void ViewPanel::initTopBar()
 {
-    m_topToolbar = new TopToolbar(false, this);
+    //防止在标题栏右键菜单会触发默认的和主窗口的发生
+    m_topToolbar = new TopToolbar(false, dynamic_cast<QWidget *>(this->parent()));
     m_topToolbar->resize(width(), 50);
     m_topToolbar->move(0, 0);
     m_topToolbar->setTitleBarTransparent(false);
@@ -261,7 +262,6 @@ void ViewPanel::initRightMenu()
 
     m_menu = new DMenu;
     connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
-
         updateMenuContent();
         m_menu->popup(QCursor::pos());
     });
@@ -633,7 +633,9 @@ void ViewPanel::slotBottomMove()
                 m_bottomAnimation->start();
             }
         } else {
-            resetBottomToolbarGeometry(true);
+            //如果非全屏，则显示m_bottomToolbar
+            m_bottomToolbar->setVisible(true);
+//            resetBottomToolbarGeometry(true);
         }
     }
 }

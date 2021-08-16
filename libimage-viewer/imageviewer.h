@@ -26,7 +26,7 @@ public:
     void startImgView(QString currentPath, QStringList paths = QStringList());
 protected:
     void resizeEvent(QResizeEvent *e) override;
-
+    void showEvent(QShowEvent *e) override;
 private:
     QScopedPointer<ImageViewerPrivate> d_ptr;
     Q_DECLARE_PRIVATE_D(qGetPtrHelper(d_ptr), ImageViewer)
