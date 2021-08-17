@@ -521,6 +521,7 @@ void ViewPanel::slotCurrentStackWidget(QString &path, bool bpix)
         m_stack->setCurrentIndex(2);
         m_viewB->checkAdaptImageBtn();
         slotOpenOcrBtn(true);
+        resizeData();
     } else {
         m_stack->setCurrentIndex(0);
         // open success.
@@ -1902,7 +1903,6 @@ void ViewPanel::openImage(const QString path, bool inDB)
         emit updateTopLeftContentImage(path);
         //        emit updateCollectButton();
     }
-    resizeData();
 
     //QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
 }

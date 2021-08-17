@@ -76,6 +76,10 @@ int main(int argc, char *argv[])
 
     dApp->m_app->setAttribute(Qt::AA_ForceRasterWidgets);
     dApp->m_app->installEventFilter(dApp);
+#ifdef CMAKE_BUILD
+    //设置版本号
+    dApp->m_app->setApplicationVersion(DApplication::buildVersion(VERSION));
+#endif
     Dtk::Core::DVtableHook::overrideVfptrFun(dApp->m_app, &DApplication::handleQuitAction, dApp, &Application::quitApp);
 #ifdef INSTALLACCESSIBLEFACTORY
     QAccessible::installFactory(accessibleFactory);
