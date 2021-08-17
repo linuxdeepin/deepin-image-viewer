@@ -52,10 +52,10 @@ const QSize ICON_SIZE = QSize(50, 50);
 const int ICON_SPACING = 10;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
-const QString LOCMAP_SELECTED_DARK = ":/resources/dark/images/58 drak.svg";
-const QString LOCMAP_NOT_SELECTED_DARK = ":/resources/dark/images/imagewithbg-dark.svg";
-const QString LOCMAP_SELECTED_LIGHT = ":/resources/light/images/58.svg";
-const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.svg";
+const QString LOCMAP_SELECTED_DARK = ":/dark/images/58 drak.svg";
+const QString LOCMAP_NOT_SELECTED_DARK = ":/dark/images/imagewithbg-dark.svg";
+const QString LOCMAP_SELECTED_LIGHT = ":/light/images/58.svg";
+const QString LOCMAP_NOT_SELECTED_LIGHT = ":/light/images/imagewithbg.svg";
 
 const int TOOLBAR_MINIMUN_WIDTH = 782;
 const int TOOLBAR_JUSTONE_WIDTH_ALBUM = 532;

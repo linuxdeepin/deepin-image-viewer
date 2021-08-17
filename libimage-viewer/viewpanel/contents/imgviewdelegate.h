@@ -64,7 +64,7 @@ private:
 public:
 
 private:
-
+    QImage m_damageImage;
 };
 
 #endif // ALBUMDELEGATE_H

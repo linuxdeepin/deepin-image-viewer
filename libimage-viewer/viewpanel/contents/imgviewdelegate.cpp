@@ -36,7 +36,6 @@
 #include <QApplication>
 
 #include <DFontSizeManager>
-#include <DGuiApplicationHelper>
 
 #include "imgviewlistview.h"
 namespace {
@@ -45,10 +44,15 @@ const QString IMAGE_DEFAULTTYPE = "All pics";
 
 const int NotSupportedOrDamagedWidth = 40;      //损坏图片宽度
 const int NotSupportedOrDamagedHeigh = 40;
-const QString LOCMAP_SELECTED_DARK = ":/resources/dark/images/58 drak.svg";
-const QString LOCMAP_NOT_SELECTED_DARK = ":/resources/dark/images/imagewithbg-dark.svg";
-const QString LOCMAP_SELECTED_LIGHT = ":/resources/light/images/58.svg";
-const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.svg";
+const QString LOCMAP_SELECTED_DARK = ":/dark/images/58 drak.svg";
+const QString LOCMAP_NOT_SELECTED_DARK = ":/dark/images/imagewithbg-dark.svg";
+const QString LOCMAP_SELECTED_LIGHT = ":/light/images/58.svg";
+const QString LOCMAP_NOT_SELECTED_LIGHT = ":/light/images/imagewithbg.svg";
+
+//const QString DAMAGE_IMAGE_DARK_PICTURE = ":/dark/images/picture damaged_dark.svg";
+//const QString DAMAGE_IMAGE_LIGHT_PICTURE = ":/light/images/picture damaged_light.svg";
+const QString DAMAGE_IMAGE_DARK_PICTURE = ":/dark/images/picture_damaged-58_drak.svg";
+const QString DAMAGE_IMAGE_LIGHT_PICTURE = ":/light/images/picture_damaged_58.svg";
 
 const int NORMAL_ITEM_PAINT_OFFSET = 10;//绘制时普通项向下偏移大小
 const int SELECT_ITEM_PAINT_OFFSET = 5;//绘制时选中项向下偏移大小
@@ -56,7 +60,21 @@ const int SELECT_ITEM_PAINT_OFFSET = 5;//绘制时选中项向下偏移大小
 ImgViewDelegate::ImgViewDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-
+    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType) {
+        m_damageImage = QImage(DAMAGE_IMAGE_LIGHT_PICTURE);
+    } else {
+        m_damageImage = QImage(DAMAGE_IMAGE_DARK_PICTURE);
+    }
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+    this, [ = ] {
+        if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType)
+        {
+            m_damageImage = QImage(DAMAGE_IMAGE_LIGHT_PICTURE);
+        } else
+        {
+            m_damageImage = QImage(DAMAGE_IMAGE_DARK_PICTURE);
+        }
+    });
 }
 
 void ImgViewDelegate::setItemSize(QSize size)
@@ -76,7 +94,8 @@ void ImgViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     }
     _pixmap = data.image;
     if (_pixmap.isNull()) {
-        _pixmap = data.damagedPixmap;
+//        _pixmap = data.damagedPixmap;
+        _pixmap = m_damageImage;
     }
     bool selected = data.isSelected;
     if (/*(option.state & QStyle::State_MouseOver) &&*/
