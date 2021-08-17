@@ -48,9 +48,6 @@
 #ifdef USE_UNIONIMAGE
 #include "utils/unionimage.h"
 #endif
-#ifdef CMAKE_BUILD
-#include "config.h"
-#endif
 
 namespace {
 
@@ -508,27 +505,20 @@ Application::Application(int &argc, char **argv)
 #endif
 
     //application的设置必须放在最前面,放在Dtk::Core::DVtableHook之后,会出现sanitizer泄露
-    m_app->loadTranslator(QList<QLocale>() << QLocale::system());
+    m_LoadThread = nullptr;
     m_app->setOrganizationName("deepin");
     m_app->setApplicationName("deepin-image-viewer");
+    initI18n();
     m_app->setApplicationDisplayName(tr("Image Viewer"));
     m_app->setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
     m_app->setApplicationDescription(tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
-    //默认版本号应该放在前面
-    m_app->setApplicationVersion(DApplication::buildVersion("5.7.10"));
-#ifdef CMAKE_BUILD
-    //增加版本号
-    m_app->setApplicationVersion(DApplication::buildVersion(VERSION));
-#endif
-
-    m_LoadThread = nullptr;
 
 //    //save theme
 //    DApplicationSettings saveTheme;
 
 //    setApplicationVersion(DApplication::buildVersion("1.3"));
 
-
+    m_app->setApplicationVersion(DApplication::buildVersion("5.7.10"));
     installEventFilter(new GlobalEventFilter());
 
 
@@ -624,7 +614,7 @@ void Application::initI18n()
     //    translator->load(APPSHAREDIR"/translations/deepin-image-viewer_"
     //                     + QLocale::system().name() + ".qm");
     //    installTranslator(translator);
-//    m_app->loadTranslator(QList<QLocale>() << QLocale::system());
+    m_app->loadTranslator(QList<QLocale>() << QLocale::system());
 }
 
 Application::~Application()

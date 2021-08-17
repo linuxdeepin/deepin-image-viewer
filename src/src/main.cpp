@@ -22,7 +22,9 @@
 #include "controller/commandline.h"
 #include "service/defaultimageviewer.h"
 #include "accessibility/acobjectlist.h"
-
+#ifdef CMAKE_BUILD
+#include "config.h"
+#endif
 #include <QApplication>
 #include <DLog>
 #include <QTranslator>
