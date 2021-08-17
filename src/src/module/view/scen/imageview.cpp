@@ -914,6 +914,10 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
     m_bRoate = UnionImage_NameSpace::isImageSupportRotate(strPath) && QFileInfo(strPath).isWritable();
     switch (type) {
     case PICTURE_TYPE::SVG: {
+        //当时svg的时候需要将多页图隐藏
+        if (m_morePicFloatWidget) {
+            m_morePicFloatWidget->setVisible(false);
+        }
         emit currentIsDynamic(false);
         //svg采用svgRender显示
         m_movieItem = nullptr;
