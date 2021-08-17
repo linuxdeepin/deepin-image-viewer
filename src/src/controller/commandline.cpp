@@ -325,6 +325,10 @@ bool CommandLine::processOption()
                 if (! aps.isEmpty()) {
                     viewImage(aps.first(), aps);
                     return true;
+                } else if (support) {
+                    //1030的版本下，上面多个，会出现aps为空
+                    viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
+                    return true;
                 } else {
                     return false;
                 }
@@ -500,6 +504,10 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
                 }
                 if (! aps.isEmpty()) {
                     viewImage(aps.first(), aps);
+                    return true;
+                } else if (support) {
+                    //1030的版本下，上面多个，会出现aps为空
+                    viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
                     return true;
                 } else {
                     return false;
