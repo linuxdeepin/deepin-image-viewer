@@ -118,12 +118,25 @@ int BottomToolbar::getToolbarWidth()
             width += m_nextButton->width() + ICON_SPACING;//上一张宽度加边距
             width += m_spaceWidget->width();//特殊控件宽度
         }
-        width += m_adaptImageBtn->width() + ICON_SPACING;//适应图片
-        width += m_adaptScreenBtn->width() + ICON_SPACING;//适应屏幕
-        width += m_rotateLBtn->width() + ICON_SPACING;//左旋
-        width += m_ocrBtn->width() + ICON_SPACING;//OCR
-        width += m_rotateRBtn->width() + ICON_SPACING;//右旋
-        width += m_trashBtn->width();//右旋
+        //增加可控制设置图片宽度
+        if (m_adaptImageBtn->isVisible()) {
+            width += m_adaptImageBtn->width() + ICON_SPACING;//适应图片
+        }
+        if (m_adaptScreenBtn->isVisible()) {
+            width += m_adaptScreenBtn->width() + ICON_SPACING;//适应屏幕
+        }
+        if (m_rotateLBtn->isVisible()) {
+            width += m_rotateLBtn->width() + ICON_SPACING;//左旋
+        }
+        if (m_ocrBtn->isVisible()) {
+            width += m_ocrBtn->width() + ICON_SPACING;//OCR
+        }
+        if (m_rotateRBtn->isVisible()) {
+            width += m_rotateRBtn->width() + ICON_SPACING;//右旋
+        }
+        if (m_trashBtn->isVisible()) {
+            width += m_trashBtn->width();//右旋
+        }
         if (m_imgListWidget->getImgCount() <= 1) {
             width += 0;
         } else {
