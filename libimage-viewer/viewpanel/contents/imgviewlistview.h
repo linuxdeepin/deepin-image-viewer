@@ -72,8 +72,17 @@ public:
 
     //获取所有路径
     QStringList getAllPath();
-protected:
+
+    //获得当前item的x位置
+    int getCurrentItemX();
+
+    //获得当前item的x位置
+    int getRowWidth();
+
+//protected:
 //    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+//    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+//    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 public slots:
     //有新的图片加载上来
     void slotOneImgReady(QString path, imageViewerSpace::ItemInfo pix);

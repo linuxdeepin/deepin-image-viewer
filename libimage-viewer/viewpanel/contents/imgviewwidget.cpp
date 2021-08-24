@@ -54,14 +54,82 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     hb->setSpacing(0);
     this->setLayout(hb);
     m_listview = new ImgViewListView(this);
-    m_listview->setObjectName("m_imgListWidget");
-    hb->addWidget(m_listview);
-
+    m_listview->setObjectName("ImgViewListView");
+//    hb->addWidget(m_listview);
+    m_listview->viewport()->installEventFilter(this);
     connect(m_listview, &ImgViewListView::clicked, this, &MyImageListWidget::onClicked);
+//    connect(m_listview->selectionModel(), &QItemSelectionModel::selectionChanged,
+//            this, &MyImageListWidget::ONselectionChanged);
+
     connect(m_listview, &ImgViewListView::openImg, this, &MyImageListWidget::openImg);
     connect(m_listview->horizontalScrollBar(), &QScrollBar::valueChanged, this, &MyImageListWidget::onScrollBarValueChanged);
+    initAnimation();
 }
 
+bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
+{
+//    qDebug() << e->type();
+//    qDebug() << static_cast<QMouseEvent>(e).;
+//    qDebug() << QCursor::pos();
+    if (e->type() == QEvent::Leave) {
+        qDebug() << "QEvent::Leave" << obj;
+    }
+    if (e->type() == QEvent::MouseButtonPress) {
+        qDebug() << "QEvent::MouseButtonPress";
+
+        QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
+        m_pressPoint = mouseEvent->globalPos();
+        m_movePoint = mouseEvent->globalPos();
+        qDebug() << m_movePoint;
+        m_moveViewPoint = mouseEvent->globalPos();
+
+        m_timer->start();
+        m_movePoints.clear();
+
+        m_preListGeometryLeft = m_listview->geometry().left();
+    }
+    if (e->type() == QEvent::MouseButtonRelease) {
+        qDebug() << "QEvent::MouseButtonRelease";
+        if (m_movePoints.size() > 0) {
+            int endPos = m_movePoints.last().x() - m_movePoints.first().x();
+            //过滤掉触屏点击时的move误操作
+            if (abs(m_movePoints.last().x() - m_movePoints.first().x()) > 15) {
+                animationStart(false, endPos, 500);
+            } else {
+                animationStart(true, 0, 400);
+            }
+        }
+        //松手，动画重置按钮应该所在的位置
+//        animationStart(true, 0, 400);
+    }
+    if (e->type() == QEvent::MouseMove) {
+        QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
+        QPoint p = mouseEvent->globalPos();
+        if (m_movePoints.size() < 20) {
+            m_movePoints.push_back(p);
+        } else {
+            m_movePoints.pop_front();
+            m_movePoints.push_back(p);
+        }
+        m_listview->move(m_listview->x() + p.x() - m_moveViewPoint.x(), m_listview->y());
+        m_moveViewPoint = p;
+
+        if (m_movePoint.x() - p.x() >= 32) {
+            m_listview->openNext();
+            m_movePoint = QPoint(m_movePoint.x() - 32, m_movePoint.y());
+        } else if (m_movePoint.x() - p.x() <= -32) {
+            m_listview->openPre();
+            m_movePoint = QPoint(m_movePoint.x() + 32, m_movePoint.y());
+        }
+        qDebug() << p;
+    }
+    return QWidget::eventFilter(obj, e);
+}
+
+void MyImageListWidget::mousePressEvent(QMouseEvent *event)
+{
+    qDebug() << "111111111";
+}
 MyImageListWidget::~MyImageListWidget()
 {
 }
@@ -114,6 +182,18 @@ void MyImageListWidget::clearListView()
     m_listview->m_model->clear();
 }
 
+void MyImageListWidget::initAnimation()
+{
+    m_timer = new QTimer(this);
+    m_timer->setInterval(200);
+    m_timer->setSingleShot(true);
+    if (m_listview) {
+        m_resetAnimation = new QPropertyAnimation(m_listview, "pos", m_listview); //和上层m_obj的销毁绑在一起
+    }
+    connect(m_resetAnimation, SIGNAL(finished()), this, SLOT(animationFinished()));
+    connect(m_resetAnimation, SIGNAL(valueChanged(const QVariant)), this, SLOT(animationValueChanged(const QVariant)));
+}
+
 void MyImageListWidget::removeCurrent()
 {
     m_listview->removeCurrent();
@@ -128,11 +208,112 @@ void MyImageListWidget::rotate(int matrix)
 void MyImageListWidget::setCurrentPath(const QString &path)
 {
     m_listview->setCurrentPath(path);
+
 }
 
 QStringList MyImageListWidget::getAllPath()
 {
     return m_listview->getAllPath();
+}
+
+void MyImageListWidget::animationFinished()
+{
+    //设置type标志用来判断是惯性动画还是复位动画
+    if (m_resetAnimation->property("type") == "500") {
+        m_resetFinish = false;
+        animationStart(true, 0, 400);
+    }
+    if (m_resetAnimation->property("type") == "400") {
+        m_resetFinish = true;
+    }
+}
+
+void MyImageListWidget::animationValueChanged(const QVariant value)
+{
+    Q_UNUSED(value)
+    if (m_resetAnimation->property("type") != "500") {
+        return;
+    }
+    //惯性滑动
+    thumbnailIsMoving();
+}
+
+void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
+{
+    if (m_resetAnimation->state() == QPropertyAnimation::State::Running) {
+        m_resetAnimation->stop();
+    }
+
+    int moveX = 0;
+    int middle = (this->geometry().right() - this->geometry().left()) / 2 ;
+    int itemX = m_listview->x() + m_listview->getCurrentItemX();
+    int rowWidth = m_listview->getRowWidth();
+    if (rowWidth - m_listview->getCurrentItemX() < (this->geometry().width() / 2)) {
+        moveX = this->geometry().width() - rowWidth - m_listview->x() ;
+    } else if (m_listview->getCurrentItemX() < (this->geometry().width() / 2)) {
+        moveX = 0 - m_listview->pos().x();
+    } else if (m_listview->geometry().width() <= this->width()) {
+        moveX = 0;
+    } else {
+        moveX = middle - itemX;
+    }
+
+    if (!isReset) {
+        moveX = endPos;
+    }
+    m_resetAnimation->setDuration(duration);
+    if (duration == 500) {
+        m_resetAnimation->setProperty("type", "500");
+    } else {
+        m_resetAnimation->setProperty("type", "400");
+    }
+    m_resetAnimation->setEasingCurve(QEasingCurve::OutQuad);
+    m_resetAnimation->setStartValue(m_listview->pos());
+    m_resetAnimation->setEndValue(QPoint(m_listview->pos().x() + moveX, m_listview->pos().y()));
+    m_resetAnimation->start();
+}
+
+void MyImageListWidget::stopAnimation()
+{
+    m_resetAnimation->stop();
+}
+
+void MyImageListWidget::thumbnailIsMoving()
+{
+    if (m_resetAnimation->state() == QPropertyAnimation::State::Running && m_resetAnimation->duration() == 400) {
+        return;
+    }
+//    int endPos = m_movePoints.last().x() - m_movePoints.first().x();
+    int offsetLimit = m_listview->geometry().left() - m_preListGeometryLeft;
+    if (abs(offsetLimit) <= 32) {
+        return;
+    }
+    qDebug() << offsetLimit;
+    if (offsetLimit > 0) {
+        m_listview->openPre();
+    } else {
+        m_listview->openNext();
+    }
+    m_preListGeometryLeft = m_listview->geometry().left();
+
+}
+
+void MyImageListWidget::moveCenterWidget()
+{
+    int moveX = 0;
+    int middle = (this->geometry().right() - this->geometry().left()) / 2 ;
+    int itemX = m_listview->x() + m_listview->getCurrentItemX();
+    int rowWidth = m_listview->getRowWidth();
+    if (rowWidth - m_listview->getCurrentItemX() < (this->geometry().width() / 2)) {
+        moveX = this->geometry().width() - rowWidth - m_listview->x() ;
+    } else if (m_listview->getCurrentItemX() < (this->geometry().width() / 2)) {
+        moveX = 0 - m_listview->pos().x();
+    } else if (m_listview->geometry().width() <= this->width()) {
+        moveX = 0;
+    } else {
+        moveX = middle - itemX;
+    }
+    m_listview->move(m_listview->x() + moveX, m_listview->y());
 }
 
 void MyImageListWidget::onScrollBarValueChanged(int value)
@@ -146,14 +327,31 @@ void MyImageListWidget::onScrollBarValueChanged(int value)
 void MyImageListWidget::openNext()
 {
     m_listview->openNext();
+    moveCenterWidget();
 }
 
 void MyImageListWidget::openPre()
 {
     m_listview->openPre();
+    moveCenterWidget();
 }
 
 void MyImageListWidget::onClicked(const QModelIndex &index)
 {
-    m_listview->onClicked(index);
+    qDebug() << "---------";
+    if (m_timer->isActive()) {
+        m_listview->onClicked(index);
+    }
+
+    animationStart(true, 0, 400);
+}
+
+void MyImageListWidget::ONselectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    qDebug() << "---ONselectionChanged------";
+    if (!selected.indexes().isEmpty()) {
+        m_listview->onClicked(selected.indexes().first());
+        animationStart(true, 0, 400);
+    }
+
 }

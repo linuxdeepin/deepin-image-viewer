@@ -53,7 +53,8 @@ ImgViewListView::ImgViewListView(QWidget *parent)
     QListView::setWrapping(false);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
+//    setAttribute(Qt::WA_TransparentForMouseEvents, true);
+//    QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
 
 //    setUniformItemSizes(true);
 
@@ -61,8 +62,8 @@ ImgViewListView::ImgViewListView(QWidget *parent)
     setModel(m_model);
 //    installEventFilter(viewport());
 
-    setMouseTracking(true);
-    this->viewport()->setMouseTracking(true);
+//    setMouseTracking(true);
+//    this->viewport()->setMouseTracking(true);
 
     connect(ImageEngine::instance(), &ImageEngine::sigOneImgReady, this, &ImgViewListView::slotOneImgReady);
 }
@@ -99,7 +100,7 @@ void ImgViewListView::setAllFile(QList<imageViewerSpace::ItemInfo> itemInfos, QS
 
     doItemsLayout();
 
-//    this->setFixedSize((2 * (count + 1) + 40 * count + 10), 60);
+    this->setFixedSize((2 * (count + 1) + ITEM_NORMAL_WIDTH * count + ITEM_CURRENT_WH - ITEM_NORMAL_WIDTH), 60);
 }
 
 int ImgViewListView::getSelectIndexByPath(QString path)
@@ -272,6 +273,43 @@ QStringList ImgViewListView::getAllPath()
     }
     return list;
 }
+
+int ImgViewListView::getCurrentItemX()
+{
+    QModelIndex currentIndex = m_model->index(m_currentRow, 0);
+//    qDebug() << this->visualRect(currentIndex).x();
+//    qDebug() << this->visualRect(currentIndex).x();
+//    qDebug() << 2 * (count + 1) + ITEM_NORMAL_WIDTH *count + ITEM_CURRENT_WH - ITEM_NORMAL_WIDTH;
+//    qDebug() << (2 * (m_currentRow + 1) + ITEM_NORMAL_WIDTH * m_currentRow + ITEM_CURRENT_WH - ITEM_NORMAL_WIDTH);
+//    qDebug() << this->visualRect(currentIndex).x();
+    return this->visualRect(currentIndex).x();
+}
+
+int ImgViewListView::getRowWidth()
+{
+    int count = m_model->rowCount();
+    return 2 * (count + 1) + ITEM_NORMAL_WIDTH * count + ITEM_CURRENT_WH - ITEM_NORMAL_WIDTH;
+}
+
+
+
+//void ImgViewListView::mousePressEvent(QMouseEvent *event)
+//{
+//    qDebug() << "mousePressEvent";
+//    return DListView::mousePressEvent(event);
+//}
+
+//void ImgViewListView::mouseMoveEvent(QMouseEvent *event)
+//{
+//    qDebug() << "mouseMoveEvent";
+//    return DListView::mouseMoveEvent(event);
+//}
+
+//void ImgViewListView::mouseReleaseEvent(QMouseEvent *event)
+//{
+//    qDebug() << "mouseReleaseEvent";
+//    return DListView::mouseReleaseEvent(event);
+//}
 
 void ImgViewListView::slotOneImgReady(QString path, imageViewerSpace::ItemInfo pix)
 {
