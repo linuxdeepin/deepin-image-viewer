@@ -100,8 +100,8 @@ signals:
     void openImg(int index, QString path);
 public:
     const static int ITEM_NORMAL_WIDTH = 30;//非选中状态宽度
-    const static int ITEM_NORMAL_HEIGHT = 40;//非选中状态高度
-    const static int ITEM_CURRENT_WH = 50;//当前选中状态宽高
+    const static int ITEM_NORMAL_HEIGHT = 80;//非选中状态高度
+    const static int ITEM_CURRENT_WH = 60;//当前选中状态宽高
     const static int ITEM_SPACING = 2;//间隔
 public:
     ImgViewDelegate *m_delegate = nullptr;

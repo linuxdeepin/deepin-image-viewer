@@ -55,7 +55,7 @@ const QString DAMAGE_IMAGE_DARK_PICTURE = ":/dark/images/picture_damaged-58_drak
 const QString DAMAGE_IMAGE_LIGHT_PICTURE = ":/light/images/picture_damaged_58.svg";
 
 const int NORMAL_ITEM_PAINT_OFFSET = 10;//绘制时普通项向下偏移大小
-const int SELECT_ITEM_PAINT_OFFSET = 5;//绘制时选中项向下偏移大小
+const int SELECT_ITEM_PAINT_OFFSET = 2;//绘制时选中项向下偏移大小
 
 ImgViewDelegate::ImgViewDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
@@ -84,6 +84,9 @@ void ImgViewDelegate::setItemSize(QSize size)
 
 void ImgViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    QRect backgroundRect2 = option.rect;
+//    painter->fillRect(backgroundRect2, QBrush(DGuiApplicationHelper::instance()->applicationPalette().highlight().color()));
+//    return ;
     painter->save();
     QString pixmapstring;
     QImage _pixmap;
@@ -156,7 +159,7 @@ void ImgViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
         pixmapRect.setX(backgroundRect.x() + 1);
         pixmapRect.setY(backgroundRect.y() + 0);
         pixmapRect.setWidth(backgroundRect.width() - 2);
-        pixmapRect.setHeight(backgroundRect.height() - 0);
+        pixmapRect.setHeight(backgroundRect.height() - 40);
 
         pixmapstring = "";
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();

@@ -440,7 +440,7 @@ void BottomToolbar::initUI()
 
     QHBoxLayout *hb = new QHBoxLayout(m_forwardWidget);
     this->setLayout(hb);
-    hb->setContentsMargins(LEFT_RIGHT_MARGIN, 0, LEFT_RIGHT_MARGIN, 3);
+    hb->setContentsMargins(LEFT_RIGHT_MARGIN, 0, LEFT_RIGHT_MARGIN, 0);
     hb->setSpacing(ICON_SPACING);
 
     //返回，相册使用

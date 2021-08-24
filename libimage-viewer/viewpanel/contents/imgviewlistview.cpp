@@ -64,7 +64,6 @@ ImgViewListView::ImgViewListView(QWidget *parent)
 
 //    setMouseTracking(true);
 //    this->viewport()->setMouseTracking(true);
-
     connect(ImageEngine::instance(), &ImageEngine::sigOneImgReady, this, &ImgViewListView::slotOneImgReady);
 }
 
@@ -100,7 +99,7 @@ void ImgViewListView::setAllFile(QList<imageViewerSpace::ItemInfo> itemInfos, QS
 
     doItemsLayout();
 
-    this->setFixedSize((2 * (count + 1) + ITEM_NORMAL_WIDTH * count + ITEM_CURRENT_WH - ITEM_NORMAL_WIDTH), 60);
+    this->setFixedSize((2 * (count + 1) + ITEM_NORMAL_WIDTH * count + ITEM_CURRENT_WH - ITEM_NORMAL_WIDTH), 80);
 }
 
 int ImgViewListView::getSelectIndexByPath(QString path)

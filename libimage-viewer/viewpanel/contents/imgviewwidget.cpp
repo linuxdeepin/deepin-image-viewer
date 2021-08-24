@@ -64,6 +64,7 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     connect(m_listview, &ImgViewListView::openImg, this, &MyImageListWidget::openImg);
     connect(m_listview->horizontalScrollBar(), &QScrollBar::valueChanged, this, &MyImageListWidget::onScrollBarValueChanged);
     initAnimation();
+
 }
 
 bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
