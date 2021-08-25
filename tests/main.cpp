@@ -69,17 +69,16 @@ int main(int argc, char *argv[])
 */
 #include <QtTest>
 #include <QCoreApplication>
-#include "application.h"
 
-#include <QApplication>
+#include <DApplication>
 #include <DLog>
 #include <QTranslator>
 #include <DApplicationSettings>
-#include "application.h"
-#include "controller/commandline.h"
-#include "service/defaultimageviewer.h"
 #include <QTimer>
 
+
+DWIDGET_USE_NAMESPACE
+DCORE_USE_NAMESPACE
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
@@ -93,8 +92,8 @@ int main(int argc, char *argv[])
     int main(int argc, char *argv[]) \
     { \
         testing::InitGoogleTest(&argc,argv); \
-        Application::instance(argc, argv); \
-        dApp->m_app->setAttribute(Qt::AA_Use96Dpi, true); \
+        DApplication a(argc, argv); \
+        a.setAttribute(Qt::AA_Use96Dpi, true); \
         QTEST_DISABLE_KEYPAD_NAVIGATION \
         QTEST_ADD_GPU_BLACKLIST_SUPPORT \
         TestObject tc; \

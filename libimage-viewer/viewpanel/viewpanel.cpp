@@ -26,6 +26,8 @@
 #include <QDBusInterface>
 #include <QGuiApplication>
 #include <QScreen>
+#include <QApplication>
+#include <QStringList>
 
 #include <DDesktopServices>
 #include <DMenu>
@@ -574,7 +576,7 @@ bool ViewPanel::startChooseFileDialog()
         DFileDialog::getOpenFileNames(this, tr("Open Image"), pictureFolder, filter, nullptr,
                                       DFileDialog::HideNameFilterDetails);
 #else
-    const QStringList image_list = QStringList(QApplication::applicationDirPath() + "/test/jpg113.jpg");
+    QStringList image_list = QStringList(QApplication::applicationDirPath() + "/test/jpg113.jpg");
 #endif
     if (image_list.isEmpty())
         return false;
