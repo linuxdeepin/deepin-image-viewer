@@ -205,6 +205,44 @@ void BottomToolbar::setPictureDoBtnClicked(const bool &bRet)
     }
 }
 
+DIconButton *BottomToolbar::getBottomtoolbarButton(imageViewerSpace::ButtonType type)
+{
+    DIconButton *button = nullptr;
+    switch (type) {
+    case imageViewerSpace::ButtonTypeBack:
+        button = m_backButton;
+        break;
+    case imageViewerSpace::ButtonTypeNext:
+        button = m_nextButton;
+        break;
+    case imageViewerSpace::ButtonTypePre:
+        button = m_preButton;
+        break;
+    case imageViewerSpace::ButtonTypeAdaptImage:
+        button = m_adaptImageBtn;
+        break;
+    case imageViewerSpace::ButtonTypeAdaptScreen:
+        button = m_adaptScreenBtn;
+        break;
+    case imageViewerSpace::ButtonTypeCollection:
+        button = m_clBT;
+        break;
+    case imageViewerSpace::ButtonTypeOcr:
+        button = m_ocrBtn;
+        break;
+    case imageViewerSpace::ButtonTypeRotateLeft:
+        button = m_rotateLBtn;
+        break;
+    case imageViewerSpace::ButtonTypeRotateRight:
+        button = m_rotateRBtn;
+        break;
+    case imageViewerSpace::ButtonTypeTrash:
+        button = m_trashBtn;
+        break;
+    }
+    return button;
+}
+
 void BottomToolbar::disCheckAdaptImageBtn()
 {
     m_adaptImageBtn->setChecked(false);

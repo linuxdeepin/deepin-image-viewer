@@ -534,6 +534,23 @@ void ViewPanel::setTopBarVisible(bool visible)
     }
 }
 
+void ViewPanel::setBottomtoolbarVisible(bool visible)
+{
+    if (m_bottomToolbar) {
+        m_isBottomBarVisble = visible;
+        m_bottomToolbar->setVisible(visible);
+    }
+}
+
+DIconButton *ViewPanel::getBottomtoolbarButton(imageViewerSpace::ButtonType type)
+{
+    DIconButton *button = nullptr;
+    if (m_bottomToolbar) {
+        button = m_bottomToolbar->getBottomtoolbarButton(type);
+    }
+    return button;
+}
+
 bool ViewPanel::startChooseFileDialog()
 {
     bool bRet = false;
@@ -647,7 +664,9 @@ void ViewPanel::slotBottomMove()
             }
         } else {
             //如果非全屏，则显示m_bottomToolbar
-            m_bottomToolbar->setVisible(true);
+            if (m_isBottomBarVisble) {
+                m_bottomToolbar->setVisible(true);
+            }
 //            resetBottomToolbarGeometry(true);
         }
     }
@@ -898,7 +917,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
 
 void ViewPanel::resetBottomToolbarGeometry(bool visible)
 {
-    m_bottomToolbar->setVisible(visible);
+//    m_bosetVisiblele);
+    if (m_isBottomBarVisble) {
+        m_bottomToolbar->setVisible(visible);
+    }
     if (visible) {
         int width = qMin(m_bottomToolbar->getToolbarWidth(), (this->width() - RT_SPACING));
         int x = (this->width() - width) / 2;

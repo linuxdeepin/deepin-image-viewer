@@ -91,6 +91,9 @@ public:
 
     //设置图片操作按钮是否可点击(1:1,适应图片，ocr，旋转)
     void setPictureDoBtnClicked(const bool &bRet);
+
+    //获得工具栏按钮
+    DIconButton *getBottomtoolbarButton(imageViewerSpace::ButtonType type);
 signals:
     void resetTransform(bool fitWindow);
     void rotateClockwise();

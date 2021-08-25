@@ -2,10 +2,12 @@
 #define IMAGEVIEWER_H
 
 #include <DWidget>
+#include <DIconButton>
 
 #include "image-viewer_global.h"
 
 DWIDGET_USE_NAMESPACE
+
 
 class ImageViewerPrivate;
 class IMAGEVIEWERSHARED_EXPORT ImageViewer : public DWidget
@@ -19,7 +21,7 @@ public:
     //调用文件选择窗口
     bool startChooseFileDialog();
 
-    //调用文件选择窗口
+    //传入路径加载图片
     bool startdragImage(const QStringList &paths);
 
     //启动图片展示入口
@@ -27,6 +29,13 @@ public:
 
     //设置topbar的显示和隐藏
     void setTopBarVisible(bool visible);
+
+    //设置Bottomtoolbar的显示和隐藏
+    void setBottomtoolbarVisible(bool visible);
+
+    //获得工具栏按钮
+    DIconButton *getBottomtoolbarButton(imageViewerSpace::ButtonType type);
+
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *e) override;

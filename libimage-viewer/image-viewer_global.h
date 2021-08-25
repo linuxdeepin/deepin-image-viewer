@@ -44,6 +44,19 @@ enum PathType {
     PathTypeSAFEBOX,       //保险箱
     PathTypeRECYCLEBIN,    //回收站
 };
+//工具栏按钮枚举
+enum ButtonType {
+    ButtonTypeBack = 0,  //相册返回按钮
+    ButtonTypeNext,     //下一页
+    ButtonTypePre,         //上一页
+    ButtonTypeAdaptImage,       //适应图片大小
+    ButtonTypeAdaptScreen,      //适应窗口大小
+    ButtonTypeCollection,         //收藏按钮
+    ButtonTypeOcr,        //ocr按钮
+    ButtonTypeRotateLeft,   //向左旋转
+    ButtonTypeRotateRight,  //向右旋转
+    ButtonTypeTrash,       //删除
+};
 
 struct ItemInfo {
     QString name = "";

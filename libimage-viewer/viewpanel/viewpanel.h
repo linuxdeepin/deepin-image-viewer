@@ -25,6 +25,7 @@
 
 #include <DStackedWidget>
 #include <DAnchors>
+#include <DIconButton>
 
 #include "scen/imagegraphicsview.h"
 
@@ -118,6 +119,11 @@ public:
     //设置topBar的显示和隐藏
     void setTopBarVisible(bool visible);
 
+    //设置Bottomtoolbar的显示和隐藏
+    void setBottomtoolbarVisible(bool visible);
+
+    //获得工具栏按钮
+    DIconButton *getBottomtoolbarButton(imageViewerSpace::ButtonType type);
 private slots:
     void onMenuItemClicked(QAction *action);
 public slots:
@@ -175,5 +181,7 @@ private :
     SlideShowPanel *m_sliderPanel{nullptr};
 
     QPropertyAnimation *m_bottomAnimation{nullptr};
+
+    bool m_isBottomBarVisble = true;
 };
 #endif  // VIEWPANEL_H

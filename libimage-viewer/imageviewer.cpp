@@ -93,6 +93,24 @@ void ImageViewer::setTopBarVisible(bool visible)
     }
 }
 
+void ImageViewer::setBottomtoolbarVisible(bool visible)
+{
+    Q_D(ImageViewer);
+    if (d->m_panel) {
+        d->m_panel->setBottomtoolbarVisible(visible);
+    }
+}
+
+DIconButton *ImageViewer::getBottomtoolbarButton(imageViewerSpace::ButtonType type)
+{
+    DIconButton *button = nullptr;
+    Q_D(ImageViewer);
+    if (d->m_panel) {
+        button = d->m_panel->getBottomtoolbarButton(type);
+    }
+    return button;
+}
+
 void ImageViewer::resizeEvent(QResizeEvent *e)
 {
     qDebug() << "ImageViewer::resizeEvent = " << e->size();
