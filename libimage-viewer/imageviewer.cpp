@@ -85,6 +85,14 @@ void ImageViewer::startImgView(QString currentPath, QStringList paths)
     }
 }
 
+void ImageViewer::setTopBarVisible(bool visible)
+{
+    Q_D(ImageViewer);
+    if (d->m_panel) {
+        d->m_panel->setTopBarVisible(visible);
+    }
+}
+
 void ImageViewer::resizeEvent(QResizeEvent *e)
 {
     qDebug() << "ImageViewer::resizeEvent = " << e->size();

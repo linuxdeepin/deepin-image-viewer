@@ -24,6 +24,9 @@ public:
 
     //启动图片展示入口
     void startImgView(QString currentPath, QStringList paths = QStringList());
+
+    //设置topbar的显示和隐藏
+    void setTopBarVisible(bool visible);
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *e) override;

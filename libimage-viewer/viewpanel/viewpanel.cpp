@@ -527,6 +527,13 @@ bool ViewPanel::startdragImage(const QStringList &paths)
     return bRet;
 }
 
+void ViewPanel::setTopBarVisible(bool visible)
+{
+    if (m_topToolbar) {
+        m_topToolbar->setVisible(visible);
+    }
+}
+
 bool ViewPanel::startChooseFileDialog()
 {
     bool bRet = false;

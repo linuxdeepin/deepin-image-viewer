@@ -114,6 +114,10 @@ public:
 
     //drog事件打开图片
     bool startdragImage(const QStringList &paths);
+
+    //设置topBar的显示和隐藏
+    void setTopBarVisible(bool visible);
+
 private slots:
     void onMenuItemClicked(QAction *action);
 public slots:
