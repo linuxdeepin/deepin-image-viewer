@@ -820,7 +820,7 @@ bool imageSupportWallPaper(const QString &path)
     //
     QImageReader reader(path);
     if (reader.imageCount() > 0) {
-        qDebug() << reader.format();
+
         //2020/11/12 bug54279
         if (listsupportWallPaper.contains(reader.format().toLower()) && listsupportWallPaper.contains(QFileInfo(path).suffix().toLower())) {
             iRet = true;

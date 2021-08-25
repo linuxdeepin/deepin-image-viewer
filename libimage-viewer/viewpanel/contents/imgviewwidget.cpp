@@ -69,14 +69,10 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
 
 bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 {
-//    qDebug() << e->type();
-//    qDebug() << static_cast<QMouseEvent>(e).;
-//    qDebug() << QCursor::pos();
     if (e->type() == QEvent::Leave) {
         qDebug() << "QEvent::Leave" << obj;
     }
     if (e->type() == QEvent::MouseButtonPress) {
-        qDebug() << "QEvent::MouseButtonPress";
 
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
         m_pressPoint = mouseEvent->globalPos();
@@ -90,7 +86,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         m_preListGeometryLeft = m_listview->geometry().left();
     }
     if (e->type() == QEvent::MouseButtonRelease) {
-        qDebug() << "QEvent::MouseButtonRelease";
         if (m_movePoints.size() > 0) {
             int endPos = m_movePoints.last().x() - m_movePoints.first().x();
             //过滤掉触屏点击时的move误操作
@@ -122,7 +117,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
             m_listview->openPre();
             m_movePoint = QPoint(m_movePoint.x() + 32, m_movePoint.y());
         }
-        qDebug() << p;
     }
     return QWidget::eventFilter(obj, e);
 }

@@ -229,7 +229,7 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
         //当传入的image无效时，需要重新读取数据
         m_movieItem = nullptr;
         m_imgSvgItem = nullptr;
-        qDebug() << "Start cache pixmap: " << path;
+
         if (image.isNull()) {
             QImageReader imagreader(path);      //取原图的分辨率
             int w = imagreader.size().width();
@@ -279,8 +279,6 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
 //            }
             pix = QPixmap(path).scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
 
-//            QPixmap pix = QPixmap(path).scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
-            qDebug() << "---" << __FUNCTION__ << "-----------" << pix.width() << "----------" << pix.height();
             m_pixmapItem = new GraphicsPixmapItem(pix);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             // Make sure item show in center of view after reload
