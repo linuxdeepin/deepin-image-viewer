@@ -47,6 +47,7 @@
 
 #include "module/view/homepagewidget.h"
 #include "../libimage-viewer/imageviewer.h"
+#include "../libimage-viewer/imageengine.h"
 #include "shortcut.h"
 
 const QString CONFIG_PATH =   QDir::homePath() +
@@ -117,7 +118,21 @@ void MainWindow::initUI()
 
     connect(m_homePageWidget, &HomePageWidget::sigDrogImage, this, &MainWindow::slotDrogImg);
 
-
+    //ImageEngine::instance()->sigPicCountIsNull()
+    connect(ImageEngine::instance(), &ImageEngine::sigPicCountIsNull, this, [ = ] {
+        m_centerWidget->setCurrentWidget(m_homePageWidget);
+        if (m_mainwidow->titlebar())
+        {
+            //隐藏原有DMainWindow titlebar，使用自定义标题栏
+            int height =  m_mainwidow->titlebar()->height();
+            m_mainwidow->titlebar()->setFixedHeight(50);
+            m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
+            m_mainwidow->setTitlebarShadowEnabled(true);
+            m_mainwidow->resize(this->width(), this->height() + height);
+            //防止标题栏出现横杠
+            m_mainwidow->resize(this->width(), this->height());
+        }
+    });
 
     QShortcut *openFileManager = new QShortcut(QKeySequence("Ctrl+o"), this);
     openFileManager->setContext(Qt::WindowShortcut);

@@ -126,7 +126,8 @@ void ViewPanel::initConnect()
         emit imageChanged(path);
         // Pixmap is cache in thread, make sure the size would correct after
         // cache is finish
-        m_view->autoFit();
+        //暂时屏蔽，这里存在疑问，放开会导致每次切换图片，1:1高亮
+        // m_view->autoFit();
     });
 
 
@@ -141,6 +142,12 @@ void ViewPanel::initConnect()
 
     //适应窗口和适应图片按钮
     connect(m_bottomToolbar, &BottomToolbar::resetTransform, this, &ViewPanel::slotResetTransform);
+
+    //删除后需要重新布局
+    connect(m_bottomToolbar, &BottomToolbar::removed, this, [ = ] {
+        //重新布局
+        this->resetBottomToolbarGeometry(true);
+    }, Qt::DirectConnection);
 
     //适应窗口的状态更新
     connect(m_view, &ImageGraphicsView::checkAdaptScreenBtn, m_bottomToolbar, &BottomToolbar::checkAdaptImageBtn);
@@ -295,6 +302,7 @@ void ViewPanel::updateMenuContent()
 
         imageViewerSpace::ItemInfo ItemInfo = m_bottomToolbar->getCurrentItemInfo();
         bool isPic = !m_view->image().isNull();//当前视图是否是图片
+
         QFileInfo info(ItemInfo.path);
         bool isReadable = info.isReadable();//是否可读
         bool isWritable = info.isWritable();//是否可写
@@ -305,12 +313,7 @@ void ViewPanel::updateMenuContent()
         if (imageViewerSpace::ImageTypeDamaged == imageType) {
             return;
         }
-        //如果是图片，按钮恢复，否则按钮置灰
-        if (isPic) {
-            m_bottomToolbar->setPictureDoBtnClicked(true);
-        } else {
-            m_bottomToolbar->setPictureDoBtnClicked(false);
-        }
+
 
         if (window()->isFullScreen()) {
             appendAction(IdExitFullScreen, QObject::tr("Exit fullscreen"), ss("Fullscreen", "F11"));
@@ -361,11 +364,20 @@ void ViewPanel::updateMenuContent()
                          ss("Rotate counterclockwise", "Ctrl+Shift+R"));
             if (m_bottomToolbar) {
                 m_bottomToolbar->setRotateBtnClicked(true);
+                m_bottomToolbar->setPictureDoBtnClicked(true);
             }
+
         } else {
             if (m_bottomToolbar) {
                 m_bottomToolbar->setRotateBtnClicked(false);
+                //如果是图片，按钮恢复，否则按钮置灰
+                if (isPic) {
+                    m_bottomToolbar->setPictureDoBtnClicked(true);
+                } else {
+                    m_bottomToolbar->setPictureDoBtnClicked(false);
+                }
             }
+
         }
 
         //需要判断图片是否支持设置壁纸,todo
@@ -525,7 +537,7 @@ bool ViewPanel::startdragImage(const QStringList &paths)
         //看图制作全部缩略图
         ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), image_list, image_list.size());
     }
-
+    m_bottomToolbar->thumbnailMoveCenterWidget();
     return bRet;
 }
 

@@ -189,6 +189,16 @@ void MyImageListWidget::initAnimation()
     connect(m_resetAnimation, SIGNAL(valueChanged(const QVariant)), this, SLOT(animationValueChanged(const QVariant)));
 }
 
+QString MyImageListWidget::getCurrentPath()
+{
+    return m_listview->m_currentPath;
+}
+
+int MyImageListWidget::getCurrentCount()
+{
+    return m_listview->m_currentRow;
+}
+
 void MyImageListWidget::removeCurrent()
 {
     m_listview->removeCurrent();

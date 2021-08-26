@@ -133,8 +133,18 @@ public slots:
     void onTrashBtnClicked();
     //主题变化
     void slotThemeChanged(int type);
+
+    //打开一张图，需要判断工具栏的按钮的状态
+    void slotOpenImage(int index, QString path);
+
+    //设置删除键的信号槽函数链接
+    void setIsConnectDel(bool bFlags);
+
+    //缩略图移动居中
+    void thumbnailMoveCenterWidget();
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 public:
     QString m_imageType;
 

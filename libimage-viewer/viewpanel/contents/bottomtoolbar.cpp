@@ -154,8 +154,9 @@ int BottomToolbar::getToolbarWidth()
     if (m_imgListWidget->getImgCount() <= 1) {
         width += 0;
     } else {
+        //ITEM_CURRENT_WH存在着数字是60,但实际大小绘制的时候减小为30所以使用ImgViewListView::ITEM_CURRENT_WH / 2
         width += ImgViewListView::ITEM_CURRENT_WH;
-        width += (m_imgListWidget->getImgCount() - 1) * (ImgViewListView::ITEM_CURRENT_WH + ImgViewListView::ITEM_SPACING);
+        width += (m_imgListWidget->getImgCount() /*- 1*/) * (ImgViewListView::ITEM_CURRENT_WH / 2 + ImgViewListView::ITEM_SPACING);
     }
 
     return width;
@@ -271,9 +272,50 @@ void BottomToolbar::deleteImage()
         return;
     //移除正在展示照片
     if (m_imgListWidget) {
-        m_imgListWidget->removeCurrent();
+        QString path = m_imgListWidget->getCurrentPath();
+
+        QFile file(path);
+        if (!file.exists()) {
+            return;
+        }
+        //先删除文件，需要判断文件是否删除，如果删除了，再决定看图软件的显示
+        //不再采用默认删除,使用utils里面的删除
+        utils::base::trashFile(path);
+        QFile fileRemove(path);
+        //文件是否被删除的判断bool值
+        bool iRetRemove = false;
+        if (!fileRemove.exists()) {
+            iRetRemove = true;
+        }
+        if (iRetRemove) {
+            m_imgListWidget->removeCurrent();
+            if (m_imgListWidget->getImgCount() == 1) {
+                if (m_preButton) {
+                    m_preButton->setVisible(false);
+                }
+                if (m_nextButton) {
+                    m_nextButton->setVisible(false);
+                }
+                if (m_spaceWidget) {
+                    m_spaceWidget->setVisible(false);
+                }
+            } else if (m_imgListWidget->getImgCount() == 0) {
+                emit ImageEngine::instance()->sigPicCountIsNull();
+            }
+            if (m_imgListWidget->getCurrentCount() >= m_imgListWidget->getImgCount() - 1) {
+                m_nextButton->setEnabled(false);
+            }
+            if (m_imgListWidget->getCurrentCount() == 0) {
+                m_preButton->setEnabled(false);
+            }
+//        qDebug() << m_imgListWidget->getCurrentPath();
+//        qDebug() << m_imgListWidget->getCurrentCount();
+            emit removed();     //删除数据库图片
+//        setIsConnectDel(true);
+            m_imgListWidget->moveCenterWidget();
+        }
     }
-    emit removed();     //删除数据库图片
+
 }
 
 void BottomToolbar::onBackButtonClicked()
@@ -387,6 +429,35 @@ void BottomToolbar::slotThemeChanged(int type)
     }
 }
 
+void BottomToolbar::slotOpenImage(int index, QString path)
+{
+    if (index == 0) {
+        m_preButton->setEnabled(false);
+    } else {
+        m_preButton->setEnabled(true);
+    }
+    if (index >= m_imgListWidget->getImgCount() - 1) {
+        m_nextButton->setEnabled(false);
+    } else {
+        m_nextButton->setEnabled(true);
+    }
+    qDebug() << index << m_imgListWidget->getImgCount();
+}
+
+void BottomToolbar::setIsConnectDel(bool bFlags)
+{
+    if (bFlags) {
+        connect(m_trashBtn, &DIconButton::clicked, this, &BottomToolbar::onTrashBtnClicked, Qt::UniqueConnection);
+    } else {
+        m_trashBtn->disconnect();
+    }
+}
+
+void BottomToolbar::thumbnailMoveCenterWidget()
+{
+    m_imgListWidget->moveCenterWidget();
+}
+
 void BottomToolbar::onNextButton()
 {
     if (m_imgListWidget) {
@@ -409,19 +480,13 @@ void BottomToolbar::onRotate(int matrix)
 void BottomToolbar::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
-//    m_windowWidth =  this->window()->geometry().width();
-//    if (m_imgListWidget->getImgCount() <= 1) {
-//        m_contentWidth = TOOLBAR_JUSTONE_WIDTH_LOCAL;
-//    } else if (m_imgListWidget->getImgCount() <= 3) {
-//        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-//        //todo设置大小
-////        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-//        m_imgListWidget->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-//    } else {
-//        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgListWidget->getImgCount() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-//        m_imgListWidget->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgListWidget->getImgCount() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-//    }
-//    setFixedWidth(m_contentWidth);
+    m_imgListWidget->moveCenterWidget();
+}
+
+void BottomToolbar::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event);
+    m_imgListWidget->moveCenterWidget();
 }
 
 void BottomToolbar::setAllFile(QString path, QStringList paths)
@@ -623,6 +688,7 @@ void BottomToolbar::initConnection()
     connect(m_rotateRBtn, &DIconButton::clicked, this, &BottomToolbar::onRotateRBtnClicked);
     //缩略图列表，单机打开图片
     connect(m_imgListWidget, &MyImageListWidget::openImg, this, &BottomToolbar::openImg, Qt::QueuedConnection);
+    connect(m_imgListWidget, &MyImageListWidget::openImg, this, &BottomToolbar::slotOpenImage);
     //删除
     connect(m_trashBtn, &DIconButton::clicked, this, &BottomToolbar::onTrashBtnClicked);
     //ocr

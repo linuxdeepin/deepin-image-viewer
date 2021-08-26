@@ -277,8 +277,8 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
 //            } else {
 //                pix = QPixmap::fromImage(image).scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
 //            }
-            pix = QPixmap(path).scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
-
+//            pix = QPixmap(path).scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
+            pix = QPixmap::fromImage(info.image).scaled(wScale, hScale, Qt::KeepAspectRatio);
             m_pixmapItem = new GraphicsPixmapItem(pix);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             // Make sure item show in center of view after reload

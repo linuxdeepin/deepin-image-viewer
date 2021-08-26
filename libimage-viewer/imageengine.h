@@ -32,6 +32,9 @@ public:
 signals:
     //一张缩略图制作完成
     void sigOneImgReady(QString path, imageViewerSpace::ItemInfo itemInfo);
+
+    //当前图片数量为0
+    void sigPicCountIsNull();
 private:
 
     static ImageEngine *m_ImageEngine;

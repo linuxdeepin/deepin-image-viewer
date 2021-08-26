@@ -208,10 +208,16 @@ void ImgViewListView::removeCurrent()
         qDebug() << "---" << __FUNCTION__ << "---m_currentRow = " << m_currentRow;
         qDebug() << "---" << __FUNCTION__ << "---m_model->rowCount() = " << m_model->rowCount();
         if (m_currentRow == (m_model->rowCount() - 1)) {
-            QModelIndex index = m_model->index(0, 0);
+            QModelIndex index;
+            if (m_currentRow >= 1) {
+                index = m_model->index(m_currentRow - 1, 0);
+            } else {
+                index = m_model->index(0, 0);
+            }
+
             onClicked(index);
             m_model->removeRow(m_model->rowCount() - 1);
-            if (m_model->rowCount() > 0) {
+            if (m_model->rowCount() == 1) {
                 this->horizontalScrollBar()->setValue(0);
             }
         } else {

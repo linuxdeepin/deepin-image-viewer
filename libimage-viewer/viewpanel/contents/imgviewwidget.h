@@ -73,6 +73,12 @@ public:
 
     //复位动画初始化
     void initAnimation();
+
+    //获得当前图片的路径
+    QString getCurrentPath();
+
+    //获得当前
+    int getCurrentCount();
 signals:
     void openImg(int index, QString path);
 private:

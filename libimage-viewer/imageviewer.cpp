@@ -15,9 +15,6 @@
 #include "unionimage/baseutils.h"
 //#include "widgets/toptoolbar.h"
 
-const int TOP_TOOLBAR_HEIGHT = 50;
-
-
 
 class ImageViewerPrivate
 {
