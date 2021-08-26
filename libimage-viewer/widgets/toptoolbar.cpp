@@ -213,16 +213,16 @@ QString TopToolbar::geteElidedText(QFont font, QString str, int MaxWidth)
     return str;
 }
 
-void TopToolbar::onThemeTypeChanged()
+/*void TopToolbar::onThemeTypeChanged()
 {
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     Q_UNUSED(themeType);
     QPalette pa1;
     pa1.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
     m_titlebar->setPalette(pa1);
-}
+}*/
 
-void TopToolbar::onUpdateFileName(const QString &filename)
+/*void TopToolbar::onUpdateFileName(const QString &filename)
 {
     QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7), filename, width() - 500);
     m_titletxt->setText(a);
@@ -234,7 +234,7 @@ void TopToolbar::onUpdateFileName(const QString &filename)
 //        m_titletxt->setObjectName(b);
 //        m_titletxt->setAccessibleName(b);
 //    });
-}
+}*/
 
 void TopToolbar::initMenu()
 {

@@ -107,41 +107,6 @@ void ExtensionPanel::updateRectWithContent(int height)
 {
     setFixedHeight(qMin(540, height)); //tmp for imageinfo
 }
-
-void ExtensionPanel::mouseMoveEvent(QMouseEvent *e)
-{
-//    Q_UNUSED(e);
-    DAbstractDialog::mouseMoveEvent(e);
-}
-
-void ExtensionPanel::closeEvent(QCloseEvent *e)
-{
-//    emit dApp->signalM->hideExtensionPanel();
-    DAbstractDialog::closeEvent(e);
-}
-
-void ExtensionPanel::paintEvent(QPaintEvent *pe)
-{
-    //    QPainter painter(this);
-    //    painter.setRenderHint(QPainter::Antialiasing);
-    //    QRectF bgRect;
-    //    bgRect.setSize(size());
-    //    const QPalette pal = QGuiApplication::palette();//this->palette();
-    //    QColor bgColor = pal.color(QPalette::ToolTipBase);
-
-    //    QPainterPath pp;
-    //    pp.addRoundedRect(bgRect, 18, 18);
-    //    painter.fillPath(pp, QColor(0,0,0,22));
-
-    //    {
-    //        auto view_rect = bgRect.marginsRemoved(QMargins(1, 1, 1, 1));
-    //        QPainterPath pp;
-    //        pp.addRoundedRect(view_rect, 18, 18);
-    //        painter.fillPath(pp, bgColor);
-    //    }
-    //    QWidget::paintEvent(pe);
-    DAbstractDialog::paintEvent(pe);
-}
 //{
 //    QPainter painter(this);
 //    QPainterPath path;

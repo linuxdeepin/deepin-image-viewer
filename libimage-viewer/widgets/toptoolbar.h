@@ -69,8 +69,8 @@ private:
     QString  geteElidedText(QFont font, QString str, int MaxWidth);
 
 private slots:
-    void onThemeTypeChanged();
-    void onUpdateFileName(const QString &filename);
+    //void onThemeTypeChanged();
+    //void onUpdateFileName(const QString &filename);
 
 private:
     QColor m_coverBrush;

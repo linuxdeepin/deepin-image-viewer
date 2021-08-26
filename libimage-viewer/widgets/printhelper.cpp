@@ -53,6 +53,12 @@ PrintHelper::PrintHelper(QObject *parent)
 {
     m_re = new RequestedSlot(this);
 }
+
+PrintHelper::~PrintHelper()
+{
+    m_re->deleteLater();
+}
+
 //暂时没有使用配置文件的快捷键，现在是根据代码中的快捷键
 /*
 static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction = nullptr)

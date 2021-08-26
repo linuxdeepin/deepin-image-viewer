@@ -29,6 +29,14 @@
 #include "accessibility/ac-desktop-define.h"
 #include "imageviewer.h"
 
+#include "widgets/extensionpanel.h"
+#include "widgets/formlabel.h"
+#include "widgets/imagebutton.h"
+#include "widgets/printhelper.h"
+#include "widgets/renamedialog.h"
+#include "widgets/toast.h"
+#include "widgets/toptoolbar.h"
+
 gtestview::gtestview()
 {
 
@@ -140,6 +148,145 @@ TEST_F(gtestview, MainWindow)
 
         QTest::qWait(500);
     }
-    m_imageViewer->deleteLater();
 
+    m_imageViewer->deleteLater();
+    QTest::qWait(500);
+
+    //另外一种使用方式
+    m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeLocal, CACHE_PATH, nullptr);
+    paths.push_back(QApplication::applicationDirPath() + "/dds.dds");
+    m_imageViewer->startImgView(paths[0], paths);
+    QTest::qWait(500);
+    m_imageViewer->deleteLater();
+    QTest::qWait(500);
+}
+
+//widgets
+TEST_F(gtestview, Widgets)
+{
+    //extension panel
+    {
+        ExtensionPanel panel;
+        panel.updateRectWithContent(100);
+        QWidget x;
+        panel.setContent(&x);
+
+        QTest::qWait(200);
+
+        panel.show();
+        QTestEventList e1;
+        e1.addKeyClick(Qt::Key::Key_Escape);
+        e1.simulate(&x);
+        QTest::qWait(200);
+
+        panel.show();
+        QTestEventList e2;
+        e2.addKeyClick(Qt::Key::Key_I, Qt::KeyboardModifier::ControlModifier);
+        e2.simulate(&panel);
+        QTest::qWait(200);
+    }
+
+    //form label
+    {
+        SimpleFormLabel label_1("12345");
+        label_1.resize(100, 100);
+        label_1.show();
+
+        SimpleFormField label_2;
+        label_2.resize(100, 100);
+        label_2.show();
+
+        QTest::qWait(200);
+    }
+
+    //image button
+    {
+        ImageButton button;
+        button.setDisabled(false);
+        button.show();
+
+        QTestEventList e;
+        e.addMouseMove(QPoint(1, 1));
+        e.addDelay(1500);
+        e.addMouseClick(Qt::MouseButton::LeftButton);
+        e.addDelay(500);
+        e.addMouseMove(QPoint(999, 999));
+        e.addDelay(1500);
+        e.simulate(&button);
+
+        button.setToolTip("123321");
+        e.simulate(&button);
+
+        QTest::qWait(200);
+    }
+
+    //print helper
+    {
+        auto helper = PrintHelper::getIntance();
+
+        helper->showPrintDialog({QApplication::applicationDirPath() + "/jpg.jpg",
+                                 QApplication::applicationDirPath() + "/tif.tif"});
+
+        helper->deleteLater();
+        QTest::qWait(500);
+    }
+
+    //rename dialog
+    {
+        RenameDialog dialog("12345.jpg");
+        dialog.GetFileName();
+        dialog.GetFilePath();
+
+        QTestEventList e;
+        e.addMouseClick(Qt::MouseButton::LeftButton);
+        e.addDelay(400);
+
+        dialog.m_lineedt->setText("321.png");
+        dialog.show();
+        e.simulate(dialog.okbtn);
+
+        dialog.m_lineedt->setText("");
+        dialog.show();
+        e.simulate(dialog.cancelbtn);
+
+        /*e.clear();
+        e.addMouseClick(Qt::MouseButton::LeftButton);
+        e.addDelay(200);
+        e.addKeyClick(Qt::Key_5);
+        e.addDelay(200);
+        e.addKeyClick(Qt::Key_Enter);
+        e.addDelay(200);
+        dialog.show();
+        e.simulate(dialog.m_lineedt);*/
+
+        QTest::qWait(500);
+    }
+
+    //toast
+    {
+        Toast toast;
+        toast.text();
+        toast.icon();
+        toast.setText("123");
+        toast.setIcon(QApplication::applicationDirPath() + "/ico.ico");
+        toast.setIcon(QIcon(QApplication::applicationDirPath() + "/ico.ico"));
+    }
+
+    //top tool bar
+    {
+        DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::DarkType);
+        TopToolbar toolBar(false, nullptr);
+        toolBar.setTitleBarTransparent(false);
+
+        toolBar.show();
+        QTestEventList e;
+        e.addMouseDClick(Qt::MouseButton::LeftButton);
+        e.addDelay(500);
+        e.addMouseDClick(Qt::MouseButton::LeftButton);
+        e.addDelay(500);
+        e.simulate(&toolBar);
+
+        DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::LightType);
+        QTest::qWait(200);
+    }
 }

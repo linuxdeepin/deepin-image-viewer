@@ -49,13 +49,6 @@ public:
     void init();
 signals:
     void requestStopAnimation();
-//    void hideExtensionPanel();//关闭窗口
-protected:
-    //    void paintEvent(QPaintEvent *) override;
-    //    void mouseMoveEvent(QMouseEvent *e) override;
-    void closeEvent(QCloseEvent *e) override;
-    void paintEvent(QPaintEvent *) override;
-    void mouseMoveEvent(QMouseEvent *e) override;
 public slots:
     void updateRectWithContent(int height);
 private:

@@ -47,7 +47,7 @@ class PrintHelper : public QObject
 
 public:
     static PrintHelper *getIntance();
-    explicit PrintHelper(QObject *parent = nullptr);
+    ~PrintHelper();
 
     //    static QSize adjustSize(PrintOptionsPage* optionsPage, QImage img, int resolution, const QSize & viewportSize);
     //    static QPoint adjustPosition(PrintOptionsPage* optionsPage, const QSize& imageSize, const QSize & viewportSize);
@@ -55,6 +55,7 @@ public:
 
     RequestedSlot *m_re = nullptr;
 private:
+    explicit PrintHelper(QObject *parent = nullptr);
     static PrintHelper *m_Printer;
 };
 
