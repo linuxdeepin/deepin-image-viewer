@@ -103,7 +103,14 @@ int main(int argc, char *argv[])
     DMainWindow *mainwindow = new DMainWindow();
     mainwindow->setCentralWidget(w);
     w->setDMainWindow(mainwindow);
-
+//    w->processOption();
+    for (int i = 1; i < argc; ++i) {
+        QString path = argv[i];
+        if (QFileInfo(path).isFile()) {
+            w->slotDrogImg(QStringList(argv[i]));
+            break;
+        }
+    }
     //初始化大小为上次关闭大小
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH

@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QDir>
 #include <QCollator>
+#include <QCommandLineParser>
 
 #include <DFileDialog>
 

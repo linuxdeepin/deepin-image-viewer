@@ -31,6 +31,8 @@
 #include <QDir>
 #include <QMimeData>
 #include <QSettings>
+#include <QCommandLineParser>
+#include <QCoreApplication>
 
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
@@ -92,6 +94,24 @@ QVariant MainWindow::value(const QString &group, const QString &key, const QVari
     m_settings->endGroup();
 
     return value;
+}
+
+void MainWindow::processOption()
+{
+    QCommandLineParser m_cmdParser;
+    if (!m_cmdParser.parse(QCoreApplication::arguments())) {
+        return ;
+    }
+    QStringList names = m_cmdParser.optionNames();
+    for (QString name : names) {
+    }
+
+    QStringList pas = m_cmdParser.positionalArguments();
+    for (QString path : pas) {
+        if (QFileInfo(path).isFile()) {
+            slotDrogImg(QStringList(path));
+        }
+    }
 }
 
 //初始化QStackedWidget和展示

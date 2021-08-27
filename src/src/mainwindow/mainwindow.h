@@ -66,6 +66,8 @@ public:
     QVariant value(const QString &group, const QString &key,
                    const QVariant &defaultValue = QVariant());
 
+    //解析参数
+    void processOption();
 private:
 
     void initUI();
