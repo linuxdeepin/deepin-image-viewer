@@ -526,10 +526,11 @@ bool ViewPanel::startdragImage(const QStringList &paths)
     } else {
         bRet = false;
     }
-    QString loadingPath;
+    //解决拖入非图片文件会出现崩溃
+    QString loadingPath = "";
     if (image_list.contains(path)) {
         loadingPath = path;
-    } else {
+    } else if (image_list.count() > 0) {
         loadingPath = image_list.first();
     }
     //展示当前图片
