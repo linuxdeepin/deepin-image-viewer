@@ -553,12 +553,6 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int fla
 
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
-    QFileInfo info(path);
-
-    //如果文件不存在或者文件权限没有可写的权限,返回false
-    if (!info.exists() || !QFile::permissions(path).testFlag(QFile::WriteUser)) {
-        return false;
-    }
     QImageReader r(path);
     if (r.imageCount() > 1) {
         return false;
@@ -572,7 +566,7 @@ UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
             return true;
         }
     }
-
+    QFileInfo info(path);
     if (union_image_private.m_canSave.contains(info.suffix().toUpper()))
         return true;
     return false;

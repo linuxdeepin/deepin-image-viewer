@@ -435,6 +435,10 @@ void ImageGraphicsView::fitWindow()
 {
     qreal wrs = windowRelativeScale();
     resetTransform();
+    //可能存在比例超过20.0的情况，设置为20.0
+    if (wrs > 20.0) {
+        wrs = 20.0;
+    }
     scale(wrs, wrs);
     emit checkAdaptScreenBtn();
     if (wrs - 1 > -0.01 &&

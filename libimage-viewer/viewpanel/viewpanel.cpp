@@ -296,6 +296,8 @@ void ViewPanel::initExtensionPanel()
 
 void ViewPanel::updateMenuContent()
 {
+    resetBottomToolbarGeometry(true);
+
     if (m_menu) {
         m_menu->clear();
         qDeleteAll(this->actions());
@@ -309,6 +311,13 @@ void ViewPanel::updateMenuContent()
         bool isRotatable = ImageEngine::instance()->isRotatable(ItemInfo.path);//是否可旋转
         imageViewerSpace::PathType pathType = ItemInfo.pathType;//路径类型
         imageViewerSpace::ImageType imageType = ItemInfo.imageType;//图片类型
+
+        //如果是图片，按钮恢复，否则按钮置灰
+//        if (isPic) {
+//            m_bottomToolbar->setPictureDoBtnClicked(true);
+//        } else {
+//            m_bottomToolbar->setPictureDoBtnClicked(false);
+//        }
 
         if (imageViewerSpace::ImageTypeDamaged == imageType) {
             return;
@@ -364,18 +373,11 @@ void ViewPanel::updateMenuContent()
                          ss("Rotate counterclockwise", "Ctrl+Shift+R"));
             if (m_bottomToolbar) {
                 m_bottomToolbar->setRotateBtnClicked(true);
-                m_bottomToolbar->setPictureDoBtnClicked(true);
             }
 
         } else {
             if (m_bottomToolbar) {
                 m_bottomToolbar->setRotateBtnClicked(false);
-                //如果是图片，按钮恢复，否则按钮置灰
-                if (isPic) {
-                    m_bottomToolbar->setPictureDoBtnClicked(true);
-                } else {
-                    m_bottomToolbar->setPictureDoBtnClicked(false);
-                }
             }
 
         }
