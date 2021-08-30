@@ -500,6 +500,7 @@ void BottomToolbar::setAllFile(QString path, QStringList paths)
     } else {
         m_preButton->setVisible(true);
         m_nextButton->setVisible(true);
+        m_spaceWidget->setVisible(true);
     }
 
     QList<imageViewerSpace::ItemInfo> itemInfos;
