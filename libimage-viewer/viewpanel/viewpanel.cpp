@@ -427,7 +427,10 @@ void ViewPanel::showFullScreen()
     pAn->setEndValue(1);
     pAn->setStartValue(0);
     pAn->start(QAbstractAnimation::DeleteWhenStopped);
-
+    //增加切换全屏和默认大小下方工具栏的移动
+    connect(pAn, &QPropertyAnimation::destroyed, this, [ = ] {
+        slotBottomMove();
+    });
 
     window()->showFullScreen();
 
@@ -449,6 +452,10 @@ void ViewPanel::showNormal()
     } else {
         window()->showNormal();
     }
+    //增加切换全屏和默认大小下方工具栏的移动
+    connect(pAn, &QPropertyAnimation::destroyed, this, [ = ] {
+        m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
+    });
 }
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)
