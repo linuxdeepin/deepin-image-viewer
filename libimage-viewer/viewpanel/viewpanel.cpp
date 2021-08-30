@@ -349,8 +349,16 @@ void ViewPanel::updateMenuContent()
         }
 
         //apple phone的delete没有权限,保险箱无法删除,垃圾箱也无法删除,其他需要判断可读权限,todo
-        if (imageViewerSpace::PathTypeAPPLE != pathType  && imageViewerSpace::PathTypeSAFEBOX != pathType && imageViewerSpace::PathTypeRECYCLEBIN != pathType) {
+
+        DIconButton *TrashButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeTrash);
+        if (imageViewerSpace::PathTypeAPPLE != pathType &&
+                imageViewerSpace::PathTypeSAFEBOX != pathType &&
+                imageViewerSpace::PathTypeRECYCLEBIN != pathType &&
+                isWritable) {
             appendAction(IdMoveToTrash, QObject::tr("Delete"), ss("Throw to trash", "Delete"));
+            TrashButton->setEnabled(true);
+        } else {
+            TrashButton->setEnabled(false);
         }
 
         m_menu->addSeparator();
@@ -363,11 +371,11 @@ void ViewPanel::updateMenuContent()
             appendAction(IdHideNavigationWindow, QObject::tr("Hide navigation window"),
                          ss("Hide navigation window", ""));
         }
-        //apple手机特殊处理，不具备旋转功能,todo
+        //apple手机特殊处理，不具备旋转功能,todo,需要有写的权限
         if (imageViewerSpace::PathTypeAPPLE != pathType
                 && imageViewerSpace::PathTypeSAFEBOX != pathType
                 && imageViewerSpace::PathTypeRECYCLEBIN != pathType
-                && isRotatable) {
+                && isRotatable && isWritable) {
             appendAction(IdRotateClockwise, QObject::tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
             appendAction(IdRotateCounterclockwise, QObject::tr("Rotate counterclockwise"),
                          ss("Rotate counterclockwise", "Ctrl+Shift+R"));

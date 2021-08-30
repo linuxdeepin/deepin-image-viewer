@@ -163,7 +163,7 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
         m_morePicFloatWidget->setVisible(false);
     }
     //重新生成数据缓存
-    ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), QStringList(path), 1, true);
+//    ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), QStringList(path), 1, true);
     //检测数据缓存,如果存在,则使用缓存
     imageViewerSpace::ItemInfo info = CommonService::instance()->getImgInfoByPath(path);
     m_loadPath = path;
