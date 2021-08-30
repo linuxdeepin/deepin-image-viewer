@@ -388,7 +388,7 @@ void BottomToolbar::slotThemeChanged(int type)
         pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
         // 单个按钮边框
         QColor btnframecolor("#000000");
-        btnframecolor.setAlphaF(0.00);
+        btnframecolor.setAlphaF(0.05);
         pa.setColor(DPalette::FrameBorder, btnframecolor);
         // 取消阴影
         pa.setColor(DPalette::Shadow, btnframecolor);
