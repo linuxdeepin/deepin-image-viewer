@@ -25,6 +25,7 @@
 #include <QEnterEvent>
 #include <QFile>
 #include <QDir>
+#include <DApplication>
 
 #include "accessibility/ac-desktop-define.h"
 #include "imageviewer.h"
@@ -36,6 +37,11 @@
 #include "widgets/renamedialog.h"
 #include "widgets/toast.h"
 #include "widgets/toptoolbar.h"
+
+#define  private public
+#include "viewpanel/viewpanel.h"
+#include "viewpanel/navigationwidget.h"
+#include "slideshow/slideshowpanel.h"
 
 gtestview::gtestview()
 {
@@ -134,7 +140,9 @@ TEST_F(gtestview, MainWindow)
 
     ImageViewer *m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeLocal, CACHE_PATH, nullptr);
     QStringList paths(QApplication::applicationDirPath() + "/test/jpg.jpg");
-    bool bRet = m_imageViewer->startdragImage(paths);
+    bool bRet = m_imageViewer->startdragImage({});
+    bRet = m_imageViewer->startdragImage({"smb-share:server=bisuhfawe.png"});
+    bRet = m_imageViewer->startdragImage(paths);
     if (bRet) {
 
         m_imageViewer->showNormal();
@@ -289,4 +297,127 @@ TEST_F(gtestview, Widgets)
         DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::LightType);
         QTest::qWait(200);
     }
+}
+
+//view panel
+TEST_F(gtestview, ViewPanel)
+{
+    //初始化
+    ViewPanel panel;
+    panel.loadImage(QApplication::applicationDirPath() + "/gif.gif", {QApplication::applicationDirPath() + "/gif.gif",
+                                                                      QApplication::applicationDirPath() + "/dds.dds",
+                                                                      QApplication::applicationDirPath() + "/svg.svg"
+                                                                     });
+    panel.initFloatingComponent();
+    panel.show();
+
+    //键盘事件
+    QTestEventList e;
+    e.addKeyClick(Qt::Key_Right, Qt::KeyboardModifier::NoModifier, 200);
+    e.addKeyClick(Qt::Key_Left, Qt::KeyboardModifier::NoModifier, 200);
+    e.addKeyClick(Qt::Key_Up, Qt::KeyboardModifier::NoModifier, 200);
+    e.addKeyClick(Qt::Key_Plus, Qt::KeyboardModifier::ControlModifier, 200);
+    e.addKeyClick(Qt::Key_0, Qt::KeyboardModifier::ControlModifier, 200);
+    e.addKeyClick(Qt::Key_Minus, Qt::KeyboardModifier::ControlModifier, 200);
+    e.addKeyClick(Qt::Key_Down, Qt::KeyboardModifier::NoModifier, 200);
+    e.addKeyClick(Qt::Key_Escape, Qt::KeyboardModifier::NoModifier, 200);
+    e.addDelay(500);
+    e.simulate(&panel);
+
+    //基本函数遍历
+    panel.toggleFullScreen();
+    panel.slotBottomMove();
+    panel.toggleFullScreen();
+    panel.slotBottomMove();
+    panel.startChooseFileDialog();
+    panel.getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeOcr);
+    panel.slotOcrPicture();
+    panel.backImageView(QApplication::applicationDirPath() + "/svg1.svg1");
+    panel.initSlidePanel();
+    panel.resetBottomToolbarGeometry(true);
+    panel.resetBottomToolbarGeometry(false);
+    panel.slotRotateImage(90);
+    QTest::qWait(3000);
+    panel.slotRotateImage(-90);
+    QTest::qWait(3000);
+
+    //菜单
+    //还剩IdPrint会崩
+    QAction menuAction;
+
+    menuAction.setProperty("MenuID", ViewPanel::IdFullScreen);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+
+    menuAction.setProperty("MenuID", ViewPanel::IdRename);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+
+    menuAction.setProperty("MenuID", ViewPanel::IdStartSlideShow);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+    e.clear();
+    e.addKeyClick(Qt::Key_Escape, Qt::KeyboardModifier::NoModifier, 200);
+    e.simulate(panel.m_sliderPanel);
+
+    menuAction.setProperty("MenuID", ViewPanel::IdCopy);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+
+    menuAction.setProperty("MenuID", ViewPanel::IdMoveToTrash);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+
+    menuAction.setProperty("MenuID", ViewPanel::IdShowNavigationWindow);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+
+    menuAction.setProperty("MenuID", ViewPanel::IdHideNavigationWindow);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::DarkType);
+    QTest::qWait(500);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::LightType);
+    QTest::qWait(500);
+    e.clear();
+    e.addMousePress(Qt::MouseButton::LeftButton);
+    e.addMouseMove(QPoint(20, 20), 200);
+    e.addMouseRelease(Qt::MouseButton::LeftButton);
+    e.addDelay(200);
+    e.simulate(panel.m_nav.widget());
+
+    menuAction.setProperty("MenuID", ViewPanel::IdRotateClockwise);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+
+    menuAction.setProperty("MenuID", ViewPanel::IdRotateCounterclockwise);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+
+    menuAction.setProperty("MenuID", ViewPanel::IdSetAsWallpaper);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+
+    menuAction.setProperty("MenuID", ViewPanel::IdDisplayInFileManager);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+
+    menuAction.setProperty("MenuID", ViewPanel::IdImageInfo);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+
+    menuAction.setProperty("MenuID", ViewPanel::IdOcr);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(500);
+
+    //ImageGraphicsView
+    panel.loadImage("", {});
+
+    auto view = panel.m_view;
+    view->clear();
+    view->setImage(QApplication::applicationDirPath() + "/svg2.svg", QImage());
+
+    QTest::qWait(500);
 }

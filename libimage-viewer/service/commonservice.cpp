@@ -60,10 +60,10 @@ imageViewerSpace::ItemInfo CommonService::getImgInfoByPath(QString path)
     return m_allInfoMap[path];
 }
 
-void CommonService::setImgInfoByPat(QString path, imageViewerSpace::ItemInfo itemInfo)
+/*void CommonService::setImgInfoByPat(QString path, imageViewerSpace::ItemInfo itemInfo)
 {
     m_allInfoMap[path] = itemInfo;
-}
+}*/
 
 void CommonService::reName(const QString &oldPath, const QString &newPath)
 {

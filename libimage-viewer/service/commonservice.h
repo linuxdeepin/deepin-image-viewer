@@ -43,7 +43,7 @@ public:
 
     imageViewerSpace::ItemInfo getImgInfoByPath(QString path);
     //不发数据更新信号的保存信息
-    void setImgInfoByPat(QString path, imageViewerSpace::ItemInfo itemInfo);
+    //void setImgInfoByPat(QString path, imageViewerSpace::ItemInfo itemInfo);
 
     //重命名更新缓存
     void reName(const QString &oldPath, const QString &newPath);

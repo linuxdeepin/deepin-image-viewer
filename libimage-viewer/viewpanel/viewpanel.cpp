@@ -842,7 +842,13 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         //todo,重命名
         QString oldPath = m_bottomToolbar->getCurrentItemInfo().path;
         RenameDialog *renamedlg =  new RenameDialog(oldPath, this);
+#ifndef USE_TEST
         if (renamedlg->exec()) {
+#else
+        renamedlg->m_lineedt->setText("40_1");
+        renamedlg->show();
+        {
+#endif
             QFile file(oldPath);
             QString filepath = renamedlg->GetFilePath();
             QString filename = renamedlg->GetFileName();
@@ -927,7 +933,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         slotOcrPicture();
         break;
     }
-    }
+}
 
 }
 
