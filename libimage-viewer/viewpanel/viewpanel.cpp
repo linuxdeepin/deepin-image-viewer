@@ -975,6 +975,7 @@ void ViewPanel::resetBottomToolbarGeometry(bool visible)
 void ViewPanel::openImg(int index, QString path)
 {
     //展示图片
+    m_view->slotRotatePixCurrent();
     m_view->setImage(path);
     m_view->resetTransform();
     QFileInfo info(path);

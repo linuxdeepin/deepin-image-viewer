@@ -608,6 +608,9 @@ void ImageGraphicsView::onLoadTimerTimeout()
     }
     m_watcher.setFuture(f);
     emit hideNavigation();
+
+    //重新刷新缓存
+    ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), QStringList(m_loadPath), 1, true);
 }
 
 void ImageGraphicsView::onThemeTypeChanged()
