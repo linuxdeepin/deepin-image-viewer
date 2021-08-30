@@ -159,7 +159,7 @@ void ViewPanel::initConnect()
 
     connect(m_view, &ImageGraphicsView::sigImageOutTitleBar, m_topToolbar, &TopToolbar::setTitleBarTransparent);
 
-    connect(m_view, &ImageGraphicsView::mouseHoverMoved, this, &ViewPanel::slotBottomMove);
+    connect(m_view, &ImageGraphicsView::sigMouseMove, this, &ViewPanel::slotBottomMove);
 
 }
 
@@ -296,7 +296,9 @@ void ViewPanel::initExtensionPanel()
 
 void ViewPanel::updateMenuContent()
 {
-    resetBottomToolbarGeometry(true);
+    if (!window()->isFullScreen()) {
+        resetBottomToolbarGeometry(true);
+    }
 
     if (m_menu) {
         m_menu->clear();
@@ -454,7 +456,7 @@ void ViewPanel::showNormal()
     }
     //增加切换全屏和默认大小下方工具栏的移动
     connect(pAn, &QPropertyAnimation::destroyed, this, [ = ] {
-        m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
+        m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10);
     });
 }
 
@@ -667,6 +669,7 @@ void ViewPanel::slotBottomMove()
     if (m_bottomToolbar) {
         if (window()->isFullScreen()) {
             QPoint pos = mapFromGlobal(QCursor::pos());
+
             if (height() - 20 < pos.y() && height() > pos.y() && height() == m_bottomToolbar->y()) {
                 m_bottomAnimation = new QPropertyAnimation(m_bottomToolbar, "pos");
                 m_bottomAnimation->setDuration(200);
@@ -699,6 +702,7 @@ void ViewPanel::slotBottomMove()
             if (m_isBottomBarVisble) {
                 m_bottomToolbar->setVisible(true);
             }
+//            m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
 //            resetBottomToolbarGeometry(true);
         }
     }

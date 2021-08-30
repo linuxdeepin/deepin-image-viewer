@@ -842,9 +842,7 @@ void ImageGraphicsView::mouseMoveEvent(QMouseEvent *e)
 
         emit transformChanged();
     }
-#ifndef tablet_PC
-//    emit dApp->signalM->sigMouseMove(false);
-#endif
+    emit sigMouseMove();
 }
 
 void ImageGraphicsView::leaveEvent(QEvent *e)

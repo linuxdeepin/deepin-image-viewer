@@ -98,6 +98,7 @@ signals:
     void doubleClicked();
     void imageChanged(const QString &path);
     void mouseHoverMoved();
+    void sigMouseMove();
     void scaled(qreal perc);
     void transformChanged();
     void showScaleLabel();
