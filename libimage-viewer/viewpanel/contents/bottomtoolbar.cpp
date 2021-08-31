@@ -442,6 +442,22 @@ void BottomToolbar::slotOpenImage(int index, QString path)
         m_nextButton->setEnabled(true);
     }
     qDebug() << index << m_imgListWidget->getImgCount();
+
+    //BUG#93143
+    QFileInfo info(path);
+    //左转右转的控制不在这里
+    if (!info.isFile() || !info.exists()) {
+        m_adaptImageBtn->setEnabled(false);
+        m_adaptImageBtn->setChecked(false);
+        m_adaptScreenBtn->setEnabled(false);
+        m_trashBtn->setEnabled(false);
+        m_ocrBtn->setEnabled(false);
+    } else {
+        m_adaptImageBtn->setEnabled(true);
+        m_adaptScreenBtn->setEnabled(true);
+        m_trashBtn->setEnabled(true);
+        m_ocrBtn->setEnabled(true);
+    }
 }
 
 void BottomToolbar::setIsConnectDel(bool bFlags)

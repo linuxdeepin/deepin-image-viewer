@@ -91,7 +91,15 @@ bool ImageEngine::isImage(const QString &path)
 
 bool ImageEngine::isRotatable(const QString &path)
 {
-    return UnionImage_NameSpace::isImageSupportRotate(path);
+    //BUG#93143
+    //由于底层代码判断是否可旋转的依据是文件名后缀所代表的图片是否可保存
+    //因此文件是否存在的判断添加在这一层
+    QFileInfo info(path);
+    if (!info.isFile() || !info.exists()) {
+        return false;
+    } else {
+        return UnionImage_NameSpace::isImageSupportRotate(path);
+    }
 }
 //根据文件路径制作md5
 QString ImageEngine::makeMD5(const QString &path)
