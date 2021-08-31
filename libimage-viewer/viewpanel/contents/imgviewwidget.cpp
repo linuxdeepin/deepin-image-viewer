@@ -98,7 +98,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         //松手，动画重置按钮应该所在的位置
 //        animationStart(true, 0, 400);
     }
-    if (e->type() == QEvent::MouseMove) {
+    if (e->type() == QEvent::MouseMove || e->type() == QEvent::TouchUpdate) {
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
         QPoint p = mouseEvent->globalPos();
         if (m_movePoints.size() < 20) {
@@ -117,6 +117,8 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
             m_listview->openPre();
             m_movePoint = QPoint(m_movePoint.x() + 32, m_movePoint.y());
         }
+
+        return true;
     }
     return QWidget::eventFilter(obj, e);
 }
