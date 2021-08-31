@@ -126,6 +126,9 @@ public:
     DIconButton *getBottomtoolbarButton(imageViewerSpace::ButtonType type);
 private slots:
     void onMenuItemClicked(QAction *action);
+
+    //存在图片刷新
+    void slotOneImgReady(QString path, imageViewerSpace::ItemInfo itemInfo);
 public slots:
     //刷新底部工具栏大小与位置
     void resetBottomToolbarGeometry(bool visible);

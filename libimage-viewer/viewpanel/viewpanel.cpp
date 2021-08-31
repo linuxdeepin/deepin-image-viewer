@@ -161,6 +161,8 @@ void ViewPanel::initConnect()
 
     connect(m_view, &ImageGraphicsView::sigMouseMove, this, &ViewPanel::slotBottomMove);
 
+    connect(ImageEngine::instance(), &ImageEngine::sigOneImgReady, this, &ViewPanel::slotOneImgReady);
+
 }
 
 void ViewPanel::initTopBar()
@@ -333,9 +335,14 @@ void ViewPanel::updateMenuContent()
         }
 
         appendAction(IdPrint, QObject::tr("Print"), ss("Print", "Ctrl+P"));
+
         //ocr按钮,是否是动态图,todo
-        if (imageViewerSpace::ImageTypeDynamic != imageType) {
+        DIconButton *OcrButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeOcr);
+        if (imageViewerSpace::ImageTypeDynamic != imageType && isPic) {
             appendAction(IdOcr, QObject::tr("Extract text"), ss("Extract text", "Alt+O"));
+            OcrButton->setEnabled(true);
+        } else {
+            OcrButton->setEnabled(false);
         }
 
         //如果图片数量大于0才能有幻灯片
@@ -377,7 +384,7 @@ void ViewPanel::updateMenuContent()
         if (imageViewerSpace::PathTypeAPPLE != pathType
                 && imageViewerSpace::PathTypeSAFEBOX != pathType
                 && imageViewerSpace::PathTypeRECYCLEBIN != pathType
-                && isRotatable && isWritable) {
+                && isRotatable && isWritable && isPic) {
             appendAction(IdRotateClockwise, QObject::tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
             appendAction(IdRotateCounterclockwise, QObject::tr("Rotate counterclockwise"),
                          ss("Rotate counterclockwise", "Ctrl+Shift+R"));
@@ -955,6 +962,14 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
 }
 
+}
+
+void ViewPanel::slotOneImgReady(QString path, imageViewerSpace::ItemInfo itemInfo)
+{
+    imageViewerSpace::ItemInfo ItemInfo = m_bottomToolbar->getCurrentItemInfo();
+    if (path.contains(ItemInfo.path)) {
+        updateMenuContent();
+    }
 }
 
 void ViewPanel::resetBottomToolbarGeometry(bool visible)
