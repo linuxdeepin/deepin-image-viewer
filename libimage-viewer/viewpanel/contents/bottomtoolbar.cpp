@@ -478,9 +478,6 @@ void BottomToolbar::thumbnailMoveCenterWidget()
 
 void BottomToolbar::onNextButton()
 {
-    if (m_imgListWidget) {
-        m_imgListWidget->openNext();
-    }
     if (m_rotateLBtn) {
         m_rotateLBtn->setEnabled(false);
     }
@@ -489,14 +486,14 @@ void BottomToolbar::onNextButton()
     }
     if (m_ocrBtn) {
         m_ocrBtn->setEnabled(false);
+    }
+    if (m_imgListWidget) {
+        m_imgListWidget->openNext();
     }
 }
 
 void BottomToolbar::onPreButton()
 {
-    if (m_imgListWidget) {
-        m_imgListWidget->openPre();
-    }
     if (m_rotateLBtn) {
         m_rotateLBtn->setEnabled(false);
     }
@@ -505,6 +502,9 @@ void BottomToolbar::onPreButton()
     }
     if (m_ocrBtn) {
         m_ocrBtn->setEnabled(false);
+    }
+    if (m_imgListWidget) {
+        m_imgListWidget->openPre();
     }
 }
 
