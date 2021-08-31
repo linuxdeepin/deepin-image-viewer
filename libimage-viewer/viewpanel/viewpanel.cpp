@@ -82,7 +82,8 @@ ViewPanel::ViewPanel(QWidget *parent)
     m_view = new ImageGraphicsView(this);
     m_stack->addWidget(m_view);
 
-    m_bottomToolbar = new BottomToolbar(this);
+    //m_bottomToolbar的父为主窗口,就不会出现右键菜单
+    m_bottomToolbar = new BottomToolbar(dynamic_cast<QWidget *>(this->parent()));
 
     setContextMenuPolicy(Qt::CustomContextMenu);
 
