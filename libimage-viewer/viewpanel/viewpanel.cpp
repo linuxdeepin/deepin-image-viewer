@@ -346,6 +346,14 @@ void ViewPanel::updateMenuContent()
             OcrButton->setEnabled(false);
         }
 
+        //多页图/裂图
+        if (imageType == imageViewerSpace::ImageTypeBlank && !isPic) {
+            DIconButton *AdaptImageButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeAdaptImage);
+            DIconButton *AdaptScreenButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeAdaptScreen);
+            AdaptImageButton->setEnabled(false);
+            AdaptScreenButton->setEnabled(false);
+        }
+
         //如果图片数量大于0才能有幻灯片
         appendAction(IdStartSlideShow, QObject::tr("Slide show"), ss("Slide show", "F5"));
 

@@ -49,8 +49,9 @@ ImgOperate::~ImgOperate()
 void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList paths, int makeCount, bool remake)
 {
     QString path;
-    QImage tImg;
     imageViewerSpace::ItemInfo itemInfo;
+    QImage tImg;
+    QImage tImg_1;
     for (int i = 0; i < paths.size(); i++) {
         //达到制作数量则停止
         if (i == makeCount) {
@@ -68,12 +69,12 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
         if (imagreader.size().width() == -1 || imagreader.size().height() == -1) {
             //Qt读取图片尺寸失败，转向使用FreeImage，注意：读meta data有几率读取失败，采用这个函数读是最保险的，这个位置我们将确保读到所有支持图片的尺寸大小
             QString errMsg;
-            if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+            if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg_1, errMsg)) {
                 qDebug() << errMsg;
                 continue;
             }
-            itemInfo.imgOriginalWidth = tImg.size().width();
-            itemInfo.imgOriginalHeight = tImg.size().height();
+            itemInfo.imgOriginalWidth = tImg_1.size().width();
+            itemInfo.imgOriginalHeight = tImg_1.size().height();
         } else {
             itemInfo.imgOriginalWidth = imagreader.size().width();
             itemInfo.imgOriginalHeight = imagreader.size().height();
@@ -94,12 +95,10 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
             continue;
         }
 
-        if (tImg.isNull()) { //如果前面用过FreeImage读图片尺寸，那么这里不需要重复读取图片
-            QString errMsg;
-            if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-                qDebug() << errMsg;
-                continue;
-            }
+        QString errMsg;
+        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+            qDebug() << errMsg;
+            continue;
         }
         if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
             bool cache_exist = false;
@@ -124,7 +123,6 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
         pluginUtils::base::mkMutiDir(savePath.mid(0, savePath.lastIndexOf('/')));
         if (tImg.save(savePath)) {
             itemInfo.image = tImg;
-
         }
         if (itemInfo.image.isNull()) {
             itemInfo.imageType = imageViewerSpace::ImageTypeDamaged;

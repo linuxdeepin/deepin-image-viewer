@@ -326,14 +326,21 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
             }
             m_imageReader = new QImageReader(path);
             if (m_imageReader->imageCount() > 1) {
-                m_morePicFloatWidget->setVisible(true);
-                if (m_morePicFloatWidget->getButtonUp()) {
-                    m_morePicFloatWidget->getButtonUp()->setEnabled(false);
+                //校验tiff的第一个图
+                m_imageReader->jumpToImage(0);
+                auto tifImg = m_imageReader->read();
+                if (tifImg.isNull()) {
+                    m_morePicFloatWidget->setVisible(false);
+                } else {
+                    m_morePicFloatWidget->setVisible(true);
+                    if (m_morePicFloatWidget->getButtonUp()) {
+                        m_morePicFloatWidget->getButtonUp()->setEnabled(false);
+                    }
+                    if (m_morePicFloatWidget->getButtonDown()) {
+                        m_morePicFloatWidget->getButtonDown()->setEnabled(true);
+                    }
+                    m_currentMoreImageNum = 0;
                 }
-                if (m_morePicFloatWidget->getButtonDown()) {
-                    m_morePicFloatWidget->getButtonDown()->setEnabled(true);
-                }
-                m_currentMoreImageNum = 0;
             } else {
                 m_morePicFloatWidget->setVisible(false);
             }
