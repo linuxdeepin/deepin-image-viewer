@@ -49,13 +49,13 @@ public:
     void reName(const QString &oldPath, const QString &newPath);
 
 signals:
-
+    void sigMouseRelease();
 public slots:
     //有新的图片加载上来,保存制作好的图片信息
     void slotSetImgInfoByPath(QString path, imageViewerSpace::ItemInfo itemInfo);
 private:
     explicit CommonService(QObject *parent = nullptr);
-
+    bool eventFilter(QObject *obj, QEvent *event);
 private:
     static CommonService *m_commonService;
 

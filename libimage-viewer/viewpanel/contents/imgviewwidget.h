@@ -138,6 +138,8 @@ private:
     QVector<QPoint> m_movePoints;//移动的点数
 
     int m_preListGeometryLeft = 0;
+
+    qint64 m_lastReleaseTime{0};//上次接收release的时间
 };
 
 #endif // IMGVIEWWIDGET_H

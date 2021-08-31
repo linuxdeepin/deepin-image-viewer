@@ -21,6 +21,7 @@
 #include "commonservice.h"
 
 #include <QImage>
+#include <QCoreApplication>
 
 #include "imageengine.h"
 
@@ -82,5 +83,13 @@ void CommonService::slotSetImgInfoByPath(QString path, imageViewerSpace::ItemInf
 
 CommonService::CommonService(QObject *parent) : QObject(parent)
 {
+    qApp->installEventFilter(this);
+}
 
+bool CommonService::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::MouseButtonRelease) {
+        emit sigMouseRelease();
+    }
+    return QObject::eventFilter(obj, event);
 }

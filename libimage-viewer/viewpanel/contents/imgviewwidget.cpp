@@ -41,6 +41,8 @@
 #include <DApplicationHelper>
 #include <DSpinner>
 
+#include "service/commonservice.h"
+
 
 DWIDGET_USE_NAMESPACE
 
@@ -64,6 +66,16 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     connect(m_listview, &ImgViewListView::openImg, this, &MyImageListWidget::openImg);
     connect(m_listview->horizontalScrollBar(), &QScrollBar::valueChanged, this, &MyImageListWidget::onScrollBarValueChanged);
     initAnimation();
+
+    //解决释放到程序外,不会动画的问题
+    connect(CommonService::instance(), &CommonService::sigMouseRelease, this, [ = ] {
+        qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
+        if (currentTime - 100 > m_lastReleaseTime)
+        {
+            m_lastReleaseTime = currentTime;
+            animationStart(true, 0, 400);
+        }
+    });
 
 }
 
