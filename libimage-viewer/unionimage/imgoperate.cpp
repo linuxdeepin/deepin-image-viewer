@@ -61,10 +61,23 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
 
         //获取路径类型
         itemInfo.pathType = getPathType(path);
+
         //获取原图分辨率
         QImageReader imagreader(path);
-        itemInfo.imgOriginalWidth = imagreader.size().width();
-        itemInfo.imgOriginalHeight = imagreader.size().height();
+
+        if (imagreader.size().width() == -1 || imagreader.size().height() == -1) {
+            //Qt读取图片尺寸失败，转向使用FreeImage，注意：读meta data有几率读取失败，采用这个函数读是最保险的，这个位置我们将确保读到所有支持图片的尺寸大小
+            QString errMsg;
+            if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+                qDebug() << errMsg;
+                continue;
+            }
+            itemInfo.imgOriginalWidth = tImg.size().width();
+            itemInfo.imgOriginalHeight = tImg.size().height();
+        } else {
+            itemInfo.imgOriginalWidth = imagreader.size().width();
+            itemInfo.imgOriginalHeight = imagreader.size().height();
+        }
 
         //缩略图保存路径
         QString savePath = thumbnailSavePath + path;
@@ -80,15 +93,13 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
             emit sigOneImgReady(path, itemInfo);
             continue;
         }
-        QString errMsg;
-        QSize readSize;
-//        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, readSize, errMsg)) {
-//            qDebug() << errMsg;
-//            continue;
-//        }
-        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-            qDebug() << errMsg;
-            continue;
+
+        if (tImg.isNull()) { //如果前面用过FreeImage读图片尺寸，那么这里不需要重复读取图片
+            QString errMsg;
+            if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+                qDebug() << errMsg;
+                continue;
+            }
         }
         if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
             bool cache_exist = false;

@@ -23,6 +23,7 @@
 #include "unionimage/imageutils.h"
 #include "widgets/formlabel.h"
 #include "accessibility/ac-desktop-define.h"
+#include "service/commonservice.h"
 
 #include <DApplicationHelper>
 #include <DArrowLineDrawer>
@@ -401,15 +402,26 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos, bool C
     using namespace utils::base;
     clearLayout(m_exifLayout_base);
 
+    auto info = CommonService::instance()->getImgInfoByPath(m_path);
+
     QFileInfo fi(m_path);
     QString suffix = fi.suffix();
     for (MetaData *i = MetaDataBasics; !i->key.isEmpty(); i++) {
         QString value = infos.value(i->key);
-        if (value.isEmpty())
+        if (value.isEmpty()) {
             continue;
+        }
+
         if ((i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized") &&
-                value.left(1) == QString("0"))
+                value.left(1) == QString("0")) {
             continue;
+        }
+
+        //部分图片采用meta data的形式无法正确读取大小，此处改成使用已缓存的图片大小数据
+        if (i->key == "Dimension") {
+            value = QString().sprintf("%dx%d", info.imgOriginalWidth, info.imgOriginalHeight);
+        }
+
         /*lmh0825真实格式，没有真格式采用后缀名*/
         if (i->key == "FileFormat" && !suffix.isEmpty() && infos.value(i->key).isNull()) {
             value = fi.suffix();

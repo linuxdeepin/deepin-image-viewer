@@ -225,6 +225,10 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
         setSceneRect(m_imgSvgItem->boundingRect());
         s->addItem(m_imgSvgItem);
         emit imageChanged(path);
+        QMetaObject::invokeMethod(this, [ = ]() {
+            resetTransform();
+            autoFit();
+        }, Qt::QueuedConnection);
     } else {
         //当传入的image无效时，需要重新读取数据
         m_movieItem = nullptr;
@@ -266,9 +270,14 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
                 wScale = w;
                 hScale = h;
             }
-            if (wScale == 0 || wScale == -1) {
-                wScale = wWindow;
-                hScale = hWindow;
+            if (wScale == 0 || wScale == -1) { //进入这个地方说明QImageReader未识别出图片
+                if (info.imgOriginalWidth > wWindow || info.imgOriginalHeight > hWindow) {
+                    wScale = wWindow;
+                    hScale = hWindow;
+                } else {
+                    wScale = info.imgOriginalWidth;
+                    hScale = info.imgOriginalHeight;
+                }
             }
             QPixmap pix;
 //            QImage image = CommonService::instance()->getImgByPath(path);
