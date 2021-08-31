@@ -379,7 +379,7 @@ void BottomToolbar::slotThemeChanged(int type)
     QString rStr;
     if (type == 1) {
         QColor maskColor(247, 247, 247);
-        maskColor.setAlphaF(0.60);
+        maskColor.setAlphaF(0.15);
         m_forwardWidget->setMaskColor(maskColor);
 
         DPalette pa;
@@ -388,7 +388,7 @@ void BottomToolbar::slotThemeChanged(int type)
         pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
         // 单个按钮边框
         QColor btnframecolor("#000000");
-        btnframecolor.setAlphaF(0.05);
+        btnframecolor.setAlphaF(0.00);
         pa.setColor(DPalette::FrameBorder, btnframecolor);
         // 取消阴影
         pa.setColor(DPalette::Shadow, btnframecolor);
