@@ -378,13 +378,6 @@ void ImageGraphicsView::setScaleValue(qreal v)
         emit disCheckAdaptImageBtn();
     }
 
-    qreal wrs = windowRelativeScale();
-    if (rescale - wrs > -0.01 &&
-            rescale - wrs < 0.01) {
-        emit checkAdaptScreenBtn();
-    } else {
-        emit disCheckAdaptScreenBtn();
-    }
     emit scaled(imageRelativeScale() * 100);
     emit showScaleLabel();
     emit transformChanged();

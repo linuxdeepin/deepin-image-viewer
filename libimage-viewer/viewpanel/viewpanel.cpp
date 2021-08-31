@@ -240,9 +240,9 @@ void ViewPanel::initNavigation()
     m_nav.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
 
     connect(this, &ViewPanel::imageChanged, this, [ = ](const QString & path) {
-        if (path.isEmpty()) {
-            m_nav->setVisible(false);
-        }
+        //BUG#93145 去除对path的判断，直接隐藏导航窗口
+        Q_UNUSED(path)
+        m_nav->setVisible(false);
         m_nav->setImage(m_view->image());
     });
 
