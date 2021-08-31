@@ -299,6 +299,8 @@ void BottomToolbar::deleteImage()
                 if (m_spaceWidget) {
                     m_spaceWidget->setVisible(false);
                 }
+                //BUG#93072 图片删到最后要清理一下控件聚焦
+                m_trashBtn->clearFocus();
             } else if (m_imgListWidget->getImgCount() == 0) {
                 emit ImageEngine::instance()->sigPicCountIsNull();
             }
