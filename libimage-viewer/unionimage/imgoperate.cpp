@@ -65,20 +65,8 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
 
         //获取原图分辨率
         QImageReader imagreader(path);
-
-        if (imagreader.size().width() == -1 || imagreader.size().height() == -1) {
-            //Qt读取图片尺寸失败，转向使用FreeImage，注意：读meta data有几率读取失败，采用这个函数读是最保险的，这个位置我们将确保读到所有支持图片的尺寸大小
-            QString errMsg;
-            if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg_1, errMsg)) {
-                qDebug() << errMsg;
-                continue;
-            }
-            itemInfo.imgOriginalWidth = tImg_1.size().width();
-            itemInfo.imgOriginalHeight = tImg_1.size().height();
-        } else {
-            itemInfo.imgOriginalWidth = imagreader.size().width();
-            itemInfo.imgOriginalHeight = imagreader.size().height();
-        }
+        itemInfo.imgOriginalWidth = imagreader.size().width();
+        itemInfo.imgOriginalHeight = imagreader.size().height();
 
         //缩略图保存路径
         QString savePath = thumbnailSavePath + path;
@@ -86,7 +74,7 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
         savePath = savePath.mid(0, savePath.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(savePath) + ".png";
         QFileInfo file(savePath);
         //缩略图已存在，执行下一个路径
-        if (file.exists() && !remake) {
+        if (file.exists() && !remake && itemInfo.imgOriginalWidth > 0 && itemInfo.imgOriginalHeight > 0) {
             tImg = QImage(savePath);
             itemInfo.image = tImg;
             //获取图片类型
@@ -100,6 +88,9 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
             qDebug() << errMsg;
             continue;
         }
+        itemInfo.imgOriginalWidth = tImg.width();
+        itemInfo.imgOriginalHeight = tImg.height();
+
         if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
             bool cache_exist = false;
             if (tImg.height() != 200 && tImg.width() != 200) {

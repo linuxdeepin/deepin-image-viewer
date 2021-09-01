@@ -327,20 +327,20 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
             m_imageReader = new QImageReader(path);
             if (m_imageReader->imageCount() > 1) {
                 //校验tiff的第一个图
-                m_imageReader->jumpToImage(0);
-                auto tifImg = m_imageReader->read();
-                if (tifImg.isNull()) {
-                    m_morePicFloatWidget->setVisible(false);
-                } else {
-                    m_morePicFloatWidget->setVisible(true);
-                    if (m_morePicFloatWidget->getButtonUp()) {
-                        m_morePicFloatWidget->getButtonUp()->setEnabled(false);
-                    }
-                    if (m_morePicFloatWidget->getButtonDown()) {
-                        m_morePicFloatWidget->getButtonDown()->setEnabled(true);
-                    }
-                    m_currentMoreImageNum = 0;
+//                m_imageReader->jumpToImage(0);
+//                auto tifImg = m_imageReader->read();
+//                if (tifImg.isNull()) {
+//                    m_morePicFloatWidget->setVisible(false);
+//                } else {
+                m_morePicFloatWidget->setVisible(true);
+                if (m_morePicFloatWidget->getButtonUp()) {
+                    m_morePicFloatWidget->getButtonUp()->setEnabled(false);
                 }
+                if (m_morePicFloatWidget->getButtonDown()) {
+                    m_morePicFloatWidget->getButtonDown()->setEnabled(true);
+                }
+                m_currentMoreImageNum = 0;
+//                }
             } else {
                 m_morePicFloatWidget->setVisible(false);
             }
@@ -420,24 +420,33 @@ void ImageGraphicsView::autoFit()
 
 const QImage ImageGraphicsView::image()
 {
+    QImage img;
     if (m_movieItem) {           // bit-map
-        return m_movieItem->pixmap().toImage();
+        img = m_movieItem->pixmap().toImage();
     } else if (m_pixmapItem) {
         //FIXME: access to m_pixmapItem will crash
         if (nullptr == m_pixmapItem) {  //add to slove crash by shui
-            return QImage();
+            img = QImage();
+        } else {
+            img = m_pixmapItem->pixmap().toImage();
         }
-        return m_pixmapItem->pixmap().toImage();
+
     } else if (m_imgSvgItem) { // 新增svg的image
         QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
         image.fill(QColor(0, 0, 0, 0));
         QPainter imagePainter(&image);
         m_imgSvgItem->renderer()->render(&imagePainter);
         imagePainter.end();
-        return image;
+        img = image;
     } else {
-        return QImage();
+        img = QImage();
     }
+    if (img.isNull()) {
+        if (m_morePicFloatWidget) {
+            m_morePicFloatWidget->setVisible(false);
+        }
+    }
+    return img;
 }
 
 void ImageGraphicsView::fitWindow()

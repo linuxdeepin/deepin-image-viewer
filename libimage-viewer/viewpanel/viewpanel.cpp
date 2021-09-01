@@ -308,9 +308,10 @@ void ViewPanel::updateMenuContent()
         qDeleteAll(this->actions());
 
         imageViewerSpace::ItemInfo ItemInfo = m_bottomToolbar->getCurrentItemInfo();
-        bool isPic = !m_view->image().isNull();//当前视图是否是图片
+
+        bool isPic = !ItemInfo.image.isNull();
         if (!isPic) {
-            isPic = !ItemInfo.image.isNull();
+            isPic = !m_view->image().isNull();//当前视图是否是图片
         }
 
         QFileInfo info(ItemInfo.path);
