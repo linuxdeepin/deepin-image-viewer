@@ -29,6 +29,7 @@
 #include "unionimage/unionimage.h"
 #include "unionimage/baseutils.h"
 #include "unionimage/imageutils.h"
+#include "commonservice.h"
 
 ImageDataService *ImageDataService::s_ImageDataService = nullptr;
 
@@ -228,13 +229,13 @@ void readThumbnailThread::readThumbnail(QString path)
     //保存为jpg格式
     savePath = savePath.mid(0, savePath.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(savePath) + ".png";
     QFileInfo file(savePath);
-    //缩略图已存在，执行下一个路径
-    if (file.exists()) {
+    //缩略图已存在，执行下一个路径,如果读取的尺寸为错误,也需要重新读取
+    if (file.exists() && itemInfo.imgOriginalWidth > 0 && itemInfo.imgOriginalHeight > 0) {
         tImg = QImage(savePath);
         itemInfo.image = tImg;
         //获取图片类型
         itemInfo.imageType = getImageType(path);
-        emit ImageEngine::instance()->sigOneImgReady(path, itemInfo);
+        CommonService::instance()->slotSetImgInfoByPath(path, itemInfo);
         return;
     }
     QString errMsg;
@@ -244,6 +245,10 @@ void readThumbnailThread::readThumbnail(QString path)
         qDebug() << errMsg;
         return;
     }
+    //读取图片,给长宽重新赋值
+    itemInfo.imgOriginalWidth = tImg.width();
+    itemInfo.imgOriginalHeight = tImg.height();
+
     if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
         bool cache_exist = false;
         if (tImg.height() != 200 && tImg.width() != 200) {
@@ -275,7 +280,7 @@ void readThumbnailThread::readThumbnail(QString path)
         //获取图片类型
         itemInfo.imageType = getImageType(path);
     }
-    emit ImageEngine::instance()->sigOneImgReady(path, itemInfo);
+    CommonService::instance()->slotSetImgInfoByPath(path, itemInfo);
 //    ImageDataService::instance()->addImage(path, tImg);
 }
 
