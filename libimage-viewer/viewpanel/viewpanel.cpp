@@ -309,6 +309,9 @@ void ViewPanel::updateMenuContent()
 
         imageViewerSpace::ItemInfo ItemInfo = m_bottomToolbar->getCurrentItemInfo();
         bool isPic = !m_view->image().isNull();//当前视图是否是图片
+        if (!isPic) {
+            isPic = !ItemInfo.image.isNull();
+        }
 
         QFileInfo info(ItemInfo.path);
         bool isReadable = info.isReadable();//是否可读
@@ -344,14 +347,6 @@ void ViewPanel::updateMenuContent()
             OcrButton->setEnabled(true);
         } else {
             OcrButton->setEnabled(false);
-        }
-
-        //多页图/裂图
-        if (imageType == imageViewerSpace::ImageTypeBlank && !isPic) {
-            DIconButton *AdaptImageButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeAdaptImage);
-            DIconButton *AdaptScreenButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeAdaptScreen);
-            AdaptImageButton->setEnabled(false);
-            AdaptScreenButton->setEnabled(false);
         }
 
         //如果图片数量大于0才能有幻灯片

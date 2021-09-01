@@ -81,7 +81,7 @@ void ImgViewDelegate::setItemSize(QSize size)
 {
 //    m_size = size;
 }
-
+#include "service/imagedataservice.h"
 void ImgViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QRect backgroundRect2 = option.rect;
@@ -96,6 +96,7 @@ void ImgViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
         return;
     }
     _pixmap = data.image;
+//    _pixmap = ImageDataService::instance()->getThumnailImageByPath(data.path);
     if (_pixmap.isNull()) {
 //        _pixmap = data.damagedPixmap;
         _pixmap = m_damageImage;

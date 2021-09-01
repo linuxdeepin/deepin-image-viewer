@@ -78,7 +78,7 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     });
 
 }
-
+#include "service/imagedataservice.h"
 bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 {
     if (e->type() == QEvent::Leave) {
@@ -96,6 +96,9 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         m_movePoints.clear();
 
         m_preListGeometryLeft = m_listview->geometry().left();
+
+        m_listview->update();
+        qDebug() << "------------getCount = " << ImageDataService::instance()->getCount();
     }
     if (e->type() == QEvent::MouseButtonRelease) {
         if (m_movePoints.size() > 0) {

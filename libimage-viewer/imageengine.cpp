@@ -11,6 +11,7 @@
 #include "service/commonservice.h"
 #include "unionimage/imgoperate.h"
 #include "unionimage/unionimage.h"
+#include "service/imagedataservice.h"
 class ImageEnginePrivate
 {
 public:
@@ -68,12 +69,13 @@ void ImageEngine::makeImgThumbnail(QString thumbnailSavePath, QStringList paths,
 {
     Q_D(ImageEngine);
     //执行子线程制作缩略图动作
-    QMetaObject::invokeMethod(d->m_worker, "slotMakeImgThumbnail"
-                              , Q_ARG(QString, thumbnailSavePath)
-                              , Q_ARG(QStringList, paths)
-                              , Q_ARG(int, makeCount)
-                              , Q_ARG(bool, remake)
-                             );
+//    QMetaObject::invokeMethod(d->m_worker, "slotMakeImgThumbnail"
+//                              , Q_ARG(QString, thumbnailSavePath)
+//                              , Q_ARG(QStringList, paths)
+//                              , Q_ARG(int, makeCount)
+//                              , Q_ARG(bool, remake)
+//                             );
+    ImageDataService::instance()->readThumbnailByPaths(thumbnailSavePath, paths);
 }
 //判断是否图片格式
 bool ImageEngine::isImage(const QString &path)
