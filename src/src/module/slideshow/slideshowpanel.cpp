@@ -294,6 +294,14 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo, bool i
     int nParentHeight = dApp->m_app->desktop()->screenGeometry(screenId).height();
     slideshowbottombar->move((nParentWidth - slideshowbottombar->width()) / 2, nParentHeight);
     m_animation->startSlideShow(m_vinfo.path, m_vinfo.paths);
+    //如果数量小于等于1,右键菜单只有退出,图片暂停
+    if (1 >= vinfo.paths.length()) {
+        m_animation->pauseAndNext();
+        m_menu->clear();
+        QString stopSc = dApp->setter->value(SHORTCUTVIEW_GROUP, "Slide show").toString();
+        stopSc.replace(" ", "");
+        appendAction(IdStopslideshow, tr(slideshowbottombar->m_cancelButton->toolTip().toStdString().c_str()), stopSc);
+    }
     auto actionlist = m_menu->actions();
     for (auto &action : actionlist) {
         if (action->property("MenuID").toInt() == IdPlayOrPause) {
