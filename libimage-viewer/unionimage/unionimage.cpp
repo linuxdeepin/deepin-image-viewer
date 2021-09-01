@@ -679,7 +679,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
         }
         return true;
     } else {
-        if (f != FREE_IMAGE_FORMAT::FIF_UNKNOWN || union_image_private.m_freeimage_formats.contains(file_suffix_upper)) {
+        if (f != FREE_IMAGE_FORMAT::FIF_UNKNOWN && union_image_private.m_freeimage_formats.contains(file_suffix_upper)) {
             if (f == FREE_IMAGE_FORMAT::FIF_UNKNOWN)
                 f = FREE_IMAGE_FORMAT(union_image_private.m_freeimage_formats[file_suffix_upper]);
             FIBITMAP *dib = FreeImage_Load(f, temp_path.data());
