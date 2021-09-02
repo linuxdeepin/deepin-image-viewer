@@ -442,6 +442,11 @@ void ViewPanel::showFullScreen()
     // Full screen then hide bars because hide animation depends on height()
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。,时间为50ms
 
+    //停止工具栏的动画
+    if (m_bottomAnimation) {
+        m_bottomAnimation->stop();
+    }
+
     QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
     pAn->setDuration(50);
     pAn->setEasingCurve(QEasingCurve::Linear);
@@ -460,7 +465,10 @@ void ViewPanel::showFullScreen()
 void ViewPanel::showNormal()
 {
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
-
+    //停止工具栏的动画
+    if (m_bottomAnimation) {
+        m_bottomAnimation->stop();
+    }
     QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
     pAn->setDuration(50);
     pAn->setEasingCurve(QEasingCurve::Linear);
@@ -476,6 +484,7 @@ void ViewPanel::showNormal()
     //增加切换全屏和默认大小下方工具栏的移动
     connect(pAn, &QPropertyAnimation::destroyed, this, [ = ] {
         m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10);
+        m_bottomToolbar->update();
     });
 }
 
@@ -721,6 +730,8 @@ void ViewPanel::slotBottomMove()
             if (m_isBottomBarVisble) {
                 m_bottomToolbar->setVisible(true);
             }
+//            resetBottomToolbarGeometry(true);
+//            m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10);
 //            m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
 //            resetBottomToolbarGeometry(true);
         }
