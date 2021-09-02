@@ -251,6 +251,12 @@ void ImgViewListView::rotate(int index)
     img = img.transformed(matrix);
     //重新赋值数据
     info.image = img;
+    int tmp = info.imgOriginalWidth;
+    info.imgOriginalWidth = info.imgOriginalHeight;
+    info.imgOriginalHeight = tmp;
+    //同步更新缓存数据
+    CommonService::instance()->slotSetImgInfoByPath(info.path, info);
+
     QVariant infoVariant;
     infoVariant.setValue(info);
     //重新赋值给界面

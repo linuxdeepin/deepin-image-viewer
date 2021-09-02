@@ -90,7 +90,7 @@ int ImageDataService::getCount()
     return m_AllImageMap.count();
 }
 #include <QDebug>
-bool ImageDataService::readThumbnailByPaths(QString thumbnailPath, QStringList files)
+bool ImageDataService::readThumbnailByPaths(QString thumbnailPath, QStringList files, bool remake)
 {
 
     qDebug() << "------------files.size = " << files.size();
@@ -110,6 +110,7 @@ bool ImageDataService::readThumbnailByPaths(QString thumbnailPath, QStringList f
         for (int i = 0; i < needCoreCounts; i++) {
             readThumbnailThread *thread = new readThumbnailThread;
             thread->m_thumbnailPath = thumbnailPath;
+            thread->m_remake = remake;
             thread->start();
             threads.append(thread);
         }
@@ -230,7 +231,7 @@ void readThumbnailThread::readThumbnail(QString path)
     savePath = savePath.mid(0, savePath.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(savePath) + ".png";
     QFileInfo file(savePath);
     //缩略图已存在，执行下一个路径,如果读取的尺寸为错误,也需要重新读取
-    if (file.exists() && itemInfo.imgOriginalWidth > 0 && itemInfo.imgOriginalHeight > 0) {
+    if (!m_remake && file.exists() && itemInfo.imgOriginalWidth > 0 && itemInfo.imgOriginalHeight > 0) {
         tImg = QImage(savePath);
         itemInfo.image = tImg;
         //获取图片类型

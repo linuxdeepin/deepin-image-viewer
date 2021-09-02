@@ -47,7 +47,7 @@ public:
     int getCount();
 
     //读取缩略图到缓存map
-    bool readThumbnailByPaths(QString thumbnailPath, QStringList files);
+    bool readThumbnailByPaths(QString thumbnailPath, QStringList files, bool remake);
 //    bool readThumbnailByPath(QString file);
 
     void addImage(const QString &path, const QImage &image);
@@ -91,6 +91,7 @@ public:
     void readThumbnail(QString m_path);
     void setQuit(bool quit);
     QString m_thumbnailPath = "";
+    bool m_remake = false;
 
     //判断图片类型
     imageViewerSpace::ImageType getImageType(const QString &imagepath);
