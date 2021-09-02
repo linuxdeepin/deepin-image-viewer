@@ -769,13 +769,21 @@ void ViewPanel::initShortcut()
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-        m_bottomToolbar->onPreButton();
+        DIconButton *PreButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypePre);
+        if (PreButton->isEnabled())
+        {
+            m_bottomToolbar->onPreButton();
+        }
     });
     // Next
     sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-        m_bottomToolbar->onNextButton();
+        DIconButton *NextButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeNext);
+        if (NextButton->isEnabled())
+        {
+            m_bottomToolbar->onNextButton();
+        }
     });
 
     // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)
