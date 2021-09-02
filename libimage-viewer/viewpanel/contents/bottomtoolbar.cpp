@@ -375,9 +375,6 @@ void BottomToolbar::onTrashBtnClicked()
 
 void BottomToolbar::slotThemeChanged(int type)
 {
-    // 组合按钮无边框
-    QColor framecolor("#FFFFFF");
-    framecolor.setAlphaF(0.00);
     QString rStr;
     if (type == 1) {
         QColor maskColor(247, 247, 247);
@@ -411,13 +408,14 @@ void BottomToolbar::slotThemeChanged(int type)
 
         DPalette pa;
         pa = m_preButton->palette();
-        QColor btnMaskColor("#000000");
-        btnMaskColor.setAlphaF(0.30);
-        pa.setColor(DPalette::Light, btnMaskColor);
-        pa.setColor(DPalette::Dark, btnMaskColor);
-        pa.setColor(DPalette::FrameBorder, framecolor);
+        pa.setColor(DPalette::Light, QColor("#303030"));
+        pa.setColor(DPalette::Dark, QColor("#303030"));
+        // 单个按钮边框
+        QColor btnframecolor("#000000");
+        btnframecolor.setAlphaF(0.30);
+        pa.setColor(DPalette::FrameBorder, btnframecolor);
         // 取消阴影
-        pa.setColor(DPalette::Shadow, framecolor);
+        pa.setColor(DPalette::Shadow, btnframecolor);
         DApplicationHelper::instance()->setPalette(m_backButton, pa);
         DApplicationHelper::instance()->setPalette(m_preButton, pa);
         DApplicationHelper::instance()->setPalette(m_nextButton, pa);
