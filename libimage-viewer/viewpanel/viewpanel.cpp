@@ -331,7 +331,14 @@ void ViewPanel::updateMenuContent()
         if (imageViewerSpace::ImageTypeDamaged == imageType) {
             return;
         }
-
+        DIconButton *AdaptImageButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeAdaptImage);
+        DIconButton *AdaptScreenButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeAdaptScreen);
+        AdaptImageButton->setEnabled(isPic);
+        AdaptScreenButton->setEnabled(isPic);
+        if (!isPic) {
+            AdaptScreenButton->setChecked(isPic);
+            AdaptImageButton->setChecked(isPic);
+        }
 
         if (window()->isFullScreen()) {
             appendAction(IdExitFullScreen, QObject::tr("Exit fullscreen"), ss("Fullscreen", "F11"));
@@ -343,7 +350,7 @@ void ViewPanel::updateMenuContent()
 
         //ocr按钮,是否是动态图,todo
         DIconButton *OcrButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeOcr);
-        if (imageViewerSpace::ImageTypeDynamic != imageType && isPic) {
+        if (imageViewerSpace::ImageTypeDynamic != imageType && isPic && isReadable) {
             appendAction(IdOcr, QObject::tr("Extract text"), ss("Extract text", "Alt+O"));
             OcrButton->setEnabled(true);
         } else {
