@@ -143,6 +143,8 @@ void MainWindow::initUI()
         m_centerWidget->setCurrentWidget(m_homePageWidget);
         if (m_mainwidow->titlebar())
         {
+            //需要全屏切回普通窗口
+            m_mainwidow->showNormal();
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
             int height =  m_mainwidow->titlebar()->height();
             m_mainwidow->titlebar()->setFixedHeight(50);
