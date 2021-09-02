@@ -1585,6 +1585,8 @@ void TTBContent::setAllEnabled(bool iRet)
 
 void TTBContent::slotMovePress(const QString &path)
 {
+    //滑动的时候屏蔽掉所有按钮
+    setAllEnabled(false);
     m_bMoving = false;
     if (dApp->m_bMove) {
         QString lastPath = m_strCurImagePath;

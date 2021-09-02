@@ -1724,8 +1724,16 @@ void ViewPanel::rotateImage(bool clockWise)
 {
     if (m_infos.count() < 1)
         return;
+    //判断,如果文件没有可写权限,则直接返回
+    if (m_current >= m_infos.size()) m_current = 0;
+    QFileInfo currfileinfo(m_infos.at(m_current).filePath);
+
+    if (!currfileinfo.isWritable()) {
+        return;
+    }
 
     bool bret = true;
+
     if (clockWise) {
         bret = m_viewB->rotateClockWise();
     } else {
