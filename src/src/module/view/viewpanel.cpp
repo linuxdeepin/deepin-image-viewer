@@ -615,7 +615,8 @@ void ViewPanel::recvLoadSignal(bool bFlags)
     }
 
     if (pathlist.size() > 0) {
-        ttbc->setIsConnectDel(false);
+        //动态加载的时候如果关闭删除,会导致等几秒钟才能删除
+//        ttbc->setIsConnectDel(false);
         m_bAllowDel = false;
         ttbc->disableDelAct(false);
         emit sendDynamicLoadPaths(pathlist);
