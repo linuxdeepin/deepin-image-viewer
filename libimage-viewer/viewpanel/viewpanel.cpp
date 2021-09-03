@@ -333,8 +333,14 @@ void ViewPanel::updateMenuContent()
         }
         DIconButton *AdaptImageButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeAdaptImage);
         DIconButton *AdaptScreenButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeAdaptScreen);
-        AdaptImageButton->setEnabled(isPic);
-        AdaptScreenButton->setEnabled(isPic);
+        //修复外部删除图片仍然能够使用适应图片和适应窗口的问题
+        if (isPic && isReadable) {
+            AdaptImageButton->setEnabled(true);
+            AdaptScreenButton->setEnabled(true);
+        } else {
+            AdaptImageButton->setEnabled(false);
+            AdaptScreenButton->setEnabled(false);
+        }
         if (!isPic) {
             AdaptScreenButton->setChecked(isPic);
             AdaptImageButton->setChecked(isPic);
