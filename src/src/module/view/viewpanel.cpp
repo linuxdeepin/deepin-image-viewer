@@ -519,7 +519,7 @@ void ViewPanel::slotCurrentStackWidget(QString &path, bool bpix)
             emit m_viewB->disCheckAdaptImageBtn();
         }
         m_stack->setCurrentIndex(2);
-        m_viewB->checkAdaptImageBtn();
+//        m_viewB->checkAdaptImageBtn();
         slotOpenOcrBtn(true);
         resizeData();
     } else {
@@ -1092,11 +1092,14 @@ void ViewPanel::resizeData()
         } else {
             rect1 = dApp->m_rectmap[m_viewB->path()];
         }
-        if ((rect1.width() >= width() || rect1.height() >= height() - 150) && width() > 0 &&
-                height() > 0) {
-            m_viewB->fitWindow();
-        } else {
-            m_viewB->fitImage();
+        //如果是撕裂图,则不会改变按钮和窗口状态
+        if (m_stack->currentIndex() != 2) {
+            if ((rect1.width() >= width() || rect1.height() >= height() - 150) && width() > 0 &&
+                    height() > 0) {
+                m_viewB->fitWindow();
+            } else {
+                m_viewB->fitImage();
+            }
         }
         m_screentoNormal = false;
     }
