@@ -214,6 +214,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         if (m_dtr->isActive()) {
             return ;
         }
+        if (dApp->m_bMove) {
+            return;
+        }
         m_dtr->start();
         if (!m_vinfo.inDatabase) {
             QFile file(path);

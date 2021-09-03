@@ -242,12 +242,12 @@ bool MyImageListWidget::UpdateThumbnail()
         bmouseleftpressed = false;
         m_vecPoint.clear();
         //lmh0915,加上延时100ms，为了防止动画完了，还在跳转
-        QTimer::singleShot(100, [ = ]{
-            if (m_currentImageItem)
-            {
-                m_currentImageItem->emitClickEndSig();
-            }
-        });
+//        QTimer::singleShot(100, [ = ]{
+        if (m_currentImageItem)
+        {
+            m_currentImageItem->emitClickEndSig();
+        }
+//        });
 
         m_lastPoint = QPoint(0, 0);
         emit mouseLeftReleased();
@@ -1382,12 +1382,12 @@ void TTBContent::showAnimation()
             });
             connect(this, &TTBContent::sigstopmovettb, this,
             [ = ] {
-                if (m_AnimalImageList)
-                {
-                    m_AnimalImageList->stop();
-                    m_AnimalImageList = nullptr;
-                }
-            });
+//                if (m_AnimalImageList)
+//                {
+//                    m_AnimalImageList->stop();
+//                    m_AnimalImageList = nullptr;
+//                }
+            }, Qt::DirectConnection);
         }
     } else if (2 == m_startAnimation) {
         if (bresized) {
