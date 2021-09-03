@@ -1019,7 +1019,11 @@ void ViewPanel::resetBottomToolbarGeometry(bool visible)
         int width = qMin(m_bottomToolbar->getToolbarWidth(), (this->width() - RT_SPACING));
         int x = (this->width() - width) / 2;
         //窗口高度-工具栏高度-工具栏到底部距离
-        int y = this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING;
+        //全屏默认隐藏
+        int y = this->height();
+        if (!window()->isFullScreen()) {
+            y = this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING;
+        }
         m_bottomToolbar->setGeometry(x, y, width, BOTTOM_TOOLBAR_HEIGHT);
     }
 }
