@@ -89,6 +89,11 @@ TEST_F(gtestview, ViewPanel_menu)
             m_menu->addAction(IdDraw);
             IdDraw->trigger();
 
+            QAction *IdOcr = new QAction(m_menu);
+            IdOcr->setProperty("MenuID", ViewPanel::IdOcr);
+            m_menu->addAction(IdOcr);
+            IdOcr->trigger();
+
             emit dApp->signalM->sigOpenFileDialog();
             QAction *IdMoveToTrash = new QAction(m_menu);
             IdMoveToTrash->setProperty("MenuID", ViewPanel::IdMoveToTrash);

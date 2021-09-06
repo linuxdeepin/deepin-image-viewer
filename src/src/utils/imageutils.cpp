@@ -105,28 +105,28 @@ const QImage scaleImage(const QString &path, const QSize &size)
 
 const QDateTime getCreateDateTime(const QString &path)
 {
-    QDateTime dt = libexif::getCreateDateTime(path);
-
+//    QDateTime dt = libexif::getCreateDateTime(path);
+    QDateTime dt;
     // fallback to metadata.
-    if (!dt.isValid()) {
-        QString s;
-        s = getAllMetaData(path).value("DateTimeOriginal");
-        if (s.isEmpty()) {
-            s = getAllMetaData(path).value("DateTimeDigitized");
-        }
-        if (s.isEmpty()) {
-            s = QDateTime::currentDateTime().toString();
-        }
-        dt = QDateTime::fromString(s, "yyyy.MM.dd HH:mm:ss");
-    }
 
-    // fallback to file create time.
+    QString s;
+    s = getAllMetaData(path).value("DateTimeOriginal");
+    if (s.isEmpty()) {
+        s = getAllMetaData(path).value("DateTimeDigitized");
+    }
+    if (s.isEmpty()) {
+        s = QDateTime::currentDateTime().toString();
+    }
+    dt = QDateTime::fromString(s, "yyyy.MM.dd HH:mm:ss");
+
+
+// fallback to file create time.
     if (!dt.isValid()) {
         QFileInfo finfo(path);
         dt = finfo.created();
     }
 
-    // fallback to today.
+// fallback to today.
     if (!dt.isValid()) {
         dt = QDateTime::currentDateTime();
     }

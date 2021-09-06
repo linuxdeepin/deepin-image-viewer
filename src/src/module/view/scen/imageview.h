@@ -112,8 +112,6 @@ public:
      */
     const QString path() const;
 
-    void setPath(const QString path);
-
     QPoint mapToImage(const QPoint &p) const;
     QRect mapToImage(const QRect &r) const;
     QRect visibleImageRect() const;

@@ -740,10 +740,6 @@ const QString ImageView::path() const
     return path;
 }
 
-void ImageView::setPath(const QString path)
-{
-    m_path = path;
-}
 
 QPoint ImageView::mapToImage(const QPoint &p) const
 {
@@ -1087,13 +1083,8 @@ void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
 void ImageView::endApp()
 {
     if (!m_path.isEmpty()) {
-        if (0 != m_rotateAngel) {
-            m_rotateAngel =  m_rotateAngel % 360;
-            if (0 != m_rotateAngel) {
-                utils::image::rotate(m_path, m_rotateAngel);
-                m_rotateAngel = 0;
-            }
-        }
+        //替换为已经存在的函数
+        rotatePixCurrent();
     }
 }
 

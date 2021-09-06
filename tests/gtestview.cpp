@@ -696,6 +696,17 @@ TEST_F(gtestview, ImageView)
     m_ImageView->centerOn(5, 5);
     m_ImageView->setRenderer();
     m_ImageView->setScaleValue(qreal());
+
+    //新增平板的单元测试setScaleValue
+    dApp->m_bIsPanel = true;
+    m_ImageView->setScaleValue(qreal(0.01));
+    m_ImageView->setScaleValue(qreal(1.2));
+    m_ImageView->setScaleValue(qreal(7));
+    m_ImageView->fitWindow();
+    m_ImageView->setScaleValue(qreal(1.2));
+    m_ImageView->fitWindow_btnclicked();
+    dApp->m_bIsPanel = false;
+
     QTest::mousePress(m_ImageView->viewport(), Qt::LeftButton, Qt::NoModifier, QPoint(50, 50), 200);
     QTest::mouseRelease(m_ImageView->viewport(), Qt::LeftButton, Qt::NoModifier, QPoint(100, 100), 200);
     QTest::mouseClick(m_ImageView->viewport(), Qt::LeftButton, Qt::NoModifier, QPoint(50, 50), 200);

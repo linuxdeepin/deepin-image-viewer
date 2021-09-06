@@ -60,7 +60,7 @@ pkg_check_modules(3rd_lib REQUIRED
     dtkwidget
     dtkcore
     gio-qt
-    libexif
+#    libexif
     )
 
 ## translations
