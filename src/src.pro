@@ -15,7 +15,6 @@ PKGCONFIG +=   libexif dtkwidget  gio-qt
  QT += dtkwidget
  QT += dbus
 #CONFIG += object_parallel_to_source
-LIBS += -lfreeimage
 LIBS += -L$$PWD/../../out/ -limage-viewer
 
 DESTDIR = $$PWD/../../out/
@@ -36,7 +35,7 @@ isEmpty(PREFIX){
 
 #include (src/frame/frame.pri)
 include (src/module/modules.pri)
-#include (src/widgets/widgets.pri)
+include (src/mainwindow/mainwindow.pri)
 #include (src/utils/utils.pri)
 #include (src/controller/controller.pri)
 #include (src/service/service.pri)

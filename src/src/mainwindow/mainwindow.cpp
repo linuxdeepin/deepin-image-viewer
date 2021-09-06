@@ -19,8 +19,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "mainwindow.h"
+#ifdef CMAKE_BUILD
 #include "config.h"
-#include "ac-desktop-define.h"
+#endif
+#include "./accessibility/ac-desktop-define.h"
 
 #include <QGraphicsDropShadowEffect>
 #include <QJsonArray>

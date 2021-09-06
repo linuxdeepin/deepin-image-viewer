@@ -1,8 +1,8 @@
 HEADERS += \
-    $$PWD/thumbnailwidget.h \
+    $$PWD/homepagewidget.h \
 
 SOURCES += \
-    $$PWD/thumbnailwidget.cpp \
+    $$PWD/homepagewidget.cpp \
 
 RESOURCES += \
     $$PWD/../../../assets/view/viewtheme.qrc
