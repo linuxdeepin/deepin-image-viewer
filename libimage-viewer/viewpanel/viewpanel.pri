@@ -1,6 +1,7 @@
 HEADERS += \
     $$PWD/viewpanel.h \
     $$PWD/navigationwidget.h \
+    $$PWD/lockwidget.h \
     $$PWD/contents/bottomtoolbar.h \
     $$PWD/contents/imageinfowidget.h \
     $$PWD/contents/imgviewdelegate.h \
@@ -14,6 +15,7 @@ HEADERS += \
 SOURCES += \
     $$PWD/viewpanel.cpp \
     $$PWD/navigationwidget.cpp \
+    $$PWD/lockwidget.cpp \
     $$PWD/contents/bottomtoolbar.cpp \
     $$PWD/contents/imageinfowidget.cpp \
     $$PWD/contents/imgviewdelegate.cpp \

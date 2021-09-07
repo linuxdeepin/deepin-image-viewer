@@ -7,6 +7,7 @@ HEADERS += \
     $$PWD/renamedialog.h \
     $$PWD/toast.h \
     $$PWD/toptoolbar.h \
+$$PWD/themewidget.h \
 
 SOURCES += \
     $$PWD/blureframe.cpp \
@@ -17,3 +18,4 @@ SOURCES += \
     $$PWD/renamedialog.cpp \
     $$PWD/toast.cpp \
     $$PWD/toptoolbar.cpp \
+$$PWD/themewidget.cpp \

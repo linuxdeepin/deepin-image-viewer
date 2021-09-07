@@ -703,7 +703,7 @@ void ImageGraphicsView::slotsUp()
             m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber() + 1) + "/" + QString::number(m_imageReader->imageCount()));
         }
         //todo ,更新导航栏
-//        emit dApp->signalM->UpdateNavImg();
+        emit UpdateNavImg();
     }
 }
 
@@ -752,7 +752,7 @@ void ImageGraphicsView::slotsDown()
         }
 
         //todo ,更新导航栏
-//        emit dApp->signalM->UpdateNavImg();
+        emit UpdateNavImg();
     }
 }
 

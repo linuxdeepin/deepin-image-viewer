@@ -35,6 +35,7 @@
 
 #include "contents/bottomtoolbar.h"
 #include "navigationwidget.h"
+#include "lockwidget.h"
 #include "unionimage/imageutils.h"
 #include "unionimage/baseutils.h"
 #include "unionimage/unionimage.h"
@@ -91,6 +92,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     initFloatingComponent();
     initTopBar();
     initShortcut();
+    initLockPanel();
     initConnect();
 
     setAcceptDrops(true);
@@ -163,6 +165,16 @@ void ViewPanel::initConnect()
     connect(m_view, &ImageGraphicsView::sigMouseMove, this, &ViewPanel::slotBottomMove);
 
     connect(ImageEngine::instance(), &ImageEngine::sigOneImgReady, this, &ViewPanel::slotOneImgReady);
+
+    connect(m_view, &ImageGraphicsView::UpdateNavImg, this, [ = ]() {
+        m_nav->setImage(m_view->image());
+        m_nav->setRectInImage(m_view->visibleImageRect());
+
+        //正在滑动缩略图的时候不再显示
+        if (m_nav->isVisible()) {
+            m_nav->setVisible(false);
+        }
+    });
 
 }
 
@@ -252,7 +264,7 @@ void ViewPanel::initNavigation()
     connect(m_view, &ImageGraphicsView::transformChanged, [this]() {
         //如果stackindex不为2，全屏会出现导航窗口
         //如果是正在移动的情况，将不会出现导航栏窗口
-        if (m_stack->currentIndex() != 2) {
+        if (m_stack->currentWidget() == m_view) {
             m_nav->setVisible((! m_nav->isAlwaysHidden() && ! m_view->isWholeImageVisible()));
             m_nav->setRectInImage(m_view->visibleImageRect());
         }
@@ -313,7 +325,11 @@ void ViewPanel::updateMenuContent()
         if (!isPic) {
             isPic = !m_view->image().isNull();//当前视图是否是图片
         }
-
+        if (isPic) {
+            m_stack->setCurrentWidget(m_view);
+        } else {
+            m_stack->setCurrentWidget(m_lockWidget);
+        }
         QFileInfo info(ItemInfo.path);
         bool isReadable = info.isReadable();//是否可读
         bool isWritable = info.isWritable();//是否可写
@@ -391,10 +407,10 @@ void ViewPanel::updateMenuContent()
         m_menu->addSeparator();
 
         //判断导航栏隐藏,需要添加一个当前是否有图片,todo
-        if (!m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
+        if (isPic && !m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
             appendAction(IdShowNavigationWindow, QObject::tr("Show navigation window"),
                          ss("Show navigation window", ""));
-        } else if (!m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+        } else if (isPic && !m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
             appendAction(IdHideNavigationWindow, QObject::tr("Hide navigation window"),
                          ss("Hide navigation window", ""));
         }
@@ -418,7 +434,7 @@ void ViewPanel::updateMenuContent()
         }
 
         //需要判断图片是否支持设置壁纸,todo
-        if (utils::image::imageSupportWallPaper(ItemInfo.path)) {
+        if (isPic && utils::image::imageSupportWallPaper(ItemInfo.path)) {
             appendAction(IdSetAsWallpaper, QObject::tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
         }
         appendAction(IdDisplayInFileManager, QObject::tr("Display in file manager"),
@@ -784,6 +800,15 @@ void ViewPanel::initSlidePanel()
     }
 }
 
+void ViewPanel::initLockPanel()
+{
+    if (!m_lockWidget) {
+        m_lockWidget = new LockWidget("", "", this);
+        m_stack->addWidget(m_lockWidget);
+        connect(m_lockWidget, &LockWidget::sigMouseMove, this, &ViewPanel::slotBottomMove);
+    }
+}
+
 void ViewPanel::initShortcut()
 {
     QShortcut *sc = nullptr;
@@ -1095,7 +1120,8 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         m_view->fitWindow();
     }
 
-    resetBottomToolbarGeometry(m_stack->currentWidget() == m_view);
+//    resetBottomToolbarGeometry(m_stack->currentWidget() == m_view);
+    resetBottomToolbarGeometry(true);
     QFrame::resizeEvent(e);
 }
 
@@ -1108,7 +1134,7 @@ void ViewPanel::showEvent(QShowEvent *e)
 void ViewPanel::paintEvent(QPaintEvent *event)
 {
     QFrame::paintEvent(event);
-    qDebug() << "windows flgs ========= " << this->windowFlags() << "attributs = " << this->testAttribute(Qt::WA_Resized);
+//    qDebug() << "windows flgs ========= " << this->windowFlags() << "attributs = " << this->testAttribute(Qt::WA_Resized);
 }
 
 

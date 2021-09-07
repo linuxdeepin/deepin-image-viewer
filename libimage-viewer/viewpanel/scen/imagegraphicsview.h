@@ -114,6 +114,8 @@ signals:
     //当前titlebar是否有阴影
     void sigImageOutTitleBar(bool);
 
+    //刷新缩略图导航栏
+    void UpdateNavImg();
 
 public slots:
 //    void setHighQualityAntialiasing(bool highQualityAntialiasing);

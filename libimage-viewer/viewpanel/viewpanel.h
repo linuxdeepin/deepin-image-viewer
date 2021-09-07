@@ -39,6 +39,7 @@ class TopToolbar;
 class OcrInterface;
 class SlideShowPanel;
 class QPropertyAnimation;
+class LockWidget;
 
 class ViewPanel : public QFrame
 {
@@ -92,6 +93,9 @@ public:
     void initExtensionPanel();
     //幻灯片初始化
     void initSlidePanel();
+    //损坏图片初始化
+    void initLockPanel();
+
     //初始化快捷键
     void initShortcut();
     //更新右键菜单
@@ -165,6 +169,7 @@ signals:
 private :
     DStackedWidget *m_stack = nullptr;
     ImageGraphicsView *m_view = nullptr;
+    LockWidget *m_lockWidget = nullptr;
     BottomToolbar *m_bottomToolbar = nullptr;
     ImageInfoWidget *m_info = nullptr;
     ExtensionPanel  *m_extensionPanel {nullptr};
