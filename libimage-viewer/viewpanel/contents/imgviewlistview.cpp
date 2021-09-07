@@ -330,7 +330,7 @@ void ImgViewListView::slotOneImgReady(QString path, imageViewerSpace::ItemInfo p
         if (data.path == path) {
             pix.imgWidth = data.imgWidth;
             pix.imgHeight = data.imgHeight;
-            cutPixmap(pix);
+//            cutPixmap(pix);
             QVariant meta;
             meta.setValue(pix);
             m_model->setData(index, meta, Qt::DisplayRole);

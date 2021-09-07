@@ -1076,7 +1076,7 @@ void ImageGraphicsView::wheelEvent(QWheelEvent *event)
 
         event->accept();
     }
-    qDebug() << "---" << __FUNCTION__ << "---" << this->sceneRect();
+//    qDebug() << "---" << __FUNCTION__ << "---" << this->sceneRect();
 }
 
 //CFileWatcher::CFileWatcher(QObject *parent): QThread(parent)

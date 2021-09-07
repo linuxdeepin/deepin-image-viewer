@@ -36,6 +36,8 @@
 #include "contents/bottomtoolbar.h"
 #include "navigationwidget.h"
 #include "lockwidget.h"
+#include "thumbnailwidget.h"
+
 #include "unionimage/imageutils.h"
 #include "unionimage/baseutils.h"
 #include "unionimage/unionimage.h"
@@ -93,6 +95,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     initTopBar();
     initShortcut();
     initLockPanel();
+    initThumbnailWidget();
     initConnect();
 
     setAcceptDrops(true);
@@ -175,6 +178,11 @@ void ViewPanel::initConnect()
             m_nav->setVisible(false);
         }
     });
+
+    connect(m_view, &ImageGraphicsView::sigFIleDelete, this, [ = ]() {
+        this->updateMenuContent();
+    });
+
 
 }
 
@@ -325,21 +333,32 @@ void ViewPanel::updateMenuContent()
         if (!isPic) {
             isPic = !m_view->image().isNull();//当前视图是否是图片
         }
-        if (isPic) {
-            m_stack->setCurrentWidget(m_view);
-            //判断下是否透明
-            m_view->titleBarControl();
-        } else {
-            m_stack->setCurrentWidget(m_lockWidget);
-            //损坏图片不透明
-            emit m_view->sigImageOutTitleBar(false);
-        }
+
         QFileInfo info(ItemInfo.path);
         bool isReadable = info.isReadable();//是否可读
         bool isWritable = info.isWritable();//是否可写
         bool isRotatable = ImageEngine::instance()->isRotatable(ItemInfo.path);//是否可旋转
         imageViewerSpace::PathType pathType = ItemInfo.pathType;//路径类型
         imageViewerSpace::ImageType imageType = ItemInfo.imageType;//图片类型
+
+        if (!isReadable) {
+            if (m_thumbnailWidget) {
+                m_stack->setCurrentWidget(m_thumbnailWidget);
+                //损坏图片不透明
+                emit m_view->sigImageOutTitleBar(false);
+                m_thumbnailWidget->setThumbnailImage(QPixmap::fromImage(ItemInfo.image));
+            }
+        } else if (isPic) {
+            m_stack->setCurrentWidget(m_view);
+            //判断下是否透明
+            m_view->titleBarControl();
+        } else {
+            if (m_lockWidget) {
+                m_stack->setCurrentWidget(m_lockWidget);
+                //损坏图片不透明
+                emit m_view->sigImageOutTitleBar(false);
+            }
+        }
 
         //如果是图片，按钮恢复，否则按钮置灰
 //        if (isPic) {
@@ -387,8 +406,9 @@ void ViewPanel::updateMenuContent()
         appendAction(IdStartSlideShow, QObject::tr("Slide show"), ss("Slide show", "F5"));
 
         m_menu->addSeparator();
-
-        appendAction(IdCopy, QObject::tr("Copy"), ss("Copy", "Ctrl+C"));
+        if (isReadable) {
+            appendAction(IdCopy, QObject::tr("Copy"), ss("Copy", "Ctrl+C"));
+        }
 
         //如果程序有可读可写的权限,才能重命名,todo
         if (isReadable && isWritable) {
@@ -411,10 +431,10 @@ void ViewPanel::updateMenuContent()
         m_menu->addSeparator();
 
         //判断导航栏隐藏,需要添加一个当前是否有图片,todo
-        if (isPic && !m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
+        if (isReadable && isPic && !m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
             appendAction(IdShowNavigationWindow, QObject::tr("Show navigation window"),
                          ss("Show navigation window", ""));
-        } else if (isPic && !m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+        } else if (isReadable && isPic && !m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
             appendAction(IdHideNavigationWindow, QObject::tr("Hide navigation window"),
                          ss("Hide navigation window", ""));
         }
@@ -441,10 +461,11 @@ void ViewPanel::updateMenuContent()
         if (isPic && utils::image::imageSupportWallPaper(ItemInfo.path)) {
             appendAction(IdSetAsWallpaper, QObject::tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
         }
-        appendAction(IdDisplayInFileManager, QObject::tr("Display in file manager"),
-                     ss("Display in file manager", "Alt+D"));
-        appendAction(IdImageInfo, QObject::tr("Image info"), ss("Image info", "Ctrl+I"));
-
+        if (isReadable) {
+            appendAction(IdDisplayInFileManager, QObject::tr("Display in file manager"),
+                         ss("Display in file manager", "Alt+D"));
+            appendAction(IdImageInfo, QObject::tr("Image info"), ss("Image info", "Ctrl+I"));
+        }
     }
 }
 
@@ -810,6 +831,15 @@ void ViewPanel::initLockPanel()
         m_lockWidget = new LockWidget("", "", this);
         m_stack->addWidget(m_lockWidget);
         connect(m_lockWidget, &LockWidget::sigMouseMove, this, &ViewPanel::slotBottomMove);
+    }
+}
+
+void ViewPanel::initThumbnailWidget()
+{
+    if (!m_thumbnailWidget) {
+        m_thumbnailWidget = new ThumbnailWidget("", "", this);
+        m_stack->addWidget(m_thumbnailWidget);
+        connect(m_thumbnailWidget, &ThumbnailWidget::sigMouseMove, this, &ViewPanel::slotBottomMove);
     }
 }
 
