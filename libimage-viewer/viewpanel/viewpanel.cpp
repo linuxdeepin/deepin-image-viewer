@@ -327,8 +327,12 @@ void ViewPanel::updateMenuContent()
         }
         if (isPic) {
             m_stack->setCurrentWidget(m_view);
+            //判断下是否透明
+            m_view->titleBarControl();
         } else {
             m_stack->setCurrentWidget(m_lockWidget);
+            //损坏图片不透明
+            emit m_view->sigImageOutTitleBar(false);
         }
         QFileInfo info(ItemInfo.path);
         bool isReadable = info.isReadable();//是否可读

@@ -441,7 +441,7 @@ void BottomToolbar::slotOpenImage(int index, QString path)
     } else {
         m_nextButton->setEnabled(true);
     }
-    qDebug() << index << m_imgListWidget->getImgCount();
+//    qDebug() << index << m_imgListWidget->getImgCount();
 
     //BUG#93143
     QFileInfo info(path);

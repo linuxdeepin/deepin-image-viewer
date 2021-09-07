@@ -185,7 +185,7 @@ void MyImageListWidget::setSelectCenter()
 
 int MyImageListWidget::getImgCount()
 {
-    qDebug() << "---" << __FUNCTION__ << "---m_listview->m_model->rowCount() = " << m_listview->m_model->rowCount();
+//    qDebug() << "---" << __FUNCTION__ << "---m_listview->m_model->rowCount() = " << m_listview->m_model->rowCount();
     return m_listview->m_model->rowCount();
 }
 
