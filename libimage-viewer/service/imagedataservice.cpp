@@ -255,17 +255,17 @@ void readThumbnailThread::readThumbnail(QString path)
         if (tImg.height() != 200 && tImg.width() != 200) {
             if (tImg.height() >= tImg.width()) {
                 cache_exist = true;
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToWidth(200,  Qt::SmoothTransformation);
             } else if (tImg.height() <= tImg.width()) {
                 cache_exist = true;
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(200,  Qt::SmoothTransformation);
             }
         }
         if (!cache_exist) {
             if (static_cast<float>(tImg.height()) / static_cast<float>(tImg.width()) > 3) {
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToWidth(200,  Qt::SmoothTransformation);
             } else {
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(200,  Qt::SmoothTransformation);
             }
         }
     }

@@ -763,7 +763,7 @@ bool ImageGraphicsView::slotRotatePixmap(int nAngel)
     QMatrix rotate;
     rotate.rotate(nAngel);
 
-    pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
+    pixmap = pixmap.transformed(rotate, Qt::SmoothTransformation);
     pixmap.setDevicePixelRatio(devicePixelRatioF());
     scene()->clear();
     resetTransform();
