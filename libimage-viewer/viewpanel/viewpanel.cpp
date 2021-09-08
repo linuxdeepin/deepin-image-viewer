@@ -341,6 +341,9 @@ void ViewPanel::updateMenuContent()
         imageViewerSpace::PathType pathType = ItemInfo.pathType;//路径类型
         imageViewerSpace::ImageType imageType = ItemInfo.imageType;//图片类型
 
+        if (m_info) {
+            m_info->setImagePath(ItemInfo.path);
+        }
         if (!isReadable) {
             if (m_thumbnailWidget) {
                 m_stack->setCurrentWidget(m_thumbnailWidget);

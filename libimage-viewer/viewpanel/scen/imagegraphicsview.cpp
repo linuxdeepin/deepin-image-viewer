@@ -162,6 +162,10 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
     if (m_morePicFloatWidget) {
         m_morePicFloatWidget->setVisible(false);
     }
+    if (m_imageReader) {
+        delete m_imageReader;
+        m_imageReader = nullptr;
+    }
     //重新生成数据缓存
 //    ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), QStringList(path), 1, true);
     //检测数据缓存,如果存在,则使用缓存
@@ -320,10 +324,7 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
             if (!m_morePicFloatWidget) {
                 initMorePicWidget();
             }
-            if (m_imageReader) {
-                delete m_imageReader;
-                m_imageReader = nullptr;
-            }
+
             m_imageReader = new QImageReader(path);
             if (m_imageReader->imageCount() > 1) {
                 //校验tiff的第一个图
@@ -441,10 +442,10 @@ const QImage ImageGraphicsView::image()
     } else {
         img = QImage();
     }
-    if (img.isNull()) {
-        if (m_morePicFloatWidget) {
-            m_morePicFloatWidget->setVisible(false);
-        }
+    if (img.isNull() && m_morePicFloatWidget) {
+        m_morePicFloatWidget->setVisible(false);
+    } else if (m_imageReader && (m_imageReader->imageCount() > 1) && m_morePicFloatWidget) {
+        m_morePicFloatWidget->setVisible(true);
     }
     return img;
 }
