@@ -984,6 +984,8 @@ void ViewPanel::onMenuItemClicked(QAction *action)
                 if (m_topToolbar) {
                     m_topToolbar->setMiddleContent(filename);
                     CommonService::instance()->reName(oldPath, filepath);
+                    //重新打开该图片
+                    openImg(0, filepath);
                 }
             }
         }
