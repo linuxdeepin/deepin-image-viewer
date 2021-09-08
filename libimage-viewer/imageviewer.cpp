@@ -6,6 +6,8 @@
 #include <QDir>
 #include <QCollator>
 #include <QCommandLineParser>
+#include <QDirIterator>
+#include <QTranslator>
 
 #include <DFileDialog>
 
@@ -16,7 +18,7 @@
 #include "unionimage/baseutils.h"
 //#include "widgets/toptoolbar.h"
 
-
+#define PLUGINTRANSPATH "/usr/share/libimage-viewer/translations"
 class ImageViewerPrivate
 {
 public:
@@ -32,6 +34,18 @@ public:
 ImageViewerPrivate::ImageViewerPrivate(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, ImageViewer *parent)
     : q_ptr(parent)
 {
+    QDir dir(PLUGINTRANSPATH);
+    if (dir.exists()) {
+        QDirIterator qmIt(PLUGINTRANSPATH, QStringList() << QString("*%1.qm").arg(QLocale::system().name()), QDir::Files);
+        while (qmIt.hasNext()) {
+            qmIt.next();
+            QFileInfo finfo = qmIt.fileInfo();
+            QTranslator *translator = new QTranslator;
+            if (translator->load(finfo.baseName(), finfo.absolutePath())) {
+                qApp->installTranslator(translator);
+            }
+        }
+    }
     Q_Q(ImageViewer);
     m_imgViewerType = imgViewerType;
     //记录当前展示模式
@@ -51,7 +65,11 @@ ImageViewer::ImageViewer(imageViewerSpace::ImgViewerType imgViewerType, QString 
     : DWidget(parent)
     , d_ptr(new ImageViewerPrivate(imgViewerType, savePath, this))
 {
+
     Q_D(ImageViewer);
+    //1.load translations first
+
+
 }
 
 ImageViewer::~ImageViewer()

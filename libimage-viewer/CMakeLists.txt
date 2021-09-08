@@ -11,7 +11,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 #Qt需要的包
-set(QtModule Core Gui Widgets Svg DBus Concurrent PrintSupport)
+set(QtModule Core Gui Widgets Svg DBus Concurrent PrintSupport LinguistTools)
 
 set(TARGET_NAME image-viewer)
 set(CMD_NAME image-viewer)
@@ -69,11 +69,26 @@ set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 #使用库
 qt5_use_modules(image-viewer ${QtModule})
 
+file(GLOB TS LIST_DIRECTORIES false translations/*.ts)
+
+set_source_files_properties(${TS} PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/translations)
+
+qt5_create_translation(QM ${SOURCES}  ${GLOB})
+
+if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
+    qt5_create_translation(QM ${SOURCES} ${TS})
+endif ()
+
 #将库安装到指定位置
 set(PREFIX /usr)
 set(image-viewer ${PREFIX}/lib)
 
 install(TARGETS image-viewer LIBRARY DESTINATION ${image-viewer})
+
+#translations
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
+    DESTINATION ${PREFIX}/share/libimage-viewer/translations
+    FILES_MATCHING PATTERN "*.qm")
 
 execute_process(
 COMMAND sudo ln -s ${image-viewer}/libimage-viewer.so ${image-viewer}/libimage-viewer.so.1

@@ -595,7 +595,7 @@ void BottomToolbar::initUI()
 //    AC_SET_ACCESSIBLE_NAME(m_backButton, BottomToolbar_Back_Button);
     m_backButton->setIcon(QIcon::fromTheme("dcc_back"));
     m_backButton->setIconSize(QSize(36, 36));
-    m_backButton->setToolTip(tr("Back"));
+    m_backButton->setToolTip(QObject::tr("Back"));
     m_backButton->setVisible(false);
     hb->addWidget(m_backButton);
 
@@ -613,7 +613,7 @@ void BottomToolbar::initUI()
     m_preButton->setFixedSize(ICON_SIZE);
     m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
     m_preButton->setIconSize(QSize(36, 36));
-    m_preButton->setToolTip(tr("Previous"));
+    m_preButton->setToolTip(QObject::tr("Previous"));
     m_preButton->hide();
     hb->addWidget(m_preButton);
 
@@ -624,7 +624,7 @@ void BottomToolbar::initUI()
     m_nextButton->setFixedSize(ICON_SIZE);
     m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
     m_nextButton->setIconSize(QSize(36, 36));
-    m_nextButton->setToolTip(tr("Next"));
+    m_nextButton->setToolTip(QObject::tr("Next"));
     m_nextButton->hide();
     hb->addWidget(m_nextButton);
     if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeLocal) {
@@ -638,7 +638,7 @@ void BottomToolbar::initUI()
     m_adaptImageBtn->setFixedSize(ICON_SIZE);
     m_adaptImageBtn->setIcon(QIcon::fromTheme("dcc_11"));
     m_adaptImageBtn->setIconSize(QSize(36, 36));
-    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
+    m_adaptImageBtn->setToolTip(QObject::tr("1:1 Size"));
     m_adaptImageBtn->setCheckable(true);
     hb->addWidget(m_adaptImageBtn);
 
@@ -649,7 +649,7 @@ void BottomToolbar::initUI()
 //    AC_SET_ACCESSIBLE_NAME(m_adaptScreenBtn, BottomToolbar_AdaptScreen_Button);
     m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
     m_adaptScreenBtn->setIconSize(QSize(36, 36));
-    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
+    m_adaptScreenBtn->setToolTip(QObject::tr("Fit to window"));
 //    m_adaptScreenBtn->setCheckable(true);
     hb->addWidget(m_adaptScreenBtn);
 
@@ -665,7 +665,7 @@ void BottomToolbar::initUI()
     m_ocrBtn->setFixedSize(ICON_SIZE);
     m_ocrBtn->setIcon(QIcon::fromTheme("dcc_ocr"));
     m_ocrBtn->setIconSize(QSize(36, 36));
-    m_ocrBtn->setToolTip(tr("Extract text"));
+    m_ocrBtn->setToolTip(QObject::tr("Extract text"));
     hb->addWidget(m_ocrBtn);
 
     //向左旋转
@@ -675,7 +675,7 @@ void BottomToolbar::initUI()
     m_rotateLBtn->setFixedSize(ICON_SIZE);
     m_rotateLBtn->setIcon(QIcon::fromTheme("dcc_left"));
     m_rotateLBtn->setIconSize(QSize(36, 36));
-    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
+    m_rotateLBtn->setToolTip(QObject::tr("Rotate counterclockwise"));
     hb->addWidget(m_rotateLBtn);
 
     //向右旋转
@@ -685,7 +685,7 @@ void BottomToolbar::initUI()
     m_rotateRBtn->setFixedSize(ICON_SIZE);
     m_rotateRBtn->setIcon(QIcon::fromTheme("dcc_right"));
     m_rotateRBtn->setIconSize(QSize(36, 36));
-    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
+    m_rotateRBtn->setToolTip(QObject::tr("Rotate clockwise"));
     hb->addWidget(m_rotateRBtn);
 
     //缩略图列表
@@ -699,7 +699,7 @@ void BottomToolbar::initUI()
 //    AC_SET_ACCESSIBLE_NAME(m_trashBtn, BottomToolbar_Trash_Button);
     m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
     m_trashBtn->setIconSize(QSize(36, 36));
-    m_trashBtn->setToolTip(tr("Delete"));
+    m_trashBtn->setToolTip(QObject::tr("Delete"));
     hb->addWidget(m_trashBtn);
 }
 

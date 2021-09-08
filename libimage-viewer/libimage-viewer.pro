@@ -44,7 +44,24 @@ HEADERS += \
         imageengine.h \
         image-viewer_global.h 
 DESTDIR = $$PWD/../../out/
+
+TRANSLATIONS += \
+    translations/libimage-viewer_zh_CN.ts \
+
+CONFIG(release, debug|release) {
+    TRANSLATIONS = $$files($$PWD/translations/*.ts)
+    #遍历目录中的ts文件，调用lrelease将其生成为qm文件
+    for(tsfile, TRANSLATIONS) {
+        qmfile = $$replace(tsfile, .ts$, .qm)
+        system(lrelease $$tsfile -qm $$qmfile) | error("Failed to lrelease")
+    }
+}
+translations.path = /usr/share/libimage-viewer/translations
+translations.files = $$PWD/translations/*.qm
+
+
 unix {
     target.path = /usr/lib/
-    INSTALLS += target
+    INSTALLS += target translations
 }
+
