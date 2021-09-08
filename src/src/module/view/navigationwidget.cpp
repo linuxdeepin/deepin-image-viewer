@@ -226,8 +226,9 @@ void NavigationWidget::tryMoveRect(const QPoint &p)
 
 //    const qreal x = 1.0 * (p.x() / devicePixelRatioF() - x0) / m_img.width() * m_originRect.width();
 //    const qreal y = 1.0 * (p.y() / devicePixelRatioF() - y0) / m_img.height() * m_originRect.height();
-    qreal x = p.x() * m_imageScale;
-    qreal y = p.y() * m_imageScale;
+    //修复鼠标位置存在出入的问题
+    qreal x = p.x() * m_imageScale * m_heightScale;
+    qreal y = p.y() * m_imageScale * m_widthScale;
 
 //    qDebug() << p ;
 //    qDebug() << x << y;
