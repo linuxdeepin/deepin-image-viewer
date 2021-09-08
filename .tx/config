@@ -15,3 +15,9 @@ source_file = src/translations/desktop/desktop.ts
 preTranslate_file = src/deepin-image-viewer.desktop
 source_lang = en
 type = QT
+
+[deepin-image-viewer.libimage-viewer]
+file_filter = libimage-viewer/translations/libimage-viewer_<lang>.ts
+source_file = libimage-viewer/translations/libimage-viewer.ts
+source_lang = en
+type = QT
