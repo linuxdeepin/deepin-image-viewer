@@ -182,6 +182,10 @@ void ViewPanel::initConnect()
     connect(m_view, &ImageGraphicsView::sigFIleDelete, this, [ = ]() {
         this->updateMenuContent();
     });
+    //增加双击全屏和退出全屏的功能
+    connect(m_view, &ImageGraphicsView::doubleClicked, this, [ = ]() {
+        toggleFullScreen();
+    });
 
 
 }
