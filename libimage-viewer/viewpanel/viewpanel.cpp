@@ -115,8 +115,12 @@ void ViewPanel::loadImage(const QString &path, QStringList paths)
     m_topToolbar->setMiddleContent(info.fileName());
     m_view->resetTransform();
     m_stack->setCurrentWidget(m_view);
-    //刷新工具栏
+    //刷新工具栏,如果paths不含有path,则添加进入paths
+    if (!paths.contains(path)) {
+        paths << path;
+    }
     m_bottomToolbar->setAllFile(path, paths);
+    m_currentPath = path;
     //重置底部工具栏位置与大小
     qDebug() << "---" << __FUNCTION__ << "---111111111111111";
     resetBottomToolbarGeometry(true);
@@ -746,7 +750,10 @@ bool ViewPanel::startChooseFileDialog()
     //展示当前图片
     loadImage(loadingPath, image_list);
     //启动线程制作缩略图
-    if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerTypeLocal) {
+    if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerTypeLocal ||
+            CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerTypeNull) {
+        //看图首先制作显示的图片的缩略图
+        ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), QStringList(path), 1);
         //看图制作全部缩略图
         ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), image_list, image_list.size());
     }
@@ -1055,7 +1062,13 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         //重新刷新文件信息
         m_info->updateInfo();
         m_info->show();
-        m_info->setImagePath(m_bottomToolbar->getCurrentItemInfo().path);
+
+        //判断是否有缓存,无缓存,则使用打开路径
+        QString path = m_bottomToolbar->getCurrentItemInfo().path;
+        if (path.isEmpty()) {
+            path = m_currentPath;
+        }
+        m_info->setImagePath(path);
         m_extensionPanel->setContent(m_info);
         m_extensionPanel->show();
         if (this->window()->isFullScreen() || this->window()->isMaximized()) {

@@ -95,7 +95,10 @@ void ImageViewer::startImgView(QString currentPath, QStringList paths)
     //展示当前图片
     d->m_panel->loadImage(currentPath, paths);
     //启动线程制作缩略图
-    if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerTypeLocal) {
+    if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerTypeLocal ||
+            CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerTypeNull) {
+        //首先生成当前图片的缓存
+        ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), QStringList(currentPath), 1);
         //看图制作全部缩略图
         ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), paths, paths.size());
     }

@@ -301,6 +301,10 @@ void BottomToolbar::deleteImage()
                 }
                 //BUG#93072 图片删到最后要清理一下控件聚焦
                 m_trashBtn->clearFocus();
+                //当图片不存在的时候,回到初始界面
+                if (!QFileInfo(m_imgListWidget->getCurrentImgInfo().path).isFile()) {
+                    emit ImageEngine::instance()->sigPicCountIsNull();
+                };
             } else if (m_imgListWidget->getImgCount() == 0) {
                 emit ImageEngine::instance()->sigPicCountIsNull();
             }
