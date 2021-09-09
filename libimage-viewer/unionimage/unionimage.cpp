@@ -35,6 +35,9 @@
 #include <QImageReader>
 #include <QMimeDatabase>
 #include <QtSvg/QSvgRenderer>
+#include <QDir>
+
+#include "unionimage/imageutils.h"
 
 
 #define SAVE_QUAITY_VALUE 100
@@ -1368,6 +1371,26 @@ imageViewerSpace::ImageType getImageType(const QString &imagepath)
             type = imageViewerSpace::ImageTypeStatic;
         }
     }
+    return type;
+}
+imageViewerSpace::PathType getPathType(const QString &imagepath)
+{
+    //判断文件路径来自于哪里
+    imageViewerSpace::PathType type = imageViewerSpace::PathType::PathTypeLOCAL;
+    if (imagepath.indexOf("smb-share:server=") != -1) {
+        type = imageViewerSpace::PathTypeSMB;
+    } else if (imagepath.indexOf("mtp:host=") != -1) {
+        type = imageViewerSpace::PathTypeMTP;
+    } else if (imagepath.indexOf("gphoto2:host=") != -1) {
+        type = imageViewerSpace::PathTypePTP;
+    } else if (imagepath.indexOf("gphoto2:host=Apple") != -1) {
+        type = imageViewerSpace::PathTypeAPPLE;
+    } else if (utils::image::isVaultFile(imagepath)) {
+        type = imageViewerSpace::PathTypeSAFEBOX;
+    } else if (imagepath.contains(QDir::homePath() + "/.local/share/Trash")) {
+        type = imageViewerSpace::PathTypeRECYCLEBIN;
+    }
+    //todo
     return type;
 }
 QString PrivateDetectImageFormat(const QString &filepath)

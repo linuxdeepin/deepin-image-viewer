@@ -297,23 +297,7 @@ imageViewerSpace::ImageType readThumbnailThread::getImageType(const QString &ima
 
 imageViewerSpace::PathType readThumbnailThread::getPathType(const QString &imagepath)
 {
-    //判断文件路径来自于哪里
-    imageViewerSpace::PathType type = imageViewerSpace::PathType::PathTypeLOCAL;
-    if (imagepath.indexOf("smb-share:server=") != -1) {
-        type = imageViewerSpace::PathTypeSMB;
-    } else if (imagepath.indexOf("mtp:host=") != -1) {
-        type = imageViewerSpace::PathTypeMTP;
-    } else if (imagepath.indexOf("gphoto2:host=") != -1) {
-        type = imageViewerSpace::PathTypePTP;
-    } else if (imagepath.indexOf("gphoto2:host=Apple") != -1) {
-        type = imageViewerSpace::PathTypeAPPLE;
-    } else if (utils::image::isVaultFile(imagepath)) {
-        type = imageViewerSpace::PathTypeSAFEBOX;
-    } else if (imagepath.contains(QDir::homePath() + "/.local/share/Trash")) {
-        type = imageViewerSpace::PathTypeRECYCLEBIN;
-    }
-    //todo
-    return type;
+    return UnionImage_NameSpace::getPathType(imagepath);
 }
 
 void readThumbnailThread::run()

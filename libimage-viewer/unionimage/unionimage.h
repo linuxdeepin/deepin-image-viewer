@@ -200,6 +200,17 @@ UNIONIMAGESHARED_EXPORT const QString getOrientation(const QString &path);
 
 UNIONIMAGESHARED_EXPORT imageViewerSpace::ImageType getImageType(const QString &imagepath);
 
+/**
+ * @brief getPathType
+ * @param path
+ * @author LMH
+ * @return QString
+ * 获得路径类型
+ */
+UNIONIMAGESHARED_EXPORT imageViewerSpace::PathType getPathType(const QString &imagepath);
+
+
+
 QT_BEGIN_NAMESPACE
 
 class UnionMovieImagePrivate;

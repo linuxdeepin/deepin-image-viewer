@@ -101,7 +101,7 @@ public:
     //初始化快捷键
     void initShortcut();
     //更新右键菜单
-    void updateMenuContent();
+    void updateMenuContent(QString path = "");
     //控制全屏和返回全屏
     void toggleFullScreen();
     //全屏
@@ -194,5 +194,7 @@ private :
     QPropertyAnimation *m_bottomAnimation{nullptr};
 
     bool m_isBottomBarVisble = true;
+
+    QString m_currentPath = "";
 };
 #endif  // VIEWPANEL_H

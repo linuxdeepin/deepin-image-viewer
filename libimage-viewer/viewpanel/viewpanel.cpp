@@ -321,7 +321,7 @@ void ViewPanel::initExtensionPanel()
     }
 }
 
-void ViewPanel::updateMenuContent()
+void ViewPanel::updateMenuContent(QString path)
 {
     if (!window()->isFullScreen()) {
         resetBottomToolbarGeometry(true);
@@ -337,18 +337,26 @@ void ViewPanel::updateMenuContent()
         if (!isPic) {
             isPic = !m_view->image().isNull();//当前视图是否是图片
         }
-
-        QFileInfo info(ItemInfo.path);
+        QString currentPath;
+        if (path.isEmpty()) {
+            currentPath = ItemInfo.path;
+        } else {
+            currentPath = path;
+        }
+        if (currentPath.isEmpty()) {
+            currentPath = m_currentPath;
+        }
+        QFileInfo info(currentPath);
         bool isReadable = info.isReadable();//是否可读
         bool isWritable = info.isWritable();//是否可写
-        bool isRotatable = ImageEngine::instance()->isRotatable(ItemInfo.path);//是否可旋转
-        imageViewerSpace::PathType pathType = ItemInfo.pathType;//路径类型
-        imageViewerSpace::ImageType imageType = ItemInfo.imageType;//图片类型
+        bool isRotatable = ImageEngine::instance()->isRotatable(currentPath);//是否可旋转
+        imageViewerSpace::PathType pathType = UnionImage_NameSpace::getPathType(currentPath);//路径类型
+        imageViewerSpace::ImageType imageType = UnionImage_NameSpace::getImageType(currentPath);//图片类型
 
         if (m_info) {
-            m_info->setImagePath(ItemInfo.path);
+            m_info->setImagePath(currentPath);
         }
-        if (!isReadable) {
+        if (!isReadable && !currentPath.isEmpty()) {
             if (m_thumbnailWidget) {
                 m_stack->setCurrentWidget(m_thumbnailWidget);
                 //损坏图片不透明
@@ -359,7 +367,7 @@ void ViewPanel::updateMenuContent()
             m_stack->setCurrentWidget(m_view);
             //判断下是否透明
             m_view->titleBarControl();
-        } else {
+        } else if (!currentPath.isEmpty()) {
             if (m_lockWidget) {
                 m_stack->setCurrentWidget(m_lockWidget);
                 //损坏图片不透明
@@ -1104,7 +1112,8 @@ void ViewPanel::openImg(int index, QString path)
     m_view->resetTransform();
     QFileInfo info(path);
     m_topToolbar->setMiddleContent(info.fileName());
-    updateMenuContent();
+    m_currentPath = path;
+    updateMenuContent(path);
 }
 
 void ViewPanel::slotRotateImage(int angle)
