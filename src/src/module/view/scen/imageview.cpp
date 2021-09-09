@@ -566,7 +566,8 @@ void ImageView::titleBarControl()
         realHeight = img.size().height() * imageRelativeScale() * devicePixelRatioF();
 
     } else {
-        realHeight = img.size().height() * imageRelativeScale();
+        //修复在1.25缩放下会出现非透明状的标题栏
+        realHeight = img.size().height() * imageRelativeScale() * devicePixelRatioF();
     }
 
     if (realHeight > height() - 100) {
