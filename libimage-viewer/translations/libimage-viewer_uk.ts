@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="uk">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
 <context>
     <name>ExtensionPanel</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
     </message>
 </context>
 <context>
@@ -121,7 +119,7 @@
     <name>QObject</name>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>день</translation>
     </message>
     <message>
         <source>Back</source>
@@ -145,7 +143,7 @@
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Видобути текст</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
@@ -173,7 +171,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Слайд шоу</translation>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -250,7 +248,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Не знайдено файлів зображень</translation>
+        <translation>Файл зображення не знайдено</translation>
     </message>
 </context>
 <context>

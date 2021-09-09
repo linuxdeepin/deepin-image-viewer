@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sq">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sq" version="2.1">
 <context>
     <name>ExtensionPanel</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
     </message>
 </context>
 <context>
@@ -54,7 +52,7 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Mënyra e ekspozimit</translation>
+        <translation>Mënyrë ekspozimi</translation>
     </message>
     <message>
         <source>Exposure program</source>
@@ -121,7 +119,7 @@
     <name>QObject</name>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>ditë</translation>
     </message>
     <message>
         <source>Back</source>
@@ -145,7 +143,7 @@
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Përfto tekstin</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
@@ -161,7 +159,7 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Dil nga mënyra sa krejt ekrani</translation>
+        <translation>Dil nga mënyra “Sa krejt ekrani”</translation>
     </message>
     <message>
         <source>Fullscreen</source>

@@ -38,11 +38,11 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>類型</translation>
+        <translation>文件類型</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改時間</translation>
+        <translation>修改日期</translation>
     </message>
     <message>
         <source>File size</source>
@@ -50,7 +50,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation>已擷取日期</translation>
+        <translation>拍攝日期</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -121,7 +121,7 @@
     <name>QObject</name>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>天</translation>
     </message>
     <message>
         <source>Back</source>
@@ -137,7 +137,7 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"></translation>
+        <translation>1:1视图</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -173,7 +173,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>開始幻燈片秀</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -239,7 +239,7 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation>離開</translation>
+        <translation>退出</translation>
     </message>
 </context>
 <context>

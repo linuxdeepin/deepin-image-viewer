@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
 <context>
     <name>ExtensionPanel</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg+I</translation>
     </message>
 </context>
 <context>
@@ -121,87 +119,87 @@
     <name>QObject</name>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Zurück</translation>
+        <translation>Zurück</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Vorheriges</translation>
+        <translation>Vorheriges</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Nächstes</translation>
+        <translation>Nächstes</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">1:1 Größe</translation>
+        <translation>1:1 Größe</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
+        <translation>An Fenstergröße anpassen</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Text extrahieren</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Gegen den Uhrzeigersinn drehen</translation>
+        <translation>Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Im Uhrzeigersinn drehen</translation>
+        <translation>Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Löschen</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Vollbild beenden</translation>
+        <translation>Vollbild beenden</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Vollbild</translation>
+        <translation>Vollbild</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Drucken</translation>
+        <translation>Drucken</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Diashow</translation>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopieren</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Umbenennen</translation>
+        <translation>Umbenennen</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished">Navigationsfenster anzeigen</translation>
+        <translation>Navigationsfenster anzeigen</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished">Navigationsfenster ausblenden</translation>
+        <translation>Navigationsfenster ausblenden</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Als Hintergrundbild festlegen</translation>
+        <translation>Als Hintergrundbild festlegen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">In Dateiverwaltung anzeigen</translation>
+        <translation>In Dateiverwaltung anzeigen</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildinformationen</translation>
     </message>
 </context>
 <context>

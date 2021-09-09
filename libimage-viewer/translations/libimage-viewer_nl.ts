@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="nl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
 <context>
     <name>ExtensionPanel</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
     </message>
 </context>
 <context>
@@ -121,87 +119,87 @@
     <name>QObject</name>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>dag</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Terug</translation>
+        <translation>Terug</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Vorige</translation>
+        <translation>Vorige</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Volgende</translation>
+        <translation>Volgende</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">Grootte 1:1</translation>
+        <translation>Grootte 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished">Aanpassen aan venster</translation>
+        <translation>Aanpassen aan venster</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst extraheren</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Naar links draaien</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Naar rechts draaien</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Beeldvullende modus afsluiten</translation>
+        <translation>Beeldvullende modus afsluiten</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Beeldvullend</translation>
+        <translation>Beeldvullend</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Afdrukken</translation>
+        <translation>Afdrukken</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Diavoorstelling</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopiëren</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Naam wijzigen</translation>
+        <translation>Naam wijzigen</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished">Navigatievenster tonen</translation>
+        <translation>Navigatievenster tonen</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished">Navigatievenster verbergen</translation>
+        <translation>Navigatievenster verbergen</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Instellen als achtergrond</translation>
+        <translation>Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Tonen in bestandsbeheerder</translation>
+        <translation>Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Eigenschappen</translation>
+        <translation>Eigenschappen</translation>
     </message>
 </context>
 <context>

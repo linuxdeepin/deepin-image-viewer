@@ -38,11 +38,11 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>图片类型</translation>
+        <translation>文件类型</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改时间</translation>
+        <translation>修改日期</translation>
     </message>
     <message>
         <source>File size</source>
@@ -50,7 +50,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation>拍摄时间</translation>
+        <translation>拍摄日期</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -124,66 +124,6 @@
         <translation>天</translation>
     </message>
     <message>
-        <source>Exit fullscreen</source>
-        <translation>退出全屏</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>全屏</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>打印</translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation>识别文字</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>幻灯片放映</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>复制</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>重命名</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>删除</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>显示导航窗口</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>隐藏导航窗口</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>图片信息</translation>
-    </message>
-    <message>
         <source>Back</source>
         <translation>返回</translation>
     </message>
@@ -202,6 +142,66 @@
     <message>
         <source>Fit to window</source>
         <translation>适应窗口</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>识别文字</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>逆时针旋转</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>顺时针旋转</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>退出全屏</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>全屏</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation>打印</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>重命名</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation>显示导航窗口</translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation>隐藏导航窗口</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>设为壁纸</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>在文件管理器中显示</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation>图片信息</translation>
     </message>
 </context>
 <context>

@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation>Kép információk</translation>
+        <translation>Kép információ</translation>
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
     </message>
 </context>
 <context>
@@ -121,87 +119,87 @@
     <name>QObject</name>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>nap</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Vissza</translation>
+        <translation>Vissza</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Előző</translation>
+        <translation>Előző</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Következő</translation>
+        <translation>Következő</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">1:1 méret</translation>
+        <translation>1:1 méret</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished">Ablakhoz igazítás</translation>
+        <translation>Ablakhoz igazítás</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Szöveg kivonat</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Forgatás az óramutató járásával ellentétes irányba</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Forgatás az óramutató járásával megegyezően</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Törlés</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>Kilépés a teljes képernyős módból</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Teljes képernyő</translation>
+        <translation>Teljes képernyő</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Nyomtatás</translation>
+        <translation>Nyomtatás</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Diavetítés</translation>
+        <translation>Diavetítés</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Másolás</translation>
+        <translation>Másolás</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Átnevezés</translation>
+        <translation>Átnevezés</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished">Navigációs ablak megjelenítése</translation>
+        <translation>Navigációs ablak megjelenítése</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished">Navigációs ablak elrejtése</translation>
+        <translation>Navigációs ablak elrejtése</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Beállítás háttérképként</translation>
+        <translation>Beállítás háttérképként</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Megtekintés a fájlkezelőben</translation>
+        <translation>Megtekintés a fájlkezelőben</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"></translation>
+        <translation>Kép információ</translation>
     </message>
 </context>
 <context>

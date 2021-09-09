@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.1">
 <context>
     <name>ExtensionPanel</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+l</translation>
     </message>
 </context>
 <context>
@@ -121,87 +119,87 @@
     <name>QObject</name>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>dzień</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Wstecz</translation>
+        <translation>Wstecz</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Poprzedni</translation>
+        <translation>Poprzedni</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Następny</translation>
+        <translation>Następny</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">Rozmiar 1:1</translation>
+        <translation>Rozmiar 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished">Dopasuj do okna</translation>
+        <translation>Dopasuj do okna</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Wydobądź tekst</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Obróć w lewo</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Obróć w prawo</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Usuń</translation>
+        <translation>Usuń</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz tryb pełnoekranowy</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Pełny ekran</translation>
+        <translation>Pełny ekran</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Drukuj</translation>
+        <translation>Drukuj</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Pokaz zdjęć</translation>
+        <translation>Pokaz zdjęć</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopiuj</translation>
+        <translation>Kopiuj</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Zmień nazwę</translation>
+        <translation>Zmień nazwę</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished">Pokaż okno nawigacyjne</translation>
+        <translation>Pokaż okno nawigacyjne</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished">Ukryj okno nawigacyjne</translation>
+        <translation>Ukryj okno nawigacyjne</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Ustaw jako tło pulpitu</translation>
+        <translation>Ustaw jako tło pulpitu</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Wyświetl w menedżerze plików</translation>
+        <translation>Wyświetl w menedżerze plików</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Informacje o obrazie</translation>
+        <translation>Informacje o obrazie</translation>
     </message>
 </context>
 <context>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
 <context>
     <name>ExtensionPanel</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
     </message>
 </context>
 <context>
@@ -121,87 +119,87 @@
     <name>QObject</name>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>päivä</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Takaisin</translation>
+        <translation>Takaisin</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Edellinen</translation>
+        <translation>Edellinen</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Seuraava</translation>
+        <translation>Seuraava</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">Koko 1:1</translation>
+        <translation>Koko 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished">Sovita ikkunaan</translation>
+        <translation>Sovita ikkunaan</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tunnista tekstiksi</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Kierrä vastapäivään</translation>
+        <translation>Kierrä vastapäivään</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Kierrä myötäpäivään</translation>
+        <translation>Kierrä myötäpäivään</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Poista</translation>
+        <translation>Poista</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Poistu koko näytöstä</translation>
+        <translation>Poistu koko näytöstä</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Koko näyttö</translation>
+        <translation>Koko näyttö</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Tulosta</translation>
+        <translation>Tulosta</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Diaesitys</translation>
+        <translation>Diaesitys</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopioi</translation>
+        <translation>Kopioi</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Nimeä uudelleen</translation>
+        <translation>Nimeä uudelleen</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished">Näytä navigointiikkuna</translation>
+        <translation>Näytä navigointiikkuna</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished">Piilota navigointiikkuna</translation>
+        <translation>Piilota navigointiikkuna</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Aseta taustakuvaksi</translation>
+        <translation>Aseta taustakuvaksi</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Näytä tiedostonhallinnassa</translation>
+        <translation>Näytä tiedostonhallinnassa</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Kuvan tiedot</translation>
+        <translation>Kuvan tiedot</translation>
     </message>
 </context>
 <context>

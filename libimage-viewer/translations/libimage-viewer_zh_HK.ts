@@ -38,11 +38,11 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>圖片類型</translation>
+        <translation>文件類型</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改時間</translation>
+        <translation>修改日期</translation>
     </message>
     <message>
         <source>File size</source>
@@ -50,7 +50,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation>拍攝時間</translation>
+        <translation>拍攝日期</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -121,7 +121,7 @@
     <name>QObject</name>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>天</translation>
     </message>
     <message>
         <source>Back</source>

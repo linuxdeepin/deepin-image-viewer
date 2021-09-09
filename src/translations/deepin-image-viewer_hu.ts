@@ -1,26 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">A képfájl nem található</translation>
+        <translation>A képfájl nem található</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Kép megnyitása</translation>
+        <translation>Kép megnyitása</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished">Képnézegető</translation>
+        <translation>Képnézegető</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">A Képnézegető egy képmegtekintő eszköz divatos felülettel és gördülékeny teljesítménnyel.</translation>
+        <translation>A Képnézegető egy képmegtekintő eszköz divatos felülettel és gördülékeny teljesítménnyel.</translation>
     </message>
 </context>
 <context>
@@ -107,7 +105,7 @@
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Szöveg kivonat</translation>
     </message>
 </context>
 </TS>

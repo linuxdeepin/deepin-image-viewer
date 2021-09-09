@@ -1,26 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sq">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sq" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">S’u gjet kartelë figure</translation>
+        <translation>S’u gjet kartelë figure</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Hap Figurë</translation>
+        <translation>Hap Figurë</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished">Parës Figurash</translation>
+        <translation>Parës Figurash</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Parësi i figurave është një mjet parjesh figurash me ndërfaqe të hijshme dhe funksionim të rrjedhshëm.</translation>
+        <translation>Parësi i figurave është një mjet parjesh figurash me ndërfaqe të hijshme dhe funksionim të rrjedhshëm.</translation>
     </message>
 </context>
 <context>
@@ -107,7 +105,7 @@
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Përfto tekstin</translation>
     </message>
 </context>
 </TS>
