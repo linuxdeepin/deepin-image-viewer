@@ -24,9 +24,15 @@
 #include <QSwipeGesture>
 #define private public
 #include "module/view/scen/imageview.h"
-TEST_F(gtestview, m_imageloader_11)
-{
 
+TEST_F(gtestview, MainWindowTabKey)
+{
+    m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    if (m_frameMainWindow) {
+        m_frameMainWindow->initAllViewTabKeyOrder(nullptr);
+        m_frameMainWindow->initEmptyTabOrder();
+        m_frameMainWindow->initNormalPicTabOrder();
+    }
 }
 // connect(animation, SIGNAL(finished()), this, SLOT(OnFinishPinchAnimal()));
 TEST_F(gtestview, m_OnFinishPinchAnimal)

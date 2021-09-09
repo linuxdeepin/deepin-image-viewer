@@ -291,14 +291,12 @@ TEST_F(gtestview, loadStaticImageFromFile)
     UnionImage_NameSpace::loadStaticImageFromFile("error", img, realSize, error, "error");
 }
 
-//TEST_F(gtestview, canSave)
-//{
-//    utils::image::freeimage::canSave(QApplication::applicationDirPath()+"/png.png");
+TEST_F(gtestview, thumbnailExist)
+{
+    utils::image::thumbnailExist(QApplication::applicationDirPath() + "/png.png");
+    utils::image::thumbnailExist("png.png");
+    utils::image::thumbnailExist("");
+}
 
-//    utils::image::freeimage::canSave(QApplication::applicationDirPath()+"/icns.icns");
 
-//    utils::image::freeimage::canSave("error");
-
-
-//}
 #endif
