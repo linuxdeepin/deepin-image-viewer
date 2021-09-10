@@ -109,11 +109,9 @@ void LockWidget::handleGestureEvent(QGestureEvent *gesture)
 
 void LockWidget::mouseDoubleClickEvent(QMouseEvent *e)
 {
-#if 0
     //非平板才能双击,其他是单击全屏
-    if (!dApp->isPanelDev() && e->button() == Qt::LeftButton)
+    if (e->button() == Qt::LeftButton)
         emit showfullScreen();
-#endif
     ThemeWidget::mouseDoubleClickEvent(e);
 }
 

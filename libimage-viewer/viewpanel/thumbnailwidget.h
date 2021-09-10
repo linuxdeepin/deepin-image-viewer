@@ -50,6 +50,7 @@ signals:
     void previousRequested();
 
     void sigMouseMove();
+    void showfullScreen();
 #ifdef LITE_DIV
     void openImageInDialog();
 #endif
@@ -62,6 +63,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
+
     bool event(QEvent *event) override;
 private slots:
     void pinchTriggered(QPinchGesture *gesture);

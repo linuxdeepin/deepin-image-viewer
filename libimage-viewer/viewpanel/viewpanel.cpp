@@ -500,6 +500,10 @@ void ViewPanel::toggleFullScreen()
             m_view->viewport()->setCursor(Qt::BlankCursor);
         }
     }
+    //选中缩略图居中显示
+    QTimer::singleShot(100, [ = ] {
+        emit CommonService::instance()->sigMouseRelease();
+    });
 }
 
 void ViewPanel::showFullScreen()
@@ -853,6 +857,7 @@ void ViewPanel::initLockPanel()
         m_lockWidget = new LockWidget("", "", this);
         m_stack->addWidget(m_lockWidget);
         connect(m_lockWidget, &LockWidget::sigMouseMove, this, &ViewPanel::slotBottomMove);
+        connect(m_lockWidget, &LockWidget::showfullScreen, this, &ViewPanel::toggleFullScreen);
     }
 }
 
@@ -862,6 +867,7 @@ void ViewPanel::initThumbnailWidget()
         m_thumbnailWidget = new ThumbnailWidget("", "", this);
         m_stack->addWidget(m_thumbnailWidget);
         connect(m_thumbnailWidget, &ThumbnailWidget::sigMouseMove, this, &ViewPanel::slotBottomMove);
+        connect(m_thumbnailWidget, &ThumbnailWidget::showfullScreen, this, &ViewPanel::toggleFullScreen);
     }
 }
 
@@ -1199,7 +1205,19 @@ void ViewPanel::showEvent(QShowEvent *e)
 void ViewPanel::paintEvent(QPaintEvent *event)
 {
     QFrame::paintEvent(event);
-//    qDebug() << "windows flgs ========= " << this->windowFlags() << "attributs = " << this->testAttribute(Qt::WA_Resized);
+    //    qDebug() << "windows flgs ========= " << this->windowFlags() << "attributs = " << this->testAttribute(Qt::WA_Resized);
+}
+
+void ViewPanel::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::ForwardButton) {
+        DIconButton *preButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypePre);
+        preButton->clicked();
+    } else if (event->button() == Qt::BackButton) {
+        DIconButton *nextButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeNext);
+        nextButton->clicked();
+    }
+    QFrame::mousePressEvent(event);
 }
 
 

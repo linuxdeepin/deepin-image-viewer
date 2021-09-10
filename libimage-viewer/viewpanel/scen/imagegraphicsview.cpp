@@ -292,6 +292,10 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
 //            }
 //            pix = QPixmap(path).scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
             pix = QPixmap::fromImage(info.image).scaled(wScale, hScale, Qt::KeepAspectRatio);
+            //存在缩放比问题需要setDevicePixelRatio
+            if (wScale < wWindow && hScale < hWindow) {
+                pix.setDevicePixelRatio(devicePixelRatioF());
+            }
             m_pixmapItem = new GraphicsPixmapItem(pix);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             // Make sure item show in center of view after reload
@@ -801,7 +805,10 @@ void ImageGraphicsView::slotRotatePixCurrent()
 
 void ImageGraphicsView::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    emit doubleClicked();
+    if (e->button() == Qt::LeftButton) {
+        emit doubleClicked();
+    }
+
     QGraphicsView::mouseDoubleClickEvent(e);
 }
 

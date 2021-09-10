@@ -263,6 +263,14 @@ void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event)
     //  emit mouseHoverMoved();
 }
 
+void ThumbnailWidget::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    //非平板才能双击,其他是单击全屏
+    if (e->button() == Qt::LeftButton)
+        emit showfullScreen();
+    ThemeWidget::mouseDoubleClickEvent(e);
+}
+
 void ThumbnailWidget::handleGestureEvent(QGestureEvent *gesture)
 {
     /*    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
