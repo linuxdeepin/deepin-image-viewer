@@ -91,10 +91,11 @@ int main(int argc, char *argv[])
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
-    qApp->setApplicationVersion(DApplication::buildVersion("1.0.0"));
+    a.setApplicationVersion("1.0.0");
 #ifdef CMAKE_BUILD
     //增加版本号
-    qApp->setApplicationVersion(DApplication::buildVersion(VERSION));
+//    a.setApplicationVersion(DApplication::buildVersion(VERSION));
+    a.setApplicationVersion(VERSION);
 #endif
 
     //主窗体应该new出来,不应该是static变量
