@@ -1170,7 +1170,8 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
 
     admMap.insert("FileName", info.fileName());
-    admMap.insert("FileFormat", detectImageFormat(path));
+    //应该使用qfileinfo的格式
+    admMap.insert("FileFormat", getFileFormat(path));
     admMap.insert("FileSize", size2Human(info.size()));
     FreeImage_Unload(dib);
 
