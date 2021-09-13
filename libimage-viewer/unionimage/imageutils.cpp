@@ -107,7 +107,7 @@ const QImage scaleImage(const QString &path, const QSize &size)
 
 const QDateTime getCreateDateTime(const QString &path)
 {
-    QDateTime dt = libexif::getCreateDateTime(path);
+    QDateTime dt; /*= libexif::getCreateDateTime(path);*/
 
     // fallback to metadata.
     if (!dt.isValid()) {

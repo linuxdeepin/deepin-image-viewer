@@ -201,7 +201,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Informacije slike</translation>
     </message>
 </context>
 <context>

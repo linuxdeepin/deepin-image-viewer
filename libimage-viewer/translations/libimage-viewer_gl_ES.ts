@@ -133,7 +133,7 @@
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seguinte</translation>
     </message>
     <message>
         <source>1:1 Size</source>

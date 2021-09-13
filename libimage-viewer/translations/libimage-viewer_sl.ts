@@ -129,7 +129,7 @@
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Prejšnja</translation>
     </message>
     <message>
         <source>Next</source>
@@ -201,7 +201,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Podatki o sliki</translation>
     </message>
 </context>
 <context>
