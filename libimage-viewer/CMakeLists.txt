@@ -60,23 +60,31 @@ link_directories(${LINK_DIR})
 
 link_libraries(freeimage)
 
-#编译为库
-add_library(image-viewer SHARED ${allHeaders} ${allSources} ${RESOURCES})
+
+
+
+
+
 
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
-#使用库
-qt5_use_modules(image-viewer ${QtModule})
-
-file(GLOB TS LIST_DIRECTORIES false translations/*.ts)
+file(GLOB TS LIST_DIRECTORIES false translations/libimage-viewer*.ts)
 
 set_source_files_properties(${TS} PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/translations)
 
-qt5_create_translation(QM ${SOURCES}  ${GLOB})
+qt5_create_translation(QM ${allSources}  ${GLOB})
 
 if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
-    qt5_create_translation(QM ${SOURCES} ${TS})
+    qt5_create_translation(QM ${allSources} ${TS})
 endif ()
+
+# 设置不删除生成的文件夹内容文件
+set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
+
+#编译为库
+add_library(image-viewer SHARED ${allHeaders} ${allSources} ${RESOURCES} ${QM})
+#使用库
+qt5_use_modules(image-viewer ${QtModule})
 
 #将库安装到指定位置
 set(PREFIX /usr)
@@ -86,14 +94,14 @@ install(TARGETS image-viewer LIBRARY DESTINATION ${image-viewer})
 
 #translations
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
-    DESTINATION ${PREFIX}/share/libimage-viewer/translations
+    DESTINATION ${PREFIX}/share/libimage-viewer
     FILES_MATCHING PATTERN "*.qm")
 
-execute_process(
-COMMAND sudo ln -s ${image-viewer}/libimage-viewer.so ${image-viewer}/libimage-viewer.so.1
-COMMAND sudo ln -s ${image-viewer}/libimage-viewer.so ${image-viewer}/libimage-viewer.so.1.0
-COMMAND sudo ln -s ${image-viewer}/libimage-viewer.so ${image-viewer}/libimage-viewer.so.1.0.0
-)
+#execute_process(
+#COMMAND sudo ln -s ${image-viewer}/libimage-viewer.so ${image-viewer}/libimage-viewer.so.1
+#COMMAND sudo ln -s ${image-viewer}/libimage-viewer.so ${image-viewer}/libimage-viewer.so.1.0
+#COMMAND sudo ln -s ${image-viewer}/libimage-viewer.so ${image-viewer}/libimage-viewer.so.1.0.0
+#)
 
 target_include_directories(${CMD_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS}  )
 target_link_libraries(image-viewer ${3rd_lib_LIBRARIES} freeimage )
