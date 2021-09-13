@@ -117,8 +117,11 @@ ImageGraphicsView::ImageGraphicsView(QWidget *parent)
 
     viewport()->setCursor(Qt::ArrowCursor);
 
+    //鼠标事件,以及不在通过键盘移动视图
+    this->setAttribute(Qt::WA_AcceptTouchEvents);
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
+    grabGesture(Qt::PanGesture);
 
     connect(&m_watcher, &QFutureWatcherBase::finished, this, &ImageGraphicsView::onCacheFinish);
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, &ImageView::onThemeChanged);
