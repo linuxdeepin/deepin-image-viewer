@@ -49,6 +49,7 @@
 #include "unionimage/imageutils.h"
 #include "unionimage/imgoperate.h"
 #include "unionimage/snifferimageformat.h"
+#include "unionimage/unionimage.h"
 
 gtestview::gtestview()
 {
@@ -149,6 +150,10 @@ TEST_F(gtestview, MainWindow)
     QStringList paths{QApplication::applicationDirPath() + "/svg.svg", QApplication::applicationDirPath() + "/test/jpg.jpg"};
     bool bRet = m_imageViewer->startdragImage({});
     bRet = m_imageViewer->startdragImage({"smb-share:server=bisuhfawe.png"});
+    bRet = m_imageViewer->startdragImage({"mtp:host=bisuhfawe.png"});
+    bRet = m_imageViewer->startdragImage({"gphoto2:host=bisuhfawe.png"});
+    bRet = m_imageViewer->startdragImage({"gphoto2:host=Apple=bisuhfawe.png"});
+    bRet = m_imageViewer->startdragImage({QDir::homePath() + "/.local/share/Trash"});
     bRet = m_imageViewer->startdragImage(paths);
     if (bRet) {
 
@@ -537,4 +542,30 @@ TEST_F(gtestview, UnionImage)
     DetectImageFormat(QApplication::applicationDirPath() + "/ico.ico");
     DetectImageFormat(QApplication::applicationDirPath() + "/errorPic.icns");
     DetectImageFormat(QApplication::applicationDirPath() + "/tga.tga");
+
+    //union image detial
+    UnionImage_NameSpace::supportStaticFormat();
+    UnionImage_NameSpace::supportMovieFormat();
+    QImage res;
+    UnionImage_NameSpace::creatNewImage(res);
+    UnionImage_NameSpace::detectImageFormat(QApplication::applicationDirPath() + "/jpg.jpg");
+    ASSERT_EQ(UnionImage_NameSpace::isNoneQImage(QImage()), true);
+    UnionImage_NameSpace::rotateImage(90, res);
+    UnionImage_NameSpace::rotateImage(80, res);
+    res = QImage(QApplication::applicationDirPath() + "/jpg.jpg");
+    UnionImage_NameSpace::rotateImage(90, res);
+    QString err;
+    UnionImage_NameSpace::rotateImageFIle(80, "", err);
+    UnionImage_NameSpace::rotateImageFIle(90, QApplication::applicationDirPath() + "/svg.svg", err);
+    UnionImage_NameSpace::rotateImageFIle(-90, QApplication::applicationDirPath() + "/svg.svg", err);
+    UnionImage_NameSpace::rotateImageFIle(90, QApplication::applicationDirPath() + "/dds.dds", err);
+    UnionImage_NameSpace::rotateImageFIle(-90, QApplication::applicationDirPath() + "/dds.dds", err);
+    UnionImage_NameSpace::unionImageVersion();
+    UnionImage_NameSpace::rotateImageFIleWithImage(-80, res, QApplication::applicationDirPath() + "/jpg.jpg", err);
+    UnionImage_NameSpace::rotateImageFIleWithImage(-90, res, QApplication::applicationDirPath() + "/jpg.jpg", err);
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/svg.svg", res, err);
+    UnionImage_NameSpace::rotateImageFIleWithImage(-90, res, QApplication::applicationDirPath() + "/svg.svg", err);
+    UnionImage_NameSpace::rotateImageFIleWithImage(90, res, QApplication::applicationDirPath() + "/svg.svg", err);
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/tga.tga", res, err);
+    UnionImage_NameSpace::rotateImageFIleWithImage(-90, res, QApplication::applicationDirPath() + "/tga.tga", err);
 }

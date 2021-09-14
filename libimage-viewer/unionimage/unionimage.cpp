@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
  *
  * Author:     ZhangYong <zhangyong@uniontech.com>
@@ -230,17 +230,9 @@ UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat()
     static QStringList res;
     if (res.empty()) {
         QStringList list = union_image_private.m_freeimage_formats.keys();
-        for (const QString &i : union_image_private.m_freeimage_formats.keys()) {
-            if (!list.contains(i))
-                list.append(i.toLower());
-        }
         for (const QString &i : union_image_private.m_qtSupported) {
             if (!list.contains(i))
                 list.append(i);
-        }
-        for (const QString &i : union_image_private.m_qtSupported) {
-            if (!list.contains(i))
-                list.append(i.toLower());
         }
         res.append(list);
         res.append(union_image_private.m_movie_formats.keys());
@@ -309,6 +301,7 @@ UNIONIMAGESHARED_EXPORT const QString getFileFormat(const QString &path)
     return suffix;
 }
 
+#if 0
 /**
  * @brief string2DateTime
  * @param time
@@ -324,6 +317,7 @@ UNIONIMAGESHARED_EXPORT QDateTime string2DateTime(const QString &time)
     }
     return dt;
 }
+#endif
 
 /**
  * @brief getMetaData
@@ -440,7 +434,7 @@ UNIONIMAGESHARED_EXPORT QImage FIBitmap2QImage(FIBITMAP *dib)
  * @return FIBITMAP*
  * 由QImage转到FreeImage
  */
-
+#if 0
 UNIONIMAGESHARED_EXPORT FIBITMAP *QImge2FIBitMap(QImage img)
 {
     if (img.isNull()) {
@@ -531,6 +525,7 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *QImge2FIBitMap(QImage img)
     }
     return nullptr;
 }
+#endif
 
 /**
  * @brief readFile2FIBITMAP
@@ -1183,6 +1178,7 @@ UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path)
     return canSave(path) ;
 }
 
+#if 0
 UNIONIMAGESHARED_EXPORT bool isSupportsReading(const QString &path)
 {
     const FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(path.toUtf8().data());
@@ -1194,6 +1190,7 @@ UNIONIMAGESHARED_EXPORT bool isSupportsWriting(const QString &path)
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(path.toUtf8().data());
     return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsWriting(fif);
 }
+#endif
 
 UNIONIMAGESHARED_EXPORT const QString getOrientation(const QString &path)
 {
@@ -1206,6 +1203,7 @@ UNIONIMAGESHARED_EXPORT const QString getOrientation(const QString &path)
     return datas["Orientation"];
 }
 
+#if 0
 bool getThumbnail(QImage &res, const QString &path)
 {
     FIBITMAP *dib = readFile2FIBITMAP(path);
@@ -1213,7 +1211,9 @@ bool getThumbnail(QImage &res, const QString &path)
     FreeImage_Unload(dib);
     return true;
 }
+#endif
 
+#if 0
 class UnionMovieImagePrivate : public QObject
 {
 protected:
@@ -1342,6 +1342,8 @@ QImage UnionMovieImage::next()
     }
     return d->res;
 }
+#endif
+
 imageViewerSpace::ImageType getImageType(const QString &imagepath)
 {
     imageViewerSpace::ImageType type = imageViewerSpace::ImageType::ImageTypeBlank;
@@ -1377,6 +1379,7 @@ imageViewerSpace::ImageType getImageType(const QString &imagepath)
     }
     return type;
 }
+
 imageViewerSpace::PathType getPathType(const QString &imagepath)
 {
     //判断文件路径来自于哪里
@@ -1397,6 +1400,7 @@ imageViewerSpace::PathType getPathType(const QString &imagepath)
     //todo
     return type;
 }
+
 QString PrivateDetectImageFormat(const QString &filepath)
 {
     QFile file(filepath);
