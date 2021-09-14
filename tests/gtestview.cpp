@@ -42,6 +42,13 @@
 #include "viewpanel/viewpanel.h"
 #include "viewpanel/navigationwidget.h"
 #include "slideshow/slideshowpanel.h"
+#include "service/imagedataservice.h"
+#include "viewpanel/contents/bottomtoolbar.h"
+#include "viewpanel/contents/imgviewwidget.h"
+#include "unionimage/baseutils.h"
+#include "unionimage/imageutils.h"
+#include "unionimage/imgoperate.h"
+#include "unionimage/snifferimageformat.h"
 
 gtestview::gtestview()
 {
@@ -139,7 +146,7 @@ TEST_F(gtestview, MainWindow)
                          + QDir::separator() + "deepin" + QDir::separator() + "image-view-plugin";
 
     ImageViewer *m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeLocal, CACHE_PATH, nullptr);
-    QStringList paths(QApplication::applicationDirPath() + "/test/jpg.jpg");
+    QStringList paths{QApplication::applicationDirPath() + "/svg.svg", QApplication::applicationDirPath() + "/test/jpg.jpg"};
     bool bRet = m_imageViewer->startdragImage({});
     bRet = m_imageViewer->startdragImage({"smb-share:server=bisuhfawe.png"});
     bRet = m_imageViewer->startdragImage(paths);
@@ -162,7 +169,7 @@ TEST_F(gtestview, MainWindow)
 
     //另外一种使用方式
     m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeLocal, CACHE_PATH, nullptr);
-    paths.push_back(QApplication::applicationDirPath() + "/dds.dds");
+    paths = QStringList{QApplication::applicationDirPath() + "/tif.tif"};
     m_imageViewer->startImgView(paths[0], paths);
     QTest::qWait(500);
     m_imageViewer->deleteLater();
@@ -305,14 +312,18 @@ TEST_F(gtestview, ViewPanel)
     //初始化
     ViewPanel panel;
     panel.loadImage(QApplication::applicationDirPath() + "/gif.gif", {QApplication::applicationDirPath() + "/gif.gif",
-                                                                      QApplication::applicationDirPath() + "/dds.dds",
+                                                                      QApplication::applicationDirPath() + "/tif.tif",
+                                                                      QApplication::applicationDirPath() + "/jpg.jpg",
+                                                                      QApplication::applicationDirPath() + "/jpg.jpg",
                                                                       QApplication::applicationDirPath() + "/svg.svg"
                                                                      });
     panel.initFloatingComponent();
     panel.show();
 
-    //键盘事件
+    //键盘与鼠标事件
     QTestEventList e;
+
+    //动态图
     e.addKeyClick(Qt::Key_Right, Qt::KeyboardModifier::NoModifier, 200);
     e.addKeyClick(Qt::Key_Left, Qt::KeyboardModifier::NoModifier, 200);
     e.addKeyClick(Qt::Key_Up, Qt::KeyboardModifier::NoModifier, 200);
@@ -322,6 +333,17 @@ TEST_F(gtestview, ViewPanel)
     e.addKeyClick(Qt::Key_Down, Qt::KeyboardModifier::NoModifier, 200);
     e.addKeyClick(Qt::Key_Escape, Qt::KeyboardModifier::NoModifier, 200);
     e.addDelay(500);
+
+    //多页图
+    e.addKeyClick(Qt::Key_Right, Qt::KeyboardModifier::NoModifier, 200);
+    e.addKeyClick(Qt::Key_Up, Qt::KeyboardModifier::NoModifier, 200);
+    e.addKeyClick(Qt::Key_Plus, Qt::KeyboardModifier::ControlModifier, 200);
+    e.addKeyClick(Qt::Key_0, Qt::KeyboardModifier::ControlModifier, 200);
+    e.addKeyClick(Qt::Key_Minus, Qt::KeyboardModifier::ControlModifier, 200);
+    e.addKeyClick(Qt::Key_Down, Qt::KeyboardModifier::NoModifier, 200);
+    e.addKeyClick(Qt::Key_Escape, Qt::KeyboardModifier::NoModifier, 200);
+    e.addDelay(500);
+
     e.simulate(&panel);
 
     //基本函数遍历
@@ -332,7 +354,7 @@ TEST_F(gtestview, ViewPanel)
     panel.startChooseFileDialog();
     panel.getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeOcr);
     panel.slotOcrPicture();
-    panel.backImageView(QApplication::applicationDirPath() + "/svg1.svg1");
+    panel.backImageView(QApplication::applicationDirPath() + "/svg.svg");
     panel.initSlidePanel();
     panel.resetBottomToolbarGeometry(true);
     panel.resetBottomToolbarGeometry(false);
@@ -366,6 +388,9 @@ TEST_F(gtestview, ViewPanel)
     panel.onMenuItemClicked(&menuAction);
     QTest::qWait(200);
 
+    menuAction.setProperty("MenuID", ViewPanel::IdMoveToTrash);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
     menuAction.setProperty("MenuID", ViewPanel::IdMoveToTrash);
     panel.onMenuItemClicked(&menuAction);
     QTest::qWait(200);
@@ -412,6 +437,10 @@ TEST_F(gtestview, ViewPanel)
     panel.onMenuItemClicked(&menuAction);
     QTest::qWait(500);
 
+    menuAction.setProperty("MenuID", ViewPanel::IdMoveToTrash);
+    panel.onMenuItemClicked(&menuAction);
+    QTest::qWait(200);
+
     //ImageGraphicsView
     panel.loadImage("", {});
 
@@ -420,4 +449,92 @@ TEST_F(gtestview, ViewPanel)
     view->setImage(QApplication::applicationDirPath() + "/svg2.svg", QImage());
 
     QTest::qWait(500);
+}
+
+TEST_F(gtestview, ImageDataService)
+{
+    auto testPath = QApplication::applicationDirPath() + "/jpg.jpg";
+    ImageDataService::instance()->imageIsLoaded(testPath);
+    ImageDataService::instance()->addImage(testPath, ImageDataService::instance()->getThumnailImageByPath(testPath));
+    ImageDataService::instance()->getMovieDurationStrByPath(testPath);
+    ImageDataService::instance()->getVisualIndex();
+    ImageDataService::instance()->getCount();
+    ImageDataService::instance()->setVisualIndex(0);
+    ImageDataService::instance()->addMovieDurationStr("", "");
+    ImageDataService::instance()->deleteLater();
+
+    QTest::qWait(500);
+}
+
+TEST_F(gtestview, BottomToolbar)
+{
+    BottomToolbar toolBar;
+    toolBar.setAllFile(QApplication::applicationDirPath() + "/gif.gif", {QApplication::applicationDirPath() + "/gif.gif",
+                                                                         QApplication::applicationDirPath() + "/tif.tif",
+                                                                         QApplication::applicationDirPath() + "/jpg.jpg",
+                                                                         QApplication::applicationDirPath() + "/jpg.jpg",
+                                                                         QApplication::applicationDirPath() + "/svg.svg"
+                                                                        });
+    toolBar.getAllPath();
+
+    QTestEventList e;
+    e.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, QPoint(10, 10), 100);
+    e.addMouseMove(QPoint(100, 100), 50);
+    e.addMouseRelease(Qt::MouseButton::LeftButton);
+    e.addDelay(500);
+    e.simulate(toolBar.m_imgListWidget);
+}
+
+TEST_F(gtestview, UnionImage)
+{
+    //base utils
+    utils::base::hash("12345");
+    utils::base::mountDeviceExist("/media/uos/");
+    utils::base::mountDeviceExist("/run/media/uos/");
+    utils::base::onMountDevice("12345");
+    utils::base::showInFileManager(QApplication::applicationDirPath() + "/jpg.jpg");
+    utils::base::stringToDateTime("1970-01-01 00:00:00");
+    utils::base::timeToString(QDateTime::fromString("1970-01-01 00:00:00"), true);
+    utils::base::timeToString(QDateTime::fromString("1970-01-01 00:00:00"), false);
+
+    //image utils
+    utils::image::scaleImage(QApplication::applicationDirPath() + "/f827t3r9qwheo.icns");
+    utils::image::scaleImage(QApplication::applicationDirPath() + "/jpg.jpg");
+    utils::image::getCreateDateTime(QApplication::applicationDirPath() + "/jpg.jpg");
+    utils::image::imageSupportSave(QApplication::applicationDirPath() + "/jpg.jpg");
+
+    auto pix = utils::image::cachePixmap(QApplication::applicationDirPath() + "/jpg.jpg");
+    utils::image::cutSquareImage(pix);
+    utils::image::cutSquareImage(pix, {200, 200});
+
+    utils::image::getImagesInfo(QApplication::applicationDirPath(), false);
+    utils::image::getImagesInfo(QApplication::applicationDirPath(), true);
+    utils::image::getOrientation(QApplication::applicationDirPath() + "/jpg.jpg");
+    utils::image::getRotatedImage(QApplication::applicationDirPath() + "/jpg.jpg");
+
+    utils::image::generateThumbnail(QApplication::applicationDirPath() + "/jpg.jpg");
+    utils::image::generateThumbnail(QApplication::applicationDirPath() + "/errorPic.icns");
+    utils::image::getThumbnail(QApplication::applicationDirPath() + "/jpg.jpg", true);
+    utils::image::getThumbnail(QApplication::applicationDirPath() + "/jpg.jpg", false);
+
+    utils::image::isCanRemove(QApplication::applicationDirPath() + "/jpg.jpg");
+    utils::image::isCanRemove("ngw8uhrt8owjfpowsj");
+
+    //Img Operate
+    ImgOperate worker;
+    worker.slotMakeImgThumbnail(QApplication::applicationDirPath(), {QApplication::applicationDirPath() + "/jpg.jpg"}, 1, true);
+    worker.slotMakeImgThumbnail(QApplication::applicationDirPath(), {QApplication::applicationDirPath() + "/jpg.jpg"}, 1, false);
+
+    //snifferimageformat
+    DetectImageFormat("nfoiehrf2oq3hjrfowhnefoi");
+    DetectImageFormat(QApplication::applicationDirPath() + "/jpg.jpg");
+    DetectImageFormat(QApplication::applicationDirPath() + "/gif.gif");
+    DetectImageFormat(QApplication::applicationDirPath() + "/svg.svg");
+    DetectImageFormat(QApplication::applicationDirPath() + "/mng.mng");
+    DetectImageFormat(QApplication::applicationDirPath() + "/tif.tif");
+    DetectImageFormat(QApplication::applicationDirPath() + "/wbmp.wbmp");
+    DetectImageFormat(QApplication::applicationDirPath() + "/dds.dds");
+    DetectImageFormat(QApplication::applicationDirPath() + "/ico.ico");
+    DetectImageFormat(QApplication::applicationDirPath() + "/errorPic.icns");
+    DetectImageFormat(QApplication::applicationDirPath() + "/tga.tga");
 }

@@ -301,12 +301,12 @@ void ImageInfoWidget::setImagePath(const QString path)
         m_expandGroup.at(1)->setContent(m_exif_details);
         m_expandGroup.at(1)->setExpand(true);
 
-    } else if (m_isBaseInfo == false && m_isDetailsInfo == true) {
+    } /*else if (m_isBaseInfo == false && m_isDetailsInfo == true) {
         titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_details);
         m_expandGroup.at(0)->setExpand(true);
-    } else if (m_isBaseInfo == true && m_isDetailsInfo == false) {
+    }*/ else if (m_isBaseInfo == true && m_isDetailsInfo == false) {
         titleList << tr("Basic info");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_base);

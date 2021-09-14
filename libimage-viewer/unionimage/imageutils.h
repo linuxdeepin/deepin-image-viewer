@@ -53,7 +53,11 @@ const QFileInfoList                 getImagesInfo(const QString &dir,
                                                   bool recursive = true);
 const QString                       getOrientation(const QString &path);
 const QImage                        getRotatedImage(const QString &path);
+
+#ifndef USE_UNIONIMAGE
 const QImage loadTga(QString filePath, bool &success);
+#endif
+
 /*
  * lmh0901，根据后缀是否是图片
 **/

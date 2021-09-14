@@ -375,6 +375,8 @@ const QString getOrientation(const QString &path)
     return freeimage::getOrientation(path);
 #endif
 }
+
+#ifndef USE_UNIONIMAGE
 const QImage loadTga(QString filePath, bool &success)
 {
     QImage img;
@@ -500,6 +502,8 @@ const QImage loadTga(QString filePath, bool &success)
 
     return img;
 }
+#endif
+
 /*!
  * \brief getRotatedImage
  * Rotate image base on the exif orientation
