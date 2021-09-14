@@ -164,6 +164,7 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
     //默认多页图的按钮显示为false
     if (m_morePicFloatWidget) {
         m_morePicFloatWidget->setVisible(false);
+        m_morePicFloatWidget->getButtonDown()->clearFocus();
     }
     if (m_imageReader) {
         delete m_imageReader;

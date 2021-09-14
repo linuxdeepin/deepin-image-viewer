@@ -240,17 +240,19 @@ void SlideShowPanel::backToLastPanel()
         //        emit dApp->signalM->hideSlidePanel();
         //        emit dApp->signalM->viewImage(m_vinfo);
 
-        //todo屏蔽了全局信号
-        emit hideSlidePanel(m_animation->currentPath());
+
 //        emit dApp->signalM->hideSlidePanel();
 //        emit dApp->signalM->showBottomToolbar();
 //        emit dApp->signalM->showTopToolbar();
-        QEventLoop loop;
-        QTimer::singleShot(100, &loop, SLOT(quit()));
-        loop.exec();
+//        QEventLoop loop;
+//        QTimer::singleShot(100, &loop, SLOT(quit()));
+//        loop.exec();
         //        QString path = m_player->currentImagePath();
         //        emit dApp->signalM->viewImageNoNeedReload(path);
         QString currentpath = m_animation->currentPath();
+
+        //todo屏蔽了全局信号
+        emit hideSlidePanel(m_animation->currentPath());
 //todo屏蔽了全局信号
 //        emit dApp->signalM->viewImageNoNeedReload(currentpath);
     } else {

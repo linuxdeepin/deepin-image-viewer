@@ -501,7 +501,7 @@ void ViewPanel::toggleFullScreen()
         }
     }
     //选中缩略图居中显示
-    QTimer::singleShot(100, [ = ] {
+    QTimer::singleShot(150, [ = ] {
         emit CommonService::instance()->sigMouseRelease();
     });
 }
@@ -840,6 +840,10 @@ void ViewPanel::backImageView(const QString &path)
 //        m_view->setImage(path);
         m_bottomToolbar->setCurrentPath(path);
     }
+    //选中缩略图居中显示
+    QTimer::singleShot(150, [ = ] {
+        emit CommonService::instance()->sigMouseRelease();
+    });
 }
 
 void ViewPanel::initSlidePanel()
@@ -943,7 +947,20 @@ void ViewPanel::initShortcut()
             m_sliderPanel->backToLastPanel();
         } else if (window()->isFullScreen())
         {
-            toggleFullScreen();
+            if (m_stack->currentWidget() != m_thumbnailWidget && m_stack->currentWidget() != m_lockWidget) {
+                m_stack->setCurrentWidget(m_view);
+            }
+//            toggleFullScreen();
+            showNormal();
+            m_view->viewport()->setCursor(Qt::ArrowCursor);
+            //选中缩略图居中显示
+            QTimer::singleShot(150, [ = ] {
+                emit CommonService::instance()->sigMouseRelease();
+            });
+            //修复连续点击F5和esc的问题
+            if (m_sliderPanel) {
+                m_sliderPanel->onShowPause();
+            }
         }
     });
     // 1:1 size
