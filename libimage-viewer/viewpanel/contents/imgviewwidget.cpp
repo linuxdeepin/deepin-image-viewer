@@ -125,12 +125,44 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         m_listview->move(m_listview->x() + p.x() - m_moveViewPoint.x(), m_listview->y());
         m_moveViewPoint = p;
 
-        if (m_movePoint.x() - p.x() >= 32) {
+        int moveX = 0;
+        int middle = (this->geometry().right() - this->geometry().left()) / 2 ;
+        int itemX = m_listview->x() + m_listview->getCurrentItemX();
+        int rowWidth = m_listview->getRowWidth();
+        if (rowWidth - m_listview->getCurrentItemX() < (this->geometry().width() / 2)) {
+            moveX = this->geometry().width() - rowWidth - m_listview->x() ;
+        } else if (m_listview->getCurrentItemX() < (this->geometry().width() / 2)) {
+            moveX = 0 - m_listview->pos().x();
+        } else if (m_listview->geometry().width() <= this->width()) {
+            moveX = 0;
+        } else {
+            moveX = middle - itemX;
+        }
+
+        if (m_listview->x() < 0 && m_movePoint.x() - p.x() >= 32 && m_movePoint.x() - p.x() <= 50) {
             m_listview->openNext();
             m_movePoint = QPoint(m_movePoint.x() - 32, m_movePoint.y());
-        } else if (m_movePoint.x() - p.x() <= -32) {
+            if (moveX > 32) {
+                m_listview->openNext();
+            }
+        } else if (m_listview->x() < 0 && m_movePoint.x() - p.x() > 32) {
+            m_listview->openNext();
+            m_movePoint = QPoint(p.x(), m_movePoint.y());
+            if (moveX > 32) {
+                m_listview->openNext();
+            }
+        } else if ((rowWidth - m_listview->getCurrentItemX() - moveX) > 0 && m_movePoint.x() - p.x() <= -32 && m_movePoint.x() - p.x() >= -50) {
             m_listview->openPre();
             m_movePoint = QPoint(m_movePoint.x() + 32, m_movePoint.y());
+            if (moveX < -32) {
+                m_listview->openPre();
+            }
+        } else if ((rowWidth - m_listview->getCurrentItemX() - moveX) > 0 && m_movePoint.x() - p.x() <= -32) {
+            m_listview->openPre();
+            m_movePoint = QPoint(p.x(), m_movePoint.y());
+            if (moveX < -32) {
+                m_listview->openPre();
+            }
         }
 
         return true;
