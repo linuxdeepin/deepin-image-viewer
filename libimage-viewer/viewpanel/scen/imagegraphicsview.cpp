@@ -341,6 +341,8 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
 //                if (tifImg.isNull()) {
 //                    m_morePicFloatWidget->setVisible(false);
 //                } else {
+                //以免出现焦点在down的按钮下
+                m_morePicFloatWidget->setFocus();
                 m_morePicFloatWidget->setVisible(true);
                 if (m_morePicFloatWidget->getButtonUp()) {
                     m_morePicFloatWidget->getButtonUp()->setEnabled(false);
