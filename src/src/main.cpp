@@ -128,7 +128,10 @@ int main(int argc, char *argv[])
     mainwindow->setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     mainwindow->show();
 
-    Dtk::Widget::moveToCenter(mainwindow);
+    //修复窗口会一直在中间变小的问题
+    if (checkOnly()) {
+        Dtk::Widget::moveToCenter(mainwindow);
+    }
 
     return a.exec();
 }
