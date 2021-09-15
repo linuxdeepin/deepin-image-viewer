@@ -343,10 +343,30 @@ void MyImageListWidget::thumbnailIsMoving()
         return;
     }
     qDebug() << offsetLimit;
+    int moveX = 0;
+    int middle = (this->geometry().right() - this->geometry().left()) / 2 ;
+    int itemX = m_listview->x() + m_listview->getCurrentItemX();
+    int rowWidth = m_listview->getRowWidth();
+    if (rowWidth - m_listview->getCurrentItemX() < (this->geometry().width() / 2)) {
+        moveX = this->geometry().width() - rowWidth - m_listview->x() ;
+    } else if (m_listview->getCurrentItemX() < (this->geometry().width() / 2)) {
+        moveX = 0 - m_listview->pos().x();
+    } else if (m_listview->geometry().width() <= this->width()) {
+        moveX = 0;
+    } else {
+        moveX = middle - itemX;
+    }
+    //如果图片没居中,会切换两次
     if (offsetLimit > 0) {
         m_listview->openPre();
+        if (moveX < -32) {
+            m_listview->openPre();
+        }
     } else {
         m_listview->openNext();
+        if (moveX > 32) {
+            m_listview->openNext();
+        }
     }
     m_preListGeometryLeft = m_listview->geometry().left();
 
