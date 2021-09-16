@@ -125,6 +125,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         m_listview->move(m_listview->x() + p.x() - m_moveViewPoint.x(), m_listview->y());
         m_moveViewPoint = p;
 
+        //目的为了获取moveX的值,中心离当前位置的差值
         int moveX = 0;
         int middle = (this->geometry().right() - this->geometry().left()) / 2 ;
         int itemX = m_listview->x() + m_listview->getCurrentItemX();
@@ -138,26 +139,33 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         } else {
             moveX = middle - itemX;
         }
-
+        //moveX > 32或moveX <- 32则滑动两次(代表没有居中)
+        //如果这一次的移动并没有超过很大范围32-50,向右切换,并且m_movePoint位置记录为移动了32,这样的话可以保证每次切换流畅
         if (m_listview->x() < 0 && m_movePoint.x() - p.x() >= 32 && m_movePoint.x() - p.x() <= 50) {
             m_listview->openNext();
             m_movePoint = QPoint(m_movePoint.x() - 32, m_movePoint.y());
             if (moveX > 32) {
                 m_listview->openNext();
             }
-        } else if (m_listview->x() < 0 && m_movePoint.x() - p.x() > 32) {
+        }
+        //如果这一次的移动并超过很大范围>50,向右切换,并且m_movePoint位置记录为移动了到了当前的位置,目的是在最前面滑动的时候做到始终显示在屏幕上,到开头才滑动
+        else if (m_listview->x() < 0 && m_movePoint.x() - p.x() > 32) {
             m_listview->openNext();
             m_movePoint = QPoint(p.x(), m_movePoint.y());
             if (moveX > 32) {
                 m_listview->openNext();
             }
-        } else if ((rowWidth - m_listview->getCurrentItemX() - moveX) > 0 && m_movePoint.x() - p.x() <= -32 && m_movePoint.x() - p.x() >= -50) {
+        }
+        //同上,32-50之间则m_movePoint移动32
+        else if ((rowWidth - m_listview->getCurrentItemX() - moveX) > 0 && m_movePoint.x() - p.x() <= -32 && m_movePoint.x() - p.x() >= -50) {
             m_listview->openPre();
             m_movePoint = QPoint(m_movePoint.x() + 32, m_movePoint.y());
             if (moveX < -32) {
                 m_listview->openPre();
             }
-        } else if ((rowWidth - m_listview->getCurrentItemX() - moveX) > 0 && m_movePoint.x() - p.x() <= -32) {
+        }
+        //>50,超过边界则不移动,框框要在屏幕范围内
+        else if ((rowWidth - m_listview->getCurrentItemX() - moveX) > 0 && m_movePoint.x() - p.x() <= -32) {
             m_listview->openPre();
             m_movePoint = QPoint(p.x(), m_movePoint.y());
             if (moveX < -32) {
@@ -298,6 +306,7 @@ void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
         m_resetAnimation->stop();
     }
 
+    //目的为了获取moveX的值,中心离当前位置的差值
     int moveX = 0;
     int middle = (this->geometry().right() - this->geometry().left()) / 2 ;
     int itemX = m_listview->x() + m_listview->getCurrentItemX();
@@ -343,6 +352,7 @@ void MyImageListWidget::thumbnailIsMoving()
         return;
     }
     qDebug() << offsetLimit;
+    //目的为了获取moveX的值,中心离当前位置的差值
     int moveX = 0;
     int middle = (this->geometry().right() - this->geometry().left()) / 2 ;
     int itemX = m_listview->x() + m_listview->getCurrentItemX();
