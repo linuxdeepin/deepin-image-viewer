@@ -79,6 +79,7 @@ QVariantList cachePixmap(const QString &path)
     QImage tImg;
     QString errMsg;
     QSize size;
+    Q_UNUSED(size);
 //    UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, size, errMsg);
     UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg);
     QPixmap p = QPixmap::fromImage(tImg);
@@ -907,7 +908,7 @@ void ImageGraphicsView::paintEvent(QPaintEvent *event)
 
 void ImageGraphicsView::dragEnterEvent(QDragEnterEvent *e)
 {
-    const QMimeData *mimeData = e->mimeData();
+//    const QMimeData *mimeData = e->mimeData();
 //    if (!utils::base::checkMimeData(mimeData)) {
 //        return;
 //    }

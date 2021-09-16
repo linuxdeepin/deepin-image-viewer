@@ -306,9 +306,9 @@ void SlideShowPanel::startSlideShow(const ViewInfo &vinfo)
         //todo屏蔽了全局信号
 //        emit dApp->signalM->updatePauseButton();
     }
-    int screenId = QApplication::desktop()->screenNumber(this);
-    int nParentWidth = QApplication::desktop()->screenGeometry(screenId).width();
-    int nParentHeight = QApplication::desktop()->screenGeometry(screenId).height();
+
+    int nParentWidth = QGuiApplication::screenAt(this->pos())->geometry().width();
+    int nParentHeight = QGuiApplication::screenAt(this->pos())->geometry().height();
     slideshowbottombar->move((nParentWidth - slideshowbottombar->width()) / 2, nParentHeight);
     m_animation->startSlideShow(m_vinfo.path, m_vinfo.paths);
     auto actionlist = m_menu->actions();
@@ -397,8 +397,8 @@ void SlideShowPanel::mouseMoveEvent(QMouseEvent *event)
     if (window()->isFullScreen()) {
         QPoint pos = mapFromGlobal(QCursor::pos());
         // 处理程序界面的初始高度和全屏下幻灯片界面不一致导致底部工具栏位置错误
-        int screenId = QApplication::desktop()->screenNumber(this);
-        if (QApplication::desktop()->screenGeometry(screenId).size().height() != height())
+
+        if (QGuiApplication::screenAt(this->pos())->geometry().size().height() != height())
             return;
         if (height() - 20 < pos.y() && height() >= pos.y() && height() >= slideshowbottombar->y()) {
             QPropertyAnimation *animation = new QPropertyAnimation(slideshowbottombar, "pos");

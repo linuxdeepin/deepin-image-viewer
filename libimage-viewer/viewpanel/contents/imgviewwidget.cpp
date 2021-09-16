@@ -46,7 +46,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-const int Distance_factor = 4;//距离因子
+//const int Distance_factor = 4;//距离因子
 
 MyImageListWidget::MyImageListWidget(QWidget *parent)
     : QWidget(parent)
@@ -180,7 +180,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 
 void MyImageListWidget::mousePressEvent(QMouseEvent *event)
 {
-    qDebug() << "111111111";
+    Q_UNUSED(event);
 }
 MyImageListWidget::~MyImageListWidget()
 {
@@ -402,6 +402,7 @@ void MyImageListWidget::moveCenterWidget()
 
 void MyImageListWidget::onScrollBarValueChanged(int value)
 {
+    Q_UNUSED(value);
     QModelIndex index = m_listview->indexAt(QPoint((m_listview->width() - 15), 10));
     if (!index.isValid()) {
         index = m_listview->indexAt(QPoint((m_listview->width() - 20), 10));
@@ -432,6 +433,7 @@ void MyImageListWidget::onClicked(const QModelIndex &index)
 
 void MyImageListWidget::ONselectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    Q_UNUSED(deselected);
     qDebug() << "---ONselectionChanged------";
     if (!selected.indexes().isEmpty()) {
         m_listview->onClicked(selected.indexes().first());

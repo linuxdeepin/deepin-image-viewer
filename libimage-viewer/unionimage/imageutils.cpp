@@ -125,7 +125,7 @@ const QDateTime getCreateDateTime(const QString &path)
     // fallback to file create time.
     if (!dt.isValid()) {
         QFileInfo finfo(path);
-        dt = finfo.created();
+        dt = finfo.birthTime();
     }
 
     // fallback to today.

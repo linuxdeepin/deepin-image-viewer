@@ -42,8 +42,8 @@ namespace {
 const QString IMAGE_DEFAULTTYPE = "All pics";
 }
 
-const int NotSupportedOrDamagedWidth = 40;      //损坏图片宽度
-const int NotSupportedOrDamagedHeigh = 40;
+//const int NotSupportedOrDamagedWidth = 40;      //损坏图片宽度
+//const int NotSupportedOrDamagedHeigh = 40;
 const QString LOCMAP_SELECTED_DARK = ":/dark/images/58 drak.svg";
 const QString LOCMAP_NOT_SELECTED_DARK = ":/dark/images/imagewithbg-dark.svg";
 const QString LOCMAP_SELECTED_LIGHT = ":/light/images/58.svg";
@@ -79,12 +79,13 @@ ImgViewDelegate::ImgViewDelegate(QObject *parent)
 
 void ImgViewDelegate::setItemSize(QSize size)
 {
+    Q_UNUSED(size);
 //    m_size = size;
 }
 #include "service/imagedataservice.h"
 void ImgViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QRect backgroundRect2 = option.rect;
+//    QRect backgroundRect2 = option.rect;
 //    painter->fillRect(backgroundRect2, QBrush(DGuiApplicationHelper::instance()->applicationPalette().highlight().color()));
 //    return ;
     painter->save();
@@ -101,11 +102,11 @@ void ImgViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
 //        _pixmap = data.damagedPixmap;
         _pixmap = m_damageImage;
     }
-    bool selected = data.isSelected;
-    if (/*(option.state & QStyle::State_MouseOver) &&*/
-        (option.state & QStyle::State_Selected) != 0) {
-        selected = true;
-    }
+//    bool selected = data.isSelected;
+//    if (/*(option.state & QStyle::State_MouseOver) &&*/
+//        (option.state & QStyle::State_Selected) != 0) {
+//        selected = true;
+//    }
     painter->setRenderHints(QPainter::HighQualityAntialiasing |
                             QPainter::SmoothPixmapTransform |
                             QPainter::Antialiasing);
@@ -200,7 +201,9 @@ imageViewerSpace::ItemInfo ImgViewDelegate::itemData(const QModelIndex &index) c
 
 bool ImgViewDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(event);
     Q_UNUSED(model);
-
+    Q_UNUSED(index);
     return false;
 }

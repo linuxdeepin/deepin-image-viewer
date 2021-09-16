@@ -159,10 +159,8 @@ QString ImageDataService::getMovieDurationStrByPath(const QString &path)
 
 void ImageDataService::setAllDataKeys(const QStringList &paths, bool single)
 {
-//    QMutexLocker locker(&m_imgDataMutex);
-//    if (!single)
-//        m_imageKeys.clear();
-//    m_imageKeys.append(paths);
+    Q_UNUSED(paths);
+    Q_UNUSED(single);
 }
 
 void ImageDataService::setVisualIndex(int row)

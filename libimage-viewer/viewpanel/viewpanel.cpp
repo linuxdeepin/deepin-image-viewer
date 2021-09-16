@@ -622,7 +622,7 @@ bool ViewPanel::startdragImage(const QStringList &paths)
         QDir _dirinit(DirPath);
         QFileInfoList m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
         //修复Ｑt带后缀排序错误的问题
-        qSort(m_AllPath.begin(), m_AllPath.end(), compareByFileInfo);
+        std::sort(m_AllPath.begin(), m_AllPath.end(), compareByFileInfo);
 
         image_list.clear();
         for (int i = 0; i < m_AllPath.size(); i++) {
@@ -726,7 +726,7 @@ bool ViewPanel::startChooseFileDialog()
         QDir _dirinit(DirPath);
         QFileInfoList m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
         //修复Ｑt带后缀排序错误的问题
-        qSort(m_AllPath.begin(), m_AllPath.end(), compareByFileInfo);
+        std::sort(m_AllPath.begin(), m_AllPath.end(), compareByFileInfo);
 
         image_list.clear();
         for (int i = 0; i < m_AllPath.size(); i++) {
@@ -1109,7 +1109,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         slotOcrPicture();
         break;
     }
-}
+    default:
+        break;
+    }
 
 }
 
@@ -1119,6 +1121,7 @@ void ViewPanel::slotOneImgReady(QString path, imageViewerSpace::ItemInfo itemInf
     if (path.contains(ItemInfo.path)) {
         updateMenuContent();
     }
+    Q_UNUSED(itemInfo);
 }
 
 void ViewPanel::resetBottomToolbarGeometry(bool visible)
@@ -1150,6 +1153,7 @@ void ViewPanel::openImg(int index, QString path)
     m_topToolbar->setMiddleContent(info.fileName());
     m_currentPath = path;
     updateMenuContent(path);
+    Q_UNUSED(index);
 }
 
 void ViewPanel::slotRotateImage(int angle)

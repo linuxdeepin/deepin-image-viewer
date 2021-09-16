@@ -159,6 +159,7 @@ void ImageSvgItem::updateDefaultSize()
 
 void ImageSvgItem::setMaximumCacheSize(const QSize &size)
 {
+    Q_UNUSED(size);
 //    QGraphicsItem::d_ptr->setExtra(QGraphicsItemPrivate::ExtraMaxDeviceCoordCacheSize, size);
     update();
 }
