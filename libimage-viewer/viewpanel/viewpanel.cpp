@@ -586,7 +586,8 @@ void ViewPanel::setWallpaper(const QImage &img)
                                                  "/com/deepin/daemon/Appearance",
                                                  "com.deepin.daemon.Appearance");
                     if (interface.isValid()) {
-                        QString screenname = QGuiApplication::primaryScreen()->name();
+                        //获取鼠标在的位置的桌面
+                        QString screenname = QGuiApplication::screenAt(QCursor::pos())->name();
                         QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"), screenname, path);
                         qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
                     }
@@ -1027,6 +1028,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
                     m_topToolbar->setMiddleContent(filename);
                     CommonService::instance()->reName(oldPath, filepath);
                     //重新打开该图片
+                    m_bottomToolbar->setCurrentPath(filepath);
                     openImg(0, filepath);
                 }
             }
