@@ -837,6 +837,11 @@ void ViewPanel::backImageView(const QString &path)
 //        m_view->setImage(path);
         m_bottomToolbar->setCurrentPath(path);
     }
+    //每次退出的时候需要删除幻灯片,释放空间
+    if (m_sliderPanel) {
+        m_sliderPanel->deleteLater();
+        m_sliderPanel = nullptr;
+    }
 }
 
 void ViewPanel::initSlidePanel()
