@@ -83,10 +83,16 @@ int main(int argc, char *argv[])
 
 //    Application::loadDXcbPlugin();
     DApplication  a(argc, argv);
+    a.setAttribute(Qt::AA_ForceRasterWidgets);
     a.loadTranslator();
+    a.setOrganizationName("deepin");
+    a.setApplicationName("deepin-image-viewer");
     a.setApplicationDisplayName(QObject::tr("Image Viewer"));
     a.setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
     a.setApplicationDescription(QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
+    //save theme
+    DApplicationSettings saveTheme;
+    Q_UNUSED(saveTheme);
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
