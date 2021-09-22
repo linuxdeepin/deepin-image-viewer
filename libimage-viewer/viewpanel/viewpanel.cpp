@@ -964,145 +964,147 @@ void ViewPanel::initShortcut()
 
 void ViewPanel::onMenuItemClicked(QAction *action)
 {
-    //判断旋转图片本体是否旋转
-    if (m_view) {
-        m_view->slotRotatePixCurrent();
-    }
-    const int id = action->property("MenuID").toInt();
-    switch (MenuItemId(id)) {
-    case IdFullScreen:
-    case IdExitFullScreen: {
-        toggleFullScreen();
-        break;
-    }
-    case IdStartSlideShow: {
-        //todo,幻灯片
-        if (!m_sliderPanel) {
-            initSlidePanel();
+    //当幻灯片的情况屏蔽快捷键的使用
+    if (m_stack->currentWidget() != m_sliderPanel) {
+        //判断旋转图片本体是否旋转
+        if (m_view) {
+            m_view->slotRotatePixCurrent();
         }
-        ViewInfo vinfo;
-        vinfo.fullScreen = window()->isFullScreen();
-        vinfo.lastPanel = this;
-        vinfo.path = m_bottomToolbar->getCurrentItemInfo().path;
-        vinfo.paths = m_bottomToolbar->getAllPath();
-        vinfo.viewMainWindowID = 0;
-        m_sliderPanel->startSlideShow(vinfo);
-        m_stack->setCurrentWidget(m_sliderPanel);
+        const int id = action->property("MenuID").toInt();
+        switch (MenuItemId(id)) {
+        case IdFullScreen:
+        case IdExitFullScreen: {
+            toggleFullScreen();
+            break;
+        }
+        case IdStartSlideShow: {
+            //todo,幻灯片
+            if (!m_sliderPanel) {
+                initSlidePanel();
+            }
+            ViewInfo vinfo;
+            vinfo.fullScreen = window()->isFullScreen();
+            vinfo.lastPanel = this;
+            vinfo.path = m_bottomToolbar->getCurrentItemInfo().path;
+            vinfo.paths = m_bottomToolbar->getAllPath();
+            vinfo.viewMainWindowID = 0;
+            m_sliderPanel->startSlideShow(vinfo);
+            m_stack->setCurrentWidget(m_sliderPanel);
 
-        break;
-    }
-    case IdPrint: {
-        PrintHelper::getIntance()->showPrintDialog(QStringList(m_bottomToolbar->getCurrentItemInfo().path), this);
-        break;
-    }
-    case IdRename: {
-        //todo,重命名
-        QString oldPath = m_bottomToolbar->getCurrentItemInfo().path;
-        RenameDialog *renamedlg =  new RenameDialog(oldPath, this);
+            break;
+        }
+        case IdPrint: {
+            PrintHelper::getIntance()->showPrintDialog(QStringList(m_bottomToolbar->getCurrentItemInfo().path), this);
+            break;
+        }
+        case IdRename: {
+            //todo,重命名
+            QString oldPath = m_bottomToolbar->getCurrentItemInfo().path;
+            RenameDialog *renamedlg =  new RenameDialog(oldPath, this);
 #ifndef USE_TEST
-        if (renamedlg->exec()) {
+            if (renamedlg->exec()) {
 #else
-        renamedlg->m_lineedt->setText("40_1");
-        renamedlg->show();
-        {
+            renamedlg->m_lineedt->setText("40_1");
+            renamedlg->show();
+            {
 #endif
-            QFile file(oldPath);
-            QString filepath = renamedlg->GetFilePath();
-            QString filename = renamedlg->GetFileName();
-            bool bOk = file.rename(filepath);
-            if (bOk) {
-                //to文件改变后做的事情
-                if (m_topToolbar) {
-                    m_topToolbar->setMiddleContent(filename);
-                    CommonService::instance()->reName(oldPath, filepath);
-                    //重新打开该图片
-                    m_bottomToolbar->setCurrentPath(filepath);
-                    openImg(0, filepath);
+                QFile file(oldPath);
+                QString filepath = renamedlg->GetFilePath();
+                QString filename = renamedlg->GetFileName();
+                bool bOk = file.rename(filepath);
+                if (bOk) {
+                    //to文件改变后做的事情
+                    if (m_topToolbar) {
+                        m_topToolbar->setMiddleContent(filename);
+                        CommonService::instance()->reName(oldPath, filepath);
+                        //重新打开该图片
+                        m_bottomToolbar->setCurrentPath(filepath);
+                        openImg(0, filepath);
+                    }
                 }
             }
+            break;
         }
-        break;
-    }
-    case IdCopy: {
-        //todo,复制
-        utils::base::copyImageToClipboard(QStringList(m_bottomToolbar->getCurrentItemInfo().path));
-        break;
-    }
-    case IdMoveToTrash: {
-        //todo,删除
-        if (m_bottomToolbar) {
-            m_bottomToolbar->deleteImage();
+        case IdCopy: {
+            //todo,复制
+            utils::base::copyImageToClipboard(QStringList(m_bottomToolbar->getCurrentItemInfo().path));
+            break;
         }
-        break;
-    }
-    case IdShowNavigationWindow: {
-        m_nav->setAlwaysHidden(false);
-        break;
-    }
-    case IdHideNavigationWindow: {
-        m_nav->setAlwaysHidden(true);
-        break;
-    }
-    case IdRotateClockwise: {
-        //todo旋转
-        if (m_bottomToolbar) {
-            m_bottomToolbar->onRotateRBtnClicked();
+        case IdMoveToTrash: {
+            //todo,删除
+            if (m_bottomToolbar) {
+                m_bottomToolbar->deleteImage();
+            }
+            break;
         }
-        break;
-    }
-    case IdRotateCounterclockwise: {
-        //todo旋转
-        if (m_bottomToolbar) {
-            m_bottomToolbar->onRotateLBtnClicked();
+        case IdShowNavigationWindow: {
+            m_nav->setAlwaysHidden(false);
+            break;
         }
-        break;
-    }
-    case IdSetAsWallpaper: {
-        //todo设置壁纸
-        setWallpaper(m_view->image());
-        break;
-    }
-    case IdDisplayInFileManager : {
-        //todo显示在文管
-        utils::base::showInFileManager(m_bottomToolbar->getCurrentItemInfo().path);
-        break;
-    }
-    case IdImageInfo: {
-        //todo,文件信息
-        if (!m_info && !m_extensionPanel) {
-            initExtensionPanel();
+        case IdHideNavigationWindow: {
+            m_nav->setAlwaysHidden(true);
+            break;
         }
-        //重新刷新文件信息
-        m_info->updateInfo();
-        m_info->show();
+        case IdRotateClockwise: {
+            //todo旋转
+            if (m_bottomToolbar) {
+                m_bottomToolbar->onRotateRBtnClicked();
+            }
+            break;
+        }
+        case IdRotateCounterclockwise: {
+            //todo旋转
+            if (m_bottomToolbar) {
+                m_bottomToolbar->onRotateLBtnClicked();
+            }
+            break;
+        }
+        case IdSetAsWallpaper: {
+            //todo设置壁纸
+            setWallpaper(m_view->image());
+            break;
+        }
+        case IdDisplayInFileManager : {
+            //todo显示在文管
+            utils::base::showInFileManager(m_bottomToolbar->getCurrentItemInfo().path);
+            break;
+        }
+        case IdImageInfo: {
+            //todo,文件信息
+            if (!m_info && !m_extensionPanel) {
+                initExtensionPanel();
+            }
+            //重新刷新文件信息
+            m_info->updateInfo();
+            m_info->show();
 
-        //判断是否有缓存,无缓存,则使用打开路径
-        QString path = m_bottomToolbar->getCurrentItemInfo().path;
-        if (path.isEmpty()) {
-            path = m_currentPath;
+            //判断是否有缓存,无缓存,则使用打开路径
+            QString path = m_bottomToolbar->getCurrentItemInfo().path;
+            if (path.isEmpty()) {
+                path = m_currentPath;
+            }
+            m_info->setImagePath(path);
+            m_extensionPanel->setContent(m_info);
+            m_extensionPanel->show();
+            if (this->window()->isFullScreen() || this->window()->isMaximized()) {
+                m_extensionPanel->move(this->window()->width() - m_extensionPanel->width() - 24,
+                                       TOP_TOOLBAR_HEIGHT * 2);
+            } else {
+                m_extensionPanel->move(this->window()->pos() +
+                                       QPoint(this->window()->width() - m_extensionPanel->width() - 24,
+                                              TOP_TOOLBAR_HEIGHT * 2));
+            }
+            break;
         }
-        m_info->setImagePath(path);
-        m_extensionPanel->setContent(m_info);
-        m_extensionPanel->show();
-        if (this->window()->isFullScreen() || this->window()->isMaximized()) {
-            m_extensionPanel->move(this->window()->width() - m_extensionPanel->width() - 24,
-                                   TOP_TOOLBAR_HEIGHT * 2);
-        } else {
-            m_extensionPanel->move(this->window()->pos() +
-                                   QPoint(this->window()->width() - m_extensionPanel->width() - 24,
-                                          TOP_TOOLBAR_HEIGHT * 2));
+        case IdOcr: {
+            //todo,ocr
+            slotOcrPicture();
+            break;
         }
-        break;
+        default:
+            break;
+        }
     }
-    case IdOcr: {
-        //todo,ocr
-        slotOcrPicture();
-        break;
-    }
-    default:
-        break;
-    }
-
 }
 
 void ViewPanel::slotOneImgReady(QString path, imageViewerSpace::ItemInfo itemInfo)
