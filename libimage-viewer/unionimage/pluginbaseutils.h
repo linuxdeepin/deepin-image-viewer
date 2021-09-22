@@ -18,8 +18,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef BASEUTILS_H
-#define BASEUTILS_H
+#ifndef PLUGINBASEUTILS_H
+#define PLUGINBASEUTILS_H
 
 #include <QObject>
 #include <QTimer>
@@ -57,14 +57,13 @@ namespace base {
 //QDateTime   stringToDateTime(const QString &time);
 //QString     getFileContent(const QString &file);
 //QPixmap     renderSVG(const QString &filePath, const QSize &size);
-//bool checkMimeData(const QMimeData *mimeData);
+bool checkMimeData(const QMimeData *mimeData);
 QString mkMutiDir(const QString &path);
 
-//const QFileInfoList                 getImagesInfo(const QString &dir,
-//                                                  bool recursive = true);
-//bool                                imageSupportRead(const QString &path);
+const QFileInfoList getImagesInfo(const QString &dir, bool recursive = true);
+bool imageSupportRead(const QString &path);
 //bool                                imageSupportSave(const QString &path);
-//QStringList                         supportedImageFormats();
+QStringList supportedImageFormats();
 }  // namespace base
 
 }  // namespace utils

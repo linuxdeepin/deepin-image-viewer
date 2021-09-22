@@ -4,6 +4,7 @@
 #include "accessibility/ac-desktop-define.h"
 #include "../libimage-viewer/imageviewer.h"
 #include "accessibility/ac-desktop-define.h"
+#include "../libimage-viewer/unionimage/pluginbaseutils.h"
 
 #include <QMimeData>
 
@@ -116,6 +117,10 @@ void HomePageWidget::openImageInDialog()
 
 void HomePageWidget::dragEnterEvent(QDragEnterEvent *event)
 {
+    const QMimeData *mimeData = event->mimeData();
+    if (!pluginUtils::base::checkMimeData(mimeData)) {
+        return;
+    }
     event->setDropAction(Qt::CopyAction);
     event->accept();
     event->acceptProposedAction();

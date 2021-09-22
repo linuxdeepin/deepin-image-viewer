@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "imagegraphicsview.h"
+#include "unionimage/pluginbaseutils.h"
 
 #include <QDebug>
 #include <QFile>
@@ -908,10 +909,10 @@ void ImageGraphicsView::paintEvent(QPaintEvent *event)
 
 void ImageGraphicsView::dragEnterEvent(QDragEnterEvent *e)
 {
-//    const QMimeData *mimeData = e->mimeData();
-//    if (!utils::base::checkMimeData(mimeData)) {
-//        return;
-//    }
+    const QMimeData *mimeData = e->mimeData();
+    if (!pluginUtils::base::checkMimeData(mimeData)) {
+        return;
+    }
     e->accept();
 }
 

@@ -20,6 +20,8 @@
  */
 #include "pluginbaseutils.h"
 #include "unionimage.h"
+#include "image-viewer_global.h"
+#include "service/commonservice.h"
 
 #include <stdio.h>
 #include <fcntl.h>
@@ -184,73 +186,57 @@ const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm:ss";
 //    return QString(QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex());
 //}
 
-//bool checkMimeData(const QMimeData *mimeData)
-//{
-//    if (!mimeData->hasUrls()) {
-//        return false;
-//    }
-//    QList<QUrl> urlList = mimeData->urls();
-//    if (1 > urlList.size()) {
-//        return false;
-//    }
-////    using namespace utils::image;
-//    for (QUrl url : urlList) {
-//        const QString path = url.toLocalFile();
-//        QFileInfo fileinfo(path);
-//        if (fileinfo.isDir()) {
-//            auto finfos =  getImagesInfo(path, false);
-//            for (auto finfo : finfos) {
-//                if (imageSupportRead(finfo.absoluteFilePath())) {
-//                    QFileInfo info(finfo.absoluteFilePath());
-//                    QMimeDatabase db;
-//                    QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
-//                    QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-//                    QString str = info.suffix().toLower();
-//
-//                    if (str.isEmpty()) {
-//                        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
-//                            if (supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-//                                return true;
-//                            } else if (str.isEmpty()) {
-//                                return true;
-//                            }
-//                        }
-//                    } else {
-//                        if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-//                            if (supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-//                                return true;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        } else if (imageSupportRead(path)) {
-////            paths << path;
-//            QFileInfo info(path);
-//            QMimeDatabase db;
-//            QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
-//            QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-//            QString str = info.suffix().toLower();
-//            if (str.isEmpty()) {
-//                if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
-//                    if (supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-//                        return true;
-//                    } else if (str.isEmpty()) {
-//                        return true;
-//                    }
-//                }
-//            } else {
-//                if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-//                    if (supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-//                        return true;
-//                    }
-//                }
-//            }
-//            return false;
-//        }
-//    }
-//    return false;
-//}
+bool checkMimeData(const QMimeData *mimeData)
+{
+    if (!mimeData->hasUrls()) {
+        return false;
+    }
+    QList<QUrl> urlList = mimeData->urls();
+    if (1 > urlList.size()) {
+        return false;
+    }
+
+    bool result = false;
+
+    //遍历URL，只要存在图片就允许拖入
+    for (QUrl url : urlList) {
+        const QString path = url.toLocalFile();
+        QFileInfo fileinfo(path);
+        if (fileinfo.isDir()) {
+            if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum) { //相册模式的时候额外允许文件夹拖入
+                result = true;
+                break;
+            } else {
+                continue;
+            }
+        } else {
+            QFileInfo info(path);
+            QMimeDatabase db;
+            QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+            QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
+            QString str = info.suffix().toLower();
+            if (str.isEmpty()) {
+                if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
+                    if (supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
+                        result = true;
+                        break;
+                    } else if (str.isEmpty()) {
+                        result = true;
+                        break;
+                    }
+                }
+            } else {
+                if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                    result = true;
+                    break;
+                }
+            }
+            continue;
+        }
+    }
+
+    return result;
+}
 
 
 //QPixmap renderSVG(const QString &filePath, const QSize &size)
@@ -286,52 +272,52 @@ QString mkMutiDir(const QString &path)   //创建多级目录
     return parentDir + "/" + dirname;
 }
 
-//bool imageSupportRead(const QString &path)
-//{
-//    const QString suffix = QFileInfo(path).suffix();
+bool imageSupportRead(const QString &path)
+{
+    const QString suffix = QFileInfo(path).suffix();
+
+    //FIXME: file types below will cause freeimage to crash on loading,
+    // take them here for good.
+    QStringList errorList;
+    errorList << "X3F";
+    if (errorList.indexOf(suffix.toUpper()) != -1) {
+        return false;
+    }
+    //return QImageReader::supportedImageFormats().contains(suffix.toUtf8());
+    return UnionImage_NameSpace::unionImageSupportFormat().contains(suffix.toUpper());
+}
+
+const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
+{
+    QFileInfoList infos;
+
+    if (! recursive) {
+        auto nsl = QDir(dir).entryInfoList(QDir::Files);
+        for (QFileInfo info : nsl) {
+            if (imageSupportRead(info.absoluteFilePath())) {
+                infos << info;
+            }
+        }
+        return infos;
+    }
+
+    QDirIterator dirIterator(dir,
+                             QDir::Files,
+                             QDirIterator::Subdirectories);
+    while (dirIterator.hasNext()) {
+        dirIterator.next();
+        if (imageSupportRead(dirIterator.fileInfo().absoluteFilePath())) {
+            infos << dirIterator.fileInfo();
+        }
+    }
+
+    return infos;
+}
 //
-//    //FIXME: file types below will cause freeimage to crash on loading,
-//    // take them here for good.
-//    QStringList errorList;
-//    errorList << "X3F";
-//    if (errorList.indexOf(suffix.toUpper()) != -1) {
-//        return false;
-//    }
-//    //return QImageReader::supportedImageFormats().contains(suffix.toUtf8());
-//    return UnionImage_NameSpace::unionImageSupportFormat().contains(suffix.toUpper());
-//}
-//
-//const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
-//{
-//    QFileInfoList infos;
-//
-//    if (! recursive) {
-//        auto nsl = QDir(dir).entryInfoList(QDir::Files);
-//        for (QFileInfo info : nsl) {
-//            if (imageSupportRead(info.absoluteFilePath())) {
-//                infos << info;
-//            }
-//        }
-//        return infos;
-//    }
-//
-//    QDirIterator dirIterator(dir,
-//                             QDir::Files,
-//                             QDirIterator::Subdirectories);
-//    while (dirIterator.hasNext()) {
-//        dirIterator.next();
-//        if (imageSupportRead(dirIterator.fileInfo().absoluteFilePath())) {
-//            infos << dirIterator.fileInfo();
-//        }
-//    }
-//
-//    return infos;
-//}
-//
-//QStringList supportedImageFormats()
-//{
-//    return UnionImage_NameSpace::unionImageSupportFormat();
-//}
+QStringList supportedImageFormats()
+{
+    return UnionImage_NameSpace::unionImageSupportFormat();
+}
 
 }  // namespace base
 

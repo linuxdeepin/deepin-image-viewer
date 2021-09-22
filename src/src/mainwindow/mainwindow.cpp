@@ -53,6 +53,7 @@
 #include "../libimage-viewer/imageviewer.h"
 #include "../libimage-viewer/imageengine.h"
 #include "shortcut.h"
+#include "../libimage-viewer/unionimage/pluginbaseutils.h"
 
 const QString CONFIG_PATH =   QDir::homePath() +
                               "/.config/deepin/deepin-image-viewer/config.conf";
@@ -245,6 +246,10 @@ void MainWindow::showEvent(QShowEvent *event)
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
+    const QMimeData *mimeData = event->mimeData();
+    if (!pluginUtils::base::checkMimeData(mimeData)) {
+        return;
+    }
     event->setDropAction(Qt::CopyAction);
     event->accept();
     event->acceptProposedAction();

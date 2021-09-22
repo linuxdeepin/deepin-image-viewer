@@ -40,6 +40,7 @@
 
 #include "unionimage/imageutils.h"
 #include "unionimage/baseutils.h"
+#include "unionimage/pluginbaseutils.h"
 #include "unionimage/unionimage.h"
 #include "imageengine.h"
 #include "widgets/printhelper.h"
@@ -1246,6 +1247,10 @@ void ViewPanel::mousePressEvent(QMouseEvent *event)
 
 void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 {
+    const QMimeData *mimeData = event->mimeData();
+    if (!pluginUtils::base::checkMimeData(mimeData)) {
+        return;
+    }
     event->setDropAction(Qt::CopyAction);
     event->accept();
     event->acceptProposedAction();
