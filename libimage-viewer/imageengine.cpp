@@ -107,6 +107,15 @@ bool ImageEngine::isRotatable(const QString &path)
 //根据文件路径制作md5
 QString ImageEngine::makeMD5(const QString &path)
 {
-    const QUrl url = QUrl::fromLocalFile(path);
-    return QCryptographicHash::hash(url.toString(QUrl::FullyEncoded).toLocal8Bit(), QCryptographicHash::Md5).toHex();
+    QFile file(path);
+    QString  stHashValue;
+    if (file.open(QIODevice::ReadOnly)) { //只读方式打开
+        QCryptographicHash hash(QCryptographicHash::Md5);
+
+        QByteArray buf = file.read(10 * 1024 * 1024); // 每次读取10M
+        buf = buf.append(path.toUtf8());
+        hash.addData(buf);  // 将数据添加到Hash中
+        stHashValue.append(hash.result().toHex());
+    }
+    return stHashValue;
 }

@@ -71,7 +71,7 @@ void ImgOperate::slotMakeImgThumbnail(QString thumbnailSavePath, QStringList pat
         //缩略图保存路径
         QString savePath = thumbnailSavePath + path;
         //保存为jpg格式
-        savePath = savePath.mid(0, savePath.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(savePath) + ".png";
+        savePath = thumbnailSavePath.mid(0, savePath.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(path) + ".png";
         QFileInfo file(savePath);
         //缩略图已存在，执行下一个路径
         if (file.exists() && !remake && itemInfo.imgOriginalWidth > 0 && itemInfo.imgOriginalHeight > 0) {

@@ -226,7 +226,7 @@ void readThumbnailThread::readThumbnail(QString path)
     //缩略图保存路径
     QString savePath = m_thumbnailPath + path;
     //保存为jpg格式
-    savePath = savePath.mid(0, savePath.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(savePath) + ".png";
+    savePath = m_thumbnailPath.mid(0, savePath.lastIndexOf('.')) + ImageEngine::instance()->makeMD5(path) + ".png";
     QFileInfo file(savePath);
     //缩略图已存在，执行下一个路径,如果读取的尺寸为错误,也需要重新读取
     if (!m_remake && file.exists() && itemInfo.imgOriginalWidth > 0 && itemInfo.imgOriginalHeight > 0) {
