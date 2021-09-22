@@ -500,10 +500,6 @@ void ViewPanel::toggleFullScreen()
             m_view->viewport()->setCursor(Qt::BlankCursor);
         }
     }
-    //选中缩略图居中显示
-    QTimer::singleShot(150, [ = ] {
-        emit CommonService::instance()->sigMouseRelease();
-    });
 }
 
 void ViewPanel::showFullScreen()
@@ -841,10 +837,6 @@ void ViewPanel::backImageView(const QString &path)
 //        m_view->setImage(path);
         m_bottomToolbar->setCurrentPath(path);
     }
-    //选中缩略图居中显示
-    QTimer::singleShot(150, [ = ] {
-        emit CommonService::instance()->sigMouseRelease();
-    });
 }
 
 void ViewPanel::initSlidePanel()
@@ -954,10 +946,6 @@ void ViewPanel::initShortcut()
 //            toggleFullScreen();
             showNormal();
             m_view->viewport()->setCursor(Qt::ArrowCursor);
-            //选中缩略图居中显示
-            QTimer::singleShot(150, [ = ] {
-                emit CommonService::instance()->sigMouseRelease();
-            });
             //修复连续点击F5和esc的问题
             if (m_sliderPanel) {
                 m_sliderPanel->onShowPause();
@@ -1208,10 +1196,12 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         }
     }
     //当view处于适应窗口状态的时候,resize也会继承状态
-    if (m_view->isFitImage()) {
-        m_view->fitImage();
-    } else if (m_view->isFitWindow()) {
-        m_view->fitWindow();
+    if (m_stack->currentWidget() == m_view) {
+        if (m_view->isFitImage()) {
+            m_view->fitImage();
+        } else if (m_view->isFitWindow()) {
+            m_view->fitWindow();
+        }
     }
 
 //    resetBottomToolbarGeometry(m_stack->currentWidget() == m_view);
