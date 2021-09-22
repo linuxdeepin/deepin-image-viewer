@@ -182,6 +182,13 @@ void MyImageListWidget::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
 }
+
+void MyImageListWidget::resizeEvent(QResizeEvent *event)
+{
+    //resize之后需要重新找到中心点
+    animationStart(true, 0, 400);
+    Q_UNUSED(event);
+}
 MyImageListWidget::~MyImageListWidget()
 {
 }

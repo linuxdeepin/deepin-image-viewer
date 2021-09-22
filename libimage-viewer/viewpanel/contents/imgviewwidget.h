@@ -86,6 +86,7 @@ private:
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 public slots:
     //列表点击事件
     void onClicked(const QModelIndex &index);
