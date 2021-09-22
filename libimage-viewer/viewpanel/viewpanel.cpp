@@ -995,7 +995,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             vinfo.viewMainWindowID = 0;
             m_sliderPanel->startSlideShow(vinfo);
             m_stack->setCurrentWidget(m_sliderPanel);
-
+            //正在滑动缩略图的时候不再显示
+            if (m_nav->isVisible()) {
+                m_nav->setVisible(false);
+            }
             break;
         }
         case IdPrint: {
