@@ -1046,14 +1046,14 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     case IdRotateClockwise: {
         //todo旋转
         if (m_bottomToolbar) {
-            m_bottomToolbar->onRotateLBtnClicked();
+            m_bottomToolbar->onRotateRBtnClicked();
         }
         break;
     }
     case IdRotateCounterclockwise: {
         //todo旋转
         if (m_bottomToolbar) {
-            m_bottomToolbar->onRotateRBtnClicked();
+            m_bottomToolbar->onRotateLBtnClicked();
         }
         break;
     }
