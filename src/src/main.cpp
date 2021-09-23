@@ -35,6 +35,19 @@
 #include <fcntl.h>
 #include <unistd.h>
 using namespace Dtk::Core;
+//判断是否是wayland
+bool CheckWayland()
+{
+    auto e = QProcessEnvironment::systemEnvironment();
+    QString XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
+    QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
+
+    if (XDG_SESSION_TYPE == QLatin1String("wayland") || WAYLAND_DISPLAY.contains(QLatin1String("wayland"), Qt::CaseInsensitive))
+        return true;
+    else {
+        return false;
+    }
+}
 
 bool checkOnly()
 {
@@ -68,6 +81,11 @@ int main(int argc, char *argv[])
     if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
         setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
     }
+    //判断是否是wayland
+    if (CheckWayland()) {
+        //默认走xdgv6,该库没有维护了，因此需要添加该代码
+        qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell");
+    }
 
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
@@ -80,7 +98,7 @@ int main(int argc, char *argv[])
     //设置版本号
     dApp->m_app->setApplicationVersion(DApplication::buildVersion(VERSION));
 #endif
-    Dtk::Core::DVtableHook::overrideVfptrFun(dApp->m_app, &DApplication::handleQuitAction, dApp, &Application::quitApp);
+    DVtableHook::overrideVfptrFun(dApp->m_app, &DApplication::handleQuitAction, dApp, &Application::quitApp);
 #ifdef INSTALLACCESSIBLEFACTORY
     QAccessible::installFactory(accessibleFactory);
 #endif
