@@ -53,6 +53,8 @@ ImgViewListView::ImgViewListView(QWidget *parent)
     QListView::setWrapping(false);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    this->verticalScrollBar()->setDisabled(true); // 禁用滚动
 //    setAttribute(Qt::WA_TransparentForMouseEvents, true);
 //    QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
 

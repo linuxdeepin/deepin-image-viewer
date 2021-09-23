@@ -146,6 +146,21 @@ ImageGraphicsView::ImageGraphicsView(QWidget *parent)
     m_isChangedTimer = new QTimer(this);
     QObject::connect(m_isChangedTimer, &QTimer::timeout, this, &ImageGraphicsView::onIsChangedTimerTimeout);
 
+    //让默认的快捷键失效，默认会滑动窗口
+    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Up), this), &QShortcut::activated, this, &ImageGraphicsView::slotsUp);
+    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Down), this), &QShortcut::activated, this, &ImageGraphicsView::slotsDown);
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Left), this);
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Right), this);
+
+    new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Left), this);
+    new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Right), this);
+    new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Up), this);
+    new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Down), this);
+
+    new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Left), this);
+    new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Right), this);
+    new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Up), this);
+    new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Down), this);
 
     Dtk::Core::DVtableHook::overrideVfptrFun(qApp, &DApplication::handleQuitAction, this, &ImageGraphicsView::slotSavePic);
 }
@@ -408,7 +423,7 @@ void ImageGraphicsView::setScaleValue(qreal v)
         m_isFitWindow = false;
     }
 #else
-    const qreal irs = imageRelativeScale();
+    m_scal = imageRelativeScale();
     // Rollback
     if ((v < 1 && m_scal <= MIN_SCALE_FACTOR)) {
         const qreal minv = MIN_SCALE_FACTOR / m_scal;
@@ -626,8 +641,7 @@ void ImageGraphicsView::initMorePicWidget()
 
     connect(m_morePicFloatWidget->getButtonUp(), &DIconButton::clicked, this, &ImageGraphicsView::slotsUp);
     connect(m_morePicFloatWidget->getButtonDown(), &DIconButton::clicked, this, &ImageGraphicsView::slotsDown);
-    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Up), this), &QShortcut::activated, this, &ImageGraphicsView::slotsUp);
-    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Down), this), &QShortcut::activated, this, &ImageGraphicsView::slotsDown);
+
     m_morePicFloatWidget->setFixedWidth(70);
     m_morePicFloatWidget->setFixedHeight(140);
     m_morePicFloatWidget->show();
@@ -704,102 +718,106 @@ void ImageGraphicsView::onIsChangedTimerTimeout()
 
 void ImageGraphicsView::slotsUp()
 {
-    if (m_morePicFloatWidget->getButtonUp()) {
-        m_morePicFloatWidget->getButtonUp()->setEnabled(true);
-    }
-    if (m_morePicFloatWidget->getButtonDown()) {
-        m_morePicFloatWidget->getButtonDown()->setEnabled(true);
-    }
+    if (m_morePicFloatWidget) {
+        if (m_morePicFloatWidget->getButtonUp()) {
+            m_morePicFloatWidget->getButtonUp()->setEnabled(true);
+        }
+        if (m_morePicFloatWidget->getButtonDown()) {
+            m_morePicFloatWidget->getButtonDown()->setEnabled(true);
+        }
 
-    if (m_pixmapItem && m_imageReader && m_imageReader->imageCount() > 1) {
-        if ((0 == m_imageReader->currentImageNumber()) && (0 == m_currentMoreImageNum)) {
-            //改为与现在相同按钮点击逻辑相同修改bug62227，第一张图片时候，向上按钮置灰
-            m_morePicFloatWidget->getButtonUp()->setEnabled(false);
-            m_currentMoreImageNum = 0;
-        } else if ((1 == m_imageReader->currentImageNumber()) || (1 == m_currentMoreImageNum)) {
-            m_imageReader->jumpToImage(0);
-            m_currentMoreImageNum = 0;
-            if (m_morePicFloatWidget->getButtonUp()) {
+        if (m_pixmapItem && m_imageReader && m_imageReader->imageCount() > 1) {
+            if ((0 == m_imageReader->currentImageNumber()) && (0 == m_currentMoreImageNum)) {
+                //改为与现在相同按钮点击逻辑相同修改bug62227，第一张图片时候，向上按钮置灰
                 m_morePicFloatWidget->getButtonUp()->setEnabled(false);
-            }
+                m_currentMoreImageNum = 0;
+            } else if ((1 == m_imageReader->currentImageNumber()) || (1 == m_currentMoreImageNum)) {
+                m_imageReader->jumpToImage(0);
+                m_currentMoreImageNum = 0;
+                if (m_morePicFloatWidget->getButtonUp()) {
+                    m_morePicFloatWidget->getButtonUp()->setEnabled(false);
+                }
 
-        } else {
-            m_currentMoreImageNum--;
-            if (0 == m_imageReader->currentImageNumber()) {
-                m_imageReader->jumpToImage(m_currentMoreImageNum);
             } else {
-                m_imageReader->jumpToImage(m_imageReader->currentImageNumber() - 1);
+                m_currentMoreImageNum--;
+                if (0 == m_imageReader->currentImageNumber()) {
+                    m_imageReader->jumpToImage(m_currentMoreImageNum);
+                } else {
+                    m_imageReader->jumpToImage(m_imageReader->currentImageNumber() - 1);
+                }
             }
-        }
-        m_pixmapItem = nullptr;
-        m_pixmapItem = nullptr;
-        m_imgSvgItem = nullptr;
-        scene()->clear();
+            m_pixmapItem = nullptr;
+            m_pixmapItem = nullptr;
+            m_imgSvgItem = nullptr;
+            scene()->clear();
 
-        resetTransform();
-        QPixmap pixmap = QPixmap::fromImage(m_imageReader->read());
-        pixmap.setDevicePixelRatio(devicePixelRatioF());
-        m_pixmapItem = new GraphicsPixmapItem(pixmap);
-        scene()->addItem(m_pixmapItem);
-        QRectF rect = m_pixmapItem->boundingRect();
-        setSceneRect(rect);
-        autoFit();
-        if (m_currentMoreImageNum != m_imageReader->currentImageNumber()) {
-            m_morePicFloatWidget->setLabelText(QString::number(m_currentMoreImageNum + 1) + "/" + QString::number(m_imageReader->imageCount()));
-        } else {
-            m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber() + 1) + "/" + QString::number(m_imageReader->imageCount()));
+            resetTransform();
+            QPixmap pixmap = QPixmap::fromImage(m_imageReader->read());
+            pixmap.setDevicePixelRatio(devicePixelRatioF());
+            m_pixmapItem = new GraphicsPixmapItem(pixmap);
+            scene()->addItem(m_pixmapItem);
+            QRectF rect = m_pixmapItem->boundingRect();
+            setSceneRect(rect);
+            autoFit();
+            if (m_currentMoreImageNum != m_imageReader->currentImageNumber()) {
+                m_morePicFloatWidget->setLabelText(QString::number(m_currentMoreImageNum + 1) + "/" + QString::number(m_imageReader->imageCount()));
+            } else {
+                m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber() + 1) + "/" + QString::number(m_imageReader->imageCount()));
+            }
+            //todo ,更新导航栏
+            emit UpdateNavImg();
         }
-        //todo ,更新导航栏
-        emit UpdateNavImg();
     }
 }
 
 void ImageGraphicsView::slotsDown()
 {
-    if (m_morePicFloatWidget->getButtonUp()) {
-        m_morePicFloatWidget->getButtonUp()->setEnabled(true);
-    }
-    if (m_morePicFloatWidget->getButtonDown()) {
-        m_morePicFloatWidget->getButtonDown()->setEnabled(true);
-    }
+    if (m_morePicFloatWidget) {
+        if (m_morePicFloatWidget->getButtonUp()) {
+            m_morePicFloatWidget->getButtonUp()->setEnabled(true);
+        }
+        if (m_morePicFloatWidget->getButtonDown()) {
+            m_morePicFloatWidget->getButtonDown()->setEnabled(true);
+        }
 
-    if (m_pixmapItem && m_imageReader && m_imageReader->imageCount() > 1) {
-        if ((m_imageReader->currentImageNumber() == m_imageReader->imageCount() - 1) || m_currentMoreImageNum == m_imageReader->imageCount() - 1) {
-            //改为与现在相同按钮点击逻辑相同修改bug62227，最后一张图片时候，向下按钮置灰
-            m_morePicFloatWidget->getButtonDown()->setEnabled(false);
-            m_currentMoreImageNum = m_imageReader->imageCount() - 1;
-        } else if ((m_imageReader->currentImageNumber() == m_imageReader->imageCount() - 2) || (m_currentMoreImageNum == m_imageReader->imageCount() - 2)) {
-            m_imageReader->jumpToImage(m_imageReader->imageCount() - 1);
-            m_currentMoreImageNum = m_imageReader->imageCount() - 1;
-            if (m_morePicFloatWidget->getButtonDown()) {
+        if (m_pixmapItem && m_imageReader && m_imageReader->imageCount() > 1) {
+            if ((m_imageReader->currentImageNumber() == m_imageReader->imageCount() - 1) || m_currentMoreImageNum == m_imageReader->imageCount() - 1) {
+                //改为与现在相同按钮点击逻辑相同修改bug62227，最后一张图片时候，向下按钮置灰
                 m_morePicFloatWidget->getButtonDown()->setEnabled(false);
+                m_currentMoreImageNum = m_imageReader->imageCount() - 1;
+            } else if ((m_imageReader->currentImageNumber() == m_imageReader->imageCount() - 2) || (m_currentMoreImageNum == m_imageReader->imageCount() - 2)) {
+                m_imageReader->jumpToImage(m_imageReader->imageCount() - 1);
+                m_currentMoreImageNum = m_imageReader->imageCount() - 1;
+                if (m_morePicFloatWidget->getButtonDown()) {
+                    m_morePicFloatWidget->getButtonDown()->setEnabled(false);
+                }
+
+            } else {
+                m_imageReader->jumpToNextImage();
+                m_currentMoreImageNum++;
+            }
+            //修复bug69273,缩放存在问题
+            m_pixmapItem = nullptr;
+            m_pixmapItem = nullptr;
+            m_imgSvgItem = nullptr;
+            scene()->clear();
+            resetTransform();
+            QPixmap pixmap = QPixmap::fromImage(m_imageReader->read());
+            pixmap.setDevicePixelRatio(devicePixelRatioF());
+            m_pixmapItem = new GraphicsPixmapItem(pixmap);
+            scene()->addItem(m_pixmapItem);
+            QRectF rect = m_pixmapItem->boundingRect();
+            setSceneRect(rect);
+            autoFit();
+            if (m_currentMoreImageNum != m_imageReader->currentImageNumber()) {
+                m_morePicFloatWidget->setLabelText(QString::number(m_currentMoreImageNum + 1) + "/" + QString::number(m_imageReader->imageCount()));
+            } else {
+                m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber() + 1) + "/" + QString::number(m_imageReader->imageCount()));
             }
 
-        } else {
-            m_imageReader->jumpToNextImage();
-            m_currentMoreImageNum++;
+            //todo ,更新导航栏
+            emit UpdateNavImg();
         }
-        //修复bug69273,缩放存在问题
-        m_pixmapItem = nullptr;
-        m_pixmapItem = nullptr;
-        m_imgSvgItem = nullptr;
-        scene()->clear();
-        resetTransform();
-        QPixmap pixmap = QPixmap::fromImage(m_imageReader->read());
-        pixmap.setDevicePixelRatio(devicePixelRatioF());
-        m_pixmapItem = new GraphicsPixmapItem(pixmap);
-        scene()->addItem(m_pixmapItem);
-        QRectF rect = m_pixmapItem->boundingRect();
-        setSceneRect(rect);
-        autoFit();
-        if (m_currentMoreImageNum != m_imageReader->currentImageNumber()) {
-            m_morePicFloatWidget->setLabelText(QString::number(m_currentMoreImageNum + 1) + "/" + QString::number(m_imageReader->imageCount()));
-        } else {
-            m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber() + 1) + "/" + QString::number(m_imageReader->imageCount()));
-        }
-
-        //todo ,更新导航栏
-        emit UpdateNavImg();
     }
 }
 
