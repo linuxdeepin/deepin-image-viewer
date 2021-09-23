@@ -189,6 +189,11 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
     //检测数据缓存,如果存在,则使用缓存
     imageViewerSpace::ItemInfo info = CommonService::instance()->getImgInfoByPath(path);
     m_bRoate = ImageEngine::instance()->isRotatable(path); //是否可旋转
+    //如果不可写则不可旋转
+    if (m_bRoate && !QFileInfo(path).isWritable()) {
+        m_bRoate = false;
+    };
+
     m_loadPath = path;
     // Empty path will cause crash in release-build mode
     if (path.isEmpty()) {
