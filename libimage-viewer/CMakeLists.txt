@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # 设置工程名字
-project(libimage-viewer)
+project(libimage-viewer VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -88,20 +88,25 @@ qt5_use_modules(image-viewer ${QtModule})
 
 #将库安装到指定位置
 set(PREFIX /usr)
-set(image-viewer ${PREFIX}/lib)
+set(image-viewer ${CMAKE_INSTALL_LIBDIR})
 
-install(TARGETS image-viewer LIBRARY DESTINATION ${image-viewer})
 
+set_target_properties(${CMD_NAME} PROPERTIES VERSION 0.1.0 SOVERSION 0.1)
+target_include_directories(${CMD_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS}  )
+target_link_libraries(image-viewer ${3rd_lib_LIBRARIES} freeimage )
+
+include(GNUInstallDirs)
+configure_file(libimage-viewer.pc.in ${PROJECT_BINARY_DIR}/libimage-viewer.pc @ONLY)
+
+install(TARGETS ${CMD_NAME} DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+install(FILES
+    imageengine.h
+    imageviewer.h
+    DESTINATION include/libimage-viewer)
+
+install(FILES ${PROJECT_BINARY_DIR}/libimage-viewer.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 #translations
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
     DESTINATION ${PREFIX}/share/libimage-viewer
     FILES_MATCHING PATTERN "*.qm")
-
-#execute_process(
-#COMMAND sudo ln -s ${image-viewer}/libimage-viewer.so ${image-viewer}/libimage-viewer.so.1
-#COMMAND sudo ln -s ${image-viewer}/libimage-viewer.so ${image-viewer}/libimage-viewer.so.1.0
-#COMMAND sudo ln -s ${image-viewer}/libimage-viewer.so ${image-viewer}/libimage-viewer.so.1.0.0
-#)
-
-target_include_directories(${CMD_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS}  )
-target_link_libraries(image-viewer ${3rd_lib_LIBRARIES} freeimage )
