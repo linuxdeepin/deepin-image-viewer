@@ -105,7 +105,6 @@ ViewPanel::ViewPanel(QWidget *parent)
 
 ViewPanel::~ViewPanel()
 {
-
 }
 
 void ViewPanel::loadImage(const QString &path, QStringList paths)

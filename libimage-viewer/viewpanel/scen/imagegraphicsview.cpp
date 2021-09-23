@@ -39,7 +39,6 @@
 #include <QSvgRenderer>
 #include <QtGlobal>
 #include <QDesktopWidget>
-#include <QApplication>
 #include <QShortcut>
 
 #include "graphicsitem.h"
@@ -54,12 +53,18 @@
 #include <DGuiApplicationHelper>
 #include <DApplicationHelper>
 
+#define protected public
+#include <DApplication>
+#undef protected
+#include <DVtableHook>
+
 #ifndef QT_NO_OPENGL
 //#include <QGLWidget>
 #endif
 
 #include <sys/inotify.h>
 #include "service/commonservice.h"
+
 DWIDGET_USE_NAMESPACE
 
 namespace {
@@ -141,6 +146,8 @@ ImageGraphicsView::ImageGraphicsView(QWidget *parent)
     m_isChangedTimer = new QTimer(this);
     QObject::connect(m_isChangedTimer, &QTimer::timeout, this, &ImageGraphicsView::onIsChangedTimerTimeout);
 
+
+    Dtk::Core::DVtableHook::overrideVfptrFun(qApp, &DApplication::handleQuitAction, this, &ImageGraphicsView::slotSavePic);
 }
 
 ImageGraphicsView::~ImageGraphicsView()
@@ -152,6 +159,8 @@ ImageGraphicsView::~ImageGraphicsView()
 //        m_imgFileWatcher->wait();
         m_imgFileWatcher->deleteLater();
     }
+    //保存旋转状态
+    slotRotatePixCurrent();
 }
 
 void ImageGraphicsView::clear()
@@ -636,6 +645,12 @@ void ImageGraphicsView::titleBarControl()
     } else {
         emit sigImageOutTitleBar(false);
     }
+}
+
+void ImageGraphicsView::slotSavePic()
+{
+    //保存旋转的图片
+    slotRotatePixCurrent();
 }
 
 void ImageGraphicsView::onImgFileChanged(const QString &ddfFile)

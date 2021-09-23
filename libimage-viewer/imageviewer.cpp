@@ -74,7 +74,6 @@ ImageViewer::ImageViewer(imageViewerSpace::ImgViewerType imgViewerType, QString 
 
 ImageViewer::~ImageViewer()
 {
-
 }
 
 bool ImageViewer::startChooseFileDialog()

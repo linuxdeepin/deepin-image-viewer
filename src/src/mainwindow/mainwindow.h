@@ -57,7 +57,7 @@ public:
         static MainWindow w;
         return w;
     }
-    explicit MainWindow();
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
     void setDMainWindow(DMainWindow *mainwidow);
 

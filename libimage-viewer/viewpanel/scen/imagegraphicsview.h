@@ -120,8 +120,13 @@ signals:
     //刷新缩略图
     void sigUpdateThunbnail(const int &index);
 
+
 public slots:
 //    void setHighQualityAntialiasing(bool highQualityAntialiasing);
+
+    //保存旋转图片
+    void slotSavePic();
+
     void onImgFileChanged(const QString &ddfFile);
     void onLoadTimerTimeout();
     void onThemeTypeChanged();

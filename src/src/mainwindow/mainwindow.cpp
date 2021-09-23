@@ -58,7 +58,8 @@
 const QString CONFIG_PATH =   QDir::homePath() +
                               "/.config/deepin/deepin-image-viewer/config.conf";
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(QWidget *parent)
+    : DWidget(parent)
 {
     this->setObjectName("MainWindow");
     setContentsMargins(0, 0, 0, 0);
@@ -68,12 +69,14 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow()
 {
+    qDebug() << "";
 }
 
 void MainWindow::setDMainWindow(DMainWindow *mainwidow)
 {
     m_mainwidow = mainwidow;
     m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
+    m_mainwidow->installEventFilter(this);
 }
 
 void MainWindow::setValue(const QString &group, const QString &key, const QVariant &value)
@@ -231,6 +234,13 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
+    if (event->type() == QEvent::Close) {
+        //监控到mainwindow关闭，则关闭m_imageViewer
+        if (m_imageViewer) {
+            m_imageViewer->deleteLater();
+            m_imageViewer = nullptr;
+        }
+    }
     return DWidget::eventFilter(obj, event);
 }
 

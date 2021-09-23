@@ -105,9 +105,10 @@ int main(int argc, char *argv[])
 #endif
 
     //主窗体应该new出来,不应该是static变量
-    MainWindow *w = new MainWindow();  //修改为从单例获取
+    //修改为从单例获取
 
     DMainWindow *mainwindow = new DMainWindow();
+    MainWindow *w = new MainWindow(mainwindow);
     mainwindow->setCentralWidget(w);
     w->setDMainWindow(mainwindow);
 //    w->processOption();
