@@ -371,6 +371,11 @@ void BottomToolbar::onRotateRBtnClicked()
     emit rotateCounterClockwise();
 }
 
+void BottomToolbar::onRotateThumbnail(int index)
+{
+    onRotate(index);
+}
+
 void BottomToolbar::onTrashBtnClicked()
 {
     deleteImage();

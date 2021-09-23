@@ -192,6 +192,13 @@ void ViewPanel::initConnect()
         toggleFullScreen();
     });
 
+    //上一页，下一页信号连接
+    connect(m_view, &ImageGraphicsView::previousRequested, this, &ViewPanel::showPrevious);
+    connect(m_view, &ImageGraphicsView::nextRequested, this, &ViewPanel::showNext);
+
+    //增加双击全屏和退出全屏的功能
+    connect(m_view, &ImageGraphicsView::sigUpdateThunbnail, this, &ViewPanel::slotUpdateThumbnail);
+
 
 }
 
@@ -809,6 +816,27 @@ void ViewPanel::slotBottomMove()
     }
 }
 
+void ViewPanel::showNext()
+{
+    DIconButton *NextButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeNext);
+    if (NextButton->isEnabled()) {
+        m_bottomToolbar->onNextButton();
+    }
+}
+
+void ViewPanel::showPrevious()
+{
+    DIconButton *PreviousButton = m_bottomToolbar->getBottomtoolbarButton(imageViewerSpace::ButtonTypeNext);
+    if (PreviousButton->isEnabled()) {
+        m_bottomToolbar->onPreButton();
+    }
+}
+
+void ViewPanel::slotUpdateThumbnail(const int &index)
+{
+    m_bottomToolbar->onRotateThumbnail(index);
+}
+
 bool ViewPanel::slotOcrPicture()
 {
     if (!m_ocrInterface) {
@@ -861,6 +889,10 @@ void ViewPanel::initLockPanel()
         m_stack->addWidget(m_lockWidget);
         connect(m_lockWidget, &LockWidget::sigMouseMove, this, &ViewPanel::slotBottomMove);
         connect(m_lockWidget, &LockWidget::showfullScreen, this, &ViewPanel::toggleFullScreen);
+
+        //上一页，下一页信号连接
+        connect(m_lockWidget, &LockWidget::previousRequested, this, &ViewPanel::showPrevious);
+        connect(m_lockWidget, &LockWidget::nextRequested, this, &ViewPanel::showNext);
     }
 }
 
@@ -871,6 +903,10 @@ void ViewPanel::initThumbnailWidget()
         m_stack->addWidget(m_thumbnailWidget);
         connect(m_thumbnailWidget, &ThumbnailWidget::sigMouseMove, this, &ViewPanel::slotBottomMove);
         connect(m_thumbnailWidget, &ThumbnailWidget::showfullScreen, this, &ViewPanel::toggleFullScreen);
+
+        //上一页，下一页信号连接
+        connect(m_thumbnailWidget, &ThumbnailWidget::previousRequested, this, &ViewPanel::showPrevious);
+        connect(m_thumbnailWidget, &ThumbnailWidget::nextRequested, this, &ViewPanel::showNext);
     }
 }
 

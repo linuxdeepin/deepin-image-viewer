@@ -130,6 +130,7 @@ public slots:
     void onclBTClicked();
     void onRotateLBtnClicked();
     void onRotateRBtnClicked();
+    void onRotateThumbnail(int index);
     void onTrashBtnClicked();
     //主题变化
     void slotThemeChanged(int type);

@@ -117,6 +117,9 @@ signals:
     //刷新缩略图导航栏
     void UpdateNavImg();
 
+    //刷新缩略图
+    void sigUpdateThunbnail(const int &index);
+
 public slots:
 //    void setHighQualityAntialiasing(bool highQualityAntialiasing);
     void onImgFileChanged(const QString &ddfFile);
@@ -160,6 +163,12 @@ private slots:
     void pinchTriggered(QPinchGesture *gesture);
 //    void swipeTriggered(QSwipeGesture *gesture);
 //    void updateImages(const QStringList &path);
+
+    /**
+     * @brief OnFinishPinchAnimal
+     * 旋转图片松开手指回到特殊位置结束动画槽函数
+     */
+    void OnFinishPinchAnimal();
 private:
     bool m_isFitImage = false;
     bool m_isFitWindow = false;
@@ -200,6 +209,16 @@ private:
     MorePicFloatWidget *m_morePicFloatWidget{nullptr};
     QImageReader *m_imageReader{nullptr};
     int m_currentMoreImageNum{0};
+
+    //是否可以旋转
+    bool m_bRoate{false};
+    //旋转状态
+    bool m_rotateflag = true;
+    //允许二指滑动切换上下一张标记
+    bool m_bnextflag = true;
+    qreal m_rotateAngelTouch = 0;
+    qreal m_endvalue;
+    qreal m_scal = 1.0;
 
 
 };

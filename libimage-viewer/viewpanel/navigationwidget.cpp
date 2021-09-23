@@ -89,9 +89,19 @@ NavigationWidget::NavigationWidget(QWidget *parent)
     if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType) {
         closeBtn_light->hide();
         closeBtn_dark->show();
+        m_bgImgUrl = utils::view::naviwindow::DARK_BG_IMG ;
+        m_BgColor = utils::view::naviwindow::DARK_BG_COLOR;
+        m_mrBgColor = utils::view::naviwindow::DARK_MR_BG_COLOR;
+        m_mrBorderColor = utils::view::naviwindow::DARK_MR_BORDER_Color;
+        m_imgRBorderColor = utils::view::naviwindow:: DARK_IMG_R_BORDER_COLOR;
     } else {
         closeBtn_dark->hide();
         closeBtn_light->show();
+        m_bgImgUrl = utils::view::naviwindow::LIGHT_BG_IMG ;
+        m_BgColor = utils::view::naviwindow::LIGHT_BG_COLOR;
+        m_mrBgColor = utils::view::naviwindow::LIGHT_MR_BG_COLOR;
+        m_mrBorderColor = utils::view::naviwindow::LIGHT_MR_BORDER_Color;
+        m_imgRBorderColor = utils::view::naviwindow::LIGHT_IMG_R_BORDER_COLOR;
     }
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {

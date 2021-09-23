@@ -158,6 +158,15 @@ public slots:
 
     //刷新底部工具栏在全屏的隐藏与否
     void slotBottomMove();
+
+    //下一张图片
+    void showNext();
+
+    //上一张图片
+    void showPrevious();
+
+    //接收到图片缩略图更新
+    void slotUpdateThumbnail(const int &index);
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *e) override;

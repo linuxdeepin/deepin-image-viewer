@@ -134,10 +134,13 @@ ImageGraphicsView::ImageGraphicsView(QWidget *parent)
 
     connect(m_loadTimer, &QTimer::timeout, this, &ImageGraphicsView::onLoadTimerTimeout);
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ImageGraphicsView::onThemeTypeChanged);
+    //初始化主题
+    onThemeTypeChanged();
     m_imgFileWatcher = new QFileSystemWatcher(this);
     connect(m_imgFileWatcher, &QFileSystemWatcher::fileChanged, this, &ImageGraphicsView::onImgFileChanged);
     m_isChangedTimer = new QTimer(this);
     QObject::connect(m_isChangedTimer, &QTimer::timeout, this, &ImageGraphicsView::onIsChangedTimerTimeout);
+
 }
 
 ImageGraphicsView::~ImageGraphicsView()
@@ -176,6 +179,7 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
 //    ImageEngine::instance()->makeImgThumbnail(CommonService::instance()->getImgSavePath(), QStringList(path), 1, true);
     //检测数据缓存,如果存在,则使用缓存
     imageViewerSpace::ItemInfo info = CommonService::instance()->getImgInfoByPath(path);
+    m_bRoate = ImageEngine::instance()->isRotatable(path); //是否可旋转
     m_loadPath = path;
     // Empty path will cause crash in release-build mode
     if (path.isEmpty()) {
@@ -366,7 +370,10 @@ void ImageGraphicsView::setImage(const QString &path, const QImage &image)
 
 void ImageGraphicsView::setScaleValue(qreal v)
 {
+
+    m_scal *= v;
     scale(v, v);
+    qDebug() << m_scal;
 #ifdef tablet_PC
     //平板模式下限制缩放范围：初始值--200%
     if (m_firstset) {
@@ -374,12 +381,14 @@ void ImageGraphicsView::setScaleValue(qreal v)
         m_value = imageRelativeScale();
     }
     const qreal irs = imageRelativeScale();
-    if ((v < 1 && irs <= m_value)) {
-        const qreal minv = m_value / irs;
+    if ((v < 1 && m_scal <= m_value)) {
+        const qreal minv = m_value / m_scal;
         scale(minv, minv);
-    } else if (v > 1 && irs >= m_max_scale_factor) {
-        const qreal maxv = m_max_scale_factor / irs;
+        m_scal *= minv;
+    } else if (v > 1 && m_scal >= m_max_scale_factor) {
+        const qreal maxv = m_max_scale_factor / m_scal;
         scale(maxv, maxv);
+        m_scal *= maxv;
     } else {
         m_isFitImage = false;
         m_isFitWindow = false;
@@ -387,12 +396,14 @@ void ImageGraphicsView::setScaleValue(qreal v)
 #else
     const qreal irs = imageRelativeScale();
     // Rollback
-    if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
-        const qreal minv = MIN_SCALE_FACTOR / irs;
+    if ((v < 1 && m_scal <= MIN_SCALE_FACTOR)) {
+        const qreal minv = MIN_SCALE_FACTOR / m_scal;
         scale(minv, minv);
-    } else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
-        const qreal maxv = MAX_SCALE_FACTOR / irs;
+        m_scal *= minv;
+    } else if (v > 1 && m_scal >= MAX_SCALE_FACTOR) {
+        const qreal maxv = MAX_SCALE_FACTOR / m_scal;
         scale(maxv, maxv);
+        m_scal *= maxv;
     } else {
         m_isFitImage = false;
         m_isFitWindow = false;
@@ -407,7 +418,8 @@ void ImageGraphicsView::setScaleValue(qreal v)
         emit disCheckAdaptImageBtn();
     }
 
-    emit scaled(imageRelativeScale() * 100);
+//    emit scaled(imageRelativeScale() * 100);
+    emit scaled(m_scal * 100);
     emit showScaleLabel();
     emit transformChanged();
 
@@ -470,6 +482,7 @@ void ImageGraphicsView::fitWindow()
     if (wrs > 20.0) {
         wrs = 20.0;
     }
+    m_scal = wrs;
     scale(wrs, wrs);
     emit checkAdaptScreenBtn();
     if (wrs - 1 > -0.01 &&
@@ -491,6 +504,7 @@ void ImageGraphicsView::fitImage()
     qreal wrs = windowRelativeScale();
     resetTransform();
     scale(1, 1);
+    m_scal = wrs;
     emit checkAdaptImageBtn();
     if (wrs - 1 > -0.01 &&
             wrs - 1 < 0.01) {
@@ -1039,7 +1053,7 @@ void ImageGraphicsView::scaleAtPoint(QPoint pos, qreal factor)
     const QPointF curPos = mapFromScene(targetScenePos);
     const QPointF centerPos = QPointF(width() / 2.0, height() / 2.0) + (curPos - targetPos);
     const QPointF centerScenePos = mapToScene(centerPos.toPoint());
-    centerOn(centerScenePos.x(), centerScenePos.y());
+    centerOn(static_cast<int>(centerScenePos.x()), static_cast<int>(centerScenePos.y()));
 }
 
 void ImageGraphicsView::handleGestureEvent(QGestureEvent *gesture)
@@ -1054,31 +1068,143 @@ void ImageGraphicsView::pinchTriggered(QPinchGesture *gesture)
     QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
     if (changeFlags & QPinchGesture::ScaleFactorChanged) {
         QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
-        scaleAtPoint(pos, gesture->scaleFactor());
+        if (abs(gesture->scaleFactor() - 1) > 0.006) {
+            scaleAtPoint(pos, gesture->scaleFactor());
+        }
     }
+#ifndef tablet_PC
+    //二指旋转
+    if (changeFlags & QPinchGesture::RotationAngleChanged) {
+        if (!m_bRoate || m_maxTouchPoints > 2) return;
+        //释放手指后旋转的位置未结束不能进行下次旋转
+        if (!m_rotateflag) {
+            qDebug() << "ratateflag" << gesture->lastRotationAngle();
+            gesture->setRotationAngle(gesture->lastRotationAngle());
+            return;
+        }
+        qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
+        //防止在旋转过程中触发切换到下一张
+        if (abs(gesture->rotationAngle()) > 20) m_bnextflag = false;
+        if (abs(rotationDelta) > 0.2) {
+            m_rotateAngelTouch = gesture->rotationAngle();
+            rotate(rotationDelta);
+        }
+    }
+//    if (gesture->state() == Qt::GestureFinished) {
 
+//        QPointF centerPointOffset = gesture->centerPoint();
+//        qreal offset = centerPointOffset.x() - m_centerPoint.x();
+//        if (qAbs(offset) > 200) {
+//            if (offset > 0) {
+//                emit previousRequested();
+//                qDebug() << "zy------ImageView::pinchTriggered previousRequested";
+//            } else {
+//                emit nextRequested();
+//                qDebug() << "zy------ImageView::pinchTriggered nextRequested";
+//            }
+//        }
+//        m_isFirstPinch = false;
+//    }
+#endif
     if (changeFlags & QPinchGesture::CenterPointChanged) {
         if (!m_isFirstPinch) {
             m_centerPoint = gesture->centerPoint();
             m_isFirstPinch = true;
         }
     }
+
     if (gesture->state() == Qt::GestureFinished) {
-#ifndef tablet_PC
-        QPointF centerPointOffset = gesture->centerPoint();
-        qreal offset = centerPointOffset.x() - m_centerPoint.x();
-        if (qAbs(offset) > 200) {
-            if (offset > 0) {
-                emit previousRequested();
-                qDebug() << "zy------ImageView::pinchTriggered previousRequested";
-            } else {
-                emit nextRequested();
-                qDebug() << "zy------ImageView::pinchTriggered nextRequested";
-            }
-        }
-#endif
         m_isFirstPinch = false;
+        gesture->setCenterPoint(m_centerPoint);
+        //旋转松开手势操作
+        // m_rotateAngelTouch = m_rotateAngelTouch % 360;
+        //int abs(m_rotateAngelTouch);
+        if (!m_bRoate) return;
+        m_rotateflag = false;
+        QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
+        animation->setDuration(200);
+        if (m_rotateAngelTouch < 0) m_rotateAngelTouch += 360;
+        qreal endvalue;
+        if (abs(0 - abs(m_rotateAngelTouch)) <= 10) {
+            endvalue = 0;
+        } else if (abs(360 - abs(m_rotateAngelTouch)) <= 10) {
+            endvalue = 0;
+        } else if (abs(90 - abs(m_rotateAngelTouch)) <= 10) {
+            endvalue = 90;
+        } else if (abs(180 - abs(m_rotateAngelTouch)) <= 10) {
+            endvalue = 180;
+        } else if (abs(270 - abs(m_rotateAngelTouch)) <= 10) {
+            endvalue = 270;
+        } else {
+            endvalue = 0;
+        }
+//         if(!m_bRoate) endvalue = 0;
+        m_endvalue = endvalue;
+        qreal startvalue;
+        if (abs(m_rotateAngelTouch - endvalue) > 180) {
+            startvalue = m_rotateAngelTouch - 360;
+        } else {
+            startvalue = m_rotateAngelTouch;
+        }
+        animation->setStartValue(startvalue);
+        animation->setEndValue(endvalue);
+        // qDebug()<<"angle finish" <<m_rotateAngelTouch << endvalue;
+        connect(animation, &QVariantAnimation::valueChanged, [ = ](const QVariant & value) {
+            qreal angle = value.toReal() - m_rotateAngelTouch;
+            m_rotateAngelTouch = value.toReal();
+            if (static_cast<int>(value.toReal()) != static_cast<int>(endvalue) /*|| m_imgSvgItem*/)
+                this->rotate(angle);
+            //setPixmap(pixmap.transformed(t));
+        });
+        // animation->setLoopCount(1); //旋转次数
+        connect(animation, SIGNAL(finished()), this, SLOT(OnFinishPinchAnimal()));
+        animation->start(QAbstractAnimation::KeepWhenStopped);
+        qDebug() << "finish";
+
     }
+}
+
+void ImageGraphicsView::OnFinishPinchAnimal()
+{
+    m_rotateflag = true;
+    m_bnextflag = true;
+    m_rotateAngelTouch = 0;
+//    if(m_imgSvgItem)
+//    {
+//      //  reloadSvgPix(m_path,90,false);
+//        m_rotateAngel += m_endvalue;
+//        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,static_cast<int>(m_endvalue));
+//        emit dApp->signalM->sigUpdateThunbnail(m_path);
+//        return;
+//    }
+    if (!m_pixmapItem) return;
+    //QStranform旋转到180度有问题，暂未解决，因此动画结束后旋转Pixmap到180
+    QPixmap pixmap;
+    pixmap = m_pixmapItem->pixmap();
+    QMatrix rotate;
+    rotate.rotate(m_endvalue);
+
+    pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    scene()->clear();
+    resetTransform();
+    m_pixmapItem = new GraphicsPixmapItem(pixmap);
+    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    // Make sure item show in center of view after reload
+    QRectF rect = m_pixmapItem->boundingRect();
+    //            rect.setHeight(rect.height() + 50);
+    setSceneRect(rect);
+    //            setSceneRect(m_pixmapItem->boundingRect());
+
+    scene()->addItem(m_pixmapItem);
+    scale(m_scal, m_scal);
+    if (m_bRoate) {
+        m_rotateAngel += m_endvalue;
+//        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true, static_cast<int>(m_endvalue));
+        emit sigUpdateThunbnail(static_cast<int>(m_endvalue));
+        emit UpdateNavImg();
+    }
+    qDebug() << m_endvalue;
 }
 
 void ImageGraphicsView::wheelEvent(QWheelEvent *event)
