@@ -177,10 +177,11 @@ void ViewPanel::initConnect()
         m_nav->setImage(m_view->image());
         m_nav->setRectInImage(m_view->visibleImageRect());
 
-        //正在滑动缩略图的时候不再显示
-        if (m_nav->isVisible()) {
-            m_nav->setVisible(false);
-        }
+//二指放大会触发信号，导致窗口隐藏，这里下面存在问题
+//        //正在滑动缩略图的时候不再显示
+//        if (m_nav->isVisible()) {
+//            m_nav->setVisible(false);
+//        }
     });
 
     connect(m_view, &ImageGraphicsView::sigFIleDelete, this, [ = ]() {
@@ -630,13 +631,13 @@ bool ViewPanel::startdragImage(const QStringList &paths)
 
         image_list.clear();
         for (int i = 0; i < m_AllPath.size(); i++) {
-            QString path = m_AllPath.at(i).filePath();
-            if (path.isEmpty()) {
+            QString tmpPath = m_AllPath.at(i).filePath();
+            if (tmpPath.isEmpty()) {
                 continue;
             }
             //判断是否图片格式
-            if (ImageEngine::instance()->isImage(path)) {
-                image_list << path;
+            if (ImageEngine::instance()->isImage(tmpPath)) {
+                image_list << tmpPath;
             }
         }
     }
@@ -735,13 +736,13 @@ bool ViewPanel::startChooseFileDialog()
 
             image_list.clear();
             for (int i = 0; i < m_AllPath.size(); i++) {
-                QString path = m_AllPath.at(i).filePath();
-                if (path.isEmpty()) {
+                QString tmpPath = m_AllPath.at(i).filePath();
+                if (tmpPath.isEmpty()) {
                     continue;
                 }
                 //判断是否图片格式
-                if (ImageEngine::instance()->isImage(path)) {
-                    image_list << path;
+                if (ImageEngine::instance()->isImage(tmpPath)) {
+                    image_list << tmpPath;
                 }
             }
         }

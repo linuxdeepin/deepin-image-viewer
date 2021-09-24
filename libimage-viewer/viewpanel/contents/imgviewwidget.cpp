@@ -55,10 +55,13 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     hb->setContentsMargins(0, 0, 0, 0);
     hb->setSpacing(0);
     this->setLayout(hb);
+
     m_listview = new ImgViewListView(this);
     m_listview->setObjectName("ImgViewListView");
 //    hb->addWidget(m_listview);
     m_listview->viewport()->installEventFilter(this);
+    //设置一个可以放置的高度
+    m_listview->viewport()->setFixedHeight(90);
     connect(m_listview, &ImgViewListView::clicked, this, &MyImageListWidget::onClicked);
 //    connect(m_listview->selectionModel(), &QItemSelectionModel::selectionChanged,
 //            this, &MyImageListWidget::ONselectionChanged);
@@ -115,6 +118,9 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
     }
     if (e->type() == QEvent::MouseMove || e->type() == QEvent::TouchUpdate) {
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
+        if (!mouseEvent) {
+            return false;
+        }
         QPoint p = mouseEvent->globalPos();
         if (m_movePoints.size() < 20) {
             m_movePoints.push_back(p);

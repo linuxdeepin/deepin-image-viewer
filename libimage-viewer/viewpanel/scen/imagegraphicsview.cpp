@@ -423,7 +423,7 @@ void ImageGraphicsView::setScaleValue(qreal v)
         m_isFitWindow = false;
     }
 #else
-    m_scal = imageRelativeScale();
+//    m_scal = imageRelativeScale();
     // Rollback
     if ((v < 1 && m_scal <= MIN_SCALE_FACTOR)) {
         const qreal minv = MIN_SCALE_FACTOR / m_scal;
