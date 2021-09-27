@@ -621,7 +621,8 @@ bool ImageGraphicsView::isWholeImageVisible() const
     const QRect &r = visibleImageRect();
     const QRectF &sr = sceneRect();
 
-    return r.width() >= sr.width() && r.height() >= sr.height();
+    //社区版qt5.15.1存在偏差0-1
+    return r.width() >= (sr.width() - 1) && r.height() >= (sr.height() - 1);
 }
 
 bool ImageGraphicsView::isFitImage() const
