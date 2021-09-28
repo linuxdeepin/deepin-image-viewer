@@ -582,9 +582,9 @@ void ViewPanel::appendAction(int id, const QString &text, const QString &shortcu
     }
 }
 
-void ViewPanel::setContextMenuItemVisiable(ViewPanel::MenuItemId id, bool visiable)
+void ViewPanel::setContextMenuItemVisible(ViewPanel::MenuItemId id, bool visible)
 {
-    m_menuItemDisplaySwitch.set(id, visiable);
+    m_menuItemDisplaySwitch.set(id, visible);
     updateMenuContent();
 }
 
@@ -701,6 +701,13 @@ DIconButton *ViewPanel::getBottomtoolbarButton(imageViewerSpace::ButtonType type
         button = m_bottomToolbar->getBottomtoolbarButton(type);
     }
     return button;
+}
+
+void ViewPanel::setBottomToolBarButtonAlawysNotVisible(imageViewerSpace::ButtonType id, bool notVisible)
+{
+    if (m_bottomToolbar) {
+        m_bottomToolbar->setButtonAlawysNotVisible(id, notVisible);
+    }
 }
 
 bool ViewPanel::startChooseFileDialog()

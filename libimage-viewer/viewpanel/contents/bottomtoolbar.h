@@ -41,6 +41,8 @@
 #include <DGuiApplicationHelper>
 #include <DLabel>
 
+#include <bitset>
+
 #include "image-viewer_global.h"
 DWIDGET_USE_NAMESPACE
 
@@ -94,6 +96,14 @@ public:
 
     //获得工具栏按钮
     DIconButton *getBottomtoolbarButton(imageViewerSpace::ButtonType type);
+
+    //设置下方工具栏按钮的显示和隐藏，false为永久隐藏，true为跟随原有策略显示或隐藏
+    void setButtonAlawysNotVisible(imageViewerSpace::ButtonType id, bool notVisible);
+
+    //设置底部按钮显隐，用此API设置将会受到setBottomToolBarButtonVisiable的设置结果影响，使用getBottomtoolbarButton操作原始按钮不受此影响
+    //限于目前的代码结构，这个设置仅能在设置隐藏的时候立即生效
+    void setButtonVisible(imageViewerSpace::ButtonType id, bool visible);
+
 signals:
     void resetTransform(bool fitWindow);
     void rotateClockwise();
@@ -166,6 +176,7 @@ private:
     DIconButton *m_rotateLBtn = nullptr;
     DIconButton *m_rotateRBtn = nullptr;
     DIconButton *m_trashBtn = nullptr;
+    std::bitset<imageViewerSpace::ButtonTypeCount> m_btnDisplaySwitch;
     MyImageListWidget *m_imgListWidget = nullptr;
     int m_windowWidth;
     int m_contentWidth;

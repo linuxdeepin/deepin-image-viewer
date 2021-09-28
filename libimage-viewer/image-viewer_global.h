@@ -56,6 +56,7 @@ enum ButtonType {
     ButtonTypeRotateLeft,   //向左旋转
     ButtonTypeRotateRight,  //向右旋转
     ButtonTypeTrash,       //删除
+    ButtonTypeCount         //工具栏按钮个数
 };
 
 struct ItemInfo {

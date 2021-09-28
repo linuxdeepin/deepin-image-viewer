@@ -133,7 +133,10 @@ public:
     void setBottomtoolbarVisible(bool visible);
 
     //设置右键菜单显隐：false为永久隐藏，true为跟随原有策略显示或隐藏
-    void setContextMenuItemVisiable(ViewPanel::MenuItemId id, bool visiable);
+    void setContextMenuItemVisible(ViewPanel::MenuItemId id, bool visible);
+
+    //设置下方工具栏按钮的显示和隐藏，false为永久隐藏，true为跟随原有策略显示或隐藏
+    void setBottomToolBarButtonAlawysNotVisible(imageViewerSpace::ButtonType id, bool notVisible);
 
     //获得工具栏按钮
     DIconButton *getBottomtoolbarButton(imageViewerSpace::ButtonType type);

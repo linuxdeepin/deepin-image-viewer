@@ -110,13 +110,13 @@ int BottomToolbar::getToolbarWidth()
     if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeLocal
             || CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeNull) {
         width = 0;
-        m_backButton->setVisible(false);
-        m_clBT->setVisible(false);
+        setButtonVisible(imageViewerSpace::ButtonTypeBack, false);
+        setButtonVisible(imageViewerSpace::ButtonTypeCollection, false);
     } else if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum) {
         //相册
         width = 0;
-        m_backButton->setVisible(true);
-        m_clBT->setVisible(true);
+        setButtonVisible(imageViewerSpace::ButtonTypeBack, true);
+        setButtonVisible(imageViewerSpace::ButtonTypeCollection, true);
     }
     //如果相册的按钮存在，增加宽度
     if (m_backButton->isVisible()) {
@@ -210,6 +210,8 @@ DIconButton *BottomToolbar::getBottomtoolbarButton(imageViewerSpace::ButtonType 
 {
     DIconButton *button = nullptr;
     switch (type) {
+    default:
+        break;
     case imageViewerSpace::ButtonTypeBack:
         button = m_backButton;
         break;
@@ -291,10 +293,10 @@ void BottomToolbar::deleteImage()
             m_imgListWidget->removeCurrent();
             if (m_imgListWidget->getImgCount() == 1) {
                 if (m_preButton) {
-                    m_preButton->setVisible(false);
+                    setButtonVisible(imageViewerSpace::ButtonTypePre, false);
                 }
                 if (m_nextButton) {
-                    m_nextButton->setVisible(false);
+                    setButtonVisible(imageViewerSpace::ButtonTypeNext, false);
                 }
                 if (m_spaceWidget) {
                     m_spaceWidget->setVisible(false);
@@ -537,12 +539,12 @@ void BottomToolbar::setAllFile(QString path, QStringList paths)
     //每次打开清空一下缩略图
     m_imgListWidget->clearListView();
     if (paths.size() <= 1) {
-        m_preButton->setVisible(false);
-        m_nextButton->setVisible(false);
+        setButtonVisible(imageViewerSpace::ButtonTypePre, false);
+        setButtonVisible(imageViewerSpace::ButtonTypeNext, false);
         m_spaceWidget->setVisible(false);
     } else {
-        m_preButton->setVisible(true);
-        m_nextButton->setVisible(true);
+        setButtonVisible(imageViewerSpace::ButtonTypePre, true);
+        setButtonVisible(imageViewerSpace::ButtonTypeNext, true);
         m_spaceWidget->setVisible(true);
     }
 
@@ -597,6 +599,9 @@ void BottomToolbar::initUI()
     hb->setContentsMargins(LEFT_RIGHT_MARGIN, 0, LEFT_RIGHT_MARGIN, 0);
     hb->setSpacing(ICON_SPACING);
 
+    //初始化按钮显示状态
+    m_btnDisplaySwitch.set();
+
     //返回，相册使用
     m_backButton = new DIconButton(this);
     m_backButton->setFixedSize(ICON_SIZE);
@@ -605,14 +610,14 @@ void BottomToolbar::initUI()
     m_backButton->setIcon(QIcon::fromTheme("dcc_back"));
     m_backButton->setIconSize(QSize(36, 36));
     m_backButton->setToolTip(QObject::tr("Back"));
-    m_backButton->setVisible(false);
+    setButtonVisible(imageViewerSpace::ButtonTypeBack, false);
     hb->addWidget(m_backButton);
 
     m_spaceWidget = new QWidget(this);
     m_spaceWidget->setFixedSize(ICON_SPACING, ICON_SPACING);
     if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum) {
         hb->addWidget(m_spaceWidget);
-        m_backButton->setVisible(true);
+        setButtonVisible(imageViewerSpace::ButtonTypeBack, true);
     }
 
     //上一张
@@ -737,4 +742,28 @@ void BottomToolbar::initConnection()
     connect(m_trashBtn, &DIconButton::clicked, this, &BottomToolbar::onTrashBtnClicked);
     //ocr
     connect(m_ocrBtn, &DIconButton::clicked, this, &BottomToolbar::sigOcr);
+}
+
+void BottomToolbar::setButtonAlawysNotVisible(imageViewerSpace::ButtonType id, bool notVisible)
+{
+    m_btnDisplaySwitch.set(id, !notVisible);
+
+    if (notVisible) {
+        auto btn = getBottomtoolbarButton(id);
+        if (btn != nullptr) {
+            btn->setVisible(false);
+        }
+    }
+}
+
+void BottomToolbar::setButtonVisible(imageViewerSpace::ButtonType id, bool visible)
+{
+    auto btn = getBottomtoolbarButton(id);
+    if (btn != nullptr) {
+        if (m_btnDisplaySwitch.test(id)) {
+            btn->setVisible(visible);
+        } else {
+            btn->setVisible(false);
+        }
+    }
 }

@@ -42,10 +42,10 @@ public:
     //二次开发接口
 
     //设置图片显示panel右键菜单的显示和隐藏，false为永久隐藏，true为跟随原有策略显示或隐藏
-    void setViewPanelContextMenuItemVisiable(ViewPanel::MenuItemId id, bool visiable);
+    void setViewPanelContextMenuItemVisible(ViewPanel::MenuItemId id, bool visible);
 
-    //设置下方工具栏按钮的显示和隐藏
-    void setButtomToolBarButtonVisiable(imageViewerSpace::ButtonType id, bool visiable);
+    //设置下方工具栏按钮的显示和隐藏，true为永久隐藏，false为跟随原有策略显示或隐藏
+    void setBottomToolBarButtonAlawysNotVisible(imageViewerSpace::ButtonType id, bool notVisible);
 
 protected:
     void resizeEvent(QResizeEvent *e) override;

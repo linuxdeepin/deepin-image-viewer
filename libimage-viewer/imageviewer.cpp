@@ -124,17 +124,20 @@ DIconButton *ImageViewer::getBottomtoolbarButton(imageViewerSpace::ButtonType ty
     return button;
 }
 
-void ImageViewer::setViewPanelContextMenuItemVisiable(ViewPanel::MenuItemId id, bool visiable)
+void ImageViewer::setViewPanelContextMenuItemVisible(ViewPanel::MenuItemId id, bool visible)
 {
     Q_D(ImageViewer);
     if (d->m_panel) {
-        d->m_panel->setContextMenuItemVisiable(id, visiable);
+        d->m_panel->setContextMenuItemVisible(id, visible);
     }
 }
 
-void ImageViewer::setButtomToolBarButtonVisiable(imageViewerSpace::ButtonType id, bool visiable)
+void ImageViewer::setBottomToolBarButtonAlawysNotVisible(imageViewerSpace::ButtonType id, bool notVisible)
 {
-    ;
+    Q_D(ImageViewer);
+    if (d->m_panel) {
+        d->m_panel->setBottomToolBarButtonAlawysNotVisible(id, notVisible);
+    }
 }
 
 void ImageViewer::resizeEvent(QResizeEvent *e)
