@@ -303,6 +303,9 @@ void ViewPanel::initNavigation()
 
 void ViewPanel::initRightMenu()
 {
+    //初始化时设置所有菜单项都显示
+    m_menuItemDisplaySwitch.set();
+
     if (!m_menu) {
         m_menu = new DMenu(this);
         updateMenuContent();
@@ -569,7 +572,7 @@ void ViewPanel::showNormal()
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)
 {
-    if (m_menu) {
+    if (m_menu && m_menuItemDisplaySwitch.test(static_cast<size_t>(id))) {
         QAction *ac = new QAction(m_menu);
         addAction(ac);
         ac->setText(text);
@@ -577,6 +580,12 @@ void ViewPanel::appendAction(int id, const QString &text, const QString &shortcu
         ac->setShortcut(QKeySequence(shortcut));
         m_menu->addAction(ac);
     }
+}
+
+void ViewPanel::setContextMenuItemVisiable(ViewPanel::MenuItemId id, bool visiable)
+{
+    m_menuItemDisplaySwitch.set(id, visiable);
+    updateMenuContent();
 }
 
 void ViewPanel::setWallpaper(const QImage &img)

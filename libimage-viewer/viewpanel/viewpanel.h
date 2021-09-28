@@ -27,6 +27,8 @@
 #include <DAnchors>
 #include <DIconButton>
 
+#include <bitset>
+
 #include "scen/imagegraphicsview.h"
 
 class AbstractTopToolbar;
@@ -70,7 +72,8 @@ public:
         IdImageInfo,
         IdSubMenu,
         IdDraw,
-        IdOcr
+        IdOcr,
+        MenuItemCount
     };
 
     explicit ViewPanel(AbstractTopToolbar *customToolbar = nullptr, QWidget *parent = nullptr);
@@ -128,6 +131,9 @@ public:
 
     //设置Bottomtoolbar的显示和隐藏
     void setBottomtoolbarVisible(bool visible);
+
+    //设置右键菜单显隐：false为永久隐藏，true为跟随原有策略显示或隐藏
+    void setContextMenuItemVisiable(ViewPanel::MenuItemId id, bool visiable);
 
     //获得工具栏按钮
     DIconButton *getBottomtoolbarButton(imageViewerSpace::ButtonType type);
@@ -197,6 +203,7 @@ private :
     bool m_topToolBarIsAlwaysHide = false;
 
     DMenu *m_menu = nullptr;
+    std::bitset<MenuItemCount> m_menuItemDisplaySwitch;
 
     bool m_isMaximized = false;
 
