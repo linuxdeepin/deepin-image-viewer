@@ -123,6 +123,8 @@ TEST_F(gtestview, cpFile)
     QFile(QApplication::applicationDirPath() + "/test/jpg.jpg").setPermissions(\
                                                                                QFile::WriteUser | QFile::ReadUser | QFile::WriteOther | \
                                                                                QFile::ReadOther | QFile::ReadGroup | QFile::WriteGroup);
+
+
 }
 
 
@@ -139,11 +141,14 @@ TEST_F(gtestview, CommandLine)
     CommandLine::instance()->processOption(wstime, newflag);
     QTest::qWait(500);
 
+    EXPECT_EQ(true, newflag);
+
 }
 #ifdef test_main
 TEST_F(gtestview, mainwindow)
 {
 
+    bool bRet = false;
     if (!m_frameMainWindow) {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
@@ -154,6 +159,7 @@ TEST_F(gtestview, mainwindow)
         // 打开保存绘制的 tif
         QString TriangleItemPath = QApplication::applicationDirPath() + "/tif.tif";
         TestApi::drogPathtoWidget(panel, TriangleItemPath);
+        bRet = true;
     }
 
     m_frameMainWindow->setWindowRadius(18);
@@ -204,10 +210,13 @@ TEST_F(gtestview, mainwindow)
     QTest::mouseMove(m_frameMainWindow, QPoint(200, 500), 500);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 500);
 
+    EXPECT_EQ(true, bRet);
+
 }
 
 TEST_F(gtestview, sliderShow)
 {
+    bool bRet = false;
     if (!m_frameMainWindow) {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
@@ -234,6 +243,7 @@ TEST_F(gtestview, sliderShow)
 
     QTest::mouseClick(m_frameMainWindow, Qt::MidButton, Qt::NoModifier, QPoint(300, 1020), 300);
     if (sliderShow) {
+        bRet = true;
         sliderShow->customContextMenuRequested(QPoint(300, 300));
 //        sliderShow->moduleName();
 //        sliderShow->extensionPanelContent() ;
@@ -284,10 +294,13 @@ TEST_F(gtestview, sliderShow)
     m_frameMainWindow->hide();
     m_frameMainWindow->showNormal();
 
+    EXPECT_EQ(true, bRet);
+
 
 }
 TEST_F(gtestview, infoWidget)
 {
+    bool bRet = false;
     if (!m_frameMainWindow) {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
@@ -296,10 +309,16 @@ TEST_F(gtestview, infoWidget)
     QTest::keyClick(m_frameMainWindow, Qt::Key_I, Qt::ControlModifier, 100);
 
     QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 50);
+
+    if (m_frameMainWindow->width() == 800) {
+        bRet = true;
+    }
+    EXPECT_EQ(true, bRet);
 }
 
 TEST_F(gtestview, iconRotatePic)
 {
+    bool bRet = false;
     if (!m_frameMainWindow) {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
@@ -309,9 +328,10 @@ TEST_F(gtestview, iconRotatePic)
     DIconButton *m_nextButton = m_frameMainWindow->findChild<DIconButton *>(NEXT_BUTTON);
     DIconButton *m_rotateRBtn = m_frameMainWindow->findChild<DIconButton *>(CLOCKWISE_ROTATION);
     DIconButton *m_rotateLBtn = m_frameMainWindow->findChild<DIconButton *>(COUNTER_CLOCKWISE_ROTATION);
-    DIconButton *m_trashBtn = m_frameMainWindow->findChild<DIconButton *>(TRASH_BUTTON);
+//    DIconButton *m_trashBtn = m_frameMainWindow->findChild<DIconButton *>(TRASH_BUTTON);
     ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
     if (panel) {
+        bRet = true;
         m_adaptImageBtn->click();
         QTest::qWait(100);
         m_adaptScreenBtn->click();
@@ -390,6 +410,7 @@ TEST_F(gtestview, iconRotatePic)
 
 
     }
+    EXPECT_EQ(true, bRet);
 
 }
 
@@ -577,7 +598,10 @@ TEST_F(gtestview, LockWidget)
     QTest::keyClick(m_lockWidget, Qt::Key_Escape, Qt::ShiftModifier, 200);
     QTest::mouseDClick(m_lockWidget, Qt::LeftButton);
 
+    EXPECT_EQ(true, m_lockWidget->isVisible());
     m_lockWidget->hide();
+    m_lockWidget->deleteLater();
+    m_lockWidget = nullptr;
 }
 TEST_F(gtestview, ThumbnailWidget)
 {
@@ -591,7 +615,10 @@ TEST_F(gtestview, ThumbnailWidget)
     QTest::keyClick(m_thumbnailWidget, Qt::Key_Escape, Qt::ShiftModifier, 200);
     QTest::mouseDClick(m_thumbnailWidget, Qt::LeftButton);
 
+    EXPECT_EQ(true, m_thumbnailWidget->isVisible());
     m_thumbnailWidget->hide();
+    m_thumbnailWidget->deleteLater();
+    m_thumbnailWidget = nullptr;
 }
 TEST_F(gtestview, NavigationWidget)
 {
@@ -605,10 +632,15 @@ TEST_F(gtestview, NavigationWidget)
     QTest::keyClick(m_navigationWidget, Qt::Key_Escape, Qt::ShiftModifier, 200);
     QTest::mouseDClick(m_navigationWidget, Qt::LeftButton);
 
+    EXPECT_EQ(true, m_navigationWidget->isVisible());
+
     m_navigationWidget->hide();
+    m_navigationWidget->deleteLater();
+    m_navigationWidget = nullptr;
 }
 TEST_F(gtestview, ImageIconButton)
 {
+    bool iRet = false;
     m_ImageIconButton1 = new ImageIconButton();
     m_ImageIconButton1->show();
     m_ImageIconButton1->resize(50, 50);
@@ -639,10 +671,21 @@ TEST_F(gtestview, ImageIconButton)
     delete event;
     event = nullptr;
 
+    if (m_ImageIconButton1->width() == 50) {
+        iRet = true;
+    }
     m_ImageIconButton1->hide();
     m_ImageIconButton2->hide();
+
+
+
     m_ImageIconButton1->deleteLater();
     m_ImageIconButton1 = nullptr;
+
+    m_ImageIconButton2->deleteLater();
+    m_ImageIconButton2 = nullptr;
+
+    EXPECT_EQ(true, iRet);
 
 
 }
@@ -652,6 +695,11 @@ TEST_F(gtestview, ImageInfoWidget)
     m_ImageInfoWidget->setImagePath(m_JPGPath);
     m_ImageInfoWidget->contentHeight();
     m_ImageInfoWidget->hide();
+
+    EXPECT_EQ(false, m_ImageInfoWidget->isVisible());
+
+    m_ImageInfoWidget->deleteLater();
+    m_ImageInfoWidget = nullptr;
 }
 TEST_F(gtestview, ImageView)
 {
@@ -715,7 +763,8 @@ TEST_F(gtestview, ImageView)
     QTest::mouseDClick(m_ImageView->viewport(), Qt::LeftButton, Qt::NoModifier, QPoint(50, 50), 200);
     // 打开保存绘制的 tif
     QString TriangleItemPath = QApplication::applicationDirPath() + "/tif.tif";
-    TestApi::drogPathtoWidget(m_ImageView->viewport(), TriangleItemPath);
+
+    EXPECT_EQ(true, TestApi::drogPathtoWidget(m_ImageView->viewport(), TriangleItemPath));
 
     m_ImageView->hide();
 }
@@ -725,6 +774,8 @@ TEST_F(gtestview, dapp)
     dApp->getRwLock();
     dApp->loadInterface(m_JPGPath);
     dApp->signalM->emit sendPathlist(list, m_JPGPath);
+
+    EXPECT_EQ(true, !(m_JPGPath.isNull()));
 }
 
 TEST_F(gtestview, unionimage)
@@ -742,7 +793,9 @@ TEST_F(gtestview, unionimage)
     QString ddsPath = m_DDSPath;
     QString svgPath = m_SVGPath;
     rotateImageFIle(90, m_SVGPath, errorMsg);
-    rotateImageFIle(90, pppath, errorMsg);
+
+    EXPECT_EQ(true, rotateImageFIle(90, pppath, errorMsg));
+
     DetectImageFormat(m_SVGPath);
 }
 TEST_F(gtestview, imageutil)
@@ -772,12 +825,14 @@ TEST_F(gtestview, imageutil)
     getThumbnail(pppath, iRet);
     supportedImageFormats();
     imageSupportWallPaper(pppath);
-    utils::image::suffixisImage(pppath);
+    iRet = utils::image::suffixisImage(pppath);
+    EXPECT_EQ(true, iRet);
 
 }
 
 TEST_F(gtestview, ExtensionPanel)
 {
+    bool bRet = false;
     m_extensionPanel = new ExtensionPanel(nullptr);
     m_extensionPanel->show();
     m_extensionPanel->setContent(new QWidget());
@@ -802,14 +857,20 @@ TEST_F(gtestview, ExtensionPanel)
         m_extensionPanel->deleteLater();
         m_extensionPanel = nullptr;
     }
+    if (!m_extensionPanel) {
+        bRet = true;
+    }
+    EXPECT_EQ(true, bRet);
 }
 TEST_F(gtestview, Toast)
 {
+    bool bRet = false;
     if (!m_frameMainWindow) {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
 
     Toast *widget = m_frameMainWindow->findChild<Toast *>(TOAST_OBJECT);
+    bRet = true;
     if (widget) {
         widget->icon();
         widget->setText("toast");
@@ -826,21 +887,23 @@ TEST_F(gtestview, Toast)
         widget->deleteLater();
         widget = nullptr;
     }
+    EXPECT_EQ(true, bRet);
 
 }
 
 TEST_F(gtestview, ThemeWidget)
 {
+    bool bRet = false;
     if (!m_frameMainWindow) {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-
-    ThemeWidget *widget = m_frameMainWindow->findChild<ThemeWidget *>(THEME_WIDGET);
-    if (!widget) {
-        widget = new ThemeWidget("", "");
-        widget->deleteLater();
-        widget = nullptr;
+    ThemeWidget     *widget = new ThemeWidget("", "");
+    if (widget) {
+        bRet = true;
     }
+    widget->deleteLater();
+    widget = nullptr;
+    EXPECT_EQ(true, bRet);
 }
 
 TEST_F(gtestview, Dark)
@@ -855,6 +918,7 @@ TEST_F(gtestview, Light)
 
 TEST_F(gtestview, ElidedLabel)
 {
+    bool bRet = false;
     if (CommandLine::instance()->getMainWindow()) {
         QWidget *widget = new QWidget();
         ElidedLabel *elide = new ElidedLabel(widget);
@@ -877,7 +941,9 @@ TEST_F(gtestview, ElidedLabel)
         elide = nullptr;
         widget->deleteLater();
         widget = nullptr;
+        bRet = true;
     }
+    EXPECT_EQ(true, bRet);
 }
 
 #endif

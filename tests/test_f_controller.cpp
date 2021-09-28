@@ -37,9 +37,10 @@ TEST_F(gtestview, Dbusclient1)
     client->openFiles(list);
     client->openImages(listimg);
     client->openDrawingBoard(list);
-//    client->propertyChanged(QDBusMessage());
     client->deleteLater();
     client = nullptr;
+
+    EXPECT_EQ(true, !(imgQImage.isNull()));
 }
 
 TEST_F(gtestview, DIVDBusController)
@@ -52,49 +53,31 @@ TEST_F(gtestview, DIVDBusController)
     control->backToMainWindow();
     control->deleteLater();
     control = nullptr;
+    QFileInfo info(QApplication::applicationDirPath() + "/test/jpg102.jpg");
+    EXPECT_EQ(true, info.isReadable());
 }
 TEST_F(gtestview, setWallPaper)
 {
     QString TriangleItemPath = QApplication::applicationDirPath() + "/test/jpg1.jpg";
 
     dApp->wpSetter->setWallpaper(TriangleItemPath);
-
+    QFileInfo info(TriangleItemPath);
+    EXPECT_EQ(true, info.isReadable());
 }
 
 TEST_F(gtestview, WallPaperSetting1)
 {
     QString path = QApplication::applicationDirPath() + "/test/jpg102.jpg";
-//    WallpaperSetter::instance()->setDeepinWallpaper(path);
     WallpaperSetter::instance()->setWallpaper(QImage(QApplication::applicationDirPath() + "/test/jpg120.jpg"));
-//    WallpaperSetter::instance()->setKDEWallpaper(path);
-//    WallpaperSetter::instance()->setGNOMEShellWallpaper(path);
-//    WallpaperSetter::instance()->setGNOMEWallpaper(path);
-//    WallpaperSetter::instance()->setLXDEWallpaper(path);
-//    WallpaperSetter::instance()->setXfaceWallpaper(path);
-//    WallpaperSetter::instance()->testDE(path);
-//    WallpaperSetter::instance()->getDE();
-
     if (!m_frameMainWindow) {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
     m_frameMainWindow->activateWindow();
-}
-/*TEST_F(gtestview, collectSubDirs)
-{
-    DirCollectThread tt(QApplication::applicationDirPath(),"test");
-    Importer::instance()->stopDirCollect(QApplication::applicationDirPath());
-    tt.setStop(false);
-    tt.dir();
-//    tt.start();
-    FilesCollectThread ct(QStringList(QApplication::applicationDirPath() + "/test/jpg133.jpg"),"");
 
-    ct.currentImport(QApplication::applicationDirPath() + "/test/jpg133.jpg");
-    ct.resultReady(DBImgInfoList());
-    ct.insertAlbumRequest("",QStringList(QApplication::applicationDirPath() + "/test/jpg133.jpg"));
-//    ct.start();
-//    tt.wait(2000);
-//    ct.wait(2000);
-}*/
+    QFileInfo info(path);
+    EXPECT_EQ(true, info.isReadable());
+}
+
 
 //CommandLine
 TEST_F(gtestview, CommandLine_createOpenImageInfo)
@@ -104,4 +87,6 @@ TEST_F(gtestview, CommandLine_createOpenImageInfo)
     QStringList list(str);
     CommandLine::instance()->paraOpenImageInfo(jsonStr, str, list);
     CommandLine::instance()->showHelp();
+    QFileInfo info(str);
+    EXPECT_EQ(true, info.isReadable());
 }
