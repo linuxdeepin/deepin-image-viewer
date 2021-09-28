@@ -29,6 +29,7 @@
 
 #include "scen/imagegraphicsview.h"
 
+class AbstractTopToolbar;
 
 DWIDGET_USE_NAMESPACE
 class ImageInfoWidget;
@@ -72,7 +73,7 @@ public:
         IdOcr
     };
 
-    explicit ViewPanel(QWidget *parent = nullptr);
+    explicit ViewPanel(AbstractTopToolbar *customToolbar = nullptr, QWidget *parent = nullptr);
     ~ViewPanel() override;
 
     void loadImage(const QString &path, QStringList paths);
@@ -192,7 +193,8 @@ private :
     //ocr接口
     OcrInterface *m_ocrInterface{nullptr};
 
-    TopToolbar *m_topToolbar = nullptr;
+    AbstractTopToolbar *m_topToolbar = nullptr;
+    bool m_topToolBarIsAlwaysHide = false;
 
     DMenu *m_menu = nullptr;
 

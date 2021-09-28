@@ -55,7 +55,7 @@ const QColor LIGHT_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 26);
 }  // namespace
 
 TopToolbar::TopToolbar(bool manager, QWidget *parent)
-    : DBlurEffectWidget(parent)
+    : AbstractTopToolbar(parent)
 {
     m_manager = manager;
     QPalette palette;

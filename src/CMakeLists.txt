@@ -36,6 +36,7 @@ file(GLOB_RECURSE RESOURCES "*.qrc")
 
 include_directories(${CMAKE_INCLUDE_CURRENT_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories("../libimage-viewer/")
 
 configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
 

@@ -74,8 +74,9 @@ QString ss(const QString &text, const QString &defaultValue)
     return defaultValue;
 }
 
-ViewPanel::ViewPanel(QWidget *parent)
+ViewPanel::ViewPanel(AbstractTopToolbar *customToolbar, QWidget *parent)
     : QFrame(parent)
+    , m_topToolbar(customToolbar)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -167,7 +168,7 @@ void ViewPanel::initConnect()
 
     connect(m_bottomToolbar, &BottomToolbar::sigOcr, this, &ViewPanel::slotOcrPicture);
 
-    connect(m_view, &ImageGraphicsView::sigImageOutTitleBar, m_topToolbar, &TopToolbar::setTitleBarTransparent);
+    connect(m_view, &ImageGraphicsView::sigImageOutTitleBar, m_topToolbar, &AbstractTopToolbar::setTitleBarTransparent);
 
     connect(m_view, &ImageGraphicsView::sigMouseMove, this, &ViewPanel::slotBottomMove);
 
@@ -205,7 +206,11 @@ void ViewPanel::initConnect()
 void ViewPanel::initTopBar()
 {
     //防止在标题栏右键菜单会触发默认的和主窗口的发生
-    m_topToolbar = new TopToolbar(false, dynamic_cast<QWidget *>(this->parent()));
+    if (m_topToolbar == nullptr) { //如果调用者没有指定有效的顶部栏，则使用内置方案
+        m_topToolbar = new TopToolbar(false, dynamic_cast<QWidget *>(this->parent()));
+    } else {
+        m_topToolbar->setParent(dynamic_cast<QWidget *>(this->parent()));
+    }
     m_topToolbar->resize(width(), 50);
     m_topToolbar->move(0, 0);
     m_topToolbar->setTitleBarTransparent(false);
@@ -667,6 +672,7 @@ bool ViewPanel::startdragImage(const QStringList &paths)
 void ViewPanel::setTopBarVisible(bool visible)
 {
     if (m_topToolbar) {
+        m_topToolBarIsAlwaysHide = !visible;
         m_topToolbar->setVisible(visible);
     }
 }
@@ -1265,7 +1271,9 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         if (window()->isFullScreen()) {
             this->m_topToolbar->setVisible(false);
         } else {
-            this->m_topToolbar->setVisible(true);
+            if (!m_topToolBarIsAlwaysHide) {
+                this->m_topToolbar->setVisible(true);
+            }
         }
 
         if (m_topToolbar->isVisible()) {

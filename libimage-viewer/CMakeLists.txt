@@ -60,12 +60,6 @@ link_directories(${LINK_DIR})
 
 link_libraries(freeimage)
 
-
-
-
-
-
-
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
 file(GLOB TS LIST_DIRECTORIES false translations/libimage-viewer*.ts)

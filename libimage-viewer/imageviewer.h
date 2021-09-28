@@ -5,6 +5,9 @@
 #include <DIconButton>
 
 #include "image-viewer_global.h"
+#include "viewpanel/viewpanel.h"
+
+class AbstractTopToolbar;
 
 DWIDGET_USE_NAMESPACE
 
@@ -14,8 +17,8 @@ class IMAGEVIEWERSHARED_EXPORT ImageViewer : public DWidget
 {
     Q_OBJECT
 public:
-    //ImgViewerType:图片展示类型, savePath:缩略图保存位置
-    explicit ImageViewer(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, QWidget *parent = nullptr);
+    //ImgViewerType:图片展示类型, savePath:缩略图保存位置，customTopToolbar:自定义标题栏，nullptr的时候使用内置方案
+    explicit ImageViewer(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, AbstractTopToolbar *customTopToolbar = nullptr, QWidget *parent = nullptr);
     ~ImageViewer() override;
 
     //调用文件选择窗口
@@ -35,6 +38,14 @@ public:
 
     //获得工具栏按钮
     DIconButton *getBottomtoolbarButton(imageViewerSpace::ButtonType type);
+
+    //二次开发接口
+
+    //设置图片显示panel右键菜单的显示和隐藏
+    void setViewPanelContextMenuVisiable(ViewPanel::MenuItemId id, bool visiable);
+
+    //设置下方工具栏按钮的显示和隐藏
+    void setButtomToolBarButtonVisiable(imageViewerSpace::ButtonType id, bool visiable);
 
 protected:
     void resizeEvent(QResizeEvent *e) override;

@@ -8,7 +8,6 @@
 #include <QCommandLineParser>
 #include <QDirIterator>
 #include <QTranslator>
-
 #include <DFileDialog>
 
 #include "imageengine.h"
@@ -22,7 +21,7 @@
 class ImageViewerPrivate
 {
 public:
-    ImageViewerPrivate(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, ImageViewer *parent);
+    ImageViewerPrivate(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, AbstractTopToolbar *customTopToolbar, ImageViewer *parent);
 
 public:
     ImageViewer     *q_ptr;
@@ -31,7 +30,7 @@ public:
     Q_DECLARE_PUBLIC(ImageViewer)
 };
 
-ImageViewerPrivate::ImageViewerPrivate(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, ImageViewer *parent)
+ImageViewerPrivate::ImageViewerPrivate(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, AbstractTopToolbar *customTopToolbar, ImageViewer *parent)
     : q_ptr(parent)
 {
     QDir dir(PLUGINTRANSPATH);
@@ -56,20 +55,16 @@ ImageViewerPrivate::ImageViewerPrivate(imageViewerSpace::ImgViewerType imgViewer
     QVBoxLayout *layout = new QVBoxLayout(q);
     layout->setContentsMargins(0, 0, 0, 0);
     q->setLayout(layout);
-    m_panel = new ViewPanel(q);
+    m_panel = new ViewPanel(customTopToolbar, q);
     layout->addWidget(m_panel);
 }
 
 
-ImageViewer::ImageViewer(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, QWidget *parent)
+ImageViewer::ImageViewer(imageViewerSpace::ImgViewerType imgViewerType, QString savePath, AbstractTopToolbar *customTopToolbar, QWidget *parent)
     : DWidget(parent)
-    , d_ptr(new ImageViewerPrivate(imgViewerType, savePath, this))
+    , d_ptr(new ImageViewerPrivate(imgViewerType, savePath, customTopToolbar, this))
 {
-
-    Q_D(ImageViewer);
-    //1.load translations first
-
-
+    Q_INIT_RESOURCE(icons);
 }
 
 ImageViewer::~ImageViewer()
@@ -127,6 +122,16 @@ DIconButton *ImageViewer::getBottomtoolbarButton(imageViewerSpace::ButtonType ty
         button = d->m_panel->getBottomtoolbarButton(type);
     }
     return button;
+}
+
+void ImageViewer::setViewPanelContextMenuVisiable(ViewPanel::MenuItemId id, bool visiable)
+{
+    ;
+}
+
+void ImageViewer::setButtomToolBarButtonVisiable(imageViewerSpace::ButtonType id, bool visiable)
+{
+    ;
 }
 
 void ImageViewer::resizeEvent(QResizeEvent *e)

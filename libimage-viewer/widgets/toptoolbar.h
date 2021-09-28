@@ -22,6 +22,8 @@
 #ifndef TOPTOOLBAR_H
 #define TOPTOOLBAR_H
 
+#include "abstracttoptoolbar.h"
+
 #include <QJsonObject>
 #include <QPointer>
 #include <DTitlebar>
@@ -38,14 +40,14 @@ class SettingsWindow;
 class QHBoxLayout;
 class QProcess;
 
-class TopToolbar : public DBlurEffectWidget
+class TopToolbar : public AbstractTopToolbar
 {
     Q_OBJECT
 public:
     TopToolbar(bool manager, QWidget *parent);
-    void setMiddleContent(const QString &path);
+    void setMiddleContent(const QString &path) override;
 public slots:
-    void setTitleBarTransparent(bool a);
+    void setTitleBarTransparent(bool a) override;
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
