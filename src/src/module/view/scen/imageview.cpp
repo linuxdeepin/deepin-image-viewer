@@ -1220,7 +1220,8 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
         double left = r.width() + r.x();
         const QRectF &sr = sceneRect();
         //fix 42660 2020/08/14 单指时间在QEvent处理，双指手势通过手势处理。为了解决图片放大后单指滑动手势冲突的问题
-        if ((r.width() >= sr.width() && r.height() >= sr.height())) {
+        //qt5.15.1存在着1数值的浮动
+        if ((r.width() >= (sr.width() - 1) && r.height() >= (sr.height() - 1))) {
             int xpos = e->pos().x() - m_startpointx;
             if (abs(xpos) > 200 && m_startpointx != 0) {
                 if (xpos > 0) {
@@ -1232,7 +1233,7 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
         } else {
             if (dApp->isPanelDev()) {
                 //比较大的图片必须拖动到触碰边界才能滑动
-                if ((left - sr.width() >= -1 && left - sr.width() <= 1) || (r.x() <= 1) || (r.width() >= sr.width())) {
+                if ((left - (sr.width() - 1) >= -1 && left - (sr.width() - 1) <= 1) || (r.x() <= 1) || (r.width() >= (sr.width() - 1))) {
                     QScreen *screen = QGuiApplication::primaryScreen();
                     QSize screen_size = screen->size();
                     int xpos = e->pos().x() - m_startpointx;
