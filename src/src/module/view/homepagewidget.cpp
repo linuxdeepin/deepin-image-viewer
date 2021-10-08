@@ -3,10 +3,11 @@
 
 #include "accessibility/ac-desktop-define.h"
 #include "../libimage-viewer/imageviewer.h"
-#include "accessibility/ac-desktop-define.h"
-#include "../libimage-viewer/unionimage/pluginbaseutils.h"
+
+//#include "../libimage-viewer/unionimage/pluginbaseutils.h"
 
 #include <QMimeData>
+#include <QMimeDatabase>
 
 namespace {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
@@ -118,7 +119,7 @@ void HomePageWidget::openImageInDialog()
 void HomePageWidget::dragEnterEvent(QDragEnterEvent *event)
 {
     const QMimeData *mimeData = event->mimeData();
-    if (!pluginUtils::base::checkMimeData(mimeData)) {
+    if (!checkMimeData(mimeData)) {
         return;
     }
     event->setDropAction(Qt::CopyAction);
@@ -145,4 +146,45 @@ void HomePageWidget::dropEvent(QDropEvent *event)
         paths << url.toLocalFile();
     }
     emit sigDrogImage(paths);
+}
+
+bool HomePageWidget::checkMimeData(const QMimeData *mimeData)
+{
+    if (!mimeData->hasUrls()) {
+        return false;
+    }
+    QList<QUrl> urlList = mimeData->urls();
+    if (1 > urlList.size()) {
+        return false;
+    }
+
+    bool result = false;
+
+    //遍历URL，只要存在图片就允许拖入
+    for (QUrl url : urlList) {
+        const QString path = url.toLocalFile();
+        QFileInfo fileinfo(path);
+        if (fileinfo.isDir()) {
+            if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum) { //相册模式的时候额外允许文件夹拖入
+                result = true;
+                break;
+            } else {
+                continue;
+            }
+        } else {
+            QFileInfo info(path);
+            QMimeDatabase db;
+            QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+            QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
+            QString str = info.suffix().toLower();
+            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                result = true;
+                break;
+            }
+
+            continue;
+        }
+    }
+
+    return result;
 }

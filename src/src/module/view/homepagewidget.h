@@ -27,6 +27,7 @@ public:
     explicit HomePageWidget(QWidget *parent = nullptr);
     ~HomePageWidget() override;
 
+    bool checkMimeData(const QMimeData *mimeData);
 signals:
     void sigOpenImage();
     void sigDrogImage(const QStringList &);
