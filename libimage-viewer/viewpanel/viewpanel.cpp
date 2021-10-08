@@ -298,7 +298,6 @@ void ViewPanel::initNavigation()
             m_nav->setRectInImage(m_view->visibleImageRect());
         }
     });
-    m_nav->show();
 }
 
 void ViewPanel::initRightMenu()
