@@ -4,10 +4,10 @@
 #include "accessibility/ac-desktop-define.h"
 #include "../libimage-viewer/imageviewer.h"
 
-//#include "../libimage-viewer/unionimage/pluginbaseutils.h"
-
-#include <QMimeData>
 #include <QMimeDatabase>
+#include <QFileInfo>
+#include <QDropEvent>
+
 
 namespace {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
@@ -165,12 +165,7 @@ bool HomePageWidget::checkMimeData(const QMimeData *mimeData)
         const QString path = url.toLocalFile();
         QFileInfo fileinfo(path);
         if (fileinfo.isDir()) {
-            if (CommonService::instance()->getImgViewerType() == imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum) { //相册模式的时候额外允许文件夹拖入
-                result = true;
-                break;
-            } else {
-                continue;
-            }
+            continue;
         } else {
             QFileInfo info(path);
             QMimeDatabase db;

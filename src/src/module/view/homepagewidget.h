@@ -11,6 +11,9 @@
 #include <QPaintEvent>
 #include <QMouseEvent>
 #include <QObject>
+#include <QMimeData>
+#include <QFileInfo>
+#include <QMimeDatabase>
 
 class QGestureEvent;
 class QPinchGesture;
