@@ -22,12 +22,12 @@ include_directories(${PROJECT_SOURCE_DIR})
 message(STATUS ${CMAKE_CXX_FLAGS})
 
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_subdirectory(tests)
-endif()
+#if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+#    add_subdirectory(tests)
+#endif()
 
 
 
-add_subdirectory(libimage-viewer)
+#add_subdirectory(libimage-viewer)
 add_subdirectory(src)
 add_subdirectory(qimage-plugins)
