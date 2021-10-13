@@ -143,7 +143,11 @@ void HomePageWidget::dropEvent(QDropEvent *event)
     for (QUrl url : urls) {
         //修复style问题，取消了path
         //lmh0901判断是否是图片
-        paths << url.toLocalFile();
+        QString path = url.toLocalFile();
+        if (path.isEmpty()) {
+            path = url.path();
+        }
+        paths << path;
     }
     emit sigDrogImage(paths);
 }
@@ -162,7 +166,11 @@ bool HomePageWidget::checkMimeData(const QMimeData *mimeData)
 
     //遍历URL，只要存在图片就允许拖入
     for (QUrl url : urlList) {
-        const QString path = url.toLocalFile();
+        //lmh0901判断是否是图片
+        QString path = url.toLocalFile();
+        if (path.isEmpty()) {
+            path = url.path();
+        }
         QFileInfo fileinfo(path);
         if (fileinfo.isDir()) {
             continue;

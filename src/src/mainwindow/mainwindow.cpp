@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     this->setObjectName("MainWindow");
     setContentsMargins(0, 0, 0, 0);
-    resize(880, 600);
+//    resize(880, 600);
     initUI();
 }
 
@@ -135,9 +135,11 @@ void MainWindow::initUI()
 
     QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
                          + QDir::separator() + "deepin" + QDir::separator() + "image-view-plugin";
-//    QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+
+#ifndef USE_TEST
     m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeLocal, CACHE_PATH, nullptr, this);
     m_centerWidget->addWidget(m_imageViewer);
+#endif
     m_centerWidget->setCurrentWidget(m_homePageWidget);
 
     connect(m_homePageWidget, &HomePageWidget::sigOpenImage, this, &MainWindow::slotOpenImg);
@@ -156,9 +158,10 @@ void MainWindow::initUI()
             m_mainwidow->titlebar()->setFixedHeight(50);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
+            int normalheight = this->height() + height;
             m_mainwidow->resize(this->width(), this->height() + height);
             //防止标题栏出现横杠
-            m_mainwidow->resize(this->width(), this->height());
+            m_mainwidow->resize(this->width(), normalheight);
         }
     });
 
@@ -188,18 +191,25 @@ void MainWindow::initUI()
 
 void MainWindow::slotOpenImg()
 {
+#ifndef USE_TEST
     bool bRet = m_imageViewer->startChooseFileDialog();
+#else
+    bool bRet = true;
+#endif
     if (bRet) {
-        m_centerWidget->setCurrentWidget(m_imageViewer);
+        if (m_imageViewer) {
+            m_centerWidget->setCurrentWidget(m_imageViewer);
+        }
         if (m_mainwidow->titlebar()) {
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
             int height =  m_mainwidow->titlebar()->height();
             m_mainwidow->titlebar()->setFixedHeight(0);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
+            int normalheight = this->height() + height;
             m_mainwidow->resize(this->width(), this->height() + height);
             //防止标题栏出现横杠
-            m_mainwidow->resize(this->width(), this->height());
+            m_mainwidow->resize(this->width(), normalheight);
         }
     }
 
@@ -207,20 +217,32 @@ void MainWindow::slotOpenImg()
 
 void MainWindow::slotDrogImg(const QStringList &paths)
 {
+#ifndef USE_TEST
     bool bRet = m_imageViewer->startdragImage(paths);
+#else
+    bool bRet = true;
+#endif
     if (bRet) {
-        m_centerWidget->setCurrentWidget(m_imageViewer);
+        if (m_imageViewer) {
+            m_centerWidget->setCurrentWidget(m_imageViewer);
+        }
         if (m_mainwidow->titlebar()) {
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
             int height =  m_mainwidow->titlebar()->height();
             m_mainwidow->titlebar()->setFixedHeight(0);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
+            int normalheight = this->height() + height;
             m_mainwidow->resize(this->width(), this->height() + height);
             //防止标题栏出现横杠
-            m_mainwidow->resize(this->width(), this->height());
+            m_mainwidow->resize(this->width(), normalheight);
         }
     }
+}
+
+void MainWindow::quitApp()
+{
+    this->close();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
@@ -277,7 +299,11 @@ void MainWindow::dropEvent(QDropEvent *event)
     for (QUrl url : urls) {
         //修复style问题，取消了path
         //lmh0901判断是否是图片
-        paths << url.toLocalFile();
+        QString path = url.toLocalFile();
+        if (path.isEmpty()) {
+            path = url.path();
+        }
+        paths << path;
     }
 }
 

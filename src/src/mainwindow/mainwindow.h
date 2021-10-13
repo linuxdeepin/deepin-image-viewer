@@ -51,12 +51,6 @@ class MainWindow : public DWidget
     Q_OBJECT
 
 public:
-    //增加单例接口，方便closeFromMenu调用
-    static MainWindow &instance()
-    {
-        static MainWindow w;
-        return w;
-    }
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
     void setDMainWindow(DMainWindow *mainwidow);
@@ -85,6 +79,7 @@ protected:
 public slots:
     void slotOpenImg();
     void slotDrogImg(const QStringList &paths);
+    void quitApp();
 private:
     QStackedWidget   *m_centerWidget = nullptr;
     HomePageWidget   *m_homePageWidget = nullptr;

@@ -22,11 +22,14 @@
 #ifdef CMAKE_BUILD
 #include "config.h"
 #endif
+#define protected public
 #include <DApplication>
+#undef protected
 #include <DWidgetUtil>
 #include <DMainWindow>
 #include <DLog>
 #include <DApplicationSettings>
+#include <DVtableHook>
 
 #include <QTranslator>
 #include <QDesktopWidget>
@@ -139,6 +142,7 @@ int main(int argc, char *argv[])
     if (checkOnly()) {
         Dtk::Widget::moveToCenter(mainwindow);
     }
+    Dtk::Core::DVtableHook::overrideVfptrFun(qApp, &DApplication::handleQuitAction, w, &MainWindow::quitApp);
 
     return a.exec();
 }
