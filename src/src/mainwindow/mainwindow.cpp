@@ -158,9 +158,7 @@ void MainWindow::initUI()
             m_mainwidow->titlebar()->setFixedHeight(50);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
-            int normalheight = this->height() + height;
-            m_mainwidow->resize(this->width(), this->height() + height);
-            //防止标题栏出现横杠
+            int normalheight = this->height() + height + 1;
             m_mainwidow->resize(this->width(), normalheight);
         }
     });
@@ -206,9 +204,7 @@ void MainWindow::slotOpenImg()
             m_mainwidow->titlebar()->setFixedHeight(0);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
-            int normalheight = this->height() + height;
-            m_mainwidow->resize(this->width(), this->height() + height);
-            //防止标题栏出现横杠
+            int normalheight = this->height() + height + 1;
             m_mainwidow->resize(this->width(), normalheight);
         }
     }
@@ -232,9 +228,7 @@ void MainWindow::slotDrogImg(const QStringList &paths)
             m_mainwidow->titlebar()->setFixedHeight(0);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
-            int normalheight = this->height() + height;
-            m_mainwidow->resize(this->width(), this->height() + height);
-            //防止标题栏出现横杠
+            int normalheight = this->height() + height + 1;
             m_mainwidow->resize(this->width(), normalheight);
         }
     }
