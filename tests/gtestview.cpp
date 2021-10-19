@@ -27,7 +27,9 @@
 #include <DApplication>
 #include "mainwindow/mainwindow.h"
 #include "mainwindow/shortcut.h"
+#include "module/view/homepagewidget.h"
 #include <libimage-viewer/imageengine.h>
+#include <QDropEvent>
 
 gtestview::gtestview()
 {
@@ -128,17 +130,43 @@ TEST_F(gtestview, MainWindow)
     w->setValue("", "", "");
     w->value("", "", "");
 
+    //home page
     w->resize(800, 600);
+    QTest::qWait(300);
     w->show();
     w->resize(1080, 600);
+    QTest::qWait(300);
 
-    w->slotOpenImg();
-    QStringList list(QApplication::applicationDirPath() + "/test/jpg.jpg");
-    w->slotDrogImg(list);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::DarkType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::LightType);
 
+    //view panel
+    w->findChild<DSuggestButton *>("Open Image")->click(); //需要去ac-desktop-define.h查找这个值
+    QTest::qWait(300);
+
+    QMimeData mimedata;
+    QList<QUrl> li;
+    li.append(QUrl(QApplication::applicationDirPath() + "/test/jpg.jpg"));
+    mimedata.setUrls(li);
+
+    //drop image to homepage
+    //注意：由于代码设置，view panel并不会显示出来，单元测试全程显示的是home page
+    auto homepage = w->findChild<HomePageWidget *>("ThumbnailWidget"); //需要去ac-desktop-define.h查找这个值
+    auto dropPos = homepage->rect().center();
+    QDragEnterEvent eEnter(dropPos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    qApp->sendEvent(homepage, &eEnter);
+
+    QDragMoveEvent emove(dropPos + QPoint(10, 10), Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    qApp->sendEvent(w, &emove);
+
+    QDropEvent e(dropPos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    qApp->sendEvent(homepage, &e);
+
+    QTest::qWait(300);
     emit ImageEngine::instance()->sigPicCountIsNull();
 
     w->close();
+    QTest::qWait(300);
 
     w->deleteLater();
     w = nullptr;
