@@ -237,6 +237,8 @@ void MainWindow::slotDrogImg(const QStringList &paths)
 void MainWindow::quitApp()
 {
     this->close();
+    //程序退出
+    qApp->exit();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
