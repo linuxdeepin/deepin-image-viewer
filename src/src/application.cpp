@@ -496,11 +496,11 @@ Application::Application(int &argc, char **argv)
     m_app = DApplication::globalApplication(argc, argv);
 
     //判断DTK版本是否支持平板适配
-#if (DTK_VERSION >= DTK_VERSION_CHECK(5, 5, 0, 0))
-    m_bIsPanel = Dtk::Gui::DGuiApplicationHelper::isTabletEnvironment();
-#else
+//#if (DTK_VERSION >= DTK_VERSION_CHECK(5, 5, 0, 0))
+//    m_bIsPanel = Dtk::Gui::DGuiApplicationHelper::isTabletEnvironment();
+//#else
     m_bIsPanel = false;
-#endif
+//#endif
 
 #endif
 
