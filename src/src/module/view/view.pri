@@ -4,6 +4,6 @@ HEADERS += \
 SOURCES += \
     $$PWD/homepagewidget.cpp \
 
-RESOURCES += \
-    $$PWD/../../../assets/view/viewtheme.qrc
+#RESOURCES += \
+#    $$PWD/../../../assets/images/resources.qrc
 

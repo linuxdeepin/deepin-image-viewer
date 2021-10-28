@@ -15,15 +15,16 @@ PKGCONFIG +=   libexif dtkwidget  gio-qt
  QT += dtkwidget
  QT += dbus
 #CONFIG += object_parallel_to_source
-LIBS += -L$$PWD/../../out/ -limage-viewer
+LIBS +=  -limage-viewer
 
-DESTDIR = $$PWD/../../out/
+
+#DESTDIR = $$PWD/../../out/
 #gtk+-2.0
 TARGET = deepin-image-viewer
 TEMPLATE = app
 INCLUDEPATH += src/utils
 INCLUDEPATH += src
-INCLUDEPATH += ../libimage-viewer
+#INCLUDEPATH += ../libimage-viewer
 isEmpty(FULL_FUNCTIONALITY) {
     DEFINES += LITE_DIV
     DEFINES += USE_UNIONIMAGE
@@ -56,7 +57,7 @@ SOURCES += src/main.cpp \
 
 RESOURCES += \
     assets/images/resources.qrc \
-    assets/icons/theme-icons.qrc
+#    assets/icons/theme-icons.qrc
 
 # Automating generation .qm files from .ts files
 #!system($$PWD/generate_translations.sh): error("Failed to generate translation")
