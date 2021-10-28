@@ -1,76 +1,14 @@
 #ifndef GTESTVIEW_H
 #define GTESTVIEW_H
 
-#define private public
-#define protected public
-#include "blureframe.h"
-#include "imagebutton.h"
-#include "module/view/contents/iconbutton.h"
-#include "module/slideshow/slideshowpanel.h"
-#include "controller/commandline.h"
-#include "frame/mainwindow.h"
-#undef private
-
-#include "application.h"
-
-#include "service/defaultimageviewer.h"
-
-#include "controller/configsetter.h"
-#include "controller/globaleventfilter.h"
-#include "controller/signalmanager.h"
-
-#include "controller/viewerthememanager.h"
-#include "controller/dbmanager.h"
-#include "controller/importer.h"
-#include "utils/snifferimageformat.h"
-
-#include "frame/bottomtoolbar.h"
-#include "frame/extensionpanel.h"
-#include "frame/mainwidget.h"
-
-#include "frame/renamedialog.h"
-#include "frame/toptoolbar.h"
-#include "module/view/viewpanel.h"
-#include "module/view/lockwidget.h"
-#include "module/view/navigationwidget.h"
-#include "module/view/thumbnailwidget.h"
-#include "module/view/contents/imageinfowidget.h"
-#include "module/view/contents/ttbcontent.h"
-
-//#include "module/view/contents/ttmcontent.h"
-
-//#include "module/view/scen/imageview.h"
-
-
-
-
-//#include "settings/shortcut/shortcuteditor.h"
-//#include "settings/shortcut/shortcutframe.h"
-//#include "settings/titleframe.h"
-//#include "settings/settingswindow.h"
-//#include "settings/contentsframe.h"
-//#include "settings/titleframe.h"
-
-
-#include "widgets/printoptionspage.h"
-#include "printhelper.h"
-
+#
 
 #include <QtTest/QtTest>
 #include <gtest/gtest.h>
-#include <utils/baseutils.h>
-#include <utils/imageutils.h>
-#include <utils/snifferimageformat.h>
-#include <unionimage.h>
 
 #include <DApplicationSettings>
 
 #include "testapi.h"
-
-
-using namespace UnionImage_NameSpace;
-using namespace utils::base;
-using namespace utils::image;
 
 #define JPEG1 "/usr/share/uosbrowser/product_logo_32.png"
 #define GIF2 "/usr/share/deepin-app-store/web_dist/en-AU/assets/images/loading2.gif"
@@ -131,27 +69,8 @@ public:
 
     }
 protected:
-    ImageLoader *m_ImageLoader{nullptr};
 
-    BottomToolbar   *m_bottomToolbar{nullptr};
-    ExtensionPanel  *m_extensionPanel{nullptr};
-    MainWidget      *m_frameMainWidget{nullptr};
-    MainWindow      *m_frameMainWindow{nullptr};
-    RenameDialog    *m_renameDialog{nullptr};
-    TopToolbar      *m_topoolBar{nullptr};
 
-    /*module*/
-    ViewPanel       *m_viewPanel{nullptr};
-    LockWidget      *m_lockWidget{nullptr};
-    ThumbnailWidget *m_thumbnailWidget{nullptr};
-    NavigationWidget *m_navigationWidget{nullptr};
-
-    ImageIconButton *m_ImageIconButton1{nullptr};
-    ImageIconButton *m_ImageIconButton2{nullptr};
-
-    ImageInfoWidget *m_ImageInfoWidget{nullptr};
-
-    ImageView *m_ImageView{nullptr};
 
 
     /*dirwatcher*/
@@ -161,9 +80,6 @@ protected:
 
     PushButton *m_pushbutton{nullptr};
 
-    CommandLine *m_command{nullptr};
-//    ScanPathsDialog *m_ScanDialog{nullptr};
-    PrintHelper *m_Print{nullptr};
 
     QStringList list;
 

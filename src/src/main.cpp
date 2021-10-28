@@ -18,36 +18,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "application.h"
-#include "controller/commandline.h"
-#include "service/defaultimageviewer.h"
-#include "accessibility/acobjectlist.h"
+
 #ifdef CMAKE_BUILD
 #include "config.h"
 #endif
-#include <QApplication>
+#define protected public
+#include <DApplication>
+#undef protected
+#include <DWidgetUtil>
+#include <DMainWindow>
 #include <DLog>
-#include <QTranslator>
 #include <DApplicationSettings>
 #include <DVtableHook>
+
+#include <QTranslator>
+#include <QDesktopWidget>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-using namespace Dtk::Core;
-//判断是否是wayland
-bool CheckWayland()
-{
-    auto e = QProcessEnvironment::systemEnvironment();
-    QString XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
-    QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
 
-    if (XDG_SESSION_TYPE == QLatin1String("wayland") || WAYLAND_DISPLAY.contains(QLatin1String("wayland"), Qt::CaseInsensitive))
-        return true;
-    else {
-        return false;
-    }
-}
+#include "mainwindow/mainwindow.h"
+
+//using namespace Dtk::Core;
+const int MAINWIDGET_MINIMUN_HEIGHT = 335;
+const int MAINWIDGET_MINIMUN_WIDTH = 730;//增加了ocr，最小宽度为630到现在730
+
+
+DWIDGET_USE_NAMESPACE
+DCORE_USE_NAMESPACE
 
 bool checkOnly()
 {
@@ -81,68 +81,68 @@ int main(int argc, char *argv[])
     if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
         setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
     }
-    //判断是否是wayland
-    if (CheckWayland()) {
-        //默认走xdgv6,该库没有维护了，因此需要添加该代码
-        qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell");
-    }
 
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
 //    Application::loadDXcbPlugin();
-    Application::instance(argc, argv);
+    DApplication  a(argc, argv);
+    a.setAttribute(Qt::AA_ForceRasterWidgets);
+    a.loadTranslator();
+    a.setOrganizationName("deepin");
+    a.setApplicationName("deepin-image-viewer");
+    a.setApplicationDisplayName(QObject::tr("Image Viewer"));
+    a.setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
+    a.setApplicationDescription(QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
+    //save theme
+    DApplicationSettings saveTheme;
+    Q_UNUSED(saveTheme);
 
-    dApp->m_app->setAttribute(Qt::AA_ForceRasterWidgets);
-    dApp->m_app->installEventFilter(dApp);
-#ifdef CMAKE_BUILD
-    //设置版本号
-    dApp->m_app->setApplicationVersion(DApplication::buildVersion(VERSION));
-#endif
-    DVtableHook::overrideVfptrFun(dApp->m_app, &DApplication::handleQuitAction, dApp, &Application::quitApp);
-#ifdef INSTALLACCESSIBLEFACTORY
-    QAccessible::installFactory(accessibleFactory);
-#endif
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
-
-    if (dApp->isPanelDev()) {
-        //将时间写入QDataStream
-        QDateTime wstime = QDateTime::currentDateTime();
-        bool newflag = true;
-
-        if (!checkOnly()) {
-            newflag = false;
-        }
-        //save theme
-        DApplicationSettings saveTheme;
-        CommandLine *cl = CommandLine::instance();
-
-        qDebug() << "133行";
-        if (cl->processOption(wstime, newflag)) {
-            qDebug() << "135行dApp->m_app->exec()";
-            return dApp->m_app->exec();
-        } else {
-            qDebug() << "138行return0";
-            return 0;
-        }
-
-    } else {
-#ifndef LITE_DIV
-        if (!service::isDefaultImageViewer()) {
-            qDebug() << "Set defaultImage viewer succeed:" << service::setDefaultImageViewer(true);
-        } else {
-            qDebug() << "Deepin Image Viewer is defaultImage!";
-        }
+    a.setApplicationVersion("1.0.0");
+#ifdef CMAKE_BUILD
+    //增加版本号
+//    a.setApplicationVersion(DApplication::buildVersion(VERSION));
+    a.setApplicationVersion(VERSION);
 #endif
-        //save theme
-        DApplicationSettings saveTheme;
-        CommandLine *cl = CommandLine::instance();
-        if (cl->processOption()) {
-            return dApp->m_app->exec();
-        } else {
-            return 0;
+
+    //主窗体应该new出来,不应该是static变量
+    //修改为从单例获取
+
+    DMainWindow *mainwindow = new DMainWindow();
+    MainWindow *w = new MainWindow(mainwindow);
+    mainwindow->setCentralWidget(w);
+    w->setDMainWindow(mainwindow);
+//    w->processOption();
+    for (int i = 1; i < argc; ++i) {
+        QString path = argv[i];
+        if (QFileInfo(path).isFile()) {
+            w->slotDrogImg(QStringList(argv[i]));
+            break;
         }
     }
+    //初始化大小为上次关闭大小
+    QDesktopWidget dw;
+    const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH
+                         ? MAINWIDGET_MINIMUN_WIDTH
+                         : dw.geometry().width() * 3 / 5;
+    const int defaultH = dw.geometry().height() * 0.60 < MAINWIDGET_MINIMUN_HEIGHT
+                         ? MAINWIDGET_MINIMUN_HEIGHT
+                         : dw.geometry().height() * 3 / 5;
+    const int ww =
+        w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
+    const int wh =
+        w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
+    mainwindow->resize(ww, wh);
+    mainwindow->setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
+    mainwindow->show();
 
+    //修复窗口会一直在中间变小的问题
+    if (checkOnly()) {
+        Dtk::Widget::moveToCenter(mainwindow);
+    }
+    Dtk::Core::DVtableHook::overrideVfptrFun(qApp, &DApplication::handleQuitAction, w, &MainWindow::quitApp);
+
+    return a.exec();
 }

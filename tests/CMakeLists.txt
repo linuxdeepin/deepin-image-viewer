@@ -32,37 +32,25 @@ endif()
 #cmakedefine USE_MYMATH
 set(AllTestQRC
     ./testqrc/testresource.qrc)
-file(GLOB_RECURSE HEADERSCURRENT "src/*.h")
-file(GLOB_RECURSE  SOURCESCURRENT  "src/*.cpp")
+file(GLOB_RECURSE HEADERSCURRENT "*.h")
+file(GLOB_RECURSE  SOURCESCURRENT  "*.cpp")
 
 file (GLOB_RECURSE SOURCES
-    ../src/src/controller/*.cpp
-    ../src/src/dirwatcher/*.cpp
-    ../src/src/frame/*.cpp
-    ../src/src/module/*.cpp
-    ../src/src/service/*.cpp
-    ../src/src/settings/*.cpp
-    ../src/src/utils/*.cpp
-    ../src/src/widgets/*.cpp
-    ../src/src/application.cpp
-    *.cpp
+    "../src/src/accessibility/*.cpp"
+    "../src/src/mainwindow/*.cpp"
+    "../src/src/module/*.cpp"
+    "../src/*.h"
     )
 file(GLOB_RECURSE SOURCESC "../src/*.c")
-file(GLOB_RECURSE HEADERS "../src/src/module/modulepanel.h")
+#file(GLOB_RECURSE HEADERS "../src/src/module/modulepanel.h")
 file(GLOB_RECURSE FORMS "../src/*.ui")
-file(GLOB_RECURSE RESOURCES "../src/*.qrc")
+file(GLOB_RECURSE RESOURCES "../*.qrc")
 
 include_directories(${CMAKE_INCLUDE_CURRENT_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(PROJECT_INCLUDE ${PROJECT_SOURCE_DIR}/../src/src/
     ${PROJECT_SOURCE_DIR}/../src/src/utils
-    ${PROJECT_SOURCE_DIR}/../src/src/controller
-    ${PROJECT_SOURCE_DIR}/../src/src/dirwatcher
-    ${PROJECT_SOURCE_DIR}/../src/src/widgets
-    ${PROJECT_SOURCE_DIR}/../src/src/accessibility
-    ${PROJECT_SOURCE_DIR}/../src/src/third-party/accessibility
-    ${PROJECT_SOURCE_DIR}/../src/src/module
     )
 
 find_package(PkgConfig REQUIRED)
@@ -85,7 +73,7 @@ pkg_check_modules(3rd_lib REQUIRED
     dtkwidget
     gio-qt
     gio-unix-2.0
-#    gsettings-qt
+    gsettings-qt
 #    freeimage
         )
 
@@ -136,6 +124,7 @@ target_link_libraries(
     udisks2-qt5
     freeimage
     pthread
+    image-viewer
     gtest
     )
 

@@ -28,14 +28,15 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-file(GLOB_RECURSE  SOURCES  "src/*.cpp")
+file(GLOB_RECURSE  SOURCES  "src/*.cpp" "src/*/*.cpp")
 file(GLOB_RECURSE SOURCESC "src/*.c")
-file(GLOB_RECURSE HEADERS "src/module/modulepanel.h")
+file(GLOB_RECURSE HEADERS "src/module/modulepanel.h" "src/*/*.h")
 file(GLOB_RECURSE FORMS "src/*.ui")
 file(GLOB_RECURSE RESOURCES "*.qrc")
 
 include_directories(${CMAKE_INCLUDE_CURRENT_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories("../libimage-viewer/")
 
 configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
 
@@ -60,7 +61,7 @@ pkg_check_modules(3rd_lib REQUIRED
     dtkwidget
     dtkcore
     gio-qt
-#    libexif
+    libexif
     )
 
 ## translations
@@ -81,8 +82,7 @@ set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 add_executable( ${PROJECT_NAME} ${SOURCES} ${SOURCESC} ${HEADERS} ${RESOURCES} ${QM})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS} ${PROJECT_INCLUDE} )
-target_link_libraries(${PROJECT_NAME} Qt5::WidgetsPrivate ${3rd_lib_LIBRARIES} pthread freeimage)
-
+target_link_libraries(${PROJECT_NAME} Qt5::WidgetsPrivate ${3rd_lib_LIBRARIES} pthread image-viewer)
 #将工程与这些模块链接起来
 qt5_use_modules(${PROJECT_NAME} ${QtModule})
 
