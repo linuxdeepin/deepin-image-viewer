@@ -75,11 +75,31 @@ bool checkOnly()
     return true;
 }
 
+//判断是否是wayland
+bool CheckWayland()
+{
+    auto e = QProcessEnvironment::systemEnvironment();
+    QString XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
+    QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
+
+    if (XDG_SESSION_TYPE == QLatin1String("wayland") || WAYLAND_DISPLAY.contains(QLatin1String("wayland"), Qt::CaseInsensitive))
+        return true;
+    else {
+        return false;
+    }
+}
+
 int main(int argc, char *argv[])
 {
     //for qt5platform-plugins load DPlatformIntegration or DPlatformIntegrationParent
     if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
         setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
+    }
+
+    //判断是否是wayland
+    if (CheckWayland()) {
+        //默认走xdgv6,该库没有维护了，因此需要添加该代码
+        qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell");
     }
 
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
