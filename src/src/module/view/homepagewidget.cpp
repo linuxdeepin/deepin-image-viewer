@@ -1,8 +1,8 @@
-#include "../libimage-viewer/image-viewer_global.h"
+#include "../libimageviewer/image-viewer_global.h"
 #include "homepagewidget.h"
 
 #include "accessibility/ac-desktop-define.h"
-#include "../libimage-viewer/imageviewer.h"
+#include "../libimageviewer/imageviewer.h"
 
 #include <QMimeDatabase>
 #include <QFileInfo>

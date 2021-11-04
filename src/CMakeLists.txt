@@ -82,7 +82,7 @@ set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 add_executable( ${PROJECT_NAME} ${SOURCES} ${SOURCESC} ${HEADERS} ${RESOURCES} ${QM})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS} ${PROJECT_INCLUDE} )
-target_link_libraries(${PROJECT_NAME} Qt5::WidgetsPrivate ${3rd_lib_LIBRARIES} pthread image-viewer)
+target_link_libraries(${PROJECT_NAME} Qt5::WidgetsPrivate ${3rd_lib_LIBRARIES} pthread imageviewer)
 #将工程与这些模块链接起来
 qt5_use_modules(${PROJECT_NAME} ${QtModule})
 

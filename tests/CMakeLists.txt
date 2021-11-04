@@ -80,7 +80,6 @@ pkg_check_modules(3rd_lib REQUIRED
 ## translations
 
 file(GLOB TS LIST_DIRECTORIES false translations/${CMD_NAME}*.ts)
-#file(GLOB TS LIST_DIRECTORIES false ${PROJECT_SOURCE_DIR}/translations/deepin-image-viewer_zh_CN.ts)
 
 set_source_files_properties(${TS} PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/translations)
 
@@ -124,7 +123,7 @@ target_link_libraries(
     udisks2-qt5
     freeimage
     pthread
-    image-viewer
+    imageviewer
     gtest
     )
 

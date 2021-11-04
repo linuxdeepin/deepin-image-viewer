@@ -80,6 +80,9 @@ public slots:
     void slotOpenImg();
     void slotDrogImg(const QStringList &paths);
     void quitApp();
+
+    //显示快捷键预览
+    void showShortCut();
 private:
     QStackedWidget   *m_centerWidget = nullptr;
     HomePageWidget   *m_homePageWidget = nullptr;

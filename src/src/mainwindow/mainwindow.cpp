@@ -50,8 +50,8 @@
 #include <DStandardPaths>
 
 #include "module/view/homepagewidget.h"
-#include "../libimage-viewer/imageviewer.h"
-#include "../libimage-viewer/imageengine.h"
+#include "../libimageviewer/imageviewer.h"
+#include "../libimageviewer/imageengine.h"
 #include "shortcut.h"
 
 
@@ -170,19 +170,9 @@ void MainWindow::initUI()
 
     QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
     scViewShortcut->setObjectName(SC_VIEW_SHORTCUT);
+    scViewShortcut->setContext(Qt::ApplicationShortcut);
     // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
-    connect(scViewShortcut, &QShortcut::activated, this, [ = ] {
-        qDebug() << "receive Ctrl+Shift+/";
-        QRect rect = window()->geometry();
-        QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
-        Shortcut sc;
-        QStringList shortcutString;
-        QString param1 = "-j=" + sc.toStr();
-        QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
-        shortcutString << "-b" << param1 << param2;
-        qDebug() << shortcutString;
-        QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
-    });
+    connect(scViewShortcut, &QShortcut::activated, this, &MainWindow::showShortCut);
 
 }
 
@@ -238,6 +228,25 @@ void MainWindow::quitApp()
     this->close();
     //程序退出
     qApp->exit();
+}
+
+void MainWindow::showShortCut()
+{
+    qDebug() << "receive Ctrl+Shift+/";
+    QRect rect = window()->geometry();
+    QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+    Shortcut sc;
+    QStringList shortcutString;
+    QString param1 = "-j=" + sc.toStr();
+    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+    shortcutString << "-b" << param1 << param2;
+    qDebug() << shortcutString;
+
+    //换用相册的方式打开deepin-shortcut-viewer
+    QProcess *shortcutViewProcess = new QProcess(this);
+    shortcutViewProcess->startDetached("deepin-shortcut-viewer", shortcutString);
+
+    connect(shortcutViewProcess, SIGNAL(finished(int)), shortcutViewProcess, SLOT(deleteLater()));
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)

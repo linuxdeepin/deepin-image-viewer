@@ -28,7 +28,7 @@
 #include "mainwindow/mainwindow.h"
 #include "mainwindow/shortcut.h"
 #include "module/view/homepagewidget.h"
-#include <libimage-viewer/imageengine.h>
+#include <libimageviewer/imageengine.h>
 #include <QDropEvent>
 
 gtestview::gtestview()
