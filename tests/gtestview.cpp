@@ -118,6 +118,9 @@ TEST_F(gtestview, cpFile)
     QFile(QApplication::applicationDirPath() + "/test/jpg.jpg").setPermissions(\
                                                                                QFile::WriteUser | QFile::ReadUser | QFile::WriteOther | \
                                                                                QFile::ReadOther | QFile::ReadGroup | QFile::WriteGroup);
+
+    QString path = QApplication::applicationDirPath() + "/gif.gif";
+    EXPECT_EQ(true, QFileInfo(path).isFile());
 }
 
 //主窗体
@@ -189,6 +192,24 @@ TEST_F(gtestview, MainWindow)
     w = nullptr;
     dw->deleteLater();
     dw = nullptr;
+}
+TEST_F(gtestview, checkMinePaths)
+{
+    bool bRet = false;
+    HomePageWidget *widget = new HomePageWidget();
+
+    QStringList s;
+    s << QApplication::applicationDirPath() + "/test/jpgxxxx.jpg";
+    bRet = widget->checkMinePaths(s);
+
+    s << QApplication::applicationDirPath() + "/test/jpg.jpg";
+    s << QApplication::applicationDirPath() + "/test/png.png";
+    bRet = widget->checkMinePaths(s);
+
+    widget->deleteLater();
+    widget = nullptr;
+
+    EXPECT_EQ(true, bRet);
 }
 
 TEST_F(gtestview, Shrotcut)

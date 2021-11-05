@@ -138,7 +138,10 @@ int main(int argc, char *argv[])
     for (int i = 1; i < argc; ++i) {
         QString path = argv[i];
         if (QFileInfo(path).isFile()) {
-            w->slotDrogImg(QStringList(argv[i]));
+            bool bRet = w->slotDrogImg(QStringList(argv[i]));
+            if (!bRet) {
+                return 0;
+            }
             break;
         }
     }

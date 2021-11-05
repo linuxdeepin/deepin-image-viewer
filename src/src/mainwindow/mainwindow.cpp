@@ -200,10 +200,15 @@ void MainWindow::slotOpenImg()
 
 }
 
-void MainWindow::slotDrogImg(const QStringList &paths)
+bool MainWindow::slotDrogImg(const QStringList &paths)
 {
 #ifndef USE_TEST
     bool bRet = m_imageViewer->startdragImage(paths);
+    if (bRet) {
+        if (!m_homePageWidget->checkMinePaths(paths)) {
+            bRet = false;
+        }
+    }
 #else
     bool bRet = true;
 #endif
@@ -221,6 +226,7 @@ void MainWindow::slotDrogImg(const QStringList &paths)
             m_mainwidow->resize(this->width(), normalheight);
         }
     }
+    return bRet;
 }
 
 void MainWindow::quitApp()

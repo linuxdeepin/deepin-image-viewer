@@ -191,3 +191,29 @@ bool HomePageWidget::checkMimeData(const QMimeData *mimeData)
 
     return result;
 }
+
+bool HomePageWidget::checkMinePaths(const QStringList &pathlist)
+{
+    bool result = false;
+    for (QString path : pathlist) {
+
+        QFileInfo fileinfo(path);
+        if (fileinfo.isDir()) {
+            continue;
+        } else {
+            QFileInfo info(path);
+            QMimeDatabase db;
+            QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+            QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
+            QString str = info.suffix().toLower();
+            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                result = true;
+                break;
+            }
+
+            continue;
+        }
+    }
+
+    return result;
+}

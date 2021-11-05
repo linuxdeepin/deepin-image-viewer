@@ -31,6 +31,7 @@ public:
     ~HomePageWidget() override;
 
     bool checkMimeData(const QMimeData *mimeData);
+    bool checkMinePaths(const QStringList &pathlist);
 signals:
     void sigOpenImage();
     void sigDrogImage(const QStringList &);

@@ -78,7 +78,7 @@ protected:
 
 public slots:
     void slotOpenImg();
-    void slotDrogImg(const QStringList &paths);
+    bool slotDrogImg(const QStringList &paths);
     void quitApp();
 
     //显示快捷键预览
