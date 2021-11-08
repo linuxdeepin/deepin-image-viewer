@@ -245,7 +245,7 @@ void MainWindow::showShortCut()
     QStringList shortcutString;
     QString param1 = "-j=" + sc.toStr();
     QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
-    shortcutString << "-b" << param1 << param2;
+    shortcutString << param1 << param2;//之前是 shortcutString << "-b" << param1 << param2; 增加-b在wayland下存在会重复创建的问题，就会出现闪烁
     qDebug() << shortcutString;
 
     //换用相册的方式打开deepin-shortcut-viewer
