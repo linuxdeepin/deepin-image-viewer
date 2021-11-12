@@ -164,9 +164,7 @@ void MainWindow::initUI()
 
     QShortcut *openFileManager = new QShortcut(QKeySequence("Ctrl+o"), this);
     openFileManager->setContext(Qt::WindowShortcut);
-    connect(openFileManager, &QShortcut::activated, this, [ = ] {
-        this->slotOpenImg();
-    });
+    connect(openFileManager, &QShortcut::activated, this, &MainWindow::slotOpenImg);
 
     QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
     scViewShortcut->setObjectName(SC_VIEW_SHORTCUT);
