@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="nl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Afbeelding niet aangetroffen</translation>
+        <translation>Afbeelding niet aangetroffen</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Afbeelding openen</translation>
+        <translation>Afbeelding openen</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Afbeeldingen</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Afbeeldingen is een programma om afbeeldingen te tonen. Het heeft een stijlvol uiterlijk en vloeiende prestaties.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Afbeelding bekijken</translation>
@@ -38,12 +25,28 @@
         <translation>Beeldvullend</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Beeldvullende modus afsluiten</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Tekst extraheren</translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Diavoorstelling</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Naam wijzigen</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Kopiëren</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>Volgende</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Naam wijzigen</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Hulp</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Sneltoetsen tonen</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Verwijderen</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Beeldvullende modus afsluiten</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Inzoomen</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>Openen</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Hulp</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Sneltoetsen tonen</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Afbeeldingen</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Afbeeldingen is een programma om afbeeldingen te tonen met een stijlvolle vormgeving en vloeiende prestaties.</translation>
     </message>
 </context>
 </TS>

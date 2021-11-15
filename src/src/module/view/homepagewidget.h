@@ -53,11 +53,11 @@ private:
     QPixmap m_defaultImage;
     QColor m_inBorderColor;
     QString m_picString;
-    bool m_theme;
+    bool m_theme = false;
     bool m_usb = false;
     int m_startx = 0;
     int m_maxTouchPoints = 0;
-    DLabel *m_tips;
+    DLabel *m_tips = nullptr;
     bool m_deepMode = false;
 };
 

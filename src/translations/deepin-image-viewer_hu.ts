@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
@@ -13,18 +11,7 @@
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation>Képnézegető</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>A Képnézegető egy képmegtekintő eszköz divatos felülettel és gördülékeny teljesítménnyel.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Kép megtekintése</translation>
@@ -38,12 +25,28 @@
         <translation>Teljes képernyő</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Kilépés a teljes képernyős módból</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Szöveg kivonat</translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Diavetítés</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Átnevezés</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Másolás</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>Következő</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Átnevezés</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Segítség</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Gyorsbillentyűk megjelenítése</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Törlés</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Kilépés a teljes képernyős módból</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Nagyítás</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>Megnyitás</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation>Szöveg kivonat</translation>
+        <source>Help</source>
+        <translation>Segítség</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Gyorsbillentyűk megjelenítése</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Képnézegető</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>A Képnézegető egy képmegtekintő eszköz divatos felülettel és gördülékeny teljesítménnyel.</translation>
     </message>
 </context>
 </TS>

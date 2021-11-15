@@ -13,18 +13,7 @@
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation>Image Viewer</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer is an image viewing tool with fashion interface and smooth performance.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Image Viewing</translation>
@@ -38,12 +27,28 @@
         <translation>Fullscreen</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Exit fullscreen</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Extract text</translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Slide show</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Rename</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Copy</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Delete</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +79,6 @@
         <translation>Next</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Rename</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Help</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Display shortcuts</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Delete</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Exit fullscreen</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Zoom in</translation>
     </message>
@@ -106,8 +91,23 @@
         <translation>Open</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation>Extract text</translation>
+        <source>Help</source>
+        <translation>Help</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Display shortcuts</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Image Viewer</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Image Viewer is an image viewing tool with fashion interface and smooth performance.</translation>
     </message>
 </context>
 </TS>

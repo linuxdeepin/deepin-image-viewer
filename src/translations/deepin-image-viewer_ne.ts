@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ne">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ne" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>छवि फाईल फेला परेन</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">छवि खोल्नुहोस्</translation>
+        <translation>छवि खोल्नुहोस्</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">इमेज विएवेर</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">छवि दर्शक फेशन इन्टरफेस र चिल्लो प्रदर्शनको साथ छवि दृश्य उपकरण हो।</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>छवि अवलोकन</translation>
@@ -38,12 +25,28 @@
         <translation>पूर्णस्क्रीन</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>पूर्णस्क्रीनबाट बाहिर निस्कनुहोस्</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>स्लाइड शो</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>नाम बदल्नुहोस्</translation>
+    </message>
+    <message>
         <source>Copy</source>
-        <translation>कपि गर्नुहोस् </translation>
+        <translation>कपि </translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>हटाउनु होस् </translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>अर्को</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>नाम बदल्नुहोस्</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>मद्दत</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>सर्टकट प्रदर्शन गर्नुहोस्</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>हटाउनु होस् </translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>पूर्णस्क्रीनबाट बाहिर निस्कनुहोस्</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>जुम इन गर्नुहोस्</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>खोल्नुहोस्</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>मद्दत</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>सर्टकट प्रदर्शन गर्नुहोस्</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>इमेज विएवेर</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>छवि दर्शक फेशन इन्टरफेस र चिल्लो प्रदर्शनको साथ छवि दृश्य उपकरण हो।</translation>
     </message>
 </context>
 </TS>

@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">No se encontró el archivo de imagen</translation>
+        <translation>No se encontró el archivo de imagen</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Abrir imagen</translation>
+        <translation>Abrir imagen</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Visor de imágenes</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Visor de imágenes de Deepin es una herramienta de visualización de imágenes elegante y agradable.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Visualización de imágenes</translation>
@@ -38,12 +25,28 @@
         <translation>Pantalla completa</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Salir de pantalla completa</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Extraer texto</translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Presentación</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Renombrar</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Copiar</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Borrar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -63,7 +66,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información sobre la imagen</translation>
+        <translation>Información de imágen</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -72,26 +75,6 @@
     <message>
         <source>Next</source>
         <translation>Siguiente</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Renombrar</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Ayuda</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Mostrar atajos</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Borrar</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Salir de pantalla completa</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -106,8 +89,23 @@
         <translation>Abrir</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Ayuda</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Mostrar atajos</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Visor de imágenes</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Visor de imágenes de Deepin es una herramienta de visualización de imágenes elegante y agradable.</translation>
     </message>
 </context>
 </TS>

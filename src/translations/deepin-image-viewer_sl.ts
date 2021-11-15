@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Slika ni bila najdena</translation>
+        <translation>Slika ni bila najdena</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Odpri sliko</translation>
+        <translation>Odpri sliko</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Deepin pregledovalnik slik</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Pregledovalnik slik je orodje za prikazovanje slik z modernim vmesnikom in mehkim delovanjem.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Prikazovanje slik</translation>
@@ -35,15 +22,31 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Čez cel zaslon</translation>
+        <translation>Celozaslonski način</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>Izhod iz celozaslonskega načina</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Ekstrahiraj tekst</translation>
     </message>
     <message>
         <source>Slide show</source>
         <translation>Diaprojekcija</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Preimenuj</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Kopiraj</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Izbriši</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -63,35 +66,15 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informacije o sliki</translation>
+        <translation>Podatki o sliki</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Predhodna</translation>
+        <translation>Prejšnja</translation>
     </message>
     <message>
         <source>Next</source>
         <translation>Naslednja</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Preimenuj</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Pomoč</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Prikaži bližnjice</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Izhod iz celozaslonskega načina</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -106,8 +89,23 @@
         <translation>Odpri</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Pomoč</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Prikaži bližnjice</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Deepin pregledovalnik slik</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Pregledovalnik slik je orodje za prikazovanje slik z modernim vmesnikom in mehkim delovanjem.</translation>
     </message>
 </context>
 </TS>

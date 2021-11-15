@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="lt">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Paveikslas nerastas</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Atverti paveikslą</translation>
+        <translation>Atverti paveikslą</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Paveikslų žiūryklė</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Paveikslų žiūryklė yra paveikslų peržiūros įrankis su šiuolaikine sąsaja ir glotniu našumu.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Paveikslo žiūrėjimas</translation>
@@ -38,12 +25,28 @@
         <translation>Visas ekranas</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Išeiti iš viso ekrano</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Skaidrių rodymas</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Pervadinti</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Kopijuoti</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Ištrinti</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>Kitas</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Pervadinti</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Žinynas</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Rodyti trumpinius</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Ištrinti</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Išeiti iš viso ekrano</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Didinti</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>Atverti</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Žinynas</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Rodyti trumpinius</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Paveikslų žiūryklė</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Paveikslų žiūryklė yra paveikslų peržiūros įrankis su šiuolaikine sąsaja ir glotniu našumu.</translation>
     </message>
 </context>
 </TS>

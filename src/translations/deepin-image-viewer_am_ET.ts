@@ -5,26 +5,15 @@
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>ምስል በ መመልከት ላይ</translation>
@@ -38,12 +27,28 @@
         <translation>በ ሙሉ መመልከቻ ዘዴ</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>ከ ሙሉ መመልከቻ ዘዴ መውጫ</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation></translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>ተንሸራታች ማሳያ</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>እንደገና መሰየሚያ</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>ኮፒ</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>ማጥፊያ</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,8 +79,16 @@
         <translation>ይቀጥሉ</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>እንደገና መሰየሚያ</translation>
+        <source>Zoom in</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation></translation>
     </message>
     <message>
         <source>Help</source>
@@ -85,29 +98,16 @@
         <source>Display shortcuts</source>
         <translation>አቋራጭ ማሳያ</translation>
     </message>
+</context>
+<context>
+    <name>QObject</name>
     <message>
-        <source>Delete</source>
-        <translation type="unfinished">ማጥፊያ</translation>
+        <source>Image Viewer</source>
+        <translation></translation>
     </message>
     <message>
-        <source>Exit fullscreen</source>
-        <translation type="unfinished">ከ ሙሉ መመልከቻ ዘዴ መውጫ</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation></translation>
     </message>
 </context>
 </TS>

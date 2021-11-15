@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Görsel dosya bulunamadı</translation>
+        <translation>Görsel dosya bulunamadı</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Görüntü Aç</translation>
+        <translation>Görüntü Aç</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Resim Görüntüleyici</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Resim Görüntüleyici, şık arayüz ve pürüzsüz performansa sahip bir resim görüntüleme aracıdır.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Görsel Görüntüleniyor</translation>
@@ -38,12 +25,28 @@
         <translation>Tam ekran</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Tam ekrandan çık</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Metni çıkar</translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Slayt gösterisi</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Yeniden adlandır</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Kopyala</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>Sonraki</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Yeniden adlandır</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Yardım</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Kısayolları görüntüle</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Sil</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Tam ekrandan çık</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Yakınlaştır</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>Aç</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Yardım</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Kısayolları görüntüle</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Resim Görüntüleyici</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Resim Görüntüleyici, şık arayüz ve pürüzsüz performansa sahip bir resim görüntüleme aracıdır.</translation>
     </message>
 </context>
 </TS>

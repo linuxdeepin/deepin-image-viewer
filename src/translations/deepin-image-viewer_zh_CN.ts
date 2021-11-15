@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
@@ -13,18 +11,7 @@
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation>看图</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>看图是一款外观时尚，性能流畅的图片查看工具。</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>查看图片</translation>
@@ -38,12 +25,28 @@
         <translation>全屏</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>退出全屏</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>识别文字</translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>幻灯片放映</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>重命名</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>复制</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>下一张</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>重命名</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>帮助</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>显示快捷键</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>删除</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>退出全屏</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>放大图片</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>打开</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation>识别文字</translation>
+        <source>Help</source>
+        <translation>帮助</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>显示快捷键</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>看图</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>看图是一款外观时尚，性能流畅的图片查看工具。</translation>
     </message>
 </context>
 </TS>

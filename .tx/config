@@ -17,7 +17,7 @@ source_lang = en
 type = QT
 
 [deepin-image-viewer.libimage-viewer]
-file_filter = libimage-viewer/translations/libimage-viewer_<lang>.ts
-source_file = libimage-viewer/translations/libimage-viewer.ts
+file_filter = libimage-viewer/translations/libimageviewer_<lang>.ts
+source_file = libimage-viewer/translations/libimageviewer.ts
 source_lang = en
 type = QT

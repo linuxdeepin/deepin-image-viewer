@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hr" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Slikovna datoteka nije nađena</translation>
+        <translation>Slikovna datoteka nije nađena</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Otvori sliku</translation>
+        <translation>Otvori sliku</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Preglednik slika</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Pregledavanje slika</translation>
@@ -38,12 +25,28 @@
         <translation>Cijeli zaslon</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Napusti cijeli zaslon</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Klizni prikaz</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Preimenuj</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Kopiraj</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Izbriši</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -63,7 +66,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informacija o slici</translation>
+        <translation>Informacije slike</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -74,8 +77,16 @@
         <translation>Slijedeće</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Preimenuj</translation>
+        <source>Zoom in</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Otvori</translation>
     </message>
     <message>
         <source>Help</source>
@@ -85,29 +96,16 @@
         <source>Display shortcuts</source>
         <translation>Prikaži prečace</translation>
     </message>
+</context>
+<context>
+    <name>QObject</name>
     <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
+        <source>Image Viewer</source>
+        <translation>Preglednik slika</translation>
     </message>
     <message>
-        <source>Exit fullscreen</source>
-        <translation>Napusti cijeli zaslon</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation>Otvori</translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

@@ -26,7 +26,6 @@
 #include <QDir>
 #include <DApplication>
 #include "mainwindow/mainwindow.h"
-#include "mainwindow/shortcut.h"
 #include "module/view/homepagewidget.h"
 #include <libimageviewer/imageengine.h>
 #include <QDropEvent>
@@ -212,10 +211,10 @@ TEST_F(gtestview, checkMinePaths)
     EXPECT_EQ(true, bRet);
 }
 
-TEST_F(gtestview, Shrotcut)
+TEST_F(gtestview, showShortCut)
 {
-    Shortcut *w = new Shortcut() ;
-    w->toStr();
+    MainWindow *w = new MainWindow();
+    w->showShortCut();
     w->deleteLater();
     w = nullptr;
 }

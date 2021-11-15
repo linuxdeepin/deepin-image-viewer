@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Nie znaleziono pliku obrazu</translation>
+        <translation>Nie znaleziono pliku obrazu</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Otwórz obraz</translation>
+        <translation>Otwórz obraz</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Przeglądarka obrazów</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Przeglądarka zdjęć to narzędzie do przeglądania obrazów z interfejsem mody i płynną wydajnością.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Podgląd obrazu</translation>
@@ -38,20 +25,36 @@
         <translation>Pełny ekran</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Wyłącz tryb pełnoekranowy</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Wydobądź tekst</translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Pokaz zdjęć</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Zmień nazwę</translation>
     </message>
     <message>
         <source>Copy</source>
         <translation>Kopiuj</translation>
     </message>
     <message>
+        <source>Delete</source>
+        <translation>Usuń</translation>
+    </message>
+    <message>
         <source>Rotate clockwise</source>
-        <translation>Obróć zgodnie z kierunkiem wskazówek zegara</translation>
+        <translation>Obróć w prawo</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Obróć odwrotnie do kierunku wskazówek zegara</translation>
+        <translation>Obróć w lewo</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -74,26 +77,6 @@
         <translation>Następny</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Zmień nazwę</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Pomoc</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Wyświetl skróty</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Usuń</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Wyłącz tryb pełnoekranowy</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Powiększ</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>Otwórz</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Pomoc</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Wyświetl skróty</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Przeglądarka obrazów</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Przeglądarka zdjęć to narzędzie do przeglądania obrazów z interfejsem mody i płynną wydajnością.</translation>
     </message>
 </context>
 </TS>

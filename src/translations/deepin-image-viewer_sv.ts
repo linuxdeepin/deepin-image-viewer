@@ -9,22 +9,11 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Öppna bild</translation>
+        <translation>Öppna bild</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Bildvisare</translation>
@@ -38,12 +27,28 @@
         <translation>Fullskärm</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Avsluta fullskärm</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation></translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Bildspel</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Ändra namn</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Kopiera</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Radera</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,8 +79,16 @@
         <translation>Nästa</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Ändra namn</translation>
+        <source>Zoom in</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation></translation>
     </message>
     <message>
         <source>Help</source>
@@ -85,28 +98,15 @@
         <source>Display shortcuts</source>
         <translation>Visa genvägar</translation>
     </message>
+</context>
+<context>
+    <name>QObject</name>
     <message>
-        <source>Delete</source>
-        <translation>Radera</translation>
+        <source>Image Viewer</source>
+        <translation></translation>
     </message>
     <message>
-        <source>Exit fullscreen</source>
-        <translation type="unfinished">Avsluta fullskärm</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract text</source>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

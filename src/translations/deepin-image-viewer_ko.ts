@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ko">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">이미지 파일을 찾을 수 없음</translation>
+        <translation>이미지 파일을 찾을 수 없음</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">이미지 열기</translation>
+        <translation>이미지 열기</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">이미지 보기도구</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">이미지 보기도구는 인기있는 인터페이스와 원활한 성능을 갖춘 이미지보기 도구입니다.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>이미지 보는 중</translation>
@@ -38,12 +25,28 @@
         <translation>전체화면</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>전체화면 종료</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>슬라이드 표시</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>이름 변경</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>복사</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>다음</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>이름 변경</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>도움말</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>단축키 표시</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>삭제</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>전체화면 종료</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>확대</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>열기</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>도움말</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>단축키 표시</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>이미지 보기도구</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>이미지 보기도구는 인기있는 인터페이스와 원활한 성능을 갖춘 이미지보기 도구입니다.</translation>
     </message>
 </context>
 </TS>

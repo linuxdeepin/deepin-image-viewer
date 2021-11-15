@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Файл изображения не найден</translation>
+        <translation>Файл изображения не найден</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть  Изображение</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Просмотр Изображений</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Просмотр Изображений - это инструмент для просмотра изображений с современным интерфейсом и плавной работой.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Просмотр Изображений</translation>
@@ -38,12 +25,28 @@
         <translation>Полный Экран</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Выйти из полноэкранного режима</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Извлечь текст</translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Слайд-шоу</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Переименовать</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Копировать</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>Следующее</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Переименовать</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Помощь</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Показать сочетания клавиш</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Выйти из полноэкранного режима</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Увеличить</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>Открыть</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Помощь</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Показать сочетания клавиш</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Просмотр Изображений</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Просмотр Изображений - это инструмент для просмотра изображений с современным интерфейсом и плавной работой.</translation>
     </message>
 </context>
 </TS>

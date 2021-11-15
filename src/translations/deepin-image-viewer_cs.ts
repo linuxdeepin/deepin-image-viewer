@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor s obrázkem nenalezen.</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Otevřít obrázek</translation>
+        <translation>Otevřít obrázek</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Prohlížeč obrázků</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Prohlížeč obrázků je nástroj pro zobrazování obrázků, který má hezké rozhraní a je rychlý.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Zobrazení obrázku</translation>
@@ -38,12 +25,28 @@
         <translation>Celá obrazovka</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Opustit celou obrazovku</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Rozpoznat text</translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Promítání</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Přejmenovat</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Kopírovat</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Smazat</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>Další</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Přejmenovat</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Nápověda</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Zobrazit zkratky</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Smazat</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Opustit celou obrazovku</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Přiblížit</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>Otevřít</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Nápověda</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Zobrazit zkratky</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Prohlížeč obrázků</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Prohlížeč obrázků je nástroj pro zobrazování obrázků, který má hezké rozhraní a je rychlý.</translation>
     </message>
 </context>
 </TS>

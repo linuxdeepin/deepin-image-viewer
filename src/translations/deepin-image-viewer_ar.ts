@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ar">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ar" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">لم يتم العثور على أي صورة</translation>
+        <translation>لم يتم العثور على أي صورة</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation>قتح الصورة.</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">عارض الصور</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">عرض صور ديبين هو أداة لعرض الصور بواجهة أنيقة وأداء سلس.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>عرض الصورة</translation>
@@ -35,15 +22,31 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>شاشة كاملة</translation>
+        <translation>ملء الشاشة</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>الخروج من وضع ملء الشاشة</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
         <translation>عرض الشرائح</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>إعادة التسمية</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>نسخ</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>حذف</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>التالي</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>إعادة التسمية</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>مساعدة</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>اختصارات العرض</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>حذف</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>الخروج من وضع ملء الشاشة</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>تكبير</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>فتح</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>مساعدة</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>اختصارات العرض</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>عارض الصور</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>عرض صور ديبين هو أداة لعرض الصور بواجهة أنيقة وأداء سلس.</translation>
     </message>
 </context>
 </TS>

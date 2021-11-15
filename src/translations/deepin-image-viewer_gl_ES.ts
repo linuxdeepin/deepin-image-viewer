@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="gl_ES">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="gl_ES" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Non se atopou a imaxe</translation>
+        <translation>Non se atopou a imaxe</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Abrir imaxe</translation>
+        <translation>Abrir imaxe</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Visualizador de imaxes</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Image Viewer é unha ferramenta de visualización de imaxes con interface de moda e bo funcionamento.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Vendo imaxe</translation>
@@ -38,20 +25,36 @@
         <translation>Pantalla completa</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Saír da pantalla completa</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Presentación</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Renomear</translation>
     </message>
     <message>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
+    </message>
+    <message>
         <source>Rotate clockwise</source>
-        <translation>Rotar á dereita</translation>
+        <translation>Xira en sentido horario</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotar á esquerda</translation>
+        <translation>Xire en sentido antihorario</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -71,27 +74,7 @@
     </message>
     <message>
         <source>Next</source>
-        <translation>Seguinte</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Renomear</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Axuda</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Amosar atallos</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Eliminar</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Saír da pantalla completa</translation>
+        <translation>Posterior</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -106,8 +89,23 @@
         <translation>Abrir</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Axuda</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Amosar atallos</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Visualizador de imaxes</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Image Viewer é unha ferramenta de visualización de imaxes con interface de moda e bo funcionamento.</translation>
     </message>
 </context>
 </TS>

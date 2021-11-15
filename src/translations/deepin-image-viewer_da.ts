@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="da">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Billedfil ikke fundet</translation>
+        <translation>Billedfil ikke fundet</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Åbn billede</translation>
+        <translation>Åbn billede</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Billedfremviser</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Billedfremviser er et værktøj til billedfremvisning med flot brugerflade og god ydelse.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Billedvisning</translation>
@@ -38,12 +25,28 @@
         <translation>Fuldskærm</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Forlad fuldskærm</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Diasshow</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Omdøb</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Kopiér</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>Næste</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Omdøb</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Hjælp</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Vis genveje</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Slet</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Forlad fuldskærm</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Zoom ind</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>Åbn</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Hjælp</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Vis genveje</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Billedfremviser</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Billedfremviser er et værktøj til billedfremvisning med flot brugerflade og god ydelse.</translation>
     </message>
 </context>
 </TS>

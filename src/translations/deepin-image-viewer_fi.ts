@@ -1,30 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Kuvatiedostoa ei löytynyt</translation>
+        <translation>Kuvatiedostoa ei löytynyt</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Avaa kuva</translation>
+        <translation>Avaa kuva</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation type="unfinished">Kuvat</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">Kuvat on valokuvien näyttö- ja muokkaustyökalu, jossa on moderni käyttöliittymä ja sujuva työskentely.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Kuvan katselu</translation>
@@ -38,12 +25,28 @@
         <translation>Koko näyttö</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Poistu koko näytöstä</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Tunnista tekstiksi</translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Diaesitys</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Nimeä uudelleen</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Kopioi</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Poista</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>Seuraava</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Nimeä uudelleen</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Apua</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Näytä pikavalinnat</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Poista</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Poistu koko näytöstä</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Lähennä</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>Avaa</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <source>Help</source>
+        <translation>Apua</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Näytä pikavalinnat</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Kuvat</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Kuvat on valokuvien näyttö- ja muokkaustyökalu, jossa on moderni käyttöliittymä ja sujuva työskentely.</translation>
     </message>
 </context>
 </TS>

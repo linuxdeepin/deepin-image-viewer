@@ -32,7 +32,6 @@
 #include <DVtableHook>
 
 #include <QTranslator>
-#include <QDesktopWidget>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -42,8 +41,6 @@
 #include "mainwindow/mainwindow.h"
 
 //using namespace Dtk::Core;
-const int MAINWIDGET_MINIMUN_HEIGHT = 335;
-const int MAINWIDGET_MINIMUN_WIDTH = 730;//增加了ocr，最小宽度为630到现在730
 
 
 DWIDGET_USE_NAMESPACE
@@ -145,20 +142,7 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    //初始化大小为上次关闭大小
-    QDesktopWidget dw;
-    const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH
-                         ? MAINWIDGET_MINIMUN_WIDTH
-                         : dw.geometry().width() * 3 / 5;
-    const int defaultH = dw.geometry().height() * 0.60 < MAINWIDGET_MINIMUN_HEIGHT
-                         ? MAINWIDGET_MINIMUN_HEIGHT
-                         : dw.geometry().height() * 3 / 5;
-    const int ww =
-        w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
-    const int wh =
-        w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
-    mainwindow->resize(ww, wh);
-    mainwindow->setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
+
     mainwindow->show();
 
     //修复窗口会一直在中间变小的问题

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sq">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sq" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
@@ -13,18 +11,7 @@
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Image Viewer</source>
-        <translation>Parës Figurash</translation>
-    </message>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Parësi i figurave është një mjet parjesh figurash me ndërfaqe të hijshme dhe funksionim të rrjedhshëm.</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
+    <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
         <translation>Parje Figurash</translation>
@@ -38,12 +25,28 @@
         <translation>Sa krejt ekrani</translation>
     </message>
     <message>
+        <source>Exit fullscreen</source>
+        <translation>Dil nga mënyra “Sa krejt ekrani”</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation>Përfto tekstin</translation>
+    </message>
+    <message>
         <source>Slide show</source>
         <translation>Shfaqje diapozitivash</translation>
     </message>
     <message>
+        <source>Rename</source>
+        <translation>Riemërtojeni</translation>
+    </message>
+    <message>
         <source>Copy</source>
         <translation>Kopjoje</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -74,26 +77,6 @@
         <translation>Pasuesja</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Riemërtojeni</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Ndihmë</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Shfaq shkurtore</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Fshije</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Dil nga mënyra sa krejt ekrani</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Zmadhoje</translation>
     </message>
@@ -106,8 +89,23 @@
         <translation>Hape</translation>
     </message>
     <message>
-        <source>Extract text</source>
-        <translation>Përfto tekstin</translation>
+        <source>Help</source>
+        <translation>Ndihmë</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Shfaq shkurtore</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Image Viewer</source>
+        <translation>Parës Figurash</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Parësi i figurave është një mjet parjesh figurash me ndërfaqe të hijshme dhe funksionim të rrjedhshëm.</translation>
     </message>
 </context>
 </TS>

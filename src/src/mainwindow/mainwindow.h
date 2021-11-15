@@ -38,6 +38,7 @@
 #include <QStackedWidget>
 #include <QStatusBar>
 #include <QButtonGroup>
+#include <QJsonObject>
 
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
@@ -62,6 +63,12 @@ public:
 
     //解析参数
     void processOption();
+
+    //解析快捷键预览
+    QJsonObject createShorcutJson();
+
+    //初始化大小
+    void initWindowSize();
 private:
 
     void initUI();
