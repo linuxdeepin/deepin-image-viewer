@@ -67,8 +67,6 @@ public:
     //解析快捷键预览
     QJsonObject createShorcutJson();
 
-    //初始化大小
-    void initWindowSize();
 private:
 
     void initUI();

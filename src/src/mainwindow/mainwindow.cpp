@@ -69,8 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
     //初始化UI
     initUI();
 
-    //初始化窗口大小
-    initWindowSize();
+
 }
 
 MainWindow::~MainWindow()
@@ -84,6 +83,12 @@ void MainWindow::setDMainWindow(DMainWindow *mainwidow)
         m_mainwidow = mainwidow;
         m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
         m_mainwidow->installEventFilter(this);
+        //初始化大小为上次关闭大小
+
+        int ww = value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(MAINWIDGET_MINIMUN_WIDTH)).toInt();
+        int wh = value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(MAINWIDGET_MINIMUN_HEIGHT)).toInt();
+        m_mainwidow->resize(ww, wh);
+        m_mainwidow->setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     }
 }
 
@@ -251,16 +256,6 @@ QJsonObject MainWindow::createShorcutJson()
     main_shortcut.insert("shortcut", shortcutArrayall);
 
     return main_shortcut;
-}
-
-void MainWindow::initWindowSize()
-{
-    //初始化大小为上次关闭大小
-
-    int ww = value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(MAINWIDGET_MINIMUN_WIDTH)).toInt();
-    int wh = value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(MAINWIDGET_MINIMUN_HEIGHT)).toInt();
-    resize(ww, wh);
-    setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
 }
 
 //初始化QStackedWidget和展示
