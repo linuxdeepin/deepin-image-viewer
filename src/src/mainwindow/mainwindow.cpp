@@ -85,8 +85,24 @@ void MainWindow::setDMainWindow(DMainWindow *mainwidow)
         m_mainwidow->installEventFilter(this);
         //初始化大小为上次关闭大小
 
-        int ww = value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(MAINWIDGET_MINIMUN_WIDTH)).toInt();
-        int wh = value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(MAINWIDGET_MINIMUN_HEIGHT)).toInt();
+        int defaultW = 0;
+        int defaultH = 0;
+        QDesktopWidget dw;
+        if (double(dw.geometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
+            defaultW = MAINWIDGET_MINIMUN_WIDTH;
+        } else {
+            defaultW = int(double(dw.geometry().width()) * 0.60);
+        }
+
+        if (double(dw.geometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
+            defaultH = MAINWIDGET_MINIMUN_HEIGHT;
+        } else {
+            defaultH = int(double(dw.geometry().height()) * 0.60);
+        }
+
+
+        int ww = value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
+        int wh = value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
         m_mainwidow->resize(ww, wh);
         m_mainwidow->setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     }
@@ -316,14 +332,16 @@ void MainWindow::slotOpenImg()
 {
 #ifndef USE_TEST
     bool bRet = m_imageViewer->startChooseFileDialog();
-#else
-    bool bRet = true;
-#endif
     if (bRet) {
-        if (m_imageViewer) {
+#else
+    {
+#endif
+        if (m_imageViewer)
+        {
             m_centerWidget->setCurrentWidget(m_imageViewer);
         }
-        if (m_mainwidow && m_mainwidow->titlebar()) {
+        if (m_mainwidow && m_mainwidow->titlebar())
+        {
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
             int height =  m_mainwidow->titlebar()->height();
             m_mainwidow->titlebar()->setFixedHeight(0);
@@ -338,17 +356,20 @@ void MainWindow::slotOpenImg()
 
 bool MainWindow::slotDrogImg(const QStringList &paths)
 {
+    bool bRet = false;
 #ifndef USE_TEST
-    bool bRet = m_imageViewer->startdragImage(paths);
+    bRet = m_imageViewer->startdragImage(paths);
     if (bRet) {
         if (!m_homePageWidget->checkMinePaths(paths)) {
             bRet = false;
         }
     }
-#else
-    bool bRet = true;
-#endif
     if (bRet) {
+#else
+    Q_UNUSED(paths);
+    bRet = true;
+    {
+#endif
         if (m_imageViewer) {
             m_centerWidget->setCurrentWidget(m_imageViewer);
         }
@@ -412,16 +433,6 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     return DWidget::eventFilter(obj, event);
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-    DWidget::closeEvent(event);
-}
-
-void MainWindow::showEvent(QShowEvent *event)
-{
-    DWidget::showEvent(event);
-}
-
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
     event->setDropAction(Qt::CopyAction);
@@ -430,30 +441,3 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
     DWidget::dragEnterEvent(event);
 }
 
-void MainWindow::dragMoveEvent(QDragMoveEvent *event)
-{
-    event->accept();
-}
-
-void MainWindow::dropEvent(QDropEvent *event)
-{
-    QList<QUrl> urls = event->mimeData()->urls();
-    if (urls.isEmpty()) {
-        return;
-    }
-    QStringList paths;
-    for (QUrl url : urls) {
-        //修复style问题，取消了path
-        //lmh0901判断是否是图片
-        QString path = url.toLocalFile();
-        if (path.isEmpty()) {
-            path = url.path();
-        }
-        paths << path;
-    }
-}
-
-void MainWindow::wheelEvent(QWheelEvent *event)
-{
-    DWidget::wheelEvent(event);
-}
