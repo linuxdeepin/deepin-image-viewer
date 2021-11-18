@@ -180,7 +180,9 @@ bool HomePageWidget::checkMimeData(const QMimeData *mimeData)
             QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
             QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
             QString str = info.suffix().toLower();
-            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+            qDebug() << mt1.name();
+            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")
+                    || mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
                 result = true;
                 break;
             }
@@ -206,7 +208,8 @@ bool HomePageWidget::checkMinePaths(const QStringList &pathlist)
             QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
             QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
             QString str = info.suffix().toLower();
-            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")
+                    || mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
                 result = true;
                 break;
             }
