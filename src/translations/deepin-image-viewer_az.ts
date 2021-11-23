@@ -1,111 +1,111 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sq" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="az" version="2.1">
 <context>
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation>S’u gjet kartelë figure</translation>
+        <translation>Şəkil faylı tapılmadı</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>Hap Figurë</translation>
+        <translation>Şəkili açın</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Image Viewing</source>
-        <translation>Parje Figurash</translation>
+        <translation>Şəkil görüntüləyici</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Rregullime</translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Sa krejt ekrani</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Dil nga mënyra “Sa krejt ekrani”</translation>
+        <translation>Tam ekrandan çıxış</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation>Përfto tekstin</translation>
+        <translation>Mətni çıxardın</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Shfaqje diapozitivash</translation>
+        <translation>Slayd göstərişi</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Riemërtojeni</translation>
+        <translation>Adını dəyişin</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopjoje</translation>
+        <translation>Kopyalayın</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Fshije</translation>
+        <translation>Silin</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rrotulloje në kah orar</translation>
+        <translation>Saat əqrəbi istiqamətinə döndərin</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rrotulloje në kah kundërorar</translation>
+        <translation>Saat əqrəbinin əksinə döndərin</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Vëre si sfond</translation>
+        <translation>Divar kağızı kimi təyin edin</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Shfaqe në përgjegjës kartelash</translation>
+        <translation>Fayl menecerində göstərmək</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Hollësi figure</translation>
+        <translation>Şəkil məlumatı</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>E mëparshmja</translation>
+        <translation>Əvvəlki</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Pasuesja</translation>
+        <translation>Sonrakı</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Zmadhoje</translation>
+        <translation>Yaxınlaşdırmaq</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Zvogëloje</translation>
+        <translation>Uzaqlaşdırmaq</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation>Hape</translation>
+        <translation>Açın</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Ndihmë</translation>
+        <translation>Kömək</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Shfaq shkurtore</translation>
+        <translation>Qısayolları göstərmək</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Image Viewer</source>
-        <translation>Parës Figurash</translation>
+        <translation>Şəkil görüntüləyici</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Parësi i figurave është një mjet parjesh figurash me ndërfaqe të hijshme dhe funksionim të rrjedhshëm.</translation>
+        <translation>Şəkil görüntüləyici, müasir interfeys və hamar performansı ilə şəkillərə baxma alətidir.</translation>
     </message>
 </context>
 </TS>

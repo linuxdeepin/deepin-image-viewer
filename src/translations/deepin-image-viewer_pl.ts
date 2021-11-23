@@ -3,7 +3,7 @@
     <name>HomePageWidget</name>
     <message>
         <source>Image file not found</source>
-        <translation>Nie znaleziono pliku obrazu</translation>
+        <translation>Nie znaleziono obrazu</translation>
     </message>
     <message>
         <source>Open Image</source>
