@@ -27,7 +27,7 @@ You can run, close, and create shortcuts for Image Viewer in the following ways.
 
 On the Image Viewer interface, press **Ctrl + Shift + ?** on the keyboard to view shortcuts. 
 
-![1|hotkey](fig/d_hotkey.png)
+![1|hotkey](fig/hotkey.png)
 
 ## Image Viewing
 
@@ -48,7 +48,7 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 
 ### Main Interface
 
-![1|main-interface](fig/d_maininterface.png)
+![1|main-interface](fig/maininterface.png)
 
 | Icon                                                   | Name                    | Description                                               |
 | ------------------------------------------------------ | ----------------------- | --------------------------------------------------------- |
@@ -72,7 +72,6 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 2. Select the printer and set the printing parameters.
 3. Click **Print**.
 
-> ![notes](../common/notes.svg) Notes: Click **Advanced** to customize the printing parameters.
 
 ### Extract Texts
 
@@ -101,7 +100,7 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 1. Right-click the image on the Image Viewer interface and select **Copy**.
 2. On the desktop or in the target place, right-click the blank area and select **Paste** to copy the image to that location.
 
-![0|copy](fig/d_copy.png)
+![0|copy](fig/copy.png)
 
 
 ### Rotate Images
@@ -109,13 +108,13 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 1. Right-click the image on the Image Viewer interface and select **Rotate clockwise** or **Rotate counterclockwise**.
 2. The image will be rotated clockwise or counterclockwise for 90 degrees.
 
-![0|rotate](fig/d_rotate.png)
+![0|rotate](fig/rotate.png)
 
 ### Set as Wallpaper
 
 You can set an image as desktop wallpaper. Right-click the image on the Image Viewer interface and select **Set as wallpaper**.
 
-![0|wallpaper](fig/d_wallpaper.png)
+![0|wallpaper](fig/wallpaper.png)
 
 ### Display in File Manager
 
@@ -128,7 +127,7 @@ You can view detailed information of the image.
 1. Right-click the image in the Image Viewer interface and select **Image info**.
 2. The image info window will pop up displaying the detailed information of the Image.
 
-![1|view info](fig/d_info.png)
+![1|view info](fig/info.png)
 
 ### Delete Images
 
