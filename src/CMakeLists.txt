@@ -20,6 +20,11 @@ else()
     SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
 endif()
 
+if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "sw_64")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mieee")
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mieee")
+endif()
+
 set(TARGET_NAME deepin-image-viewer)
 set(CMD_NAME deepin-image-viewer)
 set(CMAKE_AUTOMOC ON)
