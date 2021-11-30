@@ -132,6 +132,7 @@ int main(int argc, char *argv[])
     mainwindow->setCentralWidget(w);
     w->setDMainWindow(mainwindow);
 //    w->processOption();
+    w->initSize();
     for (int i = 1; i < argc; ++i) {
         QString path = argv[i];
         if (QFileInfo(path).isFile()) {
@@ -142,7 +143,6 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    w->initSize();
 
     mainwindow->show();
 

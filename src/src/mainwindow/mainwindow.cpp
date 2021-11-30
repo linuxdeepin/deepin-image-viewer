@@ -316,8 +316,9 @@ void MainWindow::initUI()
             m_mainwidow->titlebar()->setFixedHeight(50);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
-            int normalheight = this->height() + height + 1;
-            m_mainwidow->resize(this->width(), normalheight);
+            int normalheight = m_mainwidow->height() + 1;
+            m_mainwidow->resize(m_mainwidow->width(), normalheight);
+            m_mainwidow->resize(m_mainwidow->width(), normalheight - 1);
         }
     });
 
@@ -352,8 +353,9 @@ void MainWindow::slotOpenImg()
             m_mainwidow->titlebar()->setFixedHeight(0);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
-            int normalheight = this->height() + height + 1;
-            m_mainwidow->resize(this->width(), normalheight);
+            int normalheight = m_mainwidow->height() + 1;
+            m_mainwidow->resize(m_mainwidow->width(), normalheight);
+            m_mainwidow->resize(m_mainwidow->width(), normalheight - 1);
         }
     }
 
@@ -384,8 +386,9 @@ bool MainWindow::slotDrogImg(const QStringList &paths)
             m_mainwidow->titlebar()->setFixedHeight(0);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
-            int normalheight = this->height() + height + 1;
-            m_mainwidow->resize(this->width(), normalheight);
+            int normalheight = m_mainwidow->height() + 1;
+            m_mainwidow->resize(m_mainwidow->width(), normalheight);
+            m_mainwidow->resize(m_mainwidow->width(), normalheight - 1);
         }
     }
     return bRet;
@@ -419,9 +422,9 @@ void MainWindow::showShortCut()
 
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
-    if (!isMaximized() && !window()->isFullScreen() && !window()->isMaximized()) {
-        setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, width());
-        setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, height());
+    if (!isMaximized() && !window()->isFullScreen() && !window()->isMaximized() && m_mainwidow) {
+        setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, m_mainwidow->width());
+        setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, m_mainwidow->height());
     }
     DWidget::resizeEvent(e);
 }
