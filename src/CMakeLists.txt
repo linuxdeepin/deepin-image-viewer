@@ -94,6 +94,9 @@ qt5_use_modules(${PROJECT_NAME} ${QtModule})
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+option (NOUSE_TEST " NO Use TESTS" ON)
+add_definitions( -DNOUSE_TEST )
+
 #install
 set(PREFIX  /usr)
 set(BINDIR  ${PREFIX}/bin)

@@ -85,6 +85,35 @@ bool CheckWayland()
         return false;
     }
 }
+//转换路径
+QUrl UrlInfo(QString path)
+{
+    QUrl url;
+    // Just check if the path is an existing file.
+    if (QFile::exists(path)) {
+        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
+        return url;
+    }
+
+    const auto match = QRegularExpression(QStringLiteral(":(\\d+)(?::(\\d+))?:?$")).match(path);
+
+    if (match.isValid()) {
+        // cut away line/column specification from the path.
+        path.chop(match.capturedLength());
+    }
+
+    // make relative paths absolute using the current working directory
+    // prefer local file, if in doubt!
+    url = QUrl::fromUserInput(path, QDir::currentPath(), QUrl::AssumeLocalFile);
+
+    // in some cases, this will fail, e.g.
+    // assume a local file and just convert it to an url.
+    if (!url.isValid()) {
+        // create absolute file path, we will e.g. pass this over dbus to other processes
+        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
+    }
+    return url;
+}
 
 int main(int argc, char *argv[])
 {
@@ -131,17 +160,23 @@ int main(int argc, char *argv[])
     MainWindow *w = new MainWindow(mainwindow);
     mainwindow->setCentralWidget(w);
     w->setDMainWindow(mainwindow);
-//    w->processOption();
+
     w->initSize();
-    for (int i = 1; i < argc; ++i) {
-        QString path = argv[i];
-        if (QFileInfo(path).isFile()) {
-            bool bRet = w->slotDrogImg(QStringList(argv[i]));
-            if (!bRet) {
-                return 0;
-            }
+
+    QCommandLineParser parser;
+    parser.process(a);
+    QStringList arguments = parser.positionalArguments();
+    QString filepath = "";
+    bool bneedexit = false;
+    for (const QString &path : arguments) {
+        filepath = UrlInfo(path).toLocalFile();
+        bneedexit = w->slotDrogImg(QStringList(filepath));
+        if (bneedexit) {
             break;
         }
+    }
+    if ("" != filepath && !bneedexit) {
+        return 0;
     }
 
     mainwindow->show();

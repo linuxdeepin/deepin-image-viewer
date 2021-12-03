@@ -336,7 +336,7 @@ void MainWindow::initUI()
 
 void MainWindow::slotOpenImg()
 {
-#ifndef USE_TEST
+#ifdef NOUSE_TEST
     bool bRet = m_imageViewer->startChooseFileDialog();
     if (bRet) {
 #else
@@ -364,12 +364,12 @@ void MainWindow::slotOpenImg()
 bool MainWindow::slotDrogImg(const QStringList &paths)
 {
     bool bRet = false;
-#ifndef USE_TEST
-    bRet = m_imageViewer->startdragImage(paths);
+#ifdef NOUSE_TEST
+    if (!m_homePageWidget->checkMinePaths(paths)) {
+        bRet = false;
+    }
     if (bRet) {
-        if (!m_homePageWidget->checkMinePaths(paths)) {
-            bRet = false;
-        }
+        bRet = m_imageViewer->startdragImage(paths);
     }
     if (bRet) {
 #else
