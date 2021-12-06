@@ -56,7 +56,7 @@ set(PROJECT_INCLUDE
     ${PROJECT_SOURCE_DIR}/src/module
     )
 
-set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools )
+set(QtModule Core Gui Widgets LinguistTools )
 
 #先查找到这些qt相关的模块以供链接使用
 find_package(Qt5 REQUIRED ${QtModule})
@@ -65,8 +65,6 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(3rd_lib REQUIRED
     dtkwidget
     dtkcore
-    gio-qt
-    libexif
     )
 
 ## translations

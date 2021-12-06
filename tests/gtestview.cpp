@@ -129,7 +129,6 @@ TEST_F(gtestview, MainWindow)
     MainWindow *w = new MainWindow();
     w->setDMainWindow(dw);
     w->initSize();
-    w->processOption();
     w->setValue("", "", "");
     w->value("", "", "");
 

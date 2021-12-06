@@ -19,12 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "mainwindow.h"
-#ifdef CMAKE_BUILD
-#include "config.h"
-#endif
 #include "./accessibility/ac-desktop-define.h"
 
-#include <QGraphicsDropShadowEffect>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QProcess>
@@ -34,21 +30,10 @@
 #include <QMimeData>
 #include <QSettings>
 #include <QCommandLineParser>
-#include <QCoreApplication>
-#include <QDesktopWidget>
+#include <QStandardPaths>
 
-#include <dgiovolumemanager.h>
-#include <dgiofile.h>
-#include <dgiofileinfo.h>
-#include <dgiovolume.h>
 #include <DTableView>
-#include <DApplicationHelper>
 #include <DFileDialog>
-#include <DApplication>
-#include <DMessageManager>
-#include <DFloatingMessage>
-#include <DWidgetUtil>
-#include <DStandardPaths>
 
 #include "module/view/homepagewidget.h"
 #include "../libimageviewer/imageviewer.h"
@@ -107,24 +92,6 @@ QVariant MainWindow::value(const QString &group, const QString &key, const QVari
     m_settings->endGroup();
 
     return value;
-}
-
-void MainWindow::processOption()
-{
-    QCommandLineParser m_cmdParser;
-    if (!m_cmdParser.parse(QCoreApplication::arguments())) {
-        return ;
-    }
-    QStringList names = m_cmdParser.optionNames();
-    for (QString name : names) {
-    }
-
-    QStringList pas = m_cmdParser.positionalArguments();
-    for (QString path : pas) {
-        if (QFileInfo(path).isFile()) {
-            slotDrogImg(QStringList(path));
-        }
-    }
 }
 
 QJsonObject MainWindow::createShorcutJson()

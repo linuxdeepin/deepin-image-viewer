@@ -60,10 +60,6 @@ public:
                   const QVariant &value);
     QVariant value(const QString &group, const QString &key,
                    const QVariant &defaultValue = QVariant());
-
-    //解析参数
-    void processOption();
-
     //解析快捷键预览
     QJsonObject createShorcutJson();
 
