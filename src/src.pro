@@ -15,7 +15,7 @@ PKGCONFIG +=   libexif dtkwidget  gio-qt
  QT += dtkwidget
  QT += dbus
 #CONFIG += object_parallel_to_source
-LIBS +=  -limage-viewer
+LIBS +=  -limageviewer
 
 
 #DESTDIR = $$PWD/../../out/
@@ -28,6 +28,7 @@ INCLUDEPATH += src
 isEmpty(FULL_FUNCTIONALITY) {
     DEFINES += LITE_DIV
     DEFINES += USE_UNIONIMAGE
+    DEFINES += NOUSE_TEST
 }
 
 isEmpty(PREFIX){

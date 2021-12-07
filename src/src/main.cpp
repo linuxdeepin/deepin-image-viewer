@@ -128,12 +128,12 @@ int main(int argc, char *argv[])
         qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell");
     }
 
-    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+
 
 //    Application::loadDXcbPlugin();
     DApplication  a(argc, argv);
-    a.setAttribute(Qt::AA_ForceRasterWidgets);
-
+//    a.setAttribute(Qt::AA_ForceRasterWidgets);
+    a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-image-viewer");
     a.setApplicationDisplayName(QObject::tr("Image Viewer"));
@@ -153,7 +153,6 @@ int main(int argc, char *argv[])
 //    a.setApplicationVersion(DApplication::buildVersion(VERSION));
     a.setApplicationVersion(VERSION);
 #endif
-
     //主窗体应该new出来,不应该是static变量
     //修改为从单例获取
 
@@ -164,20 +163,16 @@ int main(int argc, char *argv[])
 
     w->initSize();
 
-    QCommandLineParser parser;
-    parser.process(a);
-    QStringList arguments = parser.positionalArguments();
     QString filepath = "";
-    bool bneedexit = false;
-    for (const QString &path : arguments) {
-        filepath = UrlInfo(path).toLocalFile();
-        bneedexit = w->slotDrogImg(QStringList(filepath));
-        if (bneedexit) {
-            break;
+    QStringList arguments = QCoreApplication::arguments();
+    for (QString path : arguments) {
+        path = UrlInfo(path).toLocalFile();
+        if (QFileInfo(path).isFile()) {
+            bool bRet = w->slotDrogImg(QStringList(path));
+            if (bRet) {
+                break;
+            }
         }
-    }
-    if ("" != filepath && !bneedexit) {
-        return 0;
     }
 
     mainwindow->show();

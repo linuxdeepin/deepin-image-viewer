@@ -330,7 +330,7 @@ void MainWindow::slotOpenImg()
 
 bool MainWindow::slotDrogImg(const QStringList &paths)
 {
-    bool bRet = false;
+    bool bRet = true;
 #ifdef NOUSE_TEST
     if (!m_homePageWidget->checkMinePaths(paths)) {
         bRet = false;
