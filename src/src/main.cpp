@@ -136,6 +136,7 @@ int main(int argc, char *argv[])
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-image-viewer");
+    a.loadTranslator();
     a.setApplicationDisplayName(QObject::tr("Image Viewer"));
     a.setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
     a.setApplicationDescription(QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
