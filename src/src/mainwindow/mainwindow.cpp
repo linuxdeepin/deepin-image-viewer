@@ -31,6 +31,7 @@
 #include <QSettings>
 #include <QCommandLineParser>
 #include <QStandardPaths>
+#include <QDebug>
 
 #include <DTableView>
 #include <DFileDialog>
@@ -279,7 +280,6 @@ void MainWindow::initUI()
             //需要全屏切回普通窗口
             m_mainwidow->showNormal();
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
-            int height =  m_mainwidow->titlebar()->height();
             m_mainwidow->titlebar()->setFixedHeight(50);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
@@ -316,7 +316,6 @@ void MainWindow::slotOpenImg()
         if (m_mainwidow && m_mainwidow->titlebar())
         {
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
-            int height =  m_mainwidow->titlebar()->height();
             m_mainwidow->titlebar()->setFixedHeight(0);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
@@ -349,7 +348,6 @@ bool MainWindow::slotDrogImg(const QStringList &paths)
         }
         if (m_mainwidow && m_mainwidow->titlebar()) {
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
-            int height =  m_mainwidow->titlebar()->height();
             m_mainwidow->titlebar()->setFixedHeight(0);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
