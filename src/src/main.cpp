@@ -32,6 +32,7 @@
 #include <DVtableHook>
 
 #include <QTranslator>
+#include <QDebug>
 
 #include <sys/types.h>
 #include <sys/stat.h>

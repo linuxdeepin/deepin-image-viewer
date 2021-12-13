@@ -7,6 +7,7 @@
 #include <QMimeDatabase>
 #include <QFileInfo>
 #include <QDropEvent>
+#include <QDebug>
 
 
 namespace {
