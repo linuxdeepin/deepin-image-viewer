@@ -162,7 +162,6 @@ int main(int argc, char *argv[])
     MainWindow *w = new MainWindow(mainwindow);
     mainwindow->setCentralWidget(w);
     w->setDMainWindow(mainwindow);
-
     w->initSize();
 
     QString filepath = "";
