@@ -129,8 +129,6 @@ int main(int argc, char *argv[])
         qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell");
     }
 
-
-
 //    Application::loadDXcbPlugin();
     DApplication  a(argc, argv);
 //    a.setAttribute(Qt::AA_ForceRasterWidgets);
