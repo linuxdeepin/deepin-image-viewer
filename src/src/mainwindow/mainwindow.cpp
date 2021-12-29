@@ -32,6 +32,7 @@
 #include <QCommandLineParser>
 #include <QStandardPaths>
 #include <QDebug>
+#include <QApplication>
 
 #include <DTableView>
 #include <DFileDialog>
@@ -222,29 +223,7 @@ QJsonObject MainWindow::createShorcutJson()
 
 void MainWindow::initSize()
 {
-    //初始化大小为上次关闭大小
-    if (m_mainwidow) {
-        int defaultW = 0;
-        int defaultH = 0;
-        QDesktopWidget dw;
-        if (double(dw.geometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
-            defaultW = MAINWIDGET_MINIMUN_WIDTH;
-        } else {
-            defaultW = int(double(dw.geometry().width()) * 0.60);
-        }
-
-        if (double(dw.geometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
-            defaultH = MAINWIDGET_MINIMUN_HEIGHT;
-        } else {
-            defaultH = int(double(dw.geometry().height()) * 0.60);
-        }
-
-
-        int ww = value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
-        int wh = value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
-        m_mainwidow->resize(ww, wh);
-        m_mainwidow->setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
-    }
+    //废弃
 }
 
 //初始化QStackedWidget和展示

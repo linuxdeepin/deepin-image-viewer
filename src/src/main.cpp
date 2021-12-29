@@ -33,6 +33,7 @@
 
 #include <QTranslator>
 #include <QDebug>
+#include <QDesktopWidget>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -43,6 +44,8 @@
 
 //using namespace Dtk::Core;
 
+const int MAINWIDGET_MINIMUN_HEIGHT = 335;
+const int MAINWIDGET_MINIMUN_WIDTH = 730;//增加了ocr，最小宽度为630到现在730
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -160,8 +163,28 @@ int main(int argc, char *argv[])
     MainWindow *w = new MainWindow(mainwindow);
     mainwindow->setCentralWidget(w);
     w->setDMainWindow(mainwindow);
-    w->initSize();
 
+    //初始化大小为上次关闭大小
+    if (mainwindow) {
+        int defaultW = 0;
+        int defaultH = 0;
+        QDesktopWidget *dw = QApplication::desktop();
+        if (double(dw->geometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
+            defaultW = MAINWIDGET_MINIMUN_WIDTH;
+        } else {
+            defaultW = int(double(dw->geometry().width()) * 0.60);
+        }
+
+        if (double(dw->geometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
+            defaultH = MAINWIDGET_MINIMUN_HEIGHT;
+        } else {
+            defaultH = int(double(dw->geometry().height()) * 0.60);
+        }
+        int ww = w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
+        int wh = w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
+        mainwindow->resize(ww, wh);
+        mainwindow->setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
+    }
     QString filepath = "";
     QStringList arguments = QCoreApplication::arguments();
     for (QString path : arguments) {
