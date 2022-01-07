@@ -22,7 +22,9 @@ include_directories(${PROJECT_SOURCE_DIR})
 message(STATUS ${CMAKE_CXX_FLAGS})
 
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+option(DOTEST "option for test" OFF)
+
+if(DOTEST)
     add_subdirectory(tests)
 endif()
 

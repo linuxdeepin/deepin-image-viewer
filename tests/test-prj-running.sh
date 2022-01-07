@@ -3,7 +3,7 @@ rm -r build-ut
 rm -r ../build-ut
 mkdir ../build-ut
 cd ../build-ut
-cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake -DCMAKE_BUILD_TYPE=Debug .. -D DOTEST=ON
 make -j16
 export QTEST_FUNCTION_TIMEOUT='1000000'
 workdir=$(cd ../$(dirname $0)/build-ut; pwd)
