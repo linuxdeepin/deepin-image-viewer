@@ -9,7 +9,6 @@
 #include <QDropEvent>
 #include <QDebug>
 
-
 namespace {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
 const QSize THUMBNAIL_SIZE = QSize(128, 128);
