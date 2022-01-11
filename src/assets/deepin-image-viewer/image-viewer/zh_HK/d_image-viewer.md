@@ -42,7 +42,7 @@
 - 運行看圖後，拖動圖片到看圖界面，打開圖片。
 - 直接拖動圖片到看圖的圖標上。
 
-> ![tips](../common/tips.svg) 竅門：您可以在控制中心中將看圖設置為默認的圖片查看程序，具體操作請參閱 [默認程序設置](dman:///dde#默認程序設置)。
+> ![tips](../common/tips.svg)竅門：您可以在控制中心中將看圖設置為默認的圖片查看程序，具體操作請參閱 [默認程序設置](dman:///dde#默認程序設置)。
 
 圖片支持的格式BMP、ICO、JPG/JPE/JPEG、PNG、TGA、TIF/TIFF、XPM、GIF、WEBP、CR2、NEF、DNG、RAF、MEF、MRW、XBM、SVG、ORF、MNG。
 
@@ -62,7 +62,10 @@
 | ![contrarotate](../common/contrarotate.svg)            | 逆時針旋轉 | 圖片逆時針旋轉90度。   |
 | ![delete](../common/delete.svg)                        | 刪除       | 刪除當前圖片。         |
 
-> ![notess](../common/notes.svg) 說明：系統圖片不支持重命名、旋轉和刪除的操作。
+> ![notes](../common/notes.svg) 說明：
+> - 將鼠標光標置於圖片預覽區域，按住 **Ctrl** 鍵，滾動鼠標滾輪切換上一張/下一張圖片。
+> - 系統圖片不支持重命名、旋轉和刪除的操作。
+
 
 ### 顯示/隱藏導航窗口
 

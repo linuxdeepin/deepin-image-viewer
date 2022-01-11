@@ -61,7 +61,11 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 | ![contrarotate](../common/contrarotate.svg)            | Rotate counterclockwise | Rotate the image 90 degrees counterclockwise.             |
 | ![delete](../common/delete.svg)                        | Delete                  | Delete the current image.                                 |
 
-> ![notes](../common/notes.svg) Notes: You are unavailable to rename, rotate and delete system images.
+
+> ![notes](../common/notes.svg) Notes: 
+>
+> - Place the mouse pointer over the image-viewing area, press the **Ctrl** key on the keyboard and scroll the mouse wheel to view the previous or next image.
+> - You are unavailable to rename, rotate or delete system images.
 
 ### Show/Hide the Navigation Window
 
@@ -71,7 +75,7 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 
 3. Click ![close](../common/close_icon.svg) on the navigation window or right-click the image to select **Hide navigation window** to close the navigation window.
 
-   The navigation widnow will no longer be displayed the next time after being closed and you need to right-click the image to select **Show navigation window** to display it once again.
+   The navigation window will no longer be displayed the next time after being closed and you need to right-click the image to select **Show navigation window** to display it once again.
 
 ![1|main](fig/navigation.png)
 
