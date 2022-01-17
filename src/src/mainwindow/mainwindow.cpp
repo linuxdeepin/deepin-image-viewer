@@ -56,7 +56,6 @@ MainWindow::MainWindow(QWidget *parent)
     //初始化UI
     initUI();
 
-
 }
 
 MainWindow::~MainWindow()
