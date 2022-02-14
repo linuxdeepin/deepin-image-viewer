@@ -40,6 +40,7 @@ file (GLOB_RECURSE SOURCES
     "../src/src/mainwindow/*.cpp"
     "../src/src/module/*.cpp"
     "../src/*.h"
+    "../src/application.cpp"
     )
 file(GLOB_RECURSE SOURCESC "../src/*.c")
 #file(GLOB_RECURSE HEADERS "../src/src/module/modulepanel.h")

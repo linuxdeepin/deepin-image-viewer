@@ -40,6 +40,7 @@
 #include "module/view/homepagewidget.h"
 #include "../libimageviewer/imageviewer.h"
 #include "../libimageviewer/imageengine.h"
+#include "application.h"
 
 const int MAINWIDGET_MINIMUN_HEIGHT = 335;
 const int MAINWIDGET_MINIMUN_WIDTH = 730;//增加了ocr，最小宽度为630到现在730
@@ -55,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //初始化UI
     initUI();
-
+//    connect(dApp, &Application::sigQuit, this, &MainWindow::quitApp, Qt::DirectConnection);
 }
 
 MainWindow::~MainWindow()
@@ -339,9 +340,13 @@ bool MainWindow::slotDrogImg(const QStringList &paths)
 
 void MainWindow::quitApp()
 {
-    this->close();
+    if (m_imageViewer) {
+        delete m_imageViewer;
+        m_imageViewer = nullptr;
+    }
+//    this->close();
     //程序退出
-    qApp->exit();
+//    qApp->exit();
 }
 
 void MainWindow::showShortCut()
@@ -377,7 +382,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::Close) {
         //监控到mainwindow关闭，则关闭m_imageViewer
         if (m_imageViewer) {
-            m_imageViewer->deleteLater();
+            delete m_imageViewer;
             m_imageViewer = nullptr;
         }
     }

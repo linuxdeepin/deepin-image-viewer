@@ -22,9 +22,10 @@
 #ifdef CMAKE_BUILD
 #include "config.h"
 #endif
-#define protected public
-#include <DApplication>
-#undef protected
+//#define protected public
+//#include <DApplication>
+//#undef protected
+
 #include <DWidgetUtil>
 #include <DMainWindow>
 #include <DLog>
@@ -41,6 +42,7 @@
 #include <unistd.h>
 
 #include "mainwindow/mainwindow.h"
+#include "application.h"
 
 //using namespace Dtk::Core;
 
@@ -133,7 +135,7 @@ int main(int argc, char *argv[])
     }
 
 //    Application::loadDXcbPlugin();
-    DApplication  a(argc, argv);
+    Application  a(argc, argv);
 //    a.setAttribute(Qt::AA_ForceRasterWidgets);
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.setOrganizationName("deepin");
@@ -203,7 +205,7 @@ int main(int argc, char *argv[])
     if (checkOnly()) {
         Dtk::Widget::moveToCenter(mainwindow);
     }
-    Dtk::Core::DVtableHook::overrideVfptrFun(qApp, &DApplication::handleQuitAction, w, &MainWindow::quitApp);
-
+//    Dtk::Core::DVtableHook::overrideVfptrFun(qApp, &DApplication::handleQuitAction, w, &MainWindow::quitApp);
+    QObject::connect(dApp, &Application::sigQuit, w, &MainWindow::quitApp, Qt::DirectConnection);
     return a.exec();
 }
