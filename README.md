@@ -50,7 +50,7 @@ Execute `deepin-image-viewer`
 ## Documentations
 
  - [Development Documentation](https://linuxdeepin.github.io/deepin-image-viewer/)
- - [User Documentation](https://wiki.deepin.org/wiki/Deepin_Image_Viewer) | [用户文档](https://wikidev.uniontech.com/index.php?title=%E7%9C%8B%E5%9B%BE)
+ - [User Documentation](https://wiki.deepin.org/wiki/Deepin_Image_Viewer) | [用户文档](https://wiki.deepin.org/index.php?title=%E6%B7%B1%E5%BA%A6%E7%9C%8B%E5%9B%BE&language=zh)
 When install complete, the executable binary file is placed into `/usr/bin/deepin-viewer`.
 
 ## Getting help
