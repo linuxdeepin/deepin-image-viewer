@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
 
 //    Application::loadDXcbPlugin();
     Application  a(argc, argv);
-//    a.setAttribute(Qt::AA_ForceRasterWidgets);
+    a.setAttribute(Qt::AA_ForceRasterWidgets);
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-image-viewer");
