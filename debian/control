@@ -1,6 +1,6 @@
 Source: deepin-image-viewer
 Section: utils
-Priority: optional
+Priority: extra
 Maintainer: Deepin Packages Builder <packages@deepin.com>
 Build-Depends: debhelper (>= 11), cmake, qtbase5-dev, pkg-config,libexif-dev, libqt5svg5-dev, libqt5x11extras5-dev, libsqlite3-dev, qttools5-dev-tools,qttools5-dev, libxcb-util0-dev, libstartup-notification0-dev,
  libraw-dev,libfreeimage-dev, libqt5opengl5-dev, qtbase5-private-dev,
