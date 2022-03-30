@@ -15,7 +15,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(${PROJECT_BINARY_DIR})
 include_directories(${PROJECT_SOURCE_DIR})
 
-
 message(STATUS ${CMAKE_CXX_FLAGS})
 
 
