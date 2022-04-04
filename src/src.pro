@@ -50,7 +50,6 @@ include (src/mainwindow/mainwindow.pri)
 
 HEADERS += \
 #    src/application.h \
-    src/accessibility/acobjectlist.h \
     src/accessibility/ac-desktop-define.h \
     src/application.h
 
