@@ -113,7 +113,6 @@ target_link_libraries(
     X11
     Xext
     exif
-    udisks2-qt5
     freeimage
     pthread
     imageviewer

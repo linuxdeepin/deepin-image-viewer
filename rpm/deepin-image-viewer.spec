@@ -25,7 +25,6 @@ BuildRequires:  pkgconfig(libstartup-notification-1.0)
 BuildRequires:  pkgconfig(xcb-util)
 BuildRequires:  pkgconfig(xext)
 BuildRequires:  pkgconfig(Qt5Multimedia) 
-BuildRequires:  udisks2-qt5-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 Requires:       hicolor-icon-theme
