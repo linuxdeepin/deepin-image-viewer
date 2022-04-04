@@ -19,7 +19,6 @@ BuildRequires:  pkgconfig(Qt5Sql)
 BuildRequires:  pkgconfig(Qt5Svg)
 BuildRequires:  pkgconfig(Qt5X11Extras)
 BuildRequires:  pkgconfig(dtkwidget) >= 2.0.6
-BuildRequires:  pkgconfig(gio-unix-2.0)
 BuildRequires:  pkgconfig(libraw)
 BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(libstartup-notification-1.0)
@@ -27,7 +26,6 @@ BuildRequires:  pkgconfig(xcb-util)
 BuildRequires:  pkgconfig(xext)
 BuildRequires:  pkgconfig(Qt5Multimedia) 
 BuildRequires:  udisks2-qt5-devel
-BuildRequires:  libgio-qt libgio-qt-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 Requires:       hicolor-icon-theme
