@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/MainStack.qml</file>
+        <file>qml/OpenImageWidget.qml</file>
+        <file>qml/ImageViewer.qml</file>
+        <file>qml/ThumbnailListView.qml</file>
+        <file>qml/FullThumbnail.qml</file>
+        <file>qml/ThumbnailButton.qml</file>
+        <file>qml/ListViewDelegate.qml</file>
+        <file>qml/GlobalVar.qml</file>
+        <file>qml/ReName.qml</file>
+        <file>qml/FloatingNotice.qml</file>
+        <file>qml/NavigationWidget.qml</file>
+        <file>qml/SliderShow.qml</file>
+        <file>qml/SFadeInOut.qml</file>
+        <file>qml/InfomationDialog.qml</file>
+        <file>qml/PropertyItemDelegate.qml</file>
+        <file>qml/PropertyItem.qml</file>
+        <file>qml/PropertyActionItemDelegate.qml</file>
+        <file>qml/AlertToolTip.qml</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,128 @@
+import QtQuick 2.0
+import QtQuick.Window 2.11
+import QtQuick.Controls 2.4
+import QtQuick.Controls.Styles 1.2
+
+Rectangle {
+    id: idNavigationwidget
+    width: 150
+    height: 102
+    clip: true
+    radius: 10
+
+    //初始状态以中心向两边延展
+    function setRectPec(a) {
+        if(a < 1)
+            return
+        var w = 150 / a
+        var h = 102 / a
+        idrectArea.width = w
+        idrectArea.height = h
+        idrectArea.x = 75 - w / 2
+        idrectArea.y = 51 - h / 2
+    }
+
+    //计算蒙皮位置
+    function setRectLocation(x, y) {
+        var x1 = idNavigationwidget.width * x
+        var y1 = idNavigationwidget.height * y
+        x1 -= idrectArea.width
+        y1 -= idrectArea.height
+        if(x1 < 0 || y1 < 0)
+            return
+        idrectArea.x = x1
+        idrectArea.y = y1
+    }
+
+    //背景图片绘制区域
+    Rectangle {
+        id: idImgRect
+        anchors.fill: parent
+        Image {
+            id: idcurrentImg
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            fillMode: Image.Pad
+            source: imageViewer.source
+            sourceSize.width: 150
+            sourceSize.height: 102
+        }
+    }
+    //test 前端获取后端加载到的图像数据，放开以下代码在缩放时会有弹窗显示后端加载的图像
+    /*Window {
+        id : rrr
+        visible: false
+        Image {
+            id: aaa
+            anchors.fill: parent
+        }
+    }
+    Connections {
+        target: CodeImage
+        onCallQmlRefeshImg:
+        {
+            aaa.source = ""
+            aaa.source = "image://CodeImg"
+            rrr.show()
+        }
+    }*/
+
+    //退出按钮
+    ToolButton {
+        anchors.right:parent.right
+        anchors.rightMargin: 2
+        width: 22
+        height: 22
+        icon.source: "qrc:/res/close_hover.svg"
+
+        background: Rectangle {
+            radius: 50
+        }
+        onClicked: {
+            idNavigationwidget.visible = false
+            showNavigation.visible = true
+        }
+        z: 100
+    }
+
+    //显示范围蒙皮
+    Rectangle {
+        id: idrectArea
+        opacity: 0.4
+        color: "black"
+    }
+    //允许拖动范围
+    MouseArea {
+        anchors.fill: parent
+        drag.target: idrectArea
+        drag.axis: Drag.XAndYAxis//设置拖拽的方式
+        drag.minimumX: 0
+        drag.maximumX: parent.width - idrectArea.width
+        drag.minimumY: 0
+        drag.maximumY: parent.height - idrectArea.height
+
+        property bool isPressed: false
+
+        //拖拽与主界面的联动
+        onPressed: {
+            isPressed = true
+        }
+        onReleased: {
+            isPressed = false
+        }
+
+        onPositionChanged: {
+            if(isPressed) {
+                //当前蒙皮位置对应比例发送给视图
+                var x = idrectArea.x
+                var y = idrectArea.y
+                //左上角相对全图的点的比例,x1和y1即为比例，将此左上角坐标告知大图视图
+                var x1 = x / idNavigationwidget.width
+                var y1 = y / idNavigationwidget.height
+                //预留，导航拖动与主界面联动
+//                view.currentItem.x = view.width * x1
+//                view.currentItem.y = view.width * y1
+            }
+        }
+    }
+}

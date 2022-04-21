@@ -1,133 +1,79 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.1)
 
-project(deepin-image-viewer VERSION 1.0.0)
+set(APP_BIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin/)
+set(BIN_NAME ${CMAKE_PROJECT_NAME})
+set(LIB_NAME dtkqml-${CMAKE_PROJECT_NAME})
+list (APPEND RESOURCES )
 
-##"option"用来定义宏，"ON"表示打开，"OFF"表示关闭
-#option (LITE_DIV "Use tutorial provided math implementation" ON)
-##使用UnionImage
-#option (USE_UNIONIMAGE "Use UNIONIMAGE" ON)
-add_definitions( -DLITE_DIV )
-add_definitions( -DUSE_UNIONIMAGE )
-add_definitions( -DCMAKE_BUILD )
-# 加速编译优化参数
-if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-    SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,--as-need -fPIE")
-    SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,--as-need -fPIE")
-    SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
-else()
-    SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -Wl,--as-need -fPIE")
-    SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3  -Wl,--as-need -fPIE")
-    SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
-endif()
+# Set sources
+set(SRC
+    launcherplugin.cpp
 
-if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "sw_64")
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mieee")
-    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mieee")
-endif()
-
-set(TARGET_NAME deepin-image-viewer)
-set(CMD_NAME deepin-image-viewer)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-file(GLOB_RECURSE  SOURCES  "src/*.cpp" "src/*/*.cpp")
-file(GLOB_RECURSE SOURCESC "src/*.c")
-file(GLOB_RECURSE HEADERS "src/module/modulepanel.h" "src/*/*.h")
-file(GLOB_RECURSE FORMS "src/*.ui")
-file(GLOB_RECURSE RESOURCES "*.qrc")
-
-include_directories(${CMAKE_INCLUDE_CURRENT_DIR})
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
-include_directories("../libimage-viewer/")
-
-configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
-
-set(PROJECT_INCLUDE
-    ${PROJECT_SOURCE_DIR}/src
-    ${PROJECT_SOURCE_DIR}/src/utils
-    ${PROJECT_SOURCE_DIR}/src/controller
-    ${PROJECT_SOURCE_DIR}/src/dirwatcher
-    ${PROJECT_SOURCE_DIR}/src/widgets
-    ${PROJECT_SOURCE_DIR}/src/accessibility
-    ${PROJECT_SOURCE_DIR}/src/third-party/accessibility
-    ${PROJECT_SOURCE_DIR}/src/module
     )
 
-set(QtModule Core Gui Widgets LinguistTools )
+# 源文件
+file(GLOB_RECURSE SRCS
+    ./src/*.h
+    ./src/*.cpp
+    )
 
-#先查找到这些qt相关的模块以供链接使用
-find_package(Qt5 REQUIRED ${QtModule})
+# Find the Qt5Quick library
+find_package(Qt5Quick CONFIG REQUIRED)
+find_package(Qt5QuickCompiler REQUIRED)
+find_package(Qt5DBus CONFIG REQUIRED)
+find_package(Qt5Concurrent CONFIG REQUIRED)
+find_package(Qt5Svg CONFIG REQUIRED)
+find_package(Qt5PrintSupport CONFIG REQUIRED)
+
+qtquick_compiler_add_resources(RCC_SOURCES ${RESOURCES})
+
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(3rd_lib REQUIRED
     dtkwidget
-    dtkcore
     )
 
-## translations
+# 保证 src 目录下头文件全局可见
+include_directories(src)
 
-file(GLOB TS LIST_DIRECTORIES false translations/${CMD_NAME}*.ts)
+# 同时生成 exe 和 lib 两个文件
+# lib 文件有两个作用：
+# (1) 开发阶段本地调试使用时，lib被exe以链接库形式使用；
+# (2) 实际使用时，lib 会被安装到指定目录，lib 被 booster-dtkdeclarative 以插件形式解析
 
-set_source_files_properties(${TS} PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/translations)
+# Add LIB
+add_library(${LIB_NAME} SHARED
+    ${SRC}
+    ${SRCS}
+    ${RCC_SOURCES}
+    deepin-image-viewer.qrc
+    res.qrc
+    )
 
-qt5_create_translation(QM ${SOURCES}  ${GLOB})
-
-if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
-    qt5_create_translation(QM ${SOURCES} ${TS})
-endif ()
-
-# 设置不删除生成的文件夹内容文件
-set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
-
-add_executable( ${PROJECT_NAME} ${SOURCES} ${SOURCESC} ${HEADERS} ${RESOURCES} ${QM})
-
-target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS} ${PROJECT_INCLUDE} )
-target_link_libraries(${PROJECT_NAME} Qt5::WidgetsPrivate ${3rd_lib_LIBRARIES} pthread imageviewer)
-#将工程与这些模块链接起来
-qt5_use_modules(${PROJECT_NAME} ${QtModule})
-
-# Find includes in corresponding build directories
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-option (NOUSE_TEST " NO Use TESTS" ON)
-add_definitions( -DNOUSE_TEST )
-
-#install
-set(PREFIX  /usr)
-set(BINDIR  ${PREFIX}/bin)
-set(APPSHAREDIR  ${PREFIX}/share/deepin-image-viewer)
-set(MANDIR  ${PREFIX}/share/dman/deepin-image-viewer)
-set(MANICONDIR  ${PREFIX}/share/icons/hicolor/scalable/apps)
-set(APPICONDIR  ${PREFIX}/share/icons/hicolor/scalable/apps)
-
-install(TARGETS ${TARGET_NAME} DESTINATION ${BINDIR})
-#desktop
-install(FILES ${PROJECT_SOURCE_DIR}/deepin-image-viewer.desktop
-    DESTINATION /usr/share/applications)
-#icons
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/assets/images/
-    DESTINATION /usr/share/deepin-image-viewer/icons
-    FILES_MATCHING PATTERN "*")
-#manual
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/assets/deepin-image-viewer
-    DESTINATION /usr/share/deepin-manual/manual-assets/application/
-    FILES_MATCHING PATTERN "*")
-#manual_icon
-install(FILES ${PROJECT_SOURCE_DIR}/assets/doc/common/deepin-image-viewer.svg
-    DESTINATION /usr/share/icons/hicolor/scalable/apps)
-#app_icon
-install(FILES ${PROJECT_SOURCE_DIR}/assets/images/logo/deepin-image-viewer.svg
-    DESTINATION /usr/share/icons/hicolor/scalable/apps)
-#dbus_service
-install(FILES ${PROJECT_SOURCE_DIR}/com.deepin.ImageViewer.service
-    DESTINATION /usr/share/dbus-1/services)
-#translations
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
-    DESTINATION ${APPSHAREDIR}
-    FILES_MATCHING PATTERN "*.qm")
+# 由于 LIB 程序为本项目的功能实现部分，需要用到的第三方库都需要在此处添加。
+target_include_directories(${LIB_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS}  )
+target_link_libraries(${LIB_NAME}
+    ${DtkDeclarative_LIBRARIES}
+    Qt5::Quick
+    Qt5::PrintSupport
+    Qt5::Gui Qt5::Qml Qt5::Core Qt5::DBus Qt5::Concurrent Qt5::Svg  GL pthread freeimage
+    ${3rd_lib_LIBRARIES}
+    )
+# Add EXE
+add_executable(${BIN_NAME}  main.cpp)
 
 
 
+# 由于 EXE 只是作为启动程序加载 LIB 使用，一般来说，只需链接 ${LIB_NAME} 既可。
+target_link_libraries(${BIN_NAME}
+    Qt5::Quick
+    ${LIB_NAME}
+    )
+
+set_target_properties(${BIN_NAME} PROPERTIES INSTALL_RPATH ${DTK_QML_APP_PLUGIN_PATH})
+
+# Add install rule
+install(TARGETS ${BIN_NAME} DESTINATION ${APP_BIN_INSTALL_DIR})
+install(TARGETS ${LIB_NAME} DESTINATION ${DTK_QML_APP_PLUGIN_PATH})
+install(FILES ${CMAKE_PROJECT_NAME}.desktop DESTINATION /usr/share/applications)
+install(FILES ./icon/${CMAKE_PROJECT_NAME}.svg DESTINATION /usr/share/icons/hicolor/scalable/apps)

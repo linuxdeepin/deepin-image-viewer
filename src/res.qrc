@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/dcc_11_36px.svg</file>
+        <file>res/dcc_back_36px.svg</file>
+        <file>res/dcc_ccollection_36px.svg</file>
+        <file>res/dcc_delete_36px.svg</file>
+        <file>res/dcc_fit_36px.svg</file>
+        <file>res/dcc_left_36px.svg</file>
+        <file>res/dcc_ncollection_36px.svg</file>
+        <file>res/dcc_next_36px.svg</file>
+        <file>res/dcc_ocr_36px.svg</file>
+        <file>res/dcc_previous_36px.svg</file>
+        <file>res/dcc_right_36px.svg</file>
+        <file>res/picture damaged_light.svg</file>
+        <file>res/picture_damaged_58.svg</file>
+        <file>res/close_hover.svg</file>
+        <file>res/icon_import_photo.svg</file>
+        <file>icon/deepin-image-viewer.svg</file>
+        <file>res/dcc_suspend_normal_36px.svg</file>
+        <file>res/dcc_play_normal_36px.svg</file>
+    </qresource>
+</RCC>
