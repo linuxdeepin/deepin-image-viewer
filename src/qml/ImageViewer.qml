@@ -38,7 +38,21 @@ Rectangle {
 
     property double  currentimgY : 0.0
 
+    property double  currenImageScale : currentScale / fileControl.getFitWindowScale(root.width,root.height) * 100
+
     color: "#F8F8F8"
+
+//    function showFloatLabel(){
+//        //启动浮动提示
+//        console.log("4555",currentScale)
+//        console.log(fileControl.getFitWindowScale(root.width,root.height))
+//        floatLabel.displayStr = (currentScale / fileControl.getFitWindowScale(root.width,root.height) * 100).toFixed(0) + "%"
+//        floatLabel.visible = true
+//    }
+    onCurrenImageScaleChanged: {
+        floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
+        floatLabel.visible = true
+    }
 
     onCurrentScaleChanged: {
         idNavWidget.setRectPec(currentScale)
@@ -80,6 +94,9 @@ Rectangle {
         console.log("source:",mainView.source)
         fileControl.setCurrentImage(source)
         root.title=fileControl.slotGetFileName(source)+fileControl.slotFileSuffix(source)
+
+        floatLabel.displayStr = (currentScale / fileControl.getFitWindowScale(root.width,root.height) * 100).toFixed(0) + "%"
+        floatLabel.visible = true
     }
 
     function fitImage() {
@@ -144,27 +161,25 @@ Rectangle {
                 option_menu.popup()
             }
         }
-        onWheel: {
-            var datla = wheel.angleDelta.y / 120
-            if (datla > 0) {
-                view.currentItem.scale = view.currentItem.scale/0.9
-            } else {
-                view.currentItem.scale = view.currentItem.scale * 0.9
-            }
+//        onWheel: {
+//            var datla = wheel.angleDelta.y / 120
+//            if (datla > 0) {
+//                view.currentItem.scale = view.currentItem.scale/0.9
+//            } else {
+//                view.currentItem.scale = view.currentItem.scale * 0.9
+//            }
 
-            //启动浮动提示
-            floatLabel.displayStr = (view.currentItem.scale * 100).toFixed(0) + "%"
-            floatLabel.visible = true
-            if (view.currentItem.scale * 100 < 100) {
-                idNavWidget.visible = false
-            } else {
-                idNavWidget.visible = true
-                //TODO 依据配置文件设置再来控制显影，这里先默认根据图片比例控制
-            }
-            idNavWidget.setRectPec(view.currentItem.scale)
-            //            CodeImage.m_path = source
-            //            CodeImage.loadThumbnail(source)
-        }
+
+//            if (view.currentItem.scale * 100 < 100) {
+//                idNavWidget.visible = false
+//            } else {
+//                idNavWidget.visible = true
+//                //TODO 依据配置文件设置再来控制显影，这里先默认根据图片比例控制
+//            }
+//            idNavWidget.setRectPec(view.currentItem.scale)
+//            //            CodeImage.m_path = source
+//            //            CodeImage.loadThumbnail(source)
+//        }
     }
     Menu {
         x: 250; y: 600
@@ -371,6 +386,7 @@ Rectangle {
         //    view.currentItem.rotation=0
         ////    view.currentItem.source=
         //}
+
         Repeater {
             model: sourcePaths.length
 
@@ -495,6 +511,25 @@ Rectangle {
                         anchors.fill: parent
                         drag.target:showAnimatedImg.visible ? showAnimatedImg: showImg
 
+                        function setImgPostions(x, y) {
+                            currentimgX = msArea.drag.maximumX - x * (msArea.drag.maximumX - msArea.drag.minimumX)
+                            currentimgY = msArea.drag.maximumY - y * (msArea.drag.maximumY - msArea.drag.minimumY)
+                            if (showAnimatedImg.visible) {
+                                showAnimatedImg.x = currentimgX
+                                showAnimatedImg.y = currentimgY
+                            } else {
+                                showImg.x = currentimgX
+                                showImg.y = currentimgY
+                            }
+                        }
+
+                        Connections {
+                            target: idNavWidget
+                            onChangeShowImgPostions :{
+                                msArea.setImgPostions(x,y)
+                            }
+                        }
+
                         function changeRectXY() {
                             if(currentScale<=1.0){
                                 drag.minimumX=0
@@ -557,6 +592,10 @@ Rectangle {
                             } else {
                                 currentimgY = showImg.y
                             }
+                            var x1 = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
+                            var y1 = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
+
+                            idNavWidget.setRectLocation(x1, y1)
                         }
 
                         onDoubleClicked: {
