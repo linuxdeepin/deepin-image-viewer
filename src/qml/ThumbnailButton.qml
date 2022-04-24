@@ -60,12 +60,9 @@ ToolButton {
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             onClicked: {
                 //左键点击
-                if (mouse.button === Qt.LeftButton)
-                {
+                if (mouse.button === Qt.LeftButton) {
                     parent.clickedLeft()
-                }
-                else if(mouse.button === Qt.RightButton)
-                {
+                } else if(mouse.button === Qt.RightButton) {
                     parent.clickedRight()
                 }
             }

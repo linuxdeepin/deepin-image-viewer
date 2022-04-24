@@ -83,6 +83,7 @@ Rectangle {
         onClicked: {
             idNavigationwidget.visible = false
             showNavigation.visible = true
+            isNavShow = false
         }
         z: 100
     }
