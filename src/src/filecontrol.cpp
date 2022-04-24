@@ -352,7 +352,6 @@ QString FileControl::parseCommandlineGetPath(const QString &path)
                 filepath += path;
                 return filepath;
             }
-
         }
     }
 

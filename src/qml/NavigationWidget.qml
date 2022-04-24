@@ -10,6 +10,8 @@ Rectangle {
     clip: true
     radius: 10
 
+    signal changeShowImgPostions(var x, var y)
+
     //初始状态以中心向两边延展
     function setRectPec(a) {
         if(a < 1)
@@ -114,14 +116,13 @@ Rectangle {
         onPositionChanged: {
             if(isPressed) {
                 //当前蒙皮位置对应比例发送给视图
-                var x = idrectArea.x
-                var y = idrectArea.y
+                var x = idrectArea.x + idrectArea.width
+                var y = idrectArea.y + idrectArea.height
                 //左上角相对全图的点的比例,x1和y1即为比例，将此左上角坐标告知大图视图
                 var x1 = x / idNavigationwidget.width
                 var y1 = y / idNavigationwidget.height
-                //预留，导航拖动与主界面联动
-//                view.currentItem.x = view.width * x1
-//                view.currentItem.y = view.width * y1
+                //导航拖动与主界面联动,x1和y1即为主界面传入时的比例
+                changeShowImgPostions(x1,y1)
             }
         }
     }
