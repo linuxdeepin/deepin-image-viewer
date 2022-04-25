@@ -658,25 +658,7 @@ Rectangle {
 
     }
 
-    //浮动提示框
-    FloatingNotice {
-        id: floatLabel
-        visible: false
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 140
-        anchors.left: parent.left
-        anchors.leftMargin: parent.width / 2 - 50
-        opacity: 0.7
 
-        Timer {
-            interval: 1500
-            running: parent.visible
-            repeat: false
-            onTriggered: {
-                parent.visible = false
-            }
-        }
-    }
 
     //导航窗口
     NavigationWidget {

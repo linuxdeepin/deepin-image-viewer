@@ -16,8 +16,9 @@ Item {
 
     function setThumbnailCurrentIndex(index) {
         thumbnailListView.currentIndex = index
-        console.log(index)
     }
+
+    //判断工具栏和标题栏的显示隐藏
     function changeTitleBottomY( ){
         if(root.height<=global.minHideHeight ||root.width<=global.minWidth){
             hideBottomAnimation.start()
@@ -136,6 +137,24 @@ Item {
         //         property int currentIndex: 0
     }
 
+    //浮动提示框
+    FloatingNotice {
+        id: floatLabel
+        visible: false
+        anchors.bottom: thumbnailViewBackGround.top
+        anchors.bottomMargin: global.floatMargin
+        anchors.left: parent.left
+        anchors.leftMargin: parent.width / 2 - 50
+        opacity: 0.7
 
+        Timer {
+            interval: 1500
+            running: parent.visible
+            repeat: false
+            onTriggered: {
+                parent.visible = false
+            }
+        }
+    }
 
 }
