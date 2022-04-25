@@ -514,7 +514,7 @@ Rectangle {
                         MultiPointTouchArea{
                             anchors.fill: parent
                             minimumTouchPoints: 1
-                            maximumTouchPoints: 2
+                            maximumTouchPoints: 3
                         }
                     }
 

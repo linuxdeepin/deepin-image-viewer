@@ -10,6 +10,7 @@ Item {
     property int floatMargin:60
     property int titleHeight:50
     property int showBottomY: 90
+    property int actionMargin: 9//应用图标距离顶栏
 
     signal sigWindowStateChange()
 }

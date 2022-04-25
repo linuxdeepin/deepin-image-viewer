@@ -57,9 +57,21 @@ ApplicationWindow {
 //        anchors.topMargin: 10
         width: parent.width
         height: 50
-        visible: root.visibility===5 ? false:true
+        visible: root.visibility === 5 ? false:true
         color:"white"
         opacity: 1
+        ActionButton {
+            anchors.top:titleRect.top
+            anchors.topMargin:global.actionMargin
+            anchors.left:titleRect.left
+            anchors.leftMargin:global.actionMargin
+            icon {
+                name: "deepin-image-viewer"
+                width: 32
+                height: 32
+            }
+        }
+
         MouseArea { //为窗口添加鼠标事件
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton //只处理鼠标左键
