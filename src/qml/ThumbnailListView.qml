@@ -68,6 +68,7 @@ Item {
 
     RowLayout {
         id: leftLayout
+        visible: mainView.sourcePaths.length>1
 
         anchors.left: parent.left
         anchors.leftMargin: 15
@@ -114,8 +115,8 @@ Item {
     RowLayout {
         id: fitButtonLayout
 
-        anchors.left: leftLayout.right
-        anchors.leftMargin: 40
+        anchors.left: mainView.sourcePaths.length>1 ?leftLayout.right:parent.left
+        anchors.leftMargin:mainView.sourcePaths.length>1 ? 40 : 15
 
         anchors.top: parent.top
         anchors.topMargin: (parent.height - height) / 2
