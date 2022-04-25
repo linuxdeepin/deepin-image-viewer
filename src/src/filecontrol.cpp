@@ -533,7 +533,7 @@ bool FileControl::isShowToolTip(const QString &oldPath, const QString &name)
 
     QString fileabname = DirPath + "/" + name + "." + format;
     QFile file(fileabname);
-    if (file.exists() && fileabname != path) {
+    if (file.exists() && fileabname == path) {
         bRet = true;
     } else {
         bRet = false;
