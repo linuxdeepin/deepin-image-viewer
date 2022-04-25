@@ -12,6 +12,8 @@ Item {
 
     signal closeFullThumbnail
 
+    property bool isEnterCurrentView:true
+
     //    anchors.fill: rootItem
 
     function setThumbnailCurrentIndex(index) {
@@ -43,7 +45,7 @@ Item {
         id :hideRightButtonAnimation
         target: floatRightButton
         from: floatRightButton.x
-        to: root.visibility==Window.FullScreen ? Screen.width :parent.width
+        to: parent.width
         property: "x"
         duration: 200
         easing.type: Easing.InOutQuad
@@ -53,7 +55,7 @@ Item {
         id :showRightButtonAnimation
         target: floatRightButton
         from: floatRightButton.x
-        to: parent.width-70
+        to:parent.width-70
         property: "x"
         duration: 200
         easing.type: Easing.InOutQuad
@@ -64,7 +66,7 @@ Item {
         id :hideBottomAnimation
         target: thumbnailViewBackGround
         from: thumbnailViewBackGround.y
-        to: root.visibility==Window.FullScreen ? Screen.height :root.height
+        to: root.height
         property: "y"
         duration: 200
         easing.type: Easing.InOutQuad
@@ -83,7 +85,7 @@ Item {
         id :showBottomAnimation
         target: thumbnailViewBackGround
         from: thumbnailViewBackGround.y
-        to: root.height-global.showBottomY
+        to:  root.height-global.showBottomY
         property: "y"
         duration: 200
         easing.type: Easing.InOutQuad
@@ -101,6 +103,11 @@ Item {
 
     //判断工具栏和标题栏的显示隐藏
     function animationAll(){
+        hideBottomAnimation.stop()
+        hideTopTitleAnimation.stop()
+        showRightButtonAnimation.stop()
+        hideRightButtonAnimation.stop()
+
         if(root.visibility==Window.FullScreen ){
             if(imageViewerArea.mouseY > height-100){
                 showBottomAnimation.start()
@@ -120,46 +127,73 @@ Item {
             hideTopTitleAnimation.start()
         }
 
-        if(imageViewerArea.mouseX<=100){
+        if(imageViewerArea.mouseX<=100 && imageViewerArea.mouseX>=0 && isEnterCurrentView){
             showLeftButtonAnimation.start()
         }else{
             hideLeftButtonAnimation.start()
         }
 
-        if(imageViewerArea.mouseX>=root.width-100){
+        if(imageViewerArea.mouseX>=root.width-100 && imageViewerArea.mouseX<=root.width && isEnterCurrentView){
             showRightButtonAnimation.start()
         }else{
             hideRightButtonAnimation.start()
         }
     }
 
+    //判断工具栏和标题栏的显示隐藏
+    function changeSizeMoveAll(){
+        hideBottomAnimation.stop()
+        hideTopTitleAnimation.stop()
+        showRightButtonAnimation.stop()
+        hideRightButtonAnimation.stop()
+        if(root.visibility==Window.FullScreen ){
+            if(imageViewerArea.mouseY > height-100){
+                thumbnailViewBackGround.y=root.height-global.showBottomY
+            }else{
+                thumbnailViewBackGround.y=root.height
+                titleRect.y=-50
+            }
+        }else if(root.height<=global.minHideHeight ||root.width<=global.minWidth){
+            thumbnailViewBackGround.y=root.height
+            titleRect.y=-50
+        }else if(imageViewerArea.mouseY > height-100 || imageViewerArea.mouseY<titleRect.height ||
+                (imageViewer.currentScale <= 1.0*(root.height-titleRect.height*2)/root.height)){
+            thumbnailViewBackGround.y=root.height-global.showBottomY
+            titleRect.y=0
+        }else{
+            thumbnailViewBackGround.y=root.height
+            titleRect.y=-50
+        }
+
+        if(imageViewerArea.mouseX<=100){
+            floatLeftButton.x=20
+        }else{
+            floatLeftButton.x=-50
+        }
+
+        if(imageViewerArea.mouseX>=root.width-100 &&imageViewerArea.mouseX<=root.width){
+            floatRightButton.x=parent.width-70
+        }else{
+            floatRightButton.x=parent.width
+        }
+    }
+
     function slotShowFullScreen(){
         thumbnailViewBackGround.y=Screen.height
         floatRightButton.x=Screen.width
-    }
-//    Timer {
-//        id: changeDelytimer
-//        interval: 500
-//        running: false
-//        repeat: false
-//        onTriggered: {
-//            animationAll()
-//        }
-//    }
 
-//    function slotShowNormal(){
-//        changeDelytimer.start()
-//    }
+    }
+    function slotMaxWindow(){
+        thumbnailViewBackGround.y=Screen.height
+        floatRightButton.x=Screen.width
+    }
 
     onHeightChanged: {
-        animationAll()
+        changeSizeMoveAll()
     }
 
     onWidthChanged: {
-        animationAll()
-    }
-    onWindowChanged: {
-        animationAll()
+        changeSizeMoveAll()
     }
 
     ImageViewer {
@@ -169,24 +203,9 @@ Item {
     Connections {
         target: imageViewer
         onSigWheelChange :{
-
             animationAll()
         }
     }
-    Connections {
-        target: imageViewer
-        onSigImageShowFullScreen :{
-            slotShowFullScreen()
-        }
-    }
-    Connections {
-        target: imageViewer
-        onSigImageShowNormal :{
-            slotShowNormal()
-        }
-    }
-
-
 
 
     FloatingButton {
@@ -216,6 +235,7 @@ Item {
             thumbnailListView.next();
         }
         Component.onCompleted: {
+            console.log("280")
             animationAll()
         }
     }
@@ -232,10 +252,12 @@ Item {
         }
 
         onEntered: {
+            isEnterCurrentView=true
             animationAll()
         }
 
         onExited: {
+            isEnterCurrentView=false
             animationAll()
         }
 
@@ -251,10 +273,9 @@ Item {
         anchors.rightMargin: (parent.width-width)/2
 
         radius:15
-        //        backgroundColor: Palette{
-        //            normal : "#F0F0F0"
-        //        }
+
         Component.onCompleted: {
+
             animationAll()
         }
     }

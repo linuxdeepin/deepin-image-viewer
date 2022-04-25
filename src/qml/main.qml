@@ -5,6 +5,8 @@ import org.deepin.dtk 1.0 as D
 import org.deepin.dtk 1.0
 ApplicationWindow {
     //    flags:Qt.FramelessWindowHint
+
+
     GlobalVar{
         id: global
     }
@@ -24,6 +26,10 @@ ApplicationWindow {
     Component.onCompleted: {
         setX(screen.width / 2 - width / 2);
         setY(screen.height / 2 - height / 2);
+    }
+
+    onWindowStateChanged: {
+        global.sigWindowStateChange()
     }
 
 

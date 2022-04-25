@@ -10,4 +10,6 @@ Item {
     property int floatMargin:60
     property int titleHeight:50
     property int showBottomY: 90
+
+    signal sigWindowStateChange()
 }
