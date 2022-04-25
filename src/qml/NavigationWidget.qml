@@ -40,6 +40,7 @@ Rectangle {
     Rectangle {
         id: idImgRect
         anchors.fill: parent
+        radius: 10
         Image {
             id: idcurrentImg
             anchors.horizontalCenter: parent.horizontalCenter
@@ -98,6 +99,7 @@ Rectangle {
         id: idrectArea
         opacity: 0.4
         color: "black"
+        radius: 10
     }
     //允许拖动范围
     MouseArea {
