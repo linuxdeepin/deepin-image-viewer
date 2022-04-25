@@ -43,6 +43,8 @@ Rectangle {
     property bool isMousePinchArea:true
 
     signal sigWheelChange
+    signal sigImageShowFullScreen
+    signal sigImageShowNormal
     color: "#F8F8F8"
 
     onCurrenImageScaleChanged: {
@@ -53,37 +55,6 @@ Rectangle {
     onCurrentScaleChanged: {
         idNavWidget.setRectPec(currentScale)
     }
-    Shortcut {
-        sequence: "Ctrl+="
-        onActivated:{
-           currentScale =  currentScale /0.9
-        }
-    }
-
-    Shortcut {
-        sequence: "Ctrl+-"
-        onActivated:{
-           currentScale =  currentScale *0.9
-        }
-    }
-
-    Shortcut {
-        sequence: "Up"
-        onActivated:{
-           currentScale =  currentScale /0.9
-        }
-    }
-
-
-    Shortcut {
-        sequence: "Down"
-        onActivated:{
-           currentScale =  currentScale *0.9
-        }
-    }
-
-
-
 
     onSourceChanged: {
         fileControl.slotRotatePixCurrent();
@@ -94,6 +65,7 @@ Rectangle {
 
         floatLabel.displayStr = (currentScale / fileControl.getFitWindowScale(root.width,root.height) * 100).toFixed(0) + "%"
         floatLabel.visible = true
+        msArea.changeRectXY()
 
     }
 
@@ -133,6 +105,7 @@ Rectangle {
         showFullScreen()
         stackView.currentWidgetIndex=1
         currentScale=1.0
+        sigImageShowFullScreen()
     }
 
     function escBack() {
@@ -144,8 +117,38 @@ Rectangle {
         }
 
         stackView.currentWidgetIndex=1
-
         currentScale=1.0
+
+        sigImageShowNormal()
+    }
+    //缩放快捷键
+    Shortcut {
+        sequence: "Ctrl+="
+        onActivated:{
+           currentScale =  currentScale /0.9
+        }
+    }
+
+    Shortcut {
+        sequence: "Ctrl+-"
+        onActivated:{
+           currentScale =  currentScale *0.9
+        }
+    }
+
+    Shortcut {
+        sequence: "Up"
+        onActivated:{
+           currentScale =  currentScale /0.9
+        }
+    }
+
+
+    Shortcut {
+        sequence: "Down"
+        onActivated:{
+           currentScale =  currentScale *0.9
+        }
     }
 
     MouseArea {
