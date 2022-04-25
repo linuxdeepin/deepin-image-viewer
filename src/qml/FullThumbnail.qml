@@ -52,6 +52,40 @@ Item {
         }
     }
 
+    FloatingButton {
+        checked: false
+//        anchors.fill:parent
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        anchors.top: parent.top
+
+        anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
+//        icon.source: "qrc:/res/dcc_previous_36px.svg"
+        icon.name : "go-previous"
+        width: 50
+        height: 50
+
+        onClicked: {
+            thumbnailListView.previous();
+        }
+    }
+    FloatingButton {
+         checked: false
+//        anchors.fill:parent
+        anchors.right: parent.right
+        anchors.rightMargin: 20
+        anchors.top: parent.top
+        anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
+        width: 50
+        height: 50
+
+//        icon.source: "qrc:/res/dcc_next_36px.svg"
+        icon.name:"go-next"
+        onClicked: {
+            thumbnailListView.next();
+        }
+    }
+
 
     MouseArea{
         anchors.fill: imageViewer
@@ -95,7 +129,7 @@ Item {
             id :showBottomAnimation
             target: thumbnailViewBackGround
             from: thumbnailViewBackGround.y
-            to: root.height-90
+            to: root.height-global.showBottomY
             property: "y"
             duration: 200
             easing.type: Easing.InOutQuad
