@@ -32,7 +32,17 @@ Item {
             hideTopTitleAnimation.start()
         }
 
+        if(imageViewerArea.mouseX<=100){
+            showLeftButtonAnimation.start()
+        }else{
+            hideLeftButtonAnimation.start()
+        }
 
+        if(imageViewerArea.mouseX>=root.width-100){
+            showRightButtonAnimation.start()
+        }else{
+            hideRightButtonAnimation.start()
+        }
     }
     onHeightChanged: {
         changeTitleBottomY()
@@ -53,33 +63,28 @@ Item {
     }
 
     FloatingButton {
+        id:floatLeftButton
         checked: false
-//        anchors.fill:parent
-        anchors.left: parent.left
-        anchors.leftMargin: 20
+//        anchors.left: parent.left
+//        anchors.leftMargin: 20
         anchors.top: parent.top
-
         anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
-//        icon.source: "qrc:/res/dcc_previous_36px.svg"
         icon.name : "go-previous"
         width: 50
         height: 50
-
         onClicked: {
             thumbnailListView.previous();
         }
     }
     FloatingButton {
-         checked: false
-//        anchors.fill:parent
-        anchors.right: parent.right
-        anchors.rightMargin: 20
+        id:floatRightButton
+        checked: false
+//        anchors.right: parent.right
+//        anchors.rightMargin: 20
         anchors.top: parent.top
         anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
         width: 50
         height: 50
-
-//        icon.source: "qrc:/res/dcc_next_36px.svg"
         icon.name:"go-next"
         onClicked: {
             thumbnailListView.next();
@@ -106,6 +111,48 @@ Item {
             changeTitleBottomY()
         }
 
+        //左右按钮隐藏动画
+        NumberAnimation {
+            id :hideLeftButtonAnimation
+            target: floatLeftButton
+            from: floatLeftButton.x
+            to: -50
+            property: "x"
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+
+        NumberAnimation {
+            id :showLeftButtonAnimation
+            target: floatLeftButton
+            from: floatLeftButton.x
+            to: 20
+            property: "x"
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+
+        NumberAnimation {
+            id :hideRightButtonAnimation
+            target: floatRightButton
+            from: floatRightButton.x
+            to: parent.width
+            property: "x"
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+
+        NumberAnimation {
+            id :showRightButtonAnimation
+            target: floatRightButton
+            from: floatRightButton.x
+            to: parent.width-70
+            property: "x"
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+
+        //工具栏动画和标题栏动画
         NumberAnimation {
             id :hideBottomAnimation
             target: thumbnailViewBackGround
@@ -124,7 +171,6 @@ Item {
             duration: 200
             easing.type: Easing.InOutQuad
         }
-
         NumberAnimation {
             id :showBottomAnimation
             target: thumbnailViewBackGround
