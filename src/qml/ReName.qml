@@ -43,31 +43,34 @@ DialogWindow {
     function getFileName(name)  {
         nameedit.text = name
     }
+
     function getFileSuffix(suffix) {
         filesuffix.text = suffix
     }
+
     Text {
         id: renametitle
         width: parent.width
-        height:48
+        height: 48
         anchors.left: parent.left
-        anchors.top:parent.top
+        anchors.top: parent.top
         font.pixelSize: 16
         //        text: qsTr("Input a new name")
         text: qsTr("请输入图片名称")
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
     }
+
     Rectangle {
         id: nameeditrect
-        width:320
+        width: 320
         height: 35
         color: "transparent"
 //        border.color: "grey"
         anchors.left: parent.left
         anchors.top: renametitle.bottom
-        anchors.leftMargin:10
-        anchors.topMargin:14
+        anchors.leftMargin: 10
+        anchors.topMargin: 14
 //        anchors.bottomMargin:10
         LineEdit {
             id: nameedit
@@ -103,35 +106,34 @@ DialogWindow {
         font.pixelSize: 16
         anchors.left: parent.left
         anchors.top: nameeditrect.bottom
-        anchors.leftMargin:10
-        anchors.topMargin:25
-        onClicked:{
+        anchors.leftMargin: 10
+        anchors.topMargin: 25
+        onClicked: {
             renamedialog.visible = false
         }
-
     }
 
     RecommandButton {
         id: enterbtn
 //        text: qsTr("Confirm")
         text: qsTr("确定")
-        enabled:!fileControl.isShowToolTip(source,nameedit.text)&& nameedit.text.length>0
+        enabled: !fileControl.isShowToolTip(source,nameedit.text) && nameedit.text.length > 0
         width: 169
         height: 33
         font.pixelSize: 16
         anchors.right: parent.right
         anchors.top: nameeditrect.bottom
-        anchors.rightMargin:10
-        anchors.topMargin:25
+        anchors.rightMargin: 10
+        anchors.topMargin: 25
         font.capitalization: Font.MixedCase
 
-        onClicked:{
+        onClicked: {
             var name = nameedit.text
             //bool返回值判断是否成功
 
-            if(fileControl.slotFileReName(name,source)){
-                sourcePaths=fileControl.renameOne(sourcePaths,source,fileControl.getNamePath(source,name))
-                source=fileControl.getNamePath(source,name)
+            if (fileControl.slotFileReName(name,source)) {
+                sourcePaths=fileControl.renameOne(sourcePaths, source, fileControl.getNamePath(source, name))
+                source=fileControl.getNamePath(source, name)
 
             }
             renamedialog.visible = false
@@ -140,9 +142,10 @@ DialogWindow {
                 button: "#25CD00"
         }
     }
+
     onVisibleChanged: {
         console.log(width)
-        setX(root.x  + root.width/2 - width / 2);
-        setY(root.y  + root.height/2 - height / 2);
+        setX(root.x  + root.width/2 - width / 2)
+        setY(root.y  + root.height/2 - height / 2)
     }
 }
