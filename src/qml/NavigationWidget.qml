@@ -71,11 +71,16 @@ Rectangle {
 
     //退出按钮
     ToolButton {
-        anchors.right:parent.right
-        anchors.rightMargin: 2
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.rightMargin: 3
+        anchors.topMargin: 3
         width: 22
         height: 22
-        icon.source: "qrc:/res/close_hover.svg"
+        Image {
+            source: "qrc:/res/close_hover.svg"
+            anchors.fill: parent
+        }
 
         background: Rectangle {
             radius: 50
