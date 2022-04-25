@@ -40,15 +40,11 @@ Rectangle {
 
     property double  currenImageScale : currentScale / fileControl.getFitWindowScale(root.width,root.height) * 100
 
+    property bool isMousePinchArea:true
+
+    signal sigWheelChange
     color: "#F8F8F8"
 
-//    function showFloatLabel(){
-//        //启动浮动提示
-//        console.log("4555",currentScale)
-//        console.log(fileControl.getFitWindowScale(root.width,root.height))
-//        floatLabel.displayStr = (currentScale / fileControl.getFitWindowScale(root.width,root.height) * 100).toFixed(0) + "%"
-//        floatLabel.visible = true
-//    }
     onCurrenImageScaleChanged: {
         floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
         floatLabel.visible = true
@@ -90,13 +86,15 @@ Rectangle {
 
 
     onSourceChanged: {
-        currentScale=1.0
+        fileControl.slotRotatePixCurrent();
+        currentScale=1.0*(root.height-titleRect.height*2)/root.height
         console.log("source:",mainView.source)
         fileControl.setCurrentImage(source)
         root.title=fileControl.slotGetFileName(source)+fileControl.slotFileSuffix(source)
 
         floatLabel.displayStr = (currentScale / fileControl.getFitWindowScale(root.width,root.height) * 100).toFixed(0) + "%"
         floatLabel.visible = true
+
     }
 
     function fitImage() {
@@ -104,7 +102,7 @@ Rectangle {
     }
 
     function fitWindow() {
-        currentScale=1.0
+        currentScale = 1.0 *(root.height-titleRect.height*2)/root.height
     }
     function rotateImage(x) {
         //        rotation = currentRotate + x
@@ -478,11 +476,8 @@ Rectangle {
                     }
 
                     PinchArea {
+                        enabled: isMousePinchArea
                         anchors.fill: showAnimatedImg.visible ? showAnimatedImg: showImg
-                        //        pinch.maximumScale: 20
-                        //        pinch.minimumScale: 0.2
-                        //        pinch.target: listView
-                        pinch.dragAxis:Pinch.dragAxis
 
                         onPinchStarted: {
                             pinch.accepted = true
@@ -510,7 +505,7 @@ Rectangle {
                         id: msArea
                         anchors.fill: parent
                         drag.target:showAnimatedImg.visible ? showAnimatedImg: showImg
-
+                        enabled: isMousePinchArea
                         function setImgPostions(x, y) {
                             currentimgX = msArea.drag.maximumX - x * (msArea.drag.maximumX - msArea.drag.minimumX)
                             currentimgY = msArea.drag.maximumY - y * (msArea.drag.maximumY - msArea.drag.minimumY)
@@ -604,6 +599,7 @@ Rectangle {
                         }
 
                         onWheel: {
+
                             var datla = wheel.angleDelta.y / 120
                             if (datla > 0)
                                 currentScale=currentScale/0.9
@@ -615,6 +611,8 @@ Rectangle {
                                 idNavWidget.visible = true
                             }
                             changeRectXY()
+
+                            sigWheelChange()
 
                             /*
                                 缩放计算规则：val对应的是showImg.width和showImg.height
@@ -631,9 +629,6 @@ Rectangle {
                 }
             }
         }
-        onCurrentIndexChanged: {
-            fileControl.slotRotatePixCurrent();
-        }
 
         onWidthChanged: {
             if (view.width > 0) {
@@ -647,10 +642,11 @@ Rectangle {
         }
         onCurrentItemChanged: {
             currentRotate=0
-            source=sourcePaths[view.currentIndex]
+//            source=sourcePaths[view.currentIndex]
         }
 
     }
+
     //rename窗口
     ReName {
         id: renamedialog
@@ -691,4 +687,6 @@ Rectangle {
         anchors.leftMargin:15
         visible: false
     }
+
+
 }

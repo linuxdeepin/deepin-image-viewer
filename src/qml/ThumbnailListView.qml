@@ -28,25 +28,23 @@ Item {
     function deleteCurrentImage(){
 
         if (mainView.sourcePaths.length - 1 > bottomthumbnaillistView.currentIndex) {
-            bottomthumbnaillistView.currentIndex++
-            source = sourcePaths[bottomthumbnaillistView.currentIndex]
-            var tempPath=sourcePaths[bottomthumbnaillistView.currentIndex]
-            var tempPathIndex=bottomthumbnaillistView.currentIndex-1
-            fileControl.deleteImagePath(sourcePaths[bottomthumbnaillistView.currentIndex-1])
-            sourcePaths = fileControl.removeList(sourcePaths,bottomthumbnaillistView.currentIndex-1)
+            var tempPathIndex=bottomthumbnaillistView.currentIndex
+            var tmpPath=source
             //需要保存临时变量，重置后赋值
-            source=tempPath
-            bottomthumbnaillistView.currentIndex=tempPathIndex
+            imageViewer.sourcePaths = fileControl.removeList(sourcePaths,tempPathIndex)
+            imageViewer.swipeIndex=tempPathIndex
+            fileControl.deleteImagePath(tmpPath)
         }else if(mainView.sourcePaths.length - 1 == 0){
             stackView.currentWidgetIndex=0
             root.title=""
-            fileControl.deleteImagePath(sourcePaths[0])
+            fileControl.deleteImagePath(imageViewer.sourcePaths[0])
+            imageViewer.sourcePaths=fileControl.removeList(sourcePaths,0)
 
         }else{
             bottomthumbnaillistView.currentIndex--
-            source = sourcePaths[bottomthumbnaillistView.currentIndex]
+            imageViewer.source = imageViewer.sourcePaths[bottomthumbnaillistView.currentIndex]
             fileControl.deleteImagePath(sourcePaths[bottomthumbnaillistView.currentIndex+1])
-            sourcePaths = fileControl.removeList(sourcePaths,bottomthumbnaillistView.currentIndex+1)
+            imageViewer.sourcePaths = fileControl.removeList(imageViewer.sourcePaths,bottomthumbnaillistView.currentIndex+1)
         }
     }
 
@@ -159,7 +157,7 @@ Item {
         anchors.top: parent.top
 
         height: parent.height
-        width: parent.width - thumbnaillayout.width - deleteButton.width - 60
+        width: parent.width - deleteButton.width - 60
 
         clip: true
         spacing: 10
