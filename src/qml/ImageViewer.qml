@@ -45,6 +45,7 @@ Rectangle {
     signal sigWheelChange
     signal sigImageShowFullScreen
     signal sigImageShowNormal
+    signal sigSourceChange
     color: "#F8F8F8"
 
     onCurrenImageScaleChanged: {
@@ -58,14 +59,27 @@ Rectangle {
 
     onSourceChanged: {
         fileControl.slotRotatePixCurrent();
-        currentScale=1.0*(root.height-titleRect.height*2)/root.height
+
         console.log("source:",mainView.source)
         fileControl.setCurrentImage(source)
+
+        idNavWidget.visible=false
+//        if(fileControl.getFitWindowScale(root.width,root.height-100)<1.0){
+//            fitImage()
+//        }else{
+//            fitWindow()
+//        }
+        fitWindow()
+
+
         root.title=fileControl.slotGetFileName(source)+fileControl.slotFileSuffix(source)
 
         floatLabel.displayStr = (currentScale / fileControl.getFitWindowScale(root.width,root.height) * 100).toFixed(0) + "%"
         floatLabel.visible = true
-        msArea.changeRectXY()
+
+        sigSourceChange();
+
+        mainView.animationAll()
 
     }
 
@@ -74,7 +88,7 @@ Rectangle {
     }
 
     function fitWindow() {
-        currentScale = 1.0 *(root.height-titleRect.height*2)/root.height
+        currentScale =root.visibility==Window.FullScreen ? 1.0 : 1.0 *(root.height-titleRect.height*2)/root.height
     }
     function rotateImage(x) {
         //        rotation = currentRotate + x
@@ -527,6 +541,7 @@ Rectangle {
                                 msArea.setImgPostions(x,y)
                             }
                         }
+
 
                         function changeRectXY() {
                             if(currentScale<=1.0){
