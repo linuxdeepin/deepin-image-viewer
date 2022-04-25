@@ -8,4 +8,6 @@ Item {
     property int minWidth:628
     property int minHideHeight:428
     property int floatMargin:60
+    property int titleHeight:50
+    property int showBottomY: 90
 }

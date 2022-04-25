@@ -79,20 +79,30 @@ Item {
         //            icon.source: "qrc:/res/dcc_back_36px.svg"
         //            onClickedLeft: closeFullThumbnail()
         //        }
-        ThumbnailButton {
-            icon.source: "qrc:/res/dcc_previous_36px.svg"
-            onClickedLeft: {
+        IconButton {
+
+            icon {
+                width: 32
+                height: 32
+                name: "go-previous"
+            }
+            onClicked: {
                 previous();
             }
+
             Shortcut{
                 sequence: "Left"
                 onActivated: previous();
             }
 
         }
-        ThumbnailButton {
-            icon.source: "qrc:/res/dcc_next_36px.svg"
-            onClickedLeft: {
+        IconButton {
+            icon {
+                width: 32
+                height: 32
+                name: "go-next"
+            }
+            onClicked: {
                 next();
             }
             Shortcut{
@@ -100,7 +110,7 @@ Item {
                 onActivated: next();
             }
         }
-        }
+    }
     RowLayout {
         id: fitButtonLayout
 
