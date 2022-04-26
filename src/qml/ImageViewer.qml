@@ -42,6 +42,8 @@ Rectangle {
 
     property bool isMousePinchArea:true
 
+
+
     signal sigWheelChange
     signal sigImageShowFullScreen
     signal sigImageShowNormal
@@ -649,14 +651,17 @@ Rectangle {
         }
 
         onWidthChanged: {
-            if (view.width > 0) {
-                if (view.width > root.width
-                        || view.height > root.height) {
-                    fitWindow()
-                } else {
-                    fitImage()
-                }
-            }
+//            if (view.width > 0) {
+//                if (view.width > root.width
+//                        || view.height > root.height) {
+//                    fitWindow()
+//                } else {
+//                    fitImage()
+//                }
+//            }
+
+             fitWindow()
+
         }
         onCurrentItemChanged: {
             currentRotate=0

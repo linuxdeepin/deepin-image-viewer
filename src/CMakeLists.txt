@@ -17,6 +17,9 @@ file(GLOB_RECURSE SRCS
     ./src/*.cpp
     )
 
+file(GLOB_RECURSE QMLSRC
+    ./*.qml
+    )
 # Find the Qt5Quick library
 find_package(Qt5Quick CONFIG REQUIRED)
 find_package(Qt5QuickCompiler REQUIRED)
@@ -24,6 +27,7 @@ find_package(Qt5DBus CONFIG REQUIRED)
 find_package(Qt5Concurrent CONFIG REQUIRED)
 find_package(Qt5Svg CONFIG REQUIRED)
 find_package(Qt5PrintSupport CONFIG REQUIRED)
+find_package(Qt5LinguistTools CONFIG REQUIRED)
 
 qtquick_compiler_add_resources(RCC_SOURCES ${RESOURCES})
 
@@ -41,6 +45,16 @@ include_directories(src)
 # (1) 开发阶段本地调试使用时，lib被exe以链接库形式使用；
 # (2) 实际使用时，lib 会被安装到指定目录，lib 被 booster-dtkdeclarative 以插件形式解析
 
+
+file(GLOB TS LIST_DIRECTORIES false translations/${CMAKE_PROJECT_NAME}*.ts)
+set_source_files_properties(${TS} PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/translations)
+
+qt5_create_translation(QM ${SRC} ${SRCS} ${RCC_SOURCES} ${QMLSRC} ${GLOB})
+
+if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
+    qt5_create_translation(QM ${SRC} ${SRCS} ${RCC_SOURCES} ${QMLSRC} ${TS})
+endif ()
+
 # Add LIB
 add_library(${LIB_NAME} SHARED
     ${SRC}
@@ -48,6 +62,7 @@ add_library(${LIB_NAME} SHARED
     ${RCC_SOURCES}
     deepin-image-viewer.qrc
     res.qrc
+    ${QM}
     )
 
 # 由于 LIB 程序为本项目的功能实现部分，需要用到的第三方库都需要在此处添加。
@@ -72,8 +87,13 @@ target_link_libraries(${BIN_NAME}
 
 set_target_properties(${BIN_NAME} PROPERTIES INSTALL_RPATH ${DTK_QML_APP_PLUGIN_PATH})
 
+set(APPSHAREDIR  /usr/share/deepin-image-viewer)
 # Add install rule
 install(TARGETS ${BIN_NAME} DESTINATION ${APP_BIN_INSTALL_DIR})
 install(TARGETS ${LIB_NAME} DESTINATION ${DTK_QML_APP_PLUGIN_PATH})
 install(FILES ${CMAKE_PROJECT_NAME}.desktop DESTINATION /usr/share/applications)
 install(FILES ./icon/${CMAKE_PROJECT_NAME}.svg DESTINATION /usr/share/icons/hicolor/scalable/apps)
+#translations
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
+    DESTINATION ${APPSHAREDIR}
+    FILES_MATCHING PATTERN "*.qm")

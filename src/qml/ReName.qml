@@ -56,7 +56,7 @@ DialogWindow {
         anchors.top: parent.top
         font.pixelSize: 16
         //        text: qsTr("Input a new name")
-        text: qsTr("请输入图片名称")
+        text: qsTr("Input a new name")
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
     }
@@ -81,8 +81,8 @@ DialogWindow {
             font.pixelSize: 16
             focus: true
             selectByMouse: true
-            alertText: qsTr("文件名已被占用,请使用其他名称")
-            showAlert: fileControl.isShowToolTip(source, nameedit.text)
+            alertText: qsTr("The file already exists, please use another name")
+            showAlert: fileControl.isShowToolTip(source,nameedit.text)
         }
     }
 
@@ -100,7 +100,7 @@ DialogWindow {
     Button {
         id: cancelbtn
 //        text: qsTr("Cancel")
-        text: qsTr("取消")
+        text: qsTr("Cancel")
         width: 169
         height: 33
         font.pixelSize: 16
@@ -116,8 +116,8 @@ DialogWindow {
     RecommandButton {
         id: enterbtn
 //        text: qsTr("Confirm")
-        text: qsTr("确定")
-        enabled: !fileControl.isShowToolTip(source, nameedit.text) && nameedit.text.length > 0
+        text: qsTr("Confirm")
+        enabled: !fileControl.isShowToolTip(source,nameedit.text) && nameedit.text.length > 0
         width: 169
         height: 33
         font.pixelSize: 16

@@ -139,6 +139,11 @@ Rectangle {
                     }
                     autoRun=false
                 }
+
+                ToolTip.delay: 500
+                ToolTip.timeout: 5000
+                ToolTip.visible: hovered
+                ToolTip.text: qsTr("Previous")
             }
             ThumbnailButton{
                 id:sliderPause
@@ -150,6 +155,10 @@ Rectangle {
                 onClickedLeft: {
                     autoRun=!autoRun
                 }
+                ToolTip.delay: 500
+                ToolTip.timeout: 5000
+                ToolTip.visible: hovered
+                ToolTip.text: autoRun ? qsTr("Pause") : qsTr("Play")
             }
             ThumbnailButton{
                 id:sliderNext
@@ -166,6 +175,10 @@ Rectangle {
                     }
                     autoRun=false
                 }
+                ToolTip.delay: 500
+                ToolTip.timeout: 5000
+                ToolTip.visible: hovered
+                ToolTip.text: qsTr("Next")
             }
 
             ActionButton {
@@ -179,6 +192,10 @@ Rectangle {
                 onClicked: {
                     outSliderShow()
                 }
+                ToolTip.delay: 500
+                ToolTip.timeout: 5000
+                ToolTip.visible: hovered
+                ToolTip.text: qsTr("Exit")
             }
 
         }
@@ -195,14 +212,14 @@ Rectangle {
         //            sourceModel: option_menu.contentModel
         //        }
         MenuItem {
-            text:autoRun ?"暂停":"继续"
+            text:autoRun ?qsTr("Pause") : qsTr("Play")
             onTriggered: {
                 autoRun=!autoRun
             }
         }
 
         MenuItem {
-            text:"退出"
+            text:qsTr("Exit")
             onTriggered: {
                 outSliderShow()
             }

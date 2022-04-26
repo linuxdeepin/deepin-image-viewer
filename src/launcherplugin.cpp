@@ -78,7 +78,13 @@ QGuiApplication *LauncherPlugin::createApplication(int &argc, char **argv)
     // 注意:请不要管理 QGuiApplication 对象的生命周期！
     DApplication *a = new DApplication(argc, argv);
     a->loadTranslator();
+    a->setOrganizationName("deepin");
+    a->setApplicationName("deepin-image-viewer");
+    a->setApplicationDisplayName(QObject::tr("Image Viewer"));
+    a->setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
+    a->setApplicationDescription(QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
     // a->setApplicationName("Launch-plugin");
+    a->loadTranslator();
 
     return a;
 }

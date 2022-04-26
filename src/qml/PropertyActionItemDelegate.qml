@@ -75,7 +75,7 @@ Control {
                 font.pixelSize: 16
                 focus: true
                 selectByMouse: true
-                alertText: qsTr("文件名已被占用,请使用其他名称")
+                alertText: qsTr("The file already exists, please use another name")
                 showAlert: fileControl.isShowToolTip(imageViewer.source,nameedit.text) && nameedit.visible
                 height:20
             }
