@@ -99,7 +99,6 @@ Rectangle {
         id: idrectArea
         opacity: 0.4
         color: "black"
-        radius: 10
     }
     //允许拖动范围
     MouseArea {
@@ -116,7 +115,21 @@ Rectangle {
         //拖拽与主界面的联动
         onPressed: {
             isPressed = true
+            var x = mouseX
+            var y = mouseY
+            idrectArea.x = x - idrectArea.width / 2 > 0 ? x - idrectArea.width / 2 : 0
+            idrectArea.y = y - idrectArea.height / 2 > 0 ? y - idrectArea.height / 2 : 0
+
+
+            var j = idrectArea.x + idrectArea.width
+            var k = idrectArea.y + idrectArea.height
+
+            var x1 = j / idNavigationwidget.width
+            var y1 = k / idNavigationwidget.height
+            //导航拖动与主界面联动,x1和y1即为主界面传入时的比例
+            changeShowImgPostions(x1,y1)
         }
+
         onReleased: {
             isPressed = false
         }

@@ -25,7 +25,7 @@ DialogWindow {
     height: 220
 //    opacity: 1
 
-    icon :"deepin-image-viewer"
+    icon : "deepin-image-viewer"
 //    color: "#E5DEDA"
 
 //    D.DWindow.enabled: true
@@ -82,7 +82,7 @@ DialogWindow {
             focus: true
             selectByMouse: true
             alertText: qsTr("文件名已被占用,请使用其他名称")
-            showAlert: fileControl.isShowToolTip(source,nameedit.text)
+            showAlert: fileControl.isShowToolTip(source, nameedit.text)
         }
     }
 
@@ -117,7 +117,7 @@ DialogWindow {
         id: enterbtn
 //        text: qsTr("Confirm")
         text: qsTr("确定")
-        enabled: !fileControl.isShowToolTip(source,nameedit.text) && nameedit.text.length > 0
+        enabled: !fileControl.isShowToolTip(source, nameedit.text) && nameedit.text.length > 0
         width: 169
         height: 33
         font.pixelSize: 16
@@ -131,7 +131,7 @@ DialogWindow {
             var name = nameedit.text
             //bool返回值判断是否成功
 
-            if (fileControl.slotFileReName(name,source)) {
+            if (fileControl.slotFileReName(name, source)) {
                 sourcePaths=fileControl.renameOne(sourcePaths, source, fileControl.getNamePath(source, name))
                 source=fileControl.getNamePath(source, name)
 
@@ -145,7 +145,7 @@ DialogWindow {
 
     onVisibleChanged: {
         console.log(width)
-        setX(root.x  + root.width/2 - width / 2)
-        setY(root.y  + root.height/2 - height / 2)
+        setX(root.x  + root.width / 2 - width / 2)
+        setY(root.y  + root.height / 2 - height / 2)
     }
 }
