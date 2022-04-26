@@ -260,7 +260,6 @@ Item {
 
         onExited: {
             isEnterCurrentView = false
-            console.log("263false")
             animationAll()
         }
 

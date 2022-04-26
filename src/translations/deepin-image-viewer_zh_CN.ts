@@ -183,6 +183,10 @@
         <source>day</source>
         <translation>天</translation>
     </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>看图是一款外观时尚，性能流畅的图片查看工具。</translation>
+    </message>
 </context>
 <context>
     <name>ReName</name>
@@ -255,6 +259,17 @@
     <message>
         <source>Delete</source>
         <translation>删除</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>看图是一款外观时尚，性能流畅的图片查看工具。</translation>
+    </message>
+    <message>
+        <source>deepin-image-viewer</source>
+        <translation>深度看图</translation>
     </message>
 </context>
 </TS>

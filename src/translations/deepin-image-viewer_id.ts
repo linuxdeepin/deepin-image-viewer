@@ -183,6 +183,10 @@
         <source>day</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ReName</name>
@@ -255,6 +259,17 @@
     <message>
         <source>Delete</source>
         <translation type="unfinished">Hapus</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

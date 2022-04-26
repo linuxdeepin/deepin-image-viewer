@@ -10,7 +10,7 @@ ApplicationWindow {
     GlobalVar{
         id: global
     }
-
+    signal sigTitlePress
     // 设置 dtk 风格窗口
     D.DWindow.enabled: true
     id: root
@@ -78,6 +78,7 @@ ApplicationWindow {
             property point clickPos: "0,0"
             onPressed: { //接收鼠标按下事件
                 clickPos  = Qt.point(mouse.x,mouse.y)
+                sigTitlePress()
             }
             onPositionChanged: { //鼠标按下后改变位置
                 //鼠标偏移量
@@ -93,6 +94,18 @@ ApplicationWindow {
         TitleBar {
             id :title
             anchors.fill:parent
+            aboutDialog: AboutDialog{
+                icon:"deepin-image-viewer"
+//                productIcon:"deepin-image-viewer"
+                width:400
+                modality:Qt.NonModal
+                version:qsTr(String("Version: %1").arg(Qt.application.version))
+                description:qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
+                productName:qsTr("deepin-image-viewer")
+                websiteName:DTK.deepinWebsiteName
+                websiteLink:DTK.deepinWebsitelLink
+                license:qsTr(String("%1 is released under %2").arg(productName).arg("GPLV3"))
+            }
         }
     }
 

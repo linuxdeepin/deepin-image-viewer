@@ -50,6 +50,12 @@ Rectangle {
     signal sigSourceChange
     color: "#F8F8F8"
 
+    Connections {
+        target: root
+        onSigTitlePress:{
+            infomationDig.hide()
+        }
+    }
     onCurrenImageScaleChanged: {
         floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
         floatLabel.visible = true
@@ -119,23 +125,29 @@ Rectangle {
     }
     function showPanelFullScreen(){
         showFullScreen()
-        stackView.currentWidgetIndex=1
-        currentScale=1.0
-        sigImageShowFullScreen()
+        //如果是初始界面只全屏
+        if(stackView.currentWidgetIndex!=0){
+            stackView.currentWidgetIndex=1
+            currentScale=1.0
+            sigImageShowFullScreen()
+        }
     }
 
     function escBack() {
         showNormal()
-        sliderMainShow.autoRun = false
-        sliderMainShow.backtrack()
-        if(stackView.currentWidgetIndex===2) {
-            mainView.currentIndex=sliderMainShow.indexImg
+        //如果是初始界面只正常大小
+        if(stackView.currentWidgetIndex!=0){
+            sliderMainShow.autoRun = false
+            sliderMainShow.backtrack()
+            if(stackView.currentWidgetIndex===2) {
+                mainView.currentIndex=sliderMainShow.indexImg
+            }
+
+            stackView.currentWidgetIndex=1
+            currentScale=1.0
+
+            sigImageShowNormal()
         }
-
-        stackView.currentWidgetIndex=1
-        currentScale=1.0
-
-        sigImageShowNormal()
     }
     //缩放快捷键
     Shortcut {
@@ -229,7 +241,11 @@ Rectangle {
                     }
                     Shortcut {
                         sequence: "Ctrl+P"
-                        onActivated:  fileControl.showPrintDialog(mainView.source)
+                        onActivated:  {
+                            if(stackView.currentWidgetIndex!=0 && stackView.currentWidgetIndex!= 2){
+                                fileControl.showPrintDialog(mainView.source)
+                            }
+                        }
                     }
                 }
 
@@ -240,7 +256,11 @@ Rectangle {
             }
             Shortcut {
                 sequence: "Alt+O"
-                onActivated:  fileControl.ocrImage(source)
+                onActivated: {
+                    if(stackView.currentWidgetIndex!=0 && stackView.currentWidgetIndex!= 2){
+                        fileControl.ocrImage(source)
+                    }
+                }
             }
         }
 
@@ -249,7 +269,10 @@ Rectangle {
             onTriggered: {startSliderShow()}
             Shortcut {
                 sequence: "F5"
-                onActivated:{startSliderShow()
+                onActivated:{
+                    if(stackView.currentWidgetIndex!=0){
+                        startSliderShow()
+                    }
                 }
             }
         }
@@ -264,7 +287,9 @@ Rectangle {
             Shortcut {
                 sequence: "Ctrl+C"
                 onActivated:{
-                    fileControl.copyImage(source)
+                    if(stackView.currentWidgetIndex!=0 && stackView.currentWidgetIndex!= 2){
+                        fileControl.copyImage(source)
+                    }
                 }
             }
         }
@@ -283,13 +308,15 @@ Rectangle {
             Shortcut {
                 sequence: "F2"
                 onActivated:{
-                    var x = parent.mapToGlobal(0,0).x + parent.width/2 - 190
-                    var y = parent.mapToGlobal(0,0).y + parent.height/2 - 89
-                    renamedialog.setX(x)
-                    renamedialog.setY(y)
-                    renamedialog.getFileName(fileControl.slotGetFileName(source))
-                    renamedialog.getFileSuffix(fileControl.slotFileSuffix(source))
-                    renamedialog.show()
+                    if(stackView.currentWidgetIndex!=0 && stackView.currentWidgetIndex!= 2){
+                        var x = parent.mapToGlobal(0,0).x + parent.width/2 - 190
+                        var y = parent.mapToGlobal(0,0).y + parent.height/2 - 89
+                        renamedialog.setX(x)
+                        renamedialog.setY(y)
+                        renamedialog.getFileName(fileControl.slotGetFileName(source))
+                        renamedialog.getFileSuffix(fileControl.slotFileSuffix(source))
+                        renamedialog.show()
+                    }
                 }
             }
         }
@@ -302,7 +329,9 @@ Rectangle {
             Shortcut {
                 sequence: "Delete"
                 onActivated:{
-                    thumbnailListView.deleteCurrentImage()
+                    if(stackView.currentWidgetIndex== 1){
+                        thumbnailListView.deleteCurrentImage()
+                    }
                 }
             }
         }
@@ -317,7 +346,9 @@ Rectangle {
             Shortcut {
                 sequence: "Ctrl+R"
                 onActivated:{
-                    imageViewer.rotateImage(90)
+                    if(stackView.currentWidgetIndex== 1){
+                        imageViewer.rotateImage(90)
+                    }
                 }
             }
         }
@@ -325,12 +356,15 @@ Rectangle {
         MenuItem {
             text: qsTr("Rotate counterclockwise")
             onTriggered: {
+
                 imageViewer.rotateImage(-90)
             }
             Shortcut {
                 sequence: "Ctrl+Shift+R"
                 onActivated:{
-                    imageViewer.rotateImage(-90)
+                    if(stackView.currentWidgetIndex== 1){
+                        imageViewer.rotateImage(-90)
+                    }
                 }
             }
         }
@@ -359,7 +393,9 @@ Rectangle {
             Shortcut {
                 sequence: "Ctrl+F"
                 onActivated:{
-                    fileControl.setWallpaper(source)
+                    if(stackView.currentWidgetIndex== 1){
+                        fileControl.setWallpaper(source)
+                    }
                 }
             }
         }
@@ -372,7 +408,9 @@ Rectangle {
             Shortcut {
                 sequence: "Alt+D"
                 onActivated:{
-                    fileControl.displayinFileManager(source)
+                    if(stackView.currentWidgetIndex== 1){
+                        fileControl.displayinFileManager(source)
+                    }
                 }
             }
         }
@@ -385,7 +423,9 @@ Rectangle {
             Shortcut {
                 sequence: "Ctrl+I"
                 onActivated:{
-                    infomationDig.show()
+                    if(stackView.currentWidgetIndex== 1){
+                        infomationDig.show()
+                    }
                 }
             }
         }
