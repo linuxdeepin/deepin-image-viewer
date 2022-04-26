@@ -2,6 +2,7 @@ import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
+
 Rectangle {
 
 
@@ -12,20 +13,24 @@ Rectangle {
 //    property alias source: imageViewer.source
 //    initialItem: rect
     anchors.fill: parent
+
     OpenImageWidget{
         anchors.fill: parent
         visible: currentWidgetIndex===0?true:false
     }
+
     FullThumbnail{
         anchors.fill: parent
         visible: currentWidgetIndex===1?true:false
         id :mainView
     }
+
     SliderShow{
         id:sliderMainShow
         visible: currentWidgetIndex===2?true:false
         anchors.fill: parent
     }
+
     DropArea {
         id: dropArea;
         anchors.fill: parent;

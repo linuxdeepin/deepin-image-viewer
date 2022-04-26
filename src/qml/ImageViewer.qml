@@ -50,6 +50,8 @@ Rectangle {
     signal sigSourceChange
     color: "#F8F8F8"
 
+
+
     Connections {
         target: root
         onSigTitlePress:{
@@ -179,53 +181,15 @@ Rectangle {
         }
     }
 
-    MouseArea {
-        anchors.fill: parent
-
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-        onClicked: {
-            console.log("right menu");
-            if (mouse.button === Qt.RightButton) {
-                option_menu.popup()
-            }
-        }
-//        onWheel: {
-//            var datla = wheel.angleDelta.y / 120
-//            if (datla > 0) {
-//                view.currentItem.scale = view.currentItem.scale/0.9
-//            } else {
-//                view.currentItem.scale = view.currentItem.scale * 0.9
-//            }
-
-
-//            if (view.currentItem.scale * 100 < 100) {
-//                idNavWidget.visible = false
-//            } else {
-//                idNavWidget.visible = true
-//                //TODO 依据配置文件设置再来控制显影，这里先默认根据图片比例控制
-//            }
-//            idNavWidget.setRectPec(view.currentItem.scale)
-//            //            CodeImage.m_path = source
-//            //            CodeImage.loadThumbnail(source)
-//        }
-    }
     Menu {
         x: 250; y: 600
         id: option_menu
-        //        model: ObjectModelProxy {
-        //            id: proxyModel
-        //            property string filterText
-        //            filterAcceptsItem: function(item) {
-        //                return item.text.includes(filterText)
-        //            }
-        //            sourceModel: option_menu.contentModel
-        //        }
+
         maxVisibleItems: 20
         MenuItem {
             id : right_fullscreen
             text:root.visibility!=Window.FullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
-            //            shortcut: "F11"
+
             onTriggered: root.visibility!=Window.FullScreen ?imageViewer.showPanelFullScreen() :showNormal()
             Shortcut {
                 sequence: root.visibility!=Window.FullScreen ?"F11":"Esc"
@@ -234,20 +198,20 @@ Rectangle {
         }
 
 
-                MenuItem {
-                    text: qsTr("Print")
-                    onTriggered: {
-                    fileControl.showPrintDialog(mainView.source)
-                    }
-                    Shortcut {
-                        sequence: "Ctrl+P"
-                        onActivated:  {
-                            if(stackView.currentWidgetIndex!=0 && stackView.currentWidgetIndex!= 2){
-                                fileControl.showPrintDialog(mainView.source)
-                            }
-                        }
+        MenuItem {
+            text: qsTr("Print")
+            onTriggered: {
+                fileControl.showPrintDialog(mainView.source)
+            }
+            Shortcut {
+                sequence: "Ctrl+P"
+                onActivated:  {
+                    if(stackView.currentWidgetIndex!=0 && stackView.currentWidgetIndex!= 2){
+                        fileControl.showPrintDialog(mainView.source)
                     }
                 }
+            }
+        }
 
         MenuItem {
             text: qsTr("Extract text")
@@ -448,6 +412,7 @@ Rectangle {
             model: sourcePaths.length
 
             Loader {
+
                 active: SwipeView.isCurrentItem || SwipeView.isNextItem
                         || SwipeView.isPreviousItem
                 sourceComponent: Rectangle {
@@ -471,13 +436,6 @@ Rectangle {
                         clip: true
                         scale: currentScale
                         smooth: true
-
-                        onSourceChanged: {
-                            //                            view.currentItem.rotation=0
-                        }
-                        onCacheChanged: {
-                            view.currentItem.rotation=0
-                        }
 
                         onStatusChanged: {
                             msArea.changeRectXY()
@@ -533,6 +491,13 @@ Rectangle {
                             }
                         }
                     }
+                    Connections {
+                        target: root
+                        onSigTitlePress:{
+                            infomationDig.hide()
+                            msArea.forceActiveFocus()
+                        }
+                    }
 
                     PinchArea {
                         enabled: isMousePinchArea
@@ -559,11 +524,11 @@ Rectangle {
                             maximumTouchPoints: 3
                         }
                     }
-
                     MouseArea {
                         id: msArea
                         anchors.fill: parent
-                        drag.target:showAnimatedImg.visible ? showAnimatedImg: showImg
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        drag.target: showAnimatedImg.visible ? showAnimatedImg: showImg
                         enabled: isMousePinchArea
                         function setImgPostions(x, y) {
                             currentimgX = msArea.drag.maximumX - x * (msArea.drag.maximumX - msArea.drag.minimumX)
@@ -619,10 +584,19 @@ Rectangle {
                                 showImg.y=drag.maximumY
                             }
                         }
-
+//                        onClicked: {
+//                            console.log("right menu");
+//                            if (mouse.button === Qt.RightButton) {
+//                                option_menu.popup(parent)
+//                            }
+//                        }
                         onPressed: {
                             infomationDig.hide()
 //                            changeRectXY()
+                            console.log("608")
+                            if (mouse.button === Qt.RightButton) {
+                                option_menu.popup()
+                            }
                         }
 
                         onMouseXChanged: {
@@ -705,8 +679,8 @@ Rectangle {
         }
         onCurrentItemChanged: {
             currentRotate=0
-//            source=sourcePaths[view.currentIndex]
         }
+
 
     }
 

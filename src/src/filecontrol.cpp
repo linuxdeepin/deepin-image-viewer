@@ -556,4 +556,3 @@ void FileControl::setConfigValue(const QString &group, const QString &key, const
 {
     m_config->setValue(group, key, value);
 }
-

@@ -33,7 +33,7 @@ ColumnLayout {
         id: titleBar
         Layout.fillWidth: true; Layout.preferredHeight: 24
         text: title
-        icon.name: info.visible ? "go-up": "go-down"
+        icon.name: info.visible ? "arrow_ordinary_up": "arrow_ordinary_down"
         display: IconLabel.IconBesideText
         checkable: false
         font: DTK.fontManager.t5

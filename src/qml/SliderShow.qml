@@ -125,14 +125,16 @@ Rectangle {
                 sliderFloatPanel.y=screen.height-80
             }
 
-            ThumbnailButton {
+            IconButton {
                 id:sliderPrevious
-                icon.source:  "qrc:/res/dcc_previous_36px.svg"
+                icon.name : "icon_previous"
+                width:50
+                height:50
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 anchors.top: parent.top
                 anchors.topMargin: parent.height/2-height/2
-                onClickedLeft: {
+                onClicked: {
                     sliderMainShow.indexImg--
                     if (sliderMainShow.indexImg < 0) {
                         sliderMainShow.indexImg=images.length-1
@@ -145,14 +147,16 @@ Rectangle {
                 ToolTip.visible: hovered
                 ToolTip.text: qsTr("Previous")
             }
-            ThumbnailButton{
+            IconButton{
                 id:sliderPause
-                icon.source: autoRun ? "qrc:/res/dcc_suspend_normal_36px.svg": "qrc:/res/dcc_play_normal_36px.svg"
+                icon.name : autoRun ? "icon_suspend": "icon_play_start"
+                width:50
+                height:50
                 anchors.left: sliderPrevious.right
                 anchors.leftMargin: 10
                 anchors.top: parent.top
                 anchors.topMargin: parent.height/2-height/2
-                onClickedLeft: {
+                onClicked: {
                     autoRun=!autoRun
                 }
                 ToolTip.delay: 500
@@ -160,14 +164,16 @@ Rectangle {
                 ToolTip.visible: hovered
                 ToolTip.text: autoRun ? qsTr("Pause") : qsTr("Play")
             }
-            ThumbnailButton{
+            IconButton{
                 id:sliderNext
-                icon.source:   "qrc:/res/dcc_next_36px.svg"
+                icon.name : "icon_next"
+                width:50
+                height:50
                 anchors.left: sliderPause.right
                 anchors.leftMargin: 10
                 anchors.top: parent.top
                 anchors.topMargin: parent.height/2-height/2
-                onClickedLeft: {
+                onClicked: {
                     console.log("next")
                     sliderMainShow.indexImg++
                     if (sliderMainShow.indexImg > sliderMainShow.images.length-1) {

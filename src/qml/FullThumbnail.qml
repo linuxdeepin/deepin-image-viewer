@@ -213,10 +213,12 @@ Item {
 
     FloatingButton {
         id:floatLeftButton
+        visible: mainView.sourcePaths.length>1
+        enabled: currentIndex>0? true:false
         checked: false
         anchors.top: parent.top
         anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
-        icon.name : "go-previous"
+        icon.name : "icon_previous"
         width: 50
         height: 50
         onClicked: {
@@ -229,11 +231,13 @@ Item {
     FloatingButton {
         id:floatRightButton
         checked: false
+        visible: mainView.sourcePaths.length>1
+        enabled: currentIndex<mainView.sourcePaths.length-1? true:false
         anchors.top: parent.top
         anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
         width: 50
         height: 50
-        icon.name:"go-next"
+        icon.name:"icon_next"
         onClicked: {
             thumbnailListView.next();
         }
@@ -269,7 +273,7 @@ Item {
         id: thumbnailViewBackGround
 
         width: parent.width - 30 < 500+sourcePaths.length*50 ? parent.width - 30 : 500+sourcePaths.length*50
-        height: 80
+        height: 70
 
         anchors.right: parent.right
         anchors.rightMargin: (parent.width-width)/2
