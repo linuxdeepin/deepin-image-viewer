@@ -51,12 +51,12 @@ DialogWindow {
 //            source: "qrc:/assets/popup/nointeractive.svg"
 //        }
         PropertyItem {
-            title: "基本信息"
+            title: qsTr("Basic info")
             ColumnLayout {
                 spacing: 1
                 PropertyActionItemDelegate {
                     Layout.fillWidth: true
-                    title: "文件名"
+                    title: qsTr("File Name")
                     description: fileName
                     iconName: "action_edit"
                     onClicked: {
@@ -67,17 +67,17 @@ DialogWindow {
                     Layout.fillWidth: true
                     spacing: 1
                     PropertyItemDelegate {
-                        title: "大小"
+                        title: qsTr("Size")
                         description: fileControl.slotGetInfo("FileSize",source)
                         corners: RoundRectangle.BottomLeftCorner
                     }
                     PropertyItemDelegate {
-                        title: "分辨率"
+                        title: qsTr("Resolution ratio")
                         description: fileControl.slotGetInfo("Dimension",source)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
-                        title: "格式"
+                        title: qsTr("Suffix")
                         description: fileControl.slotFileSuffix(source,false)
                         corners: RoundRectangle.BottomRightCorner
                     }
@@ -87,21 +87,21 @@ DialogWindow {
                 spacing: 1
                 PropertyActionItemDelegate {
                     Layout.fillWidth: true
-                    title: "拍摄日期"
+                    title: qsTr("Date captured")
                     description: fileControl.slotGetInfo("DateTimeOriginal",source)
                     corners: RoundRectangle.TopCorner
                 }
 
                 PropertyActionItemDelegate {
                     Layout.fillWidth: true
-                    title: "修改日期"
+                    title: qsTr("Date modified")
                     description: fileControl.slotGetInfo("DateTimeDigitized",source)
                     corners: RoundRectangle.BottomCorner
                 }
             }
         }
         PropertyItem {
-            title: "详细信息"
+            title: qsTr("Details")
             ColumnLayout {
                 spacing: 1
                 RowLayout {
@@ -109,19 +109,19 @@ DialogWindow {
                     spacing: 1
                     PropertyItemDelegate {
                         contrlImplicitWidth:66
-                        title: "光圈"
+                        title: qsTr("Aperture")
                         description: fileControl.slotGetInfo("ApertureValue",source)
                         corners: RoundRectangle.TopLeftCorner
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:106
-                        title: "曝光程序"
+                        title: qsTr("Exposure program")
                         description: fileControl.slotGetInfo("ExposureProgram",source)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:86
-                        title: "焦距"
+                        title: qsTr("Focal length")
                         description: fileControl.slotGetInfo("FocalLength",source)
                         corners: RoundRectangle.TopRightCorner
                     }
@@ -132,19 +132,19 @@ DialogWindow {
                     spacing: 1
                     PropertyItemDelegate {
                         contrlImplicitWidth:66
-                        title: "ISO感光度"
+                        title: qsTr("ISO")
                         description: fileControl.slotGetInfo("ISOSpeedRatings",source)
 
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:106
-                        title: "曝光模式"
+                        title: qsTr("Exposure mode")
                         description: fileControl.slotGetInfo("ExposureMode",source)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:86
-                        title: "曝光时间"
+                        title: qsTr("Exposure time")
                         description: fileControl.slotGetInfo("ExposureTime",source)
                     }
                 }
@@ -153,18 +153,18 @@ DialogWindow {
                     spacing: 1
                     PropertyItemDelegate {
                         contrlImplicitWidth:66
-                        title: "闪光灯"
+                        title: qsTr("Flash")
                         description: fileControl.slotGetInfo("Flash",source)                
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:106
-                        title: "闪光灯补偿"
+                        title: qsTr("Flash compensation")
                         description: fileControl.slotGetInfo("FlashExposureComp",source)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:86
-                        title: "最大光圈值"
+                        title: qsTr("Max Aperture")
                         description: fileControl.slotGetInfo("MaxApertureValue",source)
                     }
                 }
@@ -173,19 +173,19 @@ DialogWindow {
                     spacing: 1
                     PropertyItemDelegate {
                         contrlImplicitWidth:66
-                        title: "颜色空间"
+                        title: qsTr("Colorspace")
                         description: fileControl.slotGetInfo("ColorSpace",source)
                         corners: RoundRectangle.BottomLeftCorner
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:106
-                        title: "曝光模式"
+                        title: qsTr("Metering mode")
                         description: fileControl.slotGetInfo("MeteringMode",source)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:86
-                        title: "白平衡"
+                        title: qsTr("White balance")
                         description: fileControl.slotGetInfo("WhiteBalance",source)
                         corners: RoundRectangle.BottomRightCorner
                     }
@@ -193,12 +193,12 @@ DialogWindow {
             }
 
             PropertyItemDelegate {
-                title: "设备型号"
+                title: qsTr("Camera model")
                 description: fileControl.slotGetInfo("Model",source)
                 corners: RoundRectangle.AllCorner
             }
             PropertyItemDelegate {
-                title: "镜头型号"
+                title: qsTr("Lens model")
                 description: fileControl.slotGetInfo("LensType",source)
                 corners: RoundRectangle.AllCorner
             }

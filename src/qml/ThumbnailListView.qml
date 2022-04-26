@@ -96,6 +96,11 @@ Item {
                 onActivated: previous();
             }
 
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Next")
+
         }
         IconButton {
             icon {
@@ -110,6 +115,10 @@ Item {
                 sequence: "Right"
                 onActivated: next();
             }
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Previous")
         }
     }
     RowLayout {
@@ -126,13 +135,20 @@ Item {
             onClickedLeft: {
                 imageViewer.fitImage()
             }
-
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Original size")
         }
         ThumbnailButton {
             icon.source: "qrc:/res/dcc_fit_36px.svg"
             onClickedLeft: {
                 imageViewer.fitWindow()
             }
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Fit to window")
         }
 
         ThumbnailButton {
@@ -142,6 +158,10 @@ Item {
 
 //                bottomthumbnaillistView.currentItem.rotation=bottomthumbnaillistView.currentItem.rotation-90
             }
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Rotate")
         }
 //        ThumbnailButton {
 //            icon.source: "qrc:/res/dcc_right_36px.svg"
@@ -246,6 +266,10 @@ Item {
         onClickedLeft: {
             fileControl.ocrImage(source)
         }
+        ToolTip.delay: 500
+        ToolTip.timeout: 5000
+        ToolTip.visible: hovered
+        ToolTip.text: qsTr("Extract text")
     }
 
     ThumbnailButton {
@@ -265,6 +289,11 @@ Item {
         //        visible: fileControl.isCanDelete(source) ? true :false
 
         enabled: fileControl.isCanDelete(source) ? true :false
+
+        ToolTip.delay: 500
+        ToolTip.timeout: 5000
+        ToolTip.visible: hovered
+        ToolTip.text: qsTr("Delete")
 
     }
 }

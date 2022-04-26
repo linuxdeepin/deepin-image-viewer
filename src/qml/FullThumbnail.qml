@@ -103,11 +103,10 @@ Item {
 
     //判断工具栏和标题栏的显示隐藏
     function animationAll(){
-        hideBottomAnimation.stop()
-        hideTopTitleAnimation.stop()
-        showRightButtonAnimation.stop()
-        hideRightButtonAnimation.stop()
-
+//        hideBottomAnimation.stop()
+//        hideTopTitleAnimation.stop()
+//        showRightButtonAnimation.stop()
+//        hideRightButtonAnimation.stop()
         if(root.visibility==Window.FullScreen ){
             if(imageViewerArea.mouseY > height-100){
                 showBottomAnimation.start()
@@ -142,6 +141,8 @@ Item {
 
     //判断工具栏和标题栏的显示隐藏
     function changeSizeMoveAll(){
+        showBottomAnimation.stop()
+        showTopTitleAnimation.stop()
         hideBottomAnimation.stop()
         hideTopTitleAnimation.stop()
         showRightButtonAnimation.stop()
@@ -159,7 +160,9 @@ Item {
         }else if(imageViewerArea.mouseY > height-100 || imageViewerArea.mouseY<titleRect.height ||
                 (imageViewer.currentScale <= 1.0*(root.height-titleRect.height*2)/root.height)){
             thumbnailViewBackGround.y=root.height-global.showBottomY
+            console.log(root.height)
             titleRect.y=0
+            console.log(thumbnailViewBackGround.y)
         }else{
             thumbnailViewBackGround.y=root.height
             titleRect.y=-50
@@ -235,7 +238,6 @@ Item {
             thumbnailListView.next();
         }
         Component.onCompleted: {
-            console.log("280")
             animationAll()
         }
     }
@@ -248,16 +250,17 @@ Item {
         hoverEnabled: true
         onMouseYChanged: {
             animationAll()
-             mouse.accepted = false;
+            mouse.accepted = false;
         }
 
         onEntered: {
-            isEnterCurrentView=true
+            isEnterCurrentView = true
             animationAll()
         }
 
         onExited: {
-            isEnterCurrentView=false
+            isEnterCurrentView = false
+            console.log("263false")
             animationAll()
         }
 
