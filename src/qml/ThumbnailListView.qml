@@ -95,6 +95,7 @@ Item {
                 sequence: "Left"
                 onActivated: previous();
             }
+            enabled: currentIndex>0? true:false
 
             ToolTip.delay: 500
             ToolTip.timeout: 5000

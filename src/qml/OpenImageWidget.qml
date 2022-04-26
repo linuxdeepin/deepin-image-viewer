@@ -44,7 +44,9 @@ Item {
     Shortcut {
         sequence: "Ctrl+O"
         onActivated:{
-            fileDialog.open()
+            if(stackView.currentWidgetIndex!= 2){
+                fileDialog.open()
+            }
         }
     }
     FileDialog {
