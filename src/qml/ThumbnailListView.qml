@@ -66,9 +66,10 @@ Item {
         }
     }
 
-    RowLayout {
-        id: leftLayout
+    IconButton {
+        id: previousButton
         visible: mainView.sourcePaths.length>1
+        enabled: currentIndex>0? true:false
 
         anchors.left: parent.left
         anchors.leftMargin: 15
@@ -76,64 +77,64 @@ Item {
         anchors.top: parent.top
         anchors.topMargin: (parent.height - height) / 2
 
-        //        ThumbnailButton {
-        //            icon.source: "qrc:/res/dcc_back_36px.svg"
-        //            onClickedLeft: closeFullThumbnail()
-        //        }
-        IconButton {
-
-            icon {
-                width: 32
-                height: 32
-                name: "go-previous"
-            }
-            onClicked: {
-                previous();
-            }
-
-            Shortcut{
-                sequence: "Left"
-                onActivated: previous();
-            }
-            enabled: currentIndex>0? true:false
-
-            ToolTip.delay: 500
-            ToolTip.timeout: 5000
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("Next")
-
+        width:50
+        height:50
+        icon.name: "icon_previous"
+        onClicked: {
+            previous();
         }
-        IconButton {
-            icon {
-                width: 32
-                height: 32
-                name: "go-next"
-            }
-            onClicked: {
-                next();
-            }
-            Shortcut{
-                sequence: "Right"
-                onActivated: next();
-            }
-            ToolTip.delay: 500
-            ToolTip.timeout: 5000
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("Previous")
+
+        Shortcut{
+            sequence: "Left"
+            onActivated: previous();
         }
+
+        ToolTip.delay: 500
+        ToolTip.timeout: 5000
+        ToolTip.visible: hovered
+        ToolTip.text: qsTr("Next")
+
     }
-    RowLayout {
-        id: fitButtonLayout
-
-        anchors.left: mainView.sourcePaths.length>1 ?leftLayout.right:parent.left
-        anchors.leftMargin:mainView.sourcePaths.length>1 ? 40 : 15
+    IconButton {
+        id: nextButton
+        visible: mainView.sourcePaths.length>1
+        enabled: currentIndex<mainView.sourcePaths.length-1? true:false
+        anchors.left: previousButton.right
+        anchors.leftMargin: 10
 
         anchors.top: parent.top
         anchors.topMargin: (parent.height - height) / 2
-        ThumbnailButton {
-            icon.source: "qrc:/res/dcc_11_36px.svg"
 
-            onClickedLeft: {
+        width:50
+        height:50
+        icon.name:"icon_next"
+        onClicked: {
+            next();
+        }
+        Shortcut{
+            sequence: "Right"
+            onActivated: next();
+        }
+        ToolTip.delay: 500
+        ToolTip.timeout: 5000
+        ToolTip.visible: hovered
+        ToolTip.text: qsTr("Previous")
+    }
+
+
+
+        IconButton {
+            id: fitImageButton
+            anchors.left: mainView.sourcePaths.length>1 ?nextButton.right:parent.left
+            anchors.leftMargin:mainView.sourcePaths.length>1 ? 40 : 15
+
+            anchors.top: parent.top
+            anchors.topMargin: (parent.height - height) / 2
+            width:50
+            height:50
+            icon.name:"icon_11"
+
+            onClicked: {
                 imageViewer.fitImage()
             }
             ToolTip.delay: 500
@@ -141,9 +142,18 @@ Item {
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Original size")
         }
-        ThumbnailButton {
-            icon.source: "qrc:/res/dcc_fit_36px.svg"
-            onClickedLeft: {
+        IconButton {
+            id: fitWindowButton
+            anchors.left: fitImageButton.right
+            anchors.leftMargin:10
+
+            anchors.top: parent.top
+            anchors.topMargin: (parent.height - height) / 2
+
+            width:50
+            height:50
+            icon.name:"icon_self-adaption"
+            onClicked: {
                 imageViewer.fitWindow()
             }
             ToolTip.delay: 500
@@ -152,9 +162,18 @@ Item {
             ToolTip.text: qsTr("Fit to window")
         }
 
-        ThumbnailButton {
-            icon.source: "qrc:/res/dcc_left_36px.svg"
-            onClickedLeft: {
+        IconButton {
+            id: rotateButton
+            anchors.left: fitWindowButton.right
+            anchors.leftMargin:10
+
+            anchors.top: parent.top
+            anchors.topMargin: (parent.height - height) / 2
+
+            width:50
+            height:50
+            icon.name:"icon_rotate"
+            onClicked: {
                 imageViewer.rotateImage(-90)
 
 //                bottomthumbnaillistView.currentItem.rotation=bottomthumbnaillistView.currentItem.rotation-90
@@ -164,13 +183,7 @@ Item {
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Rotate")
         }
-//        ThumbnailButton {
-//            icon.source: "qrc:/res/dcc_right_36px.svg"
-//            onClickedLeft: {
-//                imageViewer.rotateImage(90)
-//            }
-//        }
-    }
+
 
     ListView {
         id: bottomthumbnaillistView
@@ -180,15 +193,16 @@ Item {
         preferredHighlightBegin: width/2 - 25
         preferredHighlightEnd: width/2 + 25
 
-        anchors.left: fitButtonLayout.right
+        anchors.left: rotateButton.right
         anchors.leftMargin: 15
 
         anchors.right: ocrButton.left
         anchors.rightMargin: 15
 
         anchors.top: parent.top
+        anchors.topMargin: -5
 
-        height: parent.height
+        height: parent.height+10
         width: parent.width - deleteButton.width - 60
 
         clip: true
@@ -255,16 +269,18 @@ Item {
         //        }
     }
 
-    ThumbnailButton {
+    IconButton {
         id :ocrButton
+        width:50
+        height:50
+        icon.name:"icon_character_recognition"
         anchors.right: deleteButton.left
         anchors.rightMargin: 15
 
         anchors.top: parent.top
         anchors.topMargin: (parent.height - height) / 2
 
-        icon.source: "qrc:/res/dcc_ocr_36px.svg"
-        onClickedLeft: {
+        onClicked: {
             fileControl.ocrImage(source)
         }
         ToolTip.delay: 500
@@ -273,8 +289,11 @@ Item {
         ToolTip.text: qsTr("Extract text")
     }
 
-    ThumbnailButton {
+    IconButton {
         id: deleteButton
+        width:50
+        height:50
+        icon.name: "icon_delete"
 
         anchors.right: parent.right
         anchors.rightMargin: 15
@@ -284,7 +303,7 @@ Item {
 
         icon.source: "qrc:/res/dcc_delete_36px.svg"
         icon.color: enabled ? "red" :"ffffff"
-        onClickedLeft: {
+        onClicked: {
             deleteCurrentImage()
         }
         //        visible: fileControl.isCanDelete(source) ? true :false
