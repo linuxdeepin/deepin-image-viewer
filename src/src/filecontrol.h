@@ -8,6 +8,8 @@
 #include <QImageReader>
 #include <QMap>
 
+#include "configsetter.h"
+
 class OcrInterface;
 
 class FileControl : public QObject
@@ -112,6 +114,14 @@ public:
     //调用打印接口
     Q_INVOKABLE void showPrintDialog(const QString &path);
 
+    //设置配置文件相关值
+    Q_INVOKABLE void getConfigValue(const QString &group, const QString &key,
+                                    const QVariant &defaultValue = QVariant());
+
+    //获取配置文件相关值
+    Q_INVOKABLE void setConfigValue(const QString &group, const QString &key,
+                                    const QVariant &value);
+
 signals:
 
 public slots:
@@ -134,6 +144,8 @@ private :
     QMap <QString, QString> m_currentAllInfo;
 
     int TITLEBAR_HEIGHT = 50;//标题栏高度
+
+    LibConfigSetter *m_config;
 };
 
 #endif // FILECONTROL_H

@@ -73,8 +73,7 @@ FileControl::FileControl(QObject *parent) : QObject(parent)
             slotRotatePixCurrent();
         });
     }
-
-
+    m_config = LibConfigSetter::instance();
 }
 
 FileControl::~FileControl()
@@ -424,6 +423,7 @@ QString FileControl::slotGetFileNameSuffix(const QString &path)
 
 QString FileControl::slotGetInfo(const QString &key, const QString &path)
 {
+    Q_UNUSED(path)
     QString returnString = m_currentAllInfo.value(key);
     if (returnString.isEmpty()) {
         returnString = "-";
@@ -545,5 +545,15 @@ void FileControl::showPrintDialog(const QString &path)
 {
     QString oldPath = QUrl(path).toLocalFile();
     PrintHelper::getIntance()->showPrintDialog(QStringList(oldPath));
+}
+
+void FileControl::getConfigValue(const QString &group, const QString &key, const QVariant &defaultValue)
+{
+    m_config->value(group, key, defaultValue);
+}
+
+void FileControl::setConfigValue(const QString &group, const QString &key, const QVariant &value)
+{
+    m_config->setValue(group, key, value);
 }
 
