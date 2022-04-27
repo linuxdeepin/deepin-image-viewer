@@ -78,6 +78,7 @@ Rectangle {
         anchors.topMargin: 3
         width: 22
         height: 22
+
         Image {
             source: "qrc:/res/close_hover.svg"
             anchors.fill: parent
@@ -100,11 +101,13 @@ Rectangle {
         opacity: 0.4
         color: "black"
     }
+
     //允许拖动范围
     MouseArea {
         anchors.fill: parent
         drag.target: idrectArea
         drag.axis: Drag.XAndYAxis//设置拖拽的方式
+        //TODO 应以图片的范围来限制拖动范围
         drag.minimumX: 0
         drag.maximumX: parent.width - idrectArea.width
         drag.minimumY: 0
@@ -135,7 +138,7 @@ Rectangle {
         }
 
         onPositionChanged: {
-            if(isPressed) {
+            if (isPressed) {
                 //当前蒙皮位置对应比例发送给视图
                 var x = idrectArea.x + idrectArea.width
                 var y = idrectArea.y + idrectArea.height

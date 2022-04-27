@@ -13,10 +13,6 @@ DialogWindow {
     flags: Qt.Window | Qt.WindowCloseButtonHint
     title: " "
     visible: false
-    //    minimumWidth: 380
-    //    maximumWidth: 380
-    //    minimumHeight: 178
-    //    maximumHeight: 178
 
     minimumWidth: 400
     maximumWidth: 400
@@ -25,24 +21,10 @@ DialogWindow {
 
     width: 400
     height: 180
-    //    opacity: 1
 
     icon : "deepin-image-viewer"
-    //    color: "#E5DEDA"
 
-    //    D.DWindow.enabled: true
-
-    //    TitleBar {
-    //        Rectangle {
-    //            anchors.top: parent.top
-    //            anchors.topMargin: 0
-
-    //        }
-    //        width: parent.width
-    //        height:50
-    //    }
-
-    function getFileName(name)  {
+    function getFileName(name) {
         nameedit.text = name
     }
 
@@ -58,29 +40,24 @@ DialogWindow {
         anchors.leftMargin: 46
         anchors.top: parent.top
         font.pixelSize: 16
-        //        text: qsTr("Input a new name")
         text: qsTr("Input a new name")
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
     }
 
-
     LineEdit {
         id: nameedit
-        //        anchors.fill: nameeditrect
         anchors.top: renametitle.bottom
-        anchors.topMargin:16
-        anchors.left:parent.left
-        //        anchors.leftMargin:5
-        width:380
-        height:36
-        font:DTK.fontManager.t5
+        anchors.topMargin: 16
+        anchors.left: parent.left
+        width: 380
+        height: 36
+        font: DTK.fontManager.t5
         focus: true
         selectByMouse: true
         alertText: qsTr("The file already exists, please use another name")
         showAlert: fileControl.isShowToolTip(source,nameedit.text)
     }
-
 
     Text {
         id: filesuffix
@@ -88,11 +65,12 @@ DialogWindow {
         text: ".jpg"
         visible: false
     }
+
     Button {
         id: cancelbtn
         anchors.top: nameedit.bottom
-        anchors.topMargin:10
-        anchors.right:nameedit.right
+        anchors.topMargin: 10
+        anchors.right: nameedit.right
         text: qsTr("Cancel")
         width: 185
         height: 36
@@ -105,8 +83,8 @@ DialogWindow {
     Button {
         id: enterbtn
         anchors.top: nameedit.bottom
-        anchors.topMargin:10
-        anchors.left:nameedit.left
+        anchors.topMargin: 10
+        anchors.left: nameedit.left
         text: qsTr("Confirm")
         enabled: !fileControl.isShowToolTip(source,nameedit.text) && nameedit.text.length > 0
         width: 185
@@ -115,11 +93,9 @@ DialogWindow {
         onClicked: {
             var name = nameedit.text
             //bool返回值判断是否成功
-
             if (fileControl.slotFileReName(name, source)) {
                 sourcePaths=fileControl.renameOne(sourcePaths, source, fileControl.getNamePath(source, name))
                 source=fileControl.getNamePath(source, name)
-
             }
             renamedialog.visible = false
         }
