@@ -628,7 +628,7 @@ Rectangle {
 
                         onDoubleClicked: {
                             infomationDig.hide()
-                            root.visibility!=Window.FullScreen ?showFullScreen() : imageViewer.escBack()
+                            root.visibility != Window.FullScreen ? showFullScreen() : imageViewer.escBack()
                         }
 
                         onWheel: {
@@ -674,37 +674,29 @@ Rectangle {
 //            }
 
              fitWindow()
-
         }
         onCurrentItemChanged: {
             currentRotate=0
         }
-
-
     }
 
     //rename窗口
     ReName {
         id: renamedialog
     }
+
     //info的窗口
     InfomationDialog {
-
         id: infomationDig
-
     }
-
-
 
     //导航窗口
     NavigationWidget {
-        id : idNavWidget
+        id: idNavWidget
         anchors.bottom: parent.bottom
-        anchors.bottomMargin:109
+        anchors.bottomMargin: 109
         anchors.left: parent.left
-        anchors.leftMargin:15
+        anchors.leftMargin: 15
         visible: false
     }
-
-
 }
