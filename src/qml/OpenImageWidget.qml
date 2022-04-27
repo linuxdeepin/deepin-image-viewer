@@ -9,19 +9,22 @@ Item {
     id: openwidget
     property string file
     //    anchors.fill: parent
+
     Rectangle{
         id:openRec
         color:backcontrol.ColorSelector.backgroundColor
         anchors.fill: parent
         anchors.centerIn: openwidget
-        Image {
+
+        ActionButton {
             id: openWidgetImage
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            fillMode: Image.Pad
-            source: "qrc:/res/icon_import_photo.svg"
-
-            width:300
+            icon {
+                name:"import_photo"
+                width: 128
+                height: 128
+            }
         }
 
         RecommandButton{
@@ -37,7 +40,7 @@ Item {
             anchors.topMargin:10
 
             anchors.left : openWidgetImage.left
-            anchors.leftMargin: 0
+            anchors.leftMargin: -86
 
         }
     }
