@@ -28,7 +28,7 @@
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
 const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
-const int MAINWIDGET_MINIMUN_HEIGHT = 330;
+const int MAINWIDGET_MINIMUN_HEIGHT = 300;
 const int MAINWIDGET_MINIMUN_WIDTH = 628;
 
 bool compareByFileInfo(const QFileInfo &str1, const QFileInfo &str2)

@@ -17,8 +17,8 @@ ApplicationWindow {
     title: ""
 
     visible: true
-    minimumHeight:330
-    minimumWidth:628
+    minimumHeight:global.minHeight
+    minimumWidth:global.minWidth
 
     width: fileControl.getlastWidth()
     height: fileControl.getlastHeight()

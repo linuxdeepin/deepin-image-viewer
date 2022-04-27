@@ -68,7 +68,7 @@ Item {
 
     IconButton {
         id: previousButton
-        visible: mainView.sourcePaths.length>1
+//        visible: mainView.sourcePaths.length>1
         enabled: currentIndex>0? true:false
 
         anchors.left: parent.left
@@ -97,7 +97,7 @@ Item {
     }
     IconButton {
         id: nextButton
-        visible: mainView.sourcePaths.length>1
+//        visible: mainView.sourcePaths.length>1
         enabled: currentIndex<mainView.sourcePaths.length-1? true:false
         anchors.left: previousButton.right
         anchors.leftMargin: 10
@@ -122,11 +122,10 @@ Item {
     }
 
 
-
         IconButton {
             id: fitImageButton
-            anchors.left: mainView.sourcePaths.length>1 ?nextButton.right:parent.left
-            anchors.leftMargin:mainView.sourcePaths.length>1 ? 40 : 15
+            anchors.left: nextButton.right
+            anchors.leftMargin:40
 
             anchors.top: parent.top
             anchors.topMargin: (parent.height - height) / 2
@@ -194,10 +193,10 @@ Item {
         preferredHighlightEnd: width/2 + 25
 
         anchors.left: rotateButton.right
-        anchors.leftMargin: 15
+        anchors.leftMargin: 10
 
         anchors.right: ocrButton.left
-        anchors.rightMargin: 15
+        anchors.rightMargin: 10
 
         anchors.top: parent.top
         anchors.topMargin: -5
