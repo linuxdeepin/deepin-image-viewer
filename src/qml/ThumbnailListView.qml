@@ -92,7 +92,7 @@ Item {
         ToolTip.delay: 500
         ToolTip.timeout: 5000
         ToolTip.visible: hovered
-        ToolTip.text: qsTr("Next")
+        ToolTip.text: qsTr("Previous")
 
     }
     IconButton {
@@ -118,7 +118,7 @@ Item {
         ToolTip.delay: 500
         ToolTip.timeout: 5000
         ToolTip.visible: hovered
-        ToolTip.text: qsTr("Previous")
+        ToolTip.text: qsTr("Next")
     }
 
 
