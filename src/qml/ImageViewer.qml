@@ -21,9 +21,9 @@ Rectangle {
     /*: showImg.source*/
     property var sourcePaths
 
-    property int currentSourceWidth :0;
+    property int currentSourceWidth : 0;
 
-    property int currentSourceHeight :0;
+    property int currentSourceHeight : 0;
 
     property int index: 0
     property alias swipeIndex: view.currentIndex
@@ -37,9 +37,9 @@ Rectangle {
 
     property double  currentimgY : 0.0
 
-    property double  currenImageScale : currentScale / fileControl.getFitWindowScale(root.width,root.height) * 100
+    property double  currenImageScale : currentScale / fileControl.getFitWindowScale(root.width, root.height) * 100
 
-    property bool isMousePinchArea:true
+    property bool isMousePinchArea: true
 
 
 
@@ -47,43 +47,60 @@ Rectangle {
     signal sigImageShowFullScreen
     signal sigImageShowNormal
     signal sigSourceChange
-//    color: "#F8F8F8"
+    //    color: "#F8F8F8"
 
     color: backcontrol.ColorSelector.backgroundColor
 
     Connections {
         target: root
-        onSigTitlePress:{
+        onSigTitlePress: {
             infomationDig.hide()
         }
     }
     onCurrenImageScaleChanged: {
-        floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
+
+        if(currenImageScale.toFixed(0)>2000){
+            floatLabel.displayStr = "2000%"
+        }else if(currenImageScale.toFixed(0)<2){
+            floatLabel.displayStr = "2%"
+        }else{
+            floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
+        }
         floatLabel.visible = true
     }
 
     onCurrentScaleChanged: {
         idNavWidget.setRectPec(currentScale)
+        console.log("67")
+        console.log(currenImageScale)
+        console.log(currentScale)
+        console.log(fileControl.getFitWindowScale(root.width, root.height))
+        if(currenImageScale>2000){
+            currentScale = 20 * fileControl.getFitWindowScale(root.width, root.height)
+        } else if(currenImageScale<2 &&currenImageScale>0){
+            currentScale = 0.02 * fileControl.getFitWindowScale(root.width, root.height)
+        }
     }
+
 
     onSourceChanged: {
         fileControl.slotRotatePixCurrent();
 
-        console.log("source:",mainView.source)
+        console.log("source:", mainView.source)
         fileControl.setCurrentImage(source)
 
-        idNavWidget.visible=false
-//        if(fileControl.getFitWindowScale(root.width,root.height-100)<1.0){
-//            fitImage()
-//        }else{
-//            fitWindow()
-//        }
+        idNavWidget.visible = false
+        //        if(fileControl.getFitWindowScale(root.width,root.height-100)<1.0){
+        //            fitImage()
+        //        }else{
+        //            fitWindow()
+        //        }
         fitWindow()
 
 
-        root.title=fileControl.slotGetFileName(source)+fileControl.slotFileSuffix(source)
+        root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
 
-        floatLabel.displayStr = (currentScale / fileControl.getFitWindowScale(root.width,root.height) * 100).toFixed(0) + "%"
+        floatLabel.displayStr = (currentScale / fileControl.getFitWindowScale(root.width, root.height) * 100).toFixed(0) + "%"
         floatLabel.visible = true
 
         sigSourceChange();
@@ -92,60 +109,68 @@ Rectangle {
 
     }
 
-    function fitImage() {
-        currentScale=fileControl.getFitWindowScale(root.width,root.height);
+
+    function fitImage()
+    {
+        currentScale = fileControl.getFitWindowScale(root.width, root.height);
     }
 
-    function fitWindow() {
-        currentScale =root.visibility==Window.FullScreen ? 1.0 : 1.0 *(root.height-titleRect.height*2)/root.height
+    function fitWindow()
+    {
+        currentScale = root.visibility == Window.FullScreen ? 1.0 : 1.0 * (root.height - titleRect.height * 2) / root.height
     }
-    function rotateImage(x) {
+    function rotateImage(x)
+    {
         //        rotation = currentRotate + x
-        view.currentItem.rotation=view.currentItem.rotation+x
+        view.currentItem.rotation = view.currentItem.rotation + x
         thumbnailListView.rotateImage(x)
-        fileControl.rotateFile(source,x)
+        fileControl.rotateFile(source, x)
     }
-    function deleteItem (item, list) {
+    function deleteItem(item, list)
+    {
         // 先遍历list里面的每一个元素，对比item与每个元素的id是否相等，再利用splice的方法删除
         for (var key in fileList) {
-            if (list[key].id === item) {
+            if (list[key].id == item) {
                 list.splice(key, 1)
             }
         }
     }
-    function startSliderShow(){
-        if(sourcePaths.length>0){
+    function startSliderShow()
+    {
+        if (sourcePaths.length > 0) {
             showFullScreen()
-            sliderMainShow.images=sourcePaths
-            sliderMainShow.modelCount=sourcePaths.length
+            sliderMainShow.images = sourcePaths
+            sliderMainShow.modelCount = sourcePaths.length
             sliderMainShow.autoRun = true
             sliderMainShow.indexImg = view.currentIndex
-            stackView.currentWidgetIndex=2
+            stackView.currentWidgetIndex = 2
         }
 
     }
-    function showPanelFullScreen(){
+    function showPanelFullScreen()
+    {
         showFullScreen()
         //如果是初始界面只全屏
-        if(stackView.currentWidgetIndex!=0){
-            stackView.currentWidgetIndex=1
-            currentScale=1.0
+        if (stackView.currentWidgetIndex != 0) {
+            stackView.currentWidgetIndex = 1
+            currentScale = 1.0
             sigImageShowFullScreen()
         }
     }
 
-    function escBack() {
+    function escBack()
+    {
         showNormal()
         //如果是初始界面只正常大小
-        if(stackView.currentWidgetIndex!=0){
+        if (stackView.currentWidgetIndex != 0) {
             sliderMainShow.autoRun = false
             sliderMainShow.backtrack()
-            if(stackView.currentWidgetIndex===2) {
-                mainView.currentIndex=sliderMainShow.indexImg
+            if (stackView.currentWidgetIndex == 2) {
+                mainView.currentIndex = sliderMainShow.indexImg
             }
 
-            stackView.currentWidgetIndex=1
-            currentScale=1.0
+            stackView.currentWidgetIndex = 1
+            currentScale = 1.0
 
             sigImageShowNormal()
         }
@@ -153,30 +178,30 @@ Rectangle {
     //缩放快捷键
     Shortcut {
         sequence: "Ctrl+="
-        onActivated:{
-           currentScale =  currentScale /0.9
+        onActivated: {
+            currentScale =  currentScale / 0.9
         }
     }
 
     Shortcut {
         sequence: "Ctrl+-"
-        onActivated:{
-           currentScale =  currentScale *0.9
+        onActivated: {
+            currentScale =  currentScale * 0.9
         }
     }
 
     Shortcut {
         sequence: "Up"
-        onActivated:{
-           currentScale =  currentScale /0.9
+        onActivated: {
+            currentScale =  currentScale / 0.9
         }
     }
 
 
     Shortcut {
         sequence: "Down"
-        onActivated:{
-           currentScale =  currentScale *0.9
+        onActivated: {
+            currentScale =  currentScale * 0.9
         }
     }
 
@@ -187,12 +212,12 @@ Rectangle {
         maxVisibleItems: 20
         MenuItem {
             id : right_fullscreen
-            text:root.visibility!=Window.FullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
+            text: root.visibility != Window.FullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
 
-            onTriggered: root.visibility!=Window.FullScreen ?imageViewer.showPanelFullScreen() :showNormal()
+            onTriggered : root.visibility != Window.FullScreen ? imageViewer.showPanelFullScreen() : showNormal()
             Shortcut {
-                sequence: root.visibility!=Window.FullScreen ?"F11":"Esc"
-                onActivated: root.visibility!=Window.FullScreen ?imageViewer.showPanelFullScreen() : imageViewer.escBack()
+                sequence : root.visibility != Window.FullScreen ? "F11" : "Esc"
+                onActivated : root.visibility != Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
             }
         }
 
@@ -205,7 +230,8 @@ Rectangle {
             Shortcut {
                 sequence: "Ctrl+P"
                 onActivated:  {
-                    if(stackView.currentWidgetIndex!=0 && stackView.currentWidgetIndex!= 2){
+                    if (stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                    {
                         fileControl.showPrintDialog(mainView.source)
                     }
                 }
@@ -220,7 +246,8 @@ Rectangle {
             Shortcut {
                 sequence: "Alt+O"
                 onActivated: {
-                    if(stackView.currentWidgetIndex!=0 && stackView.currentWidgetIndex!= 2){
+                    if (stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                    {
                         fileControl.ocrImage(source)
                     }
                 }
@@ -228,12 +255,13 @@ Rectangle {
         }
 
         MenuItem {
-            text:qsTr( "Slide show")
+            text: qsTr("Slide show")
             onTriggered: {startSliderShow()}
             Shortcut {
                 sequence: "F5"
-                onActivated:{
-                    if(stackView.currentWidgetIndex!=0){
+                onActivated: {
+                    if (stackView.currentWidgetIndex != 0)
+                    {
                         startSliderShow()
                     }
                 }
@@ -243,14 +271,15 @@ Rectangle {
 
         MenuSeparator { }
         MenuItem {
-            text:qsTr( "Copy")
+            text: qsTr("Copy")
             onTriggered: {
                 fileControl.copyImage(source)
             }
             Shortcut {
                 sequence: "Ctrl+C"
-                onActivated:{
-                    if(stackView.currentWidgetIndex!=0 && stackView.currentWidgetIndex!= 2){
+                onActivated: {
+                    if (stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                    {
                         fileControl.copyImage(source)
                     }
                 }
@@ -260,8 +289,8 @@ Rectangle {
         MenuItem {
             text: qsTr("Rename")
             onTriggered: {
-                var x = parent.mapToGlobal(0,0).x + parent.width/2 - 190
-                var y = parent.mapToGlobal(0,0).y + parent.height/2 - 89
+                var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
+                var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
                 renamedialog.setX(x)
                 renamedialog.setY(y)
                 renamedialog.getFileName(fileControl.slotGetFileName(source))
@@ -270,10 +299,11 @@ Rectangle {
             }
             Shortcut {
                 sequence: "F2"
-                onActivated:{
-                    if(stackView.currentWidgetIndex!=0 && stackView.currentWidgetIndex!= 2){
-                        var x = parent.mapToGlobal(0,0).x + parent.width/2 - 190
-                        var y = parent.mapToGlobal(0,0).y + parent.height/2 - 89
+                onActivated: {
+                    if (stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                    {
+                        var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
+                        var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
                         renamedialog.setX(x)
                         renamedialog.setY(y)
                         renamedialog.getFileName(fileControl.slotGetFileName(source))
@@ -291,8 +321,9 @@ Rectangle {
             }
             Shortcut {
                 sequence: "Delete"
-                onActivated:{
-                    if(stackView.currentWidgetIndex== 1){
+                onActivated: {
+                    if (stackView.currentWidgetIndex == 1)
+                    {
                         thumbnailListView.deleteCurrentImage()
                     }
                 }
@@ -308,8 +339,9 @@ Rectangle {
             }
             Shortcut {
                 sequence: "Ctrl+R"
-                onActivated:{
-                    if(stackView.currentWidgetIndex== 1){
+                onActivated: {
+                    if (stackView.currentWidgetIndex == 1)
+                    {
                         imageViewer.rotateImage(90)
                     }
                 }
@@ -324,8 +356,9 @@ Rectangle {
             }
             Shortcut {
                 sequence: "Ctrl+Shift+R"
-                onActivated:{
-                    if(stackView.currentWidgetIndex== 1){
+                onActivated: {
+                    if (stackView.currentWidgetIndex == 1)
+                    {
                         imageViewer.rotateImage(-90)
                     }
                 }
@@ -333,15 +366,17 @@ Rectangle {
         }
 
         MenuItem {
-            id :showNavigation
+            id : showNavigation
 
-            text: !isNavShow ?qsTr("Show navigation window"): qsTr("Hide navigation window")
-            onTriggered: {
-                if(isNavShow){
-                    isNavShow=false
+            text: !isNavShow ? qsTr("Show navigation window") : qsTr("Hide navigation window")
+            onTriggered : {
+                if (isNavShow)
+                {
+                    isNavShow = false
                     idNavWidget.visible = false
-                }else{
-                    isNavShow=true
+                } else
+                {
+                    isNavShow = true
                     idNavWidget.visible = true
                 }
                 idNavWidget.setRectPec(view.currentItem.scale)
@@ -355,8 +390,9 @@ Rectangle {
             }
             Shortcut {
                 sequence: "Ctrl+F"
-                onActivated:{
-                    if(stackView.currentWidgetIndex== 1){
+                onActivated: {
+                    if (stackView.currentWidgetIndex == 1)
+                    {
                         fileControl.setWallpaper(source)
                     }
                 }
@@ -370,8 +406,9 @@ Rectangle {
             }
             Shortcut {
                 sequence: "Alt+D"
-                onActivated:{
-                    if(stackView.currentWidgetIndex== 1){
+                onActivated: {
+                    if (stackView.currentWidgetIndex == 1)
+                    {
                         fileControl.displayinFileManager(source)
                     }
                 }
@@ -379,14 +416,15 @@ Rectangle {
         }
 
         MenuItem {
-            text:qsTr( "Image info")
+            text: qsTr("Image info")
             onTriggered: {
                 infomationDig.show()
             }
             Shortcut {
                 sequence: "Ctrl+I"
-                onActivated:{
-                    if(stackView.currentWidgetIndex== 1){
+                onActivated: {
+                    if (stackView.currentWidgetIndex == 1)
+                    {
                         infomationDig.show()
                     }
                 }
@@ -426,7 +464,7 @@ Rectangle {
                     Image {
                         id: showImg
 
-                        fillMode:Image.PreserveAspectFit
+                        fillMode: Image.PreserveAspectFit
                         width: parent.width
                         height: parent.height
                         source: sourcePaths[index]
@@ -438,20 +476,23 @@ Rectangle {
 
                         onStatusChanged: {
                             msArea.changeRectXY()
-                            if(fileControl.isDynamicImage(sourcePaths[index])){
-                                visible=false
-                            }else{
-                                visible=true
+                            if (fileControl.isDynamicImage(sourcePaths[index]))
+                            {
+                                visible = false
+                            } else
+                            {
+                                visible = true
                             }
 
                             if (showImg.status === Image.Ready)
                                 console.log('Ready')
-                            if(showImg.status === Image.Loading)
+                            if (showImg.status === Image.Loading)
                                 console.log('Loading')
-                            if(showImg.status === Image.Null)
+                            if (showImg.status === Image.Null)
                                 console.log('Null')
-                            if(showImg.status === Image.Error){
-                                source="qrc:/res/picture damaged_light.svg"
+                            if (showImg.status === Image.Error)
+                            {
+                                source = "qrc:/res/picture damaged_light.svg"
                             }
                         }
                     }
@@ -460,7 +501,7 @@ Rectangle {
                     AnimatedImage {
                         id: showAnimatedImg
 
-                        fillMode:Image.PreserveAspectFit
+                        fillMode: Image.PreserveAspectFit
                         width: parent.width
                         height: parent.height
                         //                        source: sourcePaths[index]
@@ -472,27 +513,30 @@ Rectangle {
 
                         onStatusChanged: {
                             msArea.changeRectXY()
-                            if(!fileControl.isDynamicImage(sourcePaths[index])){
-                                visible=false
-                            }else{
-                                visible=true;
-                                source=sourcePaths[index]
+                            if (!fileControl.isDynamicImage(sourcePaths[index]))
+                            {
+                                visible = false
+                            } else
+                            {
+                                visible = true;
+                                source = sourcePaths[index]
                             }
 
                             if (showImg.status === Image.Ready)
                                 console.log('Ready')
-                            if(showImg.status === Image.Loading)
+                            if (showImg.status === Image.Loading)
                                 console.log('Loading')
-                            if(showImg.status === Image.Null)
+                            if (showImg.status === Image.Null)
                                 console.log('Null')
-                            if(showImg.status === Image.Error){
-                                source="qrc:/res/picture damaged_light.svg"
+                            if (showImg.status === Image.Error)
+                            {
+                                source = "qrc:/res/picture damaged_light.svg"
                             }
                         }
                     }
                     Connections {
                         target: root
-                        onSigTitlePress:{
+                        onSigTitlePress: {
                             infomationDig.hide()
                             msArea.forceActiveFocus()
                         }
@@ -500,20 +544,22 @@ Rectangle {
 
                     PinchArea {
                         enabled: isMousePinchArea
-                        anchors.fill: showAnimatedImg.visible ? showAnimatedImg: showImg
+                        anchors.fill: showAnimatedImg.visible ? showAnimatedImg : showImg
 
-                        onPinchStarted: {
+                        onPinchStarted : {
                             pinch.accepted = true
                         }
 
                         onPinchUpdated: {
-                            if(pinch.scale < 5 && pinch.scale > 0.2){
+                            if (pinch.scale < 5 && pinch.scale > 0.2)
+                            {
                                 currentScale = pinch.scale;
                             }
                         }
 
                         onPinchFinished: {
-                            if(pinch.scale < 5 && pinch.scale > 0.2){
+                            if (pinch.scale < 5 && pinch.scale > 0.2)
+                            {
                                 currentScale = pinch.scale;
                             }
                         }
@@ -527,9 +573,10 @@ Rectangle {
                         id: msArea
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
-                        drag.target: showAnimatedImg.visible ? showAnimatedImg: showImg
-                        enabled: isMousePinchArea
-                        function setImgPostions(x, y) {
+                        drag.target: showAnimatedImg.visible ? showAnimatedImg : showImg
+                        enabled : isMousePinchArea
+                        function setImgPostions(x, y)
+                        {
                             currentimgX = msArea.drag.maximumX - x * (msArea.drag.maximumX - msArea.drag.minimumX)
                             currentimgY = msArea.drag.maximumY - y * (msArea.drag.maximumY - msArea.drag.minimumY)
                             if (showAnimatedImg.visible) {
@@ -543,66 +590,70 @@ Rectangle {
 
                         Connections {
                             target: idNavWidget
-                            onChangeShowImgPostions :{
-                                msArea.setImgPostions(x,y)
+                            onChangeShowImgPostions : {
+                                msArea.setImgPostions(x, y)
                             }
                         }
 
 
-                        function changeRectXY() {
-                            if(currentScale<=1.0){
-                                drag.minimumX=0
-                                drag.minimumY=0
-                                drag.maximumX=0
-                                drag.maximumY=0
-                                showAnimatedImg.x=0;
-                                showAnimatedImg.y=0;
-                                showImg.x=0;
-                                showImg.y=0;
-                            }else if (showAnimatedImg.visible){
+                        function changeRectXY()
+                        {
+                            if (currentScale <= 1.0) {
+                                drag.minimumX = 0
+                                drag.minimumY = 0
+                                drag.maximumX = 0
+                                drag.maximumY = 0
+                                showAnimatedImg.x = 0;
+                                showAnimatedImg.y = 0;
+                                showImg.x = 0;
+                                showImg.y = 0;
+                            } else if (showAnimatedImg.visible) {
                                 drag.minimumX = (showAnimatedImg.width * showAnimatedImg.scale > parent.width) ? (parent.width - showAnimatedImg.width - showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2) : showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2
                                 drag.minimumY = (showAnimatedImg.height * showAnimatedImg.scale > parent.height) ? (parent.height - showAnimatedImg.height - showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2) : showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2
                                 drag.maximumX = (showAnimatedImg.width * showAnimatedImg.scale > parent.width) ? showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2 : (parent.width - showAnimatedImg.width * showAnimatedImg.scale) + showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2
                                 drag.maximumY = (showAnimatedImg.height * showAnimatedImg.scale > parent.height) ? showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2 : (parent.height - showAnimatedImg.height * showAnimatedImg.scale) + showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2
-                            }else{
+                            } else {
                                 drag.minimumX = (showImg.width * showImg.scale > parent.width) ? (parent.width - showImg.width - showImg.width * (showImg.scale - 1) / 2) : showImg.width * (showImg.scale - 1) / 2
                                 drag.minimumY = (showImg.height * showImg.scale > parent.height) ? (parent.height - showImg.height - showImg.height * (showImg.scale - 1) / 2) : showImg.height * (showImg.scale - 1) / 2
                                 drag.maximumX = (showImg.width * showImg.scale > parent.width) ? showImg.width * (showImg.scale - 1) / 2 : (parent.width - showImg.width * showImg.scale) + showImg.width * (showImg.scale - 1) / 2
                                 drag.maximumY = (showImg.height * showImg.scale > parent.height) ? showImg.height * (showImg.scale - 1) / 2 : (parent.height - showImg.height * showImg.scale) + showImg.height * (showImg.scale - 1) / 2
                             }
-                            if (showAnimatedImg.x >= drag.maximumX ) {
-                                showAnimatedImg.x=drag.maximumX
+                            if (showAnimatedImg.x >= drag.maximumX) {
+                                showAnimatedImg.x = drag.maximumX
                             }
-                            if (showAnimatedImg.y >=drag.maximumY  ) {
-                                showAnimatedImg.y=drag.maximumY
+                            if (showAnimatedImg.y >= drag.maximumY) {
+                                showAnimatedImg.y = drag.maximumY
                             }
-                            if ( showImg.x>=drag.maximumX ) {
-                                showImg.x=drag.maximumX
+                            if (showImg.x >= drag.maximumX) {
+                                showImg.x = drag.maximumX
                             }
-                            if ( showImg.y >=drag.maximumY ) {
-                                showImg.y=drag.maximumY
+                            if (showImg.y >= drag.maximumY) {
+                                showImg.y = drag.maximumY
                             }
                         }
-//                        onClicked: {
-//                            console.log("right menu");
-//                            if (mouse.button === Qt.RightButton) {
-//                                option_menu.popup(parent)
-//                            }
-//                        }
+                        //                        onClicked: {
+                        //                            console.log("right menu");
+                        //                            if (mouse.button === Qt.RightButton) {
+                        //                                option_menu.popup(parent)
+                        //                            }
+                        //                        }
                         onPressed: {
                             infomationDig.hide()
-//                            changeRectXY()
+                            //                            changeRectXY()
                             console.log("608")
-                            if (mouse.button === Qt.RightButton) {
+                            if (mouse.button === Qt.RightButton)
+                            {
                                 option_menu.popup()
                             }
                         }
 
                         onMouseXChanged: {
                             changeRectXY()
-                            if (showAnimatedImg.visible) {
+                            if (showAnimatedImg.visible)
+                            {
                                 currentimgX = showAnimatedImg.x
-                            } else {
+                            } else
+                            {
                                 currentimgX = showImg.x
                             }
                             //以整个图片中心为平面原点，currentimgX，currentimgY为当前视口右下角相对于整个图片的坐标，以此计算导航窗口蒙皮和位置
@@ -615,9 +666,11 @@ Rectangle {
 
                         onMouseYChanged: {
                             changeRectXY()
-                            if (showAnimatedImg.visible) {
+                            if (showAnimatedImg.visible)
+                            {
                                 currentimgY = showAnimatedImg.y
-                            } else {
+                            } else
+                            {
                                 currentimgY = showImg.y
                             }
                             var x1 = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
@@ -635,12 +688,15 @@ Rectangle {
 
                             var datla = wheel.angleDelta.y / 120
                             if (datla > 0)
-                                currentScale=currentScale/0.9
+                                currentScale = currentScale / 0.9
                             else
-                                currentScale=currentScale * 0.9
-                            if (currentScale * 100 < 100) {
+                                currentScale = currentScale * 0.9
+
+                            if (currentScale * 100 < 100)
+                            {
                                 idNavWidget.visible = false
-                            } else if(isNavShow) {
+                            } else if (isNavShow)
+                            {
                                 idNavWidget.visible = true
                             }
                             changeRectXY()
@@ -664,39 +720,49 @@ Rectangle {
         }
 
         onWidthChanged: {
-//            if (view.width > 0) {
-//                if (view.width > root.width
-//                        || view.height > root.height) {
-//                    fitWindow()
-//                } else {
-//                    fitImage()
-//                }
-//            }
+            //            if (view.width > 0) {
+            //                if (view.width > root.width
+            //                        || view.height > root.height) {
+            //                    fitWindow()
+            //                } else {
+            //                    fitImage()
+            //                }
+            //            }
 
-             fitWindow()
+            fitWindow()
+
         }
         onCurrentItemChanged: {
-            currentRotate=0
+            currentRotate = 0
         }
+
+
     }
 
     //rename窗口
     ReName {
         id: renamedialog
     }
-
     //info的窗口
     InfomationDialog {
+
         id: infomationDig
+
     }
+
+
 
     //导航窗口
     NavigationWidget {
-        id: idNavWidget
+        id : idNavWidget
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 109
         anchors.left: parent.left
         anchors.leftMargin: 15
         visible: false
     }
+
+
 }
+
+
