@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Controls.Styles 1.2
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: idNavigationwidget
@@ -41,6 +42,16 @@ Rectangle {
         id: idImgRect
         anchors.fill: parent
         radius: 10
+
+        layer.enabled: true
+        layer.effect: OpacityMask {
+            maskSource: Rectangle {
+                width: idImgRect.width
+                height: idImgRect.height
+                radius: idImgRect.radius
+            }
+        }
+
         Image {
             id: idcurrentImg
             anchors.horizontalCenter: parent.horizontalCenter
