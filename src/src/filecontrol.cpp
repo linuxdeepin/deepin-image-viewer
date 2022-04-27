@@ -13,6 +13,8 @@
 #include <QScreen>
 #include <QDesktopServices>
 #include <QClipboard>
+#include <QDesktopWidget>
+#include <QApplication>
 
 #include <iostream>
 
@@ -22,6 +24,12 @@
 #include "ocr/ocrinterface.h"
 
 #include "printdialog/printhelper.h"
+
+const QString SETTINGS_GROUP = "MAINWINDOW";
+const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
+const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
+const int MAINWIDGET_MINIMUN_HEIGHT = 330;
+const int MAINWIDGET_MINIMUN_WIDTH = 628;
 
 bool compareByFileInfo(const QFileInfo &str1, const QFileInfo &str2)
 {
@@ -66,20 +74,21 @@ FileControl::FileControl(QObject *parent) : QObject(parent)
         m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
     }
 
+    m_config = LibConfigSetter::instance();
+
     //实时保存太卡，因此采用2s后延时保存的问题
     if (!m_tSaveImage) {
         m_tSaveImage = new QTimer(this);
         connect(m_tSaveImage, &QTimer::timeout, this, [ = ]() {
-            slotRotatePixCurrent();
+            saveSetting();
         });
     }
-    m_config = LibConfigSetter::instance();
+
 }
 
 FileControl::~FileControl()
 {
-    //保存旋转的图片
-    slotRotatePixCurrent();
+    saveSetting();
 }
 
 QString FileControl::getDirPath(const QString &path)
@@ -547,12 +556,80 @@ void FileControl::showPrintDialog(const QString &path)
     PrintHelper::getIntance()->showPrintDialog(QStringList(oldPath));
 }
 
-void FileControl::getConfigValue(const QString &group, const QString &key, const QVariant &defaultValue)
+QVariant FileControl::getConfigValue(const QString &group, const QString &key, const QVariant &defaultValue)
 {
-    m_config->value(group, key, defaultValue);
+    return m_config->value(group, key, defaultValue);
 }
 
 void FileControl::setConfigValue(const QString &group, const QString &key, const QVariant &value)
 {
     m_config->setValue(group, key, value);
+}
+
+int FileControl::getlastWidth()
+{
+    int reWidth = 0;
+    int defaultW = 0;
+
+    QDesktopWidget *dw = QApplication::desktop();
+    if (double(dw->geometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
+        defaultW = MAINWIDGET_MINIMUN_WIDTH;
+    } else {
+        defaultW = int(double(dw->geometry().width()) * 0.60);
+    }
+
+    const int ww = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
+
+    reWidth = ww >= MAINWIDGET_MINIMUN_WIDTH ? ww : MAINWIDGET_MINIMUN_WIDTH;
+    m_windowWidth = reWidth;
+    return reWidth;
+}
+
+int FileControl::getlastHeight()
+{
+    int reHeight = 0;
+    int defaultH = 0;
+
+    QDesktopWidget *dw = QApplication::desktop();
+    if (double(dw->geometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
+        defaultH = MAINWIDGET_MINIMUN_HEIGHT;
+    } else {
+        defaultH = int(double(dw->geometry().height()) * 0.60);
+    }
+    const int wh = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
+
+    reHeight = wh >= MAINWIDGET_MINIMUN_HEIGHT ? wh : MAINWIDGET_MINIMUN_HEIGHT;
+    m_windowHeight = reHeight;
+    return reHeight;
+}
+
+void FileControl::setSettingWidth(int width)
+{
+    m_windowWidth = width;
+//    setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, m_windowWidth);
+    m_tSaveImage->setSingleShot(true);
+    m_tSaveImage->start(1000);
+}
+
+void FileControl::setSettingHeight(int height)
+{
+    m_windowHeight = height;
+    m_tSaveImage->setSingleShot(true);
+    m_tSaveImage->start(1000);
+//    setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, m_windowHeight);
+
+}
+
+void FileControl::saveSetting()
+{
+    if (m_lastSaveWidth != m_windowWidth) {
+        setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, m_windowWidth);
+        m_lastSaveWidth = m_windowWidth;
+    }
+    if (m_lastSaveHeight != m_windowHeight) {
+        setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, m_windowHeight);
+        m_lastSaveHeight = m_windowHeight;
+    }
+    //保存旋转的图片
+    slotRotatePixCurrent();
 }

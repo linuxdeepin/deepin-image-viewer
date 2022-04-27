@@ -115,13 +115,22 @@ public:
     Q_INVOKABLE void showPrintDialog(const QString &path);
 
     //设置配置文件相关值
-    Q_INVOKABLE void getConfigValue(const QString &group, const QString &key,
-                                    const QVariant &defaultValue = QVariant());
+    Q_INVOKABLE QVariant getConfigValue(const QString &group, const QString &key,
+                                        const QVariant &defaultValue = QVariant());
 
     //获取配置文件相关值
     Q_INVOKABLE void setConfigValue(const QString &group, const QString &key,
                                     const QVariant &value);
 
+    Q_INVOKABLE int getlastWidth();
+
+    Q_INVOKABLE int getlastHeight();
+
+    Q_INVOKABLE void setSettingWidth(int width);
+
+    Q_INVOKABLE void setSettingHeight(int height);
+
+    Q_INVOKABLE void saveSetting();
 signals:
 
 public slots:
@@ -146,6 +155,14 @@ private :
     int TITLEBAR_HEIGHT = 50;//标题栏高度
 
     LibConfigSetter *m_config;
+
+    int m_windowWidth = 0;
+
+    int m_windowHeight = 0;
+
+    int m_lastSaveWidth = 0;
+
+    int m_lastSaveHeight = 0;
 };
 
 #endif // FILECONTROL_H

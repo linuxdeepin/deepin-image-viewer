@@ -5,7 +5,6 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0
 
-
 Rectangle {
 
     // Indicates the minimum number of zooms
@@ -48,9 +47,9 @@ Rectangle {
     signal sigImageShowFullScreen
     signal sigImageShowNormal
     signal sigSourceChange
-    color: "#F8F8F8"
+//    color: "#F8F8F8"
 
-
+    color: backcontrol.ColorSelector.backgroundColor
 
     Connections {
         target: root
@@ -422,7 +421,7 @@ Rectangle {
                     height: parent.height
 
                     clip: true
-                    color: "#F8F8F8"
+                    color: backcontrol.ColorSelector.backgroundColor
 
                     Image {
                         id: showImg
