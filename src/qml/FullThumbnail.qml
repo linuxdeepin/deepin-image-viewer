@@ -126,15 +126,14 @@ Item {
             hideTopTitleAnimation.start()
         }
 
-        if(imageViewerArea.mouseX<=100 && imageViewerArea.mouseX>=0 && isEnterCurrentView){
-            showLeftButtonAnimation.start()
-        }else{
-            hideLeftButtonAnimation.start()
-        }
-
         if(imageViewerArea.mouseX>=root.width-100 && imageViewerArea.mouseX<=root.width && isEnterCurrentView){
+            showLeftButtonAnimation.start()
             showRightButtonAnimation.start()
-        }else{
+        }else if(imageViewerArea.mouseX<=100 && imageViewerArea.mouseX>=0 && isEnterCurrentView){
+            showLeftButtonAnimation.start()
+            showRightButtonAnimation.start()
+        }else {
+            hideLeftButtonAnimation.start()
             hideRightButtonAnimation.start()
         }
     }
@@ -166,15 +165,14 @@ Item {
             titleRect.y=-50
         }
 
-        if(imageViewerArea.mouseX<=100){
+        if(imageViewerArea.mouseX<=100 && imageViewerArea.mouseX<=root.width && isEnterCurrentView){
             floatLeftButton.x=20
-        }else{
-            floatLeftButton.x=-50
-        }
-
-        if(imageViewerArea.mouseX>=root.width-100 &&imageViewerArea.mouseX<=root.width){
+            floatRightButton.x=parent.width-70
+        }else if(imageViewerArea.mouseX>=root.width-100 && imageViewerArea.mouseX>=0 && isEnterCurrentView){
+            floatLeftButton.x=20
             floatRightButton.x=parent.width-70
         }else{
+            floatLeftButton.x=-50
             floatRightButton.x=parent.width
         }
     }
@@ -211,7 +209,7 @@ Item {
 
     FloatingButton {
         id:floatLeftButton
-        visible: mainView.sourcePaths.length>1
+        visible: mainView.sourcePaths.length>1 && currentIndex>0
         enabled: currentIndex>0? true:false
         checked: false
         anchors.top: parent.top
@@ -229,8 +227,8 @@ Item {
     FloatingButton {
         id:floatRightButton
         checked: false
-        visible: mainView.sourcePaths.length>1
-        enabled: currentIndex<mainView.sourcePaths.length-1? true:false
+        visible: mainView.sourcePaths.length>1 && currentIndex<mainView.sourcePaths.length-1
+        enabled: currentIndex<mainView.sourcePaths.length-1 ? true:false
         anchors.top: parent.top
         anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
         width: 50
