@@ -37,12 +37,13 @@ LauncherPlugin::~LauncherPlugin()
 }
 
 #include <QQuickWindow>
-
+#include <QDebug>
 int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
 {
     // 请在此处注册需要导入到QML中的C++类型
     // 例如： engine->rootContext()->setContextProperty("Utils", new Utils);
-    engine->rootContext()->setContextProperty("fileControl", new FileControl());
+    FileControl *fileControl = new FileControl();
+    engine->rootContext()->setContextProperty("fileControl", fileControl);
     engine->load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine->rootObjects().isEmpty())
         return -1;
@@ -55,6 +56,7 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
 //    app->setApplicationDescription(QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
     app->setApplicationName("deepin-image-viewer");
     app->setApplicationDisplayName(QObject::tr("Image Viewer"));
+
     return app->exec();
 }
 

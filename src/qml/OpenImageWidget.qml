@@ -9,9 +9,9 @@ Item {
     id: openwidget
     property string file
     //    anchors.fill: parent
-
     Rectangle{
-        color:"#F8F8F8"
+        id:openRec
+        color:backcontrol.ColorSelector.backgroundColor
         anchors.fill: parent
         anchors.centerIn: openwidget
         Image {

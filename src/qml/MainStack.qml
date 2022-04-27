@@ -14,9 +14,11 @@ Rectangle {
 //    initialItem: rect
     anchors.fill: parent
 
+
     OpenImageWidget{
         anchors.fill: parent
         visible: currentWidgetIndex===0?true:false
+
     }
 
     FullThumbnail{

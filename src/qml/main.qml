@@ -1,5 +1,5 @@
 import QtQuick 2.11
-
+import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0 as D
 import org.deepin.dtk 1.0
@@ -19,9 +19,10 @@ ApplicationWindow {
     visible: true
     minimumHeight:330
     minimumWidth:628
-    width: 800
-    height: 600
-    //    color: "transparent"
+
+    width: fileControl.getlastWidth()
+    height: fileControl.getlastHeight()
+
     flags:Qt.Window |Qt.WindowMinMaxButtonsHint |Qt.WindowCloseButtonHint|Qt.WindowTitleHint
     Component.onCompleted: {
         setX(screen.width / 2 - width / 2);
@@ -32,20 +33,48 @@ ApplicationWindow {
         global.sigWindowStateChange()
     }
 
+    onWidthChanged: {
+        if(root.visibility!=Window.FullScreen && root.visibility !=Window.Maximized){
+            fileControl.setSettingWidth(width)
+        }
 
+    }
+    onHeightChanged: {
+        if(root.visibility!=Window.FullScreen &&root.visibility!=Window.Maximized){
+            fileControl.setSettingHeight(height)
+        }
+    }
+    //关闭的时候保存信息
+    onClosing: {
+        fileControl.saveSetting()
+    }
 
 //        header:tt
-
+    Control {
+        id: titlecontrol
+        hoverEnabled: true // 开启 Hover 属性
+        property Palette backgroundColor: Palette {
+            normal: "white"
+            normalDark:"#262626"
+        }
+    }
+    Control {
+        id: backcontrol
+        hoverEnabled: true // 开启 Hover 属性
+        property Palette backgroundColor: Palette {
+            normal: "#F8F8F8"
+            normalDark:"#000000"
+        }
+    }
     Rectangle {
         id: rect
-//        color:"#F8F8F8"
+
         width: root.width;
         height: root.height;
         color: "black"
         anchors.centerIn: parent
 
         MainStack{
-
             anchors.fill: parent
 //            interactive: false
         }
@@ -58,7 +87,7 @@ ApplicationWindow {
         width: parent.width
         height: 50
         visible: root.visibility === 5 ? false:true
-        color:"white"
+        color:titlecontrol.ColorSelector.backgroundColor
         opacity: 1
         ActionButton {
             anchors.top:titleRect.top
