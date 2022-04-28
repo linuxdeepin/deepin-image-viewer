@@ -13,5 +13,7 @@ find_package(DtkDeclarative REQUIRED)
 # Application
 add_subdirectory(src)
 
+add_subdirectory(qimage-plugins)
+
 # Unit Tests
 #add_subdirectory(tests)
