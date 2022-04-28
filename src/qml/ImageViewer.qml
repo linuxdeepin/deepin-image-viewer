@@ -62,6 +62,7 @@ Rectangle {
 
     onCurrenImageScaleChanged: {
 
+        console.info("scale value:",currenImageScale.toFixed(0))
         if(currenImageScale.toFixed(0)>2000){
             floatLabel.displayStr = "2000%"
         }else if(currenImageScale.toFixed(0)<2){
@@ -69,7 +70,7 @@ Rectangle {
         }else{
             floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
         }
-        floatLabel.visible = true
+        floatLabel.visible = CodeImage.imageIsNull(source) ? false : true
     }
 
     onCurrentScaleChanged: {
@@ -97,11 +98,10 @@ Rectangle {
         //        }
         fitWindow()
 
-
         root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
 
         floatLabel.displayStr = (currentScale / CodeImage.getFitWindowScale(source,root.width, root.height) * 100).toFixed(0) + "%"
-        floatLabel.visible = true
+        floatLabel.visible = CodeImage.imageIsNull(source) ? false : true
 
         sigSourceChange();
 
@@ -476,7 +476,7 @@ Rectangle {
                         width: parent.width
                         height: parent.height
                         source:  !fileControl.isDynamicImage(sourcePaths[index]) ? "image://viewImage/"+sourcePaths[index] : ""
-                        visible: !fileControl.isDynamicImage(sourcePaths[index])
+                        visible: !fileControl.isDynamicImage(sourcePaths[index]) && !CodeImage.imageIsNull(sourcePaths[index])
                         asynchronous: true
 
                         cache: false
@@ -493,11 +493,7 @@ Rectangle {
                             if (showImg.status === Image.Loading)
                                 console.log('Loading')
                             if (showImg.status === Image.Null)
-                                console.log('Null')
-                            if (showImg.status === Image.Error)
-                            {
-                                source = "qrc:/res/picture damaged_light.svg"
-                            }
+                                console.info('Null')
                         }
                     }
 
@@ -509,7 +505,7 @@ Rectangle {
                         width: parent.width
                         height: parent.height
                         source:  fileControl.isDynamicImage(sourcePaths[index]) ? sourcePaths[index] : ""
-                        visible: fileControl.isDynamicImage(sourcePaths[index])
+                        visible: fileControl.isDynamicImage(sourcePaths[index]) && !CodeImage.imageIsNull(sourcePaths[index])
                         asynchronous: true
                         cache: false
                         clip: true
@@ -525,12 +521,21 @@ Rectangle {
                                 console.log('Loading')
                             if (showImg.status === Image.Null)
                                 console.log('Null')
-                            if (showImg.status === Image.Error)
-                            {
-                                source = "qrc:/res/picture damaged_light.svg"
-                            }
                         }
                     }
+
+                    ActionButton {
+                        id: damageIcon
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        icon {
+                            name: "icon_damaged"
+                            width: 151
+                            height: 151
+                        }
+                        visible: CodeImage.imageIsNull(sourcePaths[index])
+                    }
+
                     Connections {
                         target: root
                         onSigTitlePress: {

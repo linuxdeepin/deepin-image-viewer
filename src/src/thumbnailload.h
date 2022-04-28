@@ -12,9 +12,10 @@ public:
     //获取缩略图
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);  //预留
+    bool imageIsNull(const QString &path);
     //当前图片
     QImage m_Img;
-    QMap <QString,QImage> m_imgMap;//缩略图
+    QMap <QString, QImage> m_imgMap; //缩略图
 };
 
 class ViewLoad : public QQuickImageProvider
@@ -30,7 +31,7 @@ public:
     int getImageHeight(const QString &path);
     double getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight);
 
-    QMap <QString,QSize> m_imgSizes; //图片大小
+    QMap <QString, QSize> m_imgSizes; //图片大小
     //当前图片
     QImage m_Img;
     //加载路径
@@ -47,6 +48,7 @@ public:
     ThumbnailLoad *m_pThumbnail{nullptr};
     ViewLoad *m_viewLoad{nullptr};
     Q_INVOKABLE double getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight);
+    Q_INVOKABLE bool imageIsNull(const QString &path);
     //加载路径
     QString m_path;
 
