@@ -133,6 +133,8 @@ public:
     Q_INVOKABLE void saveSetting();
     //是否支持设置壁纸
     Q_INVOKABLE bool isSupportSetWallpaper(const QString &path);
+
+    Q_INVOKABLE bool isCheckOnly();
 signals:
 
 public slots:
