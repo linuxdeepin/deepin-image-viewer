@@ -57,7 +57,8 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             fillMode: Image.Pad
-            source: imageViewer.source
+            asynchronous: true
+            source: "image://viewImage/"+imageViewer.source
             sourceSize.width: 150
             sourceSize.height: 102
         }
@@ -76,7 +77,7 @@ Rectangle {
         onCallQmlRefeshImg:
         {
             aaa.source = ""
-            aaa.source = "image://CodeImg"
+            aaa.source = "image://ThumbnailImage"
             rrr.show()
         }
     }*/

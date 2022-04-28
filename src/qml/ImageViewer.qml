@@ -37,7 +37,7 @@ Rectangle {
 
     property double  currentimgY : 0.0
 
-    property double  currenImageScale : currentScale / fileControl.getFitWindowScale(root.width, root.height) * 100
+    property double  currenImageScale : currentScale / CodeImage.getFitWindowScale(source,root.width, root.height) * 100
 
     property bool isMousePinchArea: true
 
@@ -74,14 +74,11 @@ Rectangle {
 
     onCurrentScaleChanged: {
         idNavWidget.setRectPec(currentScale)
-        console.log("67")
-        console.log(currenImageScale)
-        console.log(currentScale)
-        console.log(fileControl.getFitWindowScale(root.width, root.height))
+
         if(currenImageScale>2000){
-            currentScale = 20 * fileControl.getFitWindowScale(root.width, root.height)
+            currentScale = 20 * CodeImage.getFitWindowScale(source,root.width, root.height)
         } else if(currenImageScale<2 &&currenImageScale>0){
-            currentScale = 0.02 * fileControl.getFitWindowScale(root.width, root.height)
+            currentScale = 0.02 * CodeImage.getFitWindowScale(source,root.width, root.height)
         }
     }
 
@@ -103,7 +100,7 @@ Rectangle {
 
         root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
 
-        floatLabel.displayStr = (currentScale / fileControl.getFitWindowScale(root.width, root.height) * 100).toFixed(0) + "%"
+        floatLabel.displayStr = (currentScale / CodeImage.getFitWindowScale(source,root.width, root.height) * 100).toFixed(0) + "%"
         floatLabel.visible = true
 
         sigSourceChange();
@@ -115,7 +112,7 @@ Rectangle {
 
     function fitImage()
     {
-        currentScale = fileControl.getFitWindowScale(root.width, root.height);
+        currentScale = CodeImage.getFitWindowScale(source,root.width, root.height);
     }
 
     function fitWindow()
@@ -478,12 +475,14 @@ Rectangle {
                         fillMode: Image.PreserveAspectFit
                         width: parent.width
                         height: parent.height
-                        source: sourcePaths[index]
+                        source:  "image://viewImage/"+sourcePaths[index]
                         asynchronous: true
-                        cache: true
+
+                        cache: false
                         clip: true
                         scale: currentScale
                         smooth: true
+
 
                         onStatusChanged: {
                             msArea.changeRectXY()

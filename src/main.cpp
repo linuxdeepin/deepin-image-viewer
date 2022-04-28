@@ -32,10 +32,5 @@ int main(int argc, char *argv[])
     QScopedPointer<QGuiApplication> app(plugin.createApplication(argc, argv));
     QQmlApplicationEngine engine;
 
-    //后端缩略图加载
-    LoadImage *load = new LoadImage();
-    engine.rootContext()->setContextProperty("CodeImage", load);
-    engine.addImageProvider(QLatin1String("CodeImg"), load->m_pThumbnail);
-
     return plugin.main(app.get(), &engine);
 }
