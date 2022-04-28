@@ -131,13 +131,19 @@ QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &reque
     QImage Img;
     QString error;
     if(tempPath==m_currentPath){
+        if(m_Img.size() != requestedSize && requestedSize.width()>0 && requestedSize.height()>0){
+            m_Img = m_Img.scaled(requestedSize);
+        }
         return m_Img;
     }
     LibUnionImage_NameSpace::loadStaticImageFromFile(tempPath, Img, error);
     m_imgSizes[tempPath]=Img.size() ;
     m_Img=Img;
     m_currentPath=tempPath;
-    return Img;
+    if(m_Img.size() != requestedSize && requestedSize.width()>0 && requestedSize.height()>0){
+        m_Img = m_Img.scaled(requestedSize);
+    }
+    return m_Img;
 }
 
 QPixmap ViewLoad::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
