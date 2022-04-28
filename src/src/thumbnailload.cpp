@@ -9,9 +9,6 @@ ThumbnailLoad::ThumbnailLoad()
 
 QImage ThumbnailLoad::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    qDebug()<<id;
-    qDebug()<<size;
-    qDebug()<<requestedSize;
 
     QString tempPath = QUrl(id).toLocalFile();
     QImage Img;
@@ -30,9 +27,6 @@ QImage ThumbnailLoad::requestImage(const QString &id, QSize *size, const QSize &
 
 QPixmap ThumbnailLoad::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    qDebug()<<id;
-    qDebug()<<size;
-    qDebug()<<requestedSize;
     QString tempPath = QUrl(id).toLocalFile();
     QImage Img;
     QString error;
@@ -124,9 +118,6 @@ ViewLoad::ViewLoad()
 
 QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    qDebug()<<id;
-    qDebug()<<size;
-    qDebug()<<requestedSize;
     QString tempPath = QUrl(id).toLocalFile();
     QImage Img;
     QString error;
@@ -148,9 +139,6 @@ QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &reque
 
 QPixmap ViewLoad::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    qDebug()<<id;
-    qDebug()<<size;
-    qDebug()<<requestedSize;
     QString tempPath = QUrl(id).toLocalFile();
     QImage Img;
     QString error;

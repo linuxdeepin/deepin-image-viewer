@@ -25,8 +25,10 @@ ApplicationWindow {
 
     flags:Qt.Window |Qt.WindowMinMaxButtonsHint |Qt.WindowCloseButtonHint|Qt.WindowTitleHint
     Component.onCompleted: {
-        setX(screen.width / 2 - width / 2);
-        setY(screen.height / 2 - height / 2);
+        if(fileControl.isCheckOnly()){
+            setX(screen.width / 2 - width / 2);
+            setY(screen.height / 2 - height / 2);
+        }
     }
 
     onWindowStateChanged: {
