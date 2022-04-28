@@ -10,7 +10,7 @@ import org.deepin.dtk 1.0
 DialogWindow {
     id: renamedialog
     modality: Qt.WindowModal
-    flags: Qt.Window | Qt.WindowCloseButtonHint
+    flags: Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint
     title: " "
     visible: false
 
