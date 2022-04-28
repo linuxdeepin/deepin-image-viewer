@@ -41,7 +41,9 @@ Rectangle {
 
     property bool isMousePinchArea: true
 
-
+    //导航蒙皮位置
+    property double  m_NavX : 0.0
+    property double  m_NavY : 0.0
 
     signal sigWheelChange
     signal sigImageShowFullScreen
@@ -375,16 +377,18 @@ Rectangle {
 
             text: !isNavShow ? qsTr("Show navigation window") : qsTr("Hide navigation window")
             onTriggered : {
-                if (isNavShow)
-                {
+                if (isNavShow) {
                     isNavShow = false
                     idNavWidget.visible = false
-                } else
-                {
+                } else {
                     isNavShow = true
                     idNavWidget.visible = true
+                    if(m_NavX === 0 && m_NavY === 0) {
+                        idNavWidget.setRectPec(view.currentItem.scale) //初始蒙皮
+                    } else {
+                        idNavWidget.setRectLocation(m_NavX, m_NavY)
+                    }
                 }
-                idNavWidget.setRectPec(view.currentItem.scale)
             }
         }
 
@@ -663,10 +667,10 @@ Rectangle {
                             }
                             //以整个图片中心为平面原点，currentimgX，currentimgY为当前视口右下角相对于整个图片的坐标，以此计算导航窗口蒙皮和位置
                             //计算相对位置
-                            var x1 = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
-                            var y1 = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
+                            m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
+                            m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
 
-                            idNavWidget.setRectLocation(x1, y1)
+                            idNavWidget.setRectLocation(m_NavX, m_NavY)
                         }
 
                         onMouseYChanged: {
@@ -678,10 +682,10 @@ Rectangle {
                             {
                                 currentimgY = showImg.y
                             }
-                            var x1 = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
-                            var y1 = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
+                            m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
+                            m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
 
-                            idNavWidget.setRectLocation(x1, y1)
+                            idNavWidget.setRectLocation(m_NavX, m_NavY)
                         }
 
                         onDoubleClicked: {
