@@ -163,7 +163,7 @@ Item {
         width:50
         height:50
         icon.name:"icon_rotate"
-        enabled: !CodeImage.imageIsNull(imageViewer.source)
+        enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
 
         onClicked: {
             imageViewer.rotateImage(-90)
