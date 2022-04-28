@@ -2,69 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ne">
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">पूर्णस्क्रीन</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="unfinished">पूर्णस्क्रीनबाट बाहिर निस्कनुहोस्</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">स्लाइड शो</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">कपि गर्नुहोस् </translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="unfinished">नाम बदल्नुहोस्</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">हटाउनु होस् </translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">घडीको दिशामा घुमाउनुहोस्</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">घडिको उल्टो दिशामा घुमाउनुहोस्</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">वालपेपरको रूपमा सेट गर्नुहोस्</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">फाइल प्रबन्धकमा प्रदर्शन गर्नुहोस्</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished">छवि जानकारी</translation>
-    </message>
-</context>
-<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -259,6 +196,69 @@
     <message>
         <source>Delete</source>
         <translation type="unfinished">हटाउनु होस् </translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">पूर्णस्क्रीन</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished">पूर्णस्क्रीनबाट बाहिर निस्कनुहोस्</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">स्लाइड शो</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">कपि गर्नुहोस् </translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">नाम बदल्नुहोस्</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">हटाउनु होस् </translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">घडीको दिशामा घुमाउनुहोस्</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">घडिको उल्टो दिशामा घुमाउनुहोस्</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">वालपेपरको रूपमा सेट गर्नुहोस्</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">फाइल प्रबन्धकमा प्रदर्शन गर्नुहोस्</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">छवि जानकारी</translation>
     </message>
 </context>
 <context>

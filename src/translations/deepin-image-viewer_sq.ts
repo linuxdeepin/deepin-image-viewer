@@ -2,69 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="sq">
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">Sa krejt ekrani</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="unfinished">Dil nga mënyra sa krejt ekrani</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation type="unfinished">Përfto tekstin</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Shfaqje diapozitivash</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Kopjoje</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="unfinished">Riemërtojeni</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Fshije</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Rrotulloje në kah orar</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rrotulloje në kah kundërorar</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Vëre si sfond</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Shfaqe në përgjegjës kartelash</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished">Të dhëna figure</translation>
-    </message>
-</context>
-<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -259,6 +196,69 @@
     <message>
         <source>Delete</source>
         <translation type="unfinished">Fshije</translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Sa krejt ekrani</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished">Dil nga mënyra sa krejt ekrani</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished">Përfto tekstin</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Shfaqje diapozitivash</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopjoje</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Riemërtojeni</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Fshije</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Rrotulloje në kah orar</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Rrotulloje në kah kundërorar</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Vëre si sfond</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Shfaqe në përgjegjës kartelash</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">Të dhëna figure</translation>
     </message>
 </context>
 <context>

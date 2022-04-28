@@ -19,5 +19,6 @@
         <file>qml/PropertyItem.qml</file>
         <file>qml/PropertyActionItemDelegate.qml</file>
         <file>qml/AlertToolTip.qml</file>
+        <file>qml/ViewRightMenu.qml</file>
     </qresource>
 </RCC>

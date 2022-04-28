@@ -2,69 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="am_ET">
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">በ ሙሉ መመልከቻ ዘዴ</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="unfinished">ከ ሙሉ መመልከቻ ዘዴ መውጫ</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">ተንሸራታች ማሳያ</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">ኮፒ</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="unfinished">እንደገና መሰየሚያ</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">ማጥፊያ</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">ማዞሪያ ከ ግራ ወደ ቀኝ</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">ማዞሪያ ከ ቀኝ ወደ ግራ</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">እንደ ግድግዳ ወረቀት ማሰናጃ</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">በ ፋይል አስተዳዳሪ ውስጥ ማሳያ</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished">የ ምስል መረጃ</translation>
-    </message>
-</context>
-<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -259,6 +196,69 @@
     <message>
         <source>Delete</source>
         <translation type="unfinished">ማጥፊያ</translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">በ ሙሉ መመልከቻ ዘዴ</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished">ከ ሙሉ መመልከቻ ዘዴ መውጫ</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">ተንሸራታች ማሳያ</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">ኮፒ</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">እንደገና መሰየሚያ</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">ማጥፊያ</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">ማዞሪያ ከ ግራ ወደ ቀኝ</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">ማዞሪያ ከ ቀኝ ወደ ግራ</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">እንደ ግድግዳ ወረቀት ማሰናጃ</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">በ ፋይል አስተዳዳሪ ውስጥ ማሳያ</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">የ ምስል መረጃ</translation>
     </message>
 </context>
 <context>

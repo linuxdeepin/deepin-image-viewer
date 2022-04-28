@@ -2,69 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr">
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">Plein écran</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="unfinished">Quitter le mode plein écran</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Diaporama</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Copier</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="unfinished">Renommer </translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Supprimer</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotation droite</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotation gauche</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Définir comme fond d&apos;écran</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Afficher dans le gestionnaire de fichier</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished">Image infos</translation>
-    </message>
-</context>
-<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -259,6 +196,69 @@
     <message>
         <source>Delete</source>
         <translation type="unfinished">Supprimer</translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Plein écran</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished">Quitter le mode plein écran</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Diaporama</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Copier</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Renommer </translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Supprimer</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Rotation droite</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Rotation gauche</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Définir comme fond d&apos;écran</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Afficher dans le gestionnaire de fichier</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">Image infos</translation>
     </message>
 </context>
 <context>

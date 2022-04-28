@@ -2,69 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ms">
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">Skrin penuh</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="unfinished">Keluar dari skrin penuh</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Paparan slaid</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Salin</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="unfinished">Nama semula</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Padam</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Putar ikut jam</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Putar lawan jam</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Tetapkan sebagai kertas dinding</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Papar dalam pengurus fail</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished">Maklumat imej</translation>
-    </message>
-</context>
-<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -259,6 +196,69 @@
     <message>
         <source>Delete</source>
         <translation type="unfinished">Padam</translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Skrin penuh</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished">Keluar dari skrin penuh</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Paparan slaid</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Salin</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Nama semula</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Padam</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Putar ikut jam</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Putar lawan jam</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Tetapkan sebagai kertas dinding</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Papar dalam pengurus fail</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">Maklumat imej</translation>
     </message>
 </context>
 <context>

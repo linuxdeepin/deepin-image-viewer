@@ -2,69 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ug">
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">تولۇق ئىكران</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="unfinished">تولۇق ئىكراندىن چېكىنىش</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">پىرويېكسيە قويۇش</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">كۆچۈرۈش</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="unfinished">نام قويۇش</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">ئۆچۈرۈش</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">سائەت ئىستېرىلكىسى بويىچە ئايلاندۇرۇش</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">سائەت ئىستېرىلكىسىغا قارشى يۆنىلىشتە ئايلاندۇرۇش</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">تام رەسىمى قىلىپ تەڭشەش</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">ھۆججەت باشقۇرغۇچتا كۆرسىتىش</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished">رەسىم ئۇچۇرى</translation>
-    </message>
-</context>
-<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -259,6 +196,69 @@
     <message>
         <source>Delete</source>
         <translation type="unfinished">ئۆچۈرۈش</translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">تولۇق ئىكران</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished">تولۇق ئىكراندىن چېكىنىش</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">پىرويېكسيە قويۇش</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">كۆچۈرۈش</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">نام قويۇش</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">ئۆچۈرۈش</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">سائەت ئىستېرىلكىسى بويىچە ئايلاندۇرۇش</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">سائەت ئىستېرىلكىسىغا قارشى يۆنىلىشتە ئايلاندۇرۇش</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">تام رەسىمى قىلىپ تەڭشەش</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">ھۆججەت باشقۇرغۇچتا كۆرسىتىش</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">رەسىم ئۇچۇرى</translation>
     </message>
 </context>
 <context>

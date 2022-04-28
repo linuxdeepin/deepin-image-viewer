@@ -2,69 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ar">
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">شاشة كاملة</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="unfinished">الخروج من وضع ملء الشاشة</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">عرض الشرائح</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">نسخ</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="unfinished">إعادة التسمية</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">حذف</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">تدوير باتجاه عقارب الساعة</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">تدوير عكس اتجاه عقارب الساعة</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">تعيين كخلفية</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">عرض في مدير الملفات</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished">معلومات الصورة</translation>
-    </message>
-</context>
-<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -259,6 +196,69 @@
     <message>
         <source>Delete</source>
         <translation type="unfinished">حذف</translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">شاشة كاملة</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished">الخروج من وضع ملء الشاشة</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">عرض الشرائح</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">نسخ</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">إعادة التسمية</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">حذف</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">تدوير باتجاه عقارب الساعة</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">تدوير عكس اتجاه عقارب الساعة</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">تعيين كخلفية</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">عرض في مدير الملفات</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">معلومات الصورة</translation>
     </message>
 </context>
 <context>
