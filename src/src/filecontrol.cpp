@@ -83,7 +83,8 @@ FileControl::FileControl(QObject *parent) : QObject(parent)
             saveSetting();
         });
     }
-
+    listsupportWallPaper << "bmp" << "cod" << "png" << "gif" << "ief" << "jpe" << "jpeg" << "jpg"
+                         << "jfif" << "tif" << "tiff";
 }
 
 FileControl::~FileControl()
@@ -635,4 +636,15 @@ void FileControl::saveSetting()
     }
     //保存旋转的图片
     slotRotatePixCurrent();
+}
+
+bool FileControl::isSupportSetWallpaper(const QString &path)
+{
+    QString path1 = QUrl(path).toLocalFile();
+    QFileInfo fileinfo(path1);
+    QString format = fileinfo.suffix().toLower();
+    if (listsupportWallPaper.contains(format)) {
+        return true;
+    }
+    return false;
 }

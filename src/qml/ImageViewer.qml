@@ -59,6 +59,7 @@ Rectangle {
             infomationDig.hide()
         }
     }
+
     onCurrenImageScaleChanged: {
 
         if(currenImageScale.toFixed(0)>2000){
@@ -132,7 +133,7 @@ Rectangle {
     {
         // 先遍历list里面的每一个元素，对比item与每个元素的id是否相等，再利用splice的方法删除
         for (var key in fileList) {
-            if (list[key].id == item) {
+            if (list[key].id === item) {
                 list.splice(key, 1)
             }
         }
@@ -394,6 +395,7 @@ Rectangle {
 
         MenuItem {
             text: qsTr("Set as wallpaper")
+            visible: fileControl.isSupportSetWallpaper(source)
             onTriggered: {
                 fileControl.setWallpaper(source)
             }

@@ -131,6 +131,8 @@ public:
     Q_INVOKABLE void setSettingHeight(int height);
 
     Q_INVOKABLE void saveSetting();
+    //是否支持设置壁纸
+    Q_INVOKABLE bool isSupportSetWallpaper(const QString &path);
 signals:
 
 public slots:
@@ -163,6 +165,8 @@ private :
     int m_lastSaveWidth = 0;
 
     int m_lastSaveHeight = 0;
+
+    QStringList listsupportWallPaper;
 };
 
 #endif // FILECONTROL_H
