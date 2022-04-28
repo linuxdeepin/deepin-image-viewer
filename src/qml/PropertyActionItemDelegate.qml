@@ -40,21 +40,19 @@ Control {
         }
 
         onClicked: {
-            if(showPicLabel.visible){
-                showPicLabel.visible=false;
-            }else{
-                if(!fileControl.isShowToolTip(imageViewer.source,nameedit.text)&& nameedit.text.length>0){
+            if (showPicLabel.visible) {
+                showPicLabel.visible = false;
+            } else {
+                if (!fileControl.isShowToolTip(imageViewer.source,nameedit.text) && nameedit.text.length > 0) {
                     var name = nameedit.text
                     //bool返回值判断是否成功
-                    if(fileControl.slotFileReName(name,imageViewer.source)){
-                        imageViewer.sourcePaths=fileControl.renameOne(imageViewer.sourcePaths,imageViewer.source,fileControl.getNamePath(imageViewer.source,name))
-                        imageViewer.source=fileControl.getNamePath(imageViewer.source,name)
+                    if (fileControl.slotFileReName(name,imageViewer.source)) {
+                        imageViewer.sourcePaths = fileControl.renameOne(imageViewer.sourcePaths, imageViewer.source, fileControl.getNamePath(imageViewer.source, name))
+                        imageViewer.source = fileControl.getNamePath(imageViewer.source, name)
                     }
                 }
-                showPicLabel.visible=true;
+                showPicLabel.visible = true
             }
-
-
         }
     }
     padding: 5
@@ -67,17 +65,17 @@ Control {
         RowLayout {
             LineEdit {
                 id: nameedit
-                visible:!showPicLabel.visible
+                visible: !showPicLabel.visible
                 text: fileControl.slotGetFileName(imageViewer.source)
                 anchors.fill: nameeditrect
-                anchors.topMargin:5
-                anchors.leftMargin:10
+                anchors.topMargin: 5
+                anchors.leftMargin: 10
                 font.pixelSize: 16
                 focus: true
                 selectByMouse: true
                 alertText: qsTr("The file already exists, please use another name")
                 showAlert: fileControl.isShowToolTip(imageViewer.source,nameedit.text) && nameedit.visible
-                height:20
+                height: 20
             }
             Label {
                 id:showPicLabel
@@ -90,28 +88,28 @@ Control {
                     anchors.fill: parent
                     hoverEnabled: true
 
-
-                    AlertToolTip{
+                    AlertToolTip {
                         id:tip
                         parent: parent
-                        visible:parent.focus
+                        visible: parent.focus
                         text: control.description
+                        y: showPicLabel.y + 20
                     }
 
-                    onMouseXChanged:{
-
-                        if(tip.width<control.width+15){
-                            tip.visible=false
-                        }else{
-                            tip.visible=true
+                    onMouseXChanged: {
+                        if (tip.width < control.width + 15) {
+                            tip.visible = false
+                        } else {
+                            tip.visible = true
                         }
-
                     }
-                    onExited:{
-                        tip.visible=false
+
+                    onExited: {
+                        tip.visible = false
                     }
                 }
             }
+
             Loader {
                 Layout.leftMargin: 5
                 sourceComponent: control.action
