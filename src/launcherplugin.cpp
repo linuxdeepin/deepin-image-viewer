@@ -19,6 +19,7 @@
 #include <QQmlApplicationEngine>
 #include <DApplication>
 #include "src/filecontrol.h"
+#include "src/thumbnailload.h"
 
 #include "launcherplugin.h"
 
@@ -42,6 +43,11 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
 {
     // 请在此处注册需要导入到QML中的C++类型
     // 例如： engine->rootContext()->setContextProperty("Utils", new Utils);
+    //后端缩略图加载
+    LoadImage *load = new LoadImage();
+    engine->rootContext()->setContextProperty("CodeImage", load);
+    engine->addImageProvider(QLatin1String("ThumbnailImage"), load->m_pThumbnail);
+    engine->addImageProvider(QLatin1String("viewImage"), load->m_viewLoad);
     FileControl *fileControl = new FileControl();
     engine->rootContext()->setContextProperty("fileControl", fileControl);
     engine->load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

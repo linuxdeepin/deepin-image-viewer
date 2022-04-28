@@ -33,7 +33,7 @@ Item {
         anchors.centerIn: parent
         smooth: false
         anchors.fill: parent
-        source:  mainView.sourcePaths[index]
+        source:  "image://ThumbnailImage/"+mainView.sourcePaths[index]
         sourceSize.width: 100
         sourceSize.height: 100
         asynchronous: true
