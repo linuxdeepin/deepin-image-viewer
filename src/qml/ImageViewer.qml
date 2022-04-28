@@ -475,7 +475,8 @@ Rectangle {
                         fillMode: Image.PreserveAspectFit
                         width: parent.width
                         height: parent.height
-                        source:  "image://viewImage/"+sourcePaths[index]
+                        source:  !fileControl.isDynamicImage(sourcePaths[index]) ? "image://viewImage/"+sourcePaths[index] : ""
+                        visible: !fileControl.isDynamicImage(sourcePaths[index])
                         asynchronous: true
 
                         cache: false
@@ -486,13 +487,6 @@ Rectangle {
 
                         onStatusChanged: {
                             msArea.changeRectXY()
-                            if (fileControl.isDynamicImage(sourcePaths[index]))
-                            {
-                                visible = false
-                            } else
-                            {
-                                visible = true
-                            }
 
                             if (showImg.status === Image.Ready)
                                 console.log('Ready')
@@ -514,7 +508,8 @@ Rectangle {
                         fillMode: Image.PreserveAspectFit
                         width: parent.width
                         height: parent.height
-                        //                        source: sourcePaths[index]
+                        source:  fileControl.isDynamicImage(sourcePaths[index]) ? sourcePaths[index] : ""
+                        visible: fileControl.isDynamicImage(sourcePaths[index])
                         asynchronous: true
                         cache: false
                         clip: true
@@ -523,14 +518,6 @@ Rectangle {
 
                         onStatusChanged: {
                             msArea.changeRectXY()
-                            if (!fileControl.isDynamicImage(sourcePaths[index]))
-                            {
-                                visible = false
-                            } else
-                            {
-                                visible = true;
-                                source = sourcePaths[index]
-                            }
 
                             if (showImg.status === Image.Ready)
                                 console.log('Ready')
