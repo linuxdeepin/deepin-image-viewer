@@ -38,5 +38,6 @@
         <file>dsg/icons/next.dci</file>
         <file>dsg/icons/previous.dci</file>
         <file>dsg/icons/icon_play_start.dci</file>
+        <file>dsg/icons/icon_damaged.dci</file>
     </qresource>
 </RCC>

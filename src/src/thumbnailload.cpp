@@ -9,17 +9,16 @@ ThumbnailLoad::ThumbnailLoad()
 
 QImage ThumbnailLoad::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
-
     QString tempPath = QUrl(id).toLocalFile();
     QImage Img;
     QString error;
 
-    if(!m_imgMap.keys().contains(tempPath)){
+    if (!m_imgMap.keys().contains(tempPath)) {
         LibUnionImage_NameSpace::loadStaticImageFromFile(tempPath, Img, error);
-        QImage reImg=Img.scaled(100,100);
-        m_imgMap[tempPath]=reImg;
+        QImage reImg = Img.scaled(100, 100);
+        m_imgMap[tempPath] = reImg;
         return reImg;
-    }else {
+    } else {
         return m_imgMap[tempPath];
     }
 
@@ -34,16 +33,30 @@ QPixmap ThumbnailLoad::requestPixmap(const QString &id, QSize *size, const QSize
     return QPixmap::fromImage(Img);
 }
 
+bool ThumbnailLoad::imageIsNull(const QString &path)
+{
+    QString tempPath = QUrl(path).toLocalFile();
+    if (m_imgMap.find(tempPath) != m_imgMap.end())
+        return m_imgMap[tempPath].isNull();
+
+    return false;
+}
+
 LoadImage::LoadImage(QObject *parent) :
     QObject(parent)
 {
     m_pThumbnail = new ThumbnailLoad();
-    m_viewLoad=new ViewLoad();
+    m_viewLoad = new ViewLoad();
 }
 
 double LoadImage::getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight)
 {
-    return m_viewLoad->getFitWindowScale(path,WindowWidth,WindowHeight);
+    return m_viewLoad->getFitWindowScale(path, WindowWidth, WindowHeight);
+}
+
+bool LoadImage::imageIsNull(const QString &path)
+{
+    return m_pThumbnail->imageIsNull(path);
 }
 
 void LoadImage::loadThumbnail(const QString path)
@@ -111,7 +124,7 @@ void  LoadImage::loadThumbnails(const QStringList list)
 
 
 ViewLoad::ViewLoad()
- : QQuickImageProvider(QQuickImageProvider::Image)
+    : QQuickImageProvider(QQuickImageProvider::Image)
 {
 
 }
@@ -121,17 +134,17 @@ QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &reque
     QString tempPath = QUrl(id).toLocalFile();
     QImage Img;
     QString error;
-    if(tempPath==m_currentPath){
-        if(m_Img.size() != requestedSize && requestedSize.width()>0 && requestedSize.height()>0){
+    if (tempPath == m_currentPath) {
+        if (m_Img.size() != requestedSize && requestedSize.width() > 0 && requestedSize.height() > 0) {
             m_Img = m_Img.scaled(requestedSize);
         }
         return m_Img;
     }
     LibUnionImage_NameSpace::loadStaticImageFromFile(tempPath, Img, error);
-    m_imgSizes[tempPath]=Img.size() ;
-    m_Img=Img;
-    m_currentPath=tempPath;
-    if(m_Img.size() != requestedSize && requestedSize.width()>0 && requestedSize.height()>0){
+    m_imgSizes[tempPath] = Img.size() ;
+    m_Img = Img;
+    m_currentPath = tempPath;
+    if (m_Img.size() != requestedSize && requestedSize.width() > 0 && requestedSize.height() > 0) {
         m_Img = m_Img.scaled(requestedSize);
     }
     return m_Img;
@@ -142,13 +155,13 @@ QPixmap ViewLoad::requestPixmap(const QString &id, QSize *size, const QSize &req
     QString tempPath = QUrl(id).toLocalFile();
     QImage Img;
     QString error;
-    if(tempPath==m_currentPath){
+    if (tempPath == m_currentPath) {
         return QPixmap::fromImage(m_Img);
     }
     LibUnionImage_NameSpace::loadStaticImageFromFile(tempPath, Img, error);
-    m_imgSizes[tempPath]=Img.size();
-    m_Img=Img;
-    m_currentPath=tempPath;
+    m_imgSizes[tempPath] = Img.size();
+    m_Img = Img;
+    m_currentPath = tempPath;
     return QPixmap::fromImage(Img);
 }
 
@@ -164,7 +177,7 @@ int ViewLoad::getImageHeight(const QString &path)
     return m_imgSizes[tempPath].height();
 }
 
-double ViewLoad::getFitWindowScale(const QString &path,double WindowWidth, double WindowHeight)
+double ViewLoad::getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight)
 {
     double scale = 0.0;
     double width = getImageHeight(path);
