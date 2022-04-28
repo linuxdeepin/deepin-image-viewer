@@ -2,69 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fa">
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">تمام صفحه</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="unfinished">خروج از تمام صفحه</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">نمایش اسلاید</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">کپی</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="unfinished">تغییر اسم</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">حذف</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">چرخش در جهت عقربه های ساعت</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">چرخش در جهت خلاف عقربه های ساعت</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">تنظیم به عنوان تصویر پس زمینه</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">نمایش در مدیر فایل</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished">اطلاعات تصویر</translation>
-    </message>
-</context>
-<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -259,6 +196,69 @@
     <message>
         <source>Delete</source>
         <translation type="unfinished">حذف</translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">تمام صفحه</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished">خروج از تمام صفحه</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">نمایش اسلاید</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">کپی</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">تغییر اسم</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">حذف</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">چرخش در جهت عقربه های ساعت</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">چرخش در جهت خلاف عقربه های ساعت</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">تنظیم به عنوان تصویر پس زمینه</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">نمایش در مدیر فایل</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">اطلاعات تصویر</translation>
     </message>
 </context>
 <context>
