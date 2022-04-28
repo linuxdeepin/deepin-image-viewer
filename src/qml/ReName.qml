@@ -54,6 +54,8 @@ DialogWindow {
         height: 36
         font: DTK.fontManager.t5
         focus: true
+        maximumLength: 255
+        validator: RegExpValidator {regExp: /^[^\\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/ }
         selectByMouse: true
         alertText: qsTr("The file already exists, please use another name")
         showAlert: fileControl.isShowToolTip(source,nameedit.text)

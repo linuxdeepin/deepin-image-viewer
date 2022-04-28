@@ -13,8 +13,8 @@ DialogWindow {
     width: 280
     property int leftX: 20
     property int topY: 70
-    x:root.x+root.width-width-leftX
-    y:root.y+topY
+    x: root.x+root.width - width - leftX
+    y: root.y + topY
     minimumWidth: 280
     maximumWidth: 280
     minimumHeight: contentHeight4.height+60
@@ -131,19 +131,19 @@ DialogWindow {
                     Layout.fillWidth: true
                     spacing: 1
                     PropertyItemDelegate {
-                        contrlImplicitWidth:66
+                        contrlImplicitWidth: 66
                         title: qsTr("ISO")
                         description: fileControl.slotGetInfo("ISOSpeedRatings",source)
 
                     }
                     PropertyItemDelegate {
-                        contrlImplicitWidth:106
+                        contrlImplicitWidth: 106
                         title: qsTr("Exposure mode")
                         description: fileControl.slotGetInfo("ExposureMode",source)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
-                        contrlImplicitWidth:86
+                        contrlImplicitWidth: 86
                         title: qsTr("Exposure time")
                         description: fileControl.slotGetInfo("ExposureTime",source)
                     }
