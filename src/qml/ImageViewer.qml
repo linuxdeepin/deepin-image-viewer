@@ -216,7 +216,12 @@ Rectangle {
 
             onTriggered : root.visibility != Window.FullScreen ? imageViewer.showPanelFullScreen() : showNormal()
             Shortcut {
-                sequence : root.visibility != Window.FullScreen ? "F11" : "Esc"
+                sequence : "F11"
+                onActivated : root.visibility != Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
+            }
+            Shortcut {
+                enabled: root.visibility == Window.FullScreen ? true : false
+                sequence :  "Esc"
                 onActivated : root.visibility != Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
             }
         }
