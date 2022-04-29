@@ -36,8 +36,9 @@ QPixmap ThumbnailLoad::requestPixmap(const QString &id, QSize *size, const QSize
 bool ThumbnailLoad::imageIsNull(const QString &path)
 {
     QString tempPath = QUrl(path).toLocalFile();
-    if (m_imgMap.find(tempPath) != m_imgMap.end())
+    if (m_imgMap.find(tempPath) != m_imgMap.end()){
         return m_imgMap[tempPath].isNull();
+    }
 
     return false;
 }

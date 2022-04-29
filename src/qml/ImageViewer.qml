@@ -317,13 +317,6 @@ Rectangle {
 
                         onStatusChanged: {
                             msArea.changeRectXY()
-
-                            if (showImg.status === Image.Ready)
-                                console.log('Ready')
-                            if (showImg.status === Image.Loading)
-                                console.log('Loading')
-                            if (showImg.status === Image.Null)
-                                console.log('Null')
                         }
                     }
 
@@ -332,12 +325,22 @@ Rectangle {
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter: parent.verticalCenter
                         icon {
-                            name: "icon_damaged"
+                            name: "photo_breach"
                             width: 151
                             height: 151
                         }
                         visible: CodeImage.imageIsNull(sourcePaths[index])
+
                     }
+                    BusyIndicator {
+                        running: true
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        width:48
+                        height:48
+                        visible: showImg.status === Image.Loading && !CodeImage.imageIsNull(sourcePaths[index])
+                    }
+
 
                     Connections {
                         target: root
