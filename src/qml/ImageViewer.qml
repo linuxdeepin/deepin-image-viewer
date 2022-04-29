@@ -61,17 +61,19 @@ Rectangle {
             infomationDig.hide()
         }
     }
-    function showFloatLabel(){
-        console.info("scale value:",currenImageScale.toFixed(0))
-        if(currenImageScale.toFixed(0)>2000 && currenImageScale.toFixed(0)<=3000){
+
+    function showFloatLabel() {
+        console.info("scale value:", currenImageScale.toFixed(0))
+        if(currenImageScale.toFixed(0) > 2000 && currenImageScale.toFixed(0) <= 3000){
             floatLabel.displayStr = "2000%"
-        }else if(currenImageScale.toFixed(0)<2 && currenImageScale.toFixed(0)>=0){
+        }else if(currenImageScale.toFixed(0)<2 && currenImageScale.toFixed(0) >=0 ){
             floatLabel.displayStr = "2%"
-        }else if(currenImageScale.toFixed(0)>=2 && currenImageScale.toFixed(0)<=2000 ){
+        }else if(currenImageScale.toFixed(0) >=2 && currenImageScale.toFixed(0) <= 2000 ){
             floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
         }
         floatLabel.visible = CodeImage.imageIsNull(source) ? false : true
     }
+
     onCurrenImageScaleChanged: {
         showFloatLabel()
     }
@@ -149,8 +151,20 @@ Rectangle {
         }
 
     }
+
+    PropertyAnimation {
+        id :showfullAnimation
+        target: root
+        from: 0
+        to: 1
+        property: "opacity"
+        duration: 200
+        easing.type: Easing.InExpo
+    }
+
     function showPanelFullScreen()
     {
+        showfullAnimation.start()
         showFullScreen()
         //如果是初始界面只全屏
         if (stackView.currentWidgetIndex != 0) {
