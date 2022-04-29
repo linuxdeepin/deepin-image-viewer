@@ -55,9 +55,13 @@ ApplicationWindow {
     Control {
         id: titlecontrol
         hoverEnabled: true // 开启 Hover 属性
-        property Palette backgroundColor: Palette {
-            normal: "white"
-            normalDark:"#262626"
+        property Palette backgroundColor1: Palette {
+            normal: Qt.rgba(255/255, 255/255, 255/255, 0.6)
+            normalDark:Qt.rgba(26/255, 26/255, 26/255, 0.6)
+        }
+        property Palette backgroundColor2: Palette {
+            normal: Qt.rgba(255/255, 255/255, 255/255, 0.02)
+            normalDark:Qt.rgba(26/255, 26/255, 26/255, 0.02)
         }
     }
     Control {
@@ -90,7 +94,11 @@ ApplicationWindow {
         height: 50
         visible: root.visibility === 5 ? false:true
         color:titlecontrol.ColorSelector.backgroundColor
-        opacity: 1
+        gradient: Gradient {
+               GradientStop { position: 0.0; color: titlecontrol.ColorSelector.backgroundColor1 }
+               GradientStop { position: 1.0; color: titlecontrol.ColorSelector.backgroundColor2 }
+           }
+        //opacity: 1
         ActionButton {
             anchors.top:titleRect.top
             anchors.topMargin:global.actionMargin
