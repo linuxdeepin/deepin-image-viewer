@@ -47,7 +47,7 @@ Menu {
 //imageIsNull
     RightMenuItem {
         text: qsTr("Extract text")
-        visible: fileControl.isCanSupportOcr(source) && CodeImage.imageIsNull(source)
+        visible: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
         onTriggered: {
             fileControl.ocrImage(source)
         }
