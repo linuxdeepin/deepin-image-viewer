@@ -166,6 +166,7 @@ Rectangle {
     {
         showfullAnimation.start()
         showFullScreen()
+        view.contentItem.forceActiveFocus()
         //如果是初始界面只全屏
         if (stackView.currentWidgetIndex != 0) {
             stackView.currentWidgetIndex = 1
@@ -230,6 +231,12 @@ Rectangle {
         width: parent.width
         height: parent.height
         //        anchors.centerIn: parent
+
+        //初始打开和点击缩略图切换都不会再有滑动效果
+        Component.onCompleted:{
+            contentItem.highlightMoveDuration = 0       //将移动时间设为0
+        }
+
 
         clip: true
         //onCurrentIndexChanged: {

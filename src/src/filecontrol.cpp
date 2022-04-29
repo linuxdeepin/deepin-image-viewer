@@ -699,7 +699,8 @@ bool FileControl::isCanRename(const QString &path)
     QString localPath = QUrl(path).toLocalFile();
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);//路径类型
     QFileInfo info(localPath);
-    if(info.isReadable() && info.isWritable() &&
+    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable(); //是否可写
+    if(info.isReadable() && isWritable&&
             imageViewerSpace::PathTypeMTP != pathType &&
             imageViewerSpace::PathTypePTP != pathType &&
             imageViewerSpace::PathTypeAPPLE != pathType){

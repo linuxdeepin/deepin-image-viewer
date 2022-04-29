@@ -37,7 +37,7 @@ Menu {
         Shortcut {
             sequence: "Ctrl+P"
             onActivated:  {
-                if (stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                if (parent.visible && stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
                 {
                     fileControl.showPrintDialog(mainView.source)
                 }
@@ -54,7 +54,7 @@ Menu {
         Shortcut {
             sequence: "Alt+O"
             onActivated: {
-                if (stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                if (parent.visible && stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
                 {
                     fileControl.ocrImage(source)
                 }
@@ -71,7 +71,7 @@ Menu {
         Shortcut {
             sequence: "F5"
             onActivated: {
-                if (stackView.currentWidgetIndex != 0)
+                if (parent.visible && stackView.currentWidgetIndex != 0)
                 {
                     startSliderShow()
                 }
@@ -86,12 +86,14 @@ Menu {
         text: qsTr("Copy")
         visible: fileControl.isCanReadable(source)
         onTriggered: {
-            fileControl.copyImage(source)
+            if( parent.visible ){
+                fileControl.copyImage(source)
+            }
         }
         Shortcut {
             sequence: "Ctrl+C"
             onActivated: {
-                if (stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                if (parent.visible && stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
                 {
                     fileControl.copyImage(source)
                 }
@@ -102,7 +104,7 @@ Menu {
     RightMenuItem {
 
         text: qsTr("Rename")
-        visible: isCanRename(source)
+        visible: fileControl.isCanRename(source)
         onTriggered: {
             var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
             var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
@@ -115,7 +117,7 @@ Menu {
         Shortcut {
             sequence: "F2"
             onActivated: {
-                if (stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                if (parent.visible && stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
                 {
                     var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
                     var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
@@ -138,7 +140,8 @@ Menu {
         Shortcut {
             sequence: "Delete"
             onActivated: {
-                if (stackView.currentWidgetIndex == 1)
+
+                if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     thumbnailListView.deleteCurrentImage()
                 }
@@ -158,7 +161,7 @@ Menu {
         Shortcut {
             sequence: "Ctrl+R"
             onActivated: {
-                if (stackView.currentWidgetIndex == 1)
+                if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     imageViewer.rotateImage(90)
                 }
@@ -175,7 +178,7 @@ Menu {
         Shortcut {
             sequence: "Ctrl+Shift+R"
             onActivated: {
-                if (stackView.currentWidgetIndex == 1)
+                if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     imageViewer.rotateImage(-90)
                 }
@@ -189,6 +192,10 @@ Menu {
         visible: !CodeImage.imageIsNull(source) && currentScale >1
         text: !isNavShow ? qsTr("Show navigation window") : qsTr("Hide navigation window")
         onTriggered : {
+            if(!parent.visible){
+                return
+            }
+
             if (isNavShow) {
                 isNavShow = false
                 idNavWidget.visible = false
@@ -214,7 +221,7 @@ Menu {
         Shortcut {
             sequence: "Ctrl+F"
             onActivated: {
-                if (stackView.currentWidgetIndex == 1)
+                if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     fileControl.setWallpaper(source)
                 }
@@ -231,7 +238,7 @@ Menu {
         Shortcut {
             sequence: "Alt+D"
             onActivated: {
-                if (stackView.currentWidgetIndex == 1)
+                if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     fileControl.displayinFileManager(source)
                 }
@@ -248,7 +255,7 @@ Menu {
         Shortcut {
             sequence: "Ctrl+I"
             onActivated: {
-                if (stackView.currentWidgetIndex == 1)
+                if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     infomationDig.show()
                 }
