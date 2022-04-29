@@ -488,8 +488,10 @@ Rectangle {
                         }
 
                         onDoubleClicked: {
-                            infomationDig.hide()
-                             showFulltimer.start()
+                            if (!thumbnailListView.contains(msArea.mapToItem(thumbnailListView, mouse.x, mouse.y))) {
+                                infomationDig.hide()
+                                showFulltimer.start()
+                            }
                         }
 
                         onWheel: {
