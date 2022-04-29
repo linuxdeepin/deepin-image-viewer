@@ -276,8 +276,6 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: (parent.width-width)/2
 
-        radius:15
-
         Component.onCompleted: {
 
             animationAll()
