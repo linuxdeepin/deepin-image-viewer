@@ -11,7 +11,7 @@ Menu {
 
     maxVisibleItems: 20
 
-    MenuItem {
+    RightMenuItem {
         id : right_fullscreen
         text: root.visibility != Window.FullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
 
@@ -28,8 +28,9 @@ Menu {
     }
 
 
-    MenuItem {
+    RightMenuItem {
         text: qsTr("Print")
+        visible: !CodeImage.imageIsNull(source)
         onTriggered: {
             fileControl.showPrintDialog(mainView.source)
         }
@@ -43,9 +44,10 @@ Menu {
             }
         }
     }
-
-    MenuItem {
+//imageIsNull
+    RightMenuItem {
         text: qsTr("Extract text")
+        visible: fileControl.isCanSupportOcr(source) && CodeImage.imageIsNull(source)
         onTriggered: {
             fileControl.ocrImage(source)
         }
@@ -60,9 +62,12 @@ Menu {
         }
     }
 
-    MenuItem {
+    RightMenuItem {
+
         text: qsTr("Slide show")
-        onTriggered: {startSliderShow()}
+        onTriggered: {
+            startSliderShow()
+        }
         Shortcut {
             sequence: "F5"
             onActivated: {
@@ -76,8 +81,10 @@ Menu {
 
 
     MenuSeparator { }
-    MenuItem {
+    RightMenuItem {
+
         text: qsTr("Copy")
+        visible: fileControl.isCanReadable(source)
         onTriggered: {
             fileControl.copyImage(source)
         }
@@ -92,8 +99,10 @@ Menu {
         }
     }
 
-    MenuItem {
+    RightMenuItem {
+
         text: qsTr("Rename")
+        visible: isCanRename(source)
         onTriggered: {
             var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
             var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
@@ -120,8 +129,9 @@ Menu {
         }
     }
 
-    MenuItem {
+    RightMenuItem {
         text: qsTr("Delete")
+        visible: fileControl.isCanDelete(source)
         onTriggered: {
             thumbnailListView.deleteCurrentImage()
         }
@@ -138,11 +148,13 @@ Menu {
 
     MenuSeparator { }
 
-    MenuItem {
+    RightMenuItem {
         text: qsTr("Rotate clockwise")
+        visible: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
         onTriggered: {
             imageViewer.rotateImage(90)
         }
+
         Shortcut {
             sequence: "Ctrl+R"
             onActivated: {
@@ -154,10 +166,10 @@ Menu {
         }
     }
 
-    MenuItem {
+    RightMenuItem {
         text: qsTr("Rotate counterclockwise")
+        visible: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
         onTriggered: {
-
             imageViewer.rotateImage(-90)
         }
         Shortcut {
@@ -171,9 +183,10 @@ Menu {
         }
     }
 
-    MenuItem {
-        id : showNavigation
+    RightMenuItem {
 
+        id : showNavigation
+        visible: !CodeImage.imageIsNull(source) && currentScale >1
         text: !isNavShow ? qsTr("Show navigation window") : qsTr("Hide navigation window")
         onTriggered : {
             if (isNavShow) {
@@ -191,7 +204,8 @@ Menu {
         }
     }
 
-    MenuItem {
+    RightMenuItem {
+
         text: qsTr("Set as wallpaper")
         visible: fileControl.isSupportSetWallpaper(source)
         onTriggered: {
@@ -208,7 +222,8 @@ Menu {
         }
     }
 
-    MenuItem {
+    RightMenuItem {
+
         text: qsTr("Display in file manager")
         onTriggered: {
             fileControl.displayinFileManager(source)
@@ -224,7 +239,8 @@ Menu {
         }
     }
 
-    MenuItem {
+    RightMenuItem {
+
         text: qsTr("Image info")
         onTriggered: {
             infomationDig.show()

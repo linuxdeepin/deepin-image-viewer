@@ -145,9 +145,9 @@ QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &reque
     m_Img = Img;
     m_currentPath = tempPath;
     if (m_Img.size() != requestedSize && requestedSize.width() > 0 && requestedSize.height() > 0) {
-        m_Img = m_Img.scaled(requestedSize);
+        Img = m_Img.scaled(requestedSize);
     }
-    return m_Img;
+    return Img;
 }
 
 QPixmap ViewLoad::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)

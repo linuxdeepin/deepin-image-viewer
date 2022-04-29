@@ -135,6 +135,12 @@ public:
     Q_INVOKABLE bool isSupportSetWallpaper(const QString &path);
 
     Q_INVOKABLE bool isCheckOnly();
+
+    Q_INVOKABLE bool isCanSupportOcr(const QString &path);
+
+    Q_INVOKABLE bool isCanRename(const QString &path);
+
+    Q_INVOKABLE bool isCanReadable(const QString &path);
 signals:
 
 public slots:

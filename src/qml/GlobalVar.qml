@@ -12,5 +12,8 @@ Item {
     property int showBottomY: 80
     property int actionMargin: 9//应用图标距离顶栏
 
+    property int rightMenuItemHeight: 32//右键菜单item的高度
+
+
     signal sigWindowStateChange()
 }
