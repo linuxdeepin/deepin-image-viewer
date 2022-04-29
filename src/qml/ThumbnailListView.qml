@@ -260,15 +260,19 @@ Item {
                     source = mainView.sourcePaths[currentIndex]
                 }
                 break
+            case Qt.Key_Control:
+                imageViewer.ctrlPressed = true
+                break
             }
             event.accepted = true
         }
-
-        //        Component.onCompleted: {
-        //            console.log("123456")
-        //            bottomthumbnaillistView.currentIndex = 0
-        //            bottomthumbnaillistView.forceActiveFocus();
-        //        }
+        Keys.onReleased: {
+            switch (event.key) {
+            case Qt.Key_Control:
+                imageViewer.ctrlPressed = false
+                break
+            }
+        }
     }
 
     IconButton {

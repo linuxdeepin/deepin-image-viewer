@@ -27,6 +27,7 @@ Rectangle {
 
     property int index: 0
     property alias swipeIndex: view.currentIndex
+    property bool ctrlPressed: false
 
     //是否显示和隐藏导航栏
     property bool  isNavShow : true
@@ -478,25 +479,27 @@ Rectangle {
                         }
 
                         onWheel: {
-
                             var datla = wheel.angleDelta.y / 120
-                            if (datla > 0)
-                                currentScale = currentScale / 0.9
-                            else
-                                currentScale = currentScale * 0.9
+                            if (ctrlPressed)
+                                datla > 0 ? thumbnailListView.previous() : thumbnailListView.next()
+                            else {
+                                if (datla > 0)
+                                    currentScale = currentScale / 0.9
+                                else
+                                    currentScale = currentScale * 0.9
 
-                            if (currentScale * 100 < 100)
-                            {
-                                idNavWidget.visible = false
-                            } else if (isNavShow)
-                            {
-                                idNavWidget.visible = true
-                            }
-                            changeRectXY()
+                                if (currentScale * 100 < 100)
+                                {
+                                    idNavWidget.visible = false
+                                } else if (isNavShow)
+                                {
+                                    idNavWidget.visible = true
+                                }
+                                changeRectXY()
 
-                            sigWheelChange()
+                                sigWheelChange()
 
-                            /*
+                                /*
                                 缩放计算规则：val对应的是showImg.width和showImg.height
                                 缩小：(即showImg.scale < 1)
                                     min:初始值+val*(1-showImg.scale) / 2
@@ -505,7 +508,7 @@ Rectangle {
                                     min:初始值-val*(showImg.scale-1) / 2
                                     max:初始值+val*(showImg.scale-1) / 2
                                 */
-
+                            }
                         }
                     }
                 }
