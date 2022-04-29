@@ -61,18 +61,19 @@ Rectangle {
             infomationDig.hide()
         }
     }
-
-    onCurrenImageScaleChanged: {
-
+    function showFloatLabel(){
         console.info("scale value:",currenImageScale.toFixed(0))
-        if(currenImageScale.toFixed(0)>2000){
+        if(currenImageScale.toFixed(0)>2000 && currenImageScale.toFixed(0)<=3000){
             floatLabel.displayStr = "2000%"
-        }else if(currenImageScale.toFixed(0)<2){
+        }else if(currenImageScale.toFixed(0)<2 && currenImageScale.toFixed(0)>=0){
             floatLabel.displayStr = "2%"
-        }else{
+        }else if(currenImageScale.toFixed(0)>=2 && currenImageScale.toFixed(0)<=2000 ){
             floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
         }
         floatLabel.visible = CodeImage.imageIsNull(source) ? false : true
+    }
+    onCurrenImageScaleChanged: {
+        showFloatLabel()
     }
 
     onCurrentScaleChanged: {
@@ -102,8 +103,7 @@ Rectangle {
 
         root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
 
-        floatLabel.displayStr = (currentScale / CodeImage.getFitWindowScale(source,root.width, root.height) * 100).toFixed(0) + "%"
-        floatLabel.visible = CodeImage.imageIsNull(source) ? false : true
+        showFloatLabel()
 
         sigSourceChange();
 
