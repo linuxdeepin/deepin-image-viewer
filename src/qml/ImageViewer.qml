@@ -162,12 +162,22 @@ Rectangle {
         duration: 200
         easing.type: Easing.InExpo
     }
+    Timer {
+        id: showFulltimer
+        interval: 200
+        running: false
+        repeat: false
 
+        onTriggered: {
+            root.visibility != Window.FullScreen ? showPanelFullScreen() : imageViewer.escBack()
+        }
+    }
     function showPanelFullScreen()
     {
-        showfullAnimation.start()
         showFullScreen()
         view.contentItem.forceActiveFocus()
+        showfullAnimation.start()
+
         //如果是初始界面只全屏
         if (stackView.currentWidgetIndex != 0) {
             stackView.currentWidgetIndex = 1
@@ -179,6 +189,7 @@ Rectangle {
     function escBack()
     {
         showNormal()
+        showfullAnimation.start()
         //如果是初始界面只正常大小
         if (stackView.currentWidgetIndex != 0) {
             sliderMainShow.autoRun = false
@@ -475,7 +486,7 @@ Rectangle {
 
                         onDoubleClicked: {
                             infomationDig.hide()
-                            root.visibility != Window.FullScreen ? showPanelFullScreen() : imageViewer.escBack()
+                             showFulltimer.start()
                         }
 
                         onWheel: {

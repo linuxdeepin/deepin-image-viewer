@@ -15,7 +15,7 @@ Menu {
         id : right_fullscreen
         text: root.visibility != Window.FullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
 
-        onTriggered : root.visibility != Window.FullScreen ? imageViewer.showPanelFullScreen() : showNormal()
+        onTriggered : showFulltimer.start()
         Shortcut {
             sequence : "F11"
             onActivated : root.visibility != Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
@@ -67,6 +67,7 @@ Menu {
         text: qsTr("Slide show")
         onTriggered: {
             startSliderShow()
+            showfullAnimation.start()
         }
         Shortcut {
             sequence: "F5"
@@ -74,6 +75,7 @@ Menu {
                 if (parent.visible && stackView.currentWidgetIndex != 0)
                 {
                     startSliderShow()
+                    showfullAnimation.start()
                 }
             }
         }
