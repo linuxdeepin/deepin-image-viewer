@@ -6,12 +6,21 @@ import org.deepin.dtk 1.0
 
 Item {
     property int currentIndex: 0
+    //      property alias currentIndex :bottomthumbnaillistView.currentIndex
 
     onCurrentIndexChanged: {
         bottomthumbnaillistView.currentIndex = currentIndex
         bottomthumbnaillistView.forceActiveFocus()
     }
 
+    //    Timer{
+    //        interval: 200
+    //        running: true
+    //        repeat: true
+    //        onTriggered: {
+    //           bottomthumbnaillistView.forceActiveFocus()
+    //        }
+    //    }
     function rotateImage( x ){
         bottomthumbnaillistView.currentItem.rotation=bottomthumbnaillistView.currentItem.rotation +x
     }
@@ -59,6 +68,7 @@ Item {
 
     IconButton {
         id: previousButton
+//        visible: mainView.sourcePaths.length>1
         enabled: currentIndex>0? true:false
 
         anchors.left: parent.left
@@ -85,9 +95,9 @@ Item {
         ToolTip.text: qsTr("Previous")
 
     }
-
     IconButton {
         id: nextButton
+//        visible: mainView.sourcePaths.length>1
         enabled: currentIndex<mainView.sourcePaths.length-1? true:false
         anchors.left: previousButton.right
         anchors.leftMargin: 10
@@ -111,68 +121,70 @@ Item {
         ToolTip.text: qsTr("Next")
     }
 
-    IconButton {
-        id: fitImageButton
-        anchors.left: nextButton.right
-        anchors.leftMargin:40
-        anchors.top: parent.top
-        anchors.topMargin: (parent.height - height) / 2
-        width:50
-        height:50
-        icon.name:"icon_11"
-        enabled: !CodeImage.imageIsNull(imageViewer.source)
 
-        onClicked: {
-            imageViewer.fitImage()
+        IconButton {
+            id: fitImageButton
+            anchors.left: nextButton.right
+            anchors.leftMargin:40
+
+            anchors.top: parent.top
+            anchors.topMargin: (parent.height - height) / 2
+            width:50
+            height:50
+            icon.name:"icon_11"
+            enabled:!CodeImage.imageIsNull(imageViewer.source)
+            onClicked: {
+                imageViewer.fitImage()
+            }
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Original size")
         }
-        ToolTip.delay: 500
-        ToolTip.timeout: 5000
-        ToolTip.visible: hovered
-        ToolTip.text: qsTr("Original size")
-    }
-    IconButton {
-        id: fitWindowButton
-        anchors.left: fitImageButton.right
-        anchors.leftMargin:10
+        IconButton {
+            id: fitWindowButton
+            anchors.left: fitImageButton.right
+            anchors.leftMargin:10
 
-        anchors.top: parent.top
-        anchors.topMargin: (parent.height - height) / 2
+            anchors.top: parent.top
+            anchors.topMargin: (parent.height - height) / 2
 
-        width:50
-        height:50
-        icon.name:"icon_self-adaption"
-        enabled: !CodeImage.imageIsNull(imageViewer.source)
+            width:50
+            height:50
+            icon.name:"icon_self-adaption"
+            enabled:!CodeImage.imageIsNull(imageViewer.source)
+            onClicked: {
+                imageViewer.fitWindow()
+            }
 
-        onClicked: {
-            imageViewer.fitWindow()
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Fit to window")
         }
-        ToolTip.delay: 500
-        ToolTip.timeout: 5000
-        ToolTip.visible: hovered
-        ToolTip.text: qsTr("Fit to window")
-    }
 
-    IconButton {
-        id: rotateButton
-        anchors.left: fitWindowButton.right
-        anchors.leftMargin:10
+        IconButton {
+            id: rotateButton
+            anchors.left: fitWindowButton.right
+            anchors.leftMargin:10
 
-        anchors.top: parent.top
-        anchors.topMargin: (parent.height - height) / 2
+            anchors.top: parent.top
+            anchors.topMargin: (parent.height - height) / 2
 
-        width:50
-        height:50
-        icon.name:"icon_rotate"
-        enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
+            width:50
+            height:50
+            icon.name:"icon_rotate"
+            enabled:!CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
+            onClicked: {
+                imageViewer.rotateImage(-90)
 
-        onClicked: {
-            imageViewer.rotateImage(-90)
+//                bottomthumbnaillistView.currentItem.rotation=bottomthumbnaillistView.currentItem.rotation-90
+            }
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Rotate")
         }
-        ToolTip.delay: 500
-        ToolTip.timeout: 5000
-        ToolTip.visible: hovered
-        ToolTip.text: qsTr("Rotate")
-    }
 
 
     ListView {
@@ -266,10 +278,10 @@ Item {
         icon.name:"icon_character_recognition"
         anchors.right: deleteButton.left
         anchors.rightMargin: 15
+
         anchors.top: parent.top
         anchors.topMargin: (parent.height - height) / 2
-        enabled: !CodeImage.imageIsNull(imageViewer.source)
-
+        enabled: fileControl.isCanSupportOcr(source) && CodeImage.imageIsNull(source)
         onClicked: {
             fileControl.ocrImage(source)
         }
@@ -287,12 +299,12 @@ Item {
 
         anchors.right: parent.right
         anchors.rightMargin: 15
+
         anchors.top: parent.top
         anchors.topMargin: (parent.height - height) / 2
 
         icon.source: "qrc:/res/dcc_delete_36px.svg"
         icon.color: enabled ? "red" :"ffffff"
-
         onClicked: {
             deleteCurrentImage()
         }

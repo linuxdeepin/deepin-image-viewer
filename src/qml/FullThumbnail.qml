@@ -114,7 +114,8 @@ Item {
                 hideBottomAnimation.start()
                 hideTopTitleAnimation.start()
             }
-        }else if (currentWidgetIndex != 0 && (root.height <= global.minHideHeight || root.width <= global.minWidth )) {
+        }else if(currentWidgetIndex != 0 &&
+                 ((root.height<=global.minHideHeight || root.width<=global.minWidth)&&(imageViewerArea.mouseY <= height-100) &&imageViewerArea.mouseY >= titleRect.height )){
             hideBottomAnimation.start()
             hideTopTitleAnimation.start()
         }else if(imageViewerArea.mouseY > height-100 || imageViewerArea.mouseY<titleRect.height ||
@@ -153,7 +154,8 @@ Item {
                 thumbnailViewBackGround.y=root.height
                 titleRect.y=-50
             }
-        }else if(currentWidgetIndex != 0 && (root.height<=global.minHideHeight || root.width<=global.minWidth)){
+        }else if(currentWidgetIndex != 0 &&
+                 ((root.height<=global.minHideHeight || root.width<=global.minWidth)&&(imageViewerArea.mouseY <= height-100) &&imageViewerArea.mouseY >= titleRect.height )){
             thumbnailViewBackGround.y=root.height
             titleRect.y=-50
         }else if(imageViewerArea.mouseY > height-100 || imageViewerArea.mouseY<titleRect.height ||
