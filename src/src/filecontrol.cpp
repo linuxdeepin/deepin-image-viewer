@@ -680,3 +680,41 @@ bool FileControl::isCheckOnly()
     }
     return true;
 }
+
+bool FileControl::isCanSupportOcr(const QString &path )
+{
+    bool bRet = false;
+    QString localPath = QUrl(path).toLocalFile();
+    QFileInfo info(localPath);
+    imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
+    if (imageViewerSpace::ImageTypeDynamic != type && info.isReadable()) {
+        bRet = true;
+    }
+    return bRet;
+}
+
+bool FileControl::isCanRename(const QString &path)
+{
+    bool bRet = false;
+    QString localPath = QUrl(path).toLocalFile();
+    imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);//路径类型
+    QFileInfo info(localPath);
+    if(info.isReadable() && info.isWritable() &&
+            imageViewerSpace::PathTypeMTP != pathType &&
+            imageViewerSpace::PathTypePTP != pathType &&
+            imageViewerSpace::PathTypeAPPLE != pathType){
+        bRet=true;
+    }
+    return bRet;
+}
+
+bool FileControl::isCanReadable(const QString &path)
+{
+    bool bRet = false;
+    QString localPath = QUrl(path).toLocalFile();
+    QFileInfo info(localPath);
+    if(info.isReadable()){
+        bRet=true;
+    }
+    return bRet;
+}
