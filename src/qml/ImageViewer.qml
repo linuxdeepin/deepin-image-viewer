@@ -27,7 +27,6 @@ Rectangle {
 
     property int index: 0
     property alias swipeIndex: view.currentIndex
-    property bool ctrlPressed: false
 
     //是否显示和隐藏导航栏
     property bool  isNavShow : true
@@ -496,7 +495,7 @@ Rectangle {
 
                         onWheel: {
                             var datla = wheel.angleDelta.y / 120
-                            if (ctrlPressed)
+                            if (global.ctrlPressed)
                                 datla > 0 ? thumbnailListView.previous() : thumbnailListView.next()
                             else {
                                 if (datla > 0)
