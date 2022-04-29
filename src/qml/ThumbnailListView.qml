@@ -233,7 +233,7 @@ Item {
 
         orientation: Qt.Horizontal
 
-        cacheBuffer: 200
+        cacheBuffer: 400
         model: mainView.sourcePaths.length
         delegate: ListViewDelegate {
         }
@@ -285,7 +285,7 @@ Item {
 
         anchors.top: parent.top
         anchors.topMargin: (parent.height - height) / 2
-        enabled: fileControl.isCanSupportOcr(source) && CodeImage.imageIsNull(source)
+        enabled: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
         onClicked: {
             fileControl.ocrImage(source)
         }
