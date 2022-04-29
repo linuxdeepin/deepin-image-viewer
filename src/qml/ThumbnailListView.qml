@@ -6,21 +6,12 @@ import org.deepin.dtk 1.0
 
 Item {
     property int currentIndex: 0
-    //      property alias currentIndex :bottomthumbnaillistView.currentIndex
 
     onCurrentIndexChanged: {
         bottomthumbnaillistView.currentIndex = currentIndex
         bottomthumbnaillistView.forceActiveFocus()
     }
 
-    //    Timer{
-    //        interval: 200
-    //        running: true
-    //        repeat: true
-    //        onTriggered: {
-    //           bottomthumbnaillistView.forceActiveFocus()
-    //        }
-    //    }
     function rotateImage( x ){
         bottomthumbnaillistView.currentItem.rotation=bottomthumbnaillistView.currentItem.rotation +x
     }
@@ -242,35 +233,6 @@ Item {
             NumberAnimation {
                 duration: 50
                 easing.type: Easing.OutQuint
-            }
-        }
-
-        Keys.enabled: true
-        Keys.onPressed: {
-            switch (event.key) {
-            case Qt.Key_Left:
-                if (currentIndex > 0) {
-                    currentIndex--
-                    source = mainView.sourcePaths[currentIndex]
-                }
-                break
-            case Qt.Key_Right:
-                if (mainView.sourcePaths.length - 1 > currentIndex) {
-                    currentIndex++
-                    source = mainView.sourcePaths[currentIndex]
-                }
-                break
-            case Qt.Key_Control:
-                imageViewer.ctrlPressed = true
-                break
-            }
-            event.accepted = true
-        }
-        Keys.onReleased: {
-            switch (event.key) {
-            case Qt.Key_Control:
-                imageViewer.ctrlPressed = false
-                break
             }
         }
     }

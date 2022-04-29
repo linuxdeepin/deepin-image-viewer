@@ -13,7 +13,23 @@ Rectangle {
 //    property alias source: imageViewer.source
 //    initialItem: rect
     anchors.fill: parent
-
+    Keys.onPressed: {
+        switch (event.key) {
+        case Qt.Key_Control:
+            global.ctrlPressed = true
+            console.info("control btn clicked..")
+            break
+        }
+        event.accepted = true
+    }
+    Keys.onReleased: {
+        switch (event.key) {
+        case Qt.Key_Control:
+            global.ctrlPressed = false
+            console.info("control btn released..")
+            break
+        }
+    }
 
     OpenImageWidget{
         anchors.fill: parent
