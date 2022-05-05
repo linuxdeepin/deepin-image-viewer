@@ -66,6 +66,9 @@ public:
     //是否是动态图
     Q_INVOKABLE bool isDynamicImage(const QString &path);
 
+    //是否是静态图
+    Q_INVOKABLE bool isNormalStaticImage(const QString &path);
+
     //旋转文件
     Q_INVOKABLE bool rotateFile(const QString &path, const int &rotateAngel);
 
@@ -141,13 +144,16 @@ public:
     Q_INVOKABLE bool isCanRename(const QString &path);
 
     Q_INVOKABLE bool isCanReadable(const QString &path);
+
+    //判断是否是svg图片
+    Q_INVOKABLE bool isSvgImage(const QString &path);
+
 signals:
 
 public slots:
 
-
-
 private :
+
     OcrInterface *m_ocrInterface{nullptr};
 
     QString m_currentPath;

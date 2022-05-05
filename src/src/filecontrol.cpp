@@ -385,6 +385,18 @@ bool FileControl::isDynamicImage(const QString &path)
     return bRet;
 }
 
+bool FileControl::isNormalStaticImage(const QString &path)
+{
+    bool bRet = false;
+    QString localPath = QUrl(path).toLocalFile();
+
+    imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
+    if (imageViewerSpace::ImageTypeStatic == type || imageViewerSpace::ImageTypeMulti == type ) {
+        bRet = true;
+    }
+    return bRet;
+}
+
 bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
 {
     bool bRet = true;
@@ -716,6 +728,17 @@ bool FileControl::isCanReadable(const QString &path)
     QFileInfo info(localPath);
     if(info.isReadable()){
         bRet=true;
+    }
+    return bRet;
+}
+
+bool FileControl::isSvgImage(const QString &path)
+{
+    bool bRet = false;
+    QString localPath = QUrl(path).toLocalFile();
+    imageViewerSpace::ImageType imgType = LibUnionImage_NameSpace::getImageType(localPath);
+    if(imgType == imageViewerSpace::ImageTypeSvg){
+        bRet = true;
     }
     return bRet;
 }

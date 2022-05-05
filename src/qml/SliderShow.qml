@@ -113,13 +113,6 @@ Rectangle {
             width: 232
             height: 70
 
-//            anchors.right: parent.right
-//            anchors.rightMargin: (parent.width-width)/2
-//            anchors.bottom: parent.bottom
-//            anchors.bottomMargin: 10
-
-            radius:15
-
             Component.onCompleted: {
                 sliderFloatPanel.x=(screen.width-width)/2
                 sliderFloatPanel.y=screen.height-80
