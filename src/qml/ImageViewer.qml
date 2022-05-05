@@ -508,7 +508,11 @@ Rectangle {
                                     idNavWidget.visible = false
                                 } else if (isNavShow)
                                 {
-                                    idNavWidget.visible = true
+                                    if(root.height<=global.minHideHeight || root.width<=global.minWidth){
+                                        idNavWidget.visible=false
+                                    }else{
+                                        idNavWidget.visible=true
+                                    }
                                 }
                                 changeRectXY()
 
@@ -571,6 +575,17 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: 15
         visible: false
+    }
+    onHeightChanged: {
+        if(root.height<=global.minHideHeight ){
+            idNavWidget.visible=false
+        }
+    }
+
+    onWidthChanged: {
+        if( root.width<=global.minWidth){
+            idNavWidget.visible=false
+        }
     }
 
 
