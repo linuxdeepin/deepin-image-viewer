@@ -191,7 +191,7 @@ Menu {
     RightMenuItem {
 
         id : showNavigation
-        visible: !CodeImage.imageIsNull(source) && currentScale >1
+        visible: !CodeImage.imageIsNull(source) && currentScale >1 && root.height > global.minHideHeight && root.width > global.minWidth
         text: !isNavShow ? qsTr("Show navigation window") : qsTr("Hide navigation window")
         onTriggered : {
             if(!parent.visible){
