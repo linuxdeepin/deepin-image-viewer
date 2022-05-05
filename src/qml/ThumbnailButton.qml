@@ -88,10 +88,6 @@ ToolButton {
                 buttonrect.color = clr_exit
             }
         }
-
-
     }
-
-
 
 

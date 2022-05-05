@@ -22,7 +22,8 @@ Item {
 
         radius: imgRadius * 2
 //        color: Material.accent
-        color:"#0081FF"
+        border.color: "#0081FF"
+        border.width: 3
         visible: false
     }
 
