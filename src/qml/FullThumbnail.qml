@@ -223,7 +223,7 @@ Item {
             thumbnailListView.previous();
         }
         Component.onCompleted: {
-            animationAll()
+            floatLeftButton.x=-50
         }
     }
     FloatingButton {
@@ -240,7 +240,7 @@ Item {
             thumbnailListView.next();
         }
         Component.onCompleted: {
-            animationAll()
+            floatRightButton.x=parent.width
         }
     }
 
