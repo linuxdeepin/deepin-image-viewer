@@ -71,7 +71,7 @@ Rectangle {
         }else if(currenImageScale.toFixed(0) >=2 && currenImageScale.toFixed(0) <= 2000 ){
             floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
         }
-        floatLabel.visible = CodeImage.imageIsNull(source)||currenImageScale.toFixed(0)<0 ? false : true
+        floatLabel.visible = CodeImage.imageIsNull(source)||currenImageScale.toFixed(0)<0 ||currenImageScale.toFixed(0)>2000 ? false : true
     }
 
     onCurrenImageScaleChanged: {
@@ -271,14 +271,15 @@ Rectangle {
                     clip: true
                     color: backcontrol.ColorSelector.backgroundColor
 
+                    //normal image
                     Image {
                         id: showImg
 
                         fillMode: Image.PreserveAspectFit
                         width: parent.width
                         height: parent.height
-                        source:  !fileControl.isDynamicImage(sourcePaths[index]) ? "image://viewImage/"+sourcePaths[index] : ""
-                        visible: !fileControl.isDynamicImage(sourcePaths[index]) && !CodeImage.imageIsNull(sourcePaths[index])
+                        source:  fileControl.isNormalStaticImage(sourcePaths[index]) ? "image://viewImage/"+sourcePaths[index] : ""
+                        visible: fileControl.isNormalStaticImage(sourcePaths[index]) && !CodeImage.imageIsNull(sourcePaths[index])
                         asynchronous: true
 
                         cache: false
@@ -299,7 +300,29 @@ Rectangle {
                         }
                     }
 
-                    //动态图才会显示
+                    //svg image
+                    Image {
+                        id: showSvgImg
+
+                        fillMode: Image.PreserveAspectFit
+                        width: parent.width
+                        height: parent.height
+                        source:  fileControl.isSvgImage(sourcePaths[index]) ? sourcePaths[index] : ""
+                        visible: fileControl.isSvgImage(sourcePaths[index]) && !CodeImage.imageIsNull(sourcePaths[index])
+                        asynchronous: true
+                        sourceSize: Qt.size(width,height)
+                        cache: false
+                        clip: true
+                        scale: currentScale
+                        smooth: true
+
+
+                        onStatusChanged: {
+                            msArea.changeRectXY()
+                        }
+                    }
+
+                    //dynamic image
                     AnimatedImage {
                         id: showAnimatedImg
 
@@ -380,7 +403,7 @@ Rectangle {
                         id: msArea
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
-                        drag.target: showAnimatedImg.visible ? showAnimatedImg : showImg
+                        drag.target: showAnimatedImg.visible ? showAnimatedImg : showImg.visible ?  showImg : showSvgImg
                         enabled : isMousePinchArea
                         function setImgPostions(x, y)
                         {
@@ -389,9 +412,12 @@ Rectangle {
                             if (showAnimatedImg.visible) {
                                 showAnimatedImg.x = currentimgX
                                 showAnimatedImg.y = currentimgY
-                            } else {
+                            } else if(showImg.visible) {
                                 showImg.x = currentimgX
                                 showImg.y = currentimgY
+                            }else if(showSvgImg.visible){
+                                showSvgImg.x = currentimgX
+                                showSvgImg.y = currentimgY
                             }
                         }
 
@@ -414,16 +440,23 @@ Rectangle {
                                 showAnimatedImg.y = 0;
                                 showImg.x = 0;
                                 showImg.y = 0;
+                                showSvgImg.x = 0;
+                                showSvgImg.y = 0;
                             } else if (showAnimatedImg.visible) {
                                 drag.minimumX = (showAnimatedImg.width * showAnimatedImg.scale > parent.width) ? (parent.width - showAnimatedImg.width - showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2) : showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2
                                 drag.minimumY = (showAnimatedImg.height * showAnimatedImg.scale > parent.height) ? (parent.height - showAnimatedImg.height - showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2) : showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2
                                 drag.maximumX = (showAnimatedImg.width * showAnimatedImg.scale > parent.width) ? showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2 : (parent.width - showAnimatedImg.width * showAnimatedImg.scale) + showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2
                                 drag.maximumY = (showAnimatedImg.height * showAnimatedImg.scale > parent.height) ? showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2 : (parent.height - showAnimatedImg.height * showAnimatedImg.scale) + showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2
-                            } else {
+                            } else if (showImg.visible) {
                                 drag.minimumX = (showImg.width * showImg.scale > parent.width) ? (parent.width - showImg.width - showImg.width * (showImg.scale - 1) / 2) : showImg.width * (showImg.scale - 1) / 2
                                 drag.minimumY = (showImg.height * showImg.scale > parent.height) ? (parent.height - showImg.height - showImg.height * (showImg.scale - 1) / 2) : showImg.height * (showImg.scale - 1) / 2
                                 drag.maximumX = (showImg.width * showImg.scale > parent.width) ? showImg.width * (showImg.scale - 1) / 2 : (parent.width - showImg.width * showImg.scale) + showImg.width * (showImg.scale - 1) / 2
                                 drag.maximumY = (showImg.height * showImg.scale > parent.height) ? showImg.height * (showImg.scale - 1) / 2 : (parent.height - showImg.height * showImg.scale) + showImg.height * (showImg.scale - 1) / 2
+                            }else if (showSvgImg.visible) {
+                                drag.minimumX = (showSvgImg.width * showSvgImg.scale > parent.width) ? (parent.width - showSvgImg.width - showSvgImg.width * (showSvgImg.scale - 1) / 2) : showSvgImg.width * (showSvgImg.scale - 1) / 2
+                                drag.minimumY = (showSvgImg.height * showSvgImg.scale > parent.height) ? (parent.height - showSvgImg.height - showSvgImg.height * (showSvgImg.scale - 1) / 2) : showSvgImg.height * (showSvgImg.scale - 1) / 2
+                                drag.maximumX = (showSvgImg.width * showSvgImg.scale > parent.width) ? showSvgImg.width * (showSvgImg.scale - 1) / 2 : (parent.width - showSvgImg.width * showSvgImg.scale) + showSvgImg.width * (showSvgImg.scale - 1) / 2
+                                drag.maximumY = (showSvgImg.height * showSvgImg.scale > parent.height) ? showSvgImg.height * (showSvgImg.scale - 1) / 2 : (parent.height - showSvgImg.height * showSvgImg.scale) + showSvgImg.height * (showSvgImg.scale - 1) / 2
                             }
                             if (showAnimatedImg.x >= drag.maximumX) {
                                 showAnimatedImg.x = drag.maximumX
@@ -436,6 +469,12 @@ Rectangle {
                             }
                             if (showImg.y >= drag.maximumY) {
                                 showImg.y = drag.maximumY
+                            }
+                            if (showSvgImg.x >= drag.maximumX) {
+                                showSvgImg.x = drag.maximumX
+                            }
+                            if (showSvgImg.y >= drag.maximumY) {
+                                showSvgImg.y = drag.maximumY
                             }
                         }
                         //                        onClicked: {
