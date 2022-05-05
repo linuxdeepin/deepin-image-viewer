@@ -71,7 +71,7 @@ Rectangle {
         }else if(currenImageScale.toFixed(0) >=2 && currenImageScale.toFixed(0) <= 2000 ){
             floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
         }
-        floatLabel.visible = CodeImage.imageIsNull(source) ? false : true
+        floatLabel.visible = CodeImage.imageIsNull(source)||currenImageScale.toFixed(0)<0 ? false : true
     }
 
     onCurrenImageScaleChanged: {
@@ -96,11 +96,11 @@ Rectangle {
         fileControl.setCurrentImage(source)
 
         idNavWidget.visible = false
-        //        if(fileControl.getFitWindowScale(root.width,root.height-100)<1.0){
-        //            fitImage()
-        //        }else{
-        //            fitWindow()
-        //        }
+//        if(fileControl.getFitWindowScale(root.width,root.height-100)<1.0){
+//            fitImage()
+//        }else{
+//            fitWindow()
+//        }
         fitWindow()
 
         root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
@@ -534,19 +534,6 @@ Rectangle {
             }
         }
 
-        onWidthChanged: {
-            //            if (view.width > 0) {
-            //                if (view.width > root.width
-            //                        || view.height > root.height) {
-            //                    fitWindow()
-            //                } else {
-            //                    fitImage()
-            //                }
-            //            }
-
-            fitWindow()
-
-        }
         onCurrentItemChanged: {
             currentRotate = 0
         }
