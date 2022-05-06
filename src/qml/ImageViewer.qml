@@ -287,8 +287,8 @@ Rectangle {
                         cache: false
                         clip: true
                         scale: currentScale
+                        mipmap: true
                         smooth: true
-
 
                         onStatusChanged: {
                             msArea.changeRectXY()
@@ -317,6 +317,7 @@ Rectangle {
                         clip: true
                         scale: currentScale
                         smooth: true
+                        mipmap: true
 
 
                         onStatusChanged: {
