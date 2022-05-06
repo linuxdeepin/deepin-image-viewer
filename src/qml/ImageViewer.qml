@@ -41,6 +41,7 @@ Rectangle {
 
     property bool isMousePinchArea: true
 
+    property double readWidthHeightRatio: CodeImage.getrealWidthHeightRatio(imageViewer.source)
     //导航蒙皮位置
     property double  m_NavX : 0.0
     property double  m_NavY : 0.0
@@ -49,6 +50,7 @@ Rectangle {
     signal sigImageShowFullScreen
     signal sigImageShowNormal
     signal sigSourceChange
+
     //    color: "#F8F8F8"
 
     color: backcontrol.ColorSelector.backgroundColor
@@ -90,6 +92,7 @@ Rectangle {
 
 
     onSourceChanged: {
+
         fileControl.slotRotatePixCurrent();
 
         console.log("source:", mainView.source)
@@ -198,7 +201,6 @@ Rectangle {
             }
 
             stackView.currentWidgetIndex = 1
-            currentScale = 1.0
 
             sigImageShowNormal()
         }
@@ -265,8 +267,8 @@ Rectangle {
                 sourceComponent: Rectangle {
 
                     id: flickableL
-                    width: parent.width
-                    height: parent.height
+                    width: CodeImage.getImageWidth(sourcePaths[index])
+                    height: CodeImage.getImageHeight(sourcePaths[index])
 
                     clip: true
                     color: backcontrol.ColorSelector.backgroundColor
@@ -429,8 +431,13 @@ Rectangle {
                         }
 
 
+                        property int realWidth : 0
+                        property int realHeight : 0
                         function changeRectXY()
                         {
+                            readWidthHeightRatio = CodeImage.getrealWidthHeightRatio(imageViewer.source)
+                            realWidth = 0;
+                            realHeight = 0;
                             if (currentScale <= 1.0) {
                                 drag.minimumX = 0
                                 drag.minimumY = 0
@@ -442,47 +449,118 @@ Rectangle {
                                 showImg.y = 0;
                                 showSvgImg.x = 0;
                                 showSvgImg.y = 0;
-                            } else if (showAnimatedImg.visible) {
-                                drag.minimumX = (showAnimatedImg.width * showAnimatedImg.scale > parent.width) ? (parent.width - showAnimatedImg.width - showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2) : showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2
-                                drag.minimumY = (showAnimatedImg.height * showAnimatedImg.scale > parent.height) ? (parent.height - showAnimatedImg.height - showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2) : showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2
-                                drag.maximumX = (showAnimatedImg.width * showAnimatedImg.scale > parent.width) ? showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2 : (parent.width - showAnimatedImg.width * showAnimatedImg.scale) + showAnimatedImg.width * (showAnimatedImg.scale - 1) / 2
-                                drag.maximumY = (showAnimatedImg.height * showAnimatedImg.scale > parent.height) ? showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2 : (parent.height - showAnimatedImg.height * showAnimatedImg.scale) + showAnimatedImg.height * (showAnimatedImg.scale - 1) / 2
-                            } else if (showImg.visible) {
-                                drag.minimumX = (showImg.width * showImg.scale > parent.width) ? (parent.width - showImg.width - showImg.width * (showImg.scale - 1) / 2) : showImg.width * (showImg.scale - 1) / 2
-                                drag.minimumY = (showImg.height * showImg.scale > parent.height) ? (parent.height - showImg.height - showImg.height * (showImg.scale - 1) / 2) : showImg.height * (showImg.scale - 1) / 2
-                                drag.maximumX = (showImg.width * showImg.scale > parent.width) ? showImg.width * (showImg.scale - 1) / 2 : (parent.width - showImg.width * showImg.scale) + showImg.width * (showImg.scale - 1) / 2
-                                drag.maximumY = (showImg.height * showImg.scale > parent.height) ? showImg.height * (showImg.scale - 1) / 2 : (parent.height - showImg.height * showImg.scale) + showImg.height * (showImg.scale - 1) / 2
-                            }else if (showSvgImg.visible) {
-                                drag.minimumX = (showSvgImg.width * showSvgImg.scale > parent.width) ? (parent.width - showSvgImg.width - showSvgImg.width * (showSvgImg.scale - 1) / 2) : showSvgImg.width * (showSvgImg.scale - 1) / 2
-                                drag.minimumY = (showSvgImg.height * showSvgImg.scale > parent.height) ? (parent.height - showSvgImg.height - showSvgImg.height * (showSvgImg.scale - 1) / 2) : showSvgImg.height * (showSvgImg.scale - 1) / 2
-                                drag.maximumX = (showSvgImg.width * showSvgImg.scale > parent.width) ? showSvgImg.width * (showSvgImg.scale - 1) / 2 : (parent.width - showSvgImg.width * showSvgImg.scale) + showSvgImg.width * (showSvgImg.scale - 1) / 2
-                                drag.maximumY = (showSvgImg.height * showSvgImg.scale > parent.height) ? showSvgImg.height * (showSvgImg.scale - 1) / 2 : (parent.height - showSvgImg.height * showSvgImg.scale) + showSvgImg.height * (showSvgImg.scale - 1) / 2
+                            } else {
+                                if (showAnimatedImg.visible) {
+                                    if (showAnimatedImg.width > showAnimatedImg.height * readWidthHeightRatio){
+                                        realWidth = showAnimatedImg.height * readWidthHeightRatio
+                                    }else{
+                                        realWidth = showAnimatedImg.width
+                                    }
+                                    if(showAnimatedImg.height > showAnimatedImg.width / readWidthHeightRatio){
+                                        realHeight = showAnimatedImg.width / readWidthHeightRatio
+                                    }else{
+                                        realHeight = showAnimatedImg.height
+                                    }
+                                } else if (showImg.visible) {
+                                    if(showImg.width > showImg.height * readWidthHeightRatio){
+                                        realWidth = showImg.height * readWidthHeightRatio
+                                    }else{
+                                        realWidth = showImg.width
+                                    }
+                                    if(showImg.height > showImg.width / readWidthHeightRatio){
+                                        realHeight = showImg.width / readWidthHeightRatio
+                                    }else{
+                                        realHeight = showImg.height
+                                    }
+
+                                } else if (showSvgImg.visible) {
+                                    if(showSvgImg.width > showSvgImg.height * readWidthHeightRatio){
+                                        realWidth = showSvgImg.height * readWidthHeightRatio
+                                    }else{
+                                        realWidth = showSvgImg.width
+                                    }
+                                    if(showSvgImg.height > showSvgImg.width / readWidthHeightRatio){
+                                        realHeight = showSvgImg.width / readWidthHeightRatio
+                                    }else{
+                                        realHeight = showSvgImg.height
+                                    }
+                                }
+
+                                drag.minimumX = - realWidth * (currentScale-1)/2
+                                drag.maximumX =  realWidth * (currentScale-1)/2
+                                drag.minimumY = - realHeight * (currentScale-1)/2
+                                drag.maximumY =  realHeight * (currentScale-1)/2
+                                if (realHeight * currentScale >root.height) {
+                                    drag.maximumY = ( realHeight * currentScale - root.height )/2
+                                    drag.minimumY = - drag.maximumY
+                                } else {
+                                    drag.maximumY = 0
+                                    drag.minimumY = 0
+                                }
+
+                                if (realWidth * currentScale > root.width) {
+                                    drag.maximumX = ( realWidth * currentScale - root.width )/2
+                                    drag.minimumX = - drag.maximumX
+                                } else {
+                                    drag.maximumX = 0
+                                    drag.minimumX = 0
+                                }
                             }
+
                             if (showAnimatedImg.x >= drag.maximumX) {
                                 showAnimatedImg.x = drag.maximumX
+                            }
+                            if (showAnimatedImg.x <= drag.minimumX) {
+                                showAnimatedImg.x = drag.minimumX
                             }
                             if (showAnimatedImg.y >= drag.maximumY) {
                                 showAnimatedImg.y = drag.maximumY
                             }
+                            if (showAnimatedImg.y <= drag.minimumY) {
+                                showAnimatedImg.y = drag.minimumY
+                            }
+
+
                             if (showImg.x >= drag.maximumX) {
                                 showImg.x = drag.maximumX
+                            }
+                            if (showImg.x <= drag.minimumX) {
+                                showImg.x = drag.minimumX
                             }
                             if (showImg.y >= drag.maximumY) {
                                 showImg.y = drag.maximumY
                             }
+                            if (showImg.y <= drag.minimumY) {
+                                showImg.y = drag.minimumY
+                            }
+
                             if (showSvgImg.x >= drag.maximumX) {
                                 showSvgImg.x = drag.maximumX
+                            }
+                            if (showSvgImg.x <= drag.minimumX) {
+                                showSvgImg.x = drag.minimumX
                             }
                             if (showSvgImg.y >= drag.maximumY) {
                                 showSvgImg.y = drag.maximumY
                             }
+                            if (showSvgImg.y <= drag.minimumY) {
+                                showSvgImg.y = drag.minimumY
+                            }
+
                         }
-                        //                        onClicked: {
-                        //                            console.log("right menu");
-                        //                            if (mouse.button === Qt.RightButton) {
-                        //                                option_menu.popup(parent)
-                        //                            }
-                        //                        }
+                        Connections {
+                            target: imageViewer
+                            onSigSourceChange : {
+                                //图元位置归位
+                                showImg.x = 0
+                                showImg.y = 0
+                                showAnimatedImg.x = 0
+                                showAnimatedImg.y = 0
+                                showSvgImg.x = 0
+                                showSvgImg.y = 0
+                            }
+                        }
+
                         onPressed: {
                             infomationDig.hide()
                             //                            changeRectXY()
@@ -606,12 +684,14 @@ Rectangle {
         if(root.height<=global.minHideHeight ){
             idNavWidget.visible=false
         }
+        fitWindow()
     }
 
     onWidthChanged: {
         if( root.width<=global.minWidth){
             idNavWidget.visible=false
         }
+        fitWindow()
     }
 
 

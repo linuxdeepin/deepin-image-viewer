@@ -49,6 +49,11 @@ public:
     ViewLoad *m_viewLoad{nullptr};
     Q_INVOKABLE double getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight);
     Q_INVOKABLE bool imageIsNull(const QString &path);
+    //获得当前图片的宽和高
+    Q_INVOKABLE int getImageWidth(const QString &path);
+    Q_INVOKABLE int getImageHeight(const QString &path);
+    //获得宽高比例
+    Q_INVOKABLE double getrealWidthHeightRatio(const QString &path);
     //加载路径
     QString m_path;
 
