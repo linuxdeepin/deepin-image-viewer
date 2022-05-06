@@ -60,6 +60,23 @@ bool LoadImage::imageIsNull(const QString &path)
     return m_pThumbnail->imageIsNull(path);
 }
 
+int LoadImage::getImageWidth(const QString &path)
+{
+    return m_viewLoad->getImageWidth(path);
+}
+
+int LoadImage::getImageHeight(const QString &path)
+{
+    return m_viewLoad->getImageHeight(path);
+}
+
+double LoadImage::getrealWidthHeightRatio(const QString &path)
+{
+    double width = double(m_viewLoad->getImageWidth(path));
+    double height = double(m_viewLoad->getImageHeight(path));
+    return  width/height;
+}
+
 void LoadImage::loadThumbnail(const QString path)
 {
     QString tempPath = QUrl(path).toLocalFile();
