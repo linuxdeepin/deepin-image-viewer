@@ -90,7 +90,7 @@ Rectangle {
         }
     }
 
-
+    // 图片源发生改变，隐藏导航区域，重置图片缩放比例
     onSourceChanged: {
 
         fileControl.slotRotatePixCurrent();
@@ -99,11 +99,6 @@ Rectangle {
         fileControl.setCurrentImage(source)
 
         idNavWidget.visible = false
-//        if(fileControl.getFitWindowScale(root.width,root.height-100)<1.0){
-//            fitImage()
-//        }else{
-//            fitWindow()
-//        }
         fitWindow()
 
         root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
@@ -128,9 +123,8 @@ Rectangle {
     }
     function rotateImage(x)
     {
-        //        rotation = currentRotate + x
-        view.currentItem.rotation = view.currentItem.rotation + x
-        thumbnailListView.rotateImage(x)
+        //view.currentItem.rotation = view.currentItem.rotation + x
+        //thumbnailListView.rotateImage(x)
         fileControl.rotateFile(source, x)
     }
     function deleteItem(item, list)
@@ -272,6 +266,15 @@ Rectangle {
 
                     clip: true
                     color: backcontrol.ColorSelector.backgroundColor
+
+                    // 图片保存完成，预览区域重新加载当前图片
+                    Connections {
+                        target: fileControl
+                        onCallSavePicDone: {
+                            showImg.source = ""
+                            showImg.source = imageViewer.source
+                        }
+                    }
 
                     //normal image
                     Image {

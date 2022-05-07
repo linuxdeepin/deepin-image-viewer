@@ -149,6 +149,7 @@ public:
     Q_INVOKABLE bool isSvgImage(const QString &path);
 
 signals:
+    void callSavePicDone();
 
 public slots:
 

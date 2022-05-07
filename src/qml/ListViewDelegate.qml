@@ -27,11 +27,23 @@ Item {
         visible: false
     }
 
+    // 图片保存完成，缩略图区域重新加载当前图片
+    Connections {
+        target: fileControl
+        onCallSavePicDone: {
+            if (index === currentIndex) {
+                img.source = ""
+                img.source = imageViewer.source
+            }
+        }
+    }
+
     Image {
         id: img
         width: container.width - 10
         height: container.height - 10
         anchors.centerIn: parent
+        //fillMode: Image.PreserveAspectFit
         smooth: false
         anchors.fill: parent
         source:  fileControl.isSvgImage(sourcePaths[index]) ? mainView.sourcePaths[index] : "image://ThumbnailImage/" + mainView.sourcePaths[index]
@@ -39,15 +51,9 @@ Item {
         sourceSize.height: 100
         asynchronous: true
         visible: false
-        cache: true
+        cache: false
 
         onStatusChanged: {
-//            if (img.status === Image.Ready)
-//                console.log('Ready')
-//             if(img.status === Image.Loading)
-//                console.log('Loading')
-//             if(img.status === Image.Null)
-//                console.log('Null')
              if(img.status === Image.Error){
                 img.source = "qrc:/res/picture_damaged_58.svg"
              }

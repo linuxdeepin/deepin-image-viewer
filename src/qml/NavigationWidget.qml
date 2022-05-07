@@ -54,13 +54,12 @@ Rectangle {
 
         Image {
             id: idcurrentImg
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            fillMode: Image.Pad
+            fillMode: Image.PreserveAspectFit
+            cache: false
+            width: parent.width
+            height: parent.height
             asynchronous: true
             source: "image://viewImage/"+imageViewer.source
-            sourceSize.width: 150
-            sourceSize.height: 102
         }
     }
     //test 前端获取后端加载到的图像数据，放开以下代码在缩放时会有弹窗显示后端加载的图像
@@ -101,7 +100,6 @@ Rectangle {
         }
         onClicked: {
             idNavigationwidget.visible = false
-            showNavigation.visible = true
             isNavShow = false
         }
         z: 100
