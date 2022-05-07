@@ -66,7 +66,7 @@ Menu {
 
         text: qsTr("Slide show")
         onTriggered: {
-            startSliderShow()
+            imageViewer.startSliderShow()
             showfullAnimation.start()
         }
         Shortcut {
@@ -74,7 +74,7 @@ Menu {
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex != 0)
                 {
-                    startSliderShow()
+                    imageViewer.startSliderShow()
                     showfullAnimation.start()
                 }
             }
