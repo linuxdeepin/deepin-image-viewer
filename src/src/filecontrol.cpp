@@ -87,6 +87,7 @@ FileControl::FileControl(QObject *parent) : QObject(parent)
         m_tSaveImage = new QTimer(this);
         connect(m_tSaveImage, &QTimer::timeout, this, [ = ]() {
             saveSetting();
+            emit callSavePicDone();
         });
     }
     listsupportWallPaper << "bmp" << "cod" << "png" << "gif" << "ief" << "jpe" << "jpeg" << "jpg"
@@ -391,7 +392,7 @@ bool FileControl::isNormalStaticImage(const QString &path)
     QString localPath = QUrl(path).toLocalFile();
 
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
-    if (imageViewerSpace::ImageTypeStatic == type || imageViewerSpace::ImageTypeMulti == type ) {
+    if (imageViewerSpace::ImageTypeStatic == type || imageViewerSpace::ImageTypeMulti == type) {
         bRet = true;
     }
     return bRet;
@@ -410,7 +411,7 @@ bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
     }
 
     m_tSaveImage->setSingleShot(true);
-    m_tSaveImage->start(1000);
+    m_tSaveImage->start(10);
 
 
     return bRet;
@@ -693,7 +694,7 @@ bool FileControl::isCheckOnly()
     return true;
 }
 
-bool FileControl::isCanSupportOcr(const QString &path )
+bool FileControl::isCanSupportOcr(const QString &path)
 {
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
@@ -712,11 +713,11 @@ bool FileControl::isCanRename(const QString &path)
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);//路径类型
     QFileInfo info(localPath);
     bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable(); //是否可写
-    if(info.isReadable() && isWritable&&
+    if (info.isReadable() && isWritable &&
             imageViewerSpace::PathTypeMTP != pathType &&
             imageViewerSpace::PathTypePTP != pathType &&
-            imageViewerSpace::PathTypeAPPLE != pathType){
-        bRet=true;
+            imageViewerSpace::PathTypeAPPLE != pathType) {
+        bRet = true;
     }
     return bRet;
 }
@@ -726,8 +727,8 @@ bool FileControl::isCanReadable(const QString &path)
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
-    if(info.isReadable()){
-        bRet=true;
+    if (info.isReadable()) {
+        bRet = true;
     }
     return bRet;
 }
@@ -737,7 +738,7 @@ bool FileControl::isSvgImage(const QString &path)
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
     imageViewerSpace::ImageType imgType = LibUnionImage_NameSpace::getImageType(localPath);
-    if(imgType == imageViewerSpace::ImageTypeSvg){
+    if (imgType == imageViewerSpace::ImageTypeSvg) {
         bRet = true;
     }
     return bRet;

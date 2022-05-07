@@ -169,7 +169,10 @@ Item {
             onClicked: {
                 imageViewer.rotateImage(-90)
 
-//                bottomthumbnaillistView.currentItem.rotation=bottomthumbnaillistView.currentItem.rotation-90
+            // 动态刷新导航区域图片内容，同时可在imageviewer的sourceChanged中隐藏导航区域
+            // (因导航区域图片source绑定到imageviewer的source属性)
+                imageViewer.source = ""
+                imageViewer.source = mainView.sourcePaths[bottomthumbnaillistView.currentIndex]
             }
             ToolTip.delay: 500
             ToolTip.timeout: 5000

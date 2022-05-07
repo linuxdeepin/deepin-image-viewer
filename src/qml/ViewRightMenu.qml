@@ -192,17 +192,17 @@ Menu {
 
         id : showNavigation
         visible: !CodeImage.imageIsNull(source) && currentScale >1 && root.height > global.minHideHeight && root.width > global.minWidth
-        text: !isNavShow ? qsTr("Show navigation window") : qsTr("Hide navigation window")
+        text: !imageViewer.isNavShow ? qsTr("Show navigation window") : qsTr("Hide navigation window")
         onTriggered : {
             if(!parent.visible){
                 return
             }
 
-            if (isNavShow) {
-                isNavShow = false
+            if (imageViewer.isNavShow) {
+                imageViewer.isNavShow = false
                 idNavWidget.visible = false
             } else {
-                isNavShow = true
+                imageViewer.isNavShow = true
                 idNavWidget.visible = true
                 if(m_NavX === 0 && m_NavY === 0) {
                     idNavWidget.setRectPec(view.currentItem.scale) //初始蒙皮
