@@ -46,6 +46,10 @@ Rectangle {
     property double  m_NavX : 0.0
     property double  m_NavY : 0.0
 
+    //用于记录normal状态的宽高
+    property int normalWidth: 0
+    property int normalHeight: 0
+
     signal sigWheelChange
     signal sigImageShowFullScreen
     signal sigImageShowNormal
@@ -139,6 +143,10 @@ Rectangle {
     function startSliderShow()
     {
         if (sourcePaths.length > 0) {
+
+            normalWidth = root.width
+            normalHeight = root.height
+
             showFullScreen()
             sliderMainShow.images = sourcePaths
             sliderMainShow.modelCount = sourcePaths.length
@@ -170,6 +178,9 @@ Rectangle {
     }
     function showPanelFullScreen()
     {
+        normalWidth = root.width
+        normalHeight = root.height
+
         showFullScreen()
         view.contentItem.forceActiveFocus()
         showfullAnimation.start()
@@ -195,6 +206,7 @@ Rectangle {
             }
 
             stackView.currentWidgetIndex = 1
+            currentScale = 1.0 * (normalHeight - titleRect.height * 2) / normalHeight
 
             sigImageShowNormal()
         }
@@ -289,7 +301,7 @@ Rectangle {
 
                         cache: false
                         clip: true
-                        scale: currentScale
+                        scale: index == view.currentIndex ? currentScale:root.visibility == Window.FullScreen ? 1.0 : 1.0 * (root.height - titleRect.height * 2) / root.height
                         mipmap: true
                         smooth: true
 
@@ -318,7 +330,7 @@ Rectangle {
                         sourceSize: Qt.size(width,height)
                         cache: false
                         clip: true
-                        scale: currentScale
+                        scale: index == view.currentIndex ? currentScale:root.visibility == Window.FullScreen ? 1.0 : 1.0 * (root.height - titleRect.height * 2) / root.height
                         smooth: true
                         mipmap: true
 
@@ -340,7 +352,7 @@ Rectangle {
                         asynchronous: true
                         cache: false
                         clip: true
-                        scale: currentScale
+                        scale: index == view.currentIndex ? currentScale:root.visibility == Window.FullScreen ? 1.0 : 1.0 * (root.height - titleRect.height * 2) / root.height
                         smooth: true
 
                         onStatusChanged: {
@@ -380,7 +392,7 @@ Rectangle {
 
                     PinchArea {
                         enabled: isMousePinchArea
-                        anchors.fill: showAnimatedImg.visible ? showAnimatedImg : showImg
+                        anchors.fill: showAnimatedImg.visible ? showAnimatedImg : showImg.visible ?  showImg : showSvgImg
 
                         onPinchStarted : {
                             pinch.accepted = true
@@ -454,40 +466,15 @@ Rectangle {
                                 showSvgImg.x = 0;
                                 showSvgImg.y = 0;
                             } else {
-                                if (showAnimatedImg.visible) {
-                                    if (showAnimatedImg.width > showAnimatedImg.height * readWidthHeightRatio){
-                                        realWidth = showAnimatedImg.height * readWidthHeightRatio
-                                    }else{
-                                        realWidth = showAnimatedImg.width
-                                    }
-                                    if(showAnimatedImg.height > showAnimatedImg.width / readWidthHeightRatio){
-                                        realHeight = showAnimatedImg.width / readWidthHeightRatio
-                                    }else{
-                                        realHeight = showAnimatedImg.height
-                                    }
-                                } else if (showImg.visible) {
-                                    if(showImg.width > showImg.height * readWidthHeightRatio){
-                                        realWidth = showImg.height * readWidthHeightRatio
-                                    }else{
-                                        realWidth = showImg.width
-                                    }
-                                    if(showImg.height > showImg.width / readWidthHeightRatio){
-                                        realHeight = showImg.width / readWidthHeightRatio
-                                    }else{
-                                        realHeight = showImg.height
-                                    }
-
-                                } else if (showSvgImg.visible) {
-                                    if(showSvgImg.width > showSvgImg.height * readWidthHeightRatio){
-                                        realWidth = showSvgImg.height * readWidthHeightRatio
-                                    }else{
-                                        realWidth = showSvgImg.width
-                                    }
-                                    if(showSvgImg.height > showSvgImg.width / readWidthHeightRatio){
-                                        realHeight = showSvgImg.width / readWidthHeightRatio
-                                    }else{
-                                        realHeight = showSvgImg.height
-                                    }
+                                if (root.width > root.height * readWidthHeightRatio){
+                                    realWidth = root.height * readWidthHeightRatio
+                                }else{
+                                    realWidth = root.width
+                                }
+                                if(root.height > root.width / readWidthHeightRatio){
+                                    realHeight = root.width / readWidthHeightRatio
+                                }else{
+                                    realHeight = root.height
                                 }
 
                                 drag.minimumX = - realWidth * (currentScale-1)/2
@@ -688,14 +675,12 @@ Rectangle {
         if(root.height<=global.minHideHeight ){
             idNavWidget.visible=false
         }
-        fitWindow()
     }
 
     onWidthChanged: {
         if( root.width<=global.minWidth){
             idNavWidget.visible=false
         }
-        fitWindow()
     }
 
 
