@@ -54,7 +54,7 @@ DialogWindow {
         height: 36
         font: DTK.fontManager.t5
         focus: true
-        maximumLength: 254-filesuffix.text.length
+        maximumLength: 255-filesuffix.text.length
         validator: RegExpValidator {regExp: /^[^\\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/ }
         selectByMouse: true
         alertText: qsTr("The file already exists, please use another name")
