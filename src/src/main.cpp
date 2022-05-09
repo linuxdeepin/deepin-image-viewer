@@ -46,8 +46,8 @@
 
 //using namespace Dtk::Core;
 
-const int MAINWIDGET_MINIMUN_HEIGHT = 335;
-const int MAINWIDGET_MINIMUN_WIDTH = 730;//增加了ocr，最小宽度为630到现在730
+const int MAINWIDGET_MINIMUN_HEIGHT = 300;
+const int MAINWIDGET_MINIMUN_WIDTH = 628;//增加了ocr，最小宽度为630到现在730
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
