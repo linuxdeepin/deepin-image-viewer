@@ -82,14 +82,24 @@ FileControl::FileControl(QObject *parent) : QObject(parent)
 
     m_config = LibConfigSetter::instance();
 
-    //实时保存太卡，因此采用2s后延时保存的问题
+    // 实时保存旋转后图片太卡，因此采用10ms后延时保存的问题
     if (!m_tSaveImage) {
         m_tSaveImage = new QTimer(this);
         connect(m_tSaveImage, &QTimer::timeout, this, [ = ]() {
-            saveSetting();
+            //保存旋转的图片
+            slotRotatePixCurrent();
             emit callSavePicDone();
         });
     }
+
+    // 在1000ms以内只保存一次配置信息
+    if (!m_tSaveSetting) {
+        m_tSaveSetting = new QTimer(this);
+        connect(m_tSaveSetting, &QTimer::timeout, this, [ = ]() {
+            saveSetting();
+        });
+    }
+
     listsupportWallPaper << "bmp" << "cod" << "png" << "gif" << "ief" << "jpe" << "jpeg" << "jpg"
                          << "jfif" << "tif" << "tiff";
 }
@@ -630,15 +640,15 @@ void FileControl::setSettingWidth(int width)
 {
     m_windowWidth = width;
 //    setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, m_windowWidth);
-    m_tSaveImage->setSingleShot(true);
-    m_tSaveImage->start(1000);
+    m_tSaveSetting->setSingleShot(true);
+    m_tSaveSetting->start(1000);
 }
 
 void FileControl::setSettingHeight(int height)
 {
     m_windowHeight = height;
-    m_tSaveImage->setSingleShot(true);
-    m_tSaveImage->start(1000);
+    m_tSaveSetting->setSingleShot(true);
+    m_tSaveSetting->start(1000);
 //    setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, m_windowHeight);
 
 }
@@ -653,8 +663,6 @@ void FileControl::saveSetting()
         setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, m_windowHeight);
         m_lastSaveHeight = m_windowHeight;
     }
-    //保存旋转的图片
-    slotRotatePixCurrent();
 }
 
 bool FileControl::isSupportSetWallpaper(const QString &path)

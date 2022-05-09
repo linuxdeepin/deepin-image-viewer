@@ -162,7 +162,8 @@ private :
     //旋转角度
     int m_rotateAngel = 0;
 
-    QTimer *m_tSaveImage = nullptr;//保存旋转图片定时器
+    QTimer *m_tSaveImage = nullptr;// 保存旋转图片定时器，在指定时间内只旋转一次
+    QTimer *m_tSaveSetting = nullptr;// 保存配置信息定时器，在指定时间内只保存一次
 
     QImage m_currentImage ;//当前图片
     QImageReader *m_currentReader = nullptr;
