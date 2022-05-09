@@ -537,6 +537,7 @@ Rectangle {
                             if (showSvgImg.y <= drag.minimumY) {
                                 showSvgImg.y = drag.minimumY
                             }
+                            console.info("553",showImg.x,showImg.y)
 
                         }
                         Connections {
@@ -555,7 +556,7 @@ Rectangle {
                         onPressed: {
                             infomationDig.hide()
                             //                            changeRectXY()
-                            console.log("608")
+                            console.info("608",showImg.width, showImg.height)
                             if (mouse.button === Qt.RightButton)
                             {
                                 option_menu.popup()
@@ -603,6 +604,7 @@ Rectangle {
 
                         onWheel: {
                             var datla = wheel.angleDelta.y / 120
+                            console.info("ctrlpressed: ", global.ctrlPressed)
                             if (global.ctrlPressed)
                                 datla > 0 ? thumbnailListView.previous() : thumbnailListView.next()
                             else {

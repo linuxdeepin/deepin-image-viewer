@@ -7,22 +7,46 @@ import QtGraphicalEffects 1.0
 Rectangle {
     id: idNavigationwidget
     width: 150
-    height: 102
+    height: 112
     clip: true
     radius: 10
+
+    property int imgLeft : 0
+    property int imgTop: 0
+    property int imgRight: 0
+    property int imgBottom: 0
 
     signal changeShowImgPostions(var x, var y)
 
     //初始状态以中心向两边延展
     function setRectPec(a) {
-        if(a < 1)
+        if(a <= 1)
             return
-        var w = 150 / a
-        var h = 102 / a
-        idrectArea.width = w
-        idrectArea.height = h
-        idrectArea.x = 75 - w / 2
-        idrectArea.y = 51 - h / 2
+
+        var imgw = 0
+        var imgh = 0
+        var ratio = idcurrentImg.sourceSize.width / idcurrentImg.sourceSize.height
+        if (idcurrentImg.sourceSize.width < idcurrentImg.sourceSize.height) {
+            imgw = ratio * idNavigationwidget.height
+            imgh = idNavigationwidget.height
+        } else {
+            imgw = idNavigationwidget.width
+            imgh = idNavigationwidget.width / ratio
+        }
+
+        idrectArea.width = imgw / a
+        idrectArea.height = imgh / a
+
+        idrectArea.x = (idNavigationwidget.width - idrectArea.width) / 2
+        idrectArea.y = (idNavigationwidget.height - idrectArea.height) / 2
+
+        // 记录图片显示区域位置信息
+        imgLeft = (idNavigationwidget.width - imgw) / 2
+        imgTop = (idNavigationwidget.height - imgh) / 2
+        imgRight = imgLeft + imgw
+        imgBottom = imgTop + imgh
+
+        console.info("mp width: ", idrectArea.width, "mp heght: ", idrectArea.height , "a: ", a, "currentImageScale: ", imageViewer.currenImageScale)
     }
 
     //计算蒙皮位置
@@ -117,11 +141,11 @@ Rectangle {
         anchors.fill: parent
         drag.target: idrectArea
         drag.axis: Drag.XAndYAxis//设置拖拽的方式
-        //TODO 应以图片的范围来限制拖动范围
-        drag.minimumX: 0
-        drag.maximumX: parent.width - idrectArea.width
-        drag.minimumY: 0
-        drag.maximumY: parent.height - idrectArea.height
+        // 以图片的范围来限制拖动范围
+        drag.minimumX: imgLeft
+        drag.maximumX: imgRight - idrectArea.width
+        drag.minimumY: imgTop
+        drag.maximumY: imgBottom - idrectArea.height
 
         property bool isPressed: false
 
@@ -130,9 +154,19 @@ Rectangle {
             isPressed = true
             var x = mouseX
             var y = mouseY
+            console.info("x: ",x, "y: ", y)
             idrectArea.x = x - idrectArea.width / 2 > 0 ? x - idrectArea.width / 2 : 0
             idrectArea.y = y - idrectArea.height / 2 > 0 ? y - idrectArea.height / 2 : 0
 
+            // 限定鼠标点击的蒙皮在图片内移动
+            if (idrectArea.x < imgLeft)
+                idrectArea.x = imgLeft
+            if (idrectArea.y < imgTop)
+                idrectArea.y = imgTop
+            if ((idrectArea.x + idrectArea.width) > imgRight)
+                idrectArea.x = imgRight - idrectArea.width
+            if ((idrectArea.y + idrectArea.height) > imgBottom)
+                idrectArea.y = imgBottom - idrectArea.height
 
             var j = idrectArea.x + idrectArea.width
             var k = idrectArea.y + idrectArea.height
