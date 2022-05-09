@@ -42,8 +42,9 @@
 #include "../libimageviewer/imageengine.h"
 #include "application.h"
 
-const int MAINWIDGET_MINIMUN_HEIGHT = 300;
-const int MAINWIDGET_MINIMUN_WIDTH = 628;//增加了ocr，最小宽度为630到现在730
+// 最小宽高
+#define MAINWIDGET_MINIMUN_HEIGHT 300
+#define MAINWIDGET_MINIMUN_WIDTH 628
 
 const QString CONFIG_PATH =   QDir::homePath() +
                               "/.config/deepin/deepin-image-viewer/config.conf";
