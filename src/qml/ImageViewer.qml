@@ -283,8 +283,10 @@ Rectangle {
                     Connections {
                         target: fileControl
                         onCallSavePicDone: {
-                            showImg.source = ""
-                            showImg.source = imageViewer.source
+                            if (currentIndex == index) {
+                                showImg.source = ""
+                                showImg.source = imageViewer.source
+                            }
                         }
                     }
 
