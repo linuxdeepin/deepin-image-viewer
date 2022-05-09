@@ -273,8 +273,8 @@ Rectangle {
                 sourceComponent: Rectangle {
 
                     id: flickableL
-                    width: CodeImage.getImageWidth(sourcePaths[index])
-                    height: CodeImage.getImageHeight(sourcePaths[index])
+                    width: parent.width
+                    height: parent.height
 
                     clip: true
                     color: backcontrol.ColorSelector.backgroundColor
