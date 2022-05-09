@@ -97,3 +97,8 @@ install(FILES ./icon/${CMAKE_PROJECT_NAME}.svg DESTINATION /usr/share/icons/hico
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
     DESTINATION ${APPSHAREDIR}
     FILES_MATCHING PATTERN "*.qm")
+
+#manual
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/assets/deepin-image-viewer
+    DESTINATION /usr/share/deepin-manual/manual-assets/application/
+    FILES_MATCHING PATTERN "*")
