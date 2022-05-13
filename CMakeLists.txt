@@ -25,7 +25,6 @@ if(DOTEST)
 endif()
 
 
-
 #add_subdirectory(libimage-viewer)
 add_subdirectory(src)
 add_subdirectory(qimage-plugins)
