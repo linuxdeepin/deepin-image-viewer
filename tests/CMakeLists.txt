@@ -104,14 +104,11 @@ target_link_libraries(
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets
-    Qt5::Sql
     Qt5::Svg
     Qt5::DBus
     Qt5::Concurrent
     Qt5::X11Extras
     Qt5::PrintSupport
-    Qt5::OpenGL
-    Qt5::WidgetsPrivate
     Qt5::Test
     dtkwidget
     dtkcore
