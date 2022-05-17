@@ -5,6 +5,19 @@ import org.deepin.dtk 1.0
 
 Rectangle {
 
+    Control {
+        id: backcontrol
+        hoverEnabled: true // 开启 Hover 属性
+        property Palette backgroundColor: Palette {
+            normal: "#F8F8F8"
+            normalDark:"#000000"
+        }
+    }
+    //标题栏
+    ViewTopTitle{
+         id:titleRect
+         z:parent.z+1
+    }
 
     id: stackView
 
