@@ -37,7 +37,7 @@ Menu {
         Shortcut {
             sequence: "Ctrl+P"
             onActivated:  {
-                if (parent.visible && stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     fileControl.showPrintDialog(mainView.source)
                 }
@@ -54,7 +54,7 @@ Menu {
         Shortcut {
             sequence: "Alt+O"
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     fileControl.ocrImage(source)
                 }
@@ -95,7 +95,7 @@ Menu {
         Shortcut {
             sequence: "Ctrl+C"
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     fileControl.copyImage(source)
                 }
@@ -119,7 +119,7 @@ Menu {
         Shortcut {
             sequence: "F2"
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex != 0 && stackView.currentWidgetIndex != 2)
+                if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
                     var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89

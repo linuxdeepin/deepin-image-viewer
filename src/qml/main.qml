@@ -51,27 +51,7 @@ ApplicationWindow {
         fileControl.saveSetting()
     }
 
-//        header:tt
-    Control {
-        id: titlecontrol
-        hoverEnabled: true // 开启 Hover 属性
-        property Palette backgroundColor1: Palette {
-            normal: Qt.rgba(255/255, 255/255, 255/255, 0.6)
-            normalDark:Qt.rgba(26/255, 26/255, 26/255, 0.6)
-        }
-        property Palette backgroundColor2: Palette {
-            normal: Qt.rgba(255/255, 255/255, 255/255, 0.02)
-            normalDark:Qt.rgba(26/255, 26/255, 26/255, 0.02)
-        }
-    }
-    Control {
-        id: backcontrol
-        hoverEnabled: true // 开启 Hover 属性
-        property Palette backgroundColor: Palette {
-            normal: "#F8F8F8"
-            normalDark:"#000000"
-        }
-    }
+
     Rectangle {
         id: rect
 
@@ -83,12 +63,11 @@ ApplicationWindow {
         MainStack{
             anchors.fill: parent
 //            interactive: false
+
         }
     }
 
-    ViewTopTitle{
-         id:titleRect
-    }
+
 
 
 }

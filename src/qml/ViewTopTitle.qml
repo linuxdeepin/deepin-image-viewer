@@ -4,8 +4,22 @@ import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
 Rectangle {
+    Control {
+        id: titlecontrol
+        hoverEnabled: true // 开启 Hover 属性
+        property Palette backgroundColor1: Palette {
+            normal: Qt.rgba(255/255, 255/255, 255/255, 0.6)
+            normalDark:Qt.rgba(26/255, 26/255, 26/255, 0.6)
+        }
+        property Palette backgroundColor2: Palette {
+            normal: Qt.rgba(255/255, 255/255, 255/255, 0.02)
+            normalDark:Qt.rgba(26/255, 26/255, 26/255, 0.02)
+        }
+    }
 
+    property string iconName :"deepin-image-viewer"
     anchors.top:root.top
+
 //        anchors.topMargin: 10
     width: parent.width
     height: 50
@@ -17,12 +31,12 @@ Rectangle {
        }
     //opacity: 1
     ActionButton {
-        anchors.top:titleRect.top
+        anchors.top:parent.top
         anchors.topMargin:global.actionMargin
-        anchors.left:titleRect.left
+        anchors.left:parent.left
         anchors.leftMargin:global.actionMargin
         icon {
-            name: "deepin-image-viewer"
+            name: iconName
             width: 32
             height: 32
         }
