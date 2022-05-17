@@ -21,5 +21,6 @@
         <file>qml/AlertToolTip.qml</file>
         <file>qml/ViewRightMenu.qml</file>
         <file>qml/RightMenuItem.qml</file>
+        <file>qml/ViewTopTitle.qml</file>
     </qresource>
 </RCC>
