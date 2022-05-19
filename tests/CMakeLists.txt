@@ -72,8 +72,6 @@ find_package(Qt5LinguistTools)
 pkg_check_modules(3rd_lib REQUIRED
     dtkcore
     dtkwidget
-    gio-qt
-    gio-unix-2.0
 #    freeimage
         )
 
@@ -115,9 +113,6 @@ target_link_libraries(
     X11
     Xext
     exif
-#    gio-unix-2.0
-    gio-qt
-    udisks2-qt5
     freeimage
     pthread
     imageviewer
