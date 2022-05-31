@@ -39,6 +39,7 @@
 #include <QStatusBar>
 #include <QButtonGroup>
 #include <QJsonObject>
+#include <QTimer>
 
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
@@ -79,6 +80,9 @@ public slots:
     bool slotDrogImg(const QStringList &paths);
     void quitApp();
 
+    //保存大小
+    void slotSaveSize();
+
     //显示快捷键预览
     void showShortCut();
 private:
@@ -87,6 +91,7 @@ private:
     ImageViewer      *m_imageViewer = nullptr;
     DMainWindow      *m_mainwidow = nullptr;
     QSettings        *m_settings = nullptr;
+    QTimer           *m_saveSettingTimer = nullptr;
 };
 
 #endif // MAINWINDOW_H
