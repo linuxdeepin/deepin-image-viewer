@@ -45,6 +45,7 @@
 // 最小宽高
 #define MAINWIDGET_MINIMUN_HEIGHT 300
 #define MAINWIDGET_MINIMUN_WIDTH 628
+#define SAVESETTING_TIMER 200
 
 const QString CONFIG_PATH =   QDir::homePath() +
                               "/.config/deepin/deepin-image-viewer/config.conf";
@@ -62,7 +63,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-
 }
 
 void MainWindow::setDMainWindow(DMainWindow *mainwidow)
@@ -227,6 +227,14 @@ void MainWindow::initSize()
     //废弃
 }
 
+void MainWindow::slotSaveSize()
+{
+    if (!isMaximized() && !window()->isFullScreen() && !window()->isMaximized() && m_mainwidow) {
+        setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, m_mainwidow->width());
+        setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, m_mainwidow->height());
+    }
+}
+
 //初始化QStackedWidget和展示
 void MainWindow::initUI()
 {
@@ -278,6 +286,12 @@ void MainWindow::initUI()
     scViewShortcut->setContext(Qt::ApplicationShortcut);
     // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
     connect(scViewShortcut, &QShortcut::activated, this, &MainWindow::showShortCut);
+
+    m_saveSettingTimer = new QTimer(this);
+    connect(m_saveSettingTimer, &QTimer::timeout, this,&MainWindow::slotSaveSize);
+
+    m_saveSettingTimer->setSingleShot(true);
+
 
 }
 
@@ -377,10 +391,7 @@ void MainWindow::showShortCut()
 
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
-    if (!isMaximized() && !window()->isFullScreen() && !window()->isMaximized() && m_mainwidow) {
-        setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, m_mainwidow->width());
-        setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, m_mainwidow->height());
-    }
+    m_saveSettingTimer->start(SAVESETTING_TIMER);
     DWidget::resizeEvent(e);
 }
 
