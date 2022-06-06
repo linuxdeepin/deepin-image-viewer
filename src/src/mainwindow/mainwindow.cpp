@@ -99,7 +99,6 @@ QVariant MainWindow::value(const QString &group, const QString &key, const QVari
 
 QJsonObject MainWindow::createShorcutJson()
 {
-
     QJsonObject shortcut1;
     shortcut1.insert("name", tr("Fullscreen"));
     shortcut1.insert("value", "F11");
@@ -265,8 +264,6 @@ void MainWindow::initUI()
         m_centerWidget->setCurrentWidget(m_homePageWidget);
         if (m_mainwidow && m_mainwidow->titlebar())
         {
-            //需要全屏切回普通窗口
-            m_mainwidow->showNormal();
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
             m_mainwidow->titlebar()->setFixedHeight(50);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
