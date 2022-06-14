@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 
+#玲珑构建依赖目录
+include_directories(/runtime/include)
+
 set(APP_BIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin/)
 set(BIN_NAME ${CMAKE_PROJECT_NAME})
 set(LIB_NAME dtkqml-${CMAKE_PROJECT_NAME})
@@ -87,12 +90,12 @@ target_link_libraries(${BIN_NAME}
 
 set_target_properties(${BIN_NAME} PROPERTIES INSTALL_RPATH ${DTK_QML_APP_PLUGIN_PATH})
 
-set(APPSHAREDIR  /usr/share/deepin-image-viewer)
+set(APPSHAREDIR  ${CMAKE_INSTALL_PREFIX}/share/deepin-image-viewer)
 # Add install rule
 install(TARGETS ${BIN_NAME} DESTINATION ${APP_BIN_INSTALL_DIR})
 install(TARGETS ${LIB_NAME} DESTINATION ${DTK_QML_APP_PLUGIN_PATH})
-install(FILES ${CMAKE_PROJECT_NAME}.desktop DESTINATION /usr/share/applications)
-install(FILES ./icon/${CMAKE_PROJECT_NAME}.svg DESTINATION /usr/share/icons/hicolor/scalable/apps)
+install(FILES ${CMAKE_PROJECT_NAME}.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
+install(FILES ./icon/${CMAKE_PROJECT_NAME}.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps)
 #translations
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
     DESTINATION ${APPSHAREDIR}
@@ -100,5 +103,5 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
 
 #manual
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/assets/deepin-image-viewer
-    DESTINATION /usr/share/deepin-manual/manual-assets/application/
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/deepin-manual/manual-assets/application/
     FILES_MATCHING PATTERN "*")
