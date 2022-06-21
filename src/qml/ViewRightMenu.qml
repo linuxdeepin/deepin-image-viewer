@@ -118,6 +118,8 @@ Menu {
         }
         Shortcut {
             sequence: "F2"
+            // 判断文件是否允许重命名
+            enabled: fileControl.isCanRename(source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
