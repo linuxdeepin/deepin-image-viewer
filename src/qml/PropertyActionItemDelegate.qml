@@ -30,6 +30,7 @@ Control {
     property int corners: RoundRectangle.NoneCorner
     property string iconName
     signal clicked()
+
     property Component action: ActionButton {
         visible: control.iconName
         Layout.alignment: Qt.AlignRight
@@ -42,6 +43,8 @@ Control {
         onClicked: {
             if (showPicLabel.visible) {
                 showPicLabel.visible = false;
+                // 每次显示编辑框时显示为图片名称
+                nameedit.text = fileControl.slotGetFileName(imageViewer.source)
             } else {
                 if (!fileControl.isShowToolTip(imageViewer.source,nameedit.text) && nameedit.text.length > 0) {
                     var name = nameedit.text
@@ -55,6 +58,7 @@ Control {
             }
         }
     }
+
     padding: 5
     contentItem: ColumnLayout {
         Label {
@@ -123,5 +127,10 @@ Control {
         color:  Qt.rgba(0, 0, 0, 0.05)
         radius: Style.control.radius
         corners: control.corners
+    }
+
+    // 复位当前属性编辑组件，关闭编辑框
+    function reset() {
+        showPicLabel.visible = true;
     }
 }
