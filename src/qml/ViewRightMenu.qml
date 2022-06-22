@@ -82,7 +82,10 @@ Menu {
     }
 
 
-    MenuSeparator { }
+    MenuSeparator {
+        id: firstSeparator
+    }
+
     RightMenuItem {
 
         text: qsTr("Copy")
@@ -153,7 +156,13 @@ Menu {
         }
     }
 
-    MenuSeparator { }
+    // 不允许无读写权限时上方选项已屏蔽，不展示此分割条
+    MenuSeparator {
+        // 不显示分割条时调整高度，防止菜单项间距不齐
+        height: visible ? firstSeparator.height : 0
+        visible: fileControl.isCanReadable(source)
+                 || fileControl.isCanDelete(source)
+    }
 
     RightMenuItem {
         text: qsTr("Rotate clockwise")

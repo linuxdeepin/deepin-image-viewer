@@ -670,7 +670,9 @@ bool FileControl::isSupportSetWallpaper(const QString &path)
     QString path1 = QUrl(path).toLocalFile();
     QFileInfo fileinfo(path1);
     QString format = fileinfo.suffix().toLower();
-    if (listsupportWallPaper.contains(format)) {
+    // 设置为壁纸需要判断是否有读取权限
+    if (listsupportWallPaper.contains(format)
+            && fileinfo.isReadable()) {
         return true;
     }
     return false;
