@@ -196,24 +196,27 @@ Rectangle {
                 ToolTip.visible: hovered
                 ToolTip.text: qsTr("Exit")
             }
-
+            
         }
     }
+
     Menu {
         x: 250; y: 600
         id: sliderMenu
-        //        model: ObjectModelProxy {
-        //            id: proxyModel
-        //            property string filterText
-        //            filterAcceptsItem: function(item) {
-        //                return item.text.includes(filterText)
-        //            }
-        //            sourceModel: option_menu.contentModel
-        //        }
+
         MenuItem {
             text:autoRun ?qsTr("Pause") : qsTr("Play")
             onTriggered: {
                 autoRun=!autoRun
+            }
+
+            // 添加处理快捷键，播放幻灯片时暂停/播放
+            Shortcut {
+                id: pauseShortCut
+                sequence: "Space"
+                onActivated: {
+                    autoRun = !autoRun
+                }
             }
         }
 
@@ -223,5 +226,10 @@ Rectangle {
                 outSliderShow()
             }
         }
+    }
+
+    onVisibleChanged: {
+        // 进行幻灯片播放时允许响应空格快捷键处理暂停/播放
+        pauseShortCut.enabled = visible
     }
 }
