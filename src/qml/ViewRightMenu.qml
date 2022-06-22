@@ -36,6 +36,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+P"
+            enabled: !CodeImage.imageIsNull(source)
             onActivated:  {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -44,7 +45,7 @@ Menu {
             }
         }
     }
-//imageIsNull
+
     RightMenuItem {
         text: qsTr("Extract text")
         visible: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
@@ -53,6 +54,7 @@ Menu {
         }
         Shortcut {
             sequence: "Alt+O"
+            enabled: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -97,6 +99,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+C"
+            enabled: fileControl.isCanReadable(source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -146,8 +149,8 @@ Menu {
         }
         Shortcut {
             sequence: "Delete"
+            enabled: fileControl.isCanDelete(source)
             onActivated: {
-
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     thumbnailListView.deleteCurrentImage()
@@ -173,6 +176,7 @@ Menu {
 
         Shortcut {
             sequence: "Ctrl+R"
+            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -190,6 +194,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+Shift+R"
+            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -233,6 +238,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+F"
+            enabled: fileControl.isSupportSetWallpaper(source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
