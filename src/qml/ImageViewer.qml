@@ -86,6 +86,8 @@ Rectangle {
 
     onCurrentScaleChanged: {
         idNavWidget.setRectPec(currentScale)
+        // 缩放比例变更时（图像适应窗口、全屏展示...），根据缩放比例判断是否需要显示导航窗口
+        idNavWidget.visible = currentScale > 1
 
         if(currenImageScale>2000){
             currentScale = 20 * CodeImage.getFitWindowScale(source,root.width, root.height)
@@ -675,6 +677,7 @@ Rectangle {
         anchors.leftMargin: 15
         visible: false
     }
+
     onHeightChanged: {
         if(root.height<=global.minHideHeight ){
             idNavWidget.visible=false
