@@ -34,6 +34,8 @@
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
 const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
+// 是否显示导航窗口
+const QString SETTINGS_ENABLE_NAVIGATION = "EnableNavigation";
 const int MAINWIDGET_MINIMUN_HEIGHT = 300;
 const int MAINWIDGET_MINIMUN_WIDTH = 628;
 
@@ -651,6 +653,16 @@ void FileControl::setSettingHeight(int height)
     m_tSaveSetting->start(1000);
 //    setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, m_windowHeight);
 
+}
+
+void FileControl::setEnableNavigation(bool b)
+{
+    setConfigValue(SETTINGS_GROUP, SETTINGS_ENABLE_NAVIGATION, b);
+}
+
+bool FileControl::isEnableNavigation()
+{
+    return getConfigValue(SETTINGS_GROUP, SETTINGS_ENABLE_NAVIGATION, true).toBool();
 }
 
 void FileControl::saveSetting()
