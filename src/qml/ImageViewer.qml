@@ -28,8 +28,8 @@ Rectangle {
     property int index: 0
     property alias swipeIndex: view.currentIndex
 
-    //是否显示和隐藏导航栏
-    property bool  isNavShow : true
+    //是否显示和隐藏导航栏，从配置文件中读取初始配置
+    property bool  isNavShow: fileControl.isEnableNavigation()
 
     property double  currentScale : 1.0
 
@@ -86,8 +86,12 @@ Rectangle {
 
     onCurrentScaleChanged: {
         idNavWidget.setRectPec(currentScale)
-        // 缩放比例变更时（图像适应窗口、全屏展示...），根据缩放比例判断是否需要显示导航窗口
-        idNavWidget.visible = currentScale > 1
+        // 设置隐藏导航窗口时，不处理展示
+        if (isNavShow)
+        {
+            // 缩放比例变更时（图像适应窗口、全屏展示...），根据缩放比例判断是否需要显示导航窗口
+             idNavWidget.visible = currentScale > 1
+        }
 
         if(currenImageScale>2000){
             currentScale = 20 * CodeImage.getFitWindowScale(source,root.width, root.height)
@@ -690,7 +694,11 @@ Rectangle {
         }
     }
 
-
+    // 导航窗口显示配置变更时触发
+    onIsNavShowChanged: {
+        // 保存设置信息
+        fileControl.setEnableNavigation(isNavShow)
+    }
 }
 
 

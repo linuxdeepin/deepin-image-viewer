@@ -133,6 +133,10 @@ public:
 
     Q_INVOKABLE void setSettingHeight(int height);
 
+    // 设置/获取是否允许展示导航窗口
+    Q_INVOKABLE void setEnableNavigation(bool b);
+    Q_INVOKABLE bool isEnableNavigation();
+
     Q_INVOKABLE void saveSetting();
     //是否支持设置壁纸
     Q_INVOKABLE bool isSupportSetWallpaper(const QString &path);
