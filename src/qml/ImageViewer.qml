@@ -377,9 +377,11 @@ Rectangle {
                             width: 151
                             height: 151
                         }
-                        visible: CodeImage.imageIsNull(sourcePaths[index])
 
+                        // 判断展示图片状态是否异常
+                        visible: showImg.status === Image.Error || CodeImage.imageIsNull(sourcePaths[index])
                     }
+
                     BusyIndicator {
                         running: true
                         anchors.horizontalCenter: parent.horizontalCenter
