@@ -237,7 +237,7 @@ Menu {
             fileControl.setWallpaper(source)
         }
         Shortcut {
-            sequence: "Ctrl+F"
+            sequence: "Ctrl+F9"
             enabled: fileControl.isSupportSetWallpaper(source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
