@@ -614,8 +614,9 @@ Rectangle {
 
                         onWheel: {
                             var datla = wheel.angleDelta.y / 120
-                            console.info("ctrlpressed: ", global.ctrlPressed)
-                            if (global.ctrlPressed)
+                            // 通过Keys缓存的状态可能不准确，在焦点移出时release事件没有正确捕获，
+                            // 修改为通过当前事件传入的按键按下信息判断
+                            if (Qt.ControlModifier & wheel.modifiers)
                                 datla > 0 ? thumbnailListView.previous() : thumbnailListView.next()
                             else {
                                 if (datla > 0)
