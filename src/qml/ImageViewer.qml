@@ -129,6 +129,9 @@ Rectangle {
 
     function fitWindow()
     {
+        // 调整位置，图片恢复显示到中心
+        sigSourceChange()
+
         currentScale = root.visibility == Window.FullScreen ? 1.0 : 1.0 * (root.height - titleRect.height * 2) / root.height
     }
     function rotateImage(x)
