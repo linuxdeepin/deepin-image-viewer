@@ -76,5 +76,20 @@ Rectangle {
             websiteLink:DTK.deepinWebsitelLink
             license:qsTr(String("%1 is released under %2").arg(productName).arg("GPLV3"))
         }
+
+        // 使用自定的文本
+        title: ""
+        Text {
+            anchors.centerIn: parent
+            width: parent.width
+            leftPadding: 300
+            rightPadding: 300
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            // 显示窗口的标题(文件名)
+            text: Window.window.title
+            // 自动隐藏多余文本
+            elide: Text.ElideRight
+        }
     }
 }
