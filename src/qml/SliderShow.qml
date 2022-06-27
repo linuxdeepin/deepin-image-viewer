@@ -26,6 +26,10 @@ Rectangle {
         }
     }
 
+    function restart() {
+        fadeInOutImage.restart()
+    }
+
     function outSliderShow(){
         showNormal()
         sliderMainShow.autoRun = false

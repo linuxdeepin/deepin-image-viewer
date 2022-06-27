@@ -161,6 +161,7 @@ Rectangle {
             sliderMainShow.modelCount = sourcePaths.length
             sliderMainShow.autoRun = true
             sliderMainShow.indexImg = view.currentIndex
+            sliderMainShow.restart()
             stackView.currentWidgetIndex = 2
         }
 
