@@ -5,6 +5,11 @@ Item {
     property string imageSource
     property string imageSourceTemp
 
+    function restart() {
+        destroyAnimation.complete()
+        createAnimation.start()
+    }
+
     onImageSourceChanged:
     {
         destroyAnimation.start()
