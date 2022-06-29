@@ -267,18 +267,27 @@ Item {
 
     }
 
-    FloatingPanel {
+    Rectangle {
         id: thumbnailViewBackGround
-
         width: parent.width - 30 < 500+sourcePaths.length*50 ? parent.width - 30 : 500+sourcePaths.length*50
         height: 70
 
         anchors.right: parent.right
         anchors.rightMargin: (parent.width-width)/2
 
-        Component.onCompleted: {
+        radius: panel.radius
+        opacity: 0.5
 
-            animationAll()
+        // 调整 FloatingPanel 内部的 BoxShadow 计算区域
+        FloatingPanel {
+            id: panel
+            width: parent.width
+            height: parent.height
+            anchors.fill: parent
+
+            Component.onCompleted: {
+                animationAll()
+            }
         }
     }
 
