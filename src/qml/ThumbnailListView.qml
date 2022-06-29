@@ -180,14 +180,14 @@ Item {
             ToolTip.text: qsTr("Rotate")
         }
 
-
     ListView {
         id: bottomthumbnaillistView
-        highlightRangeMode: ListView.StrictlyEnforceRange
+        // 使用范围模式，允许高亮缩略图在preferredHighlightBegin~End的范围外，使缩略图填充空白区域
+        highlightRangeMode: ListView.ApplyRange
         highlightFollowsCurrentItem: true
 
-        preferredHighlightBegin: width/2 - 25
-        preferredHighlightEnd: width/2 + 25
+        preferredHighlightBegin: width / 2 - 25
+        preferredHighlightEnd: width / 2 + 25
 
         anchors.left: rotateButton.right
         anchors.leftMargin: 10
@@ -198,7 +198,7 @@ Item {
         anchors.top: parent.top
         anchors.topMargin: -5
 
-        height: parent.height+10
+        height: parent.height + 10
         width: parent.width - deleteButton.width - 60
 
         clip: true
@@ -213,7 +213,14 @@ Item {
             if(currentItem){
                 currentItem.forceActiveFocus()
             }
-            positionViewAtIndex(currentIndex,ListView.Center)
+
+            // 特殊处理，防止默认显示首个缩略图时采用Center的策略会被遮挡部分
+            if (0 == currentIndex) {
+                positionViewAtBeginning()
+            } else {
+                // 尽可能将高亮缩略图显示在列表中心
+                positionViewAtIndex(currentIndex, ListView.Center)
+            }
         }
 
         Connections {
@@ -230,6 +237,17 @@ Item {
         cacheBuffer: 400
         model: mainView.sourcePaths.length
         delegate: ListViewDelegate {
+        }
+
+        // 添加两组空的表头表尾用于占位，防止在边界的高亮缩略图被遮挡
+        header: Rectangle {
+            width: 10
+            height: parent
+        }
+
+        footer: Rectangle {
+            width: 10
+            height: parent
         }
 
         Behavior on y {
