@@ -498,16 +498,18 @@ bool FileControl::slotFileReName(const QString &name, const QString &filepath, b
 
 QString FileControl::slotFileSuffix(const QString &path, bool ret)
 {
-    QString returnSuffix;
+    QString returnSuffix = "";
 
-    QString tmppath = path;
-    QFileInfo info(tmppath);
-    if (ret) {
-
-        returnSuffix = "." + info.completeSuffix();
-    } else {
-        returnSuffix =  info.completeSuffix();
+    if (!path.isEmpty() && QFile::exists(path)) {
+        QString tmppath = path;
+        QFileInfo info(tmppath);
+        if (ret) {
+            returnSuffix = "." + info.completeSuffix();
+        } else {
+            returnSuffix =  info.completeSuffix();
+        }
     }
+
     return returnSuffix;
 }
 

@@ -3,7 +3,7 @@ import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
 Rectangle {
-
+    id: sliderShow
     property int indexImg
     property var images:[]
     property int modelCount
@@ -218,6 +218,8 @@ Rectangle {
             Shortcut {
                 id: pauseShortCut
                 sequence: "Space"
+                // 进行幻灯片播放时允许响应空格快捷键处理暂停/播放
+                enabled: sliderShow.visible
                 onActivated: {
                     autoRun = !autoRun
                 }
@@ -230,10 +232,5 @@ Rectangle {
                 outSliderShow()
             }
         }
-    }
-
-    onVisibleChanged: {
-        // 进行幻灯片播放时允许响应空格快捷键处理暂停/播放
-        pauseShortCut.enabled = visible
     }
 }
