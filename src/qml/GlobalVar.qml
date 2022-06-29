@@ -13,7 +13,6 @@ Item {
     property int actionMargin: 9        //应用图标距离顶栏
 
     property int rightMenuItemHeight: 32//右键菜单item的高度
-    property bool ctrlPressed: false    //记录ctrl键是否按下
 
     signal sigWindowStateChange()
 }
