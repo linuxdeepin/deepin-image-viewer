@@ -20,6 +20,7 @@
 #include <DApplication>
 #include "src/filecontrol.h"
 #include "src/thumbnailload.h"
+#include "src/cursortool.h"
 
 #include "launcherplugin.h"
 
@@ -50,6 +51,10 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
     engine->addImageProvider(QLatin1String("viewImage"), load->m_viewLoad);
     FileControl *fileControl = new FileControl();
     engine->rootContext()->setContextProperty("fileControl", fileControl);
+    // 光标位置查询工具
+    CursorTool *cursorTool = new CursorTool();
+    engine->rootContext()->setContextProperty("cursorTool", cursorTool);
+
     engine->load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine->rootObjects().isEmpty())
         return -1;
