@@ -221,7 +221,8 @@ Menu {
                 imageViewer.isNavShow = true
                 idNavWidget.visible = true
                 if(m_NavX === 0 && m_NavY === 0) {
-                    idNavWidget.setRectPec(view.currentItem.scale) //初始蒙皮
+                    // 设置蒙皮信息
+                    idNavWidget.setRectPec(view.currentItem.scale, imageViewer.viewImageWidthRatio, imageViewer.viewImageHeightRatio)
                 } else {
                     idNavWidget.setRectLocation(m_NavX, m_NavY)
                 }

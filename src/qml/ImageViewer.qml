@@ -50,6 +50,10 @@ Rectangle {
     property int normalWidth: 0
     property int normalHeight: 0
 
+    // 记录放大图片(在qml中像素)和显示窗口像素的比值，用于蒙皮获取准确区域
+    property real viewImageWidthRatio : 0
+    property real viewImageHeightRatio : 0
+
     signal sigWheelChange
     signal sigImageShowFullScreen
     signal sigImageShowNormal
@@ -85,18 +89,19 @@ Rectangle {
     }
 
     onCurrentScaleChanged: {
-        idNavWidget.setRectPec(currentScale)
+        if(currenImageScale>2000){
+            currentScale = 20 * CodeImage.getFitWindowScale(source,root.width, root.height)
+        } else if(currenImageScale<2 &&currenImageScale>0){
+            currentScale = 0.02 * CodeImage.getFitWindowScale(source,root.width, root.height)
+        }
+
         // 设置隐藏导航窗口时，不处理展示
         if (isNavShow)
         {
             // 缩放比例变更时（图像适应窗口、全屏展示...），根据缩放比例判断是否需要显示导航窗口
              idNavWidget.visible = currentScale > 1
-        }
-
-        if(currenImageScale>2000){
-            currentScale = 20 * CodeImage.getFitWindowScale(source,root.width, root.height)
-        } else if(currenImageScale<2 &&currenImageScale>0){
-            currentScale = 0.02 * CodeImage.getFitWindowScale(source,root.width, root.height)
+            // 设置缩放后更新导航窗口
+            idNavWidget.setRectPec(currentScale, viewImageWidthRatio, viewImageHeightRatio)
         }
     }
 
@@ -510,6 +515,10 @@ Rectangle {
                                     drag.maximumX = 0
                                     drag.minimumX = 0
                                 }
+
+                                // 计算显示的 显示窗口 / 图片像素 的比值
+                                viewImageWidthRatio = root.width / (realWidth * currentScale)
+                                viewImageHeightRatio = root.height / (realHeight * currentScale)
                             }
 
                             if (showAnimatedImg.x >= drag.maximumX) {
