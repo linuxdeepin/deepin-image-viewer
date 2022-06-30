@@ -102,24 +102,36 @@ Item {
     }
 
     //判断工具栏和标题栏的显示隐藏
-    function animationAll(){
-        //        hideBottomAnimation.stop()
-        //        hideTopTitleAnimation.stop()
-        //        showRightButtonAnimation.stop()
-        //        hideRightButtonAnimation.stop()
+    function animationAll() {
+        // 根据当前不同捕获行为获取光标值
+        var mouseX = imageViewerArea.usingCapture ? imageViewerArea.captureX : imageViewerArea.mouseX;
+        var mouseY = imageViewerArea.usingCapture ? imageViewerArea.captureY : imageViewerArea.mouseY;
+
+        // 判断光标是否离开了窗口
+        var cursorInWidnow = mouseX >= 0 && mouseX <= root.width && mouseY >= 0 && mouseY <= root.height
+
         if(root.visibility == Window.FullScreen ){
-            if(imageViewerArea.mouseY > height-100){
+            if(mouseY > height-100){
                 showBottomAnimation.start()
             }else{
                 hideBottomAnimation.start()
                 hideTopTitleAnimation.start()
             }
         }else if(currentWidgetIndex != 0 &&
-                 ((root.height<=global.minHideHeight || root.width<=global.minWidth)&&(imageViewerArea.mouseY <= height-100) &&imageViewerArea.mouseY >= titleRect.height )){
+                 ((root.height <= global.minHideHeight || root.width <= global.minWidth)
+                  && (mouseY <= height-100)
+                  && (mouseY >= titleRect.height) )){
             hideBottomAnimation.start()
             hideTopTitleAnimation.start()
-        }else if(imageViewerArea.mouseY > height-100 || imageViewerArea.mouseY<titleRect.height ||
-                 (imageViewer.currentScale <= 1.0*(root.height-titleRect.height*2)/root.height)){
+        }else if (imageViewer.currentScale <= (1.0 * (root.height - titleRect.height * 2) / root.height))
+        {
+            // 缩放范围未超过显示范围时，不会隐藏工具/标题栏
+            showBottomAnimation.start()
+            showTopTitleAnimation.start()
+        }else if(cursorInWidnow
+                 && ((mouseY > height - 100 && mouseY <= height)
+                     || (0 < mouseY && mouseY < titleRect.height))) {
+            // 当缩放范围超过工具/标题栏且光标在工具/标题栏范围，显示工具/标题栏
             showBottomAnimation.start()
             showTopTitleAnimation.start()
         }else{
@@ -127,10 +139,10 @@ Item {
             hideTopTitleAnimation.start()
         }
 
-        if(imageViewerArea.mouseX>=root.width-100 && imageViewerArea.mouseX<=root.width && isEnterCurrentView){
+        if(mouseX>=root.width-100 && mouseX<=root.width && isEnterCurrentView && cursorInWidnow){
             showLeftButtonAnimation.start()
             showRightButtonAnimation.start()
-        }else if(imageViewerArea.mouseX<=100 && imageViewerArea.mouseX>=0 && isEnterCurrentView){
+        }else if(mouseX<=100 && mouseX>=0 && isEnterCurrentView && cursorInWidnow){
             showLeftButtonAnimation.start()
             showRightButtonAnimation.start()
         }else {
@@ -250,6 +262,11 @@ Item {
         id:imageViewerArea
         acceptedButtons: Qt.LeftButton
         hoverEnabled: true
+
+        property bool usingCapture: false       // 是否使用定时捕获光标位置
+        property int captureX: 0                // 当前的光标X坐标值
+        property int captureY: 0                // 当前的光标Y坐标值
+
         onMouseYChanged: {
             animationAll()
             mouse.accepted = false;
@@ -263,8 +280,31 @@ Item {
         onExited: {
             isEnterCurrentView = false
             animationAll()
+
+            // 当光标移出当前捕获范围时触发(不一定移出了窗口)
+            cursorTool.setCaptureCursor(true)
+            imageViewerArea.usingCapture = true
         }
 
+        Connections {
+            target: cursorTool
+            onCursorPos: {
+                if (imageViewerArea.usingCapture) {
+                    var pos = mapFromGlobal(x, y)
+                    imageViewerArea.captureX = pos.x
+                    imageViewerArea.captureY = pos.y
+                    // 根据光标位置计算工具、标题、侧边栏的收缩弹出
+                    animationAll()
+
+                    // 若光标已移出界面，停止捕获光标位置
+                    var cursorInWidnow = pos.x >= 0 && pos.x <= root.width && pos.y >= 0 && pos.y <= root.height
+                    if (!cursorInWidnow) {
+                        cursorTool.setCaptureCursor(false)
+                        imageViewerArea.usingCapture = false
+                    }
+                }
+            }
+        }
     }
 
     Rectangle {
