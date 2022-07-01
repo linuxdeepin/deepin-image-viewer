@@ -500,13 +500,14 @@ QString FileControl::slotFileSuffix(const QString &path, bool ret)
 {
     QString returnSuffix = "";
 
-    if (!path.isEmpty() && QFile::exists(path)) {
+    QString localPath = QUrl(path).toLocalFile();
+    if (!path.isEmpty() && QFile::exists(localPath)) {
         QString tmppath = path;
         QFileInfo info(tmppath);
         if (ret) {
             returnSuffix = "." + info.completeSuffix();
         } else {
-            returnSuffix =  info.completeSuffix();
+            returnSuffix = info.completeSuffix();
         }
     }
 
@@ -524,8 +525,6 @@ void FileControl::setCurrentImage(const QString &path)
     m_currentReader = new QImageReader(localPath);
 
     m_currentAllInfo = LibUnionImage_NameSpace::getAllMetaData(localPath);
-//    QString error;
-//    LibUnionImage_NameSpace::loadStaticImageFromFile(localPath, m_currentImage, error);
 }
 
 int FileControl::getCurrentImageWidth()
@@ -534,6 +533,8 @@ int FileControl::getCurrentImageWidth()
     int width = -1;
     if (m_currentReader) {
         width = m_currentReader->size().width();
+        if (width <= 0)
+            width = m_currentAllInfo.value("Width").toInt();
     }
 
     return width;
@@ -544,6 +545,8 @@ int FileControl::getCurrentImageHeight()
     int height = -1;
     if (m_currentReader) {
         height = m_currentReader->size().height();
+        if (height <= 0)
+            height = m_currentAllInfo.value("Height").toInt();
     }
     return height;
 }

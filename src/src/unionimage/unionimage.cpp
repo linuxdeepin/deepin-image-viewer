@@ -1168,41 +1168,17 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
         admMap.insert("DateTimeOriginal",  info.lastModified().toString("yyyy/MM/dd HH:mm"));
     }
     admMap.insert("DateTimeDigitized",  info.lastModified().toString("yyyy/MM/dd HH:mm"));
-//    if (admMap.isEmpty()) {
-//        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0));
-//        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm"));
-//        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
-//    }
-    /* else {
-        QString qsdto = admMap.value("DateTimeOriginal");
-        QString qsdtd = admMap.value("DateTimeDigitized");
-        QDateTime ot = QDateTime::fromString(qsdto, "yyyy/MM/dd HH:mm");
-        QDateTime dt = QDateTime::fromString(qsdtd, "yyyy/MM/dd HH:mm");
-        if (! ot.isValid()) {
-            // Exif version 0221
-            QString qsdt = admMap.value("DateTime");
-            ot = QDateTime::fromString(qsdt, "yyyy/MM/dd HH:mm");
-            dt = ot;
 
-            // NO valid date information
-            if (! ot.isValid()) {
-    //                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
-                admMap.insert("DateTimeOriginal", info.birthTime().toString("yyyy/MM/dd HH:mm"));
-                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
-            } else {
-                admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm"));
-                admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm"));
-            }
-        }
-    }*/
-
-//    // The value of width and height might incorrect
+    // The value of width and height might incorrect
     QImageReader reader(path);
     int w = reader.size().width();
     w = w > 0 ? w : static_cast<int>(FreeImage_GetWidth(dib));
     int h = reader.size().height();
     h = h > 0 ? h : static_cast<int>(FreeImage_GetHeight(dib));
     admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
+    // 记录图片宽高
+    admMap.insert("Width", QString::number(w));
+    admMap.insert("Height", QString::number(h));
 
     admMap.insert("FileName", info.fileName());
     //应该使用qfileinfo的格式
