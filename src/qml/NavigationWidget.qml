@@ -52,15 +52,12 @@ Rectangle {
     }
 
     //计算蒙皮位置
-    function setRectLocation(x, y) {
-        var x1 = idNavigationwidget.width * x
-        var y1 = idNavigationwidget.height * y
-        x1 -= idrectArea.width
-        y1 -= idrectArea.height
-        if(x1 < 0 || y1 < 0)
-            return
-        idrectArea.x = x1
-        idrectArea.y = y1
+    function setRectLocation(xRatio, yRatio) {
+        // 根据可移动区域计算变更的 X,Y值
+        var xOffset = xRatio * (imgRight - imgLeft - idrectArea.width)
+        idrectArea.x = xOffset + imgLeft
+        var yOffset = yRatio * (imgBottom - imgTop - idrectArea.height)
+        idrectArea.y = yOffset + imgTop
     }
 
     //背景图片绘制区域
