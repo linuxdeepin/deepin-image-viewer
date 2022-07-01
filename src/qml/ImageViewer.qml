@@ -69,6 +69,14 @@ Rectangle {
         onSigTitlePress: {
             infomationDig.hide()
         }
+
+        onWidthChagned: {
+            fitWindow()
+        }
+
+        onHeightChanged: {
+            fitWindow()
+        }
     }
 
     function showFloatLabel() {
