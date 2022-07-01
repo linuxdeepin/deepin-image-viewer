@@ -109,6 +109,8 @@ Item {
 
         // 判断光标是否离开了窗口
         var cursorInWidnow = mouseX >= 0 && mouseX <= root.width && mouseY >= 0 && mouseY <= root.height
+        // 显示图像的像素高度
+        var viewImageHeight = root.width * (fileControl.getCurrentImageHeight() / fileControl.getCurrentImageWidth())
 
         if(root.visibility == Window.FullScreen ){
             if(mouseY > height-100){
@@ -123,8 +125,12 @@ Item {
                   && (mouseY >= titleRect.height) )){
             hideBottomAnimation.start()
             hideTopTitleAnimation.start()
-        }else if (imageViewer.currentScale <= (1.0 * (root.height - titleRect.height * 2) / root.height))
-        {
+        }else if (imageViewer.currentScale <= (1.0 * (root.height - titleRect.height * 2) / root.height)) {
+            // 缩放率小于(允许显示高度/窗口高度)的不会超过工具/标题栏
+            showBottomAnimation.start()
+            showTopTitleAnimation.start()
+        }else if ((imageViewer.currentScale <= 1.0)
+                  &&  viewImageHeight <= (root.height - titleRect.height * 2)) {
             // 缩放范围未超过显示范围时，不会隐藏工具/标题栏
             showBottomAnimation.start()
             showTopTitleAnimation.start()
