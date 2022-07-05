@@ -70,7 +70,7 @@ Rectangle {
             infomationDig.hide()
         }
 
-        onWidthChagned: {
+        onWidthChanged: {
             fitWindow()
         }
 
