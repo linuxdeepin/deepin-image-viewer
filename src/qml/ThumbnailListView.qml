@@ -242,12 +242,10 @@ Item {
         // 添加两组空的表头表尾用于占位，防止在边界的高亮缩略图被遮挡
         header: Rectangle {
             width: 10
-            height: parent.height
         }
 
         footer: Rectangle {
             width: 10
-            height: parent.height
         }
 
         Behavior on y {
