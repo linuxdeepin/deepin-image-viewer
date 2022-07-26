@@ -76,6 +76,8 @@ bool checkOnly()
         perror("lock file error/n");
         return false;
     }
+
+    // for test
     return true;
 }
 
