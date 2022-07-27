@@ -38,8 +38,8 @@
 #include <DFileDialog>
 
 #include "module/view/homepagewidget.h"
-#include "../libimageviewer/imageviewer.h"
-#include "../libimageviewer/imageengine.h"
+#include <libimageviewer/imageviewer.h>
+#include <libimageviewer/imageengine.h>
 #include "application.h"
 
 // 最小宽高
