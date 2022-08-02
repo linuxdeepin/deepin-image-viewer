@@ -43,6 +43,7 @@
 
 #include "mainwindow/mainwindow.h"
 #include "application.h"
+#include "eventlogutils.h"
 
 //using namespace Dtk::Core;
 
@@ -52,7 +53,15 @@
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
-
+//解析
+static QString getImagenameFromPath(const QString &path_name)
+{
+    QStringList list = path_name.split(".");
+    if (list.isEmpty())
+        return " ";
+    else
+        return list.last();
+}
 bool checkOnly()
 {
     //single
@@ -189,16 +198,28 @@ int main(int argc, char *argv[])
         mainwindow->setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     }
     QString filepath = "";
+    QString imageformat = "";
+    bool bRet = false;
     QStringList arguments = QCoreApplication::arguments();
     for (QString path : arguments) {
         path = UrlInfo(path).toLocalFile();
         if (QFileInfo(path).isFile()) {
-            bool bRet = w->slotDrogImg(QStringList(path));
+            bRet = w->slotDrogImg(QStringList(path));
             if (bRet) {
+                imageformat = getImagenameFromPath(path);
                 break;
             }
         }
     }
+    //埋点记录启动数据
+    QJsonObject objStartEvent{
+        {"tid", Eventlogutils::StartUp},
+        {"vsersion", VERSION},
+        {"imageformat", imageformat},
+        {"opensuccess", bRet},
+        {"mode", 1},
+    };
+    Eventlogutils::GetInstance()->writeLogs(objStartEvent);
 
     mainwindow->show();
 
