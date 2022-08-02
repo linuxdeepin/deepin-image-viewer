@@ -163,12 +163,13 @@ Rectangle {
 
     function fitImage()
     {
-        if (fileControl.getCurrentImageWidth() <= 0
-                || fileControl.getCurrentImageHeight() <= 0) {
+        // 优先采用图片实际加载的数据，若图片未加载完成，采用文件基本信息
+        if (CodeImage.getImageWidth(source) <= 0
+                || CodeImage.getImageHeight(source) <= 0) {
+            currentScale = fileControl.getFitWindowScale(root.width, root.height)
+        } else {
             // 图片数据异常需要从加载完成图片信息中获取
             currentScale = CodeImage.getFitWindowScale(source, root.width, root.height)
-        } else {
-            currentScale = fileControl.getFitWindowScale(root.width, root.height)
         }
     }
 

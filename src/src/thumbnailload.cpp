@@ -198,8 +198,8 @@ int ViewLoad::getImageHeight(const QString &path)
 double ViewLoad::getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight)
 {
     double scale = 0.0;
-    double width = getImageHeight(path);
-    double height = getImageWidth(path);
+    double width = getImageWidth(path);
+    double height = getImageHeight(path);
     double scaleWidth = width / WindowWidth;
     double scaleHeight = height / WindowHeight;
 
@@ -208,6 +208,6 @@ double ViewLoad::getFitWindowScale(const QString &path, double WindowWidth, doub
     } else {
         scale = scaleHeight;
     }
-
+    
     return scale;
 }
