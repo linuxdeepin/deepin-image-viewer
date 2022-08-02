@@ -215,4 +215,8 @@ DialogWindow {
     onClosing: {
         fileNameProp.reset();
     }
+    // 图片变更时复位组件状态(切换时关闭重命名框)
+    onFileNameChanged: {
+        fileNameProp.reset();
+    }
 }
