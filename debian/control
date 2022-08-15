@@ -16,4 +16,4 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5sql5-sqlite, qt5-image-format
 Recommends: libqt5libqgtk2, kimageformat-plugins ,deepin-ocr
 Description: Image Viewer is an image viewing tool with fashion interface and smooth performance.
  Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.
-
+Recommends: uos-reporter, deepin-event-log
