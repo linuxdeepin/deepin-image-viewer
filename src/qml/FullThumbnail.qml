@@ -229,8 +229,9 @@ Item {
 
     FloatingButton {
         id:floatLeftButton
-        visible: mainView.sourcePaths.length>1 && currentIndex>0
-        enabled: currentIndex>0? true:false
+        visible: mainView.sourcePaths.length>1 && enabled
+        enabled: currentIndex > 0
+                || imageViewer.frameIndex > 0
         checked: false
         anchors.top: parent.top
         anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
@@ -247,8 +248,9 @@ Item {
     FloatingButton {
         id:floatRightButton
         checked: false
-        visible: mainView.sourcePaths.length>1 && currentIndex<mainView.sourcePaths.length-1
-        enabled: currentIndex<mainView.sourcePaths.length-1 ? true:false
+        visible: mainView.sourcePaths.length > 1 && enabled
+        enabled: currentIndex < mainView.sourcePaths.length - 1
+                || imageViewer.frameIndex < imageViewer.frameCount - 1
         anchors.top: parent.top
         anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
         width: 50
@@ -315,7 +317,12 @@ Item {
 
     Rectangle {
         id: thumbnailViewBackGround
-        width: parent.width - 30 < 500+sourcePaths.length*50 ? parent.width - 30 : 500+sourcePaths.length*50
+        // 根据拓展的列表宽度计算
+        width: parent.width - 30 < 490 + thumbnailListView.listContentWidth
+               ? parent.width - 30
+               : 490 + thumbnailListView.listContentWidth
+        // 根据当前窗口大小可用的列表内容宽度(最小窗口宽度为 628)
+        property int avaliableListViewWidth: parent.width - 30 - 490
         height: 70
 
         anchors.right: parent.right
@@ -340,8 +347,6 @@ Item {
     ThumbnailListView {
         id: thumbnailListView
         anchors.fill: thumbnailViewBackGround
-
-        //         property int currentIndex: 0
     }
 
     //浮动提示框

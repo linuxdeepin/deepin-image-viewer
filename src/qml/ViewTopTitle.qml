@@ -90,6 +90,9 @@ Rectangle {
             text: Window.window.title
             // 自动隐藏多余文本
             elide: Text.ElideRight
+
+            textFormat: Text.PlainText
+            color: title.textColor
         }
     }
 }
