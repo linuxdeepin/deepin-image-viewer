@@ -1,8 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
-import org.deepin.dtk 1.0 as D
 import org.deepin.dtk 1.0
+
 ApplicationWindow {
     //    flags:Qt.FramelessWindowHint
 
@@ -12,7 +12,7 @@ ApplicationWindow {
     }
     signal sigTitlePress
     // 设置 dtk 风格窗口
-    D.DWindow.enabled: true
+    DWindow.enabled: true
     id: root
     title: ""
 

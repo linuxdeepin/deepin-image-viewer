@@ -29,6 +29,11 @@ Rectangle {
     property int index: 0
     property alias swipeIndex: view.currentIndex
 
+    // 用于多页图的标识 包括是否为多页图、多页图帧数、当前帧号
+    property bool currentIsMultiImage: fileControl.isMultiImage(source)
+    property int frameCount: currentIsMultiImage ? fileControl.getImageCount(source) : 1
+    property int frameIndex: 0
+
     //是否显示和隐藏导航栏，从配置文件中读取初始配置
     property bool  isNavShow: fileControl.isEnableNavigation()
 
@@ -96,9 +101,11 @@ Rectangle {
     }
 
     onCurrentScaleChanged: {
-        if(currenImageScale>2000){
+        // 单独计算图片缩放比，防止属性绑定循环计算，数据异常
+        var calcImageScale = currentScale / CodeImage.getFitWindowScale(source, root.width, root.height) * 100;
+        if(calcImageScale > 2000) {
             currentScale = 20 * CodeImage.getFitWindowScale(source,root.width, root.height)
-        } else if(currenImageScale<2 &&currenImageScale>0){
+        } else if(calcImageScale < 2 && calcImageScale > 0){
             currentScale = 0.02 * CodeImage.getFitWindowScale(source,root.width, root.height)
         }
 
@@ -112,12 +119,27 @@ Rectangle {
         }
     }
 
+    // 多页图当前图片帧号发生变更，更新当前界面维护的数据信息
+    onFrameIndexChanged: {
+        // 当前为多页图
+        if (currentIsMultiImage) {
+            // 设置 fileControl 维护的多页图信息
+            fileControl.setCurrentFrameIndex(frameIndex)
+            CodeImage.setMultiFrameIndex(frameIndex)
+        }
+    }
+
     // 图片源发生改变，隐藏导航区域，重置图片缩放比例
     onSourceChanged: {
+        // 多页图索引不在此处进行复位，鼠标点击，按钮切换等不同方式切换显示不同的多页图帧号
+
         // 保存之前文件的旋转操作
         fileControl.slotRotatePixCurrent()
 
+        // 设置图片状态
         fileControl.setCurrentImage(source)
+        CodeImage.setMultiFrameIndex(fileControl.isMultiImage(source) ? 0 : -1)
+
         // 默认隐藏导航区域
         idNavWidget.visible = false
         // 判断图片大小是否超过了允许显示的展示区域
@@ -192,7 +214,7 @@ Rectangle {
             // 判断高度是否无需调整(即图片高度小于展示区域高度，则无需继续压缩显示区域)
             var useHeight = (curViewImageHeight / rootRatio) <= root.width
 
-            currentScale = useHeight ? 1.0 : enableRootHeight / root.height
+            currentScale = useHeight ? 1.0 : (enableRootHeight / root.height)
         }
     }
 
@@ -313,8 +335,483 @@ Rectangle {
         }
     }
 
+    /*
+       @brief: 图片展示组件
+            需要注意的是，此图片展示组件会被缩略图栏滑动视图和多页图滑动视图使用，
+            需要区分其中变量在不同滑动视图下的含义
+    */
+    Component {
+        id: imageShowComp
+        Rectangle {
+            id: flickableL
+            width: view.width
+            height: view.height
+            clip: true
+            color: backcontrol.ColorSelector.backgroundColor
 
+            // 当前 item 使用的图片源，非当前展示图片，可能为预先加载的图片
+            property var curImageSource
+            // 用于标识当前图片是否为空
+            property bool curSourceIsNullImage: CodeImage.imageIsNull(curImageSource)
+            // 用于标识当前图片是否为普通静态图片
+            property bool curSourceIsNormalStaticImage: fileControl.isNormalStaticImage(curImageSource)
+            // 用于标识当前图片是否为多页图
+            property bool curSourceIsMultiImage: fileControl.isMultiImage(curImageSource)
+            // 用于标识当前图片是否为Svg图片
+            property bool curSourceIsSvgImage: fileControl.isSvgImage(curImageSource)
+            // 用于标识当前图片是否为动图
+            property bool curSourceIsDynamicImage: fileControl.isDynamicImage(curImageSource)
 
+            // 用于标识在上层 swipeView 的索引项，普通图片为缩略图栏索引，多页图为图片帧索引
+            property int swipeItemIndex
+
+            // 统一使用的缩放比例
+            property double imageScale: {
+                // 非当前图片调整
+                if ((!curSourceIsMultiImage && swipeItemIndex != view.currentIndex)
+                        || (curSourceIsMultiImage && swipeItemIndex !== imageViewer.frameIndex)) {
+                    if (root.visibility == Window.FullScreen) {
+                        return 1.0
+                    } else {
+                        return 1.0 * (root.height - titleRect.height * 2) / root.height
+                    }
+                }
+
+                return currentScale
+            }
+
+            // 图片保存完成，预览区域重新加载当前图片
+            Connections {
+                target: fileControl
+                onCallSavePicDone: {
+                    // 多页图无保存处理
+                    if (!flickableL.curSourceIsMultiImage && view.currentIndex == swipeItemIndex) {
+                        // 重新加载图片
+                        showImg.source = ""
+                        showImg.source = flickableL.curImageSource
+                    }
+                }
+            }
+
+            // normal image
+            Image {
+                id: showImg
+                fillMode: Image.PreserveAspectFit
+                width: parent.width
+                height: parent.height
+                source: {
+                    // 优先判断多页图，多页图使用单独的图像加载，需指定加载的图像帧号
+                    if (flickableL.curSourceIsMultiImage) {
+                        return "image://multiimage/" + flickableL.curImageSource + "#frame_" + swipeItemIndex
+                    } else if (flickableL.curSourceIsNormalStaticImage) {
+                        return "image://viewImage/" + flickableL.curImageSource
+                    }
+                    return ""
+                }
+
+                // NormalStaticImage 包含普通图片和多页图类型
+                visible: flickableL.curSourceIsNormalStaticImage && !flickableL.curSourceIsNullImage
+                asynchronous: true
+
+                cache: false
+                clip: true
+                scale: imageScale
+                mipmap: true
+                smooth: true
+
+                onStatusChanged: {
+                    msArea.changeRectXY()
+
+                    if (Image.Ready === showImg.status) {
+                        onImageReady()
+                    }
+                }
+            }
+
+            // svg image
+            Image {
+                id: showSvgImg
+
+                fillMode: Image.PreserveAspectFit
+                width: parent.width
+                height: parent.height
+                source: flickableL.curSourceIsSvgImage ? flickableL.curImageSource : ""
+                visible: flickableL.curSourceIsSvgImage && !flickableL.curSourceIsNullImage
+                asynchronous: true
+                sourceSize: Qt.size(width,height)
+                cache: false
+                clip: true
+                scale: imageScale
+                smooth: true
+                mipmap: true
+
+                onStatusChanged: {
+                    msArea.changeRectXY()
+
+                    if (Image.Ready === showSvgImg.status) {
+                        onImageReady()
+                    }
+                }
+            }
+
+            // dynamic image
+            AnimatedImage {
+                id: showAnimatedImg
+
+                fillMode: Image.PreserveAspectFit
+                width: parent.width
+                height: parent.height
+                source: flickableL.curSourceIsDynamicImage ? flickableL.curImageSource : ""
+                visible: flickableL.curSourceIsDynamicImage && !flickableL.curSourceIsNullImage
+                asynchronous: true
+                cache: false
+                clip: true
+                scale: imageScale
+                smooth: true
+
+                onStatusChanged: {
+                    msArea.changeRectXY()
+
+                    if (Image.Ready === showAnimatedImg.status) {
+                        onImageReady()
+                    }
+                }
+            }
+
+            ActionButton {
+                id: damageIcon
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                icon {
+                    name: "photo_breach"
+                    width: 151
+                    height: 151
+                }
+
+                // 判断展示图片状态是否异常
+                visible: showImg.status === Image.Error || curSourceIsNullImage
+            }
+
+            BusyIndicator {
+                running: true
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                width:48
+                height:48
+                visible: showImg.status === Image.Loading && !curSourceIsNullImage
+            }
+
+            Connections {
+                target: root
+                onSigTitlePress: {
+                    infomationDig.hide()
+                    msArea.forceActiveFocus()
+                }
+            }
+
+            PinchArea {
+                enabled: isMousePinchArea
+                anchors.fill: showAnimatedImg.visible ? showAnimatedImg : showImg.visible ?  showImg : showSvgImg
+
+                onPinchStarted : {
+                    pinch.accepted = true
+                }
+
+                onPinchUpdated: {
+                    if (pinch.scale < 5 && pinch.scale > 0.2) {
+                        currentScale = pinch.scale;
+                    }
+                }
+
+                onPinchFinished: {
+                    if (pinch.scale < 5 && pinch.scale > 0.2) {
+                        currentScale = pinch.scale;
+                    }
+                }
+
+                MultiPointTouchArea {
+                    anchors.fill: parent
+                    minimumTouchPoints: 1
+                    maximumTouchPoints: 3
+                }
+            }
+
+            MouseArea {
+                id: msArea
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                drag.target: showAnimatedImg.visible ? showAnimatedImg : showImg.visible ?  showImg : showSvgImg
+                enabled : isMousePinchArea
+                function setImgPostions(x, y) {
+                    currentimgX = msArea.drag.maximumX - x * (msArea.drag.maximumX - msArea.drag.minimumX)
+                    currentimgY = msArea.drag.maximumY - y * (msArea.drag.maximumY - msArea.drag.minimumY)
+                    if (showAnimatedImg.visible) {
+                        showAnimatedImg.x = currentimgX
+                        showAnimatedImg.y = currentimgY
+                    } else if(showImg.visible) {
+                        showImg.x = currentimgX
+                        showImg.y = currentimgY
+                    } else if(showSvgImg.visible) {
+                        showSvgImg.x = currentimgX
+                        showSvgImg.y = currentimgY
+                    }
+                }
+
+                Connections {
+                    target: idNavWidget
+                    onChangeShowImgPostions : {
+                        msArea.setImgPostions(x, y)
+                    }
+                }
+
+                property int realWidth : 0
+                property int realHeight : 0
+                function changeRectXY() {
+                    // 此缩放比率只在当前显示图片使用，对于多页图，CodeImage已缓存对应的帧号
+                    readWidthHeightRatio = CodeImage.getrealWidthHeightRatio(flickableL.curImageSource)
+                    realWidth = 0;
+                    realHeight = 0;
+                    if (currentScale <= 1.0) {
+                        drag.minimumX = 0
+                        drag.minimumY = 0
+                        drag.maximumX = 0
+                        drag.maximumY = 0
+                        showAnimatedImg.x = 0;
+                        showAnimatedImg.y = 0;
+                        showImg.x = 0;
+                        showImg.y = 0;
+                        showSvgImg.x = 0;
+                        showSvgImg.y = 0;
+                    } else {
+                        if (root.width > root.height * readWidthHeightRatio){
+                            realWidth = root.height * readWidthHeightRatio
+                        }else{
+                            realWidth = root.width
+                        }
+                        if(root.height > root.width / readWidthHeightRatio){
+                            realHeight = root.width / readWidthHeightRatio
+                        }else{
+                            realHeight = root.height
+                        }
+
+                        drag.minimumX = - realWidth * (currentScale-1)/2
+                        drag.maximumX =  realWidth * (currentScale-1)/2
+                        drag.minimumY = - realHeight * (currentScale-1)/2
+                        drag.maximumY =  realHeight * (currentScale-1)/2
+                        if (realHeight * currentScale >root.height) {
+                            drag.maximumY = ( realHeight * currentScale - root.height )/2
+                            drag.minimumY = - drag.maximumY
+                        } else {
+                            drag.maximumY = 0
+                            drag.minimumY = 0
+                        }
+
+                        if (realWidth * currentScale > root.width) {
+                            drag.maximumX = ( realWidth * currentScale - root.width )/2
+                            drag.minimumX = - drag.maximumX
+                        } else {
+                            drag.maximumX = 0
+                            drag.minimumX = 0
+                        }
+
+                        // 计算显示的 显示窗口 / 图片像素 的比值
+                        viewImageWidthRatio = root.width / (realWidth * currentScale)
+                        viewImageHeightRatio = root.height / (realHeight * currentScale)
+                    }
+
+                    if (showAnimatedImg.x >= drag.maximumX) {
+                        showAnimatedImg.x = drag.maximumX
+                    }
+                    if (showAnimatedImg.x <= drag.minimumX) {
+                        showAnimatedImg.x = drag.minimumX
+                    }
+                    if (showAnimatedImg.y >= drag.maximumY) {
+                        showAnimatedImg.y = drag.maximumY
+                    }
+                    if (showAnimatedImg.y <= drag.minimumY) {
+                        showAnimatedImg.y = drag.minimumY
+                    }
+
+                    if (showImg.x >= drag.maximumX) {
+                        showImg.x = drag.maximumX
+                    }
+                    if (showImg.x <= drag.minimumX) {
+                        showImg.x = drag.minimumX
+                    }
+                    if (showImg.y >= drag.maximumY) {
+                        showImg.y = drag.maximumY
+                    }
+                    if (showImg.y <= drag.minimumY) {
+                        showImg.y = drag.minimumY
+                    }
+
+                    if (showSvgImg.x >= drag.maximumX) {
+                        showSvgImg.x = drag.maximumX
+                    }
+                    if (showSvgImg.x <= drag.minimumX) {
+                        showSvgImg.x = drag.minimumX
+                    }
+                    if (showSvgImg.y >= drag.maximumY) {
+                        showSvgImg.y = drag.maximumY
+                    }
+                    if (showSvgImg.y <= drag.minimumY) {
+                        showSvgImg.y = drag.minimumY
+                    }
+                }
+
+                Connections {
+                    target: imageViewer
+                    onSigSourceChange : {
+                        //图元位置归位
+                        showImg.x = 0
+                        showImg.y = 0
+                        showAnimatedImg.x = 0
+                        showAnimatedImg.y = 0
+                        showSvgImg.x = 0
+                        showSvgImg.y = 0
+                    }
+                }
+
+                onPressed: {
+                    infomationDig.hide()
+                    if (mouse.button === Qt.RightButton) {
+                        option_menu.popup()
+                    }
+                }
+
+                onMouseXChanged: {
+                    changeRectXY()
+                    if (showAnimatedImg.visible)
+                    {
+                        currentimgX = showAnimatedImg.x
+                    } else
+                    {
+                        currentimgX = showImg.x
+                    }
+                    //以整个图片中心为平面原点，currentimgX，currentimgY为当前视口右下角相对于整个图片的坐标，以此计算导航窗口蒙皮和位置
+                    //计算相对位置
+                    m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
+                    m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
+
+                    idNavWidget.setRectLocation(m_NavX, m_NavY)
+                }
+
+                onMouseYChanged: {
+                    changeRectXY()
+                    if (showAnimatedImg.visible)
+                    {
+                        currentimgY = showAnimatedImg.y
+                    } else
+                    {
+                        currentimgY = showImg.y
+                    }
+                    m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
+                    m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
+
+                    idNavWidget.setRectLocation(m_NavX, m_NavY)
+                }
+
+                onDoubleClicked: {
+                    if (!thumbnailListView.contains(msArea.mapToItem(thumbnailListView, mouse.x, mouse.y))) {
+                        infomationDig.hide()
+                        showFulltimer.start()
+                    }
+                }
+
+                onWheel: {
+                    var datla = wheel.angleDelta.y / 120
+                    // 通过Keys缓存的状态可能不准确，在焦点移出时release事件没有正确捕获，
+                    // 修改为通过当前事件传入的按键按下信息判断
+                    if (Qt.ControlModifier & wheel.modifiers)
+                        datla > 0 ? thumbnailListView.previous() : thumbnailListView.next()
+                    else {
+                        if (datla > 0)
+                            currentScale = currentScale / 0.9
+                        else
+                            currentScale = currentScale * 0.9
+
+                        if (currentScale * 100 < 100)
+                        {
+                            idNavWidget.visible = false
+                        } else if (isNavShow)
+                        {
+                            if(root.height<=global.minHideHeight || root.width<=global.minWidth){
+                                idNavWidget.visible=false
+                            }else{
+                                idNavWidget.visible=true
+                            }
+                        }
+                        changeRectXY()
+
+                        sigWheelChange()
+
+                        /*
+                        缩放计算规则：val对应的是showImg.width和showImg.height
+                        缩小：(即showImg.scale < 1)
+                            min:初始值+val*(1-showImg.scale) / 2
+                            max:初始值-val*(1-showImg.scale) / 2
+                        放大：(即showImg.scale > 1)
+                            min:初始值-val*(showImg.scale-1) / 2
+                            max:初始值+val*(showImg.scale-1) / 2
+                        */
+                    }
+                }
+            }
+        }
+    }
+
+    // 多页图滑动视图组件，用于进行*.tif等多页图的滑动展示，嵌入最外层滑动视图展示
+    Component {
+        id: mulitImageSwipeViewComp
+        SwipeView {
+            id: multiImageSwipeView
+            height: view.width
+            width: view.height
+            clip: true
+
+            // 设置当前加载多页图滑动视图在完整图片滑动视图的索引(非当前全局索引，可能需要预加载)
+            property int imageIndex
+
+            Repeater {
+                model: fileControl.getImageCount(imageViewer.sourcePaths[imageIndex])
+                Loader {
+                    active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+                    sourceComponent: imageShowComp
+
+                    onLoaded: {
+                        // 使用 loader加载，手动设置图片视图的源图片路径
+                        item.curImageSource = imageViewer.sourcePaths[imageIndex]
+                        item.swipeItemIndex = index
+                    }
+                }
+            }
+
+            // 存在绑定依赖，使用信号连接
+            Connections {
+                target: imageViewer
+                onFrameIndexChanged: {
+                    if (multiImageSwipeView.imageIndex == view.currentIndex) {
+                        multiImageSwipeView.currentIndex = imageViewer.frameIndex
+                    }
+                }
+            }
+
+            onCurrentIndexChanged: {
+                // 判断当前展示的是否为此多页图
+                if (multiImageSwipeView.imageIndex == view.currentIndex) {
+                    // 更新当前的多页图帧号(注意循环引用问题)
+                    imageViewer.frameIndex = multiImageSwipeView.currentIndex
+                }
+            }
+
+            // 初始打开和点击缩略图切换都不会再有滑动效果
+            Component.onCompleted: {
+                contentItem.highlightMoveDuration = 0       // 将移动时间设为0
+            }
+        }
+    }
+
+    // 图片滑动视图
     SwipeView {
         id: view
         currentIndex: sourcePaths.indexOf(source)
@@ -322,409 +819,46 @@ Rectangle {
         height: parent.height
         clip: true
 
-        //初始打开和点击缩略图切换都不会再有滑动效果
-        Component.onCompleted:{
-            contentItem.highlightMoveDuration = 0       //将移动时间设为0
+        // 初始打开和点击缩略图切换都不会再有滑动效果
+        Component.onCompleted: {
+            contentItem.highlightMoveDuration = 0       // 将移动时间设为0
         }
 
         Repeater {
             model: sourcePaths.length
-
             Loader {
                 active: SwipeView.isCurrentItem || SwipeView.isNextItem
                         || SwipeView.isPreviousItem
-                sourceComponent: Rectangle {
+                // 非当前 ImageViewer 使用的标识，而是当前滑动视图 item 对应图片的信息
+                property var curItemIsMultiImage: fileControl.isMultiImage(imageViewer.sourcePaths[index])
 
-                    id: flickableL
-                    width: parent.width
-                    height: parent.height
+                // 根据列表索引判断是否为多页图
+                sourceComponent: curItemIsMultiImage ? mulitImageSwipeViewComp : imageShowComp
 
-                    clip: true
-                    color: backcontrol.ColorSelector.backgroundColor
-
-                    // 图片保存完成，预览区域重新加载当前图片
-                    Connections {
-                        target: fileControl
-                        onCallSavePicDone: {
-                            if (currentIndex == index) {
-                                showImg.source = ""
-                                showImg.source = imageViewer.source
-                            }
+                onLoaded: {
+                    if (curItemIsMultiImage) {
+                        item.imageIndex = index
+                        // 若为前后的组件且此图片组件为多页图，修改索引
+                        if (SwipeView.isPreviousItem) {
+                            item.currentIndex = item.count - 1
                         }
-                    }
-
-                    //normal image
-                    Image {
-                        id: showImg
-
-                        fillMode: Image.PreserveAspectFit
-                        width: parent.width
-                        height: parent.height
-                        source:  fileControl.isNormalStaticImage(sourcePaths[index]) ? "image://viewImage/"+sourcePaths[index] : ""
-                        visible: fileControl.isNormalStaticImage(sourcePaths[index]) && !CodeImage.imageIsNull(sourcePaths[index])
-                        asynchronous: true
-
-                        cache: false
-                        clip: true
-                        scale: index == view.currentIndex ? currentScale:root.visibility == Window.FullScreen ? 1.0 : 1.0 * (root.height - titleRect.height * 2) / root.height
-                        mipmap: true
-                        smooth: true
-
-                        onStatusChanged: {
-                            msArea.changeRectXY()
-
-                            if (Image.Ready === showImg.status) {
-                                onImageReady()
-                            }
+                        if (SwipeView.isNextItem) {
+                            item.currentIndex = 0
                         }
-                    }
-
-                    //svg image
-                    Image {
-                        id: showSvgImg
-
-                        fillMode: Image.PreserveAspectFit
-                        width: parent.width
-                        height: parent.height
-                        source:  fileControl.isSvgImage(sourcePaths[index]) ? sourcePaths[index] : ""
-                        visible: fileControl.isSvgImage(sourcePaths[index]) && !CodeImage.imageIsNull(sourcePaths[index])
-                        asynchronous: true
-                        sourceSize: Qt.size(width,height)
-                        cache: false
-                        clip: true
-                        scale: index == view.currentIndex ? currentScale:root.visibility == Window.FullScreen ? 1.0 : 1.0 * (root.height - titleRect.height * 2) / root.height
-                        smooth: true
-                        mipmap: true
-
-                        onStatusChanged: {
-                            msArea.changeRectXY()
-
-                            if (Image.Ready === showSvgImg.status) {
-                                onImageReady()
-                            }
-                        }
-                    }
-
-                    //dynamic image
-                    AnimatedImage {
-                        id: showAnimatedImg
-
-                        fillMode: Image.PreserveAspectFit
-                        width: parent.width
-                        height: parent.height
-                        source:  fileControl.isDynamicImage(sourcePaths[index]) ? sourcePaths[index] : ""
-                        visible: fileControl.isDynamicImage(sourcePaths[index]) && !CodeImage.imageIsNull(sourcePaths[index])
-                        asynchronous: true
-                        cache: false
-                        clip: true
-                        scale: index == view.currentIndex ? currentScale:root.visibility == Window.FullScreen ? 1.0 : 1.0 * (root.height - titleRect.height * 2) / root.height
-                        smooth: true
-
-                        onStatusChanged: {
-                            msArea.changeRectXY()
-
-                            if (Image.Ready === showAnimatedImg.status) {
-                                onImageReady()
-                            }
-                        }
-                    }
-
-                    ActionButton {
-                        id: damageIcon
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        icon {
-                            name: "photo_breach"
-                            width: 151
-                            height: 151
-                        }
-
-                        // 判断展示图片状态是否异常
-                        visible: showImg.status === Image.Error || CodeImage.imageIsNull(sourcePaths[index])
-                    }
-
-                    BusyIndicator {
-                        running: true
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        width:48
-                        height:48
-                        visible: showImg.status === Image.Loading && !CodeImage.imageIsNull(sourcePaths[index])
-                    }
-
-
-                    Connections {
-                        target: root
-                        onSigTitlePress: {
-                            infomationDig.hide()
-                            msArea.forceActiveFocus()
-                        }
-                    }
-
-                    PinchArea {
-                        enabled: isMousePinchArea
-                        anchors.fill: showAnimatedImg.visible ? showAnimatedImg : showImg.visible ?  showImg : showSvgImg
-
-                        onPinchStarted : {
-                            pinch.accepted = true
-                        }
-
-                        onPinchUpdated: {
-                            if (pinch.scale < 5 && pinch.scale > 0.2)
-                            {
-                                currentScale = pinch.scale;
-                            }
-                        }
-
-                        onPinchFinished: {
-                            if (pinch.scale < 5 && pinch.scale > 0.2)
-                            {
-                                currentScale = pinch.scale;
-                            }
-                        }
-                        MultiPointTouchArea{
-                            anchors.fill: parent
-                            minimumTouchPoints: 1
-                            maximumTouchPoints: 3
-                        }
-                    }
-                    MouseArea {
-                        id: msArea
-                        anchors.fill: parent
-                        acceptedButtons: Qt.LeftButton | Qt.RightButton
-                        drag.target: showAnimatedImg.visible ? showAnimatedImg : showImg.visible ?  showImg : showSvgImg
-                        enabled : isMousePinchArea
-                        function setImgPostions(x, y)
-                        {
-                            currentimgX = msArea.drag.maximumX - x * (msArea.drag.maximumX - msArea.drag.minimumX)
-                            currentimgY = msArea.drag.maximumY - y * (msArea.drag.maximumY - msArea.drag.minimumY)
-                            if (showAnimatedImg.visible) {
-                                showAnimatedImg.x = currentimgX
-                                showAnimatedImg.y = currentimgY
-                            } else if(showImg.visible) {
-                                showImg.x = currentimgX
-                                showImg.y = currentimgY
-                            }else if(showSvgImg.visible){
-                                showSvgImg.x = currentimgX
-                                showSvgImg.y = currentimgY
-                            }
-                        }
-
-                        Connections {
-                            target: idNavWidget
-                            onChangeShowImgPostions : {
-                                msArea.setImgPostions(x, y)
-                            }
-                        }
-
-
-                        property int realWidth : 0
-                        property int realHeight : 0
-                        function changeRectXY()
-                        {
-                            readWidthHeightRatio = CodeImage.getrealWidthHeightRatio(imageViewer.source)
-                            realWidth = 0;
-                            realHeight = 0;
-                            if (currentScale <= 1.0) {
-                                drag.minimumX = 0
-                                drag.minimumY = 0
-                                drag.maximumX = 0
-                                drag.maximumY = 0
-                                showAnimatedImg.x = 0;
-                                showAnimatedImg.y = 0;
-                                showImg.x = 0;
-                                showImg.y = 0;
-                                showSvgImg.x = 0;
-                                showSvgImg.y = 0;
-                            } else {
-                                if (root.width > root.height * readWidthHeightRatio){
-                                    realWidth = root.height * readWidthHeightRatio
-                                }else{
-                                    realWidth = root.width
-                                }
-                                if(root.height > root.width / readWidthHeightRatio){
-                                    realHeight = root.width / readWidthHeightRatio
-                                }else{
-                                    realHeight = root.height
-                                }
-
-                                drag.minimumX = - realWidth * (currentScale-1)/2
-                                drag.maximumX =  realWidth * (currentScale-1)/2
-                                drag.minimumY = - realHeight * (currentScale-1)/2
-                                drag.maximumY =  realHeight * (currentScale-1)/2
-                                if (realHeight * currentScale >root.height) {
-                                    drag.maximumY = ( realHeight * currentScale - root.height )/2
-                                    drag.minimumY = - drag.maximumY
-                                } else {
-                                    drag.maximumY = 0
-                                    drag.minimumY = 0
-                                }
-
-                                if (realWidth * currentScale > root.width) {
-                                    drag.maximumX = ( realWidth * currentScale - root.width )/2
-                                    drag.minimumX = - drag.maximumX
-                                } else {
-                                    drag.maximumX = 0
-                                    drag.minimumX = 0
-                                }
-
-                                // 计算显示的 显示窗口 / 图片像素 的比值
-                                viewImageWidthRatio = root.width / (realWidth * currentScale)
-                                viewImageHeightRatio = root.height / (realHeight * currentScale)
-                            }
-
-                            if (showAnimatedImg.x >= drag.maximumX) {
-                                showAnimatedImg.x = drag.maximumX
-                            }
-                            if (showAnimatedImg.x <= drag.minimumX) {
-                                showAnimatedImg.x = drag.minimumX
-                            }
-                            if (showAnimatedImg.y >= drag.maximumY) {
-                                showAnimatedImg.y = drag.maximumY
-                            }
-                            if (showAnimatedImg.y <= drag.minimumY) {
-                                showAnimatedImg.y = drag.minimumY
-                            }
-
-
-                            if (showImg.x >= drag.maximumX) {
-                                showImg.x = drag.maximumX
-                            }
-                            if (showImg.x <= drag.minimumX) {
-                                showImg.x = drag.minimumX
-                            }
-                            if (showImg.y >= drag.maximumY) {
-                                showImg.y = drag.maximumY
-                            }
-                            if (showImg.y <= drag.minimumY) {
-                                showImg.y = drag.minimumY
-                            }
-
-                            if (showSvgImg.x >= drag.maximumX) {
-                                showSvgImg.x = drag.maximumX
-                            }
-                            if (showSvgImg.x <= drag.minimumX) {
-                                showSvgImg.x = drag.minimumX
-                            }
-                            if (showSvgImg.y >= drag.maximumY) {
-                                showSvgImg.y = drag.maximumY
-                            }
-                            if (showSvgImg.y <= drag.minimumY) {
-                                showSvgImg.y = drag.minimumY
-                            }
-                            console.info("553",showImg.x,showImg.y)
-
-                        }
-                        Connections {
-                            target: imageViewer
-                            onSigSourceChange : {
-                                //图元位置归位
-                                showImg.x = 0
-                                showImg.y = 0
-                                showAnimatedImg.x = 0
-                                showAnimatedImg.y = 0
-                                showSvgImg.x = 0
-                                showSvgImg.y = 0
-                            }
-                        }
-
-                        onPressed: {
-                            infomationDig.hide()
-                            //                            changeRectXY()
-                            console.info("608",showImg.width, showImg.height)
-                            if (mouse.button === Qt.RightButton)
-                            {
-                                option_menu.popup()
-                            }
-                        }
-
-                        onMouseXChanged: {
-                            changeRectXY()
-                            if (showAnimatedImg.visible)
-                            {
-                                currentimgX = showAnimatedImg.x
-                            } else
-                            {
-                                currentimgX = showImg.x
-                            }
-                            //以整个图片中心为平面原点，currentimgX，currentimgY为当前视口右下角相对于整个图片的坐标，以此计算导航窗口蒙皮和位置
-                            //计算相对位置
-                            m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
-                            m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
-
-                            idNavWidget.setRectLocation(m_NavX, m_NavY)
-                        }
-
-                        onMouseYChanged: {
-                            changeRectXY()
-                            if (showAnimatedImg.visible)
-                            {
-                                currentimgY = showAnimatedImg.y
-                            } else
-                            {
-                                currentimgY = showImg.y
-                            }
-                            m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
-                            m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
-
-                            idNavWidget.setRectLocation(m_NavX, m_NavY)
-                        }
-
-                        onDoubleClicked: {
-                            if (!thumbnailListView.contains(msArea.mapToItem(thumbnailListView, mouse.x, mouse.y))) {
-                                infomationDig.hide()
-                                showFulltimer.start()
-                            }
-                        }
-
-                        onWheel: {
-                            var datla = wheel.angleDelta.y / 120
-                            // 通过Keys缓存的状态可能不准确，在焦点移出时release事件没有正确捕获，
-                            // 修改为通过当前事件传入的按键按下信息判断
-                            if (Qt.ControlModifier & wheel.modifiers)
-                                datla > 0 ? thumbnailListView.previous() : thumbnailListView.next()
-                            else {
-                                if (datla > 0)
-                                    currentScale = currentScale / 0.9
-                                else
-                                    currentScale = currentScale * 0.9
-
-                                if (currentScale * 100 < 100)
-                                {
-                                    idNavWidget.visible = false
-                                } else if (isNavShow)
-                                {
-                                    if(root.height<=global.minHideHeight || root.width<=global.minWidth){
-                                        idNavWidget.visible=false
-                                    }else{
-                                        idNavWidget.visible=true
-                                    }
-                                }
-                                changeRectXY()
-
-                                sigWheelChange()
-
-                                /*
-                                缩放计算规则：val对应的是showImg.width和showImg.height
-                                缩小：(即showImg.scale < 1)
-                                    min:初始值+val*(1-showImg.scale) / 2
-                                    max:初始值-val*(1-showImg.scale) / 2
-                                放大：(即showImg.scale > 1)
-                                    min:初始值-val*(showImg.scale-1) / 2
-                                    max:初始值+val*(showImg.scale-1) / 2
-                                */
-                            }
-                        }
+                    } else {
+                        // 非多页图，使用 loader 加载，设置 imageShowComp 组件的源图片路径
+                        item.swipeItemIndex = index
+                        item.curImageSource = imageViewer.sourcePaths[index]
                     }
                 }
             }
         }
 
-        onCurrentItemChanged: {
-            currentRotate = 0
+        onCurrentIndexChanged: {
+            // 当通过界面拖拽导致索引变更，需要调整多页图索引范围
+            imageViewer.index = view.currentIndex
+            imageViewer.currentRotate = 0
         }
-
-
     }
 
     //rename窗口

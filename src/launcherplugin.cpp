@@ -44,11 +44,14 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
 {
     // 请在此处注册需要导入到QML中的C++类型
     // 例如： engine->rootContext()->setContextProperty("Utils", new Utils);
-    //后端缩略图加载
+    // 后端缩略图加载
     LoadImage *load = new LoadImage();
     engine->rootContext()->setContextProperty("CodeImage", load);
     engine->addImageProvider(QLatin1String("ThumbnailImage"), load->m_pThumbnail);
     engine->addImageProvider(QLatin1String("viewImage"), load->m_viewLoad);
+    // 后端多页图加载
+    engine->addImageProvider(QLatin1String("multiimage"), load->m_multiLoad);
+
     FileControl *fileControl = new FileControl();
     engine->rootContext()->setContextProperty("fileControl", fileControl);
     // 光标位置查询工具

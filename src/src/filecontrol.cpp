@@ -527,6 +527,17 @@ void FileControl::setCurrentImage(const QString &path)
     m_currentAllInfo = LibUnionImage_NameSpace::getAllMetaData(localPath);
 }
 
+/**
+ * @brief 设置当前图片的帧号 \a index , 用于多页图切换不同图片。
+ * @param index 图片帧号
+ */
+void FileControl::setCurrentFrameIndex(int index)
+{
+    if (m_currentReader) {
+        m_currentReader->jumpToImage(index);
+    }
+}
+
 int FileControl::getCurrentImageWidth()
 {
 //    return m_currentImage.width();
@@ -769,4 +780,38 @@ bool FileControl::isSvgImage(const QString &path)
         bRet = true;
     }
     return bRet;
+}
+
+
+/**
+ * @return 根据传入的文件路径 \a path 读取判断文件是否为多页图，
+ *      会在排除 *.gif 等动态图后判断, 例如 .tif 等文件格式。
+ */
+bool FileControl::isMultiImage(const QString &path)
+{
+    bool bRet = false;
+    QString localPath = QUrl(path).toLocalFile();
+
+    imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
+
+    //! \test 调试使用 动态图同样处理
+    if (imageViewerSpace::ImageTypeMulti == type /*|| imageViewerSpace::ImageTypeDynamic == type*/) {
+        bRet = true;
+    }
+//    qWarning() << "isMultiImage" << path << type << bRet << getImageCount(path);
+
+    return bRet;
+}
+
+/**
+ * @return 返回当前图片 \a path 的总页数，对动态图片或*.tif 等多页图有效。
+ */
+int FileControl::getImageCount(const QString &path)
+{
+    QString localPath = QUrl(path).toLocalFile();
+    if (!localPath.isEmpty()) {
+        QImageReader imgreader(localPath);
+        return imgreader.imageCount();
+    }
+    return 0;
 }

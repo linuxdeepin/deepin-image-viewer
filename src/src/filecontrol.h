@@ -17,7 +17,7 @@ class FileControl : public QObject
     Q_OBJECT
 public:
     explicit FileControl(QObject *parent = nullptr);
-    ~  FileControl();
+    ~FileControl();
 
     //获得路径下的dir路径
     Q_INVOKABLE QString getDirPath(const QString &path);
@@ -99,12 +99,13 @@ public:
     //设置当前图片
     Q_INVOKABLE void setCurrentImage(const QString &path);
 
-    //设置当前图片的宽度
+    // 设置当前图片的帧号(用于多页图切换不同图片)
+    Q_INVOKABLE void setCurrentFrameIndex(int index);
 
+    //设置当前图片的宽度
     Q_INVOKABLE int getCurrentImageWidth();
 
     //设置当前图片的高度
-
     Q_INVOKABLE int getCurrentImageHeight();
 
     //获取当前的图片的适应图片的缩放比
@@ -151,11 +152,14 @@ public:
 
     //判断是否是svg图片
     Q_INVOKABLE bool isSvgImage(const QString &path);
+    //是否是多页图
+    Q_INVOKABLE bool isMultiImage(const QString &path);
+
+    // 取得当前图片的页数
+    Q_INVOKABLE int getImageCount(const QString &path);
 
 signals:
     void callSavePicDone();
-
-public slots:
 
 private :
 
