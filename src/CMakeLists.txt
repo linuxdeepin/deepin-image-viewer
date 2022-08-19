@@ -96,37 +96,35 @@ option (NOUSE_TEST " NO Use TESTS" ON)
 add_definitions( -DNOUSE_TEST )
 
 #install
-set(PREFIX  /usr)
-set(BINDIR  ${PREFIX}/bin)
-set(APPSHAREDIR  ${PREFIX}/share/deepin-image-viewer)
-set(MANDIR  ${PREFIX}/share/dman/deepin-image-viewer)
-set(MANICONDIR  ${PREFIX}/share/icons/hicolor/scalable/apps)
-set(APPICONDIR  ${PREFIX}/share/icons/hicolor/scalable/apps)
+include(GNUInstallDirs)
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+   set(CMAKE_INSTALL_PREFIX /usr)
+endif ()
 
-install(TARGETS ${TARGET_NAME} DESTINATION ${BINDIR})
+install(TARGETS ${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
 #desktop
 install(FILES ${PROJECT_SOURCE_DIR}/deepin-image-viewer.desktop
-    DESTINATION /usr/share/applications)
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 #icons
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/assets/images/
-    DESTINATION /usr/share/deepin-image-viewer/icons
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-image-viewer/icons
     FILES_MATCHING PATTERN "*")
 #manual
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/assets/deepin-image-viewer
-    DESTINATION /usr/share/deepin-manual/manual-assets/application/
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-manual/manual-assets/application/
     FILES_MATCHING PATTERN "*")
 #manual_icon
 install(FILES ${PROJECT_SOURCE_DIR}/assets/doc/common/deepin-image-viewer.svg
-    DESTINATION /usr/share/icons/hicolor/scalable/apps)
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps)
 #app_icon
 install(FILES ${PROJECT_SOURCE_DIR}/assets/images/logo/deepin-image-viewer.svg
-    DESTINATION /usr/share/icons/hicolor/scalable/apps)
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps)
 #dbus_service
 install(FILES ${PROJECT_SOURCE_DIR}/com.deepin.ImageViewer.service
-    DESTINATION /usr/share/dbus-1/services)
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/dbus-1/services)
 #translations
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
-    DESTINATION ${APPSHAREDIR}
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-image-viewer
     FILES_MATCHING PATTERN "*.qm")
 
 
