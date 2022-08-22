@@ -133,7 +133,8 @@ Rectangle {
     onSourceChanged: {
         // 多页图索引不在此处进行复位，鼠标点击，按钮切换等不同方式切换显示不同的多页图帧号
 
-        // 保存之前文件的旋转操作
+        // 保存之前文件的旋转操作，复位旋转角度
+        imageViewer.currentRotate = 0
         fileControl.slotRotatePixCurrent()
 
         // 设置图片状态
@@ -164,6 +165,9 @@ Rectangle {
     // 部分图片存在加载图片过程，重设图片大小调整到图片加载完成后处理 Image.Ready --> onImageReady()
     function onImageReady()
     {
+        // 复位图片旋转角度
+        imageViewer.currentRotate = 0
+
         // 取得图片的真实大小，部分格式不支持直接获取图片数据，若数据异常，需要从加载缓存中读取
         currentSourceWidth = fileControl.getCurrentImageWidth()
         currentSourceHeight = fileControl.getCurrentImageHeight()
@@ -418,6 +422,8 @@ Rectangle {
                 scale: imageScale
                 mipmap: true
                 smooth: true
+                // 仅限普通图片进行旋转
+                rotation: currentRotate
 
                 onStatusChanged: {
                     msArea.changeRectXY()
@@ -513,19 +519,49 @@ Rectangle {
                 enabled: isMousePinchArea
                 anchors.fill: showAnimatedImg.visible ? showAnimatedImg : showImg.visible ?  showImg : showSvgImg
 
-                onPinchStarted : {
+                // 记录旧的缩放大小，防止拖拽时未保留当前
+                property double oldScale: 0
+                property double oldRotate: 0
+                property bool isRotatable: false
+
+                onPinchStarted: {
+                    // 缩放和旋转都至少需要2指操作
+                    if (pinch.pointCount !== 2) {
+                        pinch.accepted = false
+                        return
+                    }
+
+                    oldScale = imageViewer.currentScale
+                    oldRotate = imageViewer.currentRotate
+                    // 不绑定信号，无需每次计算，仅当处理时获取
+                    isRotatable = fileControl.isRotatable(imageViewer.source)
                     pinch.accepted = true
                 }
 
                 onPinchUpdated: {
-                    if (pinch.scale < 5 && pinch.scale > 0.2) {
-                        currentScale = pinch.scale;
+                    // 不设置边界，通过 onCurrentScaleChanged 处理限制缩放范围在 2% ~ 2000%
+                    currentScale = pinch.scale * oldScale
+                    if (isRotatable) {
+                        imageViewer.currentRotate = pinch.rotation + oldRotate
                     }
                 }
 
                 onPinchFinished: {
-                    if (pinch.scale < 5 && pinch.scale > 0.2) {
-                        currentScale = pinch.scale;
+                    currentScale = pinch.scale * oldScale
+
+                    // 判断当前图片是否允许旋转
+                    if (isRotatable) {
+                        // 计算旋转角度，限制在旋转梯度为90度，以45度为分界点
+                        if (Math.abs(pinch.rotation) > 45) {
+                            // 区分正反旋转方向
+                            var isClockWise = pinch.rotation > 0
+                            // 计算绝对角度值
+                            var rotateAngle = Math.floor((Math.abs(pinch.rotation) + 45) / 90) * 90;
+                            fileControl.rotateFile(imageViewer.source, isClockWise ? rotateAngle : -rotateAngle)
+                            fileControl.slotRotatePixCurrent()
+                        } else {
+                            imageViewer.currentRotate = oldRotate
+                        }
                     }
                 }
 
