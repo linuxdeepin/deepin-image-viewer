@@ -275,6 +275,14 @@ Item {
                     bottomthumbnaillistView.positionViewAtIndex(bottomthumbnaillistView.currentIndex, ListView.Center)
                 }
             }
+            
+            // 接收当前视图旋转角度变更信号
+            onCurrentRotateChanged: {
+                if (bottomthumbnaillistView.currentItem) {
+                    // 设置当前展示的图片的旋转方向
+                    bottomthumbnaillistView.currentItem.rotation = imageViewer.currentRotate
+                }
+            }
         }
 
         orientation: Qt.Horizontal

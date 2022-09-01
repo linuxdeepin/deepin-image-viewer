@@ -33,7 +33,7 @@ public:
     //获得当前图片的宽和高
     int getImageWidth(const QString &path);
     int getImageHeight(const QString &path);
-    double getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight);
+    double getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight, bool bReverse = false);
 
     QMutex                  m_mutex;
     QImage                  m_Img;          // 当前图片
@@ -100,6 +100,11 @@ public:
 
     // 设置当前的多页图索引，-1表示当前非多页图
     Q_INVOKABLE void setMultiFrameIndex(int index = Invalid);
+    // 设置是否互换宽度高度值(旋转图片时使用)
+    Q_INVOKABLE void setReverseHeightWidth(bool b);
+
+    //加载路径
+    QString m_path;
 
 public slots:
     //加载多张
@@ -115,6 +120,7 @@ signals:
 
 private:
     int     m_FrameIndex = Invalid;
+    bool    m_bReverseHeightWidth = false;  // 设置当前是否互换宽度高度值(旋转图片时使用)
 };
 
 #endif // THUMBNAILLOAD_H

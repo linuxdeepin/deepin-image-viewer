@@ -182,13 +182,13 @@ UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path);
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path);
 
 /**
- * @brief getOrientation
- * @param path
- * @author LMH
- * @return QString
+ * @brief getOrientation 取得文件自带的方向信息
+ * @param path 文件路径
+ * @author LMH      
+ * @return int 图片方向类型枚举
  * 获得图片的数据
  */
-UNIONIMAGESHARED_EXPORT const QString getOrientation(const QString &path);
+UNIONIMAGESHARED_EXPORT int getOrientation(const QString &path);
 
 /**
  * @brief getImageType

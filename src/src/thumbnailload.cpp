@@ -61,7 +61,7 @@ double LoadImage::getFitWindowScale(const QString &path, double WindowWidth, dou
         return m_multiLoad->getFitWindowScale(path, WindowWidth, WindowHeight, m_FrameIndex);
     }
 
-    return m_viewLoad->getFitWindowScale(path, WindowWidth, WindowHeight);
+    return m_viewLoad->getFitWindowScale(path, WindowWidth, WindowHeight, m_bReverseHeightWidth);
 }
 
 bool LoadImage::imageIsNull(const QString &path)
@@ -75,7 +75,8 @@ int LoadImage::getImageWidth(const QString &path)
         return m_multiLoad->getImageWidth(path, m_FrameIndex);
     }
 
-    return m_viewLoad->getImageWidth(path);
+    return m_bReverseHeightWidth ? m_viewLoad->getImageHeight(path)
+           : m_viewLoad->getImageWidth(path);
 }
 
 int LoadImage::getImageHeight(const QString &path)
@@ -84,7 +85,8 @@ int LoadImage::getImageHeight(const QString &path)
         return m_multiLoad->getImageHeight(path, m_FrameIndex);
     }
 
-    return m_viewLoad->getImageHeight(path);
+    return m_bReverseHeightWidth ? m_viewLoad->getImageWidth(path)
+           : m_viewLoad->getImageHeight(path);
 }
 
 double LoadImage::getrealWidthHeightRatio(const QString &path)
@@ -97,12 +99,23 @@ double LoadImage::getrealWidthHeightRatio(const QString &path)
 
     double width = double(m_viewLoad->getImageWidth(path));
     double height = double(m_viewLoad->getImageHeight(path));
-    return  width / height;
+
+    return m_bReverseHeightWidth ? height / width
+           : width / height;
 }
 
 void LoadImage::setMultiFrameIndex(int index)
 {
     m_FrameIndex = index;
+
+}
+
+/**
+ * @brief 设置当前是否反转图片宽高设置
+ */
+void LoadImage::setReverseHeightWidth(bool b)
+{
+    m_bReverseHeightWidth = b;
 }
 
 void LoadImage::loadThumbnail(const QString path)
@@ -194,6 +207,7 @@ QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &reque
     if (m_Img.size() != requestedSize && requestedSize.width() > 0 && requestedSize.height() > 0) {
         Img = m_Img.scaled(requestedSize);
     }
+
     return Img;
 }
 
@@ -230,7 +244,7 @@ int ViewLoad::getImageHeight(const QString &path)
     return m_imgSizes[tempPath].height();
 }
 
-double ViewLoad::getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight)
+double ViewLoad::getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight, bool bReverse)
 {
     double scale = 0.0;
     double width = getImageWidth(path);
@@ -269,8 +283,6 @@ MultiImageLoad::MultiImageLoad()
  */
 QImage MultiImageLoad::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    qWarning() << this << "xxxxxxxxxxxxxx" << id;
-
     Q_UNUSED(size)
     // 拆分id，获取当前读取的文件和图片索引
     static const QString s_tagFrame = "#frame_";
