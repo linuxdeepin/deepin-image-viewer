@@ -791,14 +791,10 @@ bool FileControl::isMultiImage(const QString &path)
 {
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
-
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
-
-    //! \test 调试使用 动态图同样处理
-    if (imageViewerSpace::ImageTypeMulti == type /*|| imageViewerSpace::ImageTypeDynamic == type*/) {
+    if (imageViewerSpace::ImageTypeMulti == type) {
         bRet = true;
     }
-//    qWarning() << "isMultiImage" << path << type << bRet << getImageCount(path);
 
     return bRet;
 }
