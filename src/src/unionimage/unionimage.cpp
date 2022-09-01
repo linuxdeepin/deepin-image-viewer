@@ -40,6 +40,7 @@
 
 #include "unionimage/imageutils.h"
 
+#include <cstring>
 
 #define SAVE_QUAITY_VALUE 100
 
@@ -969,6 +970,48 @@ UNIONIMAGESHARED_EXPORT bool rotateImage(int angel, QImage &image)
     return false;
 }
 
+/**
+ * @brief 根据翻转、旋转类型 \a orientation 对传入的图片 \a image 进行翻转旋转操作。
+ * @param image         传入图片
+ * @param orientation   翻转、旋转类型
+ * @return 翻转、旋转后的图片
+ */
+QImage adjustImageToRealPosition(const QImage &image, int orientation)
+{
+    QImage result = image;
+
+    switch (orientation) {
+    case 1: //不做操作
+    default:
+        break;
+    case 2: //水平翻转
+        result = result.mirrored(true, false);
+        break;
+    case 3: //180度翻转
+        rotateImage(180, result);
+        break;
+    case 4: //垂直翻转
+        result = result.mirrored(false, true);
+        break;
+    case 5: //顺时针90度+水平翻转
+        rotateImage(90, result);
+        result = result.mirrored(true, false);
+        break;
+    case 6: //顺时针90度
+        rotateImage(90, result);
+        break;
+    case 7: //顺时针90度+垂直翻转
+        rotateImage(90, result);
+        result = result.mirrored(false, true);
+        break;
+    case 8: //逆时针90度
+        rotateImage(-90, result);
+        break;
+    };
+
+    return result;
+}
+
 UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QString &erroMsg)
 {
     if (angel % 90 != 0) {
@@ -1007,9 +1050,13 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         rotatePainter.end();
         return true;
     } else if (union_image_private.m_qtrotate.contains(format)) {
-        QPixmap image_copy(path);
+        //由于Qt内部不会去读图片的EXIF信息来判断当前的图像矩阵的真实位置，同时回写数据的时候会丢失全部的EXIF数据
+        //因此在这里需要额外基于FreeImage来读取相关的数据，确保图片能旋转到合理的位置
+        int orientation = getOrientation(path);
+        QImage image_copy(path);
+        image_copy = adjustImageToRealPosition(image_copy, orientation);
         if (!image_copy.isNull()) {
-            QTransform rotatematrix;
+            QMatrix rotatematrix;
             rotatematrix.rotate(angel);
             image_copy = image_copy.transformed(rotatematrix, Qt::SmoothTransformation);
             if (image_copy.save(path, format.toLatin1().data(), SAVE_QUAITY_VALUE))
@@ -1208,15 +1255,33 @@ UNIONIMAGESHARED_EXPORT bool isSupportsWriting(const QString &path)
 }
 #endif
 
-UNIONIMAGESHARED_EXPORT const QString getOrientation(const QString &path)
+UNIONIMAGESHARED_EXPORT int getOrientation(const QString &path)
 {
+    int result = 1; //1代表不做操作，维持原样
+
     FIBITMAP *dib = readFile2FIBITMAP(path, FIF_LOAD_NOPIXELS);
-    auto datas = getMetaData(FIMD_EXIF_MAIN, dib);
-    if (datas.isEmpty()) {
-        return QString();
+
+    //有时候会存在tag为野指针的情况，根据FreeImage的demo，需要加这个进行预判断
+    if (FreeImage_GetMetadataCount(FIMD_EXIF_MAIN, dib) == 0) {
+        FreeImage_Unload(dib);
+        return result;
     }
+
+    FITAG *tag = nullptr;
+    FIMETADATA *mdhandle = nullptr;
+    mdhandle = FreeImage_FindFirstMetadata(FIMD_EXIF_MAIN, dib, &tag);
+    if (mdhandle) {
+        do {
+            if (std::strcmp(FreeImage_GetTagKey(tag), "Orientation") == 0) {
+                result = *static_cast<const WORD *>(FreeImage_GetTagValue(tag));
+                break;
+            }
+        } while (FreeImage_FindNextMetadata(mdhandle, &tag));
+        FreeImage_FindCloseMetadata(mdhandle);
+    }
+
     FreeImage_Unload(dib);
-    return datas["Orientation"];
+    return result;
 }
 
 #if 0

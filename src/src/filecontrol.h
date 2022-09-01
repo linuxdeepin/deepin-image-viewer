@@ -75,6 +75,18 @@ public:
     //旋转
     Q_INVOKABLE void slotRotatePixCurrent();
 
+    //缓存当前处理的图像的角度
+    Q_INVOKABLE void cacheCurrentImageAngle();
+
+    //获取缓存的图像的角度
+    Q_INVOKABLE int takeCachedImageAngle(const QString &path);
+
+    //判断宽高是否互换
+    Q_INVOKABLE bool isReverseHeightWidth();
+
+    //获取当前图片旋转角度
+    Q_INVOKABLE int currentAngle();
+
     //获取文件名
     Q_INVOKABLE QString slotGetFileName(const QString &path);
 
@@ -109,7 +121,6 @@ public:
     Q_INVOKABLE int getCurrentImageHeight();
 
     //获取当前的图片的适应图片的缩放比
-
     Q_INVOKABLE double getFitWindowScale(double WindowWidth = 800, double WindowHeight = 600);
 
     //判断重命名是否显示toolTip
@@ -165,10 +176,12 @@ private :
 
     OcrInterface *m_ocrInterface{nullptr};
 
-    QString m_currentPath;
+    QString m_currentPath;                  // 当前操作的旋转图片路径
+    QHash<QString, int> m_cacheImageAngle;  // 缓存的图片高度
 
     //旋转角度
     int m_rotateAngel = 0;
+    int m_rotateAngelOnShow = 0;            // 显示过程所有的度数统计
 
     QTimer *m_tSaveImage = nullptr;// 保存旋转图片定时器，在指定时间内只旋转一次
     QTimer *m_tSaveSetting = nullptr;// 保存配置信息定时器，在指定时间内只保存一次

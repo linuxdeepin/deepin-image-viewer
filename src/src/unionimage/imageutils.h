@@ -51,7 +51,7 @@ const QMap<QString, QString>        getAllMetaData(const QString &path);
 const QDateTime                     getCreateDateTime(const QString &path);
 const QFileInfoList                 getImagesInfo(const QString &dir,
                                                   bool recursive = true);
-const QString                       getOrientation(const QString &path);
+int                                 getOrientation(const QString &path);
 const QImage                        getRotatedImage(const QString &path);
 
 

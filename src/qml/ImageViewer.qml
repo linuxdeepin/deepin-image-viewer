@@ -48,6 +48,7 @@ Rectangle {
     property bool isMousePinchArea: true
 
     property double readWidthHeightRatio: CodeImage.getrealWidthHeightRatio(imageViewer.source)
+
     //导航蒙皮位置
     property double  m_NavX : 0.0
     property double  m_NavY : 0.0
@@ -113,10 +114,9 @@ Rectangle {
         }
 
         // 设置隐藏导航窗口时，不处理展示
-        if (isNavShow)
-        {
+        if (isNavShow) {
             // 缩放比例变更时（图像适应窗口、全屏展示...），根据缩放比例判断是否需要显示导航窗口
-             idNavWidget.visible = currentScale > 1
+            idNavWidget.visible = currentScale > 1
             // 设置缩放后更新导航窗口
             idNavWidget.setRectPec(currentScale, viewImageWidthRatio, viewImageHeightRatio)
         }
@@ -136,13 +136,18 @@ Rectangle {
     onSourceChanged: {
         // 多页图索引不在此处进行复位，鼠标点击，按钮切换等不同方式切换显示不同的多页图帧号
 
-        // 保存之前文件的旋转操作，复位旋转角度
-        imageViewer.currentRotate = 0
+        // 保存之前文件的旋转操作(保存前未更新图片需要缓存角度信息)
+        fileControl.cacheCurrentImageAngle()
         fileControl.slotRotatePixCurrent()
+        CodeImage.setReverseHeightWidth(false)
 
         // 设置图片状态
         fileControl.setCurrentImage(source)
         CodeImage.setMultiFrameIndex(fileControl.isMultiImage(source) ? 0 : -1)
+        // 复位图片旋转状态
+        imageViewer.currentRotate = 0
+        // 图片重新加载完成，旋转角度恢复，获取当前图片缓存的角度信息(若无返回 0 )
+        fileControl.takeCachedImageAngle(source)
 
         // 默认隐藏导航区域
         idNavWidget.visible = false
@@ -159,7 +164,7 @@ Rectangle {
         // 显示缩放比例提示框
         showFloatLabel()
 
-        sigSourceChange();
+        sigSourceChange()
 
         // 重设工具/菜单栏的隐藏/弹出
         mainView.animationAll()
@@ -227,7 +232,26 @@ Rectangle {
 
     function rotateImage(x)
     {
+        // 判断是否为首次进行图片旋转
+        var needResetBar = (currentRotate == 0)
+
+        // 更新当前图片的旋转角度
         fileControl.rotateFile(source, x)
+        currentRotate = fileControl.currentAngle()
+        CodeImage.setReverseHeightWidth(fileControl.isReverseHeightWidth())
+
+        // 判断图片大小是否超过了允许显示的展示区域
+        if (fileControl.getFitWindowScale(root.width, root.height - titleRect.height * 2) > 1) {
+            fitWindow()
+        }
+        else {
+            fitImage()
+        }
+
+        if (needResetBar) {
+            // 重设工具/菜单栏的隐藏/弹出
+            mainView.animationAll()
+        }
     }
 
     function deleteItem(item, list)
@@ -903,6 +927,8 @@ Rectangle {
             // 当通过界面拖拽导致索引变更，需要调整多页图索引范围
             imageViewer.index = view.currentIndex
             imageViewer.currentRotate = 0
+
+            CodeImage.setReverseHeightWidth(false)
         }
     }
 

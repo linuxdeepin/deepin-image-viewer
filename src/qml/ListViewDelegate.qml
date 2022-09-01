@@ -41,6 +41,9 @@ Item {
             if (index === currentIndex) {
                 img.source = ""
                 img.source = imageViewer.source
+
+                // 重新加载，复位旋转状态
+                container.rotation = 0
             }
         }
     }
