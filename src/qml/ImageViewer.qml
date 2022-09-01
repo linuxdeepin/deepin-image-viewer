@@ -60,6 +60,9 @@ Rectangle {
     property real viewImageWidthRatio : 0
     property real viewImageHeightRatio : 0
 
+    // 标识当前是否处于全屏缩放状态，缩放前后部分控件需重置，例如缩略图栏重新居中设置
+    property bool isFullNormalSwitchState: showFulltimer.running || showfullAnimation.running
+
     signal sigWheelChange
     signal sigImageShowFullScreen
     signal sigImageShowNormal
@@ -804,6 +807,9 @@ Rectangle {
             height: view.width
             width: view.height
             clip: true
+            // 当处理双击缩放界面时，由于坐标变更，可能误触导致图片滑动
+            // 调整为在缩放动作时不处理滑动操作
+            interactive: !imageViewer.isFullNormalSwitchState
 
             // 设置当前加载多页图滑动视图在完整图片滑动视图的索引(非当前全局索引，可能需要预加载)
             property int imageIndex
@@ -854,6 +860,9 @@ Rectangle {
         width: parent.width
         height: parent.height
         clip: true
+        // 当处理双击缩放界面时，由于坐标变更，可能误触导致图片滑动
+        // 调整为在缩放动作时不处理滑动操作
+        interactive: !imageViewer.isFullNormalSwitchState
 
         // 初始打开和点击缩略图切换都不会再有滑动效果
         Component.onCompleted: {
