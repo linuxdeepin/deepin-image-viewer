@@ -622,7 +622,7 @@ Rectangle {
 
                 Connections {
                     target: idNavWidget
-                    onChangeShowImgPostions : {
+                    onChangeShowImgPostions: {
                         msArea.setImgPostions(x, y)
                     }
                 }
@@ -788,6 +788,10 @@ Rectangle {
                     if (Qt.ControlModifier & wheel.modifiers)
                         datla > 0 ? thumbnailListView.previous() : thumbnailListView.next()
                     else {
+                        // 缓存当前的坐标信息
+                        var targetItem = drag.target
+                        var mapPoint = mapToItem(drag.target, wheel.x, wheel.y)
+
                         if (datla > 0)
                             currentScale = currentScale / 0.9
                         else
@@ -804,6 +808,20 @@ Rectangle {
                                 idNavWidget.visible=true
                             }
                         }
+
+                        // 缩放后，调整图片坐标
+                        var restorePoint = mapFromItem(targetItem, mapPoint.x, mapPoint.y)
+                        targetItem.x -= restorePoint.x - wheel.x;
+                        targetItem.y -= restorePoint.y - wheel.y;
+
+                        // 调整导航窗口蒙版位置
+                        currentimgX = targetItem.x
+                        currentimgY = targetItem.y
+                        m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
+                        m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
+                        idNavWidget.setRectLocation(m_NavX, m_NavY)
+
+                        // 坐标变更边界调整计算，图片小于窗口时坐标居中
                         changeRectXY()
 
                         sigWheelChange()
