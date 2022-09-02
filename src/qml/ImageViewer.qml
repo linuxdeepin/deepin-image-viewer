@@ -855,16 +855,17 @@ Rectangle {
 
             // 设置当前加载多页图滑动视图在完整图片滑动视图的索引(非当前全局索引，可能需要预加载)
             property int imageIndex
+            property var multiImageSource: imageViewer.sourcePaths[imageIndex]
 
             Repeater {
-                model: fileControl.getImageCount(imageViewer.sourcePaths[imageIndex])
+                model: fileControl.getImageCount(multiImageSource)
                 Loader {
                     active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
                     sourceComponent: imageShowComp
 
                     onLoaded: {
                         // 使用 loader加载，手动设置图片视图的源图片路径
-                        item.curImageSource = imageViewer.sourcePaths[imageIndex]
+                        item.curImageSource = multiImageSource
                         item.swipeItemIndex = index
                     }
                 }
@@ -876,6 +877,21 @@ Rectangle {
                 onFrameIndexChanged: {
                     if (multiImageSwipeView.imageIndex == view.currentIndex) {
                         multiImageSwipeView.currentIndex = imageViewer.frameIndex
+                    }
+                }
+            }
+
+            Connections {
+                target: view
+                onCurrentIndexChanged: {
+                    // 需要根据当前顶层滑动窗口的索引进行计算
+                    // 处于当前显示图片前一位的多页图，调整帧号为尾帧
+                    if (multiImageSwipeView.imageIndex == view.currentIndex - 1) {
+                        multiImageSwipeView.currentIndex = multiImageSwipeView.count - 1
+                    }
+                    // 处于当前显示图片后一位的多页图，调整帧号为首帧
+                    if (multiImageSwipeView.imageIndex == view.currentIndex + 1) {
+                        multiImageSwipeView.currentIndex = 0
                     }
                 }
             }
