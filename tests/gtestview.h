@@ -1,7 +1,9 @@
+// SPDX-FileCopyrightText: 2020-2022 UnionTech Software Technology Co., Ltd.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #ifndef GTESTVIEW_H
 #define GTESTVIEW_H
-
-#
 
 #include <QtTest/QtTest>
 #include <gtest/gtest.h>
