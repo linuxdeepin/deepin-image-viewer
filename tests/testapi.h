@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020-2022 UnionTech Software Technology Co., Ltd.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #ifndef TESTAPI_H
 #define TESTAPI_H
 
