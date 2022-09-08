@@ -68,4 +68,4 @@ $ sudo make install
 
 ## 协议
 
-Deepin Image Viewer 遵循协议 [GPLv3](LICENSE).
+Deepin Image Viewer 遵循协议 [GPL-3.0-or-later](LICENSE.txt).

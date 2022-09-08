@@ -68,4 +68,4 @@ We encourage you to report issues and contribute changes
 
 ## License
 
-Deepin Image Viewer is licensed under [GPLv3](LICENSE).
+Deepin Image Viewer is licensed under [GPL-3.0-or-later](LICENSE.txt).
