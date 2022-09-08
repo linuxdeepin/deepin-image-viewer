@@ -15,22 +15,22 @@ License: CC0-1.0
 
 # xml toml json conf yaml sh
 Files:  *.toml *.json *conf *.yaml *.sh
-Copyright: None
+Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
 # debian
 Files: debian/*
-Copyright: None
+Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
 # rpm
 Files: rpm/*
-Copyright: None
+Copyright: NoUnionTech Software Technology Co., Ltd.ne
 License: CC0-1.0
 
 # Project file
 Files: *.pro *.prf *.pri *.qrc *CMakeLists.txt .tx/* .clang-format
-Copyright: None
+Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
 # README
@@ -40,13 +40,13 @@ License: CC-BY-4.0
 
 # assets
 Files: assets/*
-Copyright: None
-License: LGPL-3.0-or-later
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-3.0-or-later
 
 # translations
 Files: translations/*
 Copyright: UnionTech Software Technology Co., Ltd.
-License: LGPL-3.0-or-later
+License: GPL-3.0-or-later
 
 # src
 Files: src/*
