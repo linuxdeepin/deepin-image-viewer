@@ -112,37 +112,53 @@ Item {
         // 显示图像的像素高度
         var viewImageHeight = root.width * (fileControl.getCurrentImageHeight() / fileControl.getCurrentImageWidth())
 
-        if(root.visibility == Window.FullScreen ){
+        if (root.visibility == Window.FullScreen){
+            // 全屏时特殊处理
             if(mouseY > height-100){
                 showBottomAnimation.start()
             }else{
+                // 隐藏动画前结束弹出动画
+                showBottomAnimation.stop()
+                showTopTitleAnimation.stop()
+
                 hideBottomAnimation.start()
                 hideTopTitleAnimation.start()
             }
-        }else if(currentWidgetIndex != 0 &&
+        } else {
+            // 判断是否弹出标题栏和缩略图栏
+            var needShowTopBottom = false;
+            if(currentWidgetIndex != 0 &&
                  ((root.height <= global.minHideHeight || root.width <= global.minWidth)
                   && (mouseY <= height-100)
                   && (mouseY >= titleRect.height) )){
-            hideBottomAnimation.start()
-            hideTopTitleAnimation.start()
-        }else if (imageViewer.currentScale <= (1.0 * (root.height - titleRect.height * 2) / root.height)) {
-            // 缩放率小于(允许显示高度/窗口高度)的不会超过工具/标题栏
-            showBottomAnimation.start()
-            showTopTitleAnimation.start()
-        }else if ((imageViewer.currentScale <= 1.0)
-                  &&  viewImageHeight <= (root.height - titleRect.height * 2)) {
-            // 缩放范围未超过显示范围时，不会隐藏工具/标题栏
-            showBottomAnimation.start()
-            showTopTitleAnimation.start()
-        }else if(cursorInWidnow
-                 && ((mouseY > height - 100 && mouseY <= height)
-                     || (0 < mouseY && mouseY < titleRect.height))) {
-            // 当缩放范围超过工具/标题栏且光标在工具/标题栏范围，显示工具/标题栏
-            showBottomAnimation.start()
-            showTopTitleAnimation.start()
-        }else{
-            hideBottomAnimation.start()
-            hideTopTitleAnimation.start()
+                needShowTopBottom = false
+            }else if (imageViewer.currentScale <= (1.0 * (root.height - titleRect.height * 2) / root.height)) {
+                // 缩放率小于(允许显示高度/窗口高度)的不会超过工具/标题栏
+                needShowTopBottom = true
+            }else if ((imageViewer.currentScale <= 1.0)
+                      &&  viewImageHeight <= (root.height - titleRect.height * 2)) {
+                // 缩放范围未超过显示范围时，不会隐藏工具/标题栏
+                needShowTopBottom = true
+            }else if(cursorInWidnow
+                     && ((mouseY > height - 100 && mouseY <= height)
+                         || (0 < mouseY && mouseY < titleRect.height))) {
+                // 当缩放范围超过工具/标题栏且光标在工具/标题栏范围，显示工具/标题栏
+                needShowTopBottom = true
+            }else{
+                needShowTopBottom = false
+            }
+
+            if (needShowTopBottom) {
+                showBottomAnimation.start()
+                showTopTitleAnimation.start()
+            } else {
+                // 隐藏动画前结束弹出动画
+                showBottomAnimation.stop()
+                showTopTitleAnimation.stop()
+
+                hideBottomAnimation.start()
+                hideTopTitleAnimation.start()
+            }
         }
 
         if(mouseX>=root.width-100 && mouseX<=root.width && isEnterCurrentView && cursorInWidnow){
@@ -152,6 +168,10 @@ Item {
             showLeftButtonAnimation.start()
             showRightButtonAnimation.start()
         }else {
+            // 隐藏动画前结束弹出动画
+            showLeftButtonAnimation.stop()
+            showRightButtonAnimation.stop()
+
             hideLeftButtonAnimation.start()
             hideRightButtonAnimation.start()
         }
