@@ -38,7 +38,7 @@ class CursorTool : public QObject
     Q_OBJECT
 public:
     enum Interval {
-        ESampleInterval = 50,   // 采样间隔 20ms
+        ESampleInterval = 50,   // 采样间隔 50ms
     };
 
     explicit CursorTool(QObject *parent = nullptr);
