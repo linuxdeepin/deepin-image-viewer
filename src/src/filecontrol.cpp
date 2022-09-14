@@ -83,6 +83,9 @@ FileControl::FileControl(QObject *parent) : QObject(parent)
     }
 
     m_config = LibConfigSetter::instance();
+    m_pFileWathcer = new QFileSystemWatcher(this);
+    connect(m_pFileWathcer, &QFileSystemWatcher::fileChanged, this, &FileControl::onImageFileChanged);
+    connect(m_pFileWathcer, &QFileSystemWatcher::directoryChanged, this, &FileControl::onImageDirChanged);
 
     // 实时保存旋转后图片太卡，因此采用10ms后延时保存的问题
     if (!m_tSaveImage) {
@@ -870,6 +873,15 @@ bool FileControl::isMultiImage(const QString &path)
 }
 
 /**
+ * @brief 根据传入的文件路径 \a path 读取判断文件是否存在
+ */
+bool FileControl::imageIsExist(const QString &path)
+{
+    QString localPath = QUrl(path).toLocalFile();
+    return QFile::exists(localPath);
+}
+
+/**
  * @return 返回当前图片 \a path 的总页数，对动态图片或*.tif 等多页图有效。
  */
 int FileControl::getImageCount(const QString &path)
@@ -880,4 +892,84 @@ int FileControl::getImageCount(const QString &path)
         return imgreader.imageCount();
     }
     return 0;
+}
+
+/**
+ * @brief 根据传入的文件路径列表 \a filePaths 重设缓存的文件信息，记录每个文件的最后修改时间，
+ *      若在图片打开过程中文件被修改，将发送信号至界面或其它处理。
+ */
+void FileControl::resetImageFiles(const QStringList &filePaths)
+{
+    // 清空缓存的文件路径信息
+    m_cacheFileInfo.clear();
+    m_removedFile.clear();
+    m_pFileWathcer->removePaths(m_pFileWathcer->files());
+    m_pFileWathcer->removePaths(m_pFileWathcer->directories());
+
+    for (const QString &filePath : filePaths) {
+        QString tempPath = QUrl(filePath).toLocalFile();
+        QFileInfo info(tempPath);
+        // 若文件存在
+        if (info.exists()) {
+            // 记录文件的最后修改时间
+            m_cacheFileInfo.insert(tempPath, filePath);
+            // 将文件追加到记录中
+            m_pFileWathcer->addPath(tempPath);
+        }
+    }
+
+    QStringList fileList = m_pFileWathcer->files();
+    if (!fileList.isEmpty()) {
+        // 观察文件夹变更
+        QFileInfo info(fileList.first());
+        m_pFileWathcer->addPath(info.absolutePath());
+    }
+}
+
+/**
+ * @brief 当文件 \a file 被移动、替换、删除时触发
+ * @note QFileSystemWatcher 会在文件被移动、删除后取消观察，恢复文件时需要通过
+ *      onImageDirChanged() 复位观察状态。
+ */
+void FileControl::onImageFileChanged(const QString &file)
+{
+    // 文件移动、删除或替换后触发
+    if (m_cacheFileInfo.contains(file)) {
+        QString url = m_cacheFileInfo.value(file);
+        bool isExist = QFile::exists(file);
+        // 判断是否为多页图
+        bool isMulti = isExist ? isMultiImage(url) : false;
+        // 文件移动或删除，缓存记录
+        if (!isExist) {
+            m_removedFile.insert(file, url);
+        }
+
+        // 发送文件变更信号
+        emit imageFileChanged(url, isMulti, isExist);
+    }
+}
+
+/**
+ * @brief 当图片文件夹 \a dir 变更时触发，主要用于恢复已被删除图片的状态。
+ */
+void FileControl::onImageDirChanged(const QString &dir)
+{
+    // 文件夹变更，判断是否存在新增已移除的文件
+    QDir imageDir(dir);
+    QStringList dirFiles = imageDir.entryList();
+
+    for (auto itr = m_removedFile.begin(); itr != m_removedFile.end();) {
+        QFileInfo info(itr.key());
+        if (dirFiles.contains(info.fileName())) {
+            // 重新追加到文件观察中
+            m_pFileWathcer->addPath(itr.key());
+            // 文件恢复或替换，发布文件变更信息
+            onImageFileChanged(itr.key());
+
+            // 从缓存信息中移除
+            itr = m_removedFile.erase(itr);
+        } else {
+            ++itr;
+        }
+    }
 }

@@ -7,6 +7,7 @@
 #include <QImage>
 #include <QImageReader>
 #include <QMap>
+#include <QFileSystemWatcher>
 
 #include "configsetter.h"
 
@@ -165,45 +166,59 @@ public:
     Q_INVOKABLE bool isSvgImage(const QString &path);
     //是否是多页图
     Q_INVOKABLE bool isMultiImage(const QString &path);
+    //判断图片文件是否存在
+    Q_INVOKABLE bool imageIsExist(const QString &path);
 
     // 取得当前图片的页数
     Q_INVOKABLE int getImageCount(const QString &path);
 
+    // 重设当前展示图片列表
+    Q_INVOKABLE void resetImageFiles(const QStringList &filePaths);
+
 signals:
     void callSavePicDone();
 
-private :
+    // 文件变更信号（被移动、替换、删除等）
+    void imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
 
+private:
+    // 当处理的图片文件被移动、替换、删除时触发
+    void onImageFileChanged(const QString &file);
+    // 当处理的图片文件夹变更(新增图片等)
+    void onImageDirChanged(const QString &dir);
+
+private :
     OcrInterface *m_ocrInterface{nullptr};
 
-    QString m_currentPath;                  // 当前操作的旋转图片路径
-    QHash<QString, int> m_cacheImageAngle;  // 缓存的图片高度
+    QString m_currentPath;                      // 当前操作的旋转图片路径
+    QHash<QString, int> m_cacheImageAngle;      // 缓存的图片高度
 
     //旋转角度
     int m_rotateAngel = 0;
-    int m_rotateAngelOnShow = 0;            // 显示过程所有的度数统计
+    int m_rotateAngelOnShow = 0;                // 显示过程所有的度数统计
 
-    QTimer *m_tSaveImage = nullptr;// 保存旋转图片定时器，在指定时间内只旋转一次
-    QTimer *m_tSaveSetting = nullptr;// 保存配置信息定时器，在指定时间内只保存一次
+    QTimer *m_tSaveImage = nullptr;             // 保存旋转图片定时器，在指定时间内只旋转一次
+    QTimer *m_tSaveSetting = nullptr;           // 保存配置信息定时器，在指定时间内只保存一次
 
-    QImage m_currentImage ;//当前图片
+    QImage m_currentImage ;                     // 当前图片
     QImageReader *m_currentReader = nullptr;
 
     QMap <QString, QString> m_currentAllInfo;
 
-    int TITLEBAR_HEIGHT = 50;//标题栏高度
+    int TITLEBAR_HEIGHT = 50;                   // 标题栏高度
 
     LibConfigSetter *m_config;
 
     int m_windowWidth = 0;
-
     int m_windowHeight = 0;
-
     int m_lastSaveWidth = 0;
-
     int m_lastSaveHeight = 0;
 
     QStringList listsupportWallPaper;
+
+    QHash<QString, QString>     m_cacheFileInfo;    // 缓存的图片信息，用于判断图片信息是否变更 QHash<完整路径, url信息>
+    QHash<QString, QString>     m_removedFile;      // 缓存被移除的文件信息(FileWatcher在文件删除/移动后将不会继续观察)
+    QFileSystemWatcher          *m_pFileWathcer;    // 文件观察类，用于提示文件变更
 };
 
 #endif // FILECONTROL_H

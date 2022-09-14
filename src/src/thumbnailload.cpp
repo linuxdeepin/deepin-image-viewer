@@ -16,7 +16,8 @@ QImage ThumbnailLoad::requestImage(const QString &id, QSize *size, const QSize &
     QMutexLocker _locker(&m_mutex);
     if (!m_imgMap.keys().contains(tempPath)) {
         LibUnionImage_NameSpace::loadStaticImageFromFile(tempPath, Img, error);
-        QImage reImg = Img.scaled(100, 100);
+        // 保存图片比例缩放
+        QImage reImg = Img.scaled(100, 100, Qt::KeepAspectRatio);
         m_imgMap[tempPath] = reImg;
         return reImg;
     } else {
@@ -45,6 +46,16 @@ bool ThumbnailLoad::imageIsNull(const QString &path)
     }
 
     return false;
+}
+
+/**
+ * @brief 移除缓存的 \a path 文件图像缩略图信息
+ */
+void ThumbnailLoad::removeImageCache(const QString &path)
+{
+    QString tempPath = QUrl(path).toLocalFile();
+    QMutexLocker _locker(&m_mutex);
+    m_imgMap.remove(tempPath);
 }
 
 LoadImage::LoadImage(QObject *parent) :
@@ -171,6 +182,29 @@ void LoadImage::catThumbnail(const QStringList &list)
     }
 }
 
+/**
+ * @brief 接收图片变更信号，当前图片文件被移动、替换、删除时触发，清除图片相关的缓存信息
+ * @param path          图片文件路径
+ * @param isMultiImage  是否为多页图，多页图存在特殊处理
+ *
+ * @note 不清除缩略图信息，用于提示文件变更时获取。
+ */
+void LoadImage::onImageFileChanged(const QString &path, bool isMultiImage, bool isExist)
+{
+    // 移除图片信息
+    m_viewLoad->removeImageCache(path);
+    if (isMultiImage) {
+        m_multiLoad->removeImageCache(path);
+    }
+
+    // 判断变更后文件是否存在，若存在，重新加载缩略图(防止文件被替换)
+    if (isExist) {
+        m_pThumbnail->removeImageCache(path);
+        QSize size, requestSize;
+        m_pThumbnail->requestImage(path, &size, requestSize);
+    }
+}
+
 void LoadImage::loadThumbnails(const QStringList list)
 {
     QImage Img;
@@ -261,6 +295,17 @@ double ViewLoad::getFitWindowScale(const QString &path, double WindowWidth, doub
     return scale;
 }
 
+/**
+ * @brief 移除缓存的 \a path 文件图像大小信息
+ */
+void ViewLoad::removeImageCache(const QString &path)
+{
+    QString tempPath = QUrl(path).toLocalFile();
+
+    QMutexLocker _locker(&m_mutex);
+    m_imgSizes.remove(tempPath);
+}
+
 
 MultiImageLoad::MultiImageLoad()
     : QQuickImageProvider(QQuickImageProvider::Image)
@@ -307,7 +352,8 @@ QImage MultiImageLoad::requestImage(const QString &id, QSize *size, const QSize 
 
     // 数据变更前加锁
     QMutexLocker _locker(&m_mutex);
-    if (tempPath != m_imageReader.fileName()) {
+    if (tempPath != m_imageReader.fileName()
+            || !m_imageReader.canRead()) {
         // 重新设置图像读取类
         m_imageReader.setFileName(tempPath);
     }
@@ -405,6 +451,28 @@ double MultiImageLoad::getFitWindowScale(const QString &path, double WindowWidth
     }
 
     return scale;
+}
+
+/**
+ * @brief 移除缓存的 \a path 文件图像大小信息
+ * @note 需要考虑存在 *.tif 文件同名替换的问题，此情况下需要完全重新加载文件。
+ *      此方式是否存在优化空间
+ */
+void MultiImageLoad::removeImageCache(const QString &path)
+{
+    QString tempPath = QUrl(path).toLocalFile();
+    QMutexLocker _locker(&m_mutex);
+    // 移除关联的图像
+    QList<QPair<QString, int> > keys = m_imageCache.keys();
+    for (auto itr = keys.begin(); itr != keys.end(); ++itr) {
+        if (itr->first == tempPath) {
+            m_imageCache.remove(*itr);
+        }
+    }
+    // 移除图像读取类
+    if (m_imageReader.fileName() == tempPath) {
+        m_imageReader.setDevice(nullptr);
+    }
 }
 
 MultiImageLoad::CacheImage::CacheImage(const QImage &img)

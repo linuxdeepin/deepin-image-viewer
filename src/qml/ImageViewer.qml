@@ -29,6 +29,8 @@ Rectangle {
     property int index: 0
     property alias swipeIndex: view.currentIndex
 
+    // 用于标识当前图片是否存在
+    property bool currentIsExistImage: fileControl.imageIsExist(source)
     // 用于多页图的标识 包括是否为多页图、多页图帧数、当前帧号
     property bool currentIsMultiImage: fileControl.isMultiImage(source)
     property int frameCount: currentIsMultiImage ? fileControl.getImageCount(source) : 1
@@ -89,6 +91,11 @@ Rectangle {
     }
 
     function showFloatLabel() {
+        // 不存在的图片不弹出缩放提示框
+        if (!currentIsExistImage) {
+            return;
+        }
+
         console.info("scale value:", currenImageScale.toFixed(0))
         if(currenImageScale.toFixed(0) > 2000 && currenImageScale.toFixed(0) <= 3000){
             floatLabel.displayStr = "2000%"
@@ -382,6 +389,8 @@ Rectangle {
 
             // 当前 item 使用的图片源，非当前展示图片，可能为预先加载的图片
             property var curImageSource
+            // 用于标识当前图片是否存在(被移动或删除)
+            property bool curSourceIsExist: fileControl.imageIsExist(curImageSource)
             // 用于标识当前图片是否为空
             property bool curSourceIsNullImage: CodeImage.imageIsNull(curImageSource)
             // 用于标识当前图片是否为普通静态图片
@@ -422,6 +431,30 @@ Rectangle {
                         showImg.source = flickableL.curImageSource
                     }
                 }
+
+                // 图片被移动、替换、删除时触发
+                // imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
+                onImageFileChanged: {
+                    // 多页图会变更加载的组件，在swipeView中处理
+                    if (filePath === flickableL.curImageSource) {
+                        flickableL.curImageSource = ""
+                        flickableL.curImageSource = filePath
+
+                        // 为当前展示图片
+                        if (filePath === imageViewer.source) {
+                            // 判断文件是否存在，若文件存在，则通过全局变量重新加载文件
+                            if (isExist) {
+                                imageViewer.source = ""
+                                imageViewer.source = filePath
+                            } else {
+                                // 重设当前导航及窗口状态
+                                imageViewer.frameIndex = 0
+                                idNavWidget.visible = false
+                                fitWindow()
+                            }
+                        }
+                    }
+                }
             }
 
             // normal image
@@ -433,7 +466,7 @@ Rectangle {
                 source: {
                     // 优先判断多页图，多页图使用单独的图像加载，需指定加载的图像帧号
                     if (flickableL.curSourceIsMultiImage) {
-                        return "image://multiimage/" + flickableL.curImageSource + "#frame_" + swipeItemIndex
+                        return "image://multiimage/" + flickableL.curImageSource + "#frame_" + flickableL.swipeItemIndex
                     } else if (flickableL.curSourceIsNormalStaticImage) {
                         return "image://viewImage/" + flickableL.curImageSource
                     }
@@ -441,7 +474,7 @@ Rectangle {
                 }
 
                 // NormalStaticImage 包含普通图片和多页图类型
-                visible: flickableL.curSourceIsNormalStaticImage && !flickableL.curSourceIsNullImage
+                visible: flickableL.curSourceIsNormalStaticImage && flickableL.curSourceIsExist
                 asynchronous: true
 
                 cache: false
@@ -469,7 +502,7 @@ Rectangle {
                 width: parent.width
                 height: parent.height
                 source: flickableL.curSourceIsSvgImage ? flickableL.curImageSource : ""
-                visible: flickableL.curSourceIsSvgImage && !flickableL.curSourceIsNullImage
+                visible: flickableL.curSourceIsSvgImage && flickableL.curSourceIsExist
                 asynchronous: true
                 sourceSize: Qt.size(width,height)
                 cache: false
@@ -495,7 +528,7 @@ Rectangle {
                 width: parent.width
                 height: parent.height
                 source: flickableL.curSourceIsDynamicImage ? flickableL.curImageSource : ""
-                visible: flickableL.curSourceIsDynamicImage && !flickableL.curSourceIsNullImage
+                visible: flickableL.curSourceIsDynamicImage && flickableL.curSourceIsExist
                 asynchronous: true
                 cache: false
                 clip: true
@@ -522,7 +555,46 @@ Rectangle {
                 }
 
                 // 判断展示图片状态是否异常
-                visible: showImg.status === Image.Error || curSourceIsNullImage
+                visible: (showImg.status === Image.Error || flickableL.curSourceIsNullImage) && flickableL.curSourceIsExist
+            }
+
+            // 图片丢失视图，当图片未发现时触发
+            Loader {
+                id: notExistImageLoader
+                anchors.centerIn: flickableL
+                // 图片不存在时加载
+                active: !flickableL.curSourceIsExist
+                sourceComponent: Item {
+                    Image {
+                        id: notExistImage
+                        fillMode: Image.PreserveAspectFit
+                        anchors.centerIn: parent
+                        width: 100
+                        height: 100
+                        clip: true
+                        smooth: true
+                        mipmap: true
+
+                        // 加载缩略图
+                        source: flickableL.curSourceIsNullImage ? "qrc:/res/icon_import_photo.svg" : "image://ThumbnailImage/" + flickableL.curImageSource
+                    }
+
+                    Text {
+                        // 提示图片未找到信息
+                        id: notExistLabel
+                        anchors {
+                            top: notExistImage.bottom
+                            topMargin: 20
+                            horizontalCenter: notExistImage.horizontalCenter
+                        }
+
+                        // 图片未找到
+                        text: qsTr("Image file not found")
+                        textFormat: Text.PlainText
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
             }
 
             BusyIndicator {
@@ -930,16 +1002,23 @@ Rectangle {
         Repeater {
             model: sourcePaths.length
             Loader {
+                id: swipeViewItemLoader
                 active: SwipeView.isCurrentItem || SwipeView.isNextItem
                         || SwipeView.isPreviousItem
+
+                // 当前item使用的图片源
+                property var curItemSource: imageViewer.sourcePaths[index]
+                // 判断图片是否存在
+                property var curItemImageExist: fileControl.imageIsExist(curItemSource)
                 // 非当前 ImageViewer 使用的标识，而是当前滑动视图 item 对应图片的信息
-                property var curItemIsMultiImage: fileControl.isMultiImage(imageViewer.sourcePaths[index])
+                property var curItemIsMultiImage: fileControl.isMultiImage(curItemSource)
 
                 // 根据列表索引判断是否为多页图
-                sourceComponent: curItemIsMultiImage ? mulitImageSwipeViewComp : imageShowComp
+                sourceComponent: (curItemIsMultiImage && curItemImageExist) ? mulitImageSwipeViewComp : imageShowComp
 
                 onLoaded: {
-                    if (curItemIsMultiImage) {
+                    // 为多页图且图片存在时调用
+                    if (curItemIsMultiImage && curItemImageExist) {
                         item.imageIndex = index
                         // 若为前后的组件且此图片组件为多页图，修改索引
                         if (SwipeView.isPreviousItem) {
@@ -952,6 +1031,28 @@ Rectangle {
                         // 非多页图，使用 loader 加载，设置 imageShowComp 组件的源图片路径
                         item.swipeItemIndex = index
                         item.curImageSource = imageViewer.sourcePaths[index]
+                    }
+                }
+
+                // 连接图片变更信号，当图片变更且当前图片为多页图时处理
+                Connections {
+                    target: fileControl
+
+                    // 图片被移动、替换、删除时触发
+                    // void imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
+                    onImageFileChanged: {
+                        // 判断是否和当前加载图片一致，涉及多页图才需要重新加载组件
+                        if (filePath === swipeViewItemLoader.curItemSource
+                                && (swipeViewItemLoader.curItemIsMultiImage || isMultiImage)) {
+                            swipeViewItemLoader.curItemSource = ""
+                            swipeViewItemLoader.curItemSource = filePath
+
+                            // 多页图需要特殊处理，更新源
+                            if (isExist && filePath === imageViewer.source) {
+                                imageViewer.source = ""
+                                imageViewer.source = filePath
+                            }
+                        }
                     }
                 }
             }
