@@ -1431,6 +1431,11 @@ imageViewerSpace::ImageType getImageType(const QString &imagepath)
     //新增获取图片是属于静态图还是动态图还是多页图
     if (!imagepath.isEmpty()) {
         QFileInfo fi(imagepath);
+        if (!fi.exists()) {
+            // 文件不存在返回空
+            return imageViewerSpace::ImageTypeBlank;
+        }
+
         QString strType = fi.suffix().toLower();
         //解决bug57394 【专业版1031】【看图】【5.6.3.74】【修改引入】pic格式图片变为翻页状态，不为动图且首张显示序号为0
         QMimeDatabase db;

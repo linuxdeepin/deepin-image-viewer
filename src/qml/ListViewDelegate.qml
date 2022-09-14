@@ -13,6 +13,8 @@ Item {
     property var currentSource: imageViewer.sourcePaths[index]
     // 判断是否为多页图
     property bool isMultiImage: fileControl.isMultiImage(currentSource)
+    // 判断图片是否存在
+    property bool isImageExist: fileControl.imageIsExist(currentSource)
 
     Rectangle {
         id: enterShader
@@ -44,6 +46,20 @@ Item {
 
                 // 重新加载，复位旋转状态
                 container.rotation = 0
+            }
+        }
+
+        // 图片被移动、替换、删除时触发
+        // imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
+        onImageFileChanged: {
+            if (filePath === container.currentSource) {
+                // 为多页图时根据isImageExist自动切换状态
+                container.currentSource = ""
+                container.currentSource = filePath
+
+                img.source = ""
+                img.source = fileControl.isSvgImage(filePath) ? filePath
+                                                              : "image://ThumbnailImage/" + filePath
             }
         }
     }
@@ -142,9 +158,9 @@ Item {
         }
 
         // 非多页图无需实例化
-        active: isMultiImage
+        active: isMultiImage && isImageExist
         // 仅多页图显示角标(为焦点时不加载)
-        visible: isMultiImage
+        visible: isMultiImage && isImageExist
 
         sourceComponent: Rectangle {
             id: anchorRect
@@ -252,10 +268,10 @@ Item {
                 z: 1
             }
         },
-        // 多页图状态
+        // 多页图状态(图片必须存在)
         State {
             name: "multiPage"
-            when: container.ListView.view.currentIndex === index && isMultiImage
+            when: container.ListView.view.currentIndex === index && isMultiImage && isImageExist
 
             PropertyChanges {
                 target: enterShader

@@ -52,6 +52,7 @@ Item {
             }
         }
     }
+
     FileDialog {
         id: fileDialog
         title: qsTr("Select pictures")
@@ -65,6 +66,8 @@ Item {
             mainView.source = fileDialog.fileUrls[0]
             mainView.currentIndex=mainView.sourcePaths.indexOf(mainView.source)
             if(mainView.sourcePaths.length >0){
+                // 记录当前读取的图片信息
+                fileControl.resetImageFiles(mainView.sourcePaths)
 
                 mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
                 console.log( "test",mainView.source)

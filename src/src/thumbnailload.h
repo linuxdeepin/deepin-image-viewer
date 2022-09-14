@@ -17,6 +17,9 @@ public:
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);  //预留
     bool imageIsNull(const QString &path);
 
+    // 移除缓存的缩略图信息
+    void removeImageCache(const QString &path);
+
     QMutex m_mutex;
     QImage m_Img;                       // 当前图片
     QMap<QString, QImage> m_imgMap;     // 缩略图缓存
@@ -34,6 +37,9 @@ public:
     int getImageWidth(const QString &path);
     int getImageHeight(const QString &path);
     double getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight, bool bReverse = false);
+
+    // 移除缓存的图片大小信息
+    void removeImageCache(const QString &path);
 
     QMutex                  m_mutex;
     QImage                  m_Img;          // 当前图片
@@ -62,9 +68,11 @@ public:
     // 获取当前图片和适应窗口的缩放比值
     double getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight, int frameIndex);
 
+    // 移除缓存的图片大小信息
+    void removeImageCache(const QString &path);
+
 private:
     QMutex              m_mutex;
-    QString             m_lastReadPath;     // 之前读取的图像路径
     QImageReader        m_imageReader;      // 图像读取类
 
     // 缓存图片信息
@@ -113,6 +121,9 @@ public slots:
     void loadThumbnail(const QString path);
     //缩略图裁切接口-预留
     void catThumbnail(const QStringList &list);
+
+    // 图片文件变更时清除缓存信息
+    void onImageFileChanged(const QString &path, bool isMultiImage = false, bool isExist = false);
 
 signals:
     //通知QML刷新

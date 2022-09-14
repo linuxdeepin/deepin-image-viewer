@@ -54,6 +54,9 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
 
     FileControl *fileControl = new FileControl();
     engine->rootContext()->setContextProperty("fileControl", fileControl);
+    // 关联文件处理（需要保证优先处理，onImageFileChanged已做多线程安全）
+    QObject::connect(fileControl, &FileControl::imageFileChanged, load, &LoadImage::onImageFileChanged, Qt::DirectConnection);
+
     // 光标位置查询工具
     CursorTool *cursorTool = new CursorTool();
     engine->rootContext()->setContextProperty("cursorTool", cursorTool);
