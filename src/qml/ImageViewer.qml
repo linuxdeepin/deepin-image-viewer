@@ -639,14 +639,18 @@ Rectangle {
 
                 onPinchUpdated: {
                     // 不设置边界，通过 onCurrentScaleChanged 处理限制缩放范围在 2% ~ 2000%
-                    currentScale = pinch.scale * oldScale
+                    imageViewer.currentScale = pinch.scale * oldScale
+                    msArea.changeRectXY()
+
                     if (isRotatable) {
                         imageViewer.currentRotate = pinch.rotation + oldRotate
                     }
                 }
 
                 onPinchFinished: {
-                    currentScale = pinch.scale * oldScale
+                    // 更新界面缩放大小
+                    imageViewer.currentScale = pinch.scale * oldScale
+                    msArea.changeRectXY()
 
                     // 判断当前图片是否允许旋转
                     if (isRotatable) {
