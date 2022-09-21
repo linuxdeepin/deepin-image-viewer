@@ -93,7 +93,6 @@ FileControl::FileControl(QObject *parent) : QObject(parent)
         connect(m_tSaveImage, &QTimer::timeout, this, [ = ]() {
             //保存旋转的图片
             slotRotatePixCurrent();
-            emit callSavePicDone();
         });
     }
 
@@ -453,6 +452,9 @@ void FileControl::slotRotatePixCurrent()
 
             QString erroMsg;
             LibUnionImage_NameSpace::rotateImageFIle(m_rotateAngel, m_currentPath, erroMsg);
+
+            // 保存文件后发送图片更新更新信号
+            emit callSavePicDone();
         }
     }
     m_rotateAngel = 0;
