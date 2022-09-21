@@ -279,8 +279,15 @@ Item {
             // 接收当前视图旋转角度变更信号
             onCurrentRotateChanged: {
                 if (bottomthumbnaillistView.currentItem) {
-                    // 设置当前展示的图片的旋转方向
-                    bottomthumbnaillistView.currentItem.rotation = imageViewer.currentRotate
+                    // 计算旋转角度，限制在旋转梯度为90度，以45度为分界点
+                    var rotateAngle = imageViewer.currentRotate;
+                    // 区分正反旋转方向
+                    var isClockWise = rotateAngle > 0
+                    // 计算绝对角度值
+                    rotateAngle = Math.floor((Math.abs(rotateAngle) + 45) / 90) * 90;
+
+                    // 设置当前展示的图片的旋转方向，仅在90度方向旋转，不会跟随旋转角度(特指在触摸状态下)
+                    bottomthumbnaillistView.currentItem.rotation = isClockWise ? rotateAngle : -rotateAngle
                 }
             }
         }

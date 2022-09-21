@@ -660,6 +660,8 @@ Rectangle {
                             var isClockWise = pinch.rotation > 0
                             // 计算绝对角度值
                             var rotateAngle = Math.floor((Math.abs(pinch.rotation) + 45) / 90) * 90;
+
+                            // 触摸旋转保存属于低频率操作，可立即保存文件
                             fileControl.rotateFile(imageViewer.source, isClockWise ? rotateAngle : -rotateAngle)
                             fileControl.slotRotatePixCurrent()
                         } else {
