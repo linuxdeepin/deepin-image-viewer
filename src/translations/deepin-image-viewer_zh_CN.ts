@@ -2,6 +2,13 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>ImageViewer</name>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -90,6 +97,22 @@
     <message>
         <source>Lens model</source>
         <translation>镜头型号</translation>
+    </message>
+</context>
+<context>
+    <name>LiveTextWidget</name>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation>高亮文本</translation>
+    </message>
+    <message>
+        <source>Copy (Ctrl+C)</source>
+        <translation>复制 Ctrl+C</translation>
+    </message>
+    <message>
+        <source>Select all (Ctrl+A)</source>
+        <translation>全选 Ctrl+C</translation>
     </message>
 </context>
 <context>
@@ -262,14 +285,25 @@
     </message>
 </context>
 <context>
-    <name>main</name>
+    <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>看图是一款外观时尚，性能流畅的图片查看工具。</translation>
+        <translation type="unfinished">看图是一款外观时尚，性能流畅的图片查看工具。</translation>
     </message>
     <message>
         <source>deepin-image-viewer</source>
-        <translation>深度看图</translation>
+        <translation type="unfinished">深度看图</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="vanished">看图是一款外观时尚，性能流畅的图片查看工具。</translation>
+    </message>
+    <message>
+        <source>deepin-image-viewer</source>
+        <translation type="vanished">深度看图</translation>
     </message>
 </context>
 </TS>

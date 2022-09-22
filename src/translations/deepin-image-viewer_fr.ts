@@ -2,6 +2,13 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr">
 <context>
+    <name>ImageViewer</name>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -89,6 +96,22 @@
     </message>
     <message>
         <source>Lens model</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LiveTextWidget</name>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy (Ctrl+C)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select all (Ctrl+A)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -262,7 +285,7 @@
     </message>
 </context>
 <context>
-    <name>main</name>
+    <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation type="unfinished"></translation>

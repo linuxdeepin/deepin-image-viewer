@@ -21,6 +21,7 @@
 #include "src/filecontrol.h"
 #include "src/thumbnailload.h"
 #include "src/cursortool.h"
+#include "src/ocr/livetextanalyzer.h"
 
 #include "launcherplugin.h"
 
@@ -60,6 +61,10 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
     // 光标位置查询工具
     CursorTool *cursorTool = new CursorTool();
     engine->rootContext()->setContextProperty("cursorTool", cursorTool);
+    // OCR分析工具
+    auto liveTextAnalyzer = new LiveTextAnalyzer;
+    engine->rootContext()->setContextProperty("liveTextAnalyzer", liveTextAnalyzer);
+    engine->addImageProvider(QLatin1String("liveTextAnalyzer"), liveTextAnalyzer);
 
     engine->load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine->rootObjects().isEmpty())

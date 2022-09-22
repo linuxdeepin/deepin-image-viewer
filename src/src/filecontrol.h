@@ -44,6 +44,9 @@ public:
     //复制图片
     Q_INVOKABLE void copyImage(const QString &path);
 
+    //复制文字
+    Q_INVOKABLE void copyText(const QString &str);
+
     //是否可以被选旋转
     Q_INVOKABLE bool isRotatable(const QString &path);
 
