@@ -311,6 +311,11 @@ void FileControl::copyImage(const QString &path)
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
 }
 
+void FileControl::copyText(const QString &str)
+{
+    qApp->clipboard()->setText(str);
+}
+
 bool FileControl::isRotatable(const QString &path)
 {
     bool bRet = false;

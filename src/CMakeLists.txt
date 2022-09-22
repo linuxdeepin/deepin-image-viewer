@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 
 #玲珑构建依赖目录
-include_directories(/runtime/include)
+include_directories(${CMAKE_INSTALL_PREFIX}/include)
+include_directories(${CMAKE_INSTALL_PREFIX}/include/deepin-ocr-plugin-manager)
 
 set(APP_BIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin/)
 set(BIN_NAME ${CMAKE_PROJECT_NAME})
@@ -40,6 +41,9 @@ pkg_check_modules(3rd_lib REQUIRED
     dtkwidget
     )
 
+pkg_search_module(OCR_PLUGIN REQUIRED deepin-ocr-plugin-manager)
+include_directories(${OCR_PLUGIN_INCLUDE_DIRS})
+
 # 保证 src 目录下头文件全局可见
 include_directories(src)
 
@@ -76,6 +80,7 @@ target_link_libraries(${LIB_NAME}
     Qt5::PrintSupport
     Qt5::Gui Qt5::Qml Qt5::Core Qt5::DBus Qt5::Concurrent Qt5::Svg  GL pthread freeimage
     ${3rd_lib_LIBRARIES}
+    ${OCR_PLUGIN_LIBRARIES}
     )
 # Add EXE
 add_executable(${BIN_NAME}  main.cpp)

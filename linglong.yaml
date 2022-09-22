@@ -10,7 +10,6 @@ runtime:
   id: org.deepin.Runtime
   version: 20.5.0
 
-#libxtst ffmpeg vlc
 depends:
   - id: "dde-qt-dbus-factory" 
     version: 5.5.12
@@ -39,20 +38,12 @@ depends:
   - id: libraw
     version: 0.19.2
     type: runtime
+  - id: deepin-ocr-plugin-manager
+    version: 1.0.0
+    type: runtime
 
 source:
   kind: local
-  #url: "http://gerrit.uniontech.com/deepin-album"
-  #version: develop/snipe
-  #commit: 2aea7f15ad1ea2f327af1e45b4243e080afee2a2
 
 build:
-  kind: manual
-  manual:
-    configure: |
-      mkdir build
-      cd build
-      cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} ..
-      make -j6
-      # make test
-      make -j install
+  kind: cmake

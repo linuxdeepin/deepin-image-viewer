@@ -23,5 +23,9 @@
         <file>qml/RightMenuItem.qml</file>
         <file>qml/ViewTopTitle.qml</file>
         <file>qml/MultiImageListView.qml</file>
+        <file>qml/LiveBlock.qml</file>
+        <file>qml/LiveBlockController.js</file>
+        <file>qml/LiveBlockRubberBand.qml</file>
+        <file>qml/LiveTextWidget.qml</file>
     </qresource>
 </RCC>

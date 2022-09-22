@@ -46,6 +46,7 @@ Item {
         if (imageViewer.currentIsMultiImage) {
             if (imageViewer.frameIndex != 0) {
                 imageViewer.frameIndex--
+                imageViewer.recalculateLiveText()
                 return
             }
         }
@@ -61,6 +62,7 @@ Item {
             }
             bottomthumbnaillistView.forceActiveFocus()
         }
+        imageViewer.recalculateLiveText()
     }
 
     function next (){
@@ -68,6 +70,7 @@ Item {
         if (imageViewer.currentIsMultiImage) {
             if (imageViewer.frameIndex < imageViewer.frameCount - 1) {
                 imageViewer.frameIndex++
+                imageViewer.recalculateLiveText()
                 return
             }
         }
@@ -78,6 +81,7 @@ Item {
             imageViewer.index = currentIndex
             bottomthumbnaillistView.forceActiveFocus()
         }
+        imageViewer.recalculateLiveText()
     }
 
     IconButton {
@@ -149,6 +153,7 @@ Item {
             enabled:!CodeImage.imageIsNull(imageViewer.source)
             onClicked: {
                 imageViewer.fitImage()
+                imageViewer.recalculateLiveText()
             }
             ToolTip.delay: 500
             ToolTip.timeout: 5000
@@ -169,6 +174,7 @@ Item {
             enabled:!CodeImage.imageIsNull(imageViewer.source)
             onClicked: {
                 imageViewer.fitWindow()
+                imageViewer.recalculateLiveText()
             }
 
             ToolTip.delay: 500
@@ -196,6 +202,7 @@ Item {
             // (因导航区域图片source绑定到imageviewer的source属性)
                 imageViewer.source = ""
                 imageViewer.source = mainView.sourcePaths[bottomthumbnaillistView.currentIndex]
+                imageViewer.recalculateLiveText()
             }
             ToolTip.delay: 500
             ToolTip.timeout: 5000

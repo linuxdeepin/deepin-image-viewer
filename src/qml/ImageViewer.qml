@@ -70,6 +70,7 @@ Rectangle {
     signal sigImageShowFullScreen
     signal sigImageShowNormal
     signal sigSourceChange
+    signal liveTextAnalyzeFinished
 
     color: backcontrol.ColorSelector.backgroundColor
     ViewRightMenu {
@@ -105,6 +106,20 @@ Rectangle {
             floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
         }
         floatLabel.visible = CodeImage.imageIsNull(source)||currenImageScale.toFixed(0)<0 ||currenImageScale.toFixed(0)>2000 ? false : true
+    }
+
+    function recalculateLiveText() {
+        exitLiveText()
+        startLiveText()
+    }
+
+    function startLiveText() {
+        console.debug("function startLiveText()")
+        view.startLiveTextAnalyze()
+    }
+
+    function exitLiveText() {
+        view.exitLiveText()
     }
 
     onCurrenImageScaleChanged: {
@@ -175,6 +190,10 @@ Rectangle {
 
         // 重设工具/菜单栏的隐藏/弹出
         mainView.animationAll()
+
+        // 启动live text分析
+        console.debug("onSourceChanged:")
+        recalculateLiveText()
     }
 
     // 部分图片存在加载图片过程，重设图片大小调整到图片加载完成后处理 Image.Ready --> onImageReady()
@@ -269,11 +288,17 @@ Rectangle {
                 list.splice(key, 1)
             }
         }
+
+        //重新进行live text分析
+        console.debug("deleteItem")
+        view.exitLiveText()
+        view.startLiveTextAnalyze()
     }
 
     function startSliderShow()
     {
         if (sourcePaths.length > 0) {
+            view.exitLiveText()
 
             normalWidth = root.width
             normalHeight = root.height
@@ -312,6 +337,7 @@ Rectangle {
     {
         normalWidth = root.width
         normalHeight = root.height
+        view.exitLiveText()
 
         showFullScreen()
         view.contentItem.forceActiveFocus()
@@ -708,6 +734,9 @@ Rectangle {
                 property int realWidth : 0
                 property int realHeight : 0
                 function changeRectXY() {
+                    //当需要动图片的时候，先清理live block
+                    view.exitLiveText()
+
                     // 此缩放比率只在当前显示图片使用，对于多页图，CodeImage已缓存对应的帧号
                     readWidthHeightRatio = CodeImage.getrealWidthHeightRatio(flickableL.curImageSource)
                     realWidth = 0;
@@ -852,8 +881,14 @@ Rectangle {
                     idNavWidget.setRectLocation(m_NavX, m_NavY)
                 }
 
+                onReleased: {
+                    console.debug("mouse released")
+                    view.startLiveTextAnalyze()
+                }
+
                 onDoubleClicked: {
                     if (!thumbnailListView.contains(msArea.mapToItem(thumbnailListView, mouse.x, mouse.y))) {
+                        view.exitLiveText()
                         infomationDig.hide()
                         showFulltimer.start()
                     }
@@ -903,6 +938,8 @@ Rectangle {
                         changeRectXY()
 
                         sigWheelChange()
+                        console.debug("onWheel:")
+                        view.startLiveTextAnalyze()
 
                         /*
                         缩放计算规则：val对应的是showImg.width和showImg.height
@@ -1003,6 +1040,50 @@ Rectangle {
         // 初始打开和点击缩略图切换都不会再有滑动效果
         Component.onCompleted: {
             contentItem.highlightMoveDuration = 0       // 将移动时间设为0
+            liveTextAnalyzeFinished.connect(runLiveText) //live text 分析完成的信号
+        }
+
+        //live text分析函数
+        //缩放和切换需要重新执行此函数
+        function liveTextAnalyze() {
+            console.debug("Live Text analyze start")
+            view.currentItem.grabToImage(function(result) { //截取当前控件显示
+                liveTextAnalyzer.setImage(result.image) //设置分析图片
+                liveTextAnalyzer.analyze() //执行分析（耗时最多的位置）
+                //result.saveToFile("/home/wzyforuos/Desktop/viewer.png") //保存截取的图片，debug用
+                console.debug("Live Text analyze finished")
+                liveTextAnalyzeFinished() //分析结束，控制权交给上层UI
+            })
+        }
+
+        //live text执行函数
+        function runLiveText() {
+            console.debug("run live start")
+            ltw.drawRect(liveTextAnalyzer.liveBlock())
+            ltw.visible = true
+        }
+
+        //live text退出函数
+        function exitLiveText() {
+            liveTextAnalyzer.breakAnalyze()
+            ltw.clearLive()
+        }
+
+        //live text分析启动控制
+        function startLiveTextAnalyze() {
+            liveTextTimer.running = true
+        }
+
+        //live text分析启动延迟
+        Timer {
+            id: liveTextTimer
+            interval: 1000
+            running: false
+            repeat: false
+            onTriggered: {
+                view.liveTextAnalyze()
+                running = false
+            }
         }
 
         Repeater {
@@ -1071,6 +1152,11 @@ Rectangle {
 
             CodeImage.setReverseHeightWidth(false)
         }
+    }
+
+    LiveTextWidget {
+        id: ltw
+        anchors.fill: parent
     }
 
     //rename窗口

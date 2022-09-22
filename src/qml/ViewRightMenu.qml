@@ -99,7 +99,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+C"
-            enabled: fileControl.isCanReadable(source)
+            enabled: fileControl.isCanReadable(source) && ltw.haveSelect()
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
