@@ -5,9 +5,18 @@ Item {
 
     visible: false
 
+    function setActiveColor(color) {
+        rect.color = color
+    }
+
     Rectangle {
-        color: "#1E90FF"
+        id: rect
         opacity: 0.5
         anchors.fill: parent
+    }
+
+    Component.onCompleted: {
+        rect.color = cursorTool.activeColor()
+        cursorTool.activeColorChanged.connect(setActiveColor)
     }
 }

@@ -48,6 +48,11 @@ public:
     // 当前光标位置信号
     Q_SIGNAL void cursorPos(int x, int y);
 
+    // 获取光标初始活动色
+    Q_INVOKABLE QColor activeColor();
+    // 光标框选活动色改变
+    Q_SIGNAL void activeColorChanged(const QColor &);
+
 private:
     QTimer      *m_CaptureTimer;        // 采样捕获定时器
     QPoint      m_lastPos;              // 记录最后的位置
