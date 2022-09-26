@@ -60,6 +60,8 @@ Item {
             //保存
             blockArray.push(rectDetail)
         }
+
+        highlightTextRect.visible = blockArray.length > 0
     }
 
     function doTextCopy() {
@@ -105,6 +107,7 @@ Item {
         id: highlightTextRect
         width: 75
         height: 75
+        visible: false
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.bottom: parent.bottom
