@@ -23,6 +23,7 @@
 
 #include <QTimer>
 #include <QCursor>
+#include <DGuiApplicationHelper>
 
 CursorTool::CursorTool(QObject *parent)
     : QObject(parent)
@@ -38,6 +39,11 @@ CursorTool::CursorTool(QObject *parent)
             Q_EMIT this->cursorPos(pos.x(), pos.y());
         }
     });
+
+    connect(Dtk::Gui::DGuiApplicationHelper::instance(), &Dtk::Gui::DGuiApplicationHelper::applicationPaletteChanged, [this](){
+        auto newColor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        emit activeColorChanged(newColor);
+    });
 }
 
 /**
@@ -51,4 +57,9 @@ void CursorTool::setCaptureCursor(bool b)
     } else {
         m_CaptureTimer->stop();
     }
+}
+
+QColor CursorTool::activeColor()
+{
+    return Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
 }
