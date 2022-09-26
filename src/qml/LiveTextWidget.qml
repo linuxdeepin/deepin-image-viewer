@@ -108,10 +108,12 @@ Item {
         width: 75
         height: 75
         visible: false
+        z: root.z + 2
+
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
+        anchors.bottomMargin: thumbnailViewBackGround.height + 20
 
         property bool isHighlight: false
 
