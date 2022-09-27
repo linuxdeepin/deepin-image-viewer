@@ -285,7 +285,7 @@ Item {
     }
 
 
-    MouseArea{
+    MouseArea {
         anchors.fill: imageViewer
         id:imageViewerArea
         acceptedButtons: Qt.LeftButton

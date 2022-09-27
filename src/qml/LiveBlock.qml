@@ -161,6 +161,10 @@ Rectangle {
         }
 
         function mouseAxisChanged(xAxis, yAxis) {
+            if(pressedXAxis == -1) {
+                return
+            }
+
             if(yAxis < root.y) { //光标位于上方，左向右的变为完全不中，右向左的变为完全中
                 flushRubberBandDisplay(0)
             } else if(yAxis > root.y + root.height) { //光标位于下方，左向右的变为完全中，右向左的变为完全不中

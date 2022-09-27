@@ -64,6 +64,12 @@ Item {
         highlightTextRect.visible = blockArray.length > 0
     }
 
+    function switchHighlight(isHighlight) {
+        for(var i = 0;i != blockArray.length;++i) {
+            blockArray[i].enableHighLight(!isHighlight)
+        }
+    }
+
     function doTextCopy() {
         var currentData
         var result = ""
@@ -90,6 +96,7 @@ Item {
         root.visible = false
         liveExit()
         blockArray = []
+        highlightTextRect.visible = false
     }
 
     function haveSelect() {
@@ -101,34 +108,6 @@ Item {
             }
         }
         return have
-    }
-
-    Rectangle {
-        id: highlightTextRect
-        width: 75
-        height: 75
-        visible: false
-        z: root.z + 2
-
-        anchors.right: parent.right
-        anchors.rightMargin: 20
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: thumbnailViewBackGround.height + 20
-
-        property bool isHighlight: false
-
-        Button {
-            id: highlightTextButton
-            text: qsTr("Highlight\nText")
-            anchors.fill: parent
-
-            onClicked: {
-                for(var i = 0;i != blockArray.length;++i) {
-                    blockArray[i].enableHighLight(!parent.isHighlight)
-                }
-                parent.isHighlight = !parent.isHighlight
-            }
-        }
     }
 
     Menu {
