@@ -706,6 +706,7 @@ Rectangle {
             MouseArea {
                 id: msArea
                 anchors.fill: parent
+
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 drag.target: showAnimatedImg.visible ? showAnimatedImg : showImg.visible ?  showImg : showSvgImg
                 enabled : isMousePinchArea
@@ -1155,8 +1156,38 @@ Rectangle {
     }
 
     LiveTextWidget {
+        //live text主控件
         id: ltw
-        anchors.fill: parent
+        anchors.fill: imageViewerArea
+        parent: imageViewerArea
+    }
+
+    Rectangle {
+        //live text高亮按钮
+        id: highlightTextRect
+        width: 75
+        height: 75
+        visible: false
+        parent: mainView
+        radius: width / 2
+
+        anchors.right: parent.right
+        anchors.rightMargin: 20
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: thumbnailViewBackGround.height + 20
+
+        property bool isHighlight: false
+
+        Button {
+            id: highlightTextButton
+            text: qsTr("Highlight\nText")
+            anchors.fill: parent
+
+            onClicked: {
+                ltw.switchHighlight(parent.isHighlight)
+                parent.isHighlight = !parent.isHighlight
+            }
+        }
     }
 
     //rename窗口
