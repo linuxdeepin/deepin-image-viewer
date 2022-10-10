@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include <QPoint>
+#include <QColor>
 
 class QTimer;
 

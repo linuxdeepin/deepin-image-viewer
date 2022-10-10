@@ -1,6 +1,8 @@
 #ifndef FILECONTROL_H
 #define FILECONTROL_H
 
+#include "configsetter.h"
+
 #include <QObject>
 #include <QFileInfo>
 #include <QTimer>
@@ -8,8 +10,6 @@
 #include <QImageReader>
 #include <QMap>
 #include <QFileSystemWatcher>
-
-#include "configsetter.h"
 
 class OcrInterface;
 
@@ -177,6 +177,9 @@ public:
 
     // 重设当前展示图片列表
     Q_INVOKABLE void resetImageFiles(const QStringList &filePaths);
+
+    // 获取公司 Logo 图标地址
+    Q_INVOKABLE QUrl getCompanyLogo();
 
 signals:
     void callSavePicDone();
