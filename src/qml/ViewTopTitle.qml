@@ -61,20 +61,23 @@ Rectangle {
             //               rect1.y = rect1.y + delta.y
         }
     }
+
     TitleBar {
         id :title
         anchors.fill:parent
-        aboutDialog: AboutDialog{
-            icon:"deepin-image-viewer"
-//                productIcon:"deepin-image-viewer"
-            width:400
-            modality:Qt.NonModal
-            version:qsTr(String("Version: %1").arg(Qt.application.version))
-            description:qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
-            productName:qsTr("deepin-image-viewer")
-            websiteName:DTK.deepinWebsiteName
-            websiteLink:DTK.deepinWebsitelLink
-            license:qsTr(String("%1 is released under %2").arg(productName).arg("GPLV3"))
+        aboutDialog: AboutDialog {
+            maximumWidth: 360
+            maximumHeight: 362
+            minimumWidth: 360
+            minimumHeight: 362
+            productName: qsTr("Image Viewer")
+            productIcon: "deepin-image-viewer"
+            version: qsTr("Version") + ": %1".arg(Qt.application.version)
+            description: qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
+            license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
+            companyLogo: fileControl.getCompanyLogo()
+            websiteName: "www.chinauos.com"
+            websiteLink: "https://www.chinauos.com/"
         }
 
         // 使用自定的文本

@@ -1,11 +1,16 @@
 #include "filecontrol.h"
+#include "unionimage/unionimage_global.h"
+#include "unionimage/unionimage.h"
+#include "printdialog/printhelper.h"
+#include "ocr/ocrinterface.h"
+
+#include <DSysInfo>
 
 #include <QFileInfo>
 #include <QDir>
 #include <QMimeDatabase>
 #include <QCollator>
 #include <QUrl>
-#include <QDebug>
 #include <QDBusInterface>
 #include <QThread>
 #include <QProcess>
@@ -15,21 +20,16 @@
 #include <QClipboard>
 #include <QDesktopWidget>
 #include <QApplication>
+#include <QUrl>
+#include <QDebug>
 
 #include <iostream>
-
-#include "unionimage/unionimage_global.h"
-#include "unionimage/unionimage.h"
-
-#include "ocr/ocrinterface.h"
-
-#include "printdialog/printhelper.h"
-
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+
+DCORE_USE_NAMESPACE
 
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
@@ -931,6 +931,15 @@ void FileControl::resetImageFiles(const QStringList &filePaths)
         QFileInfo info(fileList.first());
         m_pFileWathcer->addPath(info.absolutePath());
     }
+}
+
+/**
+ * @return 返回公司Logo图标地址
+ */
+QUrl FileControl::getCompanyLogo()
+{
+    QString logoPath = DSysInfo::distributionOrgLogo(DSysInfo::Distribution, DSysInfo::Light, ":/assets/images/deepin-logo.svg");
+    return QUrl::fromLocalFile(logoPath);
 }
 
 /**

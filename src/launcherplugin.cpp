@@ -15,15 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QQmlContext>
-#include <QQmlApplicationEngine>
-#include <DApplication>
+#include "launcherplugin.h"
 #include "src/filecontrol.h"
 #include "src/thumbnailload.h"
 #include "src/cursortool.h"
 #include "src/ocr/livetextanalyzer.h"
+#include "config.h"
 
-#include "launcherplugin.h"
+#include <DApplication>
+
+#include <QQmlContext>
+#include <QQmlApplicationEngine>
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -39,10 +41,13 @@ LauncherPlugin::~LauncherPlugin()
 
 }
 
-#include <QQuickWindow>
-#include <QDebug>
 int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
 {
+    app->setWindowIcon(QIcon::fromTheme("deepin-image-viewer"));
+    app->setApplicationDisplayName(QObject::tr("Image Viewer"));
+    app->setApplicationName("deepin-image-viewer");
+    app->setApplicationDisplayName(QObject::tr("Image Viewer"));
+
     // 请在此处注册需要导入到QML中的C++类型
     // 例如： engine->rootContext()->setContextProperty("Utils", new Utils);
     // 后端缩略图加载
@@ -69,15 +74,6 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
     engine->load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine->rootObjects().isEmpty())
         return -1;
-//    auto window = qobject_cast<QQuickWindow *>(engine->rootObjects().first());
-//    if (window) {
-//        window->setIcon(QIcon("qrc:/icon/deepin-image-viewer.svg"));
-//    }
-    app->setWindowIcon(QIcon::fromTheme("deepin-image-viewer"));
-    app->setApplicationDisplayName(QObject::tr("Image Viewer"));
-//    app->setApplicationDescription(QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
-    app->setApplicationName("deepin-image-viewer");
-    app->setApplicationDisplayName(QObject::tr("Image Viewer"));
 
     return app->exec();
 }
@@ -103,14 +99,12 @@ QGuiApplication *LauncherPlugin::createApplication(int &argc, char **argv)
     DApplication *a = new DApplication(argc, argv);
     a->loadTranslator();
     a->setApplicationLicense("GPLV3");
-    a->setApplicationVersion("1.0.0");
+    a->setApplicationVersion(DApplication::buildVersion(VERSION));
     a->setOrganizationName("deepin");
     a->setApplicationName("deepin-image-viewer");
     a->setApplicationDisplayName(QObject::tr("Image Viewer"));
     a->setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
     a->setApplicationDescription(QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
-    // a->setApplicationName("Launch-plugin");
-    a->loadTranslator();
 
     return a;
 }
