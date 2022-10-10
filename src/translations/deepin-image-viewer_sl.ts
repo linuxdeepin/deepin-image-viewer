@@ -1,298 +1,304 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sl">
 <context>
     <name>ImageViewer</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Slika ni bila najdena</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Osnovni podatki</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resolution ratio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Suffix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum slikanja</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum spremembe</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Podrobnosti</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaslonka</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"></translation>
+        <translation>Program osvetlitve</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"></translation>
+        <translation>Goriščna razdalja</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Način osvetlitve</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas osvetlitve</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>Flash</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Max Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompenzacija flasha</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"></translation>
+        <translation>Barvni model</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Način meritve</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Camera model</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatura beline</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="unfinished"></translation>
+        <translation>Model objektiva</translation>
+    </message>
+    <message>
+        <source>File name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Dimenzije</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Vrsta</translation>
+    </message>
+    <message>
+        <source>Max aperture</source>
+        <translation>Največja zaslonka</translation>
+    </message>
+    <message>
+        <source>Device model</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
-        <source>Highlight
-Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Odpri sliko</translation>
+        <translation>Odpri sliko</translation>
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished">Deepin pregledovalnik slik</translation>
+        <translation>Deepin pregledovalnik slik</translation>
     </message>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>dan</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pregledovalnik slik je orodje za prikazovanje slik z modernim vmesnikom in mehkim delovanjem.</translation>
     </message>
 </context>
 <context>
     <name>ReName</name>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Vnesite novo ime</translation>
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Prekini</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Potrdi</translation>
     </message>
 </context>
 <context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Predhodna</translation>
+        <translation>Prejšnja</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Pavza</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Predvajaj</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Naslednja</translation>
+        <translation>Naslednja</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Izhod</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Naslednja</translation>
+        <translation>Naslednja</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Predhodna</translation>
+        <translation>Prejšnja</translation>
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
+        <translation>Prilagodi oknu</translation>
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekstrahiraj tekst</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Izbriši</translation>
+        <translation>Izbriši</translation>
     </message>
 </context>
 <context>
     <name>ViewRightMenu</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Čez cel zaslon</translation>
+        <translation>Celozaslonski način</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Izhod iz celozaslonskega načina</translation>
+        <translation>Izhod iz celozaslonskega načina</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiskanje</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekstrahiraj tekst</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Diaprojekcija</translation>
+        <translation>Diaprojekcija</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopiraj</translation>
+        <translation>Kopiraj</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Preimenuj</translation>
+        <translation>Preimenuj</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Izbriši</translation>
+        <translation>Izbriši</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Zasukaj v desno</translation>
+        <translation>Zasukaj v desno</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Zasukaj v levo</translation>
+        <translation>Zasukaj v levo</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaži navigacijsko okno</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrij navigacijsko okno</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Nastavi za ozadje</translation>
+        <translation>Nastavi za ozadje</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Prikaži v upravitelju datotek</translation>
+        <translation>Prikaži v upravitelju datotek</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Informacije o sliki</translation>
+        <translation>Podatki o sliki</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pregledovalnik slik je orodje za prikazovanje slik z modernim vmesnikom in mehkim delovanjem.</translation>
     </message>
     <message>
-        <source>deepin-image-viewer</source>
-        <translation type="unfinished"></translation>
+        <source>Image Viewer</source>
+        <translation>Deepin pregledovalnik slik</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

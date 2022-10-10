@@ -1,298 +1,304 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="tr">
 <context>
     <name>ImageViewer</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Görsel dosya bulunamadı</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Temel bilgi</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resolution ratio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Suffix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"></translation>
+        <translation>Çekilme tarihi</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Düzenlenme tarihi</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Ayrıntılar</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>Diyafram</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozlama programı</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"></translation>
+        <translation>Odak uzaklığı</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozlama kipi</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozlama süresi</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>Flaş</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Max Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>Flaş dengelemesi</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"></translation>
+        <translation>Renk aralığı</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Ölçüm kipi</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Camera model</source>
-        <translation type="unfinished"></translation>
+        <translation>Beyaz dengesi</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="unfinished"></translation>
+        <translation>Lens modeli</translation>
+    </message>
+    <message>
+        <source>File name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Boyutlar</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tür</translation>
+    </message>
+    <message>
+        <source>Max aperture</source>
+        <translation>En yüksek diyafram</translation>
+    </message>
+    <message>
+        <source>Device model</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
-        <source>Highlight
-Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Görüntü Aç</translation>
+        <translation>Görüntü Aç</translation>
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished">Resim Görüntüleyici</translation>
+        <translation>Resim Görüntüleyici</translation>
     </message>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>gün</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Resim Görüntüleyici, şık arayüz ve pürüzsüz performansa sahip bir resim görüntüleme aracıdır.</translation>
     </message>
 </context>
 <context>
     <name>ReName</name>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni bir ad gir</translation>
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Onayla</translation>
     </message>
 </context>
 <context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Önceki</translation>
+        <translation>Önceki</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Duraklat</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynat</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Sonraki</translation>
+        <translation>Sonraki</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Çıkış</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Sonraki</translation>
+        <translation>Sonraki</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Önceki</translation>
+        <translation>Önceki</translation>
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
+        <translation>Pencereye sığdır</translation>
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Metni çıkar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Sil</translation>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
     <name>ViewRightMenu</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Tam ekran</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Tam ekrandan çık</translation>
+        <translation>Tam ekrandan çık</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Yazdır</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Metni çıkar</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Slayt gösterisi</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopyala</translation>
+        <translation>Kopyala</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Yeniden adlandır</translation>
+        <translation>Yeniden adlandır</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Sil</translation>
+        <translation>Sil</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Saat yönünde döndür</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Saat yönünün tersine döndür</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Gezinme penceresini göster</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Gezinme penceresini gizle</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Duvar kağıdı olarak ayarla</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Dosya yöneticisinde görüntüle</translation>
+        <translation>Dosya yöneticisinde görüntüle</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Görsel bilgisi</translation>
+        <translation>Görsel bilgisi</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Resim Görüntüleyici, şık arayüz ve pürüzsüz performansa sahip bir resim görüntüleme aracıdır.</translation>
     </message>
     <message>
-        <source>deepin-image-viewer</source>
-        <translation type="unfinished"></translation>
+        <source>Image Viewer</source>
+        <translation>Resim Görüntüleyici</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

@@ -1,298 +1,306 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="it">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="it">
 <context>
     <name>ImageViewer</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>File immagine non trovato</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Info base</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resolution ratio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Suffix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"></translation>
+        <translation>Data dell&apos;immagine</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Data modifica</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Dettagli</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>Apertura</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"></translation>
+        <translation>Programma esposizione</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"></translation>
+        <translation>Lunghezza focale</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modalità esposizione</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo esposizione</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>Flash</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Max Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>Compensazione flash</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"></translation>
+        <translation>Spettro colore</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Metodo di misurazione</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Camera model</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilanciamento bianco</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="unfinished"></translation>
+        <translation>Modello lente</translation>
+    </message>
+    <message>
+        <source>File name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Dimensione</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>Max aperture</source>
+        <translation>Apertura massima</translation>
+    </message>
+    <message>
+        <source>Device model</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
-        <source>Highlight
-Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Apri immagine</translation>
+        <translation>Apri immagine</translation>
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished">Visualizzatore immagini</translation>
+        <translation>Visualizzatore immagini</translation>
     </message>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>giorno</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il Visualizzatore immagini di Deepin è un gestore di immagini elegante e veloce.
+Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
 </context>
 <context>
     <name>ReName</name>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserisci un nuovo nome</translation>
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Conferma</translation>
     </message>
 </context>
 <context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Precedente</translation>
+        <translation>Precedente</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Pausa</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Play</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Successiva</translation>
+        <translation>Successiva</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Esci</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Successiva</translation>
+        <translation>Successiva</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Precedente</translation>
+        <translation>Precedente</translation>
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
+        <translation>Adatta alla finestra</translation>
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Estrai testo</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Elimina</translation>
+        <translation>Elimina</translation>
     </message>
 </context>
 <context>
     <name>ViewRightMenu</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Schermo intero</translation>
+        <translation>Schermo intero</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Esci dalla modalità schermo intero</translation>
+        <translation>Esci dalla modalità schermo intero</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Stampa</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>Estrai testo</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Presentazione</translation>
+        <translation>Presentazione</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Copia</translation>
+        <translation>Copia</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Rinomina</translation>
+        <translation>Rinomina</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Elimina</translation>
+        <translation>Elimina</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Ruota in senso orario</translation>
+        <translation>Ruota in senso orario</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Ruota in senso antiorario</translation>
+        <translation>Ruota in senso antiorario</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra finestra di navigazione</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi finestra di navigazione</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Imposta come sfondo</translation>
+        <translation>Imposta come wallpaper</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Visualizza nel file manager</translation>
+        <translation>Visualizza nel file manager</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Info immagine</translation>
+        <translation>Info immagine</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il Visualizzatore immagini di Deepin è un gestore di immagini elegante e veloce.
+Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
-        <source>deepin-image-viewer</source>
-        <translation type="unfinished"></translation>
+        <source>Image Viewer</source>
+        <translation>Visualizzatore immagini</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

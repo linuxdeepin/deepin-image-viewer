@@ -57,7 +57,7 @@ DialogWindow {
                 PropertyActionItemDelegate {
                     id: fileNameProp
                     Layout.fillWidth: true
-                    title: qsTr("File Name")
+                    title: qsTr("File name")
                     description: fileName
                     iconName: "action_edit"
                     onClicked: {
@@ -73,12 +73,12 @@ DialogWindow {
                         corners: RoundRectangle.BottomLeftCorner
                     }
                     PropertyItemDelegate {
-                        title: qsTr("Resolution ratio")
+                        title: qsTr("Dimensions")
                         description: fileControl.slotGetInfo("Dimension",source)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
-                        title: qsTr("Suffix")
+                        title: qsTr("Type")
                         description: fileControl.slotFileSuffix(source,false)
                         corners: RoundRectangle.BottomRightCorner
                     }
@@ -165,7 +165,7 @@ DialogWindow {
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:86
-                        title: qsTr("Max Aperture")
+                        title: qsTr("Max aperture")
                         description: fileControl.slotGetInfo("MaxApertureValue",source)
                     }
                 }
@@ -194,7 +194,7 @@ DialogWindow {
             }
 
             PropertyItemDelegate {
-                title: qsTr("Camera model")
+                title: qsTr("Device model")
                 description: fileControl.slotGetInfo("Model",source)
                 corners: RoundRectangle.AllCorner
             }
