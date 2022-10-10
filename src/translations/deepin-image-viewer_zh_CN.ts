@@ -1,11 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_CN">
 <context>
     <name>ImageViewer</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>未发现图片文件</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation>高亮
+文本</translation>
     </message>
 </context>
 <context>
@@ -15,24 +19,12 @@
         <translation>基本信息</translation>
     </message>
     <message>
-        <source>File Name</source>
-        <translation>文件名称</translation>
-    </message>
-    <message>
         <source>Size</source>
         <translation>大小</translation>
     </message>
     <message>
-        <source>Resolution ratio</source>
-        <translation>分辨率</translation>
-    </message>
-    <message>
-        <source>Suffix</source>
-        <translation>格式</translation>
-    </message>
-    <message>
         <source>Date captured</source>
-        <translation>捕获日期</translation>
+        <translation>拍摄日期</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -75,10 +67,6 @@
         <translation>闪光灯补偿</translation>
     </message>
     <message>
-        <source>Max Aperture</source>
-        <translation>最大光圈大小</translation>
-    </message>
-    <message>
         <source>Colorspace</source>
         <translation>颜色空间</translation>
     </message>
@@ -91,28 +79,39 @@
         <translation>白平衡</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>设备型号</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>镜头型号</translation>
+    </message>
+    <message>
+        <source>File name</source>
+        <translation>文件名</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>分辨率</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>图片类型</translation>
+    </message>
+    <message>
+        <source>Max aperture</source>
+        <translation>最大光圈值</translation>
+    </message>
+    <message>
+        <source>Device model</source>
+        <translation>设备型号</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
-        <source>Highlight
-Text</source>
-        <translation>高亮文本</translation>
-    </message>
-    <message>
         <source>Copy (Ctrl+C)</source>
-        <translation>复制 Ctrl+C</translation>
+        <translation>复制 (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation>全选 Ctrl+C</translation>
+        <translation>全选 (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -130,7 +129,7 @@ Text</source>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation>文件名已被占用，请使用其他名称</translation>
+        <translation>该文件已存在，请使用其他名称</translation>
     </message>
 </context>
 <context>
@@ -156,15 +155,15 @@ Text</source>
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation>文件名已被占用，请使用其他名称</translation>
+        <translation>该文件已存在，请使用其他名称</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取 消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation>确 定</translation>
+        <translation>确定</translation>
     </message>
 </context>
 <context>
@@ -288,22 +287,19 @@ Text</source>
     <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished">看图是一款外观时尚，性能流畅的图片查看工具。</translation>
+        <translation>看图是一款外观时尚，性能流畅的图片查看工具。</translation>
     </message>
     <message>
-        <source>deepin-image-viewer</source>
-        <translation type="unfinished">深度看图</translation>
-    </message>
-</context>
-<context>
-    <name>main</name>
-    <message>
-        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="vanished">看图是一款外观时尚，性能流畅的图片查看工具。</translation>
+        <source>Image Viewer</source>
+        <translation>看图</translation>
     </message>
     <message>
-        <source>deepin-image-viewer</source>
-        <translation type="vanished">深度看图</translation>
+        <source>Version</source>
+        <translation>版本</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>%1在%2许可下发布</translation>
     </message>
 </context>
 </TS>

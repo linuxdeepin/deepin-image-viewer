@@ -1,298 +1,304 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="bo">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bo">
 <context>
     <name>ImageViewer</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་གྱི་ཡིག་ཆ་ཪྙེད་མ་བྱུང་།</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File Name</source>
-        <translation type="unfinished"></translation>
+        <translation>གཞི་རྩའི་ཆ་འཕྲིན། </translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resolution ratio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Suffix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་ལེན་དུས་ཚོད། </translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished"></translation>
+        <translation>བཅོས་པའི་དུས་ཚོད།</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>ཆ་འཕྲིན་ཞིབ་ཕྲ།</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>འོད་ཁུང་ཆེ་ཆུང་།</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"></translation>
+        <translation>འོད་ཕོག་བྱ་རིམ། </translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"></translation>
+        <translation>མདོ་ཐག</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>ISOའོད་ལེན་ཚད།</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"></translation>
+        <translation>འོད་ཐོག་རྣམ་པ། </translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"></translation>
+        <translation>འོད་ཕོག་དུས་ཚོད། </translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>འཁྱུག་སྒྲོན། </translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Max Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>འཁྱུག་སྒྲོན་ཁ་གསབ།</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"></translation>
+        <translation>ཚོས་གཞིའི་བར་སྟོང་།</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"></translation>
+        <translation>འོད་འཇལ་རྣམ་པ། </translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Camera model</source>
-        <translation type="unfinished"></translation>
+        <translation>དཀར་སྙོམས། </translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="unfinished"></translation>
+        <translation>ཤེལ་མགོའི་བཟོ་རྟགས། </translation>
+    </message>
+    <message>
+        <source>File name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>པར་ཆེ་ཆུང་།</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>པར་གྱི་རིགས་ཁག</translation>
+    </message>
+    <message>
+        <source>Max aperture</source>
+        <translation>འོད་ཁུང་ཆེ་ཤོས།</translation>
+    </message>
+    <message>
+        <source>Device model</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
-        <source>Highlight
-Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">པར་ཁ་ཕྱེ་བ།</translation>
+        <translation>པར་ཁ་ཕྱེ་བ།</translation>
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished">པར་ལྟ་བ།</translation>
+        <translation>པར་ལྟ་བ།</translation>
     </message>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>ཉིན།</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་ལྟ་བ་ནི་ཕྱི་ཚུལ་དཔེ་གསར་ཡིན་ལ། ལྟ་དུས་ཐོགས་ཐུག་མེད་པའི་པར་རིས་ལྟ་བའི་ཡོ་བྱད་ཅིག་རེད།</translation>
     </message>
 </context>
 <context>
     <name>ReName</name>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་གྱི་མིང་འཇུག་རོགས།</translation>
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>འདོར་བ། </translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>གཏན་འཁེལ།</translation>
     </message>
 </context>
 <context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">སྔ་མ།</translation>
+        <translation>སྔ་མ།</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>སྐབས་སྡོད།</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>གཏོང་བ།</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">ཕྱི་མ།</translation>
+        <translation>ཕྱི་མ།</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>ཕྱིར་འཐེན།</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>Next</source>
-        <translation type="unfinished">ཕྱི་མ།</translation>
+        <translation>ཕྱི་མ།</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">སྔ་མ།</translation>
+        <translation>སྔ་མ།</translation>
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
+        <translation>སྒེའུ་ཁུང་དང་འཚམ་པ།</translation>
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡི་གེ་ངོས་འཛིན།</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">སུབ་པ། </translation>
+        <translation>སུབ་པ། </translation>
     </message>
 </context>
 <context>
     <name>ViewRightMenu</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">ཡོལ་གང་།</translation>
+        <translation>ཡོལ་གང་།</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">ཡོལ་གང་ལས་ཕྱིར་འཐེན།</translation>
+        <translation>ཡོལ་གང་ལས་ཕྱིར་འཐེན།</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་འདེབས།</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡི་གེ་ངོས་འཛིན།</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">སྒྲོན་བཪྙན་པར་ཤེལ་གཏོང་བ།</translation>
+        <translation>སྒྲོན་བཪྙན་པར་ཤེལ་གཏོང་བ།</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">འདྲ་བཟོ།</translation>
+        <translation>འདྲ་བཟོ།</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">མིང་བསྐྱར་འདོགས།</translation>
+        <translation>མིང་བསྐྱར་འདོགས།</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">སུབ་པ། </translation>
+        <translation>སུབ་པ། </translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">ནང་སྐོར་ལྟར་སྐོར་བ།</translation>
+        <translation>ནང་སྐོར་ལྟར་སྐོར་བ།</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">ཕྱི་སྐོར་ལྟར་སྐོར་བ།</translation>
+        <translation>ཕྱི་སྐོར་ལྟར་སྐོར་བ།</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>ཕྱོགས་སྟོན་སྒེའུ་ཁུང་མངོན་པ།</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>ཕྱོགས་སྟོན་སྒེའུ་ཁུང་ཡིབ་པ།</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">རྩིག་ཤོག་བྱེད་པ།</translation>
+        <translation>རྩིག་ཤོག་བྱེད་པ།</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">ཡིག་ཆ་དོ་དམ་ཆས་ནང་དུ་མངོན་པ།</translation>
+        <translation>ཡིག་ཆ་དོ་དམ་ཆས་ནང་དུ་མངོན་པ།</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">པར་གྱི་ཆ་འཕྲིན།</translation>
+        <translation>པར་གྱི་ཆ་འཕྲིན།</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་ལྟ་བ་ནི་ཕྱི་ཚུལ་དཔེ་གསར་ཡིན་ལ། ལྟ་དུས་ཐོགས་ཐུག་མེད་པའི་པར་རིས་ལྟ་བའི་ཡོ་བྱད་ཅིག་རེད།</translation>
     </message>
     <message>
-        <source>deepin-image-viewer</source>
-        <translation type="unfinished"></translation>
+        <source>Image Viewer</source>
+        <translation>པར་ལྟ་བ།</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

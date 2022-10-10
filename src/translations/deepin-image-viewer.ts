@@ -7,6 +7,11 @@
         <source>Image file not found</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -15,19 +20,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>File Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resolution ratio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Suffix</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -75,10 +68,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Max Aperture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Colorspace</source>
         <translation type="unfinished"></translation>
     </message>
@@ -91,21 +80,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Camera model</source>
+        <source>Lens model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Lens model</source>
+        <source>File name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max aperture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device model</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Copy (Ctrl+C)</source>
         <translation type="unfinished"></translation>
@@ -291,7 +291,15 @@ Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>deepin-image-viewer</source>
+        <source>Image Viewer</source>
+        <translation type="unfinished">Image Viewer</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
