@@ -429,8 +429,6 @@ bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
         m_rotateAngel += rotateAngel;
     }
 
-    m_rotateAngelOnShow += rotateAngel;
-
     // 减少频繁的触发旋转进行文件读取写入操作
     m_tSaveImage->setSingleShot(true);
     m_tSaveImage->start(200);
@@ -438,6 +436,10 @@ bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
     return bRet;
 }
 
+/**
+ * @brief 立即保存旋转图片，通过定时器延后触发或图片切换时手动触发
+ * @note 当前通过保存图片后，监控文件变更触发更新图片的信号
+ */
 void FileControl::slotRotatePixCurrent()
 {
     // 由QML调用(切换图片)时，停止定时器，防止二次触发
@@ -458,49 +460,16 @@ void FileControl::slotRotatePixCurrent()
             QString erroMsg;
             LibUnionImage_NameSpace::rotateImageFIle(m_rotateAngel, m_currentPath, erroMsg);
 
-            // 保存文件后发送图片更新更新信号
-            emit callSavePicDone();
+            // 保存文件后发送图片更新更新信号，通过监控文件变更触发
         }
     }
     m_rotateAngel = 0;
 }
 
-/**
- * @brief 缓存当前处理的图片的角度，若当前内部保存的旋转角度不为0，
- *      表示旋转图片信息暂未保存到文件，为保证图片角度和显示角度一致，
- *      保存当前的图片旋转信息，用于后续显示界面时展示。
- */
-void FileControl::cacheCurrentImageAngle()
-{
-    if (m_tSaveImage->isActive()
-            && m_rotateAngel % 360 != 0) {
-        m_cacheImageAngle.insert(m_currentPath, m_rotateAngel % 360);
-    }
-    m_rotateAngelOnShow = 0;
-}
-
-/**
- * @brief 获取图片 \a path 缓存的图片角度信息，若无缓存信息，返回 \b 0 ，图片角度返回后被移除
- * @param path 图片路径
- * @return 缓存的角度信息
- *
- * @note 需要注意重命名、删除等文件信息变更。
- */
-int FileControl::takeCachedImageAngle(const QString &path)
-{
-    QString localPath = QUrl(path).toLocalFile();
-    if (m_cacheImageAngle.contains(localPath)) {
-
-        emit callSavePicDone();
-        return m_cacheImageAngle.take(localPath);
-    }
-    return 0;
-}
-
 bool FileControl::isReverseHeightWidth()
 {
     // 判断当前旋转角度是否存在垂直方向的旋转
-    return bool(m_rotateAngelOnShow % 180);
+    return bool(m_rotateAngel % 180);
 }
 
 int FileControl::currentAngle()
@@ -960,8 +929,8 @@ void FileControl::onImageFileChanged(const QString &file)
             m_removedFile.insert(file, url);
         }
 
-        // 发送文件变更信号
-        emit imageFileChanged(url, isMulti, isExist);
+        // 发送文件变更信号，请求重新加载缓存
+        emit requestImageFileChanged(url, isMulti, isExist);
     }
 }
 

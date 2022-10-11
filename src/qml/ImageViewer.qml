@@ -97,7 +97,6 @@ Rectangle {
             return;
         }
 
-        console.info("scale value:", currenImageScale.toFixed(0))
         if(currenImageScale.toFixed(0) > 2000 && currenImageScale.toFixed(0) <= 3000){
             floatLabel.displayStr = "2000%"
         }else if(currenImageScale.toFixed(0)<2 && currenImageScale.toFixed(0) >=0 ){
@@ -156,10 +155,12 @@ Rectangle {
 
     // 图片源发生改变，隐藏导航区域，重置图片缩放比例
     onSourceChanged: {
-        // 多页图索引不在此处进行复位，鼠标点击，按钮切换等不同方式切换显示不同的多页图帧号
+        // 手动更新图源时，排除空图源影响
+        if (source.length === 0) {
+            return
+        }
 
-        // 保存之前文件的旋转操作(保存前未更新图片需要缓存角度信息)
-        fileControl.cacheCurrentImageAngle()
+        // 多页图索引不在此处进行复位，鼠标点击，按钮切换等不同方式切换显示不同的多页图帧号
         fileControl.slotRotatePixCurrent()
         CodeImage.setReverseHeightWidth(false)
 
@@ -168,8 +169,6 @@ Rectangle {
         CodeImage.setMultiFrameIndex(fileControl.isMultiImage(source) ? 0 : -1)
         // 复位图片旋转状态
         imageViewer.currentRotate = 0
-        // 图片重新加载完成，旋转角度恢复，获取当前图片缓存的角度信息(若无返回 0 )
-        fileControl.takeCachedImageAngle(source)
 
         // 默认隐藏导航区域
         idNavWidget.visible = false
@@ -449,16 +448,8 @@ Rectangle {
             // 图片保存完成，预览区域重新加载当前图片
             Connections {
                 target: fileControl
-                onCallSavePicDone: {
-                    // 多页图无保存处理
-                    if (!flickableL.curSourceIsMultiImage && view.currentIndex == swipeItemIndex) {
-                        // 重新加载图片
-                        showImg.source = ""
-                        showImg.source = flickableL.curImageSource
-                    }
-                }
 
-                // 图片被移动、替换、删除时触发
+                // 图片被移动、替换、删除、旋转保存后触发
                 // imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
                 onImageFileChanged: {
                     // 多页图会变更加载的组件，在swipeView中处理
@@ -588,8 +579,9 @@ Rectangle {
             Loader {
                 id: notExistImageLoader
                 anchors.centerIn: flickableL
-                // 图片不存在时加载
+                // 图片不存在时加载 图片源不能为空
                 active: !flickableL.curSourceIsExist
+                        && (flickableL.curImageSource.length !== 0)
                 sourceComponent: Item {
                     Image {
                         id: notExistImage
