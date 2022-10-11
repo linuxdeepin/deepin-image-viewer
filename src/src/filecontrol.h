@@ -79,12 +79,6 @@ public:
     //旋转
     Q_INVOKABLE void slotRotatePixCurrent();
 
-    //缓存当前处理的图像的角度
-    Q_INVOKABLE void cacheCurrentImageAngle();
-
-    //获取缓存的图像的角度
-    Q_INVOKABLE int takeCachedImageAngle(const QString &path);
-
     //判断宽高是否互换
     Q_INVOKABLE bool isReverseHeightWidth();
 
@@ -182,9 +176,9 @@ public:
     Q_INVOKABLE QUrl getCompanyLogo();
 
 signals:
-    void callSavePicDone();
-
-    // 文件变更信号（被移动、替换、删除等）
+    // 请求文件变更处理，重新加载图片，更新缓存信息
+    void requestImageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
+    // 缓存更新处理完成后，更新文件变更信号（被移动、替换、删除等）
     void imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
 
 private:
@@ -197,11 +191,9 @@ private :
     OcrInterface *m_ocrInterface{nullptr};
 
     QString m_currentPath;                      // 当前操作的旋转图片路径
-    QHash<QString, int> m_cacheImageAngle;      // 缓存的图片高度
 
     //旋转角度
     int m_rotateAngel = 0;
-    int m_rotateAngelOnShow = 0;                // 显示过程所有的度数统计
 
     QTimer *m_tSaveImage = nullptr;             // 保存旋转图片定时器，在指定时间内只旋转一次
     QTimer *m_tSaveSetting = nullptr;           // 保存配置信息定时器，在指定时间内只保存一次

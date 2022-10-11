@@ -61,7 +61,13 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
     FileControl *fileControl = new FileControl();
     engine->rootContext()->setContextProperty("fileControl", fileControl);
     // 关联文件处理（需要保证优先处理，onImageFileChanged已做多线程安全）
-    QObject::connect(fileControl, &FileControl::imageFileChanged, load, &LoadImage::onImageFileChanged, Qt::DirectConnection);
+    QObject::connect(fileControl, &FileControl::requestImageFileChanged,
+                     load, [&](const QString &filePath, bool isMultiImage, bool isExist){
+        // 更新缓存信息
+        load->onImageFileChanged(filePath, isMultiImage, isExist);
+        // 处理完成后加载图片
+        emit fileControl->imageFileChanged(filePath, isMultiImage, isExist);
+    });
 
     // 光标位置查询工具
     CursorTool *cursorTool = new CursorTool();

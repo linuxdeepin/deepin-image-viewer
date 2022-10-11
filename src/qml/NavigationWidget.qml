@@ -93,19 +93,6 @@ Rectangle {
                             : "image://viewImage/" + imageViewer.source
                 }
             }
-
-            // 图片更新后需要重新加载图片，例如旋转后图片更新
-            Connections {
-                target: fileControl
-                onCallSavePicDone: {
-                    // 多页图无保存处理，且只有普通图片允许旋转
-                    if (!imageViewer.currentIsMultiImage) {
-                        // 重新加载图片，需要注意缩略图为缓存数据（暂未更新），需重新加载文件数据
-                        idcurrentImg.source = ""
-                        idcurrentImg.source = imageViewer.source
-                    }
-                }
-            }
         }
     }
     //test 前端获取后端加载到的图像数据，放开以下代码在缩放时会有弹窗显示后端加载的图像

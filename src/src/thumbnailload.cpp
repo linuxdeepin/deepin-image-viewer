@@ -186,22 +186,28 @@ void LoadImage::catThumbnail(const QStringList &list)
  * @brief 接收图片变更信号，当前图片文件被移动、替换、删除时触发，清除图片相关的缓存信息
  * @param path          图片文件路径
  * @param isMultiImage  是否为多页图，多页图存在特殊处理
+ * @param isExist       修改后的文件是否存在
  *
  * @note 不清除缩略图信息，用于提示文件变更时获取。
+ * @threadsafe
  */
 void LoadImage::onImageFileChanged(const QString &path, bool isMultiImage, bool isExist)
 {
-    // 移除图片信息
-    m_viewLoad->removeImageCache(path);
     if (isMultiImage) {
         m_multiLoad->removeImageCache(path);
     }
 
-    // 判断变更后文件是否存在，若存在，重新加载缩略图(防止文件被替换)
+    // 判断变更后文件是否存在，若存在，重新加载缩略图(防止文件被替换), 重新获取图像大小信息
     if (isExist) {
         m_pThumbnail->removeImageCache(path);
         QSize size, requestSize;
         m_pThumbnail->requestImage(path, &size, requestSize);
+
+        // 文件替换，重新获取图片大小信息
+        m_viewLoad->reloadImageCache(path);
+    } else {
+        // 文件移除，移除图片信息
+        m_viewLoad->removeImageCache(path);
     }
 }
 
@@ -304,6 +310,28 @@ void ViewLoad::removeImageCache(const QString &path)
 
     QMutexLocker _locker(&m_mutex);
     m_imgSizes.remove(tempPath);
+
+    // 为当前展示的图片，移除缓存的信息
+    if (tempPath == m_currentPath) {
+        m_currentPath.clear();
+    }
+}
+
+/**
+ * @brief 文件被替换等操作后，重新获取 \a path 文件对应的图像大小信息
+ */
+void ViewLoad::reloadImageCache(const QString &path)
+{
+    QString tempPath = QUrl(path).toLocalFile();
+    QImage Img;
+    QString error;
+    LibUnionImage_NameSpace::loadStaticImageFromFile(tempPath, Img, error);
+
+    QMutexLocker _locker(&m_mutex);
+    m_imgSizes[tempPath] = Img.size();
+    if (tempPath == m_currentPath) {
+        m_Img = Img;
+    }
 }
 
 

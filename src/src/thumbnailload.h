@@ -40,6 +40,8 @@ public:
 
     // 移除缓存的图片大小信息
     void removeImageCache(const QString &path);
+    // 重新加载图片大小信息
+    void reloadImageCache(const QString &path);
 
     QMutex                  m_mutex;
     QImage                  m_Img;          // 当前图片
@@ -110,9 +112,6 @@ public:
     Q_INVOKABLE void setMultiFrameIndex(int index = Invalid);
     // 设置是否互换宽度高度值(旋转图片时使用)
     Q_INVOKABLE void setReverseHeightWidth(bool b);
-
-    //加载路径
-    QString m_path;
 
 public slots:
     //加载多张

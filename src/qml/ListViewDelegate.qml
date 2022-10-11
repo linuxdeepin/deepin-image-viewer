@@ -39,27 +39,21 @@ Item {
     // 图片保存完成，缩略图区域重新加载当前图片
     Connections {
         target: fileControl
-        onCallSavePicDone: {
-            if (index === currentIndex) {
-                img.source = ""
-                img.source = imageViewer.source
-
-                // 重新加载，复位旋转状态
-                container.rotation = 0
-            }
-        }
 
         // 图片被移动、替换、删除时触发
         // imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
         onImageFileChanged: {
+            // 变更的图片可能非当前展示图片，但同样需要更新
             if (filePath === container.currentSource) {
                 // 为多页图时根据isImageExist自动切换状态
                 container.currentSource = ""
                 container.currentSource = filePath
 
                 img.source = ""
-                img.source = fileControl.isSvgImage(filePath) ? filePath
-                                                              : "image://ThumbnailImage/" + filePath
+                img.source = fileControl.isSvgImage(filePath) ? filePath : "image://ThumbnailImage/" + filePath
+
+                // 重新加载，复位旋转状态
+                container.rotation = 0
             }
         }
     }
