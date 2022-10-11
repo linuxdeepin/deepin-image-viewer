@@ -103,6 +103,11 @@ Item {
 
     //判断工具栏和标题栏的显示隐藏
     function animationAll() {
+        // 打开界面不计算标题栏显隐
+        if (stackView.currentWidgetIndex === 0) {
+            return
+        }
+
         // 根据当前不同捕获行为获取光标值
         var mouseX = imageViewerArea.usingCapture ? imageViewerArea.captureX : imageViewerArea.mouseX;
         var mouseY = imageViewerArea.usingCapture ? imageViewerArea.captureY : imageViewerArea.mouseY;
