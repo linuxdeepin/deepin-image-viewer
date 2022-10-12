@@ -19,6 +19,9 @@ public:
     Q_INVOKABLE QVariant charBox(int blockIndex) const;
     Q_INVOKABLE QString textResult(int blockIndex, int startIndex, int len) const;
 
+signals:
+    void analyzeFinished(bool resultCanUse);
+
 public slots:
     Q_INVOKABLE void analyze();
     Q_INVOKABLE void breakAnalyze();

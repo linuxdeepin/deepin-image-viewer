@@ -70,7 +70,6 @@ Rectangle {
     signal sigImageShowFullScreen
     signal sigImageShowNormal
     signal sigSourceChange
-    signal liveTextAnalyzeFinished
 
     color: backcontrol.ColorSelector.backgroundColor
     ViewRightMenu {
@@ -1033,7 +1032,7 @@ Rectangle {
         // 初始打开和点击缩略图切换都不会再有滑动效果
         Component.onCompleted: {
             contentItem.highlightMoveDuration = 0       // 将移动时间设为0
-            liveTextAnalyzeFinished.connect(runLiveText) //live text 分析完成的信号
+            liveTextAnalyzer.analyzeFinished.connect(runLiveText) //后台分析结束，上层UI执行绘制操作
         }
 
         //live text分析函数
@@ -1042,10 +1041,8 @@ Rectangle {
             console.debug("Live Text analyze start")
             view.currentItem.grabToImage(function(result) { //截取当前控件显示
                 liveTextAnalyzer.setImage(result.image) //设置分析图片
-                liveTextAnalyzer.analyze() //执行分析（耗时最多的位置）
+                liveTextAnalyzer.analyze() //执行分析（异步执行，函数会立即返回）
                 //result.saveToFile("/home/wzyforuos/Desktop/viewer.png") //保存截取的图片，debug用
-                console.debug("Live Text analyze finished")
-                liveTextAnalyzeFinished() //分析结束，控制权交给上层UI
             })
         }
 

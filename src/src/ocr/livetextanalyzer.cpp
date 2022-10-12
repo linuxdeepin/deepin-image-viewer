@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include <QtConcurrent/QtConcurrent>
+
 LiveTextAnalyzer::LiveTextAnalyzer(QObject *parent)
     : QObject(parent)
     , QQuickImageProvider(Image)
@@ -26,7 +28,9 @@ void LiveTextAnalyzer::setImage(const QImage &image)
 
 void LiveTextAnalyzer::analyze()
 {
-    ocrDriver->analyze();
+    QtConcurrent::run([this]() {
+        emit analyzeFinished(ocrDriver->analyze());
+    });
 }
 
 void LiveTextAnalyzer::breakAnalyze()
