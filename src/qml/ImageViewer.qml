@@ -1155,30 +1155,38 @@ Rectangle {
     }
 
     Rectangle {
-        //live text高亮按钮
-        id: highlightTextRect
-        width: 75
-        height: 75
+        //live text高亮阴影
+        id: highlightShadow
+        anchors.fill: parent
+        color: "#000000"
+        opacity: 0.5
+        visible: highlightTextButton.checked && highlightTextButton.visible
+    }
+
+    FloatingButton {
+        id: highlightTextButton
+        width: 50
+        height: 50
         visible: false
         parent: mainView
-        radius: width / 2
-
         anchors.right: parent.right
-        anchors.rightMargin: 20
+        anchors.rightMargin: 100
         anchors.bottom: parent.bottom
         anchors.bottomMargin: thumbnailViewBackGround.height + 20
 
+        checked: isHighlight
+        ColorSelector.family: Palette.CrystalColor //DCI图标自动变色
+
         property bool isHighlight: false
 
-        Button {
-            id: highlightTextButton
-            text: qsTr("Highlight\nText")
-            anchors.fill: parent
+        icon {
+            width: 40
+            height: 40
+            name: "icon_recognition_highlight"
+        }
 
-            onClicked: {
-                ltw.switchHighlight(parent.isHighlight)
-                parent.isHighlight = !parent.isHighlight
-            }
+        onClicked: {
+            isHighlight = !isHighlight
         }
     }
 

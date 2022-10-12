@@ -42,5 +42,6 @@
         <file>dsg/icons/loading_image_thumbnail-big.dci</file>
         <file>dsg/icons/photo_breach-thumbnail-little.dci</file>
         <file>dsg/icons/photo_breach.dci</file>
+        <file>dsg/icons/icon_recognition_highlight.dci</file>
     </qresource>
 </RCC>
