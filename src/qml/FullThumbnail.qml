@@ -140,9 +140,8 @@ Item {
             }else if (imageViewer.currentScale <= (1.0 * (root.height - titleRect.height * 2) / root.height)) {
                 // 缩放率小于(允许显示高度/窗口高度)的不会超过工具/标题栏
                 needShowTopBottom = true
-            }else if ((imageViewer.currentScale <= 1.0)
-                      &&  viewImageHeight <= (root.height - titleRect.height * 2)) {
-                // 缩放范围未超过显示范围时，不会隐藏工具/标题栏
+            }else if ((viewImageHeight * imageViewer.currentScale) <= (root.height - titleRect.height * 2)) {
+                // 缩放范围高度未超过显示范围高度限制时时，不会隐藏工具/标题栏，根据高度而非宽度计算
                 needShowTopBottom = true
             }else if(cursorInWidnow
                      && ((mouseY > height - 100 && mouseY <= height)
