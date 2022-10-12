@@ -61,13 +61,8 @@ Item {
             blockArray.push(rectDetail)
         }
 
-        highlightTextRect.visible = blockArray.length > 0
-    }
-
-    function switchHighlight(isHighlight) {
-        for(var i = 0;i != blockArray.length;++i) {
-            blockArray[i].enableHighLight(!isHighlight)
-        }
+        highlightTextButton.visible = blockArray.length > 0
+        highlightTextButton.isHighlight = false
     }
 
     function doTextCopy() {
@@ -96,7 +91,7 @@ Item {
         root.visible = false
         liveExit()
         blockArray = []
-        highlightTextRect.visible = false
+        highlightTextButton.visible = false
     }
 
     function haveSelect() {
