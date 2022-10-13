@@ -511,7 +511,6 @@ Rectangle {
 
                 Rectangle {
                     //live text高亮阴影
-                    id: highlightShadow
                     color: "#000000"
                     opacity: 0.5
                     visible: highlightTextButton.checked && highlightTextButton.visible
@@ -546,6 +545,18 @@ Rectangle {
                     if (Image.Ready === showSvgImg.status) {
                         onImageReady()
                     }
+                }
+
+                Rectangle {
+                    //live text高亮阴影
+                    color: "#000000"
+                    opacity: 0.5
+                    visible: highlightTextButton.checked && highlightTextButton.visible
+
+                    //阴影需要和图片重合
+                    width: showSvgImg.paintedWidth
+                    height: showSvgImg.paintedHeight
+                    anchors.centerIn: parent
                 }
             }
 
@@ -1084,8 +1095,10 @@ Rectangle {
             running: false
             repeat: false
             onTriggered: {
-                view.liveTextAnalyze()
-                running = false
+                if(fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)) { //执行条件和OCR按钮使能条件一致
+                    view.liveTextAnalyze()
+                    running = false
+                }
             }
         }
 
@@ -1176,13 +1189,12 @@ Rectangle {
         anchors.bottomMargin: thumbnailViewBackGround.height + 20
 
         checked: isHighlight
-        ColorSelector.family: Palette.CrystalColor //DCI图标自动变色
 
         property bool isHighlight: false
 
         icon {
-            width: 40
-            height: 40
+            width: 45
+            height: 45
             name: "icon_recognition_highlight"
         }
 
