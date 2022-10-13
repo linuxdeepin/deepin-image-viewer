@@ -508,6 +508,19 @@ Rectangle {
                         onImageReady()
                     }
                 }
+
+                Rectangle {
+                    //live text高亮阴影
+                    id: highlightShadow
+                    color: "#000000"
+                    opacity: 0.5
+                    visible: highlightTextButton.checked && highlightTextButton.visible
+
+                    //阴影需要和图片重合
+                    width: showImg.paintedWidth
+                    height: showImg.paintedHeight
+                    anchors.centerIn: parent
+                }
             }
 
             // svg image
@@ -1149,15 +1162,6 @@ Rectangle {
         id: ltw
         anchors.fill: imageViewerArea
         parent: imageViewerArea
-    }
-
-    Rectangle {
-        //live text高亮阴影
-        id: highlightShadow
-        anchors.fill: parent
-        color: "#000000"
-        opacity: 0.5
-        visible: highlightTextButton.checked && highlightTextButton.visible
     }
 
     FloatingButton {
