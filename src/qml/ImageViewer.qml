@@ -276,6 +276,10 @@ Rectangle {
             // 重设工具/菜单栏的隐藏/弹出
             mainView.animationAll()
         }
+
+        //重新进行live text分析
+        console.debug("rotateImage")
+        recalculateLiveText()
     }
 
     function deleteItem(item, list)
@@ -289,8 +293,7 @@ Rectangle {
 
         //重新进行live text分析
         console.debug("deleteItem")
-        view.exitLiveText()
-        view.startLiveTextAnalyze()
+        recalculateLiveText()
     }
 
     function startSliderShow()
@@ -1091,7 +1094,7 @@ Rectangle {
         //live text分析启动延迟
         Timer {
             id: liveTextTimer
-            interval: 1000
+            interval: 1500
             running: false
             repeat: false
             onTriggered: {
