@@ -400,6 +400,14 @@ Rectangle {
         }
     }
 
+    Shortcut {
+        sequence: "Ctrl+Shift+/"
+        onActivated: {
+            var screenPos = mapToGlobal(parent.x, parent.y)
+            fileControl.showShortcutPanel(screenPos.x + root.width / 2, screenPos.y + root.height / 2)
+        }
+    }
+
     /*
        @brief: 图片展示组件
             需要注意的是，此图片展示组件会被缩略图栏滑动视图和多页图滑动视图使用，

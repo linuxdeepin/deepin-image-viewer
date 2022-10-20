@@ -78,9 +78,9 @@ QUrl UrlInfo(QString path)
 
 FileControl::FileControl(QObject *parent) : QObject(parent)
 {
-    if (!m_ocrInterface) {
-        m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
-    }
+    m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
+
+    m_shortcutViewProcess = new QProcess(this);
 
     m_config = LibConfigSetter::instance();
     m_pFileWathcer = new QFileSystemWatcher(this);
@@ -957,4 +957,171 @@ void FileControl::onImageDirChanged(const QString &dir)
             ++itr;
         }
     }
+}
+
+void FileControl::terminateShortcutPanelProcess()
+{
+    m_shortcutViewProcess->terminate();
+    m_shortcutViewProcess->waitForFinished(2000);
+}
+
+void FileControl::showShortcutPanel(int windowCenterX, int windowCenterY)
+{
+    QPoint pos(windowCenterX, windowCenterY);
+    QStringList shortcutString;
+    auto json = createShortcutString();
+
+    QString param1 = "-j=" + json;
+    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+    shortcutString << param1 << param2;
+
+    terminateShortcutPanelProcess();
+    m_shortcutViewProcess->start("deepin-shortcut-viewer", shortcutString);
+}
+
+QString FileControl::createShortcutString()
+{
+    if(!m_shortcutString.isEmpty()) {
+        return m_shortcutString;
+    }
+
+    QJsonObject shortcut1;
+    shortcut1.insert("name", tr("Fullscreen"));
+    shortcut1.insert("value", "F11");
+
+    QJsonObject shortcut2;
+    shortcut2.insert("name", tr("Exit fullscreen"));
+    shortcut2.insert("value", "Esc");
+
+    QJsonObject shortcut3;
+    shortcut3.insert("name", tr("Extract text"));
+    shortcut3.insert("value", "Alt + O");
+
+    QJsonObject shortcut4;
+    shortcut4.insert("name", tr("Slide show"));
+    shortcut4.insert("value", "F5");
+
+    QJsonObject shortcut5;
+    shortcut5.insert("name", tr("Rename"));
+    shortcut5.insert("value", "F2");
+
+    QJsonObject shortcut6;
+    shortcut6.insert("name", tr("Copy"));
+    shortcut6.insert("value", "Ctrl + C");
+
+    QJsonObject shortcut7;
+    shortcut7.insert("name", tr("Delete"));
+    shortcut7.insert("value", "Delete");
+
+    QJsonObject shortcut8;
+    shortcut8.insert("name", tr("Rotate clockwise"));
+    shortcut8.insert("value", "Ctrl + R");
+
+    QJsonObject shortcut9;
+    shortcut9.insert("name", tr("Rotate counterclockwise"));
+    shortcut9.insert("value", "Ctrl + Shift + R");
+
+    QJsonObject shortcut10;
+    shortcut10.insert("name", tr("Set as wallpaper"));
+    shortcut10.insert("value", "Ctrl + F9");
+
+    QJsonObject shortcut11;
+    shortcut11.insert("name", tr("Display in file manager"));
+    shortcut11.insert("value", "Alt + D");
+
+    QJsonObject shortcut12;
+    shortcut12.insert("name", tr("Image info"));
+    shortcut12.insert("value", "Ctrl + I");
+
+    QJsonObject shortcut13;
+    shortcut13.insert("name", tr("Previous"));
+    shortcut13.insert("value", "Left");
+
+    QJsonObject shortcut14;
+    shortcut14.insert("name", tr("Next"));
+    shortcut14.insert("value", "Right");
+
+    QJsonObject shortcut15;
+    shortcut15.insert("name", tr("Zoom in"));
+    shortcut15.insert("value", "Ctrl + '+'");
+
+    QJsonObject shortcut16;
+    shortcut16.insert("name", tr("Zoom out"));
+    shortcut16.insert("value", "Ctrl + '-'");
+
+    QJsonObject shortcut17;
+    shortcut17.insert("name", tr("Open"));
+    shortcut17.insert("value", "Ctrl + O");
+
+    QJsonObject shortcut18;
+    shortcut18.insert("name", tr("Print"));
+    shortcut18.insert("value", "Ctrl + P");
+
+    QJsonArray shortcutArray1;
+    shortcutArray1.append(shortcut1);
+    shortcutArray1.append(shortcut2);
+    shortcutArray1.append(shortcut3);
+    shortcutArray1.append(shortcut4);
+    shortcutArray1.append(shortcut5);
+    shortcutArray1.append(shortcut6);
+    shortcutArray1.append(shortcut7);
+    shortcutArray1.append(shortcut8);
+    shortcutArray1.append(shortcut9);
+    shortcutArray1.append(shortcut10);
+    shortcutArray1.append(shortcut11);
+    shortcutArray1.append(shortcut12);
+    shortcutArray1.append(shortcut13);
+    shortcutArray1.append(shortcut14);
+    shortcutArray1.append(shortcut15);
+    shortcutArray1.append(shortcut16);
+    shortcutArray1.append(shortcut17);
+    shortcutArray1.append(shortcut18);
+
+    QJsonObject shortcut_group1;
+    shortcut_group1.insert("groupName", tr("Image Viewing"));
+    shortcut_group1.insert("groupItems", shortcutArray1);
+
+    QJsonObject shortcut19;
+    shortcut19.insert("name", tr("Help"));
+    shortcut19.insert("value", "F1");
+
+    QJsonObject shortcut20;
+    shortcut20.insert("name", tr("Display shortcuts"));
+    shortcut20.insert("value", "Ctrl + Shift + ?");
+
+    QJsonArray shortcutArray2;
+    shortcutArray2.append(shortcut19);
+    shortcutArray2.append(shortcut20);
+
+    QJsonObject shortcut_group2;
+    shortcut_group2.insert("groupName", tr("Settings"));
+    shortcut_group2.insert("groupItems", shortcutArray2);
+
+    QJsonObject shortcut21;
+    shortcut21.insert("name", tr("Copy"));
+    shortcut21.insert("value", "Ctrl + C");
+
+    QJsonObject shortcut22;
+    shortcut22.insert("name", tr("Select all"));
+    shortcut22.insert("value", "Ctrl + A");
+
+    QJsonArray shortcutArray3;
+    shortcutArray3.append(shortcut21);
+    shortcutArray3.append(shortcut22);
+
+    QJsonObject shortcut_group3;
+    shortcut_group3.insert("groupName", tr("Live Text"));
+    shortcut_group3.insert("groupItems", shortcutArray3);
+
+    QJsonArray shortcutArrayall;
+    shortcutArrayall.append(shortcut_group1);
+    shortcutArrayall.append(shortcut_group3);
+    shortcutArrayall.append(shortcut_group2);
+
+    QJsonObject main_shortcut;
+    main_shortcut.insert("shortcut", shortcutArrayall);
+
+    m_shortcutString = QJsonDocument(main_shortcut).toJson();
+
+    return m_shortcutString;
 }
