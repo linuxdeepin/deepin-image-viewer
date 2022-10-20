@@ -12,6 +12,7 @@
 #include <QFileSystemWatcher>
 
 class OcrInterface;
+class QProcess;
 
 class FileControl : public QObject
 {
@@ -175,6 +176,12 @@ public:
     // 获取公司 Logo 图标地址
     Q_INVOKABLE QUrl getCompanyLogo();
 
+    // 显示快捷键面板
+    Q_INVOKABLE void showShortcutPanel(int windowCenterX, int windowCenterY);
+
+    // 结束快捷键面板进程
+    Q_INVOKABLE void terminateShortcutPanelProcess();
+
 signals:
     // 请求文件变更处理，重新加载图片，更新缓存信息
     void requestImageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
@@ -186,11 +193,14 @@ private:
     void onImageFileChanged(const QString &file);
     // 当处理的图片文件夹变更(新增图片等)
     void onImageDirChanged(const QString &dir);
+    // 生成用于快捷键面板的字符串
+    QString createShortcutString();
 
 private :
-    OcrInterface *m_ocrInterface{nullptr};
-
+    OcrInterface *m_ocrInterface;
     QString m_currentPath;                      // 当前操作的旋转图片路径
+    QString m_shortcutString;                   // 快捷键字符串，将采用懒加载模式，需要通过createShortcutString()函数使用
+    QProcess *m_shortcutViewProcess;            // 快捷键面板进程
 
     //旋转角度
     int m_rotateAngel = 0;

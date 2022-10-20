@@ -1,4 +1,105 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_CN">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
+<context>
+    <name>FileControl</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">全屏</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>帮助</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>显示快捷键</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">在文件管理器中显示</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">复制</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">设为壁纸</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">顺时针旋转</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">逆时针旋转</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>放大图片</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>缩小图片</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">上一张</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">下一张</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished">退出全屏</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished">识别文字</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">重命名</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">图片信息</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>打开</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>查看图片</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">打印</translation>
+    </message>
+    <message>
+        <source>Select all</source>
+        <translation>全选</translation>
+    </message>
+    <message>
+        <source>Live Text</source>
+        <translation>实况文本</translation>
+    </message>
+</context>
 <context>
     <name>ImageViewer</name>
     <message>
@@ -8,7 +109,7 @@
     <message>
         <source>Highlight
 Text</source>
-        <translation>高亮
+        <translation type="vanished">高亮
 文本</translation>
     </message>
 </context>

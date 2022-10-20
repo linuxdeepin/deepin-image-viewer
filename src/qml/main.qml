@@ -46,11 +46,11 @@ ApplicationWindow {
             fileControl.setSettingHeight(height)
         }
     }
-    //关闭的时候保存信息
-    onClosing: {
-        fileControl.saveSetting()
-    }
 
+    onClosing: {
+        fileControl.saveSetting() //保存信息
+        fileControl.terminateShortcutPanelProcess() //结束快捷键面板进程
+    }
 
     Rectangle {
         id: rect
