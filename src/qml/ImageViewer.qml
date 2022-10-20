@@ -120,6 +120,39 @@ Rectangle {
         view.exitLiveText()
     }
 
+    function flushNav() {
+        if(!isNavShow || currentScale <= 1.0) {
+            idNavWidget.visible = false
+            return
+        }
+
+        if(root.height <= global.minHideHeight || root.width <= global.minWidth){
+            idNavWidget.visible = false
+        } else {
+            console.debug(currentScale)
+            idNavWidget.visible = true
+        }
+
+        var realWidth = 0;
+        var realHeight = 0;
+        if (root.width > root.height * readWidthHeightRatio) {
+            realWidth = root.height * readWidthHeightRatio
+        } else {
+            realWidth = root.width
+        }
+        if(root.height > root.width / readWidthHeightRatio) {
+            realHeight = root.width / readWidthHeightRatio
+        } else {
+            realHeight = root.height
+        }
+
+        viewImageWidthRatio = root.width / (realWidth * currentScale)
+        viewImageHeightRatio = root.height / (realHeight * currentScale)
+
+        idNavWidget.setRectLocation(m_NavX, m_NavY)
+        idNavWidget.setRectPec(currentScale, viewImageWidthRatio, viewImageHeightRatio)
+    }
+
     onCurrenImageScaleChanged: {
         showFloatLabel()
     }
@@ -133,13 +166,11 @@ Rectangle {
             currentScale = 0.02 * CodeImage.getFitWindowScale(source,root.width, root.height)
         }
 
-        // 设置隐藏导航窗口时，不处理展示
-        if (isNavShow) {
-            // 缩放比例变更时（图像适应窗口、全屏展示...），根据缩放比例判断是否需要显示导航窗口
-            idNavWidget.visible = currentScale > 1
-            // 设置缩放后更新导航窗口
-            idNavWidget.setRectPec(currentScale, viewImageWidthRatio, viewImageHeightRatio)
-        }
+        //刷新导航窗口
+        flushNav()
+
+        //重新计算live text
+        recalculateLiveText()
     }
 
     // 多页图当前图片帧号发生变更，更新当前界面维护的数据信息
@@ -755,6 +786,7 @@ Rectangle {
                     target: idNavWidget
                     onChangeShowImgPostions: {
                         msArea.setImgPostions(x, y)
+                        recalculateLiveText()
                     }
                 }
 
@@ -937,18 +969,6 @@ Rectangle {
                         else
                             currentScale = currentScale * 0.9
 
-                        if (currentScale * 100 < 100)
-                        {
-                            idNavWidget.visible = false
-                        } else if (isNavShow)
-                        {
-                            if(root.height<=global.minHideHeight || root.width<=global.minWidth){
-                                idNavWidget.visible=false
-                            }else{
-                                idNavWidget.visible=true
-                            }
-                        }
-
                         // 缩放后，调整图片坐标
                         var restorePoint = mapFromItem(targetItem, mapPoint.x, mapPoint.y)
                         targetItem.x -= restorePoint.x - wheel.x;
@@ -959,14 +979,14 @@ Rectangle {
                         currentimgY = targetItem.y
                         m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
                         m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
-                        idNavWidget.setRectLocation(m_NavX, m_NavY)
+
+                        //刷新导航窗口
+                        flushNav()
 
                         // 坐标变更边界调整计算，图片小于窗口时坐标居中
                         changeRectXY()
 
                         sigWheelChange()
-                        console.debug("onWheel:")
-                        view.startLiveTextAnalyze()
 
                         /*
                         缩放计算规则：val对应的是showImg.width和showImg.height
@@ -1218,14 +1238,13 @@ Rectangle {
     ReName {
         id: renamedialog
     }
+
     //info的窗口
     InfomationDialog {
 
         id: infomationDig
 
     }
-
-
 
     //导航窗口
     NavigationWidget {
@@ -1238,14 +1257,14 @@ Rectangle {
     }
 
     onHeightChanged: {
-        if(root.height<=global.minHideHeight ){
-            idNavWidget.visible=false
+        if(root.height <= global.minHideHeight){
+            idNavWidget.visible = false
         }
     }
 
     onWidthChanged: {
-        if( root.width<=global.minWidth){
-            idNavWidget.visible=false
+        if( root.width <= global.minWidth){
+            idNavWidget.visible = false
         }
     }
 
@@ -1255,5 +1274,3 @@ Rectangle {
         fileControl.setEnableNavigation(isNavShow)
     }
 }
-
-
