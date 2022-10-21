@@ -105,7 +105,7 @@ QGuiApplication *LauncherPlugin::createApplication(int &argc, char **argv)
     DApplication *a = new DApplication(argc, argv);
     a->loadTranslator();
     a->setApplicationLicense("GPLV3");
-    a->setApplicationVersion(DApplication::buildVersion(VERSION));
+    a->setApplicationVersion(VERSION);
     a->setOrganizationName("deepin");
     a->setApplicationName("deepin-image-viewer");
     a->setApplicationDisplayName(QObject::tr("Image Viewer"));

@@ -6,6 +6,10 @@ package:
   description: |
     view images for deepin os.
 
+variables:
+  extra_args: |
+    -DVERSION=${VERSION}
+
 runtime:
   id: org.deepin.Runtime
   version: 20.5.0
