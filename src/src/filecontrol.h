@@ -227,6 +227,7 @@ private :
     QHash<QString, QString>     m_cacheFileInfo;    // 缓存的图片信息，用于判断图片信息是否变更 QHash<完整路径, url信息>
     QHash<QString, QString>     m_removedFile;      // 缓存被移除的文件信息(FileWatcher在文件删除/移动后将不会继续观察)
     QFileSystemWatcher          *m_pFileWathcer;    // 文件观察类，用于提示文件变更
+    QString fileRenamed;                            // 文件重命名缓存，用于阻止文件变更操作
 };
 
 #endif // FILECONTROL_H

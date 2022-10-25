@@ -141,8 +141,7 @@ QStringList FileControl::getDirImagePath(const QString &path)
         }
         //判断是否图片格式
         if (isImage(tmpPath)) {
-            tmpPath = "file://" + tmpPath;
-            image_list << tmpPath;
+            image_list << QUrl::fromLocalFile(tmpPath).toString();
         }
     }
     return image_list;
@@ -157,7 +156,6 @@ QStringList FileControl::removeList(const QStringList &pathlist, int index)
 
 QStringList FileControl::renameOne(const QStringList &pathlist, const  QString &oldPath, const QString &newPath)
 {
-
     QStringList list = pathlist;
     int index = pathlist.indexOf(oldPath);
     if (index >= 0 && index < pathlist.count()) {
@@ -166,13 +164,23 @@ QStringList FileControl::renameOne(const QStringList &pathlist, const  QString &
     return list;
 }
 
-QString FileControl::getNamePath(const  QString &oldPath, const QString &newName)
+QString FileControl::getNamePath(const QString &oldPath, const QString &newName)
 {
-    QFileInfo info(oldPath);
+    QString old = oldPath;
+    QString now = newName;
+
+    if(old.startsWith("file://")) {
+        old = QUrl(old).toLocalFile();
+    }
+    if(now.startsWith("file://")) {
+        now = QUrl(now).toLocalFile();
+    }
+
+    QFileInfo info(old);
     QString path = info.path();
     QString suffix = info.suffix();
     QString newPath =  path + "/" + newName + "." + suffix;
-    return newPath;
+    return QUrl::fromLocalFile(newPath).toString();
 }
 
 bool FileControl::isImage(const QString &path)
@@ -383,9 +391,7 @@ QString FileControl::parseCommandlineGetPath(const QString &path)
         if (QFileInfo(path).isFile()) {
             bool bRet = isImage(path);
             if (bRet) {
-                filepath += "file://";
-                filepath += path;
-                return filepath;
+                return QUrl::fromLocalFile(path).toString();
             }
         }
     }
@@ -480,6 +486,11 @@ int FileControl::currentAngle()
 QString FileControl::slotGetFileName(const QString &path)
 {
     QString tmppath = path;
+
+    if(path.startsWith("file://")) {
+        tmppath = QUrl(tmppath).toLocalFile();
+    }
+
     QFileInfo info(tmppath);
     return info.completeBaseName();
 }
@@ -487,6 +498,11 @@ QString FileControl::slotGetFileName(const QString &path)
 QString FileControl::slotGetFileNameSuffix(const QString &path)
 {
     QString tmppath = path;
+
+    if(path.startsWith("file://")) {
+        tmppath = QUrl(tmppath).toLocalFile();
+    }
+
     QFileInfo info(tmppath);
     return info.fileName();
 }
@@ -518,8 +534,11 @@ bool FileControl::slotFileReName(const QString &name, const QString &filepath, b
             _newName  = path + "/" + name + "." + suffix;
         }
 
-        if (file.rename(_newName))
+        if (file.rename(_newName)) {
+            fileRenamed = localPath;
             return true;
+        }
+
         return false;
     }
     return false;
@@ -918,6 +937,11 @@ QUrl FileControl::getCompanyLogo()
  */
 void FileControl::onImageFileChanged(const QString &file)
 {
+    if(file == fileRenamed) {
+        fileRenamed.clear();
+        return;
+    }
+
     // 文件移动、删除或替换后触发
     if (m_cacheFileInfo.contains(file)) {
         QString url = m_cacheFileInfo.value(file);
