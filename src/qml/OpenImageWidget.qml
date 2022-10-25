@@ -79,7 +79,7 @@ Item {
     FolderListModel
     {
         id: foldermodel
-        folder: "file://" + platform.picturesLocation()
+        folder: "file://" + escape(platform.picturesLocation()) //不明确这个模块的作用,暂时使用这种方式来转换字符串和URL
         showDirs: false
         showDotAndDotDot: false
         nameFilters: ["*.dng", "*.nef", "*.bmp", "*.gif", "*.ico", "*.jpeg", "*.jpg", "*.pbm", "*.pgm","*.png",  "*.pnm", "*.ppm",

@@ -151,8 +151,9 @@ void LoadImage::catThumbnail(const QStringList &list)
     for (QString path : list) {
         QString imgPath = path;
 
-        if (imgPath.startsWith("file://"))
-            imgPath.remove(0, 7);
+        if (imgPath.startsWith("file://")) {
+            imgPath = QUrl(imgPath).toLocalFile();
+        }
         QImage tImg(imgPath);
         //保持横纵比裁切
         if (abs((tImg.width() - tImg.height()) * 10 / tImg.width()) >= 1) {
