@@ -6,18 +6,46 @@ import QtGraphicalEffects 1.0
 import org.deepin.dtk 1.0
 
 Item {
+    id: fullThumbnail
     property alias source: imageViewer.source
     property alias sourcePaths: imageViewer.sourcePaths
     property alias currentIndex: imageViewer.swipeIndex
 
     signal closeFullThumbnail
 
+    // 鼠标是否进入当前的视图
     property bool isEnterCurrentView:true
-
-    //    anchors.fill: rootItem
+    // 是否标题栏和底栏需要隐藏(仅判断普通模式)
+    property bool needBarHideInNormalMode: false
 
     function setThumbnailCurrentIndex(index) {
         thumbnailListView.currentIndex = index
+    }
+
+    // 切换标题栏和工具栏显示状态
+    function switchTopAndBottomBarState() {
+        // 判断当前标题栏、工具栏处于是否隐藏模式下
+        if (needBarHideInNormalMode
+                || Window.FullScreen === root.visibility) {
+            var curRectY = thumbnailViewBackGround.y
+            //判断当前标题栏、工具栏是否已隐藏
+            if (root.height <= curRectY) {
+                hideTopTitleAnimation.stop()
+                hideBottomAnimation.stop()
+
+                // 全屏下不展示标题栏
+                if (Window.FullScreen !== root.visibility) {
+                    showTopTitleAnimation.start()
+                }
+                showBottomAnimation.start()
+            } else {
+                showTopTitleAnimation.stop()
+                showBottomAnimation.stop()
+
+                hideTopTitleAnimation.start()
+                hideBottomAnimation.start()
+            }
+        }
     }
 
     //左右按钮隐藏动画
@@ -163,6 +191,7 @@ Item {
                 hideBottomAnimation.start()
                 hideTopTitleAnimation.start()
             }
+            needBarHideInNormalMode = !needShowTopBottom
         }
 
         if(mouseX>=root.width-100 && mouseX<=root.width && isEnterCurrentView && cursorInWidnow){
