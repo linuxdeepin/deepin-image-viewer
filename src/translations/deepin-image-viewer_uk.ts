@@ -1,103 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="uk">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="uk">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Повноекранний</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Показати в файловому менеджері</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Показ слайдів</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Скопіювати</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Вилучити</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Встановити як шпалери</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Повернути за годинниковою стрілкою</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Повернути проти годинникової стрілки</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">Попередній</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">Наступний</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Повноекранний</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Вийти з повноекранного режиму</translation>
+        <translation>Вийти з повноекранного режиму</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Видобути текст</translation>
+        <translation>Видобути текст</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Перейменувати</translation>
+        <translation>Перейменувати</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Скопіювати</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Вилучити</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Повернути за годинниковою стрілкою</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Повернути проти годинникової стрілки</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Встановити як шпалери</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Показати в файловому менеджері</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Інформація про зображення</translation>
+        <translation>Інформація про зображення</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Попередній</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Наступний</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Збільшити</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Зменшити </translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Друк</translation>
+        <translation>Друк</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>Перегляд зображень</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Допомога</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Показати ярлики</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Налаштування</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>Позначити усі</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Інтерактивний текст</translation>
     </message>
 </context>
 <context>
@@ -105,6 +103,12 @@
     <message>
         <source>Image file not found</source>
         <translation>Файл зображення не знайдено</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="vanished">Підсвітити
+текст</translation>
     </message>
 </context>
 <context>
@@ -115,7 +119,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Розмір</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -179,7 +183,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Назва файла</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -195,18 +199,18 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>Модель пристрою</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Копіювати (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation>Позначити усе (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -217,14 +221,14 @@
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>Позначте зображення</translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Такий файл вже існує. Будь ласка, виберіть іншу назву.</translation>
     </message>
 </context>
 <context>
@@ -250,7 +254,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Такий файл вже існує. Будь ласка, виберіть іншу назву.</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -296,7 +300,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>Початковий розмір</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -304,7 +308,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Обертати</translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -390,11 +394,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Версія</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 випущено за умов дотримання %2</translation>
     </message>
 </context>
 </TS>

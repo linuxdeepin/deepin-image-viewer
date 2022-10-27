@@ -1,404 +1,404 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="az">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation>Pełny ekran</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Opuść pełny ekran</translation>
+        <translation>Tam ekrandan çıxış</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation>Wydobądź tekst</translation>
+        <translation>Mətni çıxardın</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Pokaz zdjęć</translation>
+        <translation>Slayd göstərişi</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Zmień nazwę</translation>
+        <translation>Adını dəyişin</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiuj</translation>
+        <translation>Kopyalayın</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation>Silin</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Obróć w prawo</translation>
+        <translation>Saat əqrəbi istiqamətinə döndərin</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Obróć w lewo</translation>
+        <translation>Saat əqrəbinin əksinə döndərin</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Ustaw jako tło pulpitu</translation>
+        <translation>Divar kağızı kimi təyin edin</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Wyświetl w Menedżerze plików</translation>
+        <translation>Fayl menecerində göstərmək</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informacje o obrazie</translation>
+        <translation>Şəkil məlumatı</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Poprzednie</translation>
+        <translation>Əvvəlki</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Następne</translation>
+        <translation>Sonrakı</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Powiększ</translation>
+        <translation>Yaxınlaşdırmaq</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Pomniejsz</translation>
+        <translation>Uzaqlaşdırmaq</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation>Otwórz</translation>
+        <translation>Açın</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Drukuj</translation>
+        <translation>Çap etmək</translation>
     </message>
     <message>
         <source>Image Viewing</source>
-        <translation>Podgląd obrazu</translation>
+        <translation>Şəkil görüntüləyici</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Pomoc</translation>
+        <translation>Kömək</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Wyświetl skróty</translation>
+        <translation>Qısayolları göstərmək</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ustawienia</translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Zaznacz wszystkie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Live Text</source>
-        <translation>Tekst na żywo</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImageViewer</name>
     <message>
         <source>Image file not found</source>
-        <translation>Nie odnaleziono obrazu</translation>
+        <translation>Şəkil faylı tapılmadı</translation>
     </message>
     <message>
         <source>Highlight
 Text</source>
-        <translation type="vanished">Podkreśl
-Tekst</translation>
+        <translation type="vanished">Seçilmə
+Mətn</translation>
     </message>
 </context>
 <context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Informacje podstawowe</translation>
+        <translation>Əsas məlumatlar</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Rozmiar</translation>
+        <translation>Ölçü</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Data rejestracji</translation>
+        <translation>Çəkilmə tarixi</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Data modyfikacji</translation>
+        <translation>Dəyişdirilmə tarixi</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Szczegóły</translation>
+        <translation>Təfərrüatlar</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Przysłona</translation>
+        <translation>Diafraqma</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Program ekspozycji</translation>
+        <translation>Ekspozisiya tətbiqi</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Ogniskowa</translation>
+        <translation>Foks uzunluğu</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation>İSO</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Tryb ekspozycji</translation>
+        <translation>Ekspozisiya rejimi</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Czas ekspozycji</translation>
+        <translation>Expozisiya vaxtı</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation>Lampa błyskowa</translation>
+        <translation>Fənər</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Korekcja lampy błyskowej</translation>
+        <translation>Fləş tarazlığı</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Przestrzeń kolorów</translation>
+        <translation>Rəng sahəsi</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Tryb pomiaru</translation>
+        <translation>Ölçmə rejimi</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>Balans bieli</translation>
+        <translation>Bəyazlıq tarazlığı</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Model obiektywu</translation>
+        <translation>Linzanın modeli</translation>
     </message>
     <message>
         <source>File name</source>
-        <translation>Nazwa pliku</translation>
+        <translation>Fayl adı</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>Wymiary</translation>
+        <translation>Ölçüsü</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Typ</translation>
+        <translation>Növü</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Maksymalna przysłona</translation>
+        <translation>Maks. diafraqma</translation>
     </message>
     <message>
         <source>Device model</source>
-        <translation>Model urządzenia</translation>
+        <translation>Cihazın modeli</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation>Kopiuj (Ctrl+C)</translation>
+        <translation>Kopyala (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation>Zaznacz wszystko (Ctrl+A)</translation>
+        <translation>Hamısını seç (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
-        <translation>Otwórz obraz</translation>
+        <translation>Şəkili açın</translation>
     </message>
     <message>
         <source>Select pictures</source>
-        <translation>Zaznacz zdjęcia</translation>
+        <translation>Şəkilləri seç</translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation>Plik o tej nazwie już istnieje, użyj innej nazwy</translation>
+        <translation>Fayl artıq mövcuddur, bşqa ad seçin</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Image Viewer</source>
-        <translation>Przeglądarka obrazów</translation>
+        <translation>Şəkil görüntüləyici</translation>
     </message>
     <message>
         <source>day</source>
-        <translation>dzień</translation>
+        <translation>gün</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Przeglądarka obrazów to narzędzie do przeglądania zdjęć z modnym interfejsem i płynną wydajnością.</translation>
+        <translation>Şəkil görüntüləyici, müasir interfeys və hamar performansı ilə şəkillərə baxma alətidir.</translation>
     </message>
 </context>
 <context>
     <name>ReName</name>
     <message>
         <source>Input a new name</source>
-        <translation>Wprowadź nową nazwę</translation>
+        <translation>Yeni ad daxil edin</translation>
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation>Plik o tej nazwie już istnieje, użyj innej nazwy</translation>
+        <translation>Fayl artıq mövcuddur, başqa addan istifadə edin</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anuluj</translation>
+        <translation>İmtina</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation>Potwierdź</translation>
+        <translation>Təsdiq edin</translation>
     </message>
 </context>
 <context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation>Poprzednie</translation>
+        <translation>Əvvəlki</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation>Pauza</translation>
+        <translation>Fasilə</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Odtwórz</translation>
+        <translation>Oynatmaq</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Następne</translation>
+        <translation>Sonrakı</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Wyjście</translation>
+        <translation>Çıxış</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>Next</source>
-        <translation>Następne</translation>
+        <translation>Sonrakı</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Poprzednie</translation>
+        <translation>Əvvəlki</translation>
     </message>
     <message>
         <source>Original size</source>
-        <translation>Rozmiar oryginalny</translation>
+        <translation>İlkin ölçüsü</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Dopasuj do okna</translation>
+        <translation>Pəncərəyə sığışdırın</translation>
     </message>
     <message>
         <source>Rotate</source>
-        <translation>Obróć</translation>
+        <translation>Döndər</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation>Wydobądź tekst</translation>
+        <translation>Mətni çıxardın</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation>Silin</translation>
     </message>
 </context>
 <context>
     <name>ViewRightMenu</name>
     <message>
         <source>Fullscreen</source>
-        <translation>Pełny ekran</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Opuść pełny ekran</translation>
+        <translation>Tam ekrandan çıxış</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Drukuj</translation>
+        <translation>Çap etmək</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation>Wydobądź tekst</translation>
+        <translation>Mətni çıxardın</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Pokaz zdjęć</translation>
+        <translation>Slayd göstərişi</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiuj</translation>
+        <translation>Kopyalayın</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Zmień nazwę</translation>
+        <translation>Adını dəyişin</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation>Silin</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Obróć w prawo</translation>
+        <translation>Saat əqrəbi istiqamətinə döndərin</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Obróć w lewo</translation>
+        <translation>Saat əqrəbinin əksinə döndərin</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Pokaż okno nawigacyjne</translation>
+        <translation>Naviqasiya pəncərəsini göstərmək</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Ukryj okno nawigacyjne</translation>
+        <translation>Naviqasiya pəncərəsini gizlətmək</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Ustaw jako tło pulpitu</translation>
+        <translation>Divar kağızı kimi təyin edin</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Wyświetl w Menedżerze plików</translation>
+        <translation>Fayl menecerində göstərmək</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informacje o obrazie</translation>
+        <translation>Şəkil məlumatı</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Przeglądarka obrazów to narzędzie do przeglądania zdjęć z modnym interfejsem i płynną wydajnością.</translation>
+        <translation>Şəkil görüntüləyici, müasir interfeys və hamar performansı ilə şəkillərə baxma alətidir.</translation>
     </message>
     <message>
         <source>Image Viewer</source>
-        <translation>Przeglądarka obrazów</translation>
+        <translation>Şəkil görüntüləyici</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>Wersja</translation>
+        <translation>Buraxılış</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation>%1 został wydany na licencji %2</translation>
+        <translation>%1 %2 altında buraxılıb</translation>
     </message>
 </context>
 </TS>

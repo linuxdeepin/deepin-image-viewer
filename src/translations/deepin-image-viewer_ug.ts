@@ -1,103 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ug">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ug">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">تولۇق ئىكران</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">ھۆججەت باشقۇرغۇچتا كۆرسىتىش</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">تام تەسۋىر</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">كۆچۈرۈش</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">ئۆچۈرۈش</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">تام رەسىمى قىلىپ تەڭشەش</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">سائەت ئىستېرىلكىسى بويىچە ئايلاندۇرۇش</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">سائەت ئىستېرىلكىسىغا قارشى يۆنىلىشتە ئايلاندۇرۇش</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">ئالدىنقى</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">كىيىنكى</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>تولۇق ئىكران</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">تولۇق ئىكراندىن چېكىنىش</translation>
+        <translation>تولۇق ئىكراندىن چېكىنىش</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">تېكىستنى تونۇتۇش</translation>
+        <translation>تېكىستنى تونۇتۇش</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>تام تەسۋىر</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">نام قويۇش</translation>
+        <translation>نام قويۇش</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>كۆچۈرۈش</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>ئۆچۈرۈش</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>سائەت ئىستېرىلكىسى بويىچە ئايلاندۇرۇش</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>سائەت ئىستېرىلكىسىغا قارشى يۆنىلىشتە ئايلاندۇرۇش</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>تام رەسىمى قىلىپ تەڭشەش</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>ھۆججەت باشقۇرغۇچتا كۆرسىتىش</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">رەسىم ئۇچۇرى</translation>
+        <translation>رەسىم ئۇچۇرى</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>ئالدىنقى</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>كىيىنكى</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>رەسىمنى چوڭايتىش</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>رەسىمنى كىچىكلىتىش</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>ئېچىش</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">بېسىش</translation>
+        <translation>بېسىش</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>رەسىمنى كۆرۈش</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>ياردەم</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>تىزلەتمىلەر كۆرۈنسۇن</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>تەڭشەكلەر</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -105,6 +103,11 @@
     <message>
         <source>Image file not found</source>
         <translation>رەسىم ھۆججىتى بايقالمىدى</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -115,7 +118,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Date captured</source>
@@ -179,7 +182,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Dimensions</source>
@@ -195,18 +198,18 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -217,14 +220,14 @@
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -250,7 +253,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
@@ -296,7 +299,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
@@ -304,7 +307,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Extract text</source>
@@ -390,11 +393,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

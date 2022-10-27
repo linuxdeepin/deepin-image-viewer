@@ -1,47 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_TW">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_TW">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">全螢幕</translation>
+        <translation>全螢幕</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation>幫助</translation>
+        <source>Exit fullscreen</source>
+        <translation>退出全螢幕</translation>
     </message>
     <message>
-        <source>Display shortcuts</source>
-        <translation>顯示快捷鍵</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">在檔案管理器中顯示</translation>
+        <source>Extract text</source>
+        <translation>識別文字</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">幻燈片秀</translation>
+        <translation>幻燈片放映</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>重新命名</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">複製</translation>
+        <translation>複製</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">刪除</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">設為桌布</translation>
+        <translation>刪除</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">順時針旋轉</translation>
+        <translation>順時針旋轉</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">逆時針旋轉</translation>
+        <translation>逆時針旋轉</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>設為桌布</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>在檔案管理器中顯示</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation>圖片訊息</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>上一張</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>下一張</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -52,44 +66,28 @@
         <translation>縮小圖片</translation>
     </message>
     <message>
-        <source>Previous</source>
-        <translation type="unfinished">上一張</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">下一張</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>設置</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="unfinished">退出全螢幕</translation>
-    </message>
-    <message>
-        <source>Extract text</source>
-        <translation type="unfinished">識別文字</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="unfinished">重新命名</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished">圖片訊息</translation>
-    </message>
-    <message>
         <source>Open</source>
         <translation>打開</translation>
     </message>
     <message>
-        <source>Image Viewing</source>
-        <translation>查看圖片</translation>
+        <source>Print</source>
+        <translation>列印</translation>
     </message>
     <message>
-        <source>Print</source>
-        <translation type="unfinished">列印</translation>
+        <source>Image Viewing</source>
+        <translation>圖片檢視</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>幫助</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>在檔案管理器中顯示</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>其他</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -97,7 +95,7 @@
     </message>
     <message>
         <source>Live Text</source>
-        <translation>原況文字</translation>
+        <translation>實況文字</translation>
     </message>
 </context>
 <context>
@@ -117,7 +115,7 @@ Text</source>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>基本資訊</translation>
+        <translation>基本訊息</translation>
     </message>
     <message>
         <source>Size</source>
@@ -137,11 +135,11 @@ Text</source>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>光圈值</translation>
+        <translation>光圈大小</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>曝光模式</translation>
+        <translation>曝光程式</translation>
     </message>
     <message>
         <source>Focal length</source>
@@ -149,11 +147,11 @@ Text</source>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation>ISO感光度</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>曝光方式</translation>
+        <translation>曝光模式</translation>
     </message>
     <message>
         <source>Exposure time</source>
@@ -165,11 +163,11 @@ Text</source>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>曝光補償</translation>
+        <translation>閃光燈補償</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>色彩空間</translation>
+        <translation>顏色空間</translation>
     </message>
     <message>
         <source>Metering mode</source>
@@ -219,7 +217,7 @@ Text</source>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
-        <translation>開啟圖片</translation>
+        <translation>打開圖片</translation>
     </message>
     <message>
         <source>Select pictures</source>
@@ -306,7 +304,7 @@ Text</source>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>縮放到視窗大小</translation>
+        <translation>適應視窗</translation>
     </message>
     <message>
         <source>Rotate</source>
@@ -341,7 +339,7 @@ Text</source>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻燈片秀</translation>
+        <translation>幻燈片放映</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -400,7 +398,7 @@ Text</source>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation>%1在%2許可下發布</translation>
+        <translation>%1遵循%2協議發布</translation>
     </message>
 </context>
 </TS>

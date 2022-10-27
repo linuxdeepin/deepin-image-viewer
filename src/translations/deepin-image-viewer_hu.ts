@@ -1,103 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Teljes képernyő</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Megtekintés a fájlkezelőben</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Diavetítés</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Másolás</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Törlés</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Beállítás háttérképként</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Forgatás az óramutató járásával megegyezően</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Forgatás az óramutató járásával ellentétes irányba</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">Előző</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">Következő</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Teljes képernyő</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Kilépés a teljes képernyős módból</translation>
+        <translation>Kilépés a teljes képernyős módból</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Szöveg kivonat</translation>
+        <translation>Szöveg kivonat</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Diavetítés</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Átnevezés</translation>
+        <translation>Átnevezés</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Másolás</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Törlés</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Beállítás háttérképként</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Megtekintés a fájlkezelőben</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Kép információ</translation>
+        <translation>Kép információ</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Előző</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Következő</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Nagyítás</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Kicsinyítés</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>Megnyitás</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Nyomtatás</translation>
+        <translation>Nyomtatás</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>Kép megtekintése</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Segítség</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Gyorsbillentyűk megjelenítése</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Beállítások</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>Összes kiválasztása</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Élő szöveg</translation>
     </message>
 </context>
 <context>
@@ -105,6 +103,12 @@
     <message>
         <source>Image file not found</source>
         <translation>A képfájl nem található</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="vanished">Kiemelt
+Szöveg</translation>
     </message>
 </context>
 <context>
@@ -115,7 +119,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Méret</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -179,7 +183,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Fájlnév</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -195,18 +199,18 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>Eszköz modell</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Másolás (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation>Összes kijelölése (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -217,14 +221,14 @@
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>Képek kiválasztása</translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>A fájl már létezik, kérjük használjon másik nevet </translation>
     </message>
 </context>
 <context>
@@ -250,7 +254,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>A fájl már létezik, kérjük használjon másik nevet </translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -296,7 +300,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>Eredeti méret</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -304,7 +308,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Elforgatás</translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -390,11 +394,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzió</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kiadásra került %2 alatt</translation>
     </message>
 </context>
 </TS>

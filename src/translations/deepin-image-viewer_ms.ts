@@ -1,103 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ms">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ms">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Skrin penuh</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Papar dalam pengurus fail</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Paparan slaid</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Salin</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Padam</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Tetapkan sebagai kertas dinding</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Putar ikut jam</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Putar lawan jam</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">Terdahulu</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">Berikutnya</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrin penuh</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Keluar dari skrin penuh</translation>
+        <translation>Keluar dari skrin penuh</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Ekstrak teks</translation>
+        <translation>Ekstrak teks</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Nama semula</translation>
+        <translation>Nama semula</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Salin</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Padam</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Putar ikut jam</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Putar lawan jam</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Tetapkan sebagai kertas dinding</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Maklumat imej</translation>
+        <translation>Maklumat imej</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Terdahulu</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Berikutnya</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Zum masuk</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Zum keluar</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>Buka</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Cetak</translation>
+        <translation>Cetak</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>Pelihatan Imej</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Bantuan</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Papar pintasan</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Tetapan</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -105,6 +103,11 @@
     <message>
         <source>Image file not found</source>
         <translation>Fail imej tidak ditemui</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -115,7 +118,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Date captured</source>
@@ -179,7 +182,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Dimensions</source>
@@ -195,18 +198,18 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -217,14 +220,14 @@
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -250,7 +253,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
@@ -296,7 +299,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
@@ -304,7 +307,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Extract text</source>
@@ -390,11 +393,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

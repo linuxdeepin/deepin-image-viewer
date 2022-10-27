@@ -1,103 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sq">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sq">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Sa krejt ekrani</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Shfaqe në përgjegjës kartelash</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Shfaqje diapozitivash</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Kopjoje</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Fshije</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Vëre si sfond</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Rrotulloje në kah orar</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rrotulloje në kah kundërorar</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">E mëparshmja</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">Pasuesja</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Sa krejt ekrani</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Dil nga mënyra “Sa krejt ekrani”</translation>
+        <translation>Dil nga mënyra “Sa krejt ekrani”</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Përfto tekstin</translation>
+        <translation>Përfto tekstin</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Shfaqje diapozitivash</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Riemërtojeni</translation>
+        <translation>Riemërtojeni</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopjoje</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Fshije</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Rrotulloje në kah orar</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Rrotulloje në kah kundërorar</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Vëre si sfond</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Shfaqe në përgjegjës kartelash</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Hollësi figure</translation>
+        <translation>Hollësi figure</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>E mëparshmja</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Pasuesja</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Zmadhoje</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Zvogëloje</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>Hape</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Shtype</translation>
+        <translation>Shtype</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>Parje Figurash</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Ndihmë</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Shfaq shkurtore</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Rregullime</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>Përzgjidhi krejt</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -105,6 +103,12 @@
     <message>
         <source>Image file not found</source>
         <translation>S’u gjet kartelë figure</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="vanished">Theksoje
+Tekstin</translation>
     </message>
 </context>
 <context>
@@ -115,7 +119,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Madhësi</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -179,7 +183,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Emër kartele</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -195,18 +199,18 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>Model pajisjeje</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopjoje (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation>Përzgjidhe krejt (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -217,14 +221,14 @@
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>Përzgjidhni foto</translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartela ekziston tashmë, ju lutemi, përdorni emër tjetër</translation>
     </message>
 </context>
 <context>
@@ -250,7 +254,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartela ekziston tashmë, ju lutemi, përdorni emër tjetër</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -296,7 +300,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>Madhësia origjinale</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -304,7 +308,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Rrotulloje</translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -390,11 +394,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hidhet në qarkullim nën %2</translation>
     </message>
 </context>
 </TS>
