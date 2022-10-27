@@ -1,103 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sr">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Цео екран</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Прикажи у управнику података</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Покретни приказ</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Копирај</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Обриши</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Постави као позадину</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Ротирај удесно</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Ротирај улево</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">Претходно</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">Следеће</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Цео екран</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Напусти цео екран</translation>
+        <translation>Напусти цео екран</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Издвоји текст</translation>
+        <translation>Издвоји текст</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Покретни приказ</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Преименуј</translation>
+        <translation>Преименуј</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Копирај</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Обриши</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Ротирај удесно</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Ротирај улево</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Постави као позадину</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Прикажи у управнику података</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Својства слике</translation>
+        <translation>Својства слике</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Претходно</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Следеће</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Повећај</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Смањи</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>Отвори</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Штампај</translation>
+        <translation>Штампај</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>Преглед слика</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Помоћ</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Прикажи пречице</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Подешавања</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -105,6 +103,11 @@
     <message>
         <source>Image file not found</source>
         <translation>Датотека слике није пронађена</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -115,7 +118,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Date captured</source>
@@ -179,7 +182,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Dimensions</source>
@@ -195,18 +198,18 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -217,14 +220,14 @@
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -250,7 +253,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
@@ -296,7 +299,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
@@ -304,7 +307,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Extract text</source>
@@ -390,11 +393,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

@@ -1,103 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Celá obrazovka</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Zobrazit ve správci souborů</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Promítání</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Zkopírovat</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Smazat</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Nastavit jako pozadí plochy</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Otočit doprava</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Otočit doleva</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">Předchozí</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">Další</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Opustit celou obrazovku</translation>
+        <translation>Opustit celou obrazovku</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Rozpoznat text</translation>
+        <translation>Rozpoznat text</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Promítání</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Přejmenovat</translation>
+        <translation>Přejmenovat</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Zkopírovat</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Smazat</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Otočit doprava</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Otočit doleva</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Nastavit jako pozadí plochy</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Zobrazit ve správci souborů</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Informace o obrázku</translation>
+        <translation>Informace o obrázku</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Předchozí</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Další</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Přiblížit</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Oddálit</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Tisk</translation>
+        <translation>Tisk</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>Zobrazení obrázku</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Nápověda</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Zobrazit zkratky</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -105,6 +103,12 @@
     <message>
         <source>Image file not found</source>
         <translation>Soubor s obrázkem nenalezen.</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="vanished">Zvýraznit
+text</translation>
     </message>
 </context>
 <context>
@@ -115,7 +119,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -179,7 +183,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název souboru</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -195,18 +199,18 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>Model zařízení</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovat (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat vše (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -217,14 +221,14 @@
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat obrázky</translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor již existuje, použijte jiný název</translation>
     </message>
 </context>
 <context>
@@ -250,7 +254,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor již existuje, použijte jiný název</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -296,7 +300,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>Původní velikost</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -304,7 +308,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Otočit</translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -390,11 +394,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Verze</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 je vydán pod %2</translation>
     </message>
 </context>
 </TS>

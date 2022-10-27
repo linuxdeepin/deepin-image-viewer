@@ -1,103 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pt_BR">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Tela Cheia</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Exibir no Gerenciador de Arquivos</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Apresentação de Slides</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Copiar</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Excluir</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Definir como papel de parede</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Girar no sentido horário</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Girar no sentido anti-horário</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">Anterior</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">Próximo</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Tela Cheia</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Sair da Tela Cheia</translation>
+        <translation>Sair da Tela Cheia</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Extrair texto</translation>
+        <translation>Extrair texto</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Apresentação de Slides</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Renomear</translation>
+        <translation>Renomear</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copiar</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Excluir</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Girar no sentido horário</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Girar no sentido anti-horário</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Definir como papel de parede</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Exibir no Gerenciador de Arquivos</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Informação da imagem</translation>
+        <translation>Informação da imagem</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Próximo</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Aumentar zoom</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Reduzir zoom</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Imprimir</translation>
+        <translation>Imprimir</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>Visualizando Imagem</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Ajuda</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Exibir atalhos</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Configurações</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -105,6 +103,11 @@
     <message>
         <source>Image file not found</source>
         <translation>Nenhuma imagem encontrada</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -115,7 +118,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Date captured</source>
@@ -179,7 +182,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Dimensions</source>
@@ -195,18 +198,18 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -217,14 +220,14 @@
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -250,7 +253,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
@@ -296,7 +299,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
@@ -304,7 +307,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Extract text</source>
@@ -390,11 +393,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

@@ -1,103 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ca">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ca">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Pantalla completa</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Mostra al gestor de fitxers</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Presentació de diapositives</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Copia</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Elimina</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Estableix com a fons d&apos;escriptori</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Gira a la dreta</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Gira a l&apos;esquerra</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">Anterior</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">Següent</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Pantalla completa</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Surt de la pantalla completa</translation>
+        <translation>Surt de la pantalla completa</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Extreu-ne el text</translation>
+        <translation>Extreu-ne el text</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Presentació de diapositives</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Canvia&apos;n el nom</translation>
+        <translation>Canvia&apos;n el nom</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copia</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Gira a la dreta</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Gira a l&apos;esquerra</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Estableix com a fons d&apos;escriptori</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Mostra al gestor de fitxers</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Informació de la imatge</translation>
+        <translation>Informació de la imatge</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Següent</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Amplia</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Allunya</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Imprimeix</translation>
+        <translation>Imprimeix</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>Visualització d&apos;imatges</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Ajuda</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Mostra les dreceres</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Configuració</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona-ho tot</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Text viu</translation>
     </message>
 </context>
 <context>
@@ -105,6 +103,12 @@
     <message>
         <source>Image file not found</source>
         <translation>No s&apos;ha trobat cap fitxer d&apos;imatge.</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="vanished">Ressalta el
+text</translation>
     </message>
 </context>
 <context>
@@ -115,7 +119,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -179,7 +183,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom del fitxer</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -195,18 +199,18 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>Model del dispositiu</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona-ho tot (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -217,14 +221,14 @@
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccioneu imatges</translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>El fitxer ja existeix. Si us plau, useu un altre nom.</translation>
     </message>
 </context>
 <context>
@@ -250,7 +254,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>El fitxer ja existeix. Si us plau, useu un altre nom.</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -296,7 +300,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida original</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -304,7 +308,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Gira</translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -390,11 +394,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versió</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 es publica d&apos;acord amb %2</translation>
     </message>
 </context>
 </TS>

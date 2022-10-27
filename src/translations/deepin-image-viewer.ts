@@ -1,230 +1,234 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="en">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Fullscreen</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Display in file manager</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Slide show</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Copy</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Delete</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Set as wallpaper</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotate clockwise</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotate counterclockwise</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">Previous</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">Next</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Fullscreen</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Exit fullscreen</translation>
+        <translation>Exit fullscreen</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Extract text</translation>
+        <translation>Extract text</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Slide show</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Rename</translation>
+        <translation>Rename</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copy</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Delete</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Rotate clockwise</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Rotate counterclockwise</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Set as wallpaper</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Display in file manager</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Image info</translation>
+        <translation>Image info</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Previous</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Next</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Zoom in</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Zoom out</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>Open</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Print</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>Image Viewing</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Help</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Display shortcuts</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Settings</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>Select all</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Live Text</translation>
     </message>
 </context>
 <context>
     <name>ImageViewer</name>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Image file not found</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="vanished">Highlight
+Text</translation>
     </message>
 </context>
 <context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"></translation>
+        <translation>Basic info</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Size</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"></translation>
+        <translation>Date captured</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Date modified</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Details</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>Aperture</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"></translation>
+        <translation>Exposure program</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"></translation>
+        <translation>Focal length</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Exposure mode</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"></translation>
+        <translation>Exposure time</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>Flash</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"></translation>
+        <translation>Flash compensation</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"></translation>
+        <translation>Colorspace</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Metering mode</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"></translation>
+        <translation>White balance</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="unfinished"></translation>
+        <translation>Lens model</translation>
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>File name</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensions</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>Max aperture</translation>
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>Device model</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Copy (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation>Select all (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">Open Image</translation>
+        <translation>Open Image</translation>
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>Select pictures</translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>The file already exists, please use another name</translation>
     </message>
 </context>
 <context>
@@ -235,166 +239,166 @@
     </message>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>day</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Image Viewer is an image viewing tool with fashion interface and smooth performance.</translation>
     </message>
 </context>
 <context>
     <name>ReName</name>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Input a new name</translation>
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>The file already exists, please use another name</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirm</translation>
     </message>
 </context>
 <context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Previous</translation>
+        <translation>Previous</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Pause</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Play</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Next</translation>
+        <translation>Next</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Exit</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Next</translation>
+        <translation>Next</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Previous</translation>
+        <translation>Previous</translation>
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>Original size</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
+        <translation>Fit to window</translation>
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Rotate</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Extract text</translation>
+        <translation>Extract text</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Delete</translation>
+        <translation>Delete</translation>
     </message>
 </context>
 <context>
     <name>ViewRightMenu</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Fullscreen</translation>
+        <translation>Fullscreen</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Exit fullscreen</translation>
+        <translation>Exit fullscreen</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Print</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Extract text</translation>
+        <translation>Extract text</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Slide show</translation>
+        <translation>Slide show</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Copy</translation>
+        <translation>Copy</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Rename</translation>
+        <translation>Rename</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Delete</translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotate clockwise</translation>
+        <translation>Rotate clockwise</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotate counterclockwise</translation>
+        <translation>Rotate counterclockwise</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Show navigation window</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Hide navigation window</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Set as wallpaper</translation>
+        <translation>Set as wallpaper</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Display in file manager</translation>
+        <translation>Display in file manager</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Image info</translation>
+        <translation>Image info</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Image Viewer is an image viewing tool with fashion interface and smooth performance.</translation>
     </message>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished">Image Viewer</translation>
+        <translation>Image Viewer</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 is released under %2</translation>
     </message>
 </context>
 </TS>

@@ -1,103 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="es">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Pantalla completa</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Mostrar en el administrador de archivos</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Presentación</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Copiar</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Borrar</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Establecer como fondo de pantalla</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Girar hacia la derecha</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Girar hacia la izquierda</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">Anterior</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">Siguiente</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Pantalla completa</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Salir de pantalla completa</translation>
+        <translation>Salir de pantalla completa</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished">Extraer texto</translation>
+        <translation>Extraer texto</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Presentación</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Renombrar</translation>
+        <translation>Renombrar</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copiar</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Borrar</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Girar hacia la derecha</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Girar hacia la izquierda</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Establecer como fondo de pantalla</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Mostrar en el administrador de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Información de imágen</translation>
+        <translation>Información de imágen</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Siguiente</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Ampliar</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Reducir</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Imprimir</translation>
+        <translation>Imprimir</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>Visualización de imágenes</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Ayuda</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>Mostrar atajos</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Ajustes</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -105,6 +103,12 @@
     <message>
         <source>Image file not found</source>
         <translation>No se encontró el archivo de imagen</translation>
+    </message>
+    <message>
+        <source>Highlight
+Text</source>
+        <translation type="vanished">Destacar
+Texto</translation>
     </message>
 </context>
 <context>
@@ -115,7 +119,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamaño</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -135,7 +139,7 @@
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Programa de exposición</translation>
+        <translation>Programar exposición</translation>
     </message>
     <message>
         <source>Focal length</source>
@@ -179,7 +183,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de archivo</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -195,18 +199,18 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>Modelo de Dispositivo</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar todo (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -217,14 +221,14 @@
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar imágenes</translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>El archivo ya existe, use otro nombre</translation>
     </message>
 </context>
 <context>
@@ -250,7 +254,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>El archivo ya existe, use otro nombre</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -296,7 +300,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamaño original</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -304,7 +308,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Girar</translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -390,11 +394,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 se libera bajo %2</translation>
     </message>
 </context>
 </TS>
