@@ -82,11 +82,11 @@ Rectangle {
         }
 
         onWidthChanged: {
-            fitWindow()
+           fitWindow()
         }
 
         onHeightChanged: {
-            fitWindow()
+           fitWindow()
         }
     }
 
@@ -1317,9 +1317,8 @@ Rectangle {
 
     //info的窗口
     InfomationDialog {
-
         id: infomationDig
-
+        filePath: imageViewer.source
     }
 
     //导航窗口
