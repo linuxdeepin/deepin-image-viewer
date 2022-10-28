@@ -101,8 +101,10 @@ Item {
         mainView.sourcePaths = fileControl.getDirImagePath(tempPath);
         mainView.source=tempPath
         if(mainView.sourcePaths.length >0){
-            mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
+            // 记录当前读取的图片信息，用于监控文件变更
+            fileControl.resetImageFiles(mainView.sourcePaths)
 
+            mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
             stackView.currentWidgetIndex= 1
         }
     }
