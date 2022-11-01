@@ -45,7 +45,7 @@ Rectangle {
 
     property double  currentimgY : 0.0
 
-    property double  currenImageScale : currentScale / CodeImage.getFitWindowScale(source,root.width, root.height) * 100
+    property double  currenImageScale : currentScale / CodeImage.getFitWindowScale(source, root.width, root.height) * 100
 
     property bool isMousePinchArea: true
 
@@ -66,27 +66,64 @@ Rectangle {
     // 标识当前是否处于全屏缩放状态，缩放前后部分控件需重置，例如缩略图栏重新居中设置
     property bool isFullNormalSwitchState: showFulltimer.running || showfullAnimation.running
 
+    // 记录窗口大小，用于在窗口缩放时，根据前后窗口变化保持图片缩放比例
+    property int lastWindowWidth: 0
+    property int lastWindowHeight: 0
+    // 图片保持适配窗口时的缩放比值，和 currentScale 对应
+    property double keepFitWindowScale: 0
+
     signal sigWheelChange
     signal sigImageShowFullScreen
     signal sigImageShowNormal
     signal sigSourceChange
 
     color: backcontrol.ColorSelector.backgroundColor
+
     ViewRightMenu {
         id: option_menu
     }
+
     Connections {
         target: root
+
         onSigTitlePress: {
             infomationDig.hide()
         }
 
         onWidthChanged: {
-           fitWindow()
+            imageViewer.keepImageScale()
         }
 
         onHeightChanged: {
-           fitWindow()
+            imageViewer.keepImageScale()
+        }
+    }
+
+    // 窗口拖拽大小变更时保持图片的缩放比例
+    function keepImageScale() {
+        // 当前缩放比例与匹配窗口的图片缩放比例比较，若一致，则保持匹配窗口
+        if (Math.abs(imageViewer.keepFitWindowScale - currentScale) > Number.EPSILON) {
+            var lastWidth = imageViewer.lastWindowWidth
+            var lastHeight = imageViewer.lastWindowHeight
+
+            // 跳过重复判断
+            if (lastWidth !== root.width
+                    || lastHeight !== root.height) {
+                // 首次不执行
+                if (lastWidth !== 0
+                        && lastHeight !== 0) {
+                    // 获取之前的图片缩放比例
+                    var oldImageScale = currentScale / CodeImage.getFitWindowScale(source, lastWidth, lastHeight) * 100
+                    // 根据缩放比例反推当前的缩放比例，窗口缩放时界面不同步缩放
+                    currentScale = oldImageScale * CodeImage.getFitWindowScale(source, root.width, root.height) / 100
+                }
+
+                // 更新记录的窗口大小，用于下次恢复
+                imageViewer.lastWindowWidth = root.width
+                imageViewer.lastWindowHeight = root.height
+            }
+        } else {
+            fitWindow()
         }
     }
 
@@ -199,6 +236,8 @@ Rectangle {
         CodeImage.setMultiFrameIndex(fileControl.isMultiImage(source) ? 0 : -1)
         // 复位图片旋转状态
         imageViewer.currentRotate = 0
+        // 复位匹配窗口的缩放比例
+        imageViewer.keepFitWindowScale = 0
 
         // 默认隐藏导航区域
         idNavWidget.visible = false
@@ -282,6 +321,9 @@ Rectangle {
             var useHeight = (curViewImageHeight / rootRatio) <= root.width
 
             currentScale = useHeight ? 1.0 : (enableRootHeight / root.height)
+
+            // 记录图片适配窗口时的缩放比例
+            imageViewer.keepFitWindowScale = currentScale
         }
     }
 
