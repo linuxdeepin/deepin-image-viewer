@@ -56,7 +56,7 @@ set(PROJECT_INCLUDE
     ${PROJECT_SOURCE_DIR}/src/module
     )
 
-set(QtModule Core Gui Widgets LinguistTools )
+set(QtModule Core Gui Widgets LinguistTools DBus)
 
 #先查找到这些qt相关的模块以供链接使用
 find_package(Qt5 REQUIRED ${QtModule})
