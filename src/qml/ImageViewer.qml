@@ -72,6 +72,9 @@ Rectangle {
     // 图片保持适配窗口时的缩放比值，和 currentScale 对应
     property double keepFitWindowScale: 0
 
+    // 图片正在滑动中
+    property bool inFlick: false
+
     signal sigWheelChange
     signal sigImageShowFullScreen
     signal sigImageShowNormal
@@ -207,7 +210,10 @@ Rectangle {
         flushNav()
 
         //重新计算live text
-        recalculateLiveText()
+        if(!inFlick) {
+            console.debug("onCurrentScaleChanged")
+            recalculateLiveText()
+        }
     }
 
     // 多页图当前图片帧号发生变更，更新当前界面维护的数据信息
@@ -217,6 +223,10 @@ Rectangle {
             // 设置 fileControl 维护的多页图信息
             fileControl.setCurrentFrameIndex(frameIndex)
             CodeImage.setMultiFrameIndex(frameIndex)
+            if(!inFlick) {
+                console.debug("onFrameIndexChanged")
+                recalculateLiveText()
+            }
         }
     }
 
@@ -260,8 +270,10 @@ Rectangle {
         mainView.animationAll()
 
         // 启动live text分析
-        console.debug("onSourceChanged:")
-        recalculateLiveText()
+        if(!inFlick) {
+            console.debug("onSourceChanged:")
+            recalculateLiveText()
+        }
     }
 
     // 部分图片存在加载图片过程，重设图片大小调整到图片加载完成后处理 Image.Ready --> onImageReady()
@@ -568,7 +580,7 @@ Rectangle {
                     if (flickableL.curSourceIsMultiImage) {
                         return "image://multiimage/" + flickableL.curImageSource + "#frame_" + flickableL.swipeItemIndex
                     } else if (flickableL.curSourceIsNormalStaticImage) {
-                        return "image://viewImage/" + flickableL.curImageSource
+                        return "image://viewImage/" + curImageSource
                     }
                     return ""
                 }
@@ -765,6 +777,7 @@ Rectangle {
                     target: idNavWidget
                     onChangeShowImgPostions: {
                         msArea.setImgPostions(x, y)
+                        console.debug("onChangeShowImgPostions")
                         recalculateLiveText()
                     }
                 }
@@ -772,9 +785,6 @@ Rectangle {
                 property int realWidth : 0
                 property int realHeight : 0
                 function changeRectXY() {
-                    //当需要动图片的时候，先清理live block
-                    view.exitLiveText()
-
                     // 此缩放比率只在当前显示图片使用，对于多页图，CodeImage已缓存对应的帧号
                     readWidthHeightRatio = CodeImage.getrealWidthHeightRatio(flickableL.curImageSource)
                     realWidth = 0;
@@ -917,11 +927,6 @@ Rectangle {
                     m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
 
                     idNavWidget.setRectLocation(m_NavX, m_NavY)
-                }
-
-                onReleased: {
-                    console.debug("mouse released")
-                    view.startLiveTextAnalyze()
                 }
 
                 onDoubleClicked: {
@@ -1124,30 +1129,41 @@ Rectangle {
     // 多页图滑动视图组件，用于进行*.tif等多页图的滑动展示，嵌入最外层滑动视图展示
     Component {
         id: mulitImageSwipeViewComp
-        SwipeView {
+        ListView {
             id: multiImageSwipeView
-            height: view.width
-            width: view.height
+            height: imageViewer.width
+            width: imageViewer.height
+//            anchors.fill: view
+            preferredHighlightBegin: 0; preferredHighlightEnd: 0
+            highlightRangeMode: ListView.StrictlyEnforceRange
+            orientation: ListView.Horizontal
             clip: true
             // 当处理双击缩放界面时，由于坐标变更，可能误触导致图片滑动
             // 调整为在缩放动作时不处理滑动操作
             interactive: !imageViewer.isFullNormalSwitchState
 
+            snapMode: ListView.SnapOneItem;
+            flickDeceleration: 500
+            cacheBuffer: 200
+
+            highlightMoveDuration: 0
+            boundsMovement: Flickable.FollowBoundsBehavior
+            boundsBehavior: Flickable.StopAtBounds
+
             // 设置当前加载多页图滑动视图在完整图片滑动视图的索引(非当前全局索引，可能需要预加载)
             property int imageIndex
             property var multiImageSource: imageViewer.sourcePaths[imageIndex]
 
-            Repeater {
-                model: fileControl.getImageCount(multiImageSource)
-                Loader {
-                    active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
-                    sourceComponent: imageShowComp
+            model: fileControl.getImageCount(multiImageSource)
 
-                    onLoaded: {
-                        // 使用 loader加载，手动设置图片视图的源图片路径
-                        item.curImageSource = multiImageSource
-                        item.swipeItemIndex = index
-                    }
+            delegate: Loader {
+//                    active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+                sourceComponent: imageShowComp
+
+                onLoaded: {
+                    // 使用 loader加载，手动设置图片视图的源图片路径
+                    item.curImageSource = multiImageSource
+                    item.swipeItemIndex = index
                 }
             }
 
@@ -1188,24 +1204,133 @@ Rectangle {
             Component.onCompleted: {
                 contentItem.highlightMoveDuration = 0       // 将移动时间设为0
             }
+
+            onMovementStarted: {
+                inFlick = true
+                exitLiveText()
+            }
+
+            onMovementEnded: {
+                inFlick = false
+                console.debug("onMovementEnded: id: multiImageSwipeView")
+                startLiveText()
+            }
+        }
+    }
+
+    ListModel {
+        id: theModel
+    }
+
+    onSourcePathsChanged: {
+        theModel.clear()
+        for(var i = 0;i !== sourcePaths.length;++i) {
+            theModel.append({curImageSource : sourcePaths[i]})
         }
     }
 
     // 图片滑动视图
-    SwipeView {
+    ListView {
         id: view
         currentIndex: sourcePaths.indexOf(source)
-        width: parent.width
-        height: parent.height
-        clip: true
-        // 当处理双击缩放界面时，由于坐标变更，可能误触导致图片滑动
-        // 调整为在缩放动作时不处理滑动操作
+        anchors.fill: parent
         interactive: !imageViewer.isFullNormalSwitchState
+        preferredHighlightBegin: 0; preferredHighlightEnd: 0
+        highlightRangeMode: ListView.StrictlyEnforceRange
+        orientation: ListView.Horizontal
+        snapMode: ListView.SnapOneItem;
+        flickDeceleration: 500
 
-        // 初始打开和点击缩略图切换都不会再有滑动效果
+        highlightMoveDuration: 0
+        boundsMovement: Flickable.StopAtBounds
+        boundsBehavior: Flickable.DragOverBounds
+
+        cacheBuffer: 200
+        delegate: Loader {
+            id: swipeViewItemLoader
+//            active: SwipeView.isCurrentItem || SwipeView.isNextItem
+//                    || SwipeView.isPreviousItem
+            width: view.width
+
+            // 当前item使用的图片源
+            property var curItemSource: imageViewer.sourcePaths[index]
+            // 判断图片是否存在
+            property var curItemImageExist: fileControl.imageIsExist(curItemSource)
+            // 非当前 ImageViewer 使用的标识，而是当前滑动视图 item 对应图片的信息
+            property var curItemIsMultiImage: fileControl.isMultiImage(curItemSource)
+
+            // 根据列表索引判断是否为多页图
+            sourceComponent: (curItemIsMultiImage && curItemImageExist) ? mulitImageSwipeViewComp : imageShowComp
+
+            onLoaded: {
+                // 为多页图且图片存在时调用
+                if (curItemIsMultiImage && curItemImageExist) {
+                    item.imageIndex = index
+
+                    //! \warning 后续修改为ListView处理
+                    // 若为前后的组件且此图片组件为多页图，修改索引
+                    if (SwipeView.isPreviousItem) {
+                        item.currentIndex = item.count - 1
+                    }
+                    if (SwipeView.isNextItem) {
+                        item.currentIndex = 0
+                    }
+                } else {
+                    // 非多页图，使用 loader 加载，设置 imageShowComp 组件的源图片路径
+                    item.swipeItemIndex = index
+                    item.curImageSource = imageViewer.sourcePaths[index]
+                }
+            }
+
+            // 连接图片变更信号，当图片变更且当前图片为多页图时处理
+            Connections {
+                target: fileControl
+
+                // 图片被移动、替换、删除时触发
+                // void imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
+                onImageFileChanged: {
+                    // 判断是否和当前加载图片一致，涉及多页图才需要重新加载组件
+                    if (filePath === swipeViewItemLoader.curItemSource
+                            && (swipeViewItemLoader.curItemIsMultiImage || isMultiImage)) {
+                        swipeViewItemLoader.curItemSource = ""
+                        swipeViewItemLoader.curItemSource = filePath
+
+                        // 多页图需要特殊处理，更新源
+                        if (isExist && filePath === imageViewer.source) {
+                            imageViewer.source = ""
+                            imageViewer.source = filePath
+                        }
+                    }
+                }
+            }
+        }
+        model: sourcePaths
+
+        moveDisplaced: Transition {
+             NumberAnimation { properties: "x,y"; duration: 100 }
+         }
+
         Component.onCompleted: {
-            contentItem.highlightMoveDuration = 0       // 将移动时间设为0
-            liveTextAnalyzer.analyzeFinished.connect(runLiveText) //后台分析结束，上层UI执行绘制操作
+            contentItem.highlightMoveDuration = 0
+            liveTextAnalyzer.analyzeFinished.connect(runLiveText)
+        }
+
+        onCurrentIndexChanged: {
+            // 当通过界面拖拽导致索引变更，需要调整多页图索引范围
+            imageViewer.index = view.currentIndex
+            imageViewer.currentRotate = 0
+            CodeImage.setReverseHeightWidth(false)
+        }
+
+        onMovementStarted: {
+            inFlick = true
+            exitLiveText()
+        }
+
+        onMovementEnded: {
+            inFlick = false
+            console.debug("onMovementEnded: id: view")
+            startLiveText()
         }
 
         //live text分析函数
@@ -1234,7 +1359,11 @@ Rectangle {
 
         //live text分析启动控制
         function startLiveTextAnalyze() {
-            liveTextTimer.running = true
+            if(ltw.visible) {
+                exitLiveText()
+            }
+
+            liveTextTimer.restart()
         }
 
         //live text分析启动延迟
@@ -1249,73 +1378,6 @@ Rectangle {
                     running = false
                 }
             }
-        }
-
-        Repeater {
-            model: sourcePaths.length
-            Loader {
-                id: swipeViewItemLoader
-                active: SwipeView.isCurrentItem || SwipeView.isNextItem
-                        || SwipeView.isPreviousItem
-
-                // 当前item使用的图片源
-                property var curItemSource: imageViewer.sourcePaths[index]
-                // 判断图片是否存在
-                property var curItemImageExist: fileControl.imageIsExist(curItemSource)
-                // 非当前 ImageViewer 使用的标识，而是当前滑动视图 item 对应图片的信息
-                property var curItemIsMultiImage: fileControl.isMultiImage(curItemSource)
-
-                // 根据列表索引判断是否为多页图
-                sourceComponent: (curItemIsMultiImage && curItemImageExist) ? mulitImageSwipeViewComp : imageShowComp
-
-                onLoaded: {
-                    // 为多页图且图片存在时调用
-                    if (curItemIsMultiImage && curItemImageExist) {
-                        item.imageIndex = index
-                        // 若为前后的组件且此图片组件为多页图，修改索引
-                        if (SwipeView.isPreviousItem) {
-                            item.currentIndex = item.count - 1
-                        }
-                        if (SwipeView.isNextItem) {
-                            item.currentIndex = 0
-                        }
-                    } else {
-                        // 非多页图，使用 loader 加载，设置 imageShowComp 组件的源图片路径
-                        item.swipeItemIndex = index
-                        item.curImageSource = imageViewer.sourcePaths[index]
-                    }
-                }
-
-                // 连接图片变更信号，当图片变更且当前图片为多页图时处理
-                Connections {
-                    target: fileControl
-
-                    // 图片被移动、替换、删除时触发
-                    // void imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
-                    onImageFileChanged: {
-                        // 判断是否和当前加载图片一致，涉及多页图才需要重新加载组件
-                        if (filePath === swipeViewItemLoader.curItemSource
-                                && (swipeViewItemLoader.curItemIsMultiImage || isMultiImage)) {
-                            swipeViewItemLoader.curItemSource = ""
-                            swipeViewItemLoader.curItemSource = filePath
-
-                            // 多页图需要特殊处理，更新源
-                            if (isExist && filePath === imageViewer.source) {
-                                imageViewer.source = ""
-                                imageViewer.source = filePath
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        onCurrentIndexChanged: {
-            // 当通过界面拖拽导致索引变更，需要调整多页图索引范围
-            imageViewer.index = view.currentIndex
-            imageViewer.currentRotate = 0
-
-            CodeImage.setReverseHeightWidth(false)
         }
     }
 

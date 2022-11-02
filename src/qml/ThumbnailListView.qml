@@ -342,7 +342,7 @@ Item {
         anchors.topMargin: (parent.height - height) / 2
         enabled: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
         onClicked: {
-            fileControl.ocrImage(source)
+            fileControl.ocrImage(source, imageViewer.frameIndex)
         }
         ToolTip.delay: 500
         ToolTip.timeout: 5000
