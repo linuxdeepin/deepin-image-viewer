@@ -76,8 +76,8 @@ Rectangle {
             description: qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
             license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
             companyLogo: fileControl.getCompanyLogo()
-            websiteName: "www.chinauos.com"
-            websiteLink: "https://www.chinauos.com/"
+            websiteName: DTK.deepinWebsiteName
+            websiteLink: DTK.deepinWebsiteLink
         }
 
         // 使用自定的文本
