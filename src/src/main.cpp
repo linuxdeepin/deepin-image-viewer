@@ -9,6 +9,10 @@
 //#include <DApplication>
 //#undef protected
 
+#include "mainwindow/mainwindow.h"
+#include "application.h"
+#include "eventlogutils.h"
+
 #include <DWidgetUtil>
 #include <DMainWindow>
 #include <DLog>
@@ -18,17 +22,12 @@
 #include <QTranslator>
 #include <QDebug>
 #include <QDesktopWidget>
+#include <QtDBus/QDBusConnection>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-
-#include "mainwindow/mainwindow.h"
-#include "application.h"
-#include "eventlogutils.h"
-
-//using namespace Dtk::Core;
 
 // 最小宽高
 #define MAINWIDGET_MINIMUN_HEIGHT 300
@@ -212,5 +211,10 @@ int main(int argc, char *argv[])
     }
 //    Dtk::Core::DVtableHook::overrideVfptrFun(qApp, &DApplication::handleQuitAction, w, &MainWindow::quitApp);
     QObject::connect(dApp, &Application::sigQuit, w, &MainWindow::quitApp, Qt::DirectConnection);
+
+    // 临时修改，注册DBus服务以正常启动进程，后续添加相关的DBus接口
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    dbus.registerService("com.deepin.ImageViewer");
+
     return a.exec();
 }
