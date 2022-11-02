@@ -50,7 +50,7 @@ Menu {
         text: qsTr("Extract text")
         visible: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
         onTriggered: {
-            fileControl.ocrImage(source)
+            fileControl.ocrImage(source, imageViewer.frameIndex)
         }
         Shortcut {
             sequence: "Alt+O"
@@ -58,7 +58,7 @@ Menu {
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
-                    fileControl.ocrImage(source)
+                    fileControl.ocrImage(source, imageViewer.frameIndex)
                 }
             }
         }
@@ -99,7 +99,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+C"
-            enabled: fileControl.isCanReadable(source) && ltw.haveSelect()
+            enabled: fileControl.isCanReadable(source) //&& ltw.haveSelect()
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {

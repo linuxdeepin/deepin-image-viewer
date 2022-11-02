@@ -374,11 +374,20 @@ bool FileControl::isFile(const QString &path)
     return QFileInfo(localPath).isFile();
 }
 
-void FileControl::ocrImage(const QString &path)
+void FileControl::ocrImage(const QString &path, int index)
 {
     slotRotatePixCurrent();
-    QString localPath = QUrl(path).toLocalFile();
-    m_ocrInterface->openFile(localPath);
+
+    if(!isMultiImage(path)) { //非多页图使用路径直接进行识别
+        QString localPath = QUrl(path).toLocalFile();
+        m_ocrInterface->openFile(localPath);
+    } else { //多页图需要确定识别哪一页
+        m_currentReader->jumpToImage(index);
+        auto image = m_currentReader->read();
+        auto tempFileName = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + QDir::separator() + "rec.png";
+        image.save(tempFileName);
+        m_ocrInterface->openFile(tempFileName);
+    }
 }
 
 QString FileControl::parseCommandlineGetPath(const QString &path)

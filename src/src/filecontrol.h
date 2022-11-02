@@ -61,7 +61,7 @@ public:
     Q_INVOKABLE bool isFile(const QString &path);
 
     //进行ocr识别
-    Q_INVOKABLE void ocrImage(const QString &path);
+    Q_INVOKABLE void ocrImage(const QString &path, int index);
 
 //    Q_INVOKABLE double fitImage(int imgWidth, int windowWidth);
 

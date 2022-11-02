@@ -2,10 +2,8 @@
 
 #include <QVariant>
 
-#include <deepinocrplugindef.h>
-#include <deepinocrplugin.h>
-
-#include <iostream>
+#include <deepin-ocr-plugin-manager/deepinocrplugindef.h>
+#include <deepin-ocr-plugin-manager/deepinocrplugin.h>
 
 #include <QtConcurrent/QtConcurrent>
 
