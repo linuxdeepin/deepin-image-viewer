@@ -50,7 +50,7 @@ Control {
     }
 
     property Component action: ActionButton {
-        visible: control.iconName
+        visible: showPicLabel.visible
         Layout.alignment: Qt.AlignRight
         icon {
             width: 14

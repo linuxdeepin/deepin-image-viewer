@@ -406,8 +406,8 @@ Item {
     FloatingNotice {
         id: floatLabel
         visible: false
-        anchors.bottom: thumbnailViewBackGround.top
-        anchors.bottomMargin: global.floatMargin
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: thumbnailViewBackGround.height + global.floatMargin
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 2 - 50
         opacity: 0.7
