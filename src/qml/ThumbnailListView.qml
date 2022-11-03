@@ -12,7 +12,6 @@ Item {
     onCurrentIndexChanged: {
         bottomthumbnaillistView.currentIndex = currentIndex
         bottomthumbnaillistView.forceActiveFocus()
-        imageViewer.exitLiveText()
     }
 
     function rotateImage( x ){
@@ -62,8 +61,8 @@ Item {
                 imageViewer.frameIndex = fileControl.getImageCount(source) - 1;
             }
             bottomthumbnaillistView.forceActiveFocus()
+            imageViewer.recalculateLiveText()
         }
-        imageViewer.recalculateLiveText()
     }
 
     function next (){
@@ -81,8 +80,8 @@ Item {
             source = mainView.sourcePaths[bottomthumbnaillistView.currentIndex]
             imageViewer.index = currentIndex
             bottomthumbnaillistView.forceActiveFocus()
+            imageViewer.recalculateLiveText()
         }
-        imageViewer.recalculateLiveText()
     }
 
     IconButton {
@@ -252,8 +251,6 @@ Item {
                 // 尽可能将高亮缩略图显示在列表中
                 positionViewAtIndex(currentIndex, ListView.Center)
             }
-
-            imageViewer.exitLiveText()
         }
 
         Connections {

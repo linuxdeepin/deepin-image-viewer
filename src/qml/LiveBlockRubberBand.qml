@@ -11,7 +11,7 @@ Item {
 
     Rectangle {
         id: rect
-        opacity: 0.5
+        opacity: 0.15
         anchors.fill: parent
     }
 

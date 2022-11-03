@@ -231,8 +231,6 @@ ViewLoad::ViewLoad()
 QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QString tempPath = QUrl(id).toLocalFile();
-    QImage Img;
-    QString error;
 
     QMutexLocker _locker(&m_mutex);
     if (tempPath == m_currentPath) {
@@ -241,13 +239,20 @@ QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &reque
         }
         return m_Img;
     }
+    _locker.unlock(); //重新划分临界区，将最费时的图片加载环节移出临界区
+
+    QImage Img;
+    QString error;
     LibUnionImage_NameSpace::loadStaticImageFromFile(tempPath, Img, error);
+
+    _locker.relock();
     m_imgSizes[tempPath] = Img.size() ;
     m_Img = Img;
     m_currentPath = tempPath;
     if (m_Img.size() != requestedSize && requestedSize.width() > 0 && requestedSize.height() > 0) {
         Img = m_Img.scaled(requestedSize);
     }
+    _locker.unlock();
 
     return Img;
 }
