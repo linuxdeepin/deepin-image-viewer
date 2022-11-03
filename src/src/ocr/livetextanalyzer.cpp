@@ -26,7 +26,10 @@ void LiveTextAnalyzer::setImage(const QImage &image)
 
 void LiveTextAnalyzer::analyze()
 {
+    //FIXME: 多线程同步存在问题，导致切换图片的时候可能会出现未及时清理旧的Live Block的情况，暂无处理办法
+    //关闭多线程即可消除BUG，但界面会变得卡顿
     QtConcurrent::run([this]() {
+        while(ocrDriver->isRunning()) {}; //等待之前的分析结束
         emit analyzeFinished(ocrDriver->analyze());
     });
 }

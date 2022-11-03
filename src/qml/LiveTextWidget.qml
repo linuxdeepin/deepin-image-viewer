@@ -1,7 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
-//import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0
 
@@ -33,6 +32,11 @@ Item {
     //目前暂时只能处理对齐的矩形框
     //blocks: QList<QList<float>>
     function drawRect(blocks) {
+        if(blockArray.length != 0) {
+            liveExit()
+            blockArray.length = []
+        }
+
         for(var id = 0;id !== blocks.length;id++) {
             BlockLoader.createBlockObjects(root)
             var rectDetail = BlockLoader.block

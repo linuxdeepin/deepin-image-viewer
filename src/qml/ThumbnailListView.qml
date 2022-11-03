@@ -12,6 +12,7 @@ Item {
     onCurrentIndexChanged: {
         bottomthumbnaillistView.currentIndex = currentIndex
         bottomthumbnaillistView.forceActiveFocus()
+        imageViewer.exitLiveText()
     }
 
     function rotateImage( x ){
@@ -251,6 +252,8 @@ Item {
                 // 尽可能将高亮缩略图显示在列表中
                 positionViewAtIndex(currentIndex, ListView.Center)
             }
+
+            imageViewer.exitLiveText()
         }
 
         Connections {
