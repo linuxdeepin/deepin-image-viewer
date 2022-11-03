@@ -1345,24 +1345,23 @@ Rectangle {
         }
 
         //live text执行函数
-        function runLiveText() {
-            console.debug("run live start")
-            ltw.drawRect(liveTextAnalyzer.liveBlock())
-            ltw.visible = true
+        function runLiveText(resultCanUse) {
+            if(resultCanUse) {
+                console.debug("run live start")
+                ltw.drawRect(liveTextAnalyzer.liveBlock())
+                ltw.visible = true
+            }
         }
 
         //live text退出函数
         function exitLiveText() {
+            console.debug("live exit")
             liveTextAnalyzer.breakAnalyze()
             ltw.clearLive()
         }
 
         //live text分析启动控制
         function startLiveTextAnalyze() {
-            if(ltw.visible) {
-                exitLiveText()
-            }
-
             liveTextTimer.restart()
         }
 
