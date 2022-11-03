@@ -1207,6 +1207,7 @@ Rectangle {
 
             onMovementStarted: {
                 inFlick = true
+                console.debug("onMovementStarted: id: multiImageSwipeView")
                 exitLiveText()
             }
 
@@ -1324,6 +1325,7 @@ Rectangle {
 
         onMovementStarted: {
             inFlick = true
+            console.debug("onMovementStarted: id: view")
             exitLiveText()
         }
 
@@ -1339,14 +1341,15 @@ Rectangle {
             console.debug("Live Text analyze start")
             view.currentItem.grabToImage(function(result) { //截取当前控件显示
                 liveTextAnalyzer.setImage(result.image) //设置分析图片
-                liveTextAnalyzer.analyze() //执行分析（异步执行，函数会立即返回）
+                liveTextAnalyzer.analyze(currentIndex) //执行分析（异步执行，函数会立即返回）
                 //result.saveToFile("/home/wzyforuos/Desktop/viewer.png") //保存截取的图片，debug用
             })
         }
 
         //live text执行函数
-        function runLiveText(resultCanUse) {
-            if(resultCanUse) {
+        function runLiveText(resultCanUse, token) {
+            console.debug("function runLiveText", token, currentIndex)
+            if(resultCanUse && token == currentIndex) { //这里无视警告，就是需要js的==来进行自动类型转换
                 console.debug("run live start")
                 ltw.drawRect(liveTextAnalyzer.liveBlock())
                 ltw.visible = true
@@ -1358,6 +1361,7 @@ Rectangle {
             console.debug("live exit")
             liveTextAnalyzer.breakAnalyze()
             ltw.clearLive()
+            liveTextTimer.stop()
         }
 
         //live text分析启动控制

@@ -20,10 +20,10 @@ public:
     Q_INVOKABLE QString textResult(int blockIndex, int startIndex, int len) const;
 
 signals:
-    void analyzeFinished(bool resultCanUse);
+    void analyzeFinished(bool resultCanUse, const QString &token);
 
 public slots:
-    Q_INVOKABLE void analyze();
+    Q_INVOKABLE void analyze(const QString &token);
     Q_INVOKABLE void breakAnalyze();
 
 protected:

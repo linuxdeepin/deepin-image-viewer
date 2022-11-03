@@ -24,13 +24,14 @@ void LiveTextAnalyzer::setImage(const QImage &image)
                          static_cast<size_t>(image_copy.bytesPerLine()), DeepinOCRPlugin::PixelType::Pixel_RGB);
 }
 
-void LiveTextAnalyzer::analyze()
+void LiveTextAnalyzer::analyze(const QString &token)
 {
-    //FIXME: 多线程同步存在问题，导致切换图片的时候可能会出现未及时清理旧的Live Block的情况，暂无处理办法
-    //关闭多线程即可消除BUG，但界面会变得卡顿
-    QtConcurrent::run([this]() {
+    //此处使用token来标记本次识别的目标，后续的识别结果也随token发出
+    //外部调用的时候也凭借收到的token判断是否采用此次的识别结果
+    //以此来解决QML的信号延迟问题，但仅降低此问题的复现概率，没有完全解决
+    QtConcurrent::run([this, token]() {
         while(ocrDriver->isRunning()) {}; //等待之前的分析结束
-        emit analyzeFinished(ocrDriver->analyze());
+        emit analyzeFinished(ocrDriver->analyze(), token);
     });
 }
 
