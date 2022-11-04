@@ -1157,7 +1157,6 @@ Rectangle {
             model: fileControl.getImageCount(multiImageSource)
 
             delegate: Loader {
-//                    active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
                 sourceComponent: imageShowComp
 
                 onLoaded: {
@@ -1243,14 +1242,12 @@ Rectangle {
         flickDeceleration: 500
 
         highlightMoveDuration: 0
-        boundsMovement: Flickable.StopAtBounds
-        boundsBehavior: Flickable.DragOverBounds
+        boundsMovement: Flickable.FollowBoundsBehavior
+        boundsBehavior: Flickable.StopAtBounds
 
         cacheBuffer: 200
         delegate: Loader {
             id: swipeViewItemLoader
-//            active: SwipeView.isCurrentItem || SwipeView.isNextItem
-//                    || SwipeView.isPreviousItem
             width: view.width
 
             // 当前item使用的图片源
@@ -1268,12 +1265,10 @@ Rectangle {
                 if (curItemIsMultiImage && curItemImageExist) {
                     item.imageIndex = index
 
-                    //! \warning 后续修改为ListView处理
-                    // 若为前后的组件且此图片组件为多页图，修改索引
-                    if (SwipeView.isPreviousItem) {
+                    // 若为展示组件前后的组件且此图片组件为多页图，修改索引
+                    if (index < view.currentIndex) {
                         item.currentIndex = item.count - 1
-                    }
-                    if (SwipeView.isNextItem) {
+                    } else if (index > view.currentIndex) {
                         item.currentIndex = 0
                     }
                 } else {
