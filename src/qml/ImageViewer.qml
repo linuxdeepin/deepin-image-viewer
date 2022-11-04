@@ -1,8 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
-//import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.11
+import QtQuick.Shapes 1.11
 import org.deepin.dtk 1.0
 
 Rectangle {
@@ -706,14 +706,34 @@ Rectangle {
                         id: notExistImage
                         fillMode: Image.PreserveAspectFit
                         anchors.centerIn: parent
-                        width: 100
-                        height: 100
+                        width: 128
+                        height: 128
                         clip: true
                         smooth: true
                         mipmap: true
 
                         // 加载缩略图
                         source: flickableL.curSourceIsNullImage ? "qrc:/res/icon_import_photo.svg" : "image://ThumbnailImage/" + flickableL.curImageSource
+
+                        // 虚线框
+                        Shape {
+                            ShapePath {
+                                strokeColor: Qt.rgba(0, 0, 0, 0.6)
+                                strokeWidth: 1
+                                fillColor: "transparent"
+                                capStyle: ShapePath.SquareCap
+                                joinStyle: ShapePath.BevelJoin
+                                strokeStyle: ShapePath.DashLine
+                                dashPattern: [2, 2]
+
+                                startX: 1
+                                startY: 1
+                                PathLine { x: notExistImage.width; y: 1 }
+                                PathLine { x: notExistImage.width; y: notExistImage.height }
+                                PathLine { x: 1; y: notExistImage.height }
+                                PathLine { x: 1; y: 1 }
+                            }
+                        }
                     }
 
                     Text {
@@ -721,15 +741,18 @@ Rectangle {
                         id: notExistLabel
                         anchors {
                             top: notExistImage.bottom
-                            topMargin: 20
+                            topMargin: 10
                             horizontalCenter: notExistImage.horizontalCenter
                         }
+                        height: 16
+                        opacity: 0.6
 
                         // 图片未找到
                         text: qsTr("Image file not found")
                         textFormat: Text.PlainText
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: 11
                     }
                 }
             }
