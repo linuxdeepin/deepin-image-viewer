@@ -370,12 +370,12 @@ Item {
 
     Rectangle {
         id: thumbnailViewBackGround
-        // 根据拓展的列表宽度计算
-        width: parent.width - 30 < 490 + thumbnailListView.listContentWidth
-               ? parent.width - 30
-               : 490 + thumbnailListView.listContentWidth
+        // 根据拓展的列表宽度计算, 20px为工具栏和主窗口间的间距 2x10px
+        width: parent.width - 20 < thumbnailListView.btnContentWidth + thumbnailListView.listContentWidth
+               ? parent.width - 20
+               : thumbnailListView.btnContentWidth + thumbnailListView.listContentWidth
         // 根据当前窗口大小可用的列表内容宽度(最小窗口宽度为 628)
-        property int avaliableListViewWidth: parent.width - 30 - 490
+        property int avaliableListViewWidth: parent.width - 20 - thumbnailListView.btnContentWidth
         height: 70
 
         anchors.right: parent.right

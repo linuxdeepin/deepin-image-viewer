@@ -252,8 +252,10 @@ Item {
 
             PropertyChanges {
                 target: container
-                scale: 1.25
+                y: 15
+                height: 50
                 width: height
+                imgRadius: 4
             }
 
             PropertyChanges {
@@ -307,7 +309,7 @@ Item {
         reversible: true
 
         NumberAnimation {
-            properties: "scale, x, width, height"
+            properties: "x, y, width, height"
             // 调整不同宽度下的动画时间，最多310ms
             duration: width < 200 ? 100 : width / 2
             easing.type: Easing.OutInQuad
