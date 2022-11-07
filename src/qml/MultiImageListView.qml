@@ -26,7 +26,7 @@ Item {
 
         height: multiImage.height
         width: multiImage.width
-        // 计算调整的 item 宽度，item 宽度允许范围内处于 10px ~ 30px, coun一定 >=2
+        // 计算调整的 item 宽度，item 宽度允许范围内处于 10px ~ 30px, count一定 >=2
         property int preferredItemWidth: Math.min(Math.max(10, (width - 30) / (count - 1)), 30)
 
         // 使用范围模式，允许高亮缩略图在preferredHighlightBegin~End的范围外，使缩略图填充空白区域

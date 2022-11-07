@@ -5,43 +5,48 @@ import QtGraphicalEffects 1.0
 import org.deepin.dtk 1.0
 
 Item {
+    id: thumbnailView
+
     property int currentIndex: 0
-    // 用于外部获取当前缩略图栏内容的长度，用于布局
-    property alias listContentWidth: bottomthumbnaillistView.contentWidth
+    // 用于外部获取当前缩略图栏内容的长度，用于布局, 10px为焦点缩略图不在ListView中的边框像素宽度(radius = 4 * 1.25)
+    property int listContentWidth: bottomthumbnaillistView.contentWidth + 10
+    // 除ListView外其它按键的占用宽度
+    property int btnContentWidth: switchArrowLayout.width + leftRowLayout.width + rightRowLayout.width + deleteButton.width
 
     onCurrentIndexChanged: {
         bottomthumbnaillistView.currentIndex = currentIndex
         bottomthumbnaillistView.forceActiveFocus()
     }
 
-    function rotateImage( x ){
-        bottomthumbnaillistView.currentItem.rotation=bottomthumbnaillistView.currentItem.rotation +x
+    function rotateImage(x) {
+        bottomthumbnaillistView.currentItem.rotation
+                = bottomthumbnaillistView.currentItem.rotation + x
     }
 
-    function deleteCurrentImage(){
-
+    function deleteCurrentImage() {
         if (mainView.sourcePaths.length - 1 > bottomthumbnaillistView.currentIndex) {
-            var tempPathIndex=bottomthumbnaillistView.currentIndex
-            var tmpPath=source
+            var tempPathIndex = bottomthumbnaillistView.currentIndex
+            var tmpPath = source
             //需要保存临时变量，重置后赋值
-            imageViewer.sourcePaths = fileControl.removeList(sourcePaths,tempPathIndex)
-            imageViewer.swipeIndex=tempPathIndex
+            imageViewer.sourcePaths = fileControl.removeList(sourcePaths, tempPathIndex)
+            imageViewer.swipeIndex = tempPathIndex
             fileControl.deleteImagePath(tmpPath)
-        }else if(mainView.sourcePaths.length - 1 == 0){
-            stackView.currentWidgetIndex=0
-            root.title=""
+        } else if (mainView.sourcePaths.length - 1 == 0) {
+            stackView.currentWidgetIndex = 0
+            root.title = ""
             fileControl.deleteImagePath(imageViewer.sourcePaths[0])
-            imageViewer.sourcePaths=fileControl.removeList(sourcePaths,0)
-
-        }else{
+            imageViewer.sourcePaths = fileControl.removeList(sourcePaths, 0)
+        } else {
             bottomthumbnaillistView.currentIndex--
             imageViewer.source = imageViewer.sourcePaths[bottomthumbnaillistView.currentIndex]
-            fileControl.deleteImagePath(sourcePaths[bottomthumbnaillistView.currentIndex+1])
-            imageViewer.sourcePaths = fileControl.removeList(imageViewer.sourcePaths,bottomthumbnaillistView.currentIndex+1)
+            fileControl.deleteImagePath(sourcePaths[bottomthumbnaillistView.currentIndex + 1])
+            imageViewer.sourcePaths = fileControl.removeList(
+                        imageViewer.sourcePaths,
+                        bottomthumbnaillistView.currentIndex + 1)
         }
     }
 
-    function previous (){
+    function previous() {
         // 判断是否为多页图,多页图只进行页面替换
         if (imageViewer.currentIsMultiImage) {
             if (imageViewer.frameIndex != 0) {
@@ -58,14 +63,14 @@ Item {
 
             // 向前移动的图像需要特殊判断，若为多页图，调整显示最后一张图
             if (fileControl.isMultiImage(source)) {
-                imageViewer.frameIndex = fileControl.getImageCount(source) - 1;
+                imageViewer.frameIndex = fileControl.getImageCount(source) - 1
             }
             bottomthumbnaillistView.forceActiveFocus()
             imageViewer.recalculateLiveText()
         }
     }
 
-    function next (){
+    function next() {
         // 判断是否为多页图,多页图只进行页面替换
         if (imageViewer.currentIsMultiImage) {
             if (imageViewer.frameIndex < imageViewer.frameCount - 1) {
@@ -84,94 +89,101 @@ Item {
         }
     }
 
-    IconButton {
-        id: previousButton
-        enabled: currentIndex > 0
-                 || imageViewer.frameIndex > 0
-        anchors.left: parent.left
-        anchors.leftMargin: 15
+    Row {
+        id: switchArrowLayout
 
-        anchors.top: parent.top
-        anchors.topMargin: (parent.height - height) / 2
+        anchors {
+            left: parent.left
+            verticalCenter: parent.verticalCenter
+        }
+        spacing: 10
+        leftPadding: 10
 
-        width:50
-        height:50
-        icon.name: "icon_previous"
-        onClicked: {
-            previous();
+        IconButton {
+            id: previousButton
+
+            enabled: currentIndex > 0 || imageViewer.frameIndex > 0
+            width: 50
+            height: 50
+            icon.name: "icon_previous"
+            onClicked: {
+                previous()
+            }
+
+            Shortcut {
+                sequence: "Left"
+                onActivated: previous()
+            }
+
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Previous")
         }
 
-        Shortcut{
-            sequence: "Left"
-            onActivated: previous();
+        IconButton {
+            id: nextButton
+
+            enabled: currentIndex < mainView.sourcePaths.length - 1
+                     || imageViewer.frameIndex < imageViewer.frameCount - 1
+            width: 50
+            height: 50
+            icon.name: "icon_next"
+
+            onClicked: {
+                next()
+            }
+
+            Shortcut {
+                sequence: "Right"
+                onActivated: next()
+            }
+
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Next")
         }
-
-        ToolTip.delay: 500
-        ToolTip.timeout: 5000
-        ToolTip.visible: hovered
-        ToolTip.text: qsTr("Previous")
-
     }
 
-    IconButton {
-        id: nextButton
-        enabled: currentIndex < mainView.sourcePaths.length - 1
-                 || imageViewer.frameIndex < imageViewer.frameCount - 1
-        anchors.left: previousButton.right
-        anchors.leftMargin: 10
+    Row {
+        id: leftRowLayout
 
-        anchors.top: parent.top
-        anchors.topMargin: (parent.height - height) / 2
-
-        width:50
-        height:50
-        icon.name:"icon_next"
-        onClicked: {
-            next();
+        anchors {
+            left: switchArrowLayout.right
+            verticalCenter: parent.verticalCenter
         }
-        Shortcut{
-            sequence: "Right"
-            onActivated: next();
-        }
-        ToolTip.delay: 500
-        ToolTip.timeout: 5000
-        ToolTip.visible: hovered
-        ToolTip.text: qsTr("Next")
-    }
-
+        spacing: 10
+        leftPadding: 40
+        rightPadding: 20
 
         IconButton {
             id: fitImageButton
-            anchors.left: nextButton.right
-            anchors.leftMargin:40
 
-            anchors.top: parent.top
-            anchors.topMargin: (parent.height - height) / 2
-            width:50
-            height:50
-            icon.name:"icon_11"
-            enabled:!CodeImage.imageIsNull(imageViewer.source)
+            anchors.leftMargin: 30
+            width: 50
+            height: 50
+            icon.name: "icon_11"
+            enabled: !CodeImage.imageIsNull(imageViewer.source)
+
             onClicked: {
                 imageViewer.fitImage()
                 imageViewer.recalculateLiveText()
             }
+
             ToolTip.delay: 500
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Original size")
         }
+
         IconButton {
             id: fitWindowButton
-            anchors.left: fitImageButton.right
-            anchors.leftMargin:10
 
-            anchors.top: parent.top
-            anchors.topMargin: (parent.height - height) / 2
-
-            width:50
-            height:50
-            icon.name:"icon_self-adaption"
-            enabled:!CodeImage.imageIsNull(imageViewer.source)
+            width: 50
+            height: 50
+            icon.name: "icon_self-adaption"
+            enabled: !CodeImage.imageIsNull(imageViewer.source)
             onClicked: {
                 imageViewer.fitWindow()
                 imageViewer.recalculateLiveText()
@@ -185,30 +197,29 @@ Item {
 
         IconButton {
             id: rotateButton
-            anchors.left: fitWindowButton.right
-            anchors.leftMargin:10
 
-            anchors.top: parent.top
-            anchors.topMargin: (parent.height - height) / 2
+            width: 50
+            height: 50
+            icon.name: "icon_rotate"
+            enabled: !CodeImage.imageIsNull(imageViewer.source)
+                     && fileControl.isRotatable(imageViewer.source)
 
-            width:50
-            height:50
-            icon.name:"icon_rotate"
-            enabled:!CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
             onClicked: {
                 imageViewer.rotateImage(-90)
 
-            // 动态刷新导航区域图片内容，同时可在imageviewer的sourceChanged中隐藏导航区域
-            // (因导航区域图片source绑定到imageviewer的source属性)
+                // 动态刷新导航区域图片内容，同时可在imageviewer的sourceChanged中隐藏导航区域
+                // (因导航区域图片source绑定到imageviewer的source属性)
                 imageViewer.source = ""
                 imageViewer.source = mainView.sourcePaths[bottomthumbnaillistView.currentIndex]
                 imageViewer.recalculateLiveText()
             }
+
             ToolTip.delay: 500
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Rotate")
         }
+    }
 
     ListView {
         id: bottomthumbnaillistView
@@ -217,24 +228,30 @@ Item {
         highlightRangeMode: ListView.ApplyRange
         highlightFollowsCurrentItem: true
 
+        height: thumbnailView.height + 10
+        width: thumbnailView.width - thumbnailView.btnContentWidth
         preferredHighlightBegin: width / 2 - 25
         preferredHighlightEnd: width / 2 + 25
 
-        anchors.left: rotateButton.right
-        anchors.leftMargin: 10
-
-        anchors.right: ocrButton.left
-        anchors.rightMargin: 10
-
-        anchors.top: parent.top
-        anchors.topMargin: -5
-
-        height: parent.height + 10
-        width: parent.width - deleteButton.width - 60
-
+        anchors {
+            left: leftRowLayout.right
+            right: rightRowLayout.left
+            verticalCenter: parent.verticalCenter
+        }
         clip: true
-        spacing: 10
+        spacing: 4
         focus: true
+
+        // 重新定位图片位置
+        function rePositionView() {
+            // 特殊处理，防止默认显示首个缩略图时采用Center的策略会被遮挡部分
+            if (0 === currentIndex) {
+                positionViewAtBeginning()
+            } else {
+                // 尽可能将高亮缩略图显示在列表中
+                positionViewAtIndex(currentIndex, ListView.Center)
+            }
+        }
 
         //滑动联动主视图
         onCurrentIndexChanged: {
@@ -244,12 +261,23 @@ Item {
                 currentItem.forceActiveFocus()
             }
 
-            // 特殊处理，防止默认显示首个缩略图时采用Center的策略会被遮挡部分
-            if (0 == currentIndex) {
-                positionViewAtBeginning()
-            } else {
-                // 尽可能将高亮缩略图显示在列表中
-                positionViewAtIndex(currentIndex, ListView.Center)
+            rePositionView()
+
+            // 仅在边缘缩略图时进行二次定位
+            if (0 === currentIndex
+                    || currentIndex === (count - 1)) {
+                delayUpdateTimer.restart()
+            }
+        }
+
+        Timer {
+            id: delayUpdateTimer
+
+            repeat: false
+            interval: 100
+            onTriggered: {
+                bottomthumbnaillistView.forceLayout()
+                bottomthumbnaillistView.rePositionView()
             }
         }
 
@@ -269,7 +297,7 @@ Item {
                 }
 
                 bottomthumbnaillistView.currentIndex = imageSwipeIndex
-                currentIndex= imageSwipeIndex
+                currentIndex = imageSwipeIndex
                 bottomthumbnaillistView.forceActiveFocus()
             }
 
@@ -279,42 +307,45 @@ Item {
                     bottomthumbnaillistView.positionViewAtBeginning()
                 } else {
                     // 尽可能将高亮缩略图显示在列表中
-                    bottomthumbnaillistView.positionViewAtIndex(bottomthumbnaillistView.currentIndex, ListView.Center)
+                    bottomthumbnaillistView.positionViewAtIndex(
+                                bottomthumbnaillistView.currentIndex,
+                                ListView.Center)
                 }
             }
-            
+
             // 接收当前视图旋转角度变更信号
             onCurrentRotateChanged: {
                 if (bottomthumbnaillistView.currentItem) {
                     // 计算旋转角度，限制在旋转梯度为90度，以45度为分界点
-                    var rotateAngle = imageViewer.currentRotate;
-                    // 区分正反旋转方向
+                    var rotateAngle = imageViewer.currentRotate
+                    // 区分正反旋转方向ViewSection.CurrentLabelA
                     var isClockWise = rotateAngle > 0
                     // 计算绝对角度值
-                    rotateAngle = Math.floor((Math.abs(rotateAngle) + 45) / 90) * 90;
+                    rotateAngle = Math.floor((Math.abs(rotateAngle) + 45) / 90) * 90
 
                     // 设置当前展示的图片的旋转方向，仅在90度方向旋转，不会跟随旋转角度(特指在触摸状态下)
-                    bottomthumbnaillistView.currentItem.rotation = isClockWise ? rotateAngle : -rotateAngle
+                    bottomthumbnaillistView.currentItem.rotation
+                            = isClockWise ? rotateAngle : -rotateAngle
                 }
             }
         }
 
         orientation: Qt.Horizontal
 
-        cacheBuffer: 400
+        cacheBuffer: 200
         model: mainView.sourcePaths.length
         delegate: ListViewDelegate {
         }
 
-         // 添加两组空的表头表尾用于占位，防止在边界的高亮缩略图被遮挡
+        // 添加两组空的表头表尾用于占位，防止在边界的高亮缩略图被遮挡, 5px为不在ListView中维护的焦点缩略图边框的宽度 radius = 4 * 1.25
         header: Rectangle {
-            width: 10
+            width: 5
         }
 
         footer: Rectangle {
-            width: 10
+            width: 5
         }
-        
+
         Behavior on x {
             NumberAnimation {
                 duration: 50
@@ -330,51 +361,58 @@ Item {
         }
     }
 
-    IconButton {
-        id :ocrButton
-        width:50
-        height:50
-        icon.name:"icon_character_recognition"
-        anchors.right: deleteButton.left
-        anchors.rightMargin: 15
+    Row {
+        id: rightRowLayout
 
-        anchors.top: parent.top
-        anchors.topMargin: (parent.height - height) / 2
-        enabled: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
-        onClicked: {
-            fileControl.ocrImage(source, imageViewer.frameIndex)
+        anchors {
+            right: deleteButton.left
+            verticalCenter: parent.verticalCenter
         }
-        ToolTip.delay: 500
-        ToolTip.timeout: 5000
-        ToolTip.visible: hovered
-        ToolTip.text: qsTr("Extract text")
+
+        spacing: 10
+        leftPadding: 20
+        rightPadding: 20
+
+        IconButton {
+            id: ocrButton
+
+            width: 50
+            height: 50
+            icon.name: "icon_character_recognition"
+            enabled: fileControl.isCanSupportOcr(source)
+                     && !CodeImage.imageIsNull(source)
+            onClicked: {
+                fileControl.ocrImage(source, imageViewer.frameIndex)
+            }
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Extract text")
+        }
     }
 
     IconButton {
         id: deleteButton
-        width:50
-        height:50
+
+        anchors {
+            right: parent.right
+            rightMargin: 10
+            verticalCenter: parent.verticalCenter
+        }
+
+        width: 50
+        height: 50
         icon.name: "icon_delete"
-
-        anchors.right: parent.right
-        anchors.rightMargin: 15
-
-        anchors.top: parent.top
-        anchors.topMargin: (parent.height - height) / 2
-
         icon.source: "qrc:/res/dcc_delete_36px.svg"
-        icon.color: enabled ? "red" :"ffffff"
+        icon.color: enabled ? "red" : "ffffff"
         onClicked: {
             deleteCurrentImage()
         }
-        //        visible: fileControl.isCanDelete(source) ? true :false
-
-        enabled: fileControl.isCanDelete(source) ? true :false
+        enabled: fileControl.isCanDelete(source) ? true : false
 
         ToolTip.delay: 500
         ToolTip.timeout: 5000
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Delete")
-
     }
 }
