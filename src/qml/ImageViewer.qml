@@ -189,8 +189,8 @@ Rectangle {
         viewImageWidthRatio = root.width / (realWidth * currentScale)
         viewImageHeightRatio = root.height / (realHeight * currentScale)
 
-        idNavWidget.setRectLocation(m_NavX, m_NavY)
         idNavWidget.setRectPec(currentScale, viewImageWidthRatio, viewImageHeightRatio)
+        idNavWidget.setRectLocation(m_NavX, m_NavY)
     }
 
     onCurrenImageScaleChanged: {
@@ -455,6 +455,7 @@ Rectangle {
             sigImageShowNormal()
         }
     }
+
     //缩放快捷键
     Shortcut {
         sequence: "Ctrl+="
@@ -476,7 +477,6 @@ Rectangle {
             currentScale =  currentScale / 0.9
         }
     }
-
 
     Shortcut {
         sequence: "Down"
@@ -921,35 +921,45 @@ Rectangle {
                 }
 
                 onMouseXChanged: {
+                    //刷新坐标
                     changeRectXY()
-                    if (showAnimatedImg.visible)
-                    {
+                    if (showAnimatedImg.visible) {
                         currentimgX = showAnimatedImg.x
-                    } else
-                    {
+                    } else if(showImg.visible){
                         currentimgX = showImg.x
+                    } else { //svg
+                        currentimgX = showSvgImg.x
                     }
-                    //以整个图片中心为平面原点，currentimgX，currentimgY为当前视口右下角相对于整个图片的坐标，以此计算导航窗口蒙皮和位置
-                    //计算相对位置
-                    m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
-                    m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
 
-                    idNavWidget.setRectLocation(m_NavX, m_NavY)
+                    if(currentScale > 1.0) { //当图片放大到比窗口大
+                        //刷新导航窗口
+                        m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
+                        flushNav()
+
+                        //刷新live text
+                        recalculateLiveText()
+                    }
                 }
 
                 onMouseYChanged: {
+                    //刷新坐标
                     changeRectXY()
-                    if (showAnimatedImg.visible)
-                    {
+                    if (showAnimatedImg.visible) {
                         currentimgY = showAnimatedImg.y
-                    } else
-                    {
+                    } else if(showImg.visible){
                         currentimgY = showImg.y
+                    } else { //svg
+                        currentimgY = showSvgImg.y
                     }
-                    m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
-                    m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
 
-                    idNavWidget.setRectLocation(m_NavX, m_NavY)
+                    if(currentScale > 1.0) { //当图片放大到比窗口大
+                        //刷新导航窗口
+                        m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
+                        flushNav()
+
+                        //刷新live text
+                        recalculateLiveText()
+                    }
                 }
 
                 onDoubleClicked: {
@@ -1241,17 +1251,6 @@ Rectangle {
         }
     }
 
-    ListModel {
-        id: theModel
-    }
-
-    onSourcePathsChanged: {
-        theModel.clear()
-        for(var i = 0;i !== sourcePaths.length;++i) {
-            theModel.append({curImageSource : sourcePaths[i]})
-        }
-    }
-
     // 图片滑动视图
     ListView {
         id: view
@@ -1267,6 +1266,7 @@ Rectangle {
         highlightMoveDuration: 0
         boundsMovement: Flickable.FollowBoundsBehavior
         boundsBehavior: Flickable.StopAtBounds
+        model: sourcePaths
 
         cacheBuffer: 200
         delegate: Loader {
@@ -1323,7 +1323,6 @@ Rectangle {
                 }
             }
         }
-        model: sourcePaths
 
         moveDisplaced: Transition {
              NumberAnimation { properties: "x,y"; duration: 100 }
