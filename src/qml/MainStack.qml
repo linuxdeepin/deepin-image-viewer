@@ -4,6 +4,11 @@ import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
 Rectangle {
+    id: stackView
+
+    property int currentWidgetIndex: 0
+
+    anchors.fill: parent
 
     Control {
         id: backcontrol
@@ -13,24 +18,22 @@ Rectangle {
             normalDark:"#000000"
         }
     }
+
+    // 展示打开图片窗口
+    function showOpenImageDialog() {
+        openImageWidget.openFileDialog.open()
+    }
+
     //标题栏
     ViewTopTitle{
          id:titleRect
          z:parent.z+1
     }
 
-    id: stackView
-
-    property int currentWidgetIndex: 0
-
-//    property alias source: imageViewer.source
-//    initialItem: rect
-    anchors.fill: parent
-
-    OpenImageWidget{
+    OpenImageWidget {
+        id: openImageWidget
         anchors.fill: parent
         visible: currentWidgetIndex===0?true:false
-
     }
 
     FullThumbnail{
