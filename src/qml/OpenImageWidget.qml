@@ -7,8 +7,10 @@ import org.deepin.dtk 1.0
 
 Item {
     id: openwidget
+
     property string file
-    //    anchors.fill: parent
+    // 弹出对话框对象，用于外部调用打开对话框
+    property alias openFileDialog: fileDialog
 
     Rectangle{
         id:openRec
@@ -27,7 +29,7 @@ Item {
             }
         }
 
-        RecommandButton{
+        RecommandButton {
 
             id: openFileBtn
             font.capitalization: Font.MixedCase
