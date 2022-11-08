@@ -75,7 +75,6 @@ Control {
                 id: nameedit
                 visible: !showPicLabel.visible
                 text: fileControl.slotGetFileName(imageViewer.source)
-                anchors.fill: nameeditrect
                 anchors.topMargin: 5
                 anchors.leftMargin: 10
                 font.pixelSize: 16
@@ -84,6 +83,10 @@ Control {
                 alertText: qsTr("The file already exists, please use another name")
                 showAlert: fileControl.isShowToolTip(imageViewer.source,nameedit.text) && nameedit.visible
                 height: 20
+                // 限制输入特殊字符
+                validator: RegExpValidator {
+                    regExp: /^[^ \\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/
+                }
 
                 Keys.onPressed: {
                     if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
