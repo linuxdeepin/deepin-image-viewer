@@ -48,9 +48,7 @@ DialogWindow {
             horizontalCenter: parent.horizontalCenter
             margins: 10
         }
-//        Image {
-//            source: "qrc:/assets/popup/nointeractive.svg"
-//        }
+
         PropertyItem {
             title: qsTr("Basic info")
             ColumnLayout {
@@ -196,14 +194,21 @@ DialogWindow {
             }
 
             PropertyItemDelegate {
+                contrlImplicitWidth:240
                 title: qsTr("Device model")
                 description: fileControl.slotGetInfo("Model",filePath)
                 corners: RoundRectangle.AllCorner
             }
             PropertyItemDelegate {
+                contrlImplicitWidth:240
                 title: qsTr("Lens model")
                 description: fileControl.slotGetInfo("LensType",filePath)
                 corners: RoundRectangle.AllCorner
+            }
+
+            // 默认隐藏"详细"菜单，再初始布局完成后隐藏
+            Component.onCompleted: {
+                showProperty = false
             }
         }
     }
