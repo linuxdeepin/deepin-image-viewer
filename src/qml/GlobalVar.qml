@@ -15,4 +15,6 @@ Item {
     property int rightMenuItemHeight: 32//右键菜单item的高度
 
     signal sigWindowStateChange()
+
+    property bool animationBlock: false
 }
