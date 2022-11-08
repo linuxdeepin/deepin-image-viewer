@@ -27,11 +27,14 @@ import org.deepin.dtk 1.0
 ColumnLayout {
     width: 280
     property string title
+    // 提供隐藏菜单接口
+    property alias showProperty: info.visible
     default property alias content: itemModel.children
 
     ItemDelegate {
         id: titleBar
-        Layout.fillWidth: true; Layout.preferredHeight: 24
+        Layout.fillWidth: true;
+        Layout.preferredHeight: 24
         text: title
         icon.name: info.visible ? "arrow_ordinary_up": "arrow_ordinary_down"
         display: IconLabel.IconBesideText
