@@ -131,6 +131,10 @@ Item {
 
     //判断工具栏和标题栏的显示隐藏
     function animationAll() {
+        if(global.animationBlock) {
+            return
+        }
+
         // 打开界面不计算标题栏显隐
         if (stackView.currentWidgetIndex === 0) {
             return

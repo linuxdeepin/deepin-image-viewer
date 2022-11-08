@@ -107,6 +107,10 @@ Rectangle {
                 }
             }
             QuitAction { }
+
+            onVisibleChanged: {
+                global.animationBlock = visible
+            }
         }
 
         // 使用自定的文本
