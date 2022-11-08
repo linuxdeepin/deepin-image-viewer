@@ -148,10 +148,12 @@ Item {
         var cursorInWidnow = mouseX >= 0 && mouseX <= root.width && mouseY >= 0 && mouseY <= root.height
         // 显示图像的像素高度
         var viewImageHeight = root.width * (fileControl.getCurrentImageHeight() / fileControl.getCurrentImageWidth())
+        // 工具栏显示的热区高度，窗口高度 - 工具栏距底部高度(工具栏高 70px + 边距 10px)
+        var bottomHotspotHeight = root.height - global.showBottomY
 
         if (root.visibility == Window.FullScreen){
             // 全屏时特殊处理
-            if(mouseY > height-100){
+            if(mouseY > bottomHotspotHeight) {
                 showBottomAnimation.start()
             }else{
                 // 隐藏动画前结束弹出动画
@@ -163,10 +165,10 @@ Item {
             }
         } else {
             // 判断是否弹出标题栏和缩略图栏
-            var needShowTopBottom = false;
+            var needShowTopBottom = false
             if(currentWidgetIndex != 0 &&
                  ((root.height <= global.minHideHeight || root.width <= global.minWidth)
-                  && (mouseY <= height-100)
+                  && (mouseY <= bottomHotspotHeight)
                   && (mouseY >= titleRect.height) )){
                 needShowTopBottom = false
             }else if (imageViewer.currentScale <= (1.0 * (root.height - titleRect.height * 2) / root.height)) {
@@ -176,7 +178,7 @@ Item {
                 // 缩放范围高度未超过显示范围高度限制时时，不会隐藏工具/标题栏，根据高度而非宽度计算
                 needShowTopBottom = true
             }else if(cursorInWidnow
-                     && ((mouseY > height - 100 && mouseY <= height)
+                     && ((mouseY > bottomHotspotHeight && mouseY <= height)
                          || (0 < mouseY && mouseY < titleRect.height))) {
                 // 当缩放范围超过工具/标题栏且光标在工具/标题栏范围，显示工具/标题栏
                 needShowTopBottom = true
@@ -198,13 +200,24 @@ Item {
             needBarHideInNormalMode = !needShowTopBottom
         }
 
-        if(mouseX>=root.width-100 && mouseX<=root.width && isEnterCurrentView && cursorInWidnow){
+        // 光标不在切换按钮纵向判断的热区(处于标题栏/工具栏区域)时，隐藏左右切换按钮
+        // 判断是否弹出图片切换按钮
+        var needShowLeftRightBtn = false
+        if (titleRect.height < mouseY && mouseY < bottomHotspotHeight
+                && isEnterCurrentView && cursorInWidnow) {
+            if (mouseX >= root.width - global.switchImageHotspotWidth && mouseX <= root.width) {
+                // 光标处于切换下一张按钮区域
+                needShowLeftRightBtn = true
+            } else if (mouseX <= global.switchImageHotspotWidth && mouseX >= 0) {
+                // 光标处于切换上一张按钮区域
+                needShowLeftRightBtn = true
+            }
+        }
+
+        if (needShowLeftRightBtn) {
             showLeftButtonAnimation.start()
             showRightButtonAnimation.start()
-        }else if(mouseX<=100 && mouseX>=0 && isEnterCurrentView && cursorInWidnow){
-            showLeftButtonAnimation.start()
-            showRightButtonAnimation.start()
-        }else {
+        } else {
             // 隐藏动画前结束弹出动画
             showLeftButtonAnimation.stop()
             showRightButtonAnimation.stop()
