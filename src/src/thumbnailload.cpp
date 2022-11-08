@@ -17,7 +17,7 @@ QImage ThumbnailLoad::requestImage(const QString &id, QSize *size, const QSize &
     if (!m_imgMap.keys().contains(tempPath)) {
         LibUnionImage_NameSpace::loadStaticImageFromFile(tempPath, Img, error);
         // 保存图片比例缩放
-        QImage reImg = Img.scaled(100, 100, Qt::KeepAspectRatio);
+        QImage reImg = Img.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::FastTransformation);
         m_imgMap[tempPath] = reImg;
         return reImg;
     } else {
@@ -513,6 +513,6 @@ MultiImageLoad::CacheImage::CacheImage(const QImage &img)
 {
     // 缩略图大小
     static const QSize s_ThumbnailSize(100, 100);
-    imgThumbnail = img.scaled(s_ThumbnailSize);
+    imgThumbnail = img.scaled(s_ThumbnailSize, Qt::KeepAspectRatioByExpanding, Qt::FastTransformation);
     originSize = img.size();
 }

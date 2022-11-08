@@ -74,9 +74,9 @@ Item {
 
             smooth: false
             anchors.fill: parent
+            // 适配中间区域显示并裁剪多余部分
+            fillMode: Image.PreserveAspectCrop
             source: fileControl.isSvgImage(currentSource) ? currentSource : "image://ThumbnailImage/" + currentSource
-            sourceSize.width: 100
-            sourceSize.height: 100
             asynchronous: true
             visible: false
             cache: false
