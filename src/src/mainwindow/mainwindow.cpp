@@ -40,9 +40,30 @@ MainWindow::MainWindow(QWidget *parent)
     this->setObjectName("MainWindow");
     setContentsMargins(0, 0, 0, 0);
 
+    //检查OCR是否存在
+    try {
+        QProcess bash;
+        bash.start("bash");
+        bash.waitForStarted();
+        bash.write("command -v deepin-ocr");
+        bash.closeWriteChannel();
+        if (!bash.waitForFinished()) {
+            qWarning() << bash.errorString();
+            m_ocrIsExisted = false;
+        }
+        auto output = bash.readAllStandardOutput();
+        if (output.isEmpty()) {
+            m_ocrIsExisted = false;
+        } else {
+            m_ocrIsExisted = true;
+        }
+    } catch (std::logic_error &e) {
+        qWarning() << e.what();
+        m_ocrIsExisted = false;
+    }
+
     //初始化UI
     initUI();
-//    connect(dApp, &Application::sigQuit, this, &MainWindow::quitApp, Qt::DirectConnection);
 }
 
 MainWindow::~MainWindow()
@@ -159,7 +180,11 @@ QJsonObject MainWindow::createShorcutJson()
     QJsonArray shortcutArray1;
     shortcutArray1.append(shortcut1);
     shortcutArray1.append(shortcut2);
-    shortcutArray1.append(shortcut3);
+
+    if (m_ocrIsExisted) {
+        shortcutArray1.append(shortcut3);
+    }
+
     shortcutArray1.append(shortcut4);
     shortcutArray1.append(shortcut5);
     shortcutArray1.append(shortcut6);
@@ -272,7 +297,7 @@ void MainWindow::initUI()
     connect(scViewShortcut, &QShortcut::activated, this, &MainWindow::showShortCut);
 
     m_saveSettingTimer = new QTimer(this);
-    connect(m_saveSettingTimer, &QTimer::timeout, this,&MainWindow::slotSaveSize);
+    connect(m_saveSettingTimer, &QTimer::timeout, this, &MainWindow::slotSaveSize);
 
     m_saveSettingTimer->setSingleShot(true);
 
