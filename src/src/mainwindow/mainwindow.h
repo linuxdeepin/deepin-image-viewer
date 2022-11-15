@@ -76,6 +76,7 @@ private:
     DMainWindow      *m_mainwidow = nullptr;
     QSettings        *m_settings = nullptr;
     QTimer           *m_saveSettingTimer = nullptr;
+    bool             m_ocrIsExisted = false;
 };
 
 #endif // MAINWINDOW_H
