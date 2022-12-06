@@ -236,6 +236,16 @@ void MainWindow::initSize()
     //废弃
 }
 
+void MainWindow::setWindowTitleInfo()
+{
+    if (m_imageViewer) {
+        qDebug() << __FUNCTION__ << "--" << m_imageViewer->getCurrentPath();
+        if (m_imageViewer->getCurrentPath() != "") {
+            m_mainwidow->setWindowTitle(m_imageViewer->getCurrentPath());
+        }
+    }
+}
+
 void MainWindow::slotSaveSize()
 {
     if (!isMaximized() && !window()->isFullScreen() && !window()->isMaximized() && m_mainwidow) {
@@ -301,7 +311,7 @@ void MainWindow::initUI()
 
     m_saveSettingTimer->setSingleShot(true);
 
-
+    connect(ImageEngine::instance(), &ImageEngine::sigOneImgReady, this, &MainWindow::setWindowTitleInfo);
 }
 
 void MainWindow::slotOpenImg()

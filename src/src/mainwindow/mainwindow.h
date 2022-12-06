@@ -60,6 +60,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
+    void setWindowTitleInfo();
     void slotOpenImg();
     bool slotDrogImg(const QStringList &paths);
     void quitApp();
