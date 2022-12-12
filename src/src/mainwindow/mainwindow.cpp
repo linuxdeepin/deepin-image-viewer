@@ -239,8 +239,8 @@ void MainWindow::initSize()
 void MainWindow::setWindowTitleInfo()
 {
     if (m_imageViewer) {
-        qDebug() << __FUNCTION__ << "--" << m_imageViewer->getCurrentPath();
-        if (m_imageViewer->getCurrentPath() != "") {
+        if (m_imageViewer->getCurrentPath() != "" && m_mainwidow->windowTitle() != m_imageViewer->getCurrentPath()) {
+            qDebug() << __FUNCTION__ << "--" << m_imageViewer->getCurrentPath();
             m_mainwidow->setWindowTitle(m_imageViewer->getCurrentPath());
         }
     }
@@ -311,7 +311,7 @@ void MainWindow::initUI()
 
     m_saveSettingTimer->setSingleShot(true);
 
-    connect(ImageEngine::instance(), &ImageEngine::sigOneImgReady, this, &MainWindow::setWindowTitleInfo);
+    connect(ImageEngine::instance(), &ImageEngine::sigUpdateCollectBtn, this, &MainWindow::setWindowTitleInfo);
 }
 
 void MainWindow::slotOpenImg()
