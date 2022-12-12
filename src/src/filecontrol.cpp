@@ -703,7 +703,13 @@ int FileControl::getlastWidth()
     if (double(dw->geometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
         defaultW = MAINWIDGET_MINIMUN_WIDTH;
     } else {
-        defaultW = int(double(dw->geometry().width()) * 0.60);
+        // 多屏下仅采用单个屏幕处理， 使用主屏的参考宽度计算
+        QScreen *screen = QGuiApplication::primaryScreen();
+        if (QGuiApplication::screens().size() > 1 && screen) {
+            defaultW = int(double(screen->size().width()) * 0.60);
+        } else {
+            defaultW = int(double(dw->geometry().width()) * 0.60);
+        }
     }
 
     const int ww = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
@@ -722,7 +728,13 @@ int FileControl::getlastHeight()
     if (double(dw->geometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
         defaultH = MAINWIDGET_MINIMUN_HEIGHT;
     } else {
-        defaultH = int(double(dw->geometry().height()) * 0.60);
+        // 多屏下仅采用单个屏幕处理， 使用主屏的参考高度计算
+        QScreen *screen = QGuiApplication::primaryScreen();
+        if (QGuiApplication::screens().size() > 1 && screen) {
+            defaultH = int(double(screen->size().height()) * 0.60);
+        } else {
+            defaultH = int(double(dw->geometry().height()) * 0.60);
+        }
     }
     const int wh = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
 
