@@ -22,6 +22,7 @@
 #include <QTranslator>
 #include <QDebug>
 #include <QDesktopWidget>
+#include <QScreen>
 #include <QtDBus/QDBusConnection>
 
 #include <sys/types.h>
@@ -163,17 +164,30 @@ int main(int argc, char *argv[])
         int defaultW = 0;
         int defaultH = 0;
         QDesktopWidget *dw = QApplication::desktop();
+        // 多屏下仅采用单个屏幕处理， 使用主屏的参考宽度计算
+        QScreen *screen = QGuiApplication::primaryScreen();
+        bool useScreen = bool(QGuiApplication::screens().size() > 1 && screen);
+
         if (double(dw->geometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
             defaultW = MAINWIDGET_MINIMUN_WIDTH;
         } else {
-            defaultW = int(double(dw->geometry().width()) * 0.60);
+            if (useScreen) {
+                defaultW = int(double(screen->size().width()) * 0.60);
+            } else {
+                defaultW = int(double(dw->geometry().width()) * 0.60);
+            }
         }
 
         if (double(dw->geometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
             defaultH = MAINWIDGET_MINIMUN_HEIGHT;
         } else {
-            defaultH = int(double(dw->geometry().height()) * 0.60);
+            if (useScreen) {
+                defaultH = int(double(screen->size().height()) * 0.60);
+            } else {
+                defaultH = int(double(dw->geometry().height()) * 0.60);
+            }
         }
+        
         int ww = w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
         int wh = w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
         mainwindow->resize(ww, wh);
