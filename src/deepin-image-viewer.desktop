@@ -1,7 +1,7 @@
 [Desktop Entry]
 Categories=Graphics;GTK;
 Comment=Deepin Image Viewer
-Exec=deepin-image-viewer --new-window %F
+Exec=deepin-image-viewer %F
 GenericName=Image Viewer
 Icon=deepin-image-viewer
 Keywords=Image;Viewer;Jpg;Jpeg;Png;
@@ -10,7 +10,7 @@ Name=Deepin Image Viewer
 StartupNotify=false
 Type=Application
 X-Deepin-ManualID=deepin-image-viewer
-X-Deepin-TurboType=dtkwidget
+X-Deepin-TurboType=dtkqml
 X-Deepin-Vendor=deepin
 
 # Translations:
