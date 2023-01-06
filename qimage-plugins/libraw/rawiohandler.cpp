@@ -17,6 +17,27 @@
  * along with QtRaw.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "datastream.h"
 #include "rawiohandler.h"
 
@@ -122,17 +143,42 @@ bool RawIOHandler::read(QImage *image)
                       d->scaledSize : d->defaultSize;
 
     const libraw_data_t &imgdata = d->raw->imgdata;
-    libraw_processed_image_t *output;
+    libraw_processed_image_t *output = nullptr;
+    int errCode = 0;
+
     if (finalSize.width() < imgdata.thumbnail.twidth ||
             finalSize.height() < imgdata.thumbnail.theight) {
         qDebug() << "Using thumbnail";
         d->raw->unpack_thumb();
-        output = d->raw->dcraw_make_mem_thumb();
-    } else {
+
+        output = d->raw->dcraw_make_mem_thumb(&errCode);
+        if (errCode) {
+            qWarning() << QString("LibRaw make mem thumb error! error code: %1, error string: %2")
+                          .arg(errCode).arg(QString(d->raw->strerror(errCode)));
+            if (output) {
+                d->raw->dcraw_clear_mem(output);
+            }
+            // 不存在缩略图数据，可走图像数据分支
+        }
+    }
+
+    if (!output) {
         qDebug() << "Decoding raw data";
         d->raw->unpack();
         d->raw->dcraw_process();
-        output = d->raw->dcraw_make_mem_image();
+
+        errCode = 0;
+        output = d->raw->dcraw_make_mem_image(&errCode);
+        if (errCode) {
+            qWarning() << QString("LibRaw make mem image error! error code: %1, error string: %2")
+                          .arg(errCode).arg(QString(d->raw->strerror(errCode)));
+            if (output) {
+                d->raw->dcraw_clear_mem(output);
+            }
+
+            // 未读取到数据，返回false
+            return false;
+        }
     }
 
     QImage unscaled;

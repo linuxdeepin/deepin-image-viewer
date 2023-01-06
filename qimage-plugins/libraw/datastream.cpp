@@ -17,6 +17,27 @@
  * along with QtRaw.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "datastream.h"
 
 #include <QIODevice>
@@ -36,9 +57,18 @@ int Datastream::valid()
     return m_device->isReadable();
 }
 
+/**
+ * @brief 按块读取数据，参数和返回值方式与 fread(ptr,size,nmemb,file) 相似。
+ * @param ptr   读取数据写入指针
+ * @param size  块大小
+ * @param nmemb 读取块数
+ * @return 成功读取的块数
+ */
 int Datastream::read(void *ptr, size_t size, size_t nmemb)
 {
-    return int(m_device->read((char *)ptr, qint64(size * nmemb)));
+    qint64 readDataLen = m_device->read(static_cast<char *>(ptr), qint64(size * nmemb));
+    // 返回读取文本块数量而非读取数据总长度
+    return static_cast<int>(readDataLen / qint64(size > 0 ? size : 1));
 }
 
 int Datastream::seek(INT64 offset, int whence)

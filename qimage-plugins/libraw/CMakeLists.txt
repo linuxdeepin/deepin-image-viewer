@@ -44,7 +44,7 @@ target_include_directories(xraw PUBLIC ${RAW_INCLUDE_DIRS}  ${Qt5Gui_INCLUDE_DIR
 
 target_link_libraries(${CMD_NAME} Qt5::Core Qt5::Gui raw)
 
-install(TARGETS ${CMD_NAME} DESTINATION ${Qt5Core_DIR}/../../qt5/plugins/imageformats)
+install(TARGETS ${CMD_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/plugins/imageformats)
 
 
 QT5_USE_MODULES(${PROJECT_NAME} Core Gui)
