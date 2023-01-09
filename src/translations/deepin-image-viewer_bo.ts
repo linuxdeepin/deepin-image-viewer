@@ -104,11 +104,6 @@
         <source>Image file not found</source>
         <translation>པར་གྱི་ཡིག་ཆ་ཪྙེད་མ་བྱུང་།</translation>
     </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -397,6 +392,10 @@ Text</source>
     </message>
     <message>
         <source>%1 is released under %2</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open image</source>
         <translation type="unfinished"/>
     </message>
 </context>

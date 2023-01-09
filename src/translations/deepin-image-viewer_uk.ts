@@ -104,12 +104,6 @@
         <source>Image file not found</source>
         <translation>Файл зображення не знайдено</translation>
     </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">Підсвітити
-текст</translation>
-    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -399,6 +393,10 @@ Text</source>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1 випущено за умов дотримання %2</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

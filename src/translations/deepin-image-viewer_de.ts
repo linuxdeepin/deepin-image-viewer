@@ -104,12 +104,6 @@
         <source>Image file not found</source>
         <translation>Bilddatei nicht gefunden</translation>
     </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">Text
-hervorheben</translation>
-    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -399,6 +393,10 @@ hervorheben</translation>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1 ist unter der %2 veröffentlicht</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

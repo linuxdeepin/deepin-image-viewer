@@ -104,12 +104,6 @@
         <source>Image file not found</source>
         <translation>S’u gjet kartelë figure</translation>
     </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">Theksoje
-Tekstin</translation>
-    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -399,6 +393,10 @@ Tekstin</translation>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1 hidhet në qarkullim nën %2</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

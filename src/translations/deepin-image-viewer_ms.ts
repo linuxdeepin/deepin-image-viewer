@@ -91,11 +91,11 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Pilih semua</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>Teks Langsung</translation>
     </message>
 </context>
 <context>
@@ -103,11 +103,6 @@
     <message>
         <source>Image file not found</source>
         <translation>Fail imej tidak ditemui</translation>
-    </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -118,7 +113,7 @@ Text</source>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>Saiz</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -182,7 +177,7 @@ Text</source>
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation>Nama fail</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -198,18 +193,18 @@ Text</source>
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation>Model peranti</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"/>
+        <translation>Salin (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"/>
+        <translation>Pilih semua (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -220,14 +215,14 @@ Text</source>
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"/>
+        <translation>Pilih gambar</translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Fail sudah wujud, sila guna nama lain</translation>
     </message>
 </context>
 <context>
@@ -253,7 +248,7 @@ Text</source>
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Fail sudah wujud, sila guna nama lain</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -299,7 +294,7 @@ Text</source>
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>Saiz asal</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -307,7 +302,7 @@ Text</source>
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Putar</translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -393,10 +388,14 @@ Text</source>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"/>
+        <translation>Versi</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
+        <translation>%1 telah dikeluarkan di bawah %2</translation>
+    </message>
+    <message>
+        <source>Open image</source>
         <translation type="unfinished"/>
     </message>
 </context>

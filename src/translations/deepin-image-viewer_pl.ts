@@ -104,12 +104,6 @@
         <source>Image file not found</source>
         <translation>Nie odnaleziono obrazu</translation>
     </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">Podkreśl
-Tekst</translation>
-    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -123,7 +117,7 @@ Tekst</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Data rejestracji</translation>
+        <translation>Data uchwycenia</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -285,7 +279,7 @@ Tekst</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Wyjście</translation>
+        <translation>Wyjdź</translation>
     </message>
 </context>
 <context>
@@ -399,6 +393,10 @@ Tekst</translation>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1 został wydany na licencji %2</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

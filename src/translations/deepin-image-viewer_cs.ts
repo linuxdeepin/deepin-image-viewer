@@ -104,12 +104,6 @@
         <source>Image file not found</source>
         <translation>Soubor s obrázkem nenalezen.</translation>
     </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">Zvýraznit
-text</translation>
-    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -399,6 +393,10 @@ text</translation>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1 je vydán pod %2</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

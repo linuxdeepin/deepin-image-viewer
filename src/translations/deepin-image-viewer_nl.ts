@@ -104,12 +104,6 @@
         <source>Image file not found</source>
         <translation>Afbeelding niet aangetroffen</translation>
     </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">Tekst
-markeren</translation>
-    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -399,6 +393,10 @@ markeren</translation>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1 is uitgebracht onder de %2-licentie</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
