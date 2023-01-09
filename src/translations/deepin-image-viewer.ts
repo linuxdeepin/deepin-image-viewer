@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="en">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="en">
 <context>
     <name>FileControl</name>
     <message>
@@ -103,12 +105,6 @@
     <message>
         <source>Image file not found</source>
         <translation>Image file not found</translation>
-    </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">Highlight
-Text</translation>
     </message>
 </context>
 <context>
@@ -399,6 +395,10 @@ Text</translation>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1 is released under %2</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

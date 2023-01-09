@@ -104,12 +104,6 @@
         <source>Image file not found</source>
         <translation>未发现图片文件</translation>
     </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">高亮
-文本</translation>
-    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -399,6 +393,10 @@ Text</source>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1遵循%2协议发布</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation>打开图片</translation>
     </message>
 </context>
 </TS>

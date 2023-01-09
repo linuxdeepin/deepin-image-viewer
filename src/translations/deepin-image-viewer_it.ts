@@ -104,11 +104,6 @@
         <source>Image file not found</source>
         <translation>File immagine non trovato</translation>
     </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -399,6 +394,10 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open image</source>
         <translation type="unfinished"/>
     </message>
 </context>

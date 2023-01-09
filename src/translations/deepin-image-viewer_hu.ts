@@ -104,12 +104,6 @@
         <source>Image file not found</source>
         <translation>A képfájl nem található</translation>
     </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">Kiemelt
-Szöveg</translation>
-    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -399,6 +393,10 @@ Szöveg</translation>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1 kiadásra került %2 alatt</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

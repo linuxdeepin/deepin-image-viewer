@@ -43,7 +43,7 @@ depends:
     version: 0.19.2
     type: runtime
   - id: deepin-ocr-plugin-manager
-    version: 1.0.0
+    version: 1.0.0.2
     type: runtime
 
 source:

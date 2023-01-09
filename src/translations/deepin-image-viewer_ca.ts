@@ -104,12 +104,6 @@
         <source>Image file not found</source>
         <translation>No s&apos;ha trobat cap fitxer d&apos;imatge.</translation>
     </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">Ressalta el
-text</translation>
-    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -399,6 +393,10 @@ text</translation>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1 es publica d&apos;acord amb %2</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

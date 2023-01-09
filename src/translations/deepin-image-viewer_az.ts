@@ -91,11 +91,11 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Hamısını seç</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>Canlı mətn</translation>
     </message>
 </context>
 <context>
@@ -103,12 +103,6 @@
     <message>
         <source>Image file not found</source>
         <translation>Şəkil faylı tapılmadı</translation>
-    </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">Seçilmə
-Mətn</translation>
     </message>
 </context>
 <context>
@@ -399,6 +393,10 @@ Mətn</translation>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1 %2 altında buraxılıb</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

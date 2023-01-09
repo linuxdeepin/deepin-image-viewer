@@ -77,7 +77,7 @@ Rectangle {
             Action {
                 id: openImageAction
 
-                text: qsTr("Open Image")
+                text: qsTr("Open image")
                 onTriggered: {
                     // 发送打开窗口信号
                     stackView.showOpenImageDialog()

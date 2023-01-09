@@ -91,11 +91,11 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Seleccionar todo</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>Texto en vivo</translation>
     </message>
 </context>
 <context>
@@ -103,12 +103,6 @@
     <message>
         <source>Image file not found</source>
         <translation>No se encontró el archivo de imagen</translation>
-    </message>
-    <message>
-        <source>Highlight
-Text</source>
-        <translation type="vanished">Destacar
-Texto</translation>
     </message>
 </context>
 <context>
@@ -399,6 +393,10 @@ Texto</translation>
     <message>
         <source>%1 is released under %2</source>
         <translation>%1 se libera bajo %2</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
