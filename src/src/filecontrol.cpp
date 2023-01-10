@@ -253,15 +253,35 @@ void FileControl::setWallpaper(const QString &imgPath)
 bool FileControl::deleteImagePath(const QString &path)
 {
     QUrl displayUrl = QUrl(path);
-    QDBusInterface interface(QStringLiteral("org.freedesktop.FileManager1"),
-                                 QStringLiteral("/org/freedesktop/FileManager1"),
-                                 QStringLiteral("org.freedesktop.FileManager1"));
+
     if (displayUrl.isValid()) {
         QStringList list;
         list << displayUrl.toString();
-        interface.call("Trash", list).type() != QDBusMessage::ErrorMessage;
+        QDBusInterface interface(QStringLiteral("org.freedesktop.FileManager1"),
+                                 QStringLiteral("/org/freedesktop/FileManager1"),
+                                 QStringLiteral("org.freedesktop.FileManager1"));
+        // 默认超时时间大约25s, 修改为最大限制
+        interface.setTimeout(INT_MAX);
+        auto pendingCall = interface.asyncCall("Trash", list);
+        while (!pendingCall.isFinished()) {
+            qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
+        }
+
+        if (pendingCall.isError()) {
+            auto error = pendingCall.error();
+            qWarning() << "Delete image by dbus error:" << error.name() << error.message();
+            return false;
+        }
+
+        // 删除信息未通过 DBus 返回，直接判断文件是否已被删除
+        if (QFile::exists(displayUrl.toLocalFile())) {
+            qWarning() << "Delete image error, image still exists.";
+            return false;
+        }
+
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool FileControl::displayinFileManager(const QString &path)
