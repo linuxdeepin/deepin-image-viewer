@@ -29,24 +29,28 @@ Item {
 
     function deleteCurrentImage() {
         if (mainView.sourcePaths.length - 1 > bottomthumbnaillistView.currentIndex) {
-            var tempPathIndex = bottomthumbnaillistView.currentIndex
             var tmpPath = source
-            //需要保存临时变量，重置后赋值
-            imageViewer.sourcePaths = fileControl.removeList(sourcePaths, tempPathIndex)
-            imageViewer.swipeIndex = tempPathIndex
-            fileControl.deleteImagePath(tmpPath)
+            if (fileControl.deleteImagePath(tmpPath)) {
+                var tempPathIndex = bottomthumbnaillistView.currentIndex
+
+                //需要保存临时变量，重置后赋值
+                imageViewer.sourcePaths = fileControl.removeList(sourcePaths, tempPathIndex)
+                imageViewer.swipeIndex = tempPathIndex
+            }
         } else if (mainView.sourcePaths.length - 1 == 0) {
-            stackView.currentWidgetIndex = 0
-            root.title = ""
-            fileControl.deleteImagePath(imageViewer.sourcePaths[0])
-            imageViewer.sourcePaths = fileControl.removeList(sourcePaths, 0)
+            if (fileControl.deleteImagePath(imageViewer.sourcePaths[0])) {
+                stackView.currentWidgetIndex = 0
+                root.title = ""
+                imageViewer.sourcePaths = fileControl.removeList(sourcePaths, 0)
+            }
         } else {
-            bottomthumbnaillistView.currentIndex--
-            imageViewer.source = imageViewer.sourcePaths[bottomthumbnaillistView.currentIndex]
-            fileControl.deleteImagePath(sourcePaths[bottomthumbnaillistView.currentIndex + 1])
-            imageViewer.sourcePaths = fileControl.removeList(
-                        imageViewer.sourcePaths,
-                        bottomthumbnaillistView.currentIndex + 1)
+            if (fileControl.deleteImagePath(sourcePaths[bottomthumbnaillistView.currentIndex])) {
+                bottomthumbnaillistView.currentIndex--
+                imageViewer.source = imageViewer.sourcePaths[bottomthumbnaillistView.currentIndex]
+                imageViewer.sourcePaths = fileControl.removeList(
+                            imageViewer.sourcePaths,
+                            bottomthumbnaillistView.currentIndex + 1)
+            }
         }
     }
 
