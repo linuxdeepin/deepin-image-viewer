@@ -37,24 +37,22 @@ QStringList FreeimageQt5Plugin::keys() const
                              << QLatin1String("PEF")            // Pentax cameras
                              << QLatin1String("RAF")            // Fuji cameras
                              << QLatin1String("SRF")            // Sony cameras
-                             << QLatin1String("DNG");           //
-//            << QLatin1String("X3F");           // Sigma cameras
+                             << QLatin1String("DNG")            //
+                             << QLatin1String("RAW");           // RAW formats.
     return raws;
 }
 
 QImageIOPlugin::Capabilities
 FreeimageQt5Plugin::capabilities(QIODevice *device, const QByteArray &format) const
 {
+    Capabilities cap;
     if (keys().contains(format.toUpper()) ||
             format == "tif" ||
-            format == "tiff")
-        return Capabilities(CanRead);
-    if (!format.isEmpty())
-        return nullptr;
+            format == "tiff") {
+        if (device->isReadable() && RawIOHandler::canRead(device))
+            cap |= CanRead;
+    }
 
-    Capabilities cap;
-    if (device->isReadable() && RawIOHandler::canRead(device))
-        cap |= CanRead;
     return cap;
 }
 
