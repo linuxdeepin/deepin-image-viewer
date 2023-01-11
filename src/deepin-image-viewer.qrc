@@ -1,0 +1,31 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/MainStack.qml</file>
+        <file>qml/OpenImageWidget.qml</file>
+        <file>qml/ImageViewer.qml</file>
+        <file>qml/ThumbnailListView.qml</file>
+        <file>qml/FullThumbnail.qml</file>
+        <file>qml/ThumbnailButton.qml</file>
+        <file>qml/ListViewDelegate.qml</file>
+        <file>qml/GlobalVar.qml</file>
+        <file>qml/ReName.qml</file>
+        <file>qml/FloatingNotice.qml</file>
+        <file>qml/NavigationWidget.qml</file>
+        <file>qml/SliderShow.qml</file>
+        <file>qml/SFadeInOut.qml</file>
+        <file>qml/InfomationDialog.qml</file>
+        <file>qml/PropertyItemDelegate.qml</file>
+        <file>qml/PropertyItem.qml</file>
+        <file>qml/PropertyActionItemDelegate.qml</file>
+        <file>qml/AlertToolTip.qml</file>
+        <file>qml/ViewRightMenu.qml</file>
+        <file>qml/RightMenuItem.qml</file>
+        <file>qml/ViewTopTitle.qml</file>
+        <file>qml/MultiImageListView.qml</file>
+        <file>qml/LiveBlock.qml</file>
+        <file>qml/LiveBlockController.js</file>
+        <file>qml/LiveBlockRubberBand.qml</file>
+        <file>qml/LiveTextWidget.qml</file>
+    </qresource>
+</RCC>

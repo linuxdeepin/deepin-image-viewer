@@ -1,30 +1,22 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.1)
 
-project(deepin-image-viewer)
+project(deepin-image-viewer LANGUAGES CXX)
 
-execute_process(COMMAND uname -m OUTPUT_VARIABLE MACH
-    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-set(CMAKE_EXPORT_COMPILE_COMMANDS on)
-
-find_package(PkgConfig REQUIRED)
-
-# Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(${PROJECT_BINARY_DIR})
-include_directories(${PROJECT_SOURCE_DIR})
+configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
 
-message(STATUS ${CMAKE_CXX_FLAGS})
+find_package(DtkDeclarative REQUIRED)
 
-
-option(DOTEST "option for test" OFF)
-
-if(DOTEST)
-    add_subdirectory(tests)
-endif()
-
-
-#add_subdirectory(libimage-viewer)
+# Application
 add_subdirectory(src)
+
 add_subdirectory(qimage-plugins)
+
+# Unit Tests
+#add_subdirectory(tests)
