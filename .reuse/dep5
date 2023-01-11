@@ -39,12 +39,13 @@ Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
 # assets
-Files: assets/*
+Files: src/album/controller/com.deepin.DeepinImageViewer.xml
+       src/deepin-image-viewer.desktop
 Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
 
 # translations
-Files: translations/*
+Files: src/translations/*
 Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
 
