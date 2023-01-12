@@ -58,13 +58,20 @@ Item {
         // 判断是否为多页图,多页图只进行页面替换
         if (imageViewer.currentIsMultiImage) {
             if (imageViewer.frameIndex != 0) {
+                imageViewer.viewInteractive = false
+
                 imageViewer.frameIndex--
                 imageViewer.recalculateLiveText()
+
+                imageViewer.viewInteractive = true
                 return
             }
         }
 
         if (bottomthumbnaillistView.currentIndex > 0) {
+            // 切换时滑动视图不响应拖拽等触屏操作
+            imageViewer.viewInteractive = false
+
             bottomthumbnaillistView.currentIndex--
             source = mainView.sourcePaths[bottomthumbnaillistView.currentIndex]
             imageViewer.index = currentIndex
@@ -75,6 +82,8 @@ Item {
             }
             bottomthumbnaillistView.forceActiveFocus()
             imageViewer.recalculateLiveText()
+
+            imageViewer.viewInteractive = true
         }
     }
 
@@ -82,18 +91,27 @@ Item {
         // 判断是否为多页图,多页图只进行页面替换
         if (imageViewer.currentIsMultiImage) {
             if (imageViewer.frameIndex < imageViewer.frameCount - 1) {
+                imageViewer.viewInteractive = false
+
                 imageViewer.frameIndex++
                 imageViewer.recalculateLiveText()
+
+                imageViewer.viewInteractive = true
                 return
             }
         }
 
         if (mainView.sourcePaths.length - 1 > bottomthumbnaillistView.currentIndex) {
+            // 切换时滑动视图不响应拖拽等触屏操作
+            imageViewer.viewInteractive = false
+
             bottomthumbnaillistView.currentIndex++
             source = mainView.sourcePaths[bottomthumbnaillistView.currentIndex]
             imageViewer.index = currentIndex
             bottomthumbnaillistView.forceActiveFocus()
             imageViewer.recalculateLiveText()
+
+            imageViewer.contentView.interactive = true
         }
     }
 
