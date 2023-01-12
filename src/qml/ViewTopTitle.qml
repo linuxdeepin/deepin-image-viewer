@@ -118,21 +118,17 @@ Rectangle {
         }
 
         // 使用自定的文本
-        title: ""
-        Text {
-            anchors.centerIn: parent
-            width: parent.width
-            leftPadding: 300
-            rightPadding: 300
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            // 显示窗口的标题(文件名)
-            text: Window.window.title
-            // 自动隐藏多余文本
-            elide: Text.ElideRight
+        content: Loader {
+            active: true
 
-            textFormat: Text.PlainText
-            color: title.textColor
-        }
+            sourceComponent: Label {
+                textFormat: Text.PlainText
+                text: title.title
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                // 自动隐藏多余文本
+                elide: Text.ElideRight
+            }
+         }
     }
 }
