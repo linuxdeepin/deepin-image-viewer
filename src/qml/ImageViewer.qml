@@ -33,6 +33,9 @@ Rectangle {
     property int index: 0
     property alias swipeIndex: view.currentIndex
 
+    // 界面主动切换时使用，控制滑动视图是否响应界面的拖拽操作
+    property bool viewInteractive: true
+
     // 用于标识当前图片是否存在
     property bool currentIsExistImage: fileControl.imageIsExist(source)
     // 用于多页图的标识 包括是否为多页图、多页图帧数、当前帧号
@@ -1177,7 +1180,7 @@ Rectangle {
             clip: true
             // 当处理双击缩放界面时，由于坐标变更，可能误触导致图片滑动
             // 调整为在缩放动作时不处理滑动操作
-            interactive: !imageViewer.isFullNormalSwitchState
+            interactive: !imageViewer.isFullNormalSwitchState && imageViewer.viewInteractive
 
             snapMode: ListView.SnapOneItem;
             flickDeceleration: 500
@@ -1260,7 +1263,7 @@ Rectangle {
         id: view
         currentIndex: sourcePaths.indexOf(source)
         anchors.fill: parent
-        interactive: !imageViewer.isFullNormalSwitchState
+        interactive: !imageViewer.isFullNormalSwitchState && imageViewer.viewInteractive
         preferredHighlightBegin: 0; preferredHighlightEnd: 0
         highlightRangeMode: ListView.StrictlyEnforceRange
         orientation: ListView.Horizontal
