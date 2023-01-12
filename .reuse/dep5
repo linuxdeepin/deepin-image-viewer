@@ -38,23 +38,18 @@ Files: README.md README.zh_CN.md
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
-# assets
-Files: assets/*
+# config files
+Files: src/deepin-image-viewer.desktop
+Copyright: UnionTech Software Technology Co., Ltd.
+License: CC0-1.0
+
+# assets resources
+Files: src/assets/* src/dsg/* src/icon/* src/res/*
 Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
 
 # translations
-Files: translations/*
-Copyright: UnionTech Software Technology Co., Ltd.
-License: GPL-3.0-or-later
-
-# src
-Files: src/*
-Copyright: UnionTech Software Technology Co., Ltd.
-License: GPL-3.0-or-later
-
-# tests
-Files: tests/*
+Files: src/translations/*
 Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
 
