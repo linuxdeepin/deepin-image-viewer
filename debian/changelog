@@ -1,5 +1,11 @@
 deepin-image-viewer (6.0.0) unstable; urgency=medium
 
-  * Initial release.
+  * V23 code migration.
 
- -- Deepin Packages Builder <packages@deepin.com>  Wed, 15 Jun 2022 16:28:35 +0800
+ -- Deepin Packages Builder <packages@deepin.com>  Wed, 01 Jan 2023 11:36:35 +0800
+
+deepin-image-viewer (1.0.0) unstable; urgency=medium
+
+  * Initial release 
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Wed, 24 Feb 2016 14:15:54 +0800
