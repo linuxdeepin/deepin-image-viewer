@@ -187,6 +187,8 @@ public:
     Q_INVOKABLE void terminateShortcutPanelProcess();
 
 signals:
+    // 打开文件，触发 OpenImageWidget.qml:openImageFile 处理，fileName需为url路径
+    void openImageFile(const QString &fileName);
     // 请求文件变更处理，重新加载图片，更新缓存信息
     void requestImageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
     // 缓存更新处理完成后，更新文件变更信号（被移动、替换、删除等）
