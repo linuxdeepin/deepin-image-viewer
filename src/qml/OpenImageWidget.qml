@@ -16,6 +16,30 @@ Item {
     // 弹出对话框对象，用于外部调用打开对话框
     property alias openFileDialog: fileDialog
 
+    function openImageFile(fileName) {
+        mainView.sourcePaths = fileControl.getDirImagePath(fileName);
+        mainView.source = fileName
+
+        if (mainView.sourcePaths.length > 0) {
+            // 记录当前读取的图片信息，用于监控文件变更
+            fileControl.resetImageFiles(mainView.sourcePaths)
+
+            mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
+            stackView.currentWidgetIndex = 1
+
+            console.log("Open image file", fileName)
+        }
+    }
+
+    Connections {
+        target: fileControl
+
+        // 关联外部通过 DBus 等方式触发调用看图
+        onOpenImageFile: {
+            openwidget.openImageFile(fileName)
+        }
+    }
+
     Rectangle{
         id:openRec
         color:backcontrol.ColorSelector.backgroundColor
@@ -34,7 +58,6 @@ Item {
         }
 
         RecommandButton {
-
             id: openFileBtn
             font.capitalization: Font.MixedCase
             text: qsTr("Open Image")
@@ -50,6 +73,7 @@ Item {
 
         }
     }
+
     Shortcut {
         sequence: "Ctrl+O"
         onActivated:{
@@ -64,21 +88,10 @@ Item {
         title: qsTr("Select pictures")
         folder: shortcuts.pictures
         selectMultiple: true
-//        nameFilters: ["Image files (*.jpg *.png *.bmp *.gif)"]
 
         nameFilters: ["Image files (*.jpg *.png *.bmp *.gif *.ico *.jpe *.jps *.jpeg *.jng *.koala *.koa *.lbm *.iff *.mng *.pbm *.pbmraw *.pcd *.pcx *.pgm *.pgmraw *.ppm *.ppmraw *.ras *.tga *.targa *.tiff *.tif *.wbmp *.psd *.cut *.xbm *.xpm *.dds *.fax *.g3 *.sgi *.exr *.pct *.pic *.pict *.webp *.jxr *.mrw *.raf *.mef *.raw *.orf *.djvu *.or2 *.icns *.dng *.svg *.nef *.pef *.pxm *.pnm)"]
         onAccepted: {
-            mainView.sourcePaths = fileControl.getDirImagePath(fileDialog.fileUrls[0]);
-            mainView.source = fileDialog.fileUrls[0]
-            mainView.currentIndex=mainView.sourcePaths.indexOf(mainView.source)
-            if(mainView.sourcePaths.length >0){
-                // 记录当前读取的图片信息
-                fileControl.resetImageFiles(mainView.sourcePaths)
-
-                mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
-                console.log( "test",mainView.source)
-                stackView.currentWidgetIndex= 1
-            }
+            openImageFile(fileDialog.fileUrls[0])
         }
     }
 
@@ -93,26 +106,11 @@ Item {
         sortField: FolderListModel.Type
         showOnlyReadable: true
         sortReversed: false
-
-        onCountChanged: {
-            //           if(!root.run){
-            //              root.fileMonitor()
-            //           }
-        }
     }
+
     Component.onCompleted: {
-
-        var tempPath =fileControl.parseCommandlineGetPath("x");
-
-        mainView.sourcePaths = fileControl.getDirImagePath(tempPath);
-        mainView.source=tempPath
-        if(mainView.sourcePaths.length >0){
-            // 记录当前读取的图片信息，用于监控文件变更
-            fileControl.resetImageFiles(mainView.sourcePaths)
-
-            mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
-            stackView.currentWidgetIndex= 1
-        }
+        var tempPath = fileControl.parseCommandlineGetPath("x")
+        openImageFile(tempPath)
     }
 
 }

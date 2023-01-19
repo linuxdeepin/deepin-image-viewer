@@ -88,6 +88,8 @@ set(APPSHAREDIR  ${CMAKE_INSTALL_PREFIX}/share/deepin-image-viewer)
 install(TARGETS ${BIN_NAME} DESTINATION ${APP_BIN_INSTALL_DIR})
 install(FILES ${CMAKE_PROJECT_NAME}.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
 install(FILES ./icon/${CMAKE_PROJECT_NAME}.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps)
+install(FILES com.deepin.imageViewer.service DESTINATION ${CMAKE_INSTALL_PREFIX}/share/dbus-d/services/)
+
 #translations
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
     DESTINATION ${APPSHAREDIR}

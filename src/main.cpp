@@ -7,6 +7,7 @@
 #include "src/thumbnailload.h"
 #include "src/cursortool.h"
 #include "src/ocr/livetextanalyzer.h"
+#include "src/dbus/applicationadpator.h"
 #include "config.h"
 
 #include <DApplication>
@@ -73,6 +74,11 @@ int main(int argc, char *argv[])
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
+
+    // 设置DBus接口
+    ApplicationAdaptor adaptor(fileControl);
+    QDBusConnection::sessionBus().registerService("com.deepin.imageViewer");
+    QDBusConnection::sessionBus().registerObject("/", fileControl);
 
     return app->exec();
 }

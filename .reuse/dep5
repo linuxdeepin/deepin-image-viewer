@@ -39,7 +39,7 @@ Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
 # config files
-Files: src/deepin-image-viewer.desktop
+Files: src/deepin-image-viewer.desktop src/com.deepin.imageViewer.service
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
