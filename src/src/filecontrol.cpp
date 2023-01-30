@@ -212,11 +212,14 @@ void FileControl::setWallpaper(const QString &imgPath)
                 if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/1) {
                     // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
                     qDebug() << "SettingWallpaper: " << "flatpak" << path;
-                    QDBusInterface interface("com.deepin.daemon.Appearance",
-                                                 "/com/deepin/daemon/Appearance",
-                                                 "com.deepin.daemon.Appearance");
+                    QDBusInterface interfaceV23("org.deepin.dde.Appearance1",
+                                              "/org/deepin/dde/Appearance1",
+                                              "org.deepin.dde.Appearance1");
+                    QDBusInterface interfaceV20("com.deepin.daemon.Appearance",
+                                                "/com/deepin/daemon/Appearance",
+                                                "com.deepin.daemon.Appearance");
 
-                    if (interface.isValid()) {
+                    if (interfaceV23.isValid() || interfaceV20.isValid()) {
                         QString screenname;
 
                         //判断环境是否是wayland
@@ -232,15 +235,30 @@ void FileControl::setWallpaper(const QString &imgPath)
                         }
                         //wayland下设置壁纸使用，2020/09/21
                         if (isWayland) {
-                            QDBusInterface interfaceWayland("com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
-                            screenname = qvariant_cast< QString >(interfaceWayland.property("Primary"));
+                            QDBusInterface interfaceWaylandV23("org.deepin.dde.Display1", "/org/deepin/dde/Display1", "org.deepin.dde.Display1");
+                            if (interfaceWaylandV23.isValid()) {
+                                screenname = qvariant_cast< QString >(interfaceWaylandV23.property("Primary"));
+                            } else {
+                                QDBusInterface interfaceWaylandV20("com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
+                                screenname = qvariant_cast< QString >(interfaceWaylandV20.property("Primary"));
+                            }
                         } else {
                             screenname = QGuiApplication::primaryScreen()->name();
                         }
-                        QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"), screenname, path);
-                        qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
+
+                        bool settingSucc = false;
+                        if (interfaceV23.isValid()) {
+                            QDBusMessage reply = interfaceV23.call(QStringLiteral("SetMonitorBackground"), screenname, path);
+                            qDebug() << "SettingWallpaper: replay, using v23 interface" << reply.errorMessage();
+                            settingSucc = reply.errorMessage().isEmpty();
+                        }
+
+                        if (interfaceV20.isValid() && !settingSucc) {
+                            QDBusMessage reply = interfaceV20.call(QStringLiteral("SetMonitorBackground"), screenname, path);
+                            qDebug() << "SettingWallpaper: replay, using v20 interface" << reply.errorMessage();
+                        }
                     } else {
-                        qWarning() << "SettingWallpaper failed" << interface.lastError();
+                        qWarning() << "SettingWallpaper failed" << interfaceV23.lastError();
                     }
                 }
             }
