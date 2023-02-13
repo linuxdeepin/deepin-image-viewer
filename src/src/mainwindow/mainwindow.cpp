@@ -341,6 +341,12 @@ void MainWindow::slotOpenImg()
         }
     }
 
+    // 设置图片后重新更新焦点
+    if (m_mainwidow) {
+        QApplication::setActiveWindow(m_mainwidow);
+    } else {
+        QApplication::setActiveWindow(this);
+    }
 }
 
 bool MainWindow::slotDrogImg(const QStringList &paths)
