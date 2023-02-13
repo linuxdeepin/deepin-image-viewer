@@ -15,7 +15,7 @@ class ImageSourceModel;
 class GlobalControl : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(ImageSourceModel* globalModel READ globalModel)
+    Q_PROPERTY(ImageSourceModel* globalModel READ globalModel NOTIFY globalModelChanged)
     Q_PROPERTY(QUrl currentSource READ currentSource NOTIFY currentSourceChanged)
     Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
     Q_PROPERTY(int currentFrameIndex READ currentFrameIndex WRITE setCurrentFrameIndex NOTIFY currentFrameIndexChanged)
@@ -30,6 +30,7 @@ public:
 
     void setGlobalModel(ImageSourceModel *model);
     ImageSourceModel *globalModel() const;
+    Q_SIGNAL void globalModelChanged();
 
     QUrl currentSource() const;
     Q_SIGNAL void currentSourceChanged();
@@ -48,6 +49,8 @@ public:
     Q_SIGNAL void hasNextImageChanged();
     Q_INVOKABLE bool previousImage();
     Q_INVOKABLE bool nextImage();
+    Q_INVOKABLE bool firstImage();
+    Q_INVOKABLE bool lastImage();
 
     Q_INVOKABLE void setImageFiles(const QStringList &imageFiles, const QString &openFile);
 
@@ -62,7 +65,6 @@ private:
 private:
     int index = 0;
     int frameIndex = 0;
-    QUrl imageUrl;
     ImageInfo currentImage;
 
     ImageSourceModel *sourceModel = nullptr;

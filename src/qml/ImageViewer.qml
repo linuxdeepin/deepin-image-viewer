@@ -18,7 +18,7 @@ Rectangle {
     property int maxScaleLevel: 30
     // Indicates the current scaleLevel of zooms
     property int currentScaleLevel: 0
-    //current rotate
+    // current rotate
     property int currentRotate: 0
 
     // Indicates the current image path
@@ -393,25 +393,6 @@ Rectangle {
         //重新进行live text分析
         console.debug("deleteItem")
         recalculateLiveText()
-    }
-
-    function startSliderShow()
-    {
-        if (sourcePaths.length > 0) {
-            view.exitLiveText()
-
-            normalWidth = root.width
-            normalHeight = root.height
-
-            showFullScreen()
-            sliderMainShow.images = sourcePaths
-            sliderMainShow.modelCount = sourcePaths.length
-            sliderMainShow.autoRun = true
-            sliderMainShow.indexImg = view.currentIndex
-            sliderMainShow.restart()
-            stackView.currentWidgetIndex = 2
-        }
-
     }
 
     PropertyAnimation {

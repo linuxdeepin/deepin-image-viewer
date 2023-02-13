@@ -8,6 +8,7 @@ import QtQuick.Controls 2.4
 //import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0
+import org.deepin.image.viewer 1.0 as IV
 
 Menu {
     x: 250; y: 600
@@ -69,19 +70,19 @@ Menu {
     }
 
     RightMenuItem {
-
         text: qsTr("Slide show")
+
         onTriggered: {
-            imageViewer.startSliderShow()
-            showfullAnimation.start()
+            stackView.switchSliderShow()
         }
+
         Shortcut {
             sequence: "F5"
+
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex != 0)
+                if (parent.visible && Number(IV.Types.ImageViewPage) === stackView.stackPage)
                 {
-                    imageViewer.startSliderShow()
-                    showfullAnimation.start()
+                    stackView.switchSliderShow()
                 }
             }
         }
