@@ -11,16 +11,17 @@ import org.deepin.dtk 1.0
 
 Item {
     id: fullThumbnail
+
     property alias source: imageViewer.source
     property alias sourcePaths: imageViewer.sourcePaths
     property alias currentIndex: imageViewer.swipeIndex
-
-    signal closeFullThumbnail
 
     // 鼠标是否进入当前的视图
     property bool isEnterCurrentView:true
     // 是否标题栏和底栏需要隐藏(仅判断普通模式)
     property bool needBarHideInNormalMode: false
+
+    anchors.fill: parent
 
     function setThumbnailCurrentIndex(index) {
         thumbnailListView.currentIndex = index
@@ -170,7 +171,7 @@ Item {
         } else {
             // 判断是否弹出标题栏和缩略图栏
             var needShowTopBottom = false
-            if(currentWidgetIndex != 0 &&
+            if(stackPage != 0 &&
                  ((root.height <= global.minHideHeight || root.width <= global.minWidth)
                   && (mouseY <= bottomHotspotHeight)
                   && (mouseY >= titleRect.height) )){
@@ -293,6 +294,7 @@ Item {
         id: imageViewer
         anchors.fill: parent
     }
+
     Connections {
         target: imageViewer
         onSigWheelChange :{
@@ -300,42 +302,38 @@ Item {
         }
     }
 
-
     FloatingButton {
-        id:floatLeftButton
-        visible: mainView.sourcePaths.length>1 && enabled
-        enabled: currentIndex > 0
-                || imageViewer.frameIndex > 0
+        id: floatLeftButton
+
         checked: false
-        anchors.top: parent.top
-        anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
-        icon.name : "icon_previous"
+        enabled: GControl.hasPreviousImage
+        visible: enabled
+        anchors {
+            top: parent.top
+            topMargin: global.titleHeight + (parent.height - global.titleHeight - global.showBottomY) / 2
+        }
         width: 50
         height: 50
-        onClicked: {
-            thumbnailListView.previous();
-        }
-        Component.onCompleted: {
-            floatLeftButton.x=-50
-        }
+        icon.name : "icon_previous"
+
+        onClicked: GControl.previousImage()
     }
+
     FloatingButton {
-        id:floatRightButton
+        id: floatRightButton
+
         checked: false
-        visible: mainView.sourcePaths.length > 1 && enabled
-        enabled: currentIndex < mainView.sourcePaths.length - 1
-                || imageViewer.frameIndex < imageViewer.frameCount - 1
-        anchors.top: parent.top
-        anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
+        enabled: GControl.hasNextImage
+        visible: enabled
+        anchors {
+            top: parent.top
+            topMargin: global.titleHeight + (parent.height- global.titleHeight - global.showBottomY) / 2
+        }
         width: 50
         height: 50
         icon.name:"icon_next"
-        onClicked: {
-            thumbnailListView.next();
-        }
-        Component.onCompleted: {
-            floatRightButton.x=parent.width
-        }
+
+        onClicked: GControl.nextImage()
     }
 
 

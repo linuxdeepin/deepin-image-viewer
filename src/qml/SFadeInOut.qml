@@ -5,69 +5,55 @@
 import QtQuick 2.11
 
 Item {
-
-    property string imageSource
-    property string imageSourceTemp
+    property url imageSource
+    property url imageSourceTemp
 
     function restart() {
         destroyAnimation.complete()
         createAnimation.start()
     }
 
-    onImageSourceChanged:
-    {
+    onImageSourceChanged: {
         destroyAnimation.start()
         createAnimation.start()
     }
 
     Image {
         id: toBeDeleted
-        fillMode:Image.PreserveAspectFit
-        width: parent.width
-        height: parent.height
-//        sourceSize.width: parent.width
-//        sourceSize.height: parent.width
-//        anchors.centerIn: parent
-        anchors.fill: parent
 
+        fillMode: Image.PreserveAspectFit
+        anchors.fill: parent
         source: imageSourceTemp
+
         NumberAnimation on opacity {
             id: destroyAnimation
+
             from: 1
             to: 0
             duration: 2000
             easing.type: Easing.InOutQuad
-
-            onRunningChanged: {
-             if (!running) {
-
-             }
-           }
         }
     }
 
     Image {
         id: toBeCreated
-        fillMode:Image.PreserveAspectFit
-        width:parent.width
-        height:parent.width
-//        fillMode:Image.PreserveAspectFit
-//        sourceSize.width: parent.width
-//        sourceSize.height: parent.width
-        anchors.centerIn: parent
+
+        fillMode: Image.PreserveAspectFit
         anchors.fill: parent
         source: imageSource
+
         NumberAnimation on opacity {
             id: createAnimation
+
             from: 0
             to: 1
             duration: 2000
             easing.type: Easing.InOutQuad
 
             onRunningChanged: {
-                 if (!running) {
+                if (!running) {
                     imageSourceTemp = imageSource
-                 }
+                }
             }
         }
     }

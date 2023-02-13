@@ -84,7 +84,7 @@ Rectangle {
                 text: qsTr("Open image")
                 onTriggered: {
                     // 发送打开窗口信号
-                    stackView.showOpenImageDialog()
+                    stackView.openImageDialog()
                 }
             }
 

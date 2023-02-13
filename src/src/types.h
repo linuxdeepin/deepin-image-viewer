@@ -12,6 +12,7 @@ class Types : public QObject
     Q_OBJECT
     Q_ENUMS(ItemRole)
     Q_ENUMS(ImageType)
+    Q_ENUMS(StackPage)
 
 public:
     explicit Types(QObject *parent = nullptr);
@@ -33,6 +34,15 @@ public:
         SvgImage,      ///< SVG图片
         MultiImage,    ///< 多页图
         DamagedImage,  ///< 损坏图片
+    };
+
+    /**
+       @brief 界面类型
+     */
+    enum StackPage {
+        OpenImagePage,   ///< 默认打开窗口界面
+        ImageViewPage,   ///< 图片展示界面(含缩略图栏)
+        SliderShowPage,  ///< 图片动画展示界面
     };
 };
 

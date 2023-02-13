@@ -6,97 +6,104 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
-Rectangle {
+Item {
     id: sliderShow
-    property int indexImg
-    property var images:[]
-    property int modelCount
+
+    // 减少重复触发，变更后单独更新图片源
+    property alias source: fadeInOutImage.imageSource
     property bool autoRun: false
 
-    signal backtrack()
-    color: "#000000"
-    Timer {
-        id: timer
-        interval: 3000
-        running: autoRun
-        repeat: true
-        property bool reserve: false
-
-        onTriggered: {
-            sliderMainShow.indexImg++
-            if (sliderMainShow.indexImg > sliderMainShow.images.length-1) {
-                sliderMainShow.indexImg=0
-            }
-        }
-    }
+    anchors.fill: parent
 
     function restart() {
+        autoRun = true
         fadeInOutImage.restart()
     }
 
-    function outSliderShow(){
+    function outSliderShow() {
         showNormal()
-        sliderMainShow.autoRun = false
-        sliderMainShow.backtrack()
-        if(stackView.currentWidgetIndex===2){
-            mainView.currentIndex=sliderMainShow.indexImg
+        stackView.switchImageView()
+    }
+
+    function switchNextImage() {
+        if (!GControl.hasNextImage) {
+            GControl.firstImage()
+        } else {
+            GControl.nextImage()
         }
-        stackView.currentWidgetIndex=1
+
+        source = "image://multiimage/" + GControl.currentSource + "#frame_"
+                + GControl.currentFrameIndex + "_thumbnail"
+    }
+
+    function switchPreviousImage() {
+        if (!GControl.hasPreviousImage) {
+            GControl.lastImage()
+        } else {
+            GControl.previousImage()
+        }
+
+        source = "image://multiimage/" + GControl.currentSource + "#frame_"
+                + GControl.currentFrameIndex + "_thumbnail"
+    }
+
+    Timer {
+        id: timer
+
+        interval: 3000
+        running: autoRun
+        repeat: true
+
+        onTriggered: switchNextImage()
     }
 
     SFadeInOut {
         id: fadeInOutImage
         anchors.fill: parent
-        imageSource: images[indexImg]
-        width: parent.width
-        height: parent.width
     }
 
-    onBacktrack: {
-        sliderArea.cursorShape= "ArrowCursor"
-    }
-    MouseArea{
+    MouseArea {
+        id: sliderArea
+
         anchors.fill: parent
-        id:sliderArea
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         cursorShape: "BlankCursor"
+        hoverEnabled: true
+
         onClicked: {
-            console.log("right menu");
             if (mouse.button === Qt.RightButton) {
                 sliderMenu.popup()
             }
         }
-        onDoubleClicked:{
-            console.log("onDoubleClicked");
-            outSliderShow()
-        }
 
-        onCursorShapeChanged: {
-            sliderCursorTimer.start()
-        }
-        Timer {
-            id :sliderCursorTimer
-            interval: 3000  //设置定时器定时时间为500ms,默认1000ms
-            running: true  //是否开启定时，默认是false，当为true的时候，进入此界面就开始定时
-            repeat: true   //是否重复定时,默认为false
-            onTriggered:  sliderArea.cursorShape= "BlankCursor"
-        }
+        onDoubleClicked: outSliderShow()
+        onCursorShapeChanged: sliderCursorTimer.start()
 
-        hoverEnabled: true
         onMouseXChanged: {
-            sliderArea.cursorShape= "ArrowCursor"
+            sliderArea.cursorShape = "ArrowCursor"
         }
+
         onMouseYChanged: {
-            sliderArea.cursorShape= "ArrowCursor"
-            if(mouseY > height-100){
+            sliderArea.cursorShape = "ArrowCursor"
+            if (mouseY > height - 100) {
                 showSliderAnimation.start()
-            }else{
-//                sliderFloatPanel.visible=false
+            } else {
                 hideSliderAnimation.start()
             }
         }
+
+        Timer {
+            id: sliderCursorTimer
+
+            interval: 3000 // 设置定时器定时时间为500ms,默认1000ms
+            running: true // 是否开启定时，默认是false，当为true的时候，进入此界面就开始定时
+            repeat: true // 是否重复定时,默认为false
+            onTriggered: sliderArea.cursorShape = "BlankCursor"
+        }
+
         NumberAnimation {
-            id :hideSliderAnimation
+            id: hideSliderAnimation
+
             target: sliderFloatPanel
             from: sliderFloatPanel.y
             to: screen.height
@@ -106,10 +113,11 @@ Rectangle {
         }
 
         NumberAnimation {
-            id :showSliderAnimation
+            id: showSliderAnimation
+
             target: sliderFloatPanel
             from: sliderFloatPanel.y
-            to: screen.height-80
+            to: screen.height - 80
             property: "y"
             duration: 200
             easing.type: Easing.InOutQuad
@@ -122,108 +130,105 @@ Rectangle {
             height: 70
 
             Component.onCompleted: {
-                sliderFloatPanel.x=(screen.width-width)/2
-                sliderFloatPanel.y=screen.height-80
+                sliderFloatPanel.x = (screen.width - width) / 2
+                sliderFloatPanel.y = screen.height - 80
             }
 
-            IconButton {
-                id:sliderPrevious
-                icon.name : "icon_previous"
-                width:50
-                height:50
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                anchors.top: parent.top
-                anchors.topMargin: parent.height/2-height/2
-                onClicked: {
-                    sliderMainShow.indexImg--
-                    if (sliderMainShow.indexImg < 0) {
-                        sliderMainShow.indexImg=images.length-1
+            Row {
+                height: 50
+                anchors {
+                    left: parent.left
+                    leftMargin: 10
+                    top: parent.top
+                    topMargin: parent.height / 2 - height / 2
+                }
+                spacing: 10
+
+                IconButton {
+                    id: sliderPrevious
+
+                    icon.name: "icon_previous"
+                    width: 50
+                    height: parent.height
+                    ToolTip.delay: 500
+                    ToolTip.timeout: 5000
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Previous")
+
+                    onClicked: {
+                        switchPreviousImage()
+                        autoRun = false
                     }
-                    autoRun=false
                 }
 
-                ToolTip.delay: 500
-                ToolTip.timeout: 5000
-                ToolTip.visible: hovered
-                ToolTip.text: qsTr("Previous")
-            }
-            IconButton{
-                id:sliderPause
-                icon.name : autoRun ? "icon_suspend": "icon_play_start"
-                width:50
-                height:50
-                anchors.left: sliderPrevious.right
-                anchors.leftMargin: 10
-                anchors.top: parent.top
-                anchors.topMargin: parent.height/2-height/2
-                onClicked: {
-                    autoRun=!autoRun
-                }
-                ToolTip.delay: 500
-                ToolTip.timeout: 5000
-                ToolTip.visible: hovered
-                ToolTip.text: autoRun ? qsTr("Pause") : qsTr("Play")
-            }
-            IconButton{
-                id:sliderNext
-                icon.name : "icon_next"
-                width:50
-                height:50
-                anchors.left: sliderPause.right
-                anchors.leftMargin: 10
-                anchors.top: parent.top
-                anchors.topMargin: parent.height/2-height/2
-                onClicked: {
-                    console.log("next")
-                    sliderMainShow.indexImg++
-                    if (sliderMainShow.indexImg > sliderMainShow.images.length-1) {
-                        sliderMainShow.indexImg=0
+                IconButton {
+                    id: sliderPause
+
+                    icon.name: autoRun ? "icon_suspend" : "icon_play_start"
+                    width: 50
+                    height: parent.height
+                    ToolTip.delay: 500
+                    ToolTip.timeout: 5000
+                    ToolTip.visible: hovered
+                    ToolTip.text: autoRun ? qsTr("Pause") : qsTr("Play")
+
+                    onClicked: {
+                        autoRun = !autoRun
                     }
-                    autoRun=false
                 }
-                ToolTip.delay: 500
-                ToolTip.timeout: 5000
-                ToolTip.visible: hovered
-                ToolTip.text: qsTr("Next")
-            }
 
-            ActionButton {
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                anchors.top: parent.top
-                anchors.topMargin: parent.height/2-height/2
-                icon.name :"entry_clear"
-                width:24
-                height:24
-                onClicked: {
-                    outSliderShow()
+                IconButton {
+                    id: sliderNext
+
+                    icon.name: "icon_next"
+                    width: 50
+                    height: parent.height
+                    ToolTip.delay: 500
+                    ToolTip.timeout: 5000
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Next")
+
+                    onClicked: {
+                        switchNextImage()
+                        autoRun = false
+                    }
                 }
-                ToolTip.delay: 500
-                ToolTip.timeout: 5000
-                ToolTip.visible: hovered
-                ToolTip.text: qsTr("Exit")
+
+                ActionButton {
+                    icon.name: "entry_clear"
+                    width: 24
+                    height: parent.height
+                    ToolTip.delay: 500
+                    ToolTip.timeout: 5000
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Exit")
+
+                    onClicked: outSliderShow()
+                }
             }
-            
         }
     }
 
     Menu {
-        x: 250; y: 600
         id: sliderMenu
 
+        x: 250
+        y: 600
+
         MenuItem {
-            text:autoRun ?qsTr("Pause") : qsTr("Play")
+            text: autoRun ? qsTr("Pause") : qsTr("Play")
             onTriggered: {
-                autoRun=!autoRun
+                autoRun = !autoRun
             }
 
             // 添加处理快捷键，播放幻灯片时暂停/播放
             Shortcut {
                 id: pauseShortCut
+
                 sequence: "Space"
                 // 进行幻灯片播放时允许响应空格快捷键处理暂停/播放
                 enabled: sliderShow.visible
+
                 onActivated: {
                     autoRun = !autoRun
                 }
@@ -231,10 +236,21 @@ Rectangle {
         }
 
         MenuItem {
-            text:qsTr("Exit")
-            onTriggered: {
-                outSliderShow()
+            text: qsTr("Exit")
+            onTriggered: outSliderShow()
+
+            Shortcut {
+                sequence: "Esc"
+                onActivated: outSliderShow()
             }
         }
+    }
+
+    Component.onCompleted: {
+        source = "image://multiimage/" + GControl.currentSource + "#frame_"
+                + GControl.currentFrameIndex + "_thumbnail"
+
+        showFullScreen()
+        restart()
     }
 }
