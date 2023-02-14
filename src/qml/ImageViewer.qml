@@ -1446,10 +1446,25 @@ Rectangle {
         id: renamedialog
     }
 
-    //info的窗口
-    InfomationDialog {
+    // 图片信息窗口
+    Loader {
         id: infomationDig
-        filePath: imageViewer.source
+
+        function show() {
+            if (infomationDig.status === Loader.Ready) {
+                item.show()
+            }
+        }
+
+        function hide() {
+            if (infomationDig.status === Loader.Ready) {
+                item.hide()
+            }
+        }
+
+        asynchronous: true
+        // 图片属性信息窗口
+        source: "qrc:/qml/InformationDialog/InformationDialog.qml"
     }
 
     //导航窗口
