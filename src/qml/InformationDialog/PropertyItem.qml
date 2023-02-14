@@ -1,30 +1,31 @@
-// Copyright (C) 2022 UnionTech Technology Co., Ltd.
 // SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
+import QtQuick 2.11
 import QtQuick.Layouts 1.11
 import QtQml.Models 2.11
 import org.deepin.dtk 1.0
 
 ColumnLayout {
-    width: 280
     property string title
     // 提供隐藏菜单接口
     property alias showProperty: info.visible
     default property alias content: itemModel.children
 
+    width: 280
     ItemDelegate {
         id: titleBar
-        Layout.fillWidth: true;
+
+        Layout.fillWidth: true
         Layout.preferredHeight: 24
         text: title
-        icon.name: info.visible ? "arrow_ordinary_up": "arrow_ordinary_down"
+        icon.name: info.visible ? "arrow_ordinary_up" : "arrow_ordinary_down"
         display: IconLabel.IconBesideText
         checkable: false
         font: DTK.fontManager.t5
         backgroundVisible: false
+
         MouseArea {
             anchors.fill: parent
             onClicked: {
@@ -32,14 +33,17 @@ ColumnLayout {
             }
         }
     }
+
     ListView {
         id: info
+
         Layout.fillWidth: true
         Layout.preferredHeight: contentHeight
         spacing: 5
         model: ObjectModel {
             id: itemModel
         }
+
         Component.onCompleted: {
             for (var i = 0; i < count; ++i) {
                 var item = model.get(i)
