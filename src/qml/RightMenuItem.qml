@@ -8,5 +8,5 @@ import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
 MenuItem {
-    height: visible ?global.rightMenuItemHeight:0
+    height: visible ? global.rightMenuItemHeight : 0
 }
