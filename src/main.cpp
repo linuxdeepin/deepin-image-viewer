@@ -6,7 +6,9 @@
 #include "src/filecontrol.h"
 #include "src/thumbnailload.h"
 #include "src/cursortool.h"
+#ifdef DDE_OCR_ENABLE
 #include "src/ocr/livetextanalyzer.h"
+#endif // DDE_OCR_ENABLE
 #include "src/dbus/applicationadpator.h"
 #include "config.h"
 
@@ -66,10 +68,15 @@ int main(int argc, char *argv[])
     // 光标位置查询工具
     CursorTool *cursorTool = new CursorTool();
     engine.rootContext()->setContextProperty("cursorTool", cursorTool);
+#ifdef DDE_OCR_ENABLE
     // OCR分析工具
     auto liveTextAnalyzer = new LiveTextAnalyzer;
     engine.rootContext()->setContextProperty("liveTextAnalyzer", liveTextAnalyzer);
     engine.addImageProvider(QLatin1String("liveTextAnalyzer"), liveTextAnalyzer);
+    engine.rootContext()->setContextProperty("ocrGlobalEnabled", true);
+#else // DDE_OCR_ENABLE
+    engine.rootContext()->setContextProperty("ocrGlobalEnabled", false);
+#endif // DDE_OCR_ENABLE
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())

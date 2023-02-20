@@ -23,12 +23,25 @@ file(GLOB_RECURSE QMLSRC
     ./*.qml
     )
 
+option(DDE_OCR_ENABLE "enable deepin ocr plugin" ON)
+
+if (NOT DDE_OCR_ENABLE)
+    file(GLOB_RECURSE OCR_SRCS
+        ./src/ocr/*.h
+        ./src/ocr/*.cpp
+    )
+    list(REMOVE_ITEM SRCS ${OCR_SRCS})
+else()
+    add_definitions("-DDDE_OCR_ENABLE")
+endif()
+
 # Find the Qt5Quick library
 find_package(Qt5Quick CONFIG REQUIRED)
 find_package(Qt5QuickCompiler REQUIRED)
 find_package(Qt5DBus CONFIG REQUIRED)
 find_package(Qt5Concurrent CONFIG REQUIRED)
 find_package(Qt5Svg CONFIG REQUIRED)
+find_package(Qt5Gui CONFIG REQUIRED)
 find_package(Qt5PrintSupport CONFIG REQUIRED)
 find_package(Qt5LinguistTools CONFIG REQUIRED)
 
@@ -40,8 +53,10 @@ pkg_check_modules(3rd_lib REQUIRED
     )
 
 # OCR
-pkg_search_module(OCR_PLUGIN REQUIRED deepin-ocr-plugin-manager)
-include_directories(${OCR_PLUGIN_INCLUDE_DIRS})
+if (DDE_OCR_ENABLE)
+  pkg_search_module(OCR_PLUGIN REQUIRED deepin-ocr-plugin-manager)
+  include_directories(${OCR_PLUGIN_INCLUDE_DIRS})
+endif()
 
 # 保证 src 目录下头文件全局可见
 include_directories(src)

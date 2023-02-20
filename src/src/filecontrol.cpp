@@ -6,12 +6,16 @@
 #include "unionimage/unionimage_global.h"
 #include "unionimage/unionimage.h"
 #include "printdialog/printhelper.h"
+#ifdef DDE_OCR_ENABLE
 #include "ocr/ocrinterface.h"
-
+#endif // DDE_OCR_ENABLE
 #include <DSysInfo>
 
 #include <QFileInfo>
 #include <QDir>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QMimeData>
 #include <QMimeDatabase>
 #include <QCollator>
 #include <QUrl>
@@ -82,8 +86,9 @@ QUrl UrlInfo(QString path)
 
 FileControl::FileControl(QObject *parent) : QObject(parent)
 {
+#ifdef DDE_OCR_ENABLE
     m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
-
+#endif // DDE_OCR_ENABLE
     m_shortcutViewProcess = new QProcess(this);
 
     m_config = LibConfigSetter::instance();
@@ -430,6 +435,7 @@ bool FileControl::isFile(const QString &path)
     return QFileInfo(localPath).isFile();
 }
 
+#ifdef DDE_OCR_ENABLE
 void FileControl::ocrImage(const QString &path, int index)
 {
     slotRotatePixCurrent();
@@ -445,6 +451,7 @@ void FileControl::ocrImage(const QString &path, int index)
         m_ocrInterface->openFile(tempFileName);
     }
 }
+#endif // DDE_OCR_ENABLE
 
 QString FileControl::parseCommandlineGetPath(const QString &path)
 {
@@ -879,6 +886,7 @@ bool FileControl::isCheckOnly()
 
 bool FileControl::isCanSupportOcr(const QString &path)
 {
+#ifdef DDE_OCR_ENABLE
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
@@ -887,6 +895,9 @@ bool FileControl::isCanSupportOcr(const QString &path)
         bRet = true;
     }
     return bRet;
+#else
+    return false;
+#endif // DDE_OCR_ENABLE
 }
 
 bool FileControl::isCanRename(const QString &path)

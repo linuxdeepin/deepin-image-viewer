@@ -15,7 +15,9 @@
 #include <QMap>
 #include <QFileSystemWatcher>
 
+#ifdef DDE_OCR_ENABLE
 class OcrInterface;
+#endif // DDE_OCR_ENABLE
 class QProcess;
 
 class FileControl : public QObject
@@ -64,8 +66,10 @@ public:
     //是否是文件
     Q_INVOKABLE bool isFile(const QString &path);
 
+#ifdef DDE_OCR_ENABLE
     //进行ocr识别
     Q_INVOKABLE void ocrImage(const QString &path, int index);
+#endif // DDE_OCR_ENABLE
 
 //    Q_INVOKABLE double fitImage(int imgWidth, int windowWidth);
 
@@ -203,7 +207,9 @@ private:
     QString createShortcutString();
 
 private :
+#ifdef DDE_OCR_ENABLE
     OcrInterface *m_ocrInterface;
+#endif // DDE_OCR_ENABLE
     QString m_currentPath;                      // 当前操作的旋转图片路径
     QString m_shortcutString;                   // 快捷键字符串，将采用懒加载模式，需要通过createShortcutString()函数使用
     QProcess *m_shortcutViewProcess;            // 快捷键面板进程

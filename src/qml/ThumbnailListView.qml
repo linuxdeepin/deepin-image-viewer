@@ -401,6 +401,7 @@ Item {
 
         IconButton {
             id: ocrButton
+            visible: ocrGlobalEnabled
 
             width: 50
             height: 50

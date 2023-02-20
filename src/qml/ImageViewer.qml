@@ -1362,6 +1362,9 @@ Rectangle {
         //live text分析函数
         //缩放和切换需要重新执行此函数
         function liveTextAnalyze() {
+            if(!ocrGlobalEnabled) {
+                return;
+            }
             console.debug("Live Text analyze start")
             view.currentItem.grabToImage(function(result) { //截取当前控件显示
                 liveTextAnalyzer.setImage(result.image) //设置分析图片
@@ -1372,6 +1375,9 @@ Rectangle {
 
         //live text执行函数
         function runLiveText(resultCanUse, token) {
+            if(!ocrGlobalEnabled) {
+                return;
+            }
             console.debug("function runLiveText", token, currentIndex)
             if(resultCanUse && token == currentIndex) { //这里无视警告，就是需要js的==来进行自动类型转换
                 console.debug("run live start")
@@ -1382,6 +1388,9 @@ Rectangle {
 
         //live text退出函数
         function exitLiveText() {
+            if(!ocrGlobalEnabled) {
+                return;
+            }
             console.debug("live exit")
             liveTextAnalyzer.breakAnalyze()
             ltw.clearLive()
@@ -1390,6 +1399,9 @@ Rectangle {
 
         //live text分析启动控制
         function startLiveTextAnalyze() {
+            if(!ocrGlobalEnabled) {
+                return;
+            }
             liveTextTimer.restart()
         }
 
