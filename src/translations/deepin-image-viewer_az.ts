@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="az">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="az">
 <context>
     <name>FileControl</name>
     <message>
@@ -233,7 +235,7 @@
     </message>
     <message>
         <source>day</source>
-        <translation>gün</translation>
+        <translation type="vanished">gün</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
@@ -396,7 +398,7 @@
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

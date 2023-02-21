@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_TW">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_TW">
 <context>
     <name>FileControl</name>
     <message>
@@ -233,7 +235,7 @@
     </message>
     <message>
         <source>day</source>
-        <translation>天</translation>
+        <translation type="vanished">天</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>

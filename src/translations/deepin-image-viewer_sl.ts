@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sl">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="sl">
 <context>
     <name>FileControl</name>
     <message>
@@ -91,11 +93,11 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -113,7 +115,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -177,7 +179,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -193,18 +195,18 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -215,14 +217,14 @@
     </message>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -233,7 +235,7 @@
     </message>
     <message>
         <source>day</source>
-        <translation>dan</translation>
+        <translation type="vanished">dan</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
@@ -248,7 +250,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -294,7 +296,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -302,7 +304,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -388,15 +390,15 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
