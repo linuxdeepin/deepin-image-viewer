@@ -8,6 +8,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 import QtQuick.Shapes 1.11
 import org.deepin.dtk 1.0
+import org.deepin.image.viewer 1.0 as IV
 
 Rectangle {
 
@@ -42,6 +43,12 @@ Rectangle {
     property bool currentIsMultiImage: fileControl.isMultiImage(source)
     property int frameCount: currentIsMultiImage ? fileControl.getImageCount(source) : 1
     property int frameIndex: 0
+    Connections {
+        target: GControl
+        onCurrentFrameIndexChanged: {
+            frameIndex = GControl.currentFrameIndex
+        }
+    }
 
     //是否显示和隐藏导航栏，从配置文件中读取初始配置
     property bool  isNavShow: fileControl.isEnableNavigation()
@@ -1261,79 +1268,111 @@ Rectangle {
     // 图片滑动视图
     ListView {
         id: view
-        currentIndex: sourcePaths.indexOf(source)
+
         anchors.fill: parent
+        cacheBuffer: 200
+        // currentIndex: sourcePaths.indexOf(source)
+
         interactive: !imageViewer.isFullNormalSwitchState && imageViewer.viewInteractive
         preferredHighlightBegin: 0; preferredHighlightEnd: 0
         highlightRangeMode: ListView.StrictlyEnforceRange
+        highlightMoveDuration: 0
         orientation: ListView.Horizontal
         snapMode: ListView.SnapOneItem;
         flickDeceleration: 500
-
-        highlightMoveDuration: 0
         boundsMovement: Flickable.FollowBoundsBehavior
         boundsBehavior: Flickable.StopAtBounds
-        model: sourcePaths
 
-        cacheBuffer: 200
+        currentIndex: GControl.currentIndex
+        model: GControl.globalModel
         delegate: Loader {
             id: swipeViewItemLoader
+
+            property url source: model.imageUrl
+
+            active: {
+                if (ListView.isCurrentItem) {
+                    return true;
+                }
+                if (view.currentIndex - 1 === index || view.currentIndex + 1 === index) {
+                    return true;
+                }
+                return false;
+            }
+            visible: active
+            asynchronous: true
             width: view.width
+            height: view.height
 
-            // 当前item使用的图片源
-            property var curItemSource: imageViewer.sourcePaths[index]
-            // 判断图片是否存在
-            property var curItemImageExist: fileControl.imageIsExist(curItemSource)
-            // 非当前 ImageViewer 使用的标识，而是当前滑动视图 item 对应图片的信息
-            property var curItemIsMultiImage: fileControl.isMultiImage(curItemSource)
-
-            // 根据列表索引判断是否为多页图
-            sourceComponent: (curItemIsMultiImage && curItemImageExist) ? mulitImageSwipeViewComp : imageShowComp
-
-            onLoaded: {
-                // 为多页图且图片存在时调用
-                if (curItemIsMultiImage && curItemImageExist) {
-                    item.imageIndex = index
-
-                    // 若为展示组件前后的组件且此图片组件为多页图，修改索引
-                    if (index < view.currentIndex) {
-                        item.currentIndex = item.count - 1
-                    } else if (index > view.currentIndex) {
-                        item.currentIndex = 0
-                    }
-                } else {
-                    // 非多页图，使用 loader 加载，设置 imageShowComp 组件的源图片路径
-                    item.swipeItemIndex = index
-                    item.curImageSource = imageViewer.sourcePaths[index]
+            onActiveChanged: {
+                if (active && imageInfo.delegateSource) {
+                    setSource(imageInfo.delegateSource, { "source": swipeViewItemLoader.source })
                 }
             }
 
-            // 连接图片变更信号，当图片变更且当前图片为多页图时处理
-            Connections {
-                target: fileControl
+            IV.ImageInfo {
+                id: imageInfo
 
-                // 图片被移动、替换、删除时触发
-                // void imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
-                onImageFileChanged: {
-                    // 判断是否和当前加载图片一致，涉及多页图才需要重新加载组件
-                    if (filePath === swipeViewItemLoader.curItemSource
-                            && (swipeViewItemLoader.curItemIsMultiImage || isMultiImage)) {
-                        swipeViewItemLoader.curItemSource = ""
-                        swipeViewItemLoader.curItemSource = filePath
+                property url delegateSource
+                property bool isCurrentItem: swipeViewItemLoader.ListView.isCurrentItem
 
-                        // 多页图需要特殊处理，更新源
-                        if (isExist && filePath === imageViewer.source) {
-                            imageViewer.source = ""
-                            imageViewer.source = filePath
-                        }
+                function checkDelegateSource() {
+                    if (IV.ImageInfo.Ready !== status
+                            && IV.ImageInfo.Error !== status) {
+                        return
                     }
+
+                    if (!imageInfo.exists) {
+                        delegateSource = "qrc:/qml/ImageDelegate/NonexistImageDelegate.qml";
+                        return
+                    }
+
+                    switch (type) {
+                    case IV.Types.NormalImage:
+                        delegateSource = "qrc:/qml/ImageDelegate/NormalImageDelegate.qml"
+                        return
+                    case IV.Types.DynamicImage:
+                        delegateSource = "qrc:/qml/ImageDelegate/DynamicImageDelegate.qml"
+                        return
+                    case IV.Types.SvgImage:
+                        delegateSource = "qrc:/qml/ImageDelegate/SvgImageDelegate.qml"
+                        return
+                    default:
+                        // Default is damaged image.
+                        delegateSource = "qrc:/qml/ImageDelegate/DamagedImageDelegate.qml"
+                        return
+                    }
+                }
+
+                source: swipeViewItemLoader.source
+
+                onDelegateSourceChanged: {
+                    if (swipeViewItemLoader.active && delegateSource) {
+                        setSource(delegateSource, { "source": swipeViewItemLoader.source })
+                    }
+                }
+                onStatusChanged: checkDelegateSource()
+                onIsCurrentItemChanged: checkDelegateSource()
+            }
+        }
+
+        BusyIndicator {
+            anchors.centerIn: parent
+            width: 48
+            height: 48
+            running: visible
+            visible: {
+                if (view.currentItem.status === Loader.Loading) {
+                    return true
+                } else {
+                    return view.currentItem.item.status === Image.Loading
                 }
             }
         }
 
         moveDisplaced: Transition {
              NumberAnimation { properties: "x,y"; duration: 100 }
-         }
+        }
 
         Component.onCompleted: {
             contentItem.highlightMoveDuration = 0
@@ -1363,7 +1402,7 @@ Rectangle {
         //缩放和切换需要重新执行此函数
         function liveTextAnalyze() {
             console.debug("Live Text analyze start")
-            view.currentItem.grabToImage(function(result) { //截取当前控件显示
+            view.currentItem.item.grabToImage(function(result) { //截取当前控件显示
                 liveTextAnalyzer.setImage(result.image) //设置分析图片
                 liveTextAnalyzer.analyze(currentIndex) //执行分析（异步执行，函数会立即返回）
                 //result.saveToFile("/home/wzyforuos/Desktop/viewer.png") //保存截取的图片，debug用

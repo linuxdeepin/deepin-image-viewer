@@ -4,6 +4,7 @@
 
 #include "thumbnailload.h"
 #include "unionimage/unionimage.h"
+#include "imagedata/thumbnailcache.h"
 
 ThumbnailLoad::ThumbnailLoad()
     : QQuickImageProvider(QQuickImageProvider::Image)
@@ -16,6 +17,12 @@ QImage ThumbnailLoad::requestImage(const QString &id, QSize *size, const QSize &
     QString tempPath = QUrl(id).toLocalFile();
     QImage Img;
     QString error;
+
+
+    if (ThumbnailCache::instance()->contains(tempPath)) {
+        return ThumbnailCache::instance()->get(tempPath);
+    }
+
 
     QMutexLocker _locker(&m_mutex);
     if (!m_imgMap.keys().contains(tempPath)) {
@@ -387,6 +394,10 @@ QImage MultiImageLoad::requestImage(const QString &id, QSize *size, const QSize 
 
     QString tempPath = QUrl(path).toLocalFile();
     QImage img;
+
+    if (useThumbnail && ThumbnailCache::instance()->contains(tempPath, frame)) {
+        return ThumbnailCache::instance()->get(tempPath, frame);
+    }
 
     // 数据变更前加锁
     QMutexLocker _locker(&m_mutex);

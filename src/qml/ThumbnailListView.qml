@@ -7,6 +7,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 import QtGraphicalEffects 1.0
 import org.deepin.dtk 1.0
+import org.deepin.image.viewer 1.0 as IV
 
 Item {
     id: thumbnailView
@@ -15,7 +16,8 @@ Item {
     // 用于外部获取当前缩略图栏内容的长度，用于布局, 10px为焦点缩略图不在ListView中的边框像素宽度(radius = 4 * 1.25)
     property int listContentWidth: bottomthumbnaillistView.contentWidth + 10
     // 除ListView外其它按键的占用宽度
-    property int btnContentWidth: switchArrowLayout.width + leftRowLayout.width + rightRowLayout.width + deleteButton.width
+    property int btnContentWidth: switchArrowLayout.width + leftRowLayout.width
+                                  + rightRowLayout.width + deleteButton.width
 
     onCurrentIndexChanged: {
         bottomthumbnaillistView.currentIndex = currentIndex
@@ -34,7 +36,8 @@ Item {
                 var tempPathIndex = bottomthumbnaillistView.currentIndex
 
                 //需要保存临时变量，重置后赋值
-                imageViewer.sourcePaths = fileControl.removeList(sourcePaths, tempPathIndex)
+                imageViewer.sourcePaths = fileControl.removeList(sourcePaths,
+                                                                 tempPathIndex)
                 imageViewer.swipeIndex = tempPathIndex
             }
         } else if (mainView.sourcePaths.length - 1 == 0) {
@@ -44,7 +47,8 @@ Item {
                 imageViewer.sourcePaths = fileControl.removeList(sourcePaths, 0)
             }
         } else {
-            if (fileControl.deleteImagePath(sourcePaths[bottomthumbnaillistView.currentIndex])) {
+            if (fileControl.deleteImagePath(
+                        sourcePaths[bottomthumbnaillistView.currentIndex])) {
                 bottomthumbnaillistView.currentIndex--
                 imageViewer.source = imageViewer.sourcePaths[bottomthumbnaillistView.currentIndex]
                 imageViewer.sourcePaths = fileControl.removeList(
@@ -128,10 +132,15 @@ Item {
         IconButton {
             id: previousButton
 
-            enabled: currentIndex > 0 || imageViewer.frameIndex > 0
+            enabled: GControl.hasPreviousImage
             width: 50
             height: 50
             icon.name: "icon_previous"
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Previous")
+
             onClicked: {
                 previous()
             }
@@ -140,35 +149,26 @@ Item {
                 sequence: "Left"
                 onActivated: previous()
             }
-
-            ToolTip.delay: 500
-            ToolTip.timeout: 5000
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("Previous")
         }
 
         IconButton {
             id: nextButton
 
-            enabled: currentIndex < mainView.sourcePaths.length - 1
-                     || imageViewer.frameIndex < imageViewer.frameCount - 1
+            enabled: GControl.hasNextImage
             width: 50
             height: 50
             icon.name: "icon_next"
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Next")
 
-            onClicked: {
-                next()
-            }
+            onClicked: next()
 
             Shortcut {
                 sequence: "Right"
                 onActivated: next()
             }
-
-            ToolTip.delay: 500
-            ToolTip.timeout: 5000
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("Next")
         }
     }
 
@@ -191,16 +191,15 @@ Item {
             height: 50
             icon.name: "icon_11"
             enabled: !CodeImage.imageIsNull(imageViewer.source)
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Original size")
 
             onClicked: {
                 imageViewer.fitImage()
                 imageViewer.recalculateLiveText()
             }
-
-            ToolTip.delay: 500
-            ToolTip.timeout: 5000
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("Original size")
         }
 
         IconButton {
@@ -210,15 +209,15 @@ Item {
             height: 50
             icon.name: "icon_self-adaption"
             enabled: !CodeImage.imageIsNull(imageViewer.source)
-            onClicked: {
-                imageViewer.fitWindow()
-                imageViewer.recalculateLiveText()
-            }
-
             ToolTip.delay: 500
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Fit to window")
+
+            onClicked: {
+                imageViewer.fitWindow()
+                imageViewer.recalculateLiveText()
+            }
         }
 
         IconButton {
@@ -250,24 +249,6 @@ Item {
     ListView {
         id: bottomthumbnaillistView
 
-        // 使用范围模式，允许高亮缩略图在preferredHighlightBegin~End的范围外，使缩略图填充空白区域
-        highlightRangeMode: ListView.ApplyRange
-        highlightFollowsCurrentItem: true
-
-        height: thumbnailView.height + 10
-        width: thumbnailView.width - thumbnailView.btnContentWidth
-        preferredHighlightBegin: width / 2 - 25
-        preferredHighlightEnd: width / 2 + 25
-
-        anchors {
-            left: leftRowLayout.right
-            right: rightRowLayout.left
-            verticalCenter: parent.verticalCenter
-        }
-        clip: true
-        spacing: 4
-        focus: true
-
         // 重新定位图片位置
         function rePositionView() {
             // 特殊处理，防止默认显示首个缩略图时采用Center的策略会被遮挡部分
@@ -279,31 +260,30 @@ Item {
             }
         }
 
-        //滑动联动主视图
-        onCurrentIndexChanged: {
-            mainView.currentIndex = currentIndex
-            source = mainView.sourcePaths[currentIndex]
-            if (currentItem) {
-                currentItem.forceActiveFocus()
-            }
-
-            rePositionView()
-
-            // 仅在边缘缩略图时进行二次定位
-            if (0 === currentIndex
-                    || currentIndex === (count - 1)) {
-                delayUpdateTimer.restart()
-            }
+        anchors {
+            left: leftRowLayout.right
+            right: rightRowLayout.left
+            verticalCenter: parent.verticalCenter
         }
+        // 使用范围模式，允许高亮缩略图在preferredHighlightBegin~End的范围外，使缩略图填充空白区域
+        highlightRangeMode: ListView.ApplyRange
+        highlightFollowsCurrentItem: true
+        height: thumbnailView.height + 10
+        width: thumbnailView.width - thumbnailView.btnContentWidth
+        preferredHighlightBegin: width / 2 - 25
+        preferredHighlightEnd: width / 2 + 25
+        clip: true
+        spacing: 4
+        focus: true
+        orientation: Qt.Horizontal
+        cacheBuffer: 200
 
-        Timer {
-            id: delayUpdateTimer
-
-            repeat: false
-            interval: 100
-            onTriggered: {
-                bottomthumbnaillistView.forceLayout()
-                bottomthumbnaillistView.rePositionView()
+        /// FIXME 异常的绑定
+        //        currentIndex: GControl.currentIndex
+        Connections {
+            target: GControl
+            onCurrentIndexChanged: {
+                bottomthumbnaillistView.currentIndex = GControl.currentIndex
             }
         }
 
@@ -315,7 +295,8 @@ Item {
                     // 向前切换当通过拖动等方式时，调整多页图索引为最后一张图片
                     var curSource = sourcePaths[imageSwipeIndex]
                     if (fileControl.isMultiImage(curSource)) {
-                        imageViewer.frameIndex = fileControl.getImageCount(curSource) - 1
+                        imageViewer.frameIndex = fileControl.getImageCount(
+                                    curSource) - 1
                     }
                 } else {
                     // 其它情况均设置为首张图片
@@ -347,7 +328,8 @@ Item {
                     // 区分正反旋转方向ViewSection.CurrentLabelA
                     var isClockWise = rotateAngle > 0
                     // 计算绝对角度值
-                    rotateAngle = Math.floor((Math.abs(rotateAngle) + 45) / 90) * 90
+                    rotateAngle = Math.floor((Math.abs(
+                                                  rotateAngle) + 45) / 90) * 90
 
                     // 设置当前展示的图片的旋转方向，仅在90度方向旋转，不会跟随旋转角度(特指在触摸状态下)
                     bottomthumbnaillistView.currentItem.rotation
@@ -356,11 +338,89 @@ Item {
             }
         }
 
-        orientation: Qt.Horizontal
+        model: GControl.globalModel
+        delegate: Loader {
+            id: thumbnailItemLoader
 
-        cacheBuffer: 200
-        model: mainView.sourcePaths.length
-        delegate: ListViewDelegate {
+            property url source: model.imageUrl /*mainView.sourcePaths[index]*/
+
+            active: true
+            asynchronous: true
+
+            onActiveChanged: {
+                if (active && imageInfo.delegateSource) {
+                    setSource(imageInfo.delegateSource, {
+                                  "source": thumbnailItemLoader.source
+                              })
+                }
+            }
+
+            IV.ImageInfo {
+                id: imageInfo
+
+                property url delegateSource
+                property bool isCurrentItem: thumbnailItemLoader.ListView.isCurrentItem
+
+                function checkDelegateSource() {
+                    if (IV.ImageInfo.Ready !== status
+                            && IV.ImageInfo.Error !== status) {
+                        return
+                    }
+
+                    if (IV.Types.MultiImage === type && isCurrentItem) {
+                        delegateSource = "qrc:/qml/ThumbnailDelegate/MultiThumnailDelegate.qml"
+                    } else {
+                        delegateSource = "qrc:/qml/ThumbnailDelegate/NormalThumbnailDelegate.qml"
+                    }
+                }
+
+                source: thumbnailItemLoader.source
+
+                onDelegateSourceChanged: {
+                    if (thumbnailItemLoader.active && delegateSource) {
+                        setSource(delegateSource, {
+                                      "source": thumbnailItemLoader.source
+                                  })
+                    }
+                }
+
+                onStatusChanged: {
+                    checkDelegateSource()
+                }
+
+                onIsCurrentItemChanged: {
+                    checkDelegateSource()
+                }
+            }
+        }
+
+        //滑动联动主视图
+        onCurrentIndexChanged: {
+            console.warn("currentIndex changed")
+
+            mainView.currentIndex = currentIndex
+            source = mainView.sourcePaths[currentIndex]
+            if (currentItem) {
+                currentItem.forceActiveFocus()
+            }
+
+            rePositionView()
+
+            // 仅在边缘缩略图时进行二次定位
+            if (0 === currentIndex || currentIndex === (count - 1)) {
+                delayUpdateTimer.restart()
+            }
+        }
+
+        Timer {
+            id: delayUpdateTimer
+
+            repeat: false
+            interval: 100
+            onTriggered: {
+                bottomthumbnaillistView.forceLayout()
+                bottomthumbnaillistView.rePositionView()
+            }
         }
 
         // 添加两组空的表头表尾用于占位，防止在边界的高亮缩略图被遮挡, 5px为不在ListView中维护的焦点缩略图边框的宽度 radius = 4 * 1.25
@@ -404,16 +464,15 @@ Item {
 
             width: 50
             height: 50
-            icon.name: "icon_character_recognition"
             enabled: fileControl.isCanSupportOcr(source)
                      && !CodeImage.imageIsNull(source)
-            onClicked: {
-                fileControl.ocrImage(source, imageViewer.frameIndex)
-            }
+            icon.name: "icon_character_recognition"
             ToolTip.delay: 500
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Extract text")
+
+            onClicked: fileControl.ocrImage(source, imageViewer.frameIndex)
         }
     }
 
@@ -425,20 +484,17 @@ Item {
             rightMargin: 10
             verticalCenter: parent.verticalCenter
         }
-
+        enabled: fileControl.isCanDelete(GControl.currentSource)
         width: 50
         height: 50
         icon.name: "icon_delete"
         icon.source: "qrc:/res/dcc_delete_36px.svg"
         icon.color: enabled ? "red" : "ffffff"
-        onClicked: {
-            deleteCurrentImage()
-        }
-        enabled: fileControl.isCanDelete(source) ? true : false
-
         ToolTip.delay: 500
         ToolTip.timeout: 5000
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Delete")
+
+        onClicked: deleteCurrentImage()
     }
 }
