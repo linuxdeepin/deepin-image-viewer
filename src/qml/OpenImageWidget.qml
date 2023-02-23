@@ -21,6 +21,8 @@ Item {
         mainView.source = fileName
 
         if (mainView.sourcePaths.length > 0) {
+            GControl.setImageFiles(mainView.sourcePaths, fileName)
+
             // 记录当前读取的图片信息，用于监控文件变更
             fileControl.resetImageFiles(mainView.sourcePaths)
 

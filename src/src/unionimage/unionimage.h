@@ -149,6 +149,13 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
 UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &path);
 
 /**
+   @brief 读取文件数据取得文件大小
+   @param imagepath 文件路径
+   @return 文件大小
+ */
+UNIONIMAGESHARED_EXPORT QSize getImageSize(const QString &imagepath);
+
+/**
  * @brief isImageSupportRotate
  * @param path
  * @author LMH
@@ -193,8 +200,6 @@ UNIONIMAGESHARED_EXPORT imageViewerSpace::ImageType getImageType(const QString &
  * 获得路径类型
  */
 UNIONIMAGESHARED_EXPORT imageViewerSpace::PathType getPathType(const QString &imagepath);
-
-
 
 QT_BEGIN_NAMESPACE
 

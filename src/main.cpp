@@ -1,5 +1,4 @@
-// Copyright (C) 2020 ~ 2020 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 ~ 2023 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -10,6 +9,11 @@
 #include "src/dbus/applicationadpator.h"
 #include "config.h"
 
+#include "globalcontrol.h"
+#include "types.h"
+#include "imagedata/imageinfo.h"
+#include "imagedata/imagesourcemodel.h"
+
 #include <DApplication>
 
 #include <QGuiApplication>
@@ -19,6 +23,9 @@
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
+
+// 单实例
+Q_GLOBAL_STATIC(ImageSourceModel, ImageSourceModelInstance)
 
 // 此文件是QML应用的启动文件，一般无需修改
 // 请在LauncherPlugin::main()中实现所需功能
@@ -38,10 +45,26 @@ int main(int argc, char *argv[])
     app->setApplicationName("deepin-image-viewer");
     app->setApplicationDisplayName(QObject::tr("Image Viewer"));
     app->setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
-    app->setApplicationDescription(QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
+    app->setApplicationDescription(
+        QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
     app->setWindowIcon(QIcon::fromTheme("deepin-image-viewer"));
-    
+
     QQmlApplicationEngine engine;
+
+    const QString uri("org.deepin.image.viewer");
+    qmlRegisterType<ImageInfo>(uri.toUtf8().data(), 1, 0, "ImageInfo");
+    qmlRegisterUncreatableType<Types>(uri.toUtf8().data(), 1, 0, "Types", "Types only use for define");
+
+    ImageSourceModel *imageSourceModel = ImageSourceModelInstance();
+    qmlRegisterSingletonType<ImageSourceModel>(
+        uri.toUtf8().data(), 1, 0, "ImageSourceModel", [](QQmlEngine *, QJSEngine *) -> QObject * {
+            return ImageSourceModelInstance();
+        });
+
+    GlobalControl control;
+    control.setGlobalModel(imageSourceModel);
+    engine.rootContext()->setContextProperty("GControl", &control);
+
     // 请在此处注册需要导入到QML中的C++类型
     // 例如： engine.rootContext()->setContextProperty("Utils", new Utils);
     // 后端缩略图加载
@@ -55,13 +78,13 @@ int main(int argc, char *argv[])
     FileControl *fileControl = new FileControl();
     engine.rootContext()->setContextProperty("fileControl", fileControl);
     // 关联文件处理（需要保证优先处理，onImageFileChanged已做多线程安全）
-    QObject::connect(fileControl, &FileControl::requestImageFileChanged,
-                     load, [&](const QString &filePath, bool isMultiImage, bool isExist){
-        // 更新缓存信息
-        load->onImageFileChanged(filePath, isMultiImage, isExist);
-        // 处理完成后加载图片
-        emit fileControl->imageFileChanged(filePath, isMultiImage, isExist);
-    });
+    QObject::connect(
+        fileControl, &FileControl::requestImageFileChanged, load, [&](const QString &filePath, bool isMultiImage, bool isExist) {
+            // 更新缓存信息
+            load->onImageFileChanged(filePath, isMultiImage, isExist);
+            // 处理完成后加载图片
+            emit fileControl->imageFileChanged(filePath, isMultiImage, isExist);
+        });
 
     // 光标位置查询工具
     CursorTool *cursorTool = new CursorTool();
