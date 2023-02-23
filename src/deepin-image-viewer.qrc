@@ -25,5 +25,16 @@
         <file>qml/InformationDialog/PropertyActionItemDelegate.qml</file>
         <file>qml/InformationDialog/PropertyItem.qml</file>
         <file>qml/InformationDialog/PropertyItemDelegate.qml</file>
+        <file>qml/ImageDelegate/BaseImageDelegate.qml</file>
+        <file>qml/ImageDelegate/NormalImageDelegate.qml</file>
+        <file>qml/ImageDelegate/SvgImageDelegate.qml</file>
+        <file>qml/ImageDelegate/DynamicImageDelegate.qml</file>
+        <file>qml/ImageDelegate/NonexistImageDelegate.qml</file>
+        <file>qml/ImageDelegate/DamagedImageDelegate.qml</file>
+        <file>qml/ImageDelegate/MultiImageDelegate.qml</file>
+        <file>qml/ThumbnailDelegate/BaseThumbnailDelegate.qml</file>
+        <file>qml/ThumbnailDelegate/NormalThumbnailDelegate.qml</file>
+        <file>qml/ThumbnailDelegate/MultiThumnailDelegate.qml</file>
+        <file>qml/ThumbnailDelegate/ThumbnailImage.qml</file>
     </qresource>
 </RCC>

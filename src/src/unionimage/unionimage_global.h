@@ -56,11 +56,11 @@ enum ItemInfoType {
 //图片类型
 enum ImageType {
     ImageTypeBlank = 0,     //空白项，最上面留空使用
-    ImageTypeSvg,         //SVG图片
+    ImageTypeSvg,           //SVG图片
     ImageTypeDynamic,       //所有动态图
     ImageTypeStatic,        //所有静态图
     ImageTypeMulti,         //所有多页图
-    ImageTypeDamaged        //所有损坏图片
+    ImageTypeDamaged,       //所有损坏图片
 };
 //路径类型
 enum PathType {
