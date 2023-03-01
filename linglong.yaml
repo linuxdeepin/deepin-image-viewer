@@ -48,6 +48,6 @@ depends:
 
 source:
   kind: local
-
+  patch: patches/fix-linglong.patch
 build:
   kind: cmake

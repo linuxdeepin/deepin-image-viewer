@@ -57,3 +57,8 @@ License: GPL-3.0-or-later
 Files: qimage-plugins/libraw/*
 Copyright: Alberto Mardegan
 License: GPL-3.0-or-later
+
+# patches
+Files: patches/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-3.0-or-later
