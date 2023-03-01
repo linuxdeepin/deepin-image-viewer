@@ -47,6 +47,29 @@ QVariant ImageSourceModel::data(const QModelIndex &index, int role) const
 }
 
 /**
+   @brief 设置数据索引 \a index 和数据类型 \a role 所指向的数据为 \a value
+   @return 是否设置数据成功
+ */
+bool ImageSourceModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (!checkIndex(index, CheckIndexOption::ParentIsInvalid | CheckIndexOption::IndexIsValid)) {
+        return false;
+    }
+
+    switch (role) {
+        case Types::ImageUrlRole:
+            imageUrlList.replace(index.row(), value.toUrl());
+
+            Q_EMIT dataChanged(index, index);
+            return true;
+        default:
+            break;
+    }
+
+    return false;
+}
+
+/**
    @return 返回当前数据模型的总行数
  */
 int ImageSourceModel::rowCount(const QModelIndex &parent) const
@@ -58,7 +81,7 @@ int ImageSourceModel::rowCount(const QModelIndex &parent) const
 /**
    @return 返回传入文件路径 \a file 在数据模型中的索引
  */
-int ImageSourceModel::indexForImagePath(const QString &file)
+int ImageSourceModel::indexForImagePath(const QUrl &file)
 {
     return imageUrlList.indexOf(file);
 }
@@ -66,7 +89,7 @@ int ImageSourceModel::indexForImagePath(const QString &file)
 /**
    @brief 设置图像文件列表，重置模型数据
  */
-void ImageSourceModel::setImageFiles(const QStringList &files)
+void ImageSourceModel::setImageFiles(const QList<QUrl> &files)
 {
     beginResetModel();
     imageUrlList = files;
@@ -76,7 +99,7 @@ void ImageSourceModel::setImageFiles(const QStringList &files)
 /**
    @brief 从数据模型中移除文件路径 \a fileName 指向的数据
  */
-void ImageSourceModel::removeImage(const QString &fileName)
+void ImageSourceModel::removeImage(const QUrl &fileName)
 {
     int index = imageUrlList.indexOf(fileName);
     if (-1 != index) {

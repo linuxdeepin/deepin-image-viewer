@@ -8,16 +8,19 @@ BaseImageDelegate {
     id: delegate
 
     status: image.status
+    targetImage: image
 
     AnimatedImage {
         id: image
 
-        anchors.fill: parent
+        height: delegate.height
+        width: delegate.width
         asynchronous: true
         cache: false
         clip: true
         fillMode: Image.PreserveAspectFit
         smooth: true
+        scale: delegate.scale
         source: delegate.source
     }
 }

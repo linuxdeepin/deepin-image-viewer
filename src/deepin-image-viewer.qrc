@@ -5,7 +5,7 @@
         <file>qml/OpenImageWidget.qml</file>
         <file>qml/ImageViewer.qml</file>
         <file>qml/ThumbnailListView.qml</file>
-        <file>qml/ImageView.qml</file>
+        <file>qml/FullImageView.qml</file>
         <file>qml/ListViewDelegate.qml</file>
         <file>qml/GlobalVar.qml</file>
         <file>qml/ReName.qml</file>

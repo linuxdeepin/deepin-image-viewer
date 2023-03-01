@@ -10,6 +10,7 @@
 #include "config.h"
 
 #include "globalcontrol.h"
+#include "globalstatus.h"
 #include "types.h"
 #include "imagedata/imageinfo.h"
 #include "imagedata/imagesourcemodel.h"
@@ -64,6 +65,8 @@ int main(int argc, char *argv[])
     GlobalControl control;
     control.setGlobalModel(imageSourceModel);
     engine.rootContext()->setContextProperty("GControl", &control);
+    GlobalStatus status;
+    engine.rootContext()->setContextProperty("GStatus", &status);
 
     // 请在此处注册需要导入到QML中的C++类型
     // 例如： engine.rootContext()->setContextProperty("Utils", new Utils);

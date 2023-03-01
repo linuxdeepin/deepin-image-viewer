@@ -125,6 +125,7 @@ BaseThumbnailDelegate {
         hoverEnabled: true
 
         onClicked: {
+            GControl.currentFrameIndex = 0
             GControl.currentIndex = index
         }
     }

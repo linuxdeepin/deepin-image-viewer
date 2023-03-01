@@ -6,10 +6,19 @@
 #include "types.h"
 #include "imagedata/imagesourcemodel.h"
 
+#include <QDebug>
+
+/**
+   @class GlobalControl
+   @brief QML单例类，全局数据控制，用于提供图片展示过程中的数据、切换控制等。
+ */
+
 GlobalControl::GlobalControl(QObject *parent)
     : QObject(parent)
 {
 }
+
+GlobalControl::~GlobalControl() {}
 
 /**
    @brief 设置全局使用的数据模型为 \a model
@@ -41,9 +50,10 @@ QUrl GlobalControl::currentSource() const
  */
 void GlobalControl::setCurrentIndex(int index)
 {
-    if (this->index != index) {
+    int validIndex = qBound(0, index, imageCount() - 1);
+    if (this->index != validIndex) {
         // 更新图像信息，无论变更均更新
-        QUrl image = sourceModel->data(sourceModel->index(index), Types::ImageUrlRole).toUrl();
+        QUrl image = sourceModel->data(sourceModel->index(validIndex), Types::ImageUrlRole).toUrl();
         currentImage.setSource(image);
         Q_EMIT currentSourceChanged();
 
@@ -67,8 +77,12 @@ int GlobalControl::currentIndex() const
  */
 void GlobalControl::setCurrentFrameIndex(int frameIndex)
 {
-    if (this->frameIndex != frameIndex) {
-        this->frameIndex = frameIndex;
+    qWarning() << Q_FUNC_INFO << "--- ---" << frameIndex << this->frameIndex;
+
+
+    int validFrameIndex = qBound(0, frameIndex, currentImage.frameCount() - 1);
+    if (this->frameIndex != validFrameIndex) {
+        this->frameIndex = validFrameIndex;
         Q_EMIT currentFrameIndexChanged();
 
         checkSwitchEnable();
@@ -81,6 +95,14 @@ void GlobalControl::setCurrentFrameIndex(int frameIndex)
 int GlobalControl::currentFrameIndex() const
 {
     return frameIndex;
+}
+
+/**
+   @return 返回当前图片总数
+ */
+int GlobalControl::imageCount() const
+{
+    return sourceModel->rowCount();
 }
 
 /**
@@ -194,7 +216,7 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
 {
     Q_ASSERT(sourceModel);
     // 优先更新数据源
-    sourceModel->setImageFiles(filePaths);
+    sourceModel->setImageFiles(QUrl::fromStringList(filePaths));
     int index = filePaths.indexOf(openFile);
     if (-1 == index || filePaths.isEmpty()) {
         index = 0;
@@ -216,11 +238,51 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
     Q_EMIT currentSourceChanged();
 
     checkSwitchEnable();
+    Q_EMIT imageCountChanged();
 }
 
-int GlobalControl::thumbnailViewBottom() const
+void GlobalControl::removeImage(const QUrl &removeImage)
 {
-    return ThumbnailViewHeight;
+    // 移除当前图片，默认将后续图片前移，currentIndex将不会变更，手动提示更新
+    bool needNotify = (index != sourceModel->rowCount() - 1);
+
+    // 模型更新后将自动触发QML切换当前显示图片
+    sourceModel->removeImage(removeImage);
+
+    if (needNotify) {
+        // 需要提示的情况下不会越界
+        QUrl image = sourceModel->data(sourceModel->index(index), Types::ImageUrlRole).toUrl();
+        currentImage.setSource(image);
+
+        setCurrentFrameIndex(0);
+        Q_EMIT currentSourceChanged();
+        Q_EMIT currentIndexChanged();
+    }
+
+    checkSwitchEnable();
+    Q_EMIT imageCountChanged();
+}
+
+bool GlobalControl::isShowRightMenu() const
+{
+    return showRightMenuDialog;
+}
+
+void GlobalControl::setShowRightMenu(bool b)
+{
+    showRightMenuDialog = b;
+    Q_EMIT showRightMenuChanged();
+}
+
+bool GlobalControl::isShowImageInfo() const
+{
+    return showImageInfoDialog;
+}
+
+void GlobalControl::setShowImageInfo(bool b)
+{
+    showImageInfoDialog = b;
+    Q_EMIT showImageInfoChanged();
 }
 
 /**
@@ -229,8 +291,8 @@ int GlobalControl::thumbnailViewBottom() const
 void GlobalControl::checkSwitchEnable()
 {
     Q_ASSERT(sourceModel);
-    const bool previous = (index > 0 || frameIndex > 0);
-    const bool next = index < (sourceModel->rowCount() - 1) || frameIndex < (currentImage.frameCount() - 1);
+    bool previous = (index > 0 || frameIndex > 0);
+    bool next = (index < (sourceModel->rowCount() - 1) || frameIndex < (currentImage.frameCount() - 1));
 
     if (previous != hasPrevious) {
         hasPrevious = previous;

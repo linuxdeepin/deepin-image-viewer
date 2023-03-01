@@ -14,7 +14,7 @@ BaseThumbnailDelegate {
         // 最少需要保留两张图片显示的大小
         var minWidth = 30 + 11
         // 计算允许的多页图显示宽度，宽度计算以当前界面窗口的宽度计算，此处取宽度值
-        var enableWidth = root.width - (30 * 2) - 20
+        var enableWidth = GStatus.thumbnailVaildWidth - (30 * 2) - 20
         enableWidth = Math.max(enableWidth, minWidth)
 
         // 每张子图片最多占用30px，间隔1px

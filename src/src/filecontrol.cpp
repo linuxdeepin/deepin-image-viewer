@@ -151,13 +151,6 @@ QStringList FileControl::getDirImagePath(const QString &path)
     return image_list;
 }
 
-QStringList FileControl::removeList(const QStringList &pathlist, int index)
-{
-    QStringList list = pathlist;
-    list.removeAt(index);
-    return list;
-}
-
 QStringList FileControl::renameOne(const QStringList &pathlist, const  QString &oldPath, const QString &newPath)
 {
     QStringList list = pathlist;
@@ -421,13 +414,6 @@ bool FileControl::isCanDelete(const QString &path)
         bRet = false;
     }
     return bRet;
-}
-
-
-bool FileControl::isFile(const QString &path)
-{
-    QString localPath = QUrl(path).toLocalFile();
-    return QFileInfo(localPath).isFile();
 }
 
 void FileControl::ocrImage(const QString &path, int index)
@@ -996,6 +982,11 @@ void FileControl::resetImageFiles(const QStringList &filePaths)
         QFileInfo info(fileList.first());
         m_pFileWathcer->addPath(info.absolutePath());
     }
+
+
+    ///// FIXME!!!
+    imageFileWatcher.resetImageFiles(filePaths);
+
 }
 
 /**

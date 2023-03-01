@@ -28,12 +28,13 @@ public:
        @brief 图片文件类型
      */
     enum ImageType {
-        NullImage,     ///< 无图片信息，文件为空
-        NormalImage,   ///< 静态图片
-        DynamicImage,  ///< 动态图
-        SvgImage,      ///< SVG图片
-        MultiImage,    ///< 多页图
-        DamagedImage,  ///< 损坏图片
+        NullImage,      ///< 无图片信息，文件为空
+        NormalImage,    ///< 静态图片
+        DynamicImage,   ///< 动态图
+        SvgImage,       ///< SVG图片
+        MultiImage,     ///< 多页图
+        DamagedImage,   ///< 损坏图片
+        NonexistImage,  ///< 图片文件不存在，删除、移动等
     };
 
     /**
