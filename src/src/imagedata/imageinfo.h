@@ -23,6 +23,7 @@ class ImageInfo : public QObject
     Q_PROPERTY(int frameIndex READ frameIndex WRITE setFrameIndex NOTIFY frameIndexChanged)
     Q_PROPERTY(int frameCount READ frameCount NOTIFY frameCountChanged)
     Q_PROPERTY(bool exists READ exists NOTIFY existsChanged)
+    Q_PROPERTY(bool hasCachedThumbnail READ hasCachedThumbnail)
 
 public:
     explicit ImageInfo(QObject *parent = nullptr);
@@ -52,10 +53,12 @@ public:
 
     bool exists() const;
     Q_SIGNAL void existsChanged();
+    bool hasCachedThumbnail() const;
 
     Q_SIGNAL void infoChanged();
     Q_INVOKABLE void refresh();
-    Q_INVOKABLE void clearCache();
+
+    static void clearCache();
 
 protected:
     void setStatus(Status status);
@@ -68,7 +71,5 @@ protected:
     int currentIndex = 0;
     QSharedPointer<ImageInfoData> data;
 };
-
-
 
 #endif  // IMAGEINFO_H

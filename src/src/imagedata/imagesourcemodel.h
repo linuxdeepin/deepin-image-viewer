@@ -8,6 +8,7 @@
 #include "types.h"
 
 #include <QAbstractListModel>
+#include <QUrl>
 
 class ImageSourceModel : public QAbstractListModel
 {
@@ -19,14 +20,15 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    Q_INVOKABLE int indexForImagePath(const QString &file);
-    Q_SLOT void setImageFiles(const QStringList &files);
-    Q_SLOT void removeImage(const QString &fileName);
+    Q_INVOKABLE int indexForImagePath(const QUrl &file);
+    Q_SLOT void setImageFiles(const QList<QUrl> &files);
+    Q_SLOT void removeImage(const QUrl &fileName);
 
 private:
-    QList<QString> imageUrlList;       ///< 图像信息列表，部分信息保存至全局缓存中
+    QList<QUrl> imageUrlList;       ///< 图像信息列表，部分信息保存至全局缓存中
 };
 
 #endif  // IMAGESOURCEMODEL_H

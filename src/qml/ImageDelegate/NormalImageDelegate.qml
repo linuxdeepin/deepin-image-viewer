@@ -8,17 +8,20 @@ BaseImageDelegate {
     id: delegate
 
     status: image.status
+    targetImage: image
 
     Image {
         id: image
 
-        anchors.fill: parent
+        height: delegate.height
+        width: delegate.width
         asynchronous: true
         cache: false
         smooth: true
         mipmap: true
         rotation: delegate.rotation
         fillMode: Image.PreserveAspectFit
+        scale: delegate.scale
         source: "image://viewImage/" + delegate.source
     }
 }

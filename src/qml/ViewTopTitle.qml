@@ -8,19 +8,6 @@ import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
 Rectangle {
-    Control {
-        id: titlecontrol
-        hoverEnabled: true // 开启 Hover 属性
-        property Palette backgroundColor1: Palette {
-            normal: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.6)
-            normalDark: Qt.rgba(26 / 255, 26 / 255, 26 / 255, 0.6)
-        }
-        property Palette backgroundColor2: Palette {
-            normal: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.02)
-            normalDark: Qt.rgba(26 / 255, 26 / 255, 26 / 255, 0.02)
-        }
-    }
-
     property string iconName: "deepin-image-viewer"
 
     anchors.top: root.top
@@ -36,6 +23,19 @@ Rectangle {
         GradientStop {
             position: 1.0
             color: titlecontrol.ColorSelector.backgroundColor2
+        }
+    }
+
+    Control {
+        id: titlecontrol
+        hoverEnabled: true // 开启 Hover 属性
+        property Palette backgroundColor1: Palette {
+            normal: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.6)
+            normalDark: Qt.rgba(26 / 255, 26 / 255, 26 / 255, 0.6)
+        }
+        property Palette backgroundColor2: Palette {
+            normal: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.02)
+            normalDark: Qt.rgba(26 / 255, 26 / 255, 26 / 255, 0.02)
         }
     }
 
@@ -129,6 +129,6 @@ Rectangle {
                 // 自动隐藏多余文本
                 elide: Text.ElideRight
             }
-         }
+        }
     }
 }

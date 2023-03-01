@@ -1,7 +1,6 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
-//
-// SPDX-License-Identifier: GPL-3.0-or-later
 
+// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-License-Identifier: GPL-3.0-or-later
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
@@ -12,111 +11,51 @@ import org.deepin.image.viewer 1.0 as IV
 Item {
     id: thumbnailView
 
-    property int currentIndex: 0
     // 用于外部获取当前缩略图栏内容的长度，用于布局, 10px为焦点缩略图不在ListView中的边框像素宽度(radius = 4 * 1.25)
     property int listContentWidth: bottomthumbnaillistView.contentWidth + 10
     // 除ListView外其它按键的占用宽度
     property int btnContentWidth: switchArrowLayout.width + leftRowLayout.width
                                   + rightRowLayout.width + deleteButton.width
 
-    onCurrentIndexChanged: {
-        bottomthumbnaillistView.currentIndex = currentIndex
-        bottomthumbnaillistView.forceActiveFocus()
-    }
-
-    function rotateImage(x) {
-        bottomthumbnaillistView.currentItem.rotation
-                = bottomthumbnaillistView.currentItem.rotation + x
-    }
+//    function rotateImage(x) {
+//        bottomthumbnaillistView.currentItem.rotation
+//                = bottomthumbnaillistView.currentItem.rotation + x
+//    }
 
     function deleteCurrentImage() {
-        if (mainView.sourcePaths.length - 1 > bottomthumbnaillistView.currentIndex) {
-            var tmpPath = source
-            if (fileControl.deleteImagePath(tmpPath)) {
-                var tempPathIndex = bottomthumbnaillistView.currentIndex
-
-                //需要保存临时变量，重置后赋值
-                imageViewer.sourcePaths = fileControl.removeList(sourcePaths,
-                                                                 tempPathIndex)
-                imageViewer.swipeIndex = tempPathIndex
-            }
-        } else if (mainView.sourcePaths.length - 1 == 0) {
-            if (fileControl.deleteImagePath(imageViewer.sourcePaths[0])) {
-                stackView.currentWidgetIndex = 0
-                root.title = ""
-                imageViewer.sourcePaths = fileControl.removeList(sourcePaths, 0)
-            }
-        } else {
-            if (fileControl.deleteImagePath(
-                        sourcePaths[bottomthumbnaillistView.currentIndex])) {
-                bottomthumbnaillistView.currentIndex--
-                imageViewer.source = imageViewer.sourcePaths[bottomthumbnaillistView.currentIndex]
-                imageViewer.sourcePaths = fileControl.removeList(
-                            imageViewer.sourcePaths,
-                            bottomthumbnaillistView.currentIndex + 1)
-            }
+        /// FIXME 移动到GControl ?
+        fileControl.deleteImagePath(GControl.currentSource);
+        GControl.removeImage(GControl.currentSource);
+        if (0 == GControl.imageCount) {
+            stackView.switchOpenImage()
         }
     }
 
     function previous() {
-        // 判断是否为多页图,多页图只进行页面替换
-        if (imageViewer.currentIsMultiImage) {
-            if (imageViewer.frameIndex != 0) {
-                imageViewer.viewInteractive = false
+        // 切换时滑动视图不响应拖拽等触屏操作
+        GStatus.viewInteractive = false
 
-                imageViewer.frameIndex--
-                imageViewer.recalculateLiveText()
+        GControl.previousImage()
 
-                imageViewer.viewInteractive = true
-                return
-            }
-        }
-
-        if (bottomthumbnaillistView.currentIndex > 0) {
-            // 切换时滑动视图不响应拖拽等触屏操作
-            imageViewer.viewInteractive = false
-
-            bottomthumbnaillistView.currentIndex--
-            source = mainView.sourcePaths[bottomthumbnaillistView.currentIndex]
-            imageViewer.index = currentIndex
-
-            // 向前移动的图像需要特殊判断，若为多页图，调整显示最后一张图
-            if (fileControl.isMultiImage(source)) {
-                imageViewer.frameIndex = fileControl.getImageCount(source) - 1
-            }
-            bottomthumbnaillistView.forceActiveFocus()
-            imageViewer.recalculateLiveText()
-
-            imageViewer.viewInteractive = true
-        }
+//        imageViewer.recalculateLiveText()
+        GStatus.viewInteractive = true
     }
 
     function next() {
-        // 判断是否为多页图,多页图只进行页面替换
-        if (imageViewer.currentIsMultiImage) {
-            if (imageViewer.frameIndex < imageViewer.frameCount - 1) {
-                imageViewer.viewInteractive = false
+        // 切换时滑动视图不响应拖拽等触屏操作
+        GStatus.viewInteractive = false
 
-                imageViewer.frameIndex++
-                imageViewer.recalculateLiveText()
+        GControl.nextImage()
 
-                imageViewer.viewInteractive = true
-                return
-            }
-        }
+//        imageViewer.recalculateLiveText()
+        GStatus.viewInteractive = true
+    }
 
-        if (mainView.sourcePaths.length - 1 > bottomthumbnaillistView.currentIndex) {
-            // 切换时滑动视图不响应拖拽等触屏操作
-            imageViewer.viewInteractive = false
-
-            bottomthumbnaillistView.currentIndex++
-            source = mainView.sourcePaths[bottomthumbnaillistView.currentIndex]
-            imageViewer.index = currentIndex
-            bottomthumbnaillistView.forceActiveFocus()
-            imageViewer.recalculateLiveText()
-
-            imageViewer.contentView.interactive = true
-        }
+    Binding {
+        delayed: true
+        target: GStatus
+        property: "thumbnailVaildWidth"
+        value: window.width - 20 - thumbnailListView.btnContentWidth
     }
 
     Row {
@@ -279,7 +218,7 @@ Item {
         cacheBuffer: 200
 
         /// FIXME 异常的绑定
-        //        currentIndex: GControl.currentIndex
+//        currentIndex: GControl.currentIndex
         Connections {
             target: GControl
             onCurrentIndexChanged: {
@@ -289,24 +228,6 @@ Item {
 
         Connections {
             target: imageViewer
-            onSwipeIndexChanged: {
-                var imageSwipeIndex = imageViewer.swipeIndex
-                if (currentIndex - imageSwipeIndex == 1) {
-                    // 向前切换当通过拖动等方式时，调整多页图索引为最后一张图片
-                    var curSource = sourcePaths[imageSwipeIndex]
-                    if (fileControl.isMultiImage(curSource)) {
-                        imageViewer.frameIndex = fileControl.getImageCount(
-                                    curSource) - 1
-                    }
-                } else {
-                    // 其它情况均设置为首张图片
-                    imageViewer.frameIndex = 0
-                }
-
-                bottomthumbnaillistView.currentIndex = imageSwipeIndex
-                currentIndex = imageSwipeIndex
-                bottomthumbnaillistView.forceActiveFocus()
-            }
 
             onIsFullNormalSwitchStateChanged: {
                 // 当缩放界面时，缩略图栏重新进行了布局计算，导致高亮缩略图可能不居中
@@ -314,9 +235,7 @@ Item {
                     bottomthumbnaillistView.positionViewAtBeginning()
                 } else {
                     // 尽可能将高亮缩略图显示在列表中
-                    bottomthumbnaillistView.positionViewAtIndex(
-                                bottomthumbnaillistView.currentIndex,
-                                ListView.Center)
+                    bottomthumbnaillistView.positionViewAtIndex(bottomthumbnaillistView.currentIndex, ListView.Center)
                 }
             }
 
@@ -328,8 +247,7 @@ Item {
                     // 区分正反旋转方向ViewSection.CurrentLabelA
                     var isClockWise = rotateAngle > 0
                     // 计算绝对角度值
-                    rotateAngle = Math.floor((Math.abs(
-                                                  rotateAngle) + 45) / 90) * 90
+                    rotateAngle = Math.floor((Math.abs(rotateAngle) + 45) / 90) * 90
 
                     // 设置当前展示的图片的旋转方向，仅在90度方向旋转，不会跟随旋转角度(特指在触摸状态下)
                     bottomthumbnaillistView.currentItem.rotation
@@ -342,16 +260,14 @@ Item {
         delegate: Loader {
             id: thumbnailItemLoader
 
-            property url source: model.imageUrl /*mainView.sourcePaths[index]*/
+            property url source: model.imageUrl
 
             active: true
             asynchronous: true
 
             onActiveChanged: {
                 if (active && imageInfo.delegateSource) {
-                    setSource(imageInfo.delegateSource, {
-                                  "source": thumbnailItemLoader.source
-                              })
+                    setSource(imageInfo.delegateSource, { "source": thumbnailItemLoader.source  })
                 }
             }
 
@@ -378,9 +294,7 @@ Item {
 
                 onDelegateSourceChanged: {
                     if (thumbnailItemLoader.active && delegateSource) {
-                        setSource(delegateSource, {
-                                      "source": thumbnailItemLoader.source
-                                  })
+                        setSource(delegateSource, { "source": thumbnailItemLoader.source })
                     }
                 }
 
@@ -396,10 +310,6 @@ Item {
 
         //滑动联动主视图
         onCurrentIndexChanged: {
-            console.warn("currentIndex changed")
-
-            mainView.currentIndex = currentIndex
-            source = mainView.sourcePaths[currentIndex]
             if (currentItem) {
                 currentItem.forceActiveFocus()
             }
@@ -444,6 +354,10 @@ Item {
                 duration: 50
                 easing.type: Easing.OutQuint
             }
+        }
+
+        Component.onCompleted: {
+            bottomthumbnaillistView.currentIndex = GControl.currentIndex
         }
     }
 

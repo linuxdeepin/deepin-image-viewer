@@ -42,12 +42,13 @@ Item {
 
     function switchOpenImage() {
         stackPage = Number(IV.Types.OpenImagePage)
+        window.title = ""
         contentLoader.setSource("qrc:/qml/OpenImageWidget.qml");
     }
 
     function switchImageView() {
         stackPage = Number(IV.Types.ImageViewPage)
-        contentLoader.setSource("qrc:/qml/ImageView.qml");
+        contentLoader.setSource("qrc:/qml/FullImageView.qml");
     }
 
     function switchSliderShow() {

@@ -6,27 +6,29 @@
 #define GLOBALCONTROL_H
 
 #include "imagedata/imageinfo.h"
+#include "types.h"
 
 #include <QObject>
 #include <QUrl>
 
 class ImageSourceModel;
-
 class GlobalControl : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(ImageSourceModel* globalModel READ globalModel NOTIFY globalModelChanged)
+    Q_PROPERTY(ImageSourceModel *globalModel READ globalModel NOTIFY globalModelChanged)
     Q_PROPERTY(QUrl currentSource READ currentSource NOTIFY currentSourceChanged)
     Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
     Q_PROPERTY(int currentFrameIndex READ currentFrameIndex WRITE setCurrentFrameIndex NOTIFY currentFrameIndexChanged)
+    Q_PROPERTY(int imageCount READ imageCount NOTIFY imageCountChanged)
     Q_PROPERTY(bool hasPreviousImage READ hasPreviousImage NOTIFY hasPreviousImageChanged)
     Q_PROPERTY(bool hasNextImage READ hasNextImage NOTIFY hasNextImageChanged)
 
-    // Const property
-    Q_PROPERTY(int thumbnailViewBottom READ thumbnailViewBottom CONSTANT)
+    Q_PROPERTY(bool showRightMenu READ isShowRightMenu WRITE setShowRightMenu NOTIFY showRightMenuChanged)
+    Q_PROPERTY(bool showImageInfo READ isShowImageInfo WRITE setShowImageInfo NOTIFY showImageInfoChanged)
 
 public:
     explicit GlobalControl(QObject *parent = nullptr);
+    ~GlobalControl() override;
 
     void setGlobalModel(ImageSourceModel *model);
     ImageSourceModel *globalModel() const;
@@ -34,14 +36,14 @@ public:
 
     QUrl currentSource() const;
     Q_SIGNAL void currentSourceChanged();
-
     void setCurrentIndex(int index);
     int currentIndex() const;
     Q_SIGNAL void currentIndexChanged();
-
     void setCurrentFrameIndex(int frameIndex);
     int currentFrameIndex() const;
     Q_SIGNAL void currentFrameIndexChanged();
+    int imageCount() const;
+    Q_SIGNAL void imageCountChanged();
 
     bool hasPreviousImage() const;
     Q_SIGNAL void hasPreviousImageChanged();
@@ -54,10 +56,15 @@ public:
 
     Q_INVOKABLE void setImageFiles(const QStringList &imageFiles, const QString &openFile);
 
-    enum ConstProperty {
-        ThumbnailViewHeight = 70,
-    };
-    int thumbnailViewBottom() const;
+    Q_INVOKABLE void removeImage(const QUrl &removeImage);
+
+    bool isShowRightMenu() const;
+    void setShowRightMenu(bool b);
+    Q_SIGNAL void showRightMenuChanged();
+
+    bool isShowImageInfo() const;
+    void setShowImageInfo(bool b);
+    Q_SIGNAL void showImageInfoChanged();
 
 private:
     void checkSwitchEnable();
@@ -70,6 +77,9 @@ private:
     ImageSourceModel *sourceModel = nullptr;
     bool hasPrevious = false;
     bool hasNext = false;
+
+    bool showRightMenuDialog = false;
+    bool showImageInfoDialog = false;
 };
 
 #endif  // GLOBALCONTROL_H

@@ -11,7 +11,10 @@ import org.deepin.dtk 1.0
 ApplicationWindow {
     id: root
 
-    property bool fullScreenFlag: root.visibility === Window.FullScreen
+    //! \test 重构时过渡使用
+    property var window: root
+
+    property bool isFullScreen: root.visibility === Window.FullScreen
 
     signal sigTitlePress()
 
