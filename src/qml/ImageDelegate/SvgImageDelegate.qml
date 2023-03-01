@@ -8,17 +8,20 @@ BaseImageDelegate {
     id: delegate
 
     status: image.status
+    targetImage: image
 
     Image {
         id: image
 
-        anchors.fill: parent
+        height: delegate.height
+        width: delegate.width
         asynchronous: true
         cache: false
         clip: true
         mipmap: true
         smooth: true
         sourceSize: Qt.size()
+        scale: delegate.scale
         source: delegate.source
     }
 }

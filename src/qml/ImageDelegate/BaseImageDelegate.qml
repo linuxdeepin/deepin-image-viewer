@@ -12,13 +12,40 @@ Item {
     property url source
     property int type: IV.Types.NullImage
     property int status: Image.Null
+    property bool isCurrentImage: index === GControl.currentIndex
 
-    property real sourceWidth: 0 // 图片源宽度
-    property real sourceHeight: 0 // 图片源高度
+    property var targetImage
+    property real sourceWidth: targetImage ? targetImage.sourceSize.width : -1 // 图片源宽度
+    property real sourceHeight: targetImage ? targetImage.sourceSize.height : -1 // 图片源高度
+    property real paintedWidth: targetImage ? targetImage.paintedWidth : -1
+    property real paintedHeight: targetImage ? targetImage.paintedHeight: -1
     property real rotation: 0 // 图片旋转角度
     property real scale: 1 // 图片缩放比例
 
     property alias baseMouseArea: mouseArea
+
+    function reset() {
+        rotation = 0
+        scale = 1.0
+
+        if (undefined !== targetImage) {
+            mouseArea.updateDragRect()
+        }
+    }
+
+    onIsCurrentImageChanged: reset()
+
+    ////! \test 调试使用
+    onPaintedHeightChanged: {
+        console.warn("------------", source, sourceWidth, paintedWidth, paintedHeight,
+                     paintedWidth * scale, index)
+    }
+
+    onStatusChanged: {
+        if (Image.Ready === status) {
+            mouseArea.updateDragRect()
+        }
+    }
 
     // 外部创建会覆盖 Flickable 组件
     MouseArea {
@@ -26,9 +53,68 @@ Item {
 
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
+        enabled: targetImage !== undefined
+        drag.target: targetImage ? targetImage : undefined
+
+        function updateDragRect() {
+            if (undefined === baseDelegate.targetImage) {
+                return
+            }
+
+            if (baseDelegate.scale <= 1.0) {
+                drag.minimumX = 0
+                drag.minimumY = 0
+                drag.maximumX = 0
+                drag.maximumY = 0
+                baseDelegate.targetImage.x = 0
+                baseDelegate.targetImage.y = 0
+
+            } else {
+                var pixelWidthDelta = baseDelegate.paintedWidth * baseDelegate.scale - window.width;
+                drag.maximumX = pixelWidthDelta > 0 ? pixelWidthDelta / 2 : 0
+                drag.minimumX = -drag.maximumX
+                var pixelHeightDelta = baseDelegate.paintedHeight * baseDelegate.scale - window.height;
+                drag.maximumY = pixelHeightDelta > 0 ? pixelHeightDelta / 2 : 0
+                drag.minimumY = -drag.maximumY
+
+                baseDelegate.targetImage.x = Math.max(drag.minimumX, Math.min(baseDelegate.targetImage.x, drag.maximumX))
+                baseDelegate.targetImage.y = Math.max(drag.minimumY, Math.min(baseDelegate.targetImage.y, drag.maximumY))
+            }
+        }
+
+        onPressed: {
+            if (Qt.RightButton === mouse.button) {
+                GControl.showRightMenu = true
+            }
+        }
 
         onWheel: {
+            var detla = wheel.angleDelta.y / 120
+            // 通过Keys缓存的状态可能不准确，在焦点移出时release事件没有正确捕获，
+            // 修改为通过当前事件传入的按键按下信息判断
+            if (Qt.ControlModifier & wheel.modifiers) {
+                detla > 0 ? GControl.previousImage() : GControl.nextImage()
+            } else {
+                if (undefined === baseDelegate.targetImage) {
+                    return
+                }
 
+                // 缓存当前的坐标信息
+                var mapPoint = mapToItem(baseDelegate.targetImage, wheel.x, wheel.y)
+                if (detla > 0) {
+                    baseDelegate.scale = baseDelegate.scale / 0.9
+                } else {
+                    baseDelegate.scale = baseDelegate.scale * 0.9
+                }
+
+                var restorePoint = mapFromItem(baseDelegate.targetImage, mapPoint.x, mapPoint.y)
+                baseDelegate.targetImage.x = baseDelegate.targetImage.x - restorePoint.x + wheel.x
+                baseDelegate.targetImage.y = baseDelegate.targetImage.y - restorePoint.y + wheel.y
+
+                updateDragRect()
+
+                //// FIXME 通知位置变更，刷新导航窗口
+            }
         }
     }
 
@@ -41,8 +127,8 @@ Item {
         property double oldRotate: 0
         property bool isRotatable: false
 
-        enabled: isMousePinchArea
         anchors.fill: parent
+        enabled: targetImage !== undefined
 
         onPinchStarted: {
             // 缩放和旋转都至少需要2指操作
@@ -69,7 +155,7 @@ Item {
 
         onPinchFinished: {
             // 更新界面缩放大小
-            imageViewer.currentScale = pinch.scale * imagePinchArea.oldScale
+            baseDelegate.scale = pinch.scale * imagePinchArea.oldScale
             msArea.changeRectXY()
 
             // 判断当前图片是否允许旋转

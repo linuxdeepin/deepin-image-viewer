@@ -10,7 +10,6 @@
 #include <QSet>
 #include <QSize>
 #include <QFile>
-#include <QDateTime>
 #include <QImageReader>
 #include <QThreadPool>
 #include <QRunnable>
@@ -29,12 +28,11 @@ public:
         other->size = this->size;
         other->frameIndex = this->frameIndex;
         other->frameCount = this->frameCount;
-        other->modfied = this->modfied;
 
         return other;
     }
 
-    inline bool isDamaged() const { return Types::DamagedImage == type; }
+    inline bool isError() const { return !exist || (Types::DamagedImage == type); }
 
     QString path;           ///< 图片路径
     Types::ImageType type;  ///< 图片类型
@@ -42,7 +40,6 @@ public:
     int frameIndex = 0;     ///< 当前图片帧号
     int frameCount = 0;     ///< 当前图片总帧数
     bool exist = false;     ///< 图片是否存在
-    QDateTime modfied;      ///< 图片最后编辑时间
 };
 
 class LoadImageInfoRunnable : public QRunnable
@@ -51,6 +48,7 @@ public:
     explicit LoadImageInfoRunnable(const QString &path, int index = 0);
     void run() override;
     bool loadImage(QImage &image, QSize &sourceSize) const;
+    void notifyFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data) const;
 
 private:
     int frameIndex = 0;
@@ -112,15 +110,19 @@ void LoadImageInfoRunnable::run()
     ImageInfoData::Ptr data(new ImageInfoData);
     data->path = loadPath;
     data->exist = QFileInfo::exists(loadPath);
-    // 用于lambda捕获index数据
-    int tmpIndex = frameIndex;
+
+    if (!data->exist) {
+        // 缓存中存在数据，则图片为加载后删除
+        data->type = (ThumbnailCache::instance()->contains(data->path)) ? Types::NonexistImage : Types::NullImage;
+        notifyFinished(data->path, frameIndex, data);
+        return;
+    }
 
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(loadPath);
     data->type = imageTypeAdapator(type);
 
     if (Types::NullImage == data->type) {
-        QMetaObject::invokeMethod(
-            CacheInstance(), [=]() { CacheInstance()->loadFinished(data->path, tmpIndex, data); }, Qt::QueuedConnection);
+        notifyFinished(data->path, frameIndex, data);
         return;
     }
 
@@ -131,8 +133,7 @@ void LoadImageInfoRunnable::run()
         if (image.isNull()) {
             // 数据获取异常
             data->type = Types::DamagedImage;
-            QMetaObject::invokeMethod(
-                CacheInstance(), [=]() { CacheInstance()->loadFinished(data->path, tmpIndex, data); }, Qt::QueuedConnection);
+            notifyFinished(data->path, frameIndex, data);
             return;
         }
 
@@ -144,8 +145,7 @@ void LoadImageInfoRunnable::run()
     } else if (0 != frameIndex) {
         // 非多页图类型，但指定了索引，存在异常
         data->type = Types::DamagedImage;
-        QMetaObject::invokeMethod(
-            CacheInstance(), [=]() { CacheInstance()->loadFinished(data->path, tmpIndex, data); }, Qt::QueuedConnection);
+        notifyFinished(data->path, frameIndex, data);
         return;
     } else {
         QImage image;
@@ -158,9 +158,7 @@ void LoadImageInfoRunnable::run()
         }
     }
 
-    data->modfied = QFileInfo(loadPath).lastModified();
-    QMetaObject::invokeMethod(
-        CacheInstance(), [=]() { CacheInstance()->loadFinished(data->path, tmpIndex, data); }, Qt::QueuedConnection);
+    notifyFinished(data->path, frameIndex, data);
 }
 
 /**
@@ -178,10 +176,22 @@ bool LoadImageInfoRunnable::loadImage(QImage &image, QSize &sourceSize) const
         // 保存图片比例缩放
         image = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
     } else {
-        qWarning() << "Load image" << loadPath << "error:" << error;
+        qWarning() << "Load image " << loadPath << "error:" << error;
     }
 
     return ret;
+}
+
+/**
+   @brief 提示缓存管理图像数据已加载完成
+   @param path 图片文件路径
+   @param frameIndex 多页图图片索引
+   @param data 图像数据
+ */
+void LoadImageInfoRunnable::notifyFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data) const
+{
+    QMetaObject::invokeMethod(
+        CacheInstance(), [=]() { CacheInstance()->loadFinished(path, frameIndex, data); }, Qt::QueuedConnection);
 }
 
 ImageInfoCache::ImageInfoCache() {}
@@ -278,7 +288,7 @@ void ImageInfo::setSource(const QUrl &source)
             data = newData;
             Q_EMIT infoChanged();
 
-            setStatus(data->isDamaged() ? Error : Ready);
+            setStatus(data->isError() ? Error : Ready);
         } else {
             setStatus(Loading);
             CacheInstance()->load(localPath, currentIndex);
@@ -338,7 +348,7 @@ void ImageInfo::setFrameIndex(int index)
             data = newData;
             Q_EMIT infoChanged();
 
-            setStatus(data->isDamaged() ? Error : Ready);
+            setStatus(data->isError() ? Error : Ready);
         } else {
             setStatus(Loading);
             CacheInstance()->load(localPath, currentIndex);
@@ -368,6 +378,18 @@ int ImageInfo::frameCount() const
 bool ImageInfo::exists() const
 {
     return data ? data->exist : false;
+}
+
+/**
+   @return 返回是否存在已缓存的缩略图数据
+ */
+bool ImageInfo::hasCachedThumbnail() const
+{
+    if (imageUrl.isEmpty()) {
+        return false;
+    } else {
+        return ThumbnailCache::instance()->contains(imageUrl.toLocalFile(), frameIndex());
+    }
 }
 
 /**
@@ -447,7 +469,7 @@ void ImageInfo::onLoadFinished(const QString &path, int frameIndex)
             }
             Q_EMIT infoChanged();
 
-            setStatus(data->isDamaged() ? Error : Ready);
+            setStatus(data->isError() ? Error : Ready);
         } else {
             setStatus(Error);
         }

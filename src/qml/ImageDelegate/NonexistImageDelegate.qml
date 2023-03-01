@@ -19,25 +19,28 @@ BaseImageDelegate {
         height: 100
         smooth: true
         mipmap: true
-
-        source: IV.Types.NullImage === delegate.type
-                ? "qrc:/res/icon_import_photo.svg"
-                : "image://ThumbnailImage/" + delegate.source
+        source: imageInfo.hasCachedThumbnail
+                ? "image://ThumbnailImage/" + delegate.source
+                : "qrc:/res/icon_import_photo.svg"
     }
 
     Text {
         // 提示图片未找到信息
         id: notExistLabel
+
         anchors {
             top: notExistImage.bottom
             topMargin: 20
             horizontalCenter: notExistImage.horizontalCenter
         }
-
-        // 图片未找到
         text: qsTr("Image file not found")
         textFormat: Text.PlainText
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
+    }
+
+    IV.ImageInfo {
+        id: imageInfo
+        source: delegate.source
     }
 }
