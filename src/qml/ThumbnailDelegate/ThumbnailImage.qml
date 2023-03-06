@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
+import QtQuick 2.11
 import org.deepin.image.viewer 1.0 as IV
 
 Item {
@@ -37,7 +37,7 @@ Item {
                 if (!imageInfo.hasCachedThumbnail) {
                     contentImage.source = "qrc:/res/picture_damaged_58.svg"
                 } else {
-                    contentImage.source = "image://multiimage/" + thumbnailImage.source
+                    contentImage.source = "image://Multiimage/" + thumbnailImage.source
                             + "#frame_" + thumbnailImage.frameIndex + "_thumbnail"
                 }
             }

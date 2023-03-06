@@ -87,14 +87,11 @@ Rectangle {
             height: parent.height
             asynchronous: true
 
-            // 多页图使用不同图像加载类
             source: {
                 if (!visible) {
                     return ""
                 } else {
-                    return imageViewer.currentIsMultiImage
-                            ? "image://multiimage/" + imageViewer.source + "#frame_" + imageViewer.frameIndex
-                            : "image://viewImage/" + imageViewer.source
+                    return "image://Multiimage/" + imageViewer.source + "#frame_" + imageViewer.frameIndex
                 }
             }
         }

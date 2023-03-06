@@ -32,7 +32,8 @@ Item {
             GControl.nextImage()
         }
 
-        source = "image://multiimage/" + GControl.currentSource + "#frame_"
+        /// FIXME
+        source = "image://Multiimage/" + GControl.currentSource + "#frame_"
                 + GControl.currentFrameIndex + "_thumbnail"
     }
 
@@ -43,7 +44,7 @@ Item {
             GControl.previousImage()
         }
 
-        source = "image://multiimage/" + GControl.currentSource + "#frame_"
+        source = "image://Multiimage/" + GControl.currentSource + "#frame_"
                 + GControl.currentFrameIndex + "_thumbnail"
     }
 
@@ -247,7 +248,7 @@ Item {
     }
 
     Component.onCompleted: {
-        source = "image://multiimage/" + GControl.currentSource + "#frame_"
+        source = "image://Multiimage/" + GControl.currentSource + "#frame_"
                 + GControl.currentFrameIndex + "_thumbnail"
 
         showFullScreen()

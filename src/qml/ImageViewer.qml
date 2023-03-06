@@ -593,10 +593,10 @@ Rectangle {
                 source: {
                     // 优先判断多页图，多页图使用单独的图像加载，需指定加载的图像帧号
                     if (flickableL.curSourceIsMultiImage) {
-                        return "image://multiimage/" + flickableL.curImageSource
+                        return "image://Multiimage/" + flickableL.curImageSource
                                 + "#frame_" + flickableL.swipeItemIndex
                     } else if (flickableL.curSourceIsNormalStaticImage) {
-                        return "image://viewImage/" + curImageSource
+                        return "image://Multiimage/" + curImageSource
                     }
                     return ""
                 }
@@ -736,7 +736,7 @@ Rectangle {
                         mipmap: true
 
                         // 加载缩略图
-                        source: flickableL.curSourceIsNullImage ? "qrc:/res/icon_import_photo.svg" : "image://ThumbnailImage/" + flickableL.curImageSource
+                        source: flickableL.curSourceIsNullImage ? "qrc:/res/icon_import_photo.svg" : "image://Multiimage/" + flickableL.curImageSource
 
                         // 虚线框
                         Shape {
@@ -1391,8 +1391,6 @@ Rectangle {
                 property bool isCurrentItem: swipeViewItemLoader.ListView.isCurrentItem
 
                 function checkDelegateSource() {
-                    console.warn("------------------- change status", status, source, type)
-
                     if (IV.ImageInfo.Ready !== status
                             && IV.ImageInfo.Error !== status) {
                         return

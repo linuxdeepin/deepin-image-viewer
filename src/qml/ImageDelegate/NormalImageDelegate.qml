@@ -22,6 +22,6 @@ BaseImageDelegate {
         rotation: delegate.rotation
         fillMode: Image.PreserveAspectFit
         scale: delegate.scale
-        source: "image://viewImage/" + delegate.source
+        source: "image://Multiimage/" + delegate.source
     }
 }

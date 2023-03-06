@@ -255,8 +255,9 @@ void ImageInfoCache::clearCache()
 /**
    @class ImageInfo
    @brief 图像信息管理类
-   @detail 用于后台异步加载图像数据并缓存，此缓存在内部进行复用，可在 C++/QML
+   @details 用于后台异步加载图像数据并缓存，此缓存在内部进行复用，可在 C++/QML
     中调用 ImageInfo 取得基础的图像信息。详细的图像信息参见 ExtraImageInfo
+   @note 非线程安全，仅在GUI线程调用
  */
 
 ImageInfo::ImageInfo(QObject *parent)
