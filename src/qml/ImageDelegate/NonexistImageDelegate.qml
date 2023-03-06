@@ -20,7 +20,7 @@ BaseImageDelegate {
         smooth: true
         mipmap: true
         source: imageInfo.hasCachedThumbnail
-                ? "image://ThumbnailImage/" + delegate.source
+                ? "image://Multiimage/" + delegate.source
                 : "qrc:/res/icon_import_photo.svg"
     }
 
