@@ -54,7 +54,7 @@ Item {
                 container.currentSource = filePath
 
                 img.source = ""
-                img.source = fileControl.isSvgImage(filePath) ? filePath : "image://ThumbnailImage/" + filePath
+                img.source = fileControl.isSvgImage(filePath) ? filePath : "image://Multiimage/" + filePath
 
                 // 重新加载，复位旋转状态
                 container.rotation = 0
@@ -80,7 +80,7 @@ Item {
             anchors.fill: parent
             // 适配中间区域显示并裁剪多余部分
             fillMode: Image.PreserveAspectCrop
-            source: fileControl.isSvgImage(currentSource) ? currentSource : "image://ThumbnailImage/" + currentSource
+            source: fileControl.isSvgImage(currentSource) ? currentSource : "image://Multiimage/" + currentSource
             asynchronous: true
             visible: false
             cache: false

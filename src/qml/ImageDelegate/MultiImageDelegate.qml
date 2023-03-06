@@ -71,7 +71,7 @@ BaseImageDelegate {
                 mipmap: true
                 scale: multiImageDelegate.scale
                 fillMode: Image.PreserveAspectFit
-                source: "image://multiimage/" + multiImageDelegate.source + "#frame_" + index
+                source: "image://Multiimage/" + multiImageDelegate.source + "#frame_" + index
 
                 onIsCurrentImageChanged: {
                     if (isCurrentImage) {

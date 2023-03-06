@@ -10,7 +10,6 @@
 #include <QSharedPointer>
 
 class ImageInfoData;
-// 非线程安全，仅在GUI线程调用
 class ImageInfo : public QObject
 {
     Q_OBJECT

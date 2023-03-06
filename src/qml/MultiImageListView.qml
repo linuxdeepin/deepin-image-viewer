@@ -67,7 +67,7 @@ Item {
                 // 适配中间区域显示并裁剪多余部分
                 fillMode: Image.PreserveAspectCrop
                 // 多页图使用特定加载类
-                source: "image://multiimage/" + multiImage.source + "#frame_" + index + "_thumbnail"
+                source: "image://Multiimage/" + multiImage.source + "#frame_" + index + "_thumbnail"
             }
 
             // 焦点图片边框
