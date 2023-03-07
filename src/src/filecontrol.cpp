@@ -560,7 +560,12 @@ QString FileControl::slotGetFileNameSuffix(const QString &path)
 
 QString FileControl::slotGetInfo(const QString &key, const QString &path)
 {
-    Q_UNUSED(path)
+    QString localPath = QUrl(path).toLocalFile();
+    if (localPath != m_currentPath) {
+        m_currentPath = localPath;
+        m_currentAllInfo = LibUnionImage_NameSpace::getAllMetaData(localPath);
+    }
+
     QString returnString = m_currentAllInfo.value(key);
     if (returnString.isEmpty()) {
         returnString = "-";
@@ -587,6 +592,10 @@ bool FileControl::slotFileReName(const QString &name, const QString &filepath, b
 
         if (file.rename(_newName)) {
             fileRenamed = localPath;
+
+            imageFileWatcher.fileRename(localPath, _newName);
+
+            Q_EMIT imageRenamed(QUrl::fromLocalFile(localPath), QUrl::fromLocalFile(_newName));
             return true;
         }
 

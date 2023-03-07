@@ -23,9 +23,6 @@ class GlobalControl : public QObject
     Q_PROPERTY(bool hasPreviousImage READ hasPreviousImage NOTIFY hasPreviousImageChanged)
     Q_PROPERTY(bool hasNextImage READ hasNextImage NOTIFY hasNextImageChanged)
 
-    Q_PROPERTY(bool showRightMenu READ isShowRightMenu WRITE setShowRightMenu NOTIFY showRightMenuChanged)
-    Q_PROPERTY(bool showImageInfo READ isShowImageInfo WRITE setShowImageInfo NOTIFY showImageInfoChanged)
-
 public:
     explicit GlobalControl(QObject *parent = nullptr);
     ~GlobalControl() override;
@@ -54,17 +51,9 @@ public:
     Q_INVOKABLE bool firstImage();
     Q_INVOKABLE bool lastImage();
 
-    Q_INVOKABLE void setImageFiles(const QStringList &imageFiles, const QString &openFile);
-
-    Q_INVOKABLE void removeImage(const QUrl &removeImage);
-
-    bool isShowRightMenu() const;
-    void setShowRightMenu(bool b);
-    Q_SIGNAL void showRightMenuChanged();
-
-    bool isShowImageInfo() const;
-    void setShowImageInfo(bool b);
-    Q_SIGNAL void showImageInfoChanged();
+    Q_SLOT void setImageFiles(const QStringList &imageFiles, const QString &openFile);
+    Q_SLOT void removeImage(const QUrl &removeImage);
+    Q_SLOT void renameImage(const QUrl &oldName, const QUrl &newName);
 
 private:
     void checkSwitchEnable();
@@ -77,9 +66,6 @@ private:
     ImageSourceModel *sourceModel = nullptr;
     bool hasPrevious = false;
     bool hasNext = false;
-
-    bool showRightMenuDialog = false;
-    bool showImageInfoDialog = false;
 };
 
 #endif  // GLOBALCONTROL_H

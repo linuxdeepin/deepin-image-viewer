@@ -1,6 +1,7 @@
-
 // SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+//
 // SPDX-License-Identifier: GPL-3.0-or-later
+
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
@@ -368,7 +369,6 @@ Item {
             right: deleteButton.left
             verticalCenter: parent.verticalCenter
         }
-
         spacing: 10
         leftPadding: 20
         rightPadding: 20

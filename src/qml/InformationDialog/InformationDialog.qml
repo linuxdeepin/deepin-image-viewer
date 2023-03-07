@@ -11,12 +11,12 @@ DialogWindow {
     property int leftX: 20
     property int topY: 70
     property string fileName: fileControl.slotGetFileNameSuffix(filePath)
-    property var filePath: imageViewer.source
+    property url filePath: GControl.currentSource
 
     visible: false
     width: 280
-    x: root.x + root.width - width - leftX
-    y: root.y + topY
+    x: window.x + window.width - width - leftX
+    y: window.y + topY
     minimumWidth: 280
     maximumWidth: 280
     minimumHeight: contentHeight4.height + 60
@@ -28,11 +28,11 @@ DialogWindow {
         content: Loader {
             sourceComponent: Label {
                 anchors.centerIn: parent
-                textFormat: Text.PlainText
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 font: DTK.fontManager.t8
                 text: title
+                textFormat: Text.PlainText
                 elide: Text.ElideMiddle
             }
         }
@@ -220,8 +220,10 @@ DialogWindow {
     }
 
     onVisibleChanged: {
-        setX(root.x + root.width / 2 - width / 2)
-        setY(root.y + root.height / 2 - height / 2)
+        if (visible) {
+            setX(window.x + window.width / 2 - width / 2)
+            setY(window.y + window.height / 2 - height / 2)
+        }
     }
 
     // 窗口关闭时复位组件状态

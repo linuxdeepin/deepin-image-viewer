@@ -20,6 +20,8 @@ enum ConstProperty {
 /**
    @class GlobalStatus
    @brief QML单例类，维护全局状态，同步不同组件间的状态信息
+   @details 相较于使用脚本配置的 program Singletion , Qt 更推崇使用 QObject 注册单例
+   @link https://doc.qt.io/qt-6/qtquick-performance.html#use-singleton-types-instead-of-pragma-library-scripts
  */
 
 GlobalStatus::GlobalStatus(QObject *parent)
@@ -28,6 +30,32 @@ GlobalStatus::GlobalStatus(QObject *parent)
 }
 
 GlobalStatus::~GlobalStatus() {}
+
+bool GlobalStatus::isShowRightMenu() const
+{
+    return showRightMenuDialog;
+}
+
+void GlobalStatus::setShowRightMenu(bool b)
+{
+    if (showRightMenuDialog != b) {
+        showRightMenuDialog = b;
+        Q_EMIT showRightMenuChanged();
+    }
+}
+
+bool GlobalStatus::isShowImageInfo() const
+{
+    return showImageInfoDialog;
+}
+
+void GlobalStatus::setShowImageInfo(bool b)
+{
+    if (showImageInfoDialog != b) {
+        showImageInfoDialog = b;
+        Q_EMIT showImageInfoChanged();
+    }
+}
 
 bool GlobalStatus::viewInteractive() const
 {

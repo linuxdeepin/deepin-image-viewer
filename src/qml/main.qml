@@ -16,11 +16,7 @@ ApplicationWindow {
 
     property bool isFullScreen: root.visibility === Window.FullScreen
 
-    signal sigTitlePress()
-
-    GlobalVar {
-        id: global
-    }
+    signal sigTitlePress
 
     // 设置 dtk 风格窗口
     DWindow.enabled: true
@@ -30,13 +26,6 @@ ApplicationWindow {
     width: fileControl.getlastWidth()
     height: fileControl.getlastHeight()
     flags: Qt.Window | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
-
-    Component.onCompleted: {
-        if (fileControl.isCheckOnly()) {
-            setX(screen.width / 2 - width / 2)
-            setY(screen.height / 2 - height / 2)
-        }
-    }
 
     onWindowStateChanged: {
         global.sigWindowStateChange()
@@ -61,7 +50,25 @@ ApplicationWindow {
         fileControl.terminateShortcutPanelProcess() //结束快捷键面板进程
     }
 
+    GlobalVar {
+        id: global
+    }
+
     MainStack {
         anchors.fill: parent
+    }
+
+    Connections {
+        target: GControl
+        onCurrentSourceChanged: {
+            window.title = fileControl.slotGetFileName(GControl.currentSource) + fileControl.slotFileSuffix(GControl.currentSource)
+        }
+    }
+
+    Component.onCompleted: {
+        if (fileControl.isCheckOnly()) {
+            setX(screen.width / 2 - width / 2)
+            setY(screen.height / 2 - height / 2)
+        }
     }
 }
