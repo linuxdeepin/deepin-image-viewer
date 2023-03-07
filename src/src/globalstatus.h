@@ -10,6 +10,8 @@
 class GlobalStatus : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool showRightMenu READ isShowRightMenu WRITE setShowRightMenu NOTIFY showRightMenuChanged)
+    Q_PROPERTY(bool showImageInfo READ isShowImageInfo WRITE setShowImageInfo NOTIFY showImageInfoChanged)
     Q_PROPERTY(bool viewInteractive READ viewInteractive WRITE setViewInterActive NOTIFY viewInteractiveChanged)
     Q_PROPERTY(int thumbnailVaildWidth READ thumbnailVaildWidth WRITE setThumbnailVaildWidth NOTIFY thumbnailVaildWidthChanged)
 
@@ -28,6 +30,14 @@ class GlobalStatus : public QObject
 public:
     explicit GlobalStatus(QObject *parent = nullptr);
     ~GlobalStatus() override;
+
+    bool isShowRightMenu() const;
+    void setShowRightMenu(bool b);
+    Q_SIGNAL void showRightMenuChanged();
+
+    bool isShowImageInfo() const;
+    void setShowImageInfo(bool b);
+    Q_SIGNAL void showImageInfoChanged();
 
     bool viewInteractive() const;
     void setViewInterActive(bool b);
@@ -50,8 +60,10 @@ public:
     int rightMenuItemHeight() const;
 
 private:
+    bool showRightMenuDialog = false;
+    bool showImageInfoDialog = false;
     bool storeViewInteractive = true;
-    int storeThumbnailVaildWidth = 0;       ///< 缩略图列表允许的宽度
+    int storeThumbnailVaildWidth = 0;  ///< 缩略图列表允许的宽度
 };
 
 #endif  // GLOBALSTATUS_H

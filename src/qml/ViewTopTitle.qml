@@ -41,9 +41,9 @@ Rectangle {
 
     ActionButton {
         anchors.top: parent.top
-        anchors.topMargin: global.actionMargin
+        anchors.topMargin: GStatus.actionMargin
         anchors.left: parent.left
-        anchors.leftMargin: global.actionMargin
+        anchors.leftMargin: GStatus.actionMargin
         icon {
             name: iconName
             width: 32
@@ -113,7 +113,7 @@ Rectangle {
             QuitAction { }
 
             onVisibleChanged: {
-                global.animationBlock = visible
+                GStatus.animationBlock = visible
             }
         }
 

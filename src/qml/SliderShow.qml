@@ -32,9 +32,7 @@ Item {
             GControl.nextImage()
         }
 
-        /// FIXME
-        source = "image://Multiimage/" + GControl.currentSource + "#frame_"
-                + GControl.currentFrameIndex + "_thumbnail"
+        source = "image://Multiimage/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
     }
 
     function switchPreviousImage() {
@@ -44,8 +42,7 @@ Item {
             GControl.previousImage()
         }
 
-        source = "image://Multiimage/" + GControl.currentSource + "#frame_"
-                + GControl.currentFrameIndex + "_thumbnail"
+        source = "image://Multiimage/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
     }
 
     Timer {
@@ -248,8 +245,7 @@ Item {
     }
 
     Component.onCompleted: {
-        source = "image://Multiimage/" + GControl.currentSource + "#frame_"
-                + GControl.currentFrameIndex + "_thumbnail"
+        source = "image://Multiimage/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
 
         showFullScreen()
         restart()

@@ -9,6 +9,8 @@ import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
 
 Rectangle {
+    property alias targetImage: view.targetImage
+
 
     // Indicates the minimum number of zooms
     property int minScaleLevel: 10
@@ -52,8 +54,8 @@ Rectangle {
 
     property double currentimgY: 0.0
 
-    property double currenImageScale: currentScale / CodeImage.getFitWindowScale(
-                                          source, root.width, root.height) * 100
+//    property double currenImageScale: currentScale / CodeImage.getFitWindowScale(
+//                                          source, root.width, root.height) * 100
 
     property bool isMousePinchArea: true
 
@@ -89,19 +91,6 @@ Rectangle {
     signal sigSourceChange
 
     color: backcontrol.ColorSelector.backgroundColor
-
-    ViewRightMenu {
-        id: option_menu
-
-        visible: GControl.showRightMenu
-
-        onClosed: {
-            console.warn("visible changed", visible, GControl.showRightMenu)
-            if (visible != GControl.showRightMenu) {
-                GControl.showRightMenu = visible
-            }
-        }
-    }
 
     Connections {
         target: root
@@ -217,9 +206,9 @@ Rectangle {
         idNavWidget.setRectLocation(m_NavX, m_NavY)
     }
 
-    onCurrenImageScaleChanged: {
-        showFloatLabel()
-    }
+//    onCurrenImageScaleChanged: {
+//        showFloatLabel()
+//    }
 
     onCurrentScaleChanged: {
         // 单独计算图片缩放比，防止属性绑定循环计算，数据异常
@@ -288,7 +277,7 @@ Rectangle {
         }
 
         // 设置标题栏
-        root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
+        window.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
         // 显示缩放比例提示框
         showFloatLabel()
 
@@ -423,8 +412,7 @@ Rectangle {
         repeat: false
 
         onTriggered: {
-            root.visibility != Window.FullScreen ? showPanelFullScreen(
-                                                       ) : escBack()
+            root.visibility != Window.FullScreen ? showPanelFullScreen() : escBack()
         }
     }
 
@@ -498,7 +486,6 @@ Rectangle {
                                           screenPos.y + root.height / 2)
         }
     }
-
 
     /*
        @brief: 图片展示组件
@@ -1308,6 +1295,10 @@ Rectangle {
     ListView {
         id: view
 
+        // 当前展示的图片对象，空图片、错误图片、消失图片等异常为 undefined
+        // 此图片信息用于外部交互缩放、导航窗口等
+        property var targetImage: view.currentItem.item.targetImage
+
         anchors.fill: parent
         cacheBuffer: 200
         interactive: !imageViewer.isFullNormalSwitchState
@@ -1347,17 +1338,17 @@ Rectangle {
 
             onActiveChanged: {
                 if (active && imageInfo.delegateSource) {
-                    setSource(imageInfo.delegateSource, {
-                                  "source": swipeViewItemLoader.source
-                              })
+                    setSource(imageInfo.delegateSource, { "source": swipeViewItemLoader.source, "type": imageInfo.type })
                 }
             }
 
+            // 实况文本背景遮罩
             Loader {
                 id: liveTextBackgroundLoader
 
                 active: IV.Types.NormalImage === imageInfo.type
                         || IV.Types.SvgImage === imageInfo.type
+                asynchronous: true
                 sourceComponent: Rectangle {
                     id: liveTextBackground
 
@@ -1574,6 +1565,25 @@ Rectangle {
     //rename窗口
     ReName {
         id: renamedialog
+    }
+
+    // 右键菜单
+    ViewRightMenu {
+        id: rightMenu
+
+        onClosed: {
+            GStatus.showRightMenu = false
+        }
+
+        Connections {
+            target: GStatus
+            onShowRightMenuChanged: {
+                if (GStatus.showRightMenu) {
+                    rightMenu.popup(cursorTool.currentCursorPos())
+                    rightMenu.focus = true
+                }
+            }
+        }
     }
 
     // 图片信息窗口

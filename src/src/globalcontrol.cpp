@@ -77,9 +77,6 @@ int GlobalControl::currentIndex() const
  */
 void GlobalControl::setCurrentFrameIndex(int frameIndex)
 {
-    qWarning() << Q_FUNC_INFO << "--- ---" << frameIndex << this->frameIndex;
-
-
     int validFrameIndex = qBound(0, frameIndex, currentImage.frameCount() - 1);
     if (this->frameIndex != validFrameIndex) {
         this->frameIndex = validFrameIndex;
@@ -263,26 +260,25 @@ void GlobalControl::removeImage(const QUrl &removeImage)
     Q_EMIT imageCountChanged();
 }
 
-bool GlobalControl::isShowRightMenu() const
+/**
+   @brief 图片重命名后更新数据，路径由 \a oldName 更新为 \a newName 。
+ */
+void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
 {
-    return showRightMenuDialog;
-}
+    int index = sourceModel->indexForImagePath(oldName);
+    if (-1 != index) {
+        sourceModel->setData(sourceModel->index(index), newName, Types::ImageUrlRole);
 
-void GlobalControl::setShowRightMenu(bool b)
-{
-    showRightMenuDialog = b;
-    Q_EMIT showRightMenuChanged();
-}
+        if (oldName == currentImage.source()) {
+            // 强制刷新，避免出现重命名为已缓存的删除图片
+            currentImage.setSource(newName);
+            currentImage.refresh();
 
-bool GlobalControl::isShowImageInfo() const
-{
-    return showImageInfoDialog;
-}
-
-void GlobalControl::setShowImageInfo(bool b)
-{
-    showImageInfoDialog = b;
-    Q_EMIT showImageInfoChanged();
+            setCurrentFrameIndex(0);
+            Q_EMIT currentSourceChanged();
+            Q_EMIT currentIndexChanged();
+        }
+    }
 }
 
 /**
