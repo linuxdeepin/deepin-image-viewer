@@ -167,6 +167,8 @@ signals:
     // 缓存更新处理完成后，更新文件变更信号（被移动、替换、删除等）
     void imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
 
+    void imageRenamed(const QUrl &oldName, const QUrl &newName);
+
 private:
     // 当处理的图片文件被移动、替换、删除时触发
     void onImageFileChanged(const QString &file);

@@ -53,7 +53,6 @@ Item {
 
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
-        enabled: targetImage !== undefined
         drag.target: targetImage ? targetImage : undefined
 
         function updateDragRect() {
@@ -84,11 +83,15 @@ Item {
 
         onPressed: {
             if (Qt.RightButton === mouse.button) {
-                GControl.showRightMenu = true
+                GStatus.showRightMenu = true
             }
         }
 
         onWheel: {
+            if (undefined === baseDelegate.targetImage) {
+                return
+            }
+
             var detla = wheel.angleDelta.y / 120
             // 通过Keys缓存的状态可能不准确，在焦点移出时release事件没有正确捕获，
             // 修改为通过当前事件传入的按键按下信息判断
@@ -227,7 +230,7 @@ Item {
             Timer {
                 id: menuHideTimer
 
-                running: !option_menu.visible
+                running: !GStatus.showRightMenu
                 interval: 400
             }
 
@@ -247,10 +250,10 @@ Item {
                 interval: 400
 
                 onTriggered: {
-                    infomationDig.hide()
+                    GStatus.showImageInfo = false
                     multiPointTouchArea.enableSwitchState = false
                     // 弹出右键菜单
-                    option_menu.popup()
+                    GStatus.showRightMenu = true
                 }
             }
         }

@@ -86,6 +86,9 @@ int main(int argc, char *argv[])
     //            emit fileControl->imageFileChanged(filePath, isMultiImage, isExist);
     //        });
 
+    QObject::connect(fileControl, &FileControl::imageRenamed, &control, &GlobalControl::renameImage);
+
+
     // 光标位置查询工具
     CursorTool *cursorTool = new CursorTool();
     engine.rootContext()->setContextProperty("cursorTool", cursorTool);

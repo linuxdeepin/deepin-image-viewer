@@ -376,7 +376,7 @@ Item {
 
         Connections {
             target: cursorTool
-            onCursorPos: {
+            onCursorPosChanged: {
                 if (imageViewerArea.usingCapture) {
                     var pos = mapFromGlobal(x, y)
                     imageViewerArea.captureX = pos.x

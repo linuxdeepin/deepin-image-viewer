@@ -19,7 +19,7 @@ CursorTool::CursorTool(QObject *parent)
         if (pos != m_lastPos) {
             m_lastPos = pos;
             // 发送当前光标的全局位置
-            Q_EMIT this->cursorPos(pos.x(), pos.y());
+            Q_EMIT this->cursorPosChanged(pos.x(), pos.y());
         }
     });
 
@@ -27,6 +27,14 @@ CursorTool::CursorTool(QObject *parent)
         auto newColor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         emit activeColorChanged(newColor);
     });
+}
+
+/**
+   @return 返回当前鼠标光标在屏幕的位置
+ */
+QPoint CursorTool::currentCursorPos() const
+{
+    return QCursor::pos();
 }
 
 /**
