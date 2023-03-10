@@ -79,6 +79,9 @@ Item {
                 baseDelegate.targetImage.x = Math.max(drag.minimumX, Math.min(baseDelegate.targetImage.x, drag.maximumX))
                 baseDelegate.targetImage.y = Math.max(drag.minimumY, Math.min(baseDelegate.targetImage.y, drag.maximumY))
             }
+
+            console.warn("drag------", drag.maximumX, drag.maximumY, baseDelegate.targetImage.x, baseDelegate.targetImage.y,
+                         drag.active)
         }
 
         onPressed: {
