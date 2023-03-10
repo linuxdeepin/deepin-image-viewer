@@ -346,14 +346,15 @@ Item {
     }
 
     MouseArea {
-        anchors.fill: imageViewer
         id: imageViewerArea
-        acceptedButtons: Qt.LeftButton
-        hoverEnabled: true
 
         property bool usingCapture: false // 是否使用定时捕获光标位置
         property int captureX: 0 // 当前的光标X坐标值
         property int captureY: 0 // 当前的光标Y坐标值
+
+        anchors.fill: imageViewer
+        acceptedButtons: Qt.LeftButton
+        hoverEnabled: true
 
         onMouseYChanged: {
             animationAll()
