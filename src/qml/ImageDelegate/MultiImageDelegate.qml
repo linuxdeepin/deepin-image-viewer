@@ -12,7 +12,8 @@ BaseImageDelegate {
     ListView {
         id: multiImageView
 
-        anchors.fill: parent
+        width: multiImageDelegate.width
+        height: multiImageDelegate.height
         clip: true
         boundsMovement: Flickable.FollowBoundsBehavior
         boundsBehavior: Flickable.StopAtBounds
@@ -40,7 +41,6 @@ BaseImageDelegate {
         // 调整为在缩放动作时不处理滑动操作
         //        interactive: !imageViewer.isFullNormalSwitchState
         //                     && imageViewer.viewInteractive
-
         model: imageInfo.frameCount
         delegate: Loader {
             width: multiImageDelegate.width
@@ -63,14 +63,15 @@ BaseImageDelegate {
 
                 property bool isCurrentImage: parent.ListView.isCurrentItem
 
+                // TIF 图片暂无旋转功能
                 height: parent.height
                 width: parent.width
                 asynchronous: true
                 cache: false
-                smooth: true
-                mipmap: true
-                scale: multiImageDelegate.scale
                 fillMode: Image.PreserveAspectFit
+                mipmap: true
+                smooth: true
+                scale: isCurrentImage ? multiImageDelegate.scale : 1.0
                 source: "image://Multiimage/" + multiImageDelegate.source + "#frame_" + index
 
                 onIsCurrentImageChanged: {
@@ -85,7 +86,7 @@ BaseImageDelegate {
                     target: multiImageDelegate
                     property: "status"
                     value: image.status
-                    when: parent.ListView.isCurrentItem
+                    when: isCurrentImage
                 }
             }
         }

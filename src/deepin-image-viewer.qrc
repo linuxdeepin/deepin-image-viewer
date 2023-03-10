@@ -6,7 +6,6 @@
         <file>qml/ImageViewer.qml</file>
         <file>qml/ThumbnailListView.qml</file>
         <file>qml/FullImageView.qml</file>
-        <file>qml/ListViewDelegate.qml</file>
         <file>qml/GlobalVar.qml</file>
         <file>qml/ReName.qml</file>
         <file>qml/FloatingNotice.qml</file>
@@ -16,11 +15,6 @@
         <file>qml/ViewRightMenu.qml</file>
         <file>qml/RightMenuItem.qml</file>
         <file>qml/ViewTopTitle.qml</file>
-        <file>qml/MultiImageListView.qml</file>
-        <file>qml/LiveBlock.qml</file>
-        <file>qml/LiveBlockController.js</file>
-        <file>qml/LiveBlockRubberBand.qml</file>
-        <file>qml/LiveTextWidget.qml</file>
         <file>qml/InformationDialog/InformationDialog.qml</file>
         <file>qml/InformationDialog/PropertyActionItemDelegate.qml</file>
         <file>qml/InformationDialog/PropertyItem.qml</file>
@@ -36,5 +30,9 @@
         <file>qml/ThumbnailDelegate/NormalThumbnailDelegate.qml</file>
         <file>qml/ThumbnailDelegate/MultiThumnailDelegate.qml</file>
         <file>qml/ThumbnailDelegate/ThumbnailImage.qml</file>
+        <file>qml/LiveText/LiveBlock.qml</file>
+        <file>qml/LiveText/LiveBlockController.js</file>
+        <file>qml/LiveText/LiveBlockRubberBand.qml</file>
+        <file>qml/LiveText/LiveTextWidget.qml</file>
     </qresource>
 </RCC>
