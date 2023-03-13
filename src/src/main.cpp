@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020-2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -12,6 +12,8 @@
 #include "mainwindow/mainwindow.h"
 #include "application.h"
 #include "eventlogutils.h"
+
+#include <libimageviewer/imageengine.h>
 
 #include <DWidgetUtil>
 #include <DMainWindow>
@@ -47,13 +49,13 @@ static QString getImagenameFromPath(const QString &path_name)
 }
 bool checkOnly()
 {
-    //single
+    // single
     QString userName = QDir::homePath().section("/", -1, -1);
     std::string path = ("/home/" + userName + "/.cache/deepin/deepin-image-viewer/").toStdString();
     QDir tdir(path.c_str());
     if (!tdir.exists()) {
-        bool ret =  tdir.mkpath(path.c_str());
-        qDebug() << ret ;
+        bool ret = tdir.mkpath(path.c_str());
+        qDebug() << ret;
     }
 
     path += "single";
@@ -114,9 +116,55 @@ QUrl UrlInfo(QString path)
     return url;
 }
 
+/**
+   @brief 绑定 imageeidtor 中的授权信息抛出接口，使用 QMetaObject 信息以动态获取接口，以确保前后均兼容
+ */
+void connectAuthNotify()
+{
+    QByteArray normalSignal = QMetaObject::normalizedSignature("sigAuthoriseNotify(const QJsonObject &)");
+    int index = ImageEngine::instance()->metaObject()->indexOfSignal(normalSignal.constData());
+    if (-1 != index) {
+        bool ret = QObject::connect(ImageEngine::instance(),
+                                    SIGNAL(sigAuthoriseNotify(QJsonObject)),
+                                    Eventlogutils::GetInstance(),
+                                    SLOT(forwardLogData(QJsonObject)));
+        if (!ret) {
+            qWarning() << qPrintable("sigAuthoriseNotify() exists, but connect failed!");
+        }
+    } else {
+        qInfo() << "Not detect sigAuthoriseNotify()";
+    }
+}
+
+/**
+   @brief 埋点记录启动数据，不同埋点版本接口不同，兼容处理
+ */
+void reportStartupEventLog(const QString &imageformat, bool bRet)
+{
+    QJsonObject objStartEvent{
+        {"tid", Eventlogutils::StartUp},
+        {"vsersion", VERSION},
+        {"imageformat", imageformat},
+        {"opensuccess", bRet},
+        {"mode", 1},
+    };
+
+    if (Eventlogutils::GetInstance()->sendLogsEnabled()) {
+        // 接口更新(1.1->1.2)调整为sendLog，2为上报日志
+        QJsonObject policyObj;
+        policyObj.insert("reportMode", 2);
+        QJsonObject sendData;
+        sendData.insert("policy", policyObj);
+        sendData.insert("info", objStartEvent);
+        Eventlogutils::GetInstance()->sendLogs(sendData);
+    } else {
+        Eventlogutils::GetInstance()->writeLogs(objStartEvent);
+    }
+}
+
 int main(int argc, char *argv[])
 {
-    //for qt5platform-plugins load DPlatformIntegration or DPlatformIntegrationParent
+    // for qt5platform-plugins load DPlatformIntegration or DPlatformIntegrationParent
     if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
         setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
     }
@@ -127,8 +175,7 @@ int main(int argc, char *argv[])
         qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell");
     }
 
-//    Application::loadDXcbPlugin();
-    Application  a(argc, argv);
+    Application a(argc, argv);
     a.setAttribute(Qt::AA_ForceRasterWidgets);
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.setOrganizationName("deepin");
@@ -136,9 +183,10 @@ int main(int argc, char *argv[])
     a.loadTranslator();
     a.setApplicationDisplayName(QObject::tr("Image Viewer"));
     a.setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
-    a.setApplicationDescription(QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
+    a.setApplicationDescription(
+        QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
     a.loadTranslator();
-    //save theme
+    // save theme
     DApplicationSettings saveTheme;
     Q_UNUSED(saveTheme);
 
@@ -148,12 +196,13 @@ int main(int argc, char *argv[])
     a.setApplicationVersion("1.0.0");
 #ifdef CMAKE_BUILD
     //增加版本号
-//    a.setApplicationVersion(DApplication::buildVersion(VERSION));
     a.setApplicationVersion(VERSION);
 #endif
-    //主窗体应该new出来,不应该是static变量
-    //修改为从单例获取
 
+    // 构造前关联通知信号，部分信息在构造时通知
+    connectAuthNotify();
+
+    // 主窗体应该new出来,不应该是static变量 修改为从单例获取
     DMainWindow *mainwindow = new DMainWindow();
     MainWindow *w = new MainWindow(mainwindow);
     mainwindow->setCentralWidget(w);
@@ -187,7 +236,7 @@ int main(int argc, char *argv[])
                 defaultH = int(double(dw->geometry().height()) * 0.60);
             }
         }
-        
+
         int ww = w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
         int wh = w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
         mainwindow->resize(ww, wh);
@@ -207,15 +256,9 @@ int main(int argc, char *argv[])
             }
         }
     }
-    //埋点记录启动数据
-    QJsonObject objStartEvent{
-        {"tid", Eventlogutils::StartUp},
-        {"vsersion", VERSION},
-        {"imageformat", imageformat},
-        {"opensuccess", bRet},
-        {"mode", 1},
-    };
-    Eventlogutils::GetInstance()->writeLogs(objStartEvent);
+
+    // 埋点记录启动数据
+    reportStartupEventLog(imageformat, bRet);
 
     mainwindow->show();
     if (bRet) {
@@ -227,7 +270,7 @@ int main(int argc, char *argv[])
     if (checkOnly()) {
         Dtk::Widget::moveToCenter(mainwindow);
     }
-//    Dtk::Core::DVtableHook::overrideVfptrFun(qApp, &DApplication::handleQuitAction, w, &MainWindow::quitApp);
+
     QObject::connect(dApp, &Application::sigQuit, w, &MainWindow::quitApp, Qt::DirectConnection);
 
     // 临时修改，注册DBus服务以正常启动进程，后续添加相关的DBus接口
