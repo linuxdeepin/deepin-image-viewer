@@ -23,4 +23,11 @@ BaseImageDelegate {
         scale: delegate.scale
         source: delegate.source
     }
+
+    ImageInputHandler {
+        id: imageInput
+
+        anchors.fill: parent
+        targetImage: image
+    }
 }

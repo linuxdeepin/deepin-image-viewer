@@ -34,5 +34,6 @@
         <file>qml/LiveText/LiveBlockController.js</file>
         <file>qml/LiveText/LiveBlockRubberBand.qml</file>
         <file>qml/LiveText/LiveTextWidget.qml</file>
+        <file>qml/ImageDelegate/ImageInputHandler.qml</file>
     </qresource>
 </RCC>

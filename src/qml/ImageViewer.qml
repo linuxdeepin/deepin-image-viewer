@@ -8,6 +8,7 @@ import QtQuick.Shapes 1.11
 import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
 
+import "./ImageDelegate"
 import "./LiveText"
 
 Rectangle {
@@ -88,7 +89,7 @@ Rectangle {
     property double keepFitWindowScale: 0
 
     // 图片正在滑动中
-    property bool inFlick: false
+//    property bool inFlick: false
 
     signal sigWheelChange
     signal sigSourceChange
@@ -221,16 +222,14 @@ Rectangle {
             currentScale = 20 * CodeImage.getFitWindowScale(source, root.width,
                                                             root.height)
         } else if (calcImageScale < 2 && calcImageScale > 0) {
-            currentScale = 0.02 * CodeImage.getFitWindowScale(source,
-                                                              root.width,
-                                                              root.height)
+            currentScale = 0.02 * CodeImage.getFitWindowScale(source, root.width, root.height)
         }
 
         //刷新导航窗口
         flushNav()
 
         //重新计算live text
-        if (!inFlick) {
+        if (!GStatus.viewFlicking) {
             console.debug("onCurrentScaleChanged")
             recalculateLiveText()
         }
@@ -243,7 +242,7 @@ Rectangle {
             // 设置 fileControl 维护的多页图信息
             fileControl.setCurrentFrameIndex(frameIndex)
             CodeImage.setMultiFrameIndex(frameIndex)
-            if (!inFlick) {
+            if (!GStatus.viewFlicking) {
                 console.debug("onFrameIndexChanged")
                 recalculateLiveText()
             }
@@ -290,7 +289,7 @@ Rectangle {
         mainView.animationAll()
 
         // 启动live text分析
-        if (!inFlick) {
+        if (!GStatus.viewFlicking) {
             console.debug("onSourceChanged:")
             recalculateLiveText()
         }
@@ -483,8 +482,8 @@ Rectangle {
 
         // 当前展示的 Image 图片对象，空图片、错误图片、消失图片等异常为 undefined
         // 此图片信息用于外部交互缩放、导航窗口等
-        property var currentImage: view.currentItem.item.targetImage
-        property var currentDelegate: view.currentItem.item
+        property Image currentImage: view.currentItem.item.targetImage
+        property BaseImageDelegate currentDelegate: view.currentItem.item
 
         anchors.fill: parent
         cacheBuffer: 200
@@ -588,19 +587,14 @@ Rectangle {
         }
 
         onMovementStarted: {
-            inFlick = true
-            console.debug("onMovementStarted: id: view")
-            exitLiveText()
+            GStatus.viewFlicking = true
         }
 
         onMovementEnded: {
-            inFlick = false
-            console.debug("onMovementEnded: id: view")
-            startLiveText()
+            GStatus.viewFlicking = false
         }
 
         Component.onCompleted: {
-            contentItem.highlightMoveDuration = 0
             liveTextAnalyzer.analyzeFinished.connect(runLiveText)
         }
 
@@ -696,6 +690,13 @@ Rectangle {
 //                duration: 100
 //            }
 //        }
+
+    }
+
+    IV.ImageInfo {
+        id: currentImageInfo
+
+        source: GControl.currentSource
     }
 
     // 图片变更时触发
@@ -709,6 +710,17 @@ Rectangle {
             recalculateLiveText()
         } else {
             exitLiveText()
+        }
+    }
+
+    Connections {
+        target: GStatus
+        onViewFlickingChanged: {
+            if (GStatus.viewFlicking) {
+                view.exitLiveText()
+            } else {
+                view.startLiveTextAnalyze()
+            }
         }
     }
 

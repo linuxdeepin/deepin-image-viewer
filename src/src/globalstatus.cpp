@@ -70,6 +70,19 @@ void GlobalStatus::setViewInterActive(bool b)
     }
 }
 
+bool GlobalStatus::viewFlicking() const
+{
+    return storeviewFlicking;
+}
+
+void GlobalStatus::setViewFlicking(bool b)
+{
+    if (storeviewFlicking != b) {
+        storeviewFlicking = b;
+        Q_EMIT viewFlickingChanged();
+    }
+}
+
 void GlobalStatus::setThumbnailVaildWidth(int width)
 {
     if (storeThumbnailVaildWidth != width) {
