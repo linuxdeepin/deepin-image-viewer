@@ -14,6 +14,7 @@ BaseImageDelegate {
 
         width: multiImageDelegate.width
         height: multiImageDelegate.height
+        cacheBuffer: 200
         clip: true
         boundsMovement: Flickable.FollowBoundsBehavior
         boundsBehavior: Flickable.StopAtBounds
@@ -24,7 +25,6 @@ BaseImageDelegate {
         orientation: ListView.Horizontal
         snapMode: ListView.SnapOneItem
         flickDeceleration: 500
-        cacheBuffer: 200
         currentIndex: {
             if (isCurrentImage) {
                 return GControl.currentFrameIndex
@@ -80,6 +80,7 @@ BaseImageDelegate {
                     }
 
                     multiImageDelegate.reset()
+                    imageInput.reset()
                 }
 
                 Binding {
@@ -88,6 +89,17 @@ BaseImageDelegate {
                     value: image.status
                     when: isCurrentImage
                 }
+
+                ImageInputHandler {
+                    id: imageInput
+
+                    anchors.fill: parent
+                    targetImage: image
+
+                    onVisibleChanged: {
+                        console.warn("--------------------visible change", visible)
+                    }
+                }
             }
         }
 
@@ -95,6 +107,14 @@ BaseImageDelegate {
             if (isCurrentImage && currentIndex != GControl.currentFrameIndex) {
                 GControl.currentFrameIndex = currentIndex
             }
+        }
+
+        onMovementStarted: {
+            GStatus.viewFlicking = true
+        }
+
+        onMovementEnded: {
+            GStatus.viewFlicking = false
         }
     }
 
