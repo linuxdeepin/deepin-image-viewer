@@ -13,6 +13,7 @@ class GlobalStatus : public QObject
     Q_PROPERTY(bool showRightMenu READ isShowRightMenu WRITE setShowRightMenu NOTIFY showRightMenuChanged)
     Q_PROPERTY(bool showImageInfo READ isShowImageInfo WRITE setShowImageInfo NOTIFY showImageInfoChanged)
     Q_PROPERTY(bool viewInteractive READ viewInteractive WRITE setViewInterActive NOTIFY viewInteractiveChanged)
+    Q_PROPERTY(bool viewFlicking READ viewFlicking WRITE setViewFlicking NOTIFY viewFlickingChanged)
     Q_PROPERTY(int thumbnailVaildWidth READ thumbnailVaildWidth WRITE setThumbnailVaildWidth NOTIFY thumbnailVaildWidthChanged)
 
     // Constant properties.
@@ -43,6 +44,10 @@ public:
     void setViewInterActive(bool b);
     Q_SIGNAL void viewInteractiveChanged();
 
+    bool viewFlicking() const;
+    void setViewFlicking(bool b);
+    Q_SIGNAL void viewFlickingChanged();
+
     void setThumbnailVaildWidth(int width);
     int thumbnailVaildWidth() const;
     Q_SIGNAL void thumbnailVaildWidthChanged();
@@ -63,6 +68,7 @@ private:
     bool showRightMenuDialog = false;
     bool showImageInfoDialog = false;
     bool storeViewInteractive = true;
+    bool storeviewFlicking = false;
     int storeThumbnailVaildWidth = 0;  ///< 缩略图列表允许的宽度
 };
 

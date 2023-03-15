@@ -189,6 +189,8 @@ Item {
     ListView {
         id: bottomthumbnaillistView
 
+        property bool lastIsMultiImage: false
+
         // 重新定位图片位置
         function rePositionView() {
             // 特殊处理，防止默认显示首个缩略图时采用Center的策略会被遮挡部分
@@ -217,45 +219,6 @@ Item {
         focus: true
         orientation: Qt.Horizontal
         cacheBuffer: 200
-
-        /// FIXME 异常的绑定
-//        currentIndex: GControl.currentIndex
-        Connections {
-            target: GControl
-            onCurrentIndexChanged: {
-                bottomthumbnaillistView.currentIndex = GControl.currentIndex
-            }
-        }
-
-        Connections {
-            target: imageViewer
-
-            onIsFullNormalSwitchStateChanged: {
-                // 当缩放界面时，缩略图栏重新进行了布局计算，导致高亮缩略图可能不居中
-                if (0 == bottomthumbnaillistView.currentIndex) {
-                    bottomthumbnaillistView.positionViewAtBeginning()
-                } else {
-                    // 尽可能将高亮缩略图显示在列表中
-                    bottomthumbnaillistView.positionViewAtIndex(bottomthumbnaillistView.currentIndex, ListView.Center)
-                }
-            }
-
-            // 接收当前视图旋转角度变更信号
-            onCurrentRotateChanged: {
-                if (bottomthumbnaillistView.currentItem) {
-                    // 计算旋转角度，限制在旋转梯度为90度，以45度为分界点
-                    var rotateAngle = imageViewer.currentRotate
-                    // 区分正反旋转方向ViewSection.CurrentLabelA
-                    var isClockWise = rotateAngle > 0
-                    // 计算绝对角度值
-                    rotateAngle = Math.floor((Math.abs(rotateAngle) + 45) / 90) * 90
-
-                    // 设置当前展示的图片的旋转方向，仅在90度方向旋转，不会跟随旋转角度(特指在触摸状态下)
-                    bottomthumbnaillistView.currentItem.rotation
-                            = isClockWise ? rotateAngle : -rotateAngle
-                }
-            }
-        }
 
         model: GControl.globalModel
         delegate: Loader {
@@ -299,14 +262,29 @@ Item {
                     }
                 }
 
-                onStatusChanged: {
-                    checkDelegateSource()
-                }
-
+                onStatusChanged: checkDelegateSource()
                 onIsCurrentItemChanged: {
                     checkDelegateSource()
+
+                    // 切换图片涉及多页图时，由于列表内容宽度变更，焦点item定位异常，延迟定位
+                    if (IV.Types.MultiImage === type) {
+                        bottomthumbnaillistView.lastIsMultiImage = true
+                        delayUpdateTimer.start()
+                    } else if (bottomthumbnaillistView.lastIsMultiImage) {
+                        delayUpdateTimer.start()
+                        bottomthumbnaillistView.lastIsMultiImage = false
+                    }
                 }
             }
+        }
+
+        // 添加两组空的表头表尾用于占位，防止在边界的高亮缩略图被遮挡, 5px为不在ListView中维护的焦点缩略图边框的宽度 radius = 4 * 1.25
+        header: Rectangle {
+            width: 5
+        }
+
+        footer: Rectangle {
+            width: 5
         }
 
         //滑动联动主视图
@@ -315,12 +293,47 @@ Item {
                 currentItem.forceActiveFocus()
             }
 
-            rePositionView()
-
             // 仅在边缘缩略图时进行二次定位
             if (0 === currentIndex || currentIndex === (count - 1)) {
-                delayUpdateTimer.restart()
+                delayUpdateTimer.start()
             }
+        }
+
+        Connections {
+            target: GControl
+            onCurrentIndexChanged: {
+                bottomthumbnaillistView.currentIndex = GControl.currentIndex
+            }
+        }
+
+        Connections {
+            target: imageViewer
+
+            onIsFullNormalSwitchStateChanged: {
+                // 当缩放界面时，缩略图栏重新进行了布局计算，导致高亮缩略图可能不居中
+                if (0 == bottomthumbnaillistView.currentIndex) {
+                    bottomthumbnaillistView.positionViewAtBeginning()
+                } else {
+                    // 尽可能将高亮缩略图显示在列表中
+                    bottomthumbnaillistView.positionViewAtIndex(bottomthumbnaillistView.currentIndex, ListView.Center)
+                }
+            }
+
+//            // 接收当前视图旋转角度变更信号
+//            onCurrentRotateChanged: {
+//                if (bottomthumbnaillistView.currentItem) {
+//                    // 计算旋转角度，限制在旋转梯度为90度，以45度为分界点
+//                    var rotateAngle = imageViewer.currentRotate
+//                    // 区分正反旋转方向ViewSection.CurrentLabelA
+//                    var isClockWise = rotateAngle > 0
+//                    // 计算绝对角度值
+//                    rotateAngle = Math.floor((Math.abs(rotateAngle) + 45) / 90) * 90
+
+//                    // 设置当前展示的图片的旋转方向，仅在90度方向旋转，不会跟随旋转角度(特指在触摸状态下)
+//                    bottomthumbnaillistView.currentItem.rotation
+//                            = isClockWise ? rotateAngle : -rotateAngle
+//                }
+//            }
         }
 
         Timer {
@@ -332,15 +345,6 @@ Item {
                 bottomthumbnaillistView.forceLayout()
                 bottomthumbnaillistView.rePositionView()
             }
-        }
-
-        // 添加两组空的表头表尾用于占位，防止在边界的高亮缩略图被遮挡, 5px为不在ListView中维护的焦点缩略图边框的宽度 radius = 4 * 1.25
-        header: Rectangle {
-            width: 5
-        }
-
-        footer: Rectangle {
-            width: 5
         }
 
         Behavior on x {
