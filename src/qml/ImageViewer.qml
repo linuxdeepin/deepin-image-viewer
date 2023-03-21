@@ -12,9 +12,10 @@ import "./ImageDelegate"
 import "./LiveText"
 
 Rectangle {
+    id: imageViewer
+
     // Image 类型的对象，空图片、错误图片、消失图片等异常为 undefined
     property alias targetImage: view.currentImage
-
 
     // Indicates the minimum number of zooms
     property int minScaleLevel: 10
@@ -50,7 +51,7 @@ Rectangle {
     }
 
     //是否显示和隐藏导航栏，从配置文件中读取初始配置
-    property bool isNavShow: fileControl.isEnableNavigation()
+//    property bool isNavShow: fileControl.isEnableNavigation()
 
     property double currentScale: 1.0
 
@@ -58,9 +59,8 @@ Rectangle {
 
     property double currentimgY: 0.0
 
-//    property double currenImageScale: currentScale / CodeImage.getFitWindowScale(
-//                                          source, root.width, root.height) * 100
-
+    //    property double currenImageScale: currentScale / CodeImage.getFitWindowScale(
+    //                                          source, root.width, root.height) * 100
     property bool isMousePinchArea: true
 
     property double readWidthHeightRatio: CodeImage.getrealWidthHeightRatio(
@@ -89,15 +89,14 @@ Rectangle {
     property double keepFitWindowScale: 0
 
     // 图片正在滑动中
-//    property bool inFlick: false
-
+    //    property bool inFlick: false
     signal sigWheelChange
     signal sigSourceChange
 
     color: backcontrol.ColorSelector.backgroundColor
 
     Connections {
-        target: root
+        target: window
 
         onSigTitlePress: {
             infomationDig.hide()
@@ -141,11 +140,11 @@ Rectangle {
     }
 
     function showFloatLabel() {
-        // 不存在的图片不弹出缩放提示框
-//        if (!currentIsExistImage) {
-//            return
-//        }
 
+        // 不存在的图片不弹出缩放提示框
+        //        if (!currentIsExistImage) {
+        //            return
+        //        }
         if (currenImageScale.toFixed(0) > 2000 && currenImageScale.toFixed(
                     0) <= 3000) {
             floatLabel.displayStr = "2000%"
@@ -210,10 +209,9 @@ Rectangle {
         idNavWidget.setRectLocation(m_NavX, m_NavY)
     }
 
-//    onCurrenImageScaleChanged: {
-//        showFloatLabel()
-//    }
-
+    //    onCurrenImageScaleChanged: {
+    //        showFloatLabel()
+    //    }
     onCurrentScaleChanged: {
         // 单独计算图片缩放比，防止属性绑定循环计算，数据异常
         var calcImageScale = currentScale / CodeImage.getFitWindowScale(
@@ -222,7 +220,9 @@ Rectangle {
             currentScale = 20 * CodeImage.getFitWindowScale(source, root.width,
                                                             root.height)
         } else if (calcImageScale < 2 && calcImageScale > 0) {
-            currentScale = 0.02 * CodeImage.getFitWindowScale(source, root.width, root.height)
+            currentScale = 0.02 * CodeImage.getFitWindowScale(source,
+                                                              root.width,
+                                                              root.height)
         }
 
         //刷新导航窗口
@@ -279,7 +279,8 @@ Rectangle {
         }
 
         // 设置标题栏
-        window.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
+        window.title = fileControl.slotGetFileName(
+                    source) + fileControl.slotFileSuffix(source)
         // 显示缩放比例提示框
         showFloatLabel()
 
@@ -476,6 +477,12 @@ Rectangle {
         }
     }
 
+    // 图片滑动视图的上层组件
+    Item {
+        id: viewBackground
+        anchors.fill: parent
+    }
+
     // 图片滑动视图
     ListView {
         id: view
@@ -485,7 +492,15 @@ Rectangle {
         property Image currentImage: view.currentItem.item.targetImage
         property BaseImageDelegate currentDelegate: view.currentItem.item
 
-        anchors.fill: parent
+        // 设置滑动视图的父组件以获取完整的OCR图片信息
+        parent: viewBackground
+        // WARNING: 目前 ListView 组件屏蔽输入处理，窗口拖拽依赖底层的 ApplicationWindow
+        // 因此不允许 ListView 的区域超过标题栏，图片缩放超过显示区域无妨。
+        // 显示图片上下边界距边框 50px (标题栏宽度)，若上下间隔不一致时，进行拖拽、导航定位或需减去(间隔差/2)
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: GStatus.titleHeight
+        height: parent.height - (GStatus.titleHeight * 2)
+        width: parent.width
         cacheBuffer: 200
         interactive: !imageViewer.isFullNormalSwitchState
                      && imageViewer.viewInteractive
@@ -524,7 +539,10 @@ Rectangle {
 
             onActiveChanged: {
                 if (active && imageInfo.delegateSource) {
-                    setSource(imageInfo.delegateSource, { "source": swipeViewItemLoader.source, "type": imageInfo.type })
+                    setSource(imageInfo.delegateSource, {
+                                  "source": swipeViewItemLoader.source,
+                                  "type": imageInfo.type
+                              })
                 }
             }
 
@@ -569,7 +587,10 @@ Rectangle {
 
                 onDelegateSourceChanged: {
                     if (swipeViewItemLoader.active && delegateSource) {
-                        setSource(delegateSource, { "source": swipeViewItemLoader.source, "type": imageInfo.type })
+                        setSource(delegateSource, {
+                                      "source": swipeViewItemLoader.source,
+                                      "type": imageInfo.type
+                                  })
                     }
                 }
                 onStatusChanged: checkDelegateSource()
@@ -619,10 +640,9 @@ Rectangle {
             anchors.centerIn: parent
             color: "#000000" // live text高亮阴影
             opacity: 0.5
-            visible: highlightTextButton.checked
-                     && highlightTextButton.visible
+            visible: highlightTextButton.checked && highlightTextButton.visible
 
-            onVisibleChanged:  {
+            onVisibleChanged: {
                 var target = view.currentImage
                 if (undefined !== target) {
                     width = target.paintedWidth * target.scale
@@ -635,11 +655,11 @@ Rectangle {
         //缩放和切换需要重新执行此函数
         function liveTextAnalyze() {
             console.debug("Live Text analyze start")
-            view.currentItem.item.grabToImage(function (result) {
+            viewBackground.grabToImage(function (result) {
                 //截取当前控件显示
                 liveTextAnalyzer.setImage(result.image) //设置分析图片
                 liveTextAnalyzer.analyze(currentIndex) //执行分析（异步执行，函数会立即返回）
-                //result.saveToFile("/home/wzyforuos/Desktop/viewer.png") //保存截取的图片，debug用
+                // result.saveToFile("/home/user/Desktop/viewer.png") //保存截取的图片，debug用
             })
         }
 
@@ -676,36 +696,28 @@ Rectangle {
             repeat: false
 
             onTriggered: {
-                if (fileControl.isCanSupportOcr(GControl.currentSource) && undefined !== targetImage) {
+                if (fileControl.isCanSupportOcr(GControl.currentSource)
+                        && undefined !== targetImage) {
                     // 执行条件和OCR按钮使能条件一致
                     view.liveTextAnalyze()
                     running = false
                 }
             }
         }
-
-//        moveDisplaced: Transition {
-//            NumberAnimation {
-//                properties: "x,y"
-//                duration: 100
-//            }
-//        }
-
     }
 
     IV.ImageInfo {
         id: currentImageInfo
-
         source: GControl.currentSource
     }
 
     // 图片变更时触发
     onTargetImageChanged: {
+
         // FIXME
         // 旋转状态
         // 适配窗口，匹配
         // NavigationWidget
-
         if (targetImage !== undefined) {
             recalculateLiveText()
         } else {
@@ -818,30 +830,27 @@ Rectangle {
     }
 
     //导航窗口
-    NavigationWidget {
-        id: idNavWidget
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 109
-        anchors.left: parent.left
-        anchors.leftMargin: 15
-        visible: false
-    }
+    Loader {
+        id: naviLoader
 
-    onHeightChanged: {
-        if (root.height <= global.minHideHeight) {
-            idNavWidget.visible = false
+        active: GStatus.showNavigation
+        anchors {
+            bottom: parent.bottom
+            bottomMargin: 109
+            left: parent.left
+            leftMargin: 15
+        }
+        width: 150
+        height: 112
+        sourceComponent: NavigationWidget {
+            anchors.fill: parent
+            targetImage: view.currentImage
         }
     }
 
-    onWidthChanged: {
-        if (root.width <= global.minWidth) {
-            idNavWidget.visible = false
-        }
-    }
-
-    // 导航窗口显示配置变更时触发
-    onIsNavShowChanged: {
-        // 保存设置信息
-        fileControl.setEnableNavigation(isNavShow)
-    }
+//    // 导航窗口显示配置变更时触发
+//    onIsNavShowChanged: {
+//        // 保存设置信息
+//        fileControl.setEnableNavigation(isNavShow)
+//    }
 }

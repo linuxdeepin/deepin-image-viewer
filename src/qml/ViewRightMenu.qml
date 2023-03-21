@@ -187,31 +187,17 @@ Menu {
     RightMenuItem {
         id: showNavigation
 
-        visible: !isNullImage && currentScale > 1
+        visible: !isNullImage
                  && window.height > GStatus.minHideHeight
                  && window.width > GStatus.minWidth
-        text: !imageViewer.isNavShow ? qsTr("Show navigation window") : qsTr("Hide navigation window")
+        text: !GStatus.showNavigation ? qsTr("Show navigation window") : qsTr("Hide navigation window")
 
         onTriggered: {
             if (!parent.visible) {
                 return
             }
 
-            if (imageViewer.isNavShow) {
-                imageViewer.isNavShow = false
-                idNavWidget.visible = false
-            } else {
-                imageViewer.isNavShow = true
-                idNavWidget.visible = true
-                if (m_NavX === 0 && m_NavY === 0) {
-                    // 设置蒙皮信息
-                    idNavWidget.setRectPec(view.currentItem.scale,
-                                           imageViewer.viewImageWidthRatio,
-                                           imageViewer.viewImageHeightRatio)
-                } else {
-                    idNavWidget.setRectLocation(m_NavX, m_NavY)
-                }
-            }
+            GStatus.showNavigation = !GStatus.showNavigation
         }
     }
 

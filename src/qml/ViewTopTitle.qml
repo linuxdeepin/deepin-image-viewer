@@ -51,26 +51,26 @@ Rectangle {
         }
     }
 
-    MouseArea {
-        //为窗口添加鼠标事件
-        anchors.fill: parent
-        acceptedButtons: Qt.LeftButton //只处理鼠标左键
-        property point clickPos: "0,0"
-        onPressed: {
-            //接收鼠标按下事件
-            clickPos = Qt.point(mouse.x, mouse.y)
-            sigTitlePress()
-        }
-        onPositionChanged: {
-            //鼠标按下后改变位置
-            //鼠标偏移量
-            var delta = Qt.point(mouse.x - clickPos.x, mouse.y - clickPos.y)
+//    MouseArea {
+//        //为窗口添加鼠标事件
+//        anchors.fill: parent
+//        acceptedButtons: Qt.LeftButton //只处理鼠标左键
+//        property point clickPos: "0,0"
+//        onPressed: {
+//            //接收鼠标按下事件
+//            clickPos = Qt.point(mouse.x, mouse.y)
+//            sigTitlePress()
+//        }
+//        onPositionChanged: {
+//            //鼠标按下后改变位置
+//            //鼠标偏移量
+//            var delta = Qt.point(mouse.x - clickPos.x, mouse.y - clickPos.y)
 
-            //如果mainwindow继承自QWidget,用setPos
-            root.setX(root.x + delta.x)
-            root.setY(root.y + delta.y)
-        }
-    }
+//            //如果mainwindow继承自QWidget,用setPos
+//            root.setX(root.x + delta.x)
+//            root.setY(root.y + delta.y)
+//        }
+//    }
 
     TitleBar {
         id: title

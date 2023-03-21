@@ -31,6 +31,19 @@ GlobalStatus::GlobalStatus(QObject *parent)
 
 GlobalStatus::~GlobalStatus() {}
 
+bool GlobalStatus::isShowNavigation() const
+{
+    return showNavigationWidget;
+}
+
+void GlobalStatus::setShowNavigation(bool b)
+{
+    if (showNavigationWidget != b) {
+        showNavigationWidget = b;
+        Q_EMIT showNavigationChanged();
+    }
+}
+
 bool GlobalStatus::isShowRightMenu() const
 {
     return showRightMenuDialog;
