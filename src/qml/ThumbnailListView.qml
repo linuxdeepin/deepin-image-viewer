@@ -228,10 +228,14 @@ Item {
 
             active: true
             asynchronous: true
+            // NOTE:需设置默认的 Item 大小，以便于 ListView 计算 contentWidth
+            // 防止 positionViewAtIndex() 时 Loader 加载，contentWidth 变化
+            // 导致定位异常，同时 Delegate 使用 state 切换控件宽度
+            width: Loader.Ready === status ? item.width : 30
 
             onActiveChanged: {
                 if (active && imageInfo.delegateSource) {
-                    setSource(imageInfo.delegateSource, { "source": thumbnailItemLoader.source  })
+                    setSource(imageInfo.delegateSource, { "source": thumbnailItemLoader.source })
                 }
             }
 
@@ -293,6 +297,9 @@ Item {
                 currentItem.forceActiveFocus()
             }
 
+            // 直接定位，屏蔽动画效果
+            rePositionView()
+
             // 仅在边缘缩略图时进行二次定位
             if (0 === currentIndex || currentIndex === (count - 1)) {
                 delayUpdateTimer.start()
@@ -318,22 +325,6 @@ Item {
                     bottomthumbnaillistView.positionViewAtIndex(bottomthumbnaillistView.currentIndex, ListView.Center)
                 }
             }
-
-//            // 接收当前视图旋转角度变更信号
-//            onCurrentRotateChanged: {
-//                if (bottomthumbnaillistView.currentItem) {
-//                    // 计算旋转角度，限制在旋转梯度为90度，以45度为分界点
-//                    var rotateAngle = imageViewer.currentRotate
-//                    // 区分正反旋转方向ViewSection.CurrentLabelA
-//                    var isClockWise = rotateAngle > 0
-//                    // 计算绝对角度值
-//                    rotateAngle = Math.floor((Math.abs(rotateAngle) + 45) / 90) * 90
-
-//                    // 设置当前展示的图片的旋转方向，仅在90度方向旋转，不会跟随旋转角度(特指在触摸状态下)
-//                    bottomthumbnaillistView.currentItem.rotation
-//                            = isClockWise ? rotateAngle : -rotateAngle
-//                }
-//            }
         }
 
         Timer {
@@ -363,6 +354,8 @@ Item {
 
         Component.onCompleted: {
             bottomthumbnaillistView.currentIndex = GControl.currentIndex
+            forceLayout()
+            rePositionView()
         }
     }
 

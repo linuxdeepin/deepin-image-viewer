@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.11
+import QtQuick.Window 2.11
 
 Item {
     id: imageInput
@@ -16,6 +17,7 @@ Item {
 
     // 绘制区域变更时，刷新区域
     Connections {
+        enabled: undefined !== targetImage
         target: undefined === targetImage ? null : targetImage
 
         onPaintedHeightChanged: mouseArea.delayUpdateDragRect()
@@ -57,10 +59,10 @@ Item {
                 imageInput.targetImage.y = 0
 
             } else {
-                var pixelWidthDelta = imageInput.targetImage.paintedWidth * imageInput.targetImage.scale - window.width;
+                var pixelWidthDelta = imageInput.targetImage.paintedWidth * imageInput.targetImage.scale - Window.width;
                 drag.maximumX = pixelWidthDelta > 0 ? pixelWidthDelta / 2 : 0
                 drag.minimumX = -drag.maximumX
-                var pixelHeightDelta = imageInput.targetImage.paintedHeight * imageInput.targetImage.scale - window.height;
+                var pixelHeightDelta = imageInput.targetImage.paintedHeight * imageInput.targetImage.scale - Window.height;
                 drag.maximumY = pixelHeightDelta > 0 ? pixelHeightDelta / 2 : 0
                 drag.minimumY = -drag.maximumY
 

@@ -10,6 +10,7 @@
 class GlobalStatus : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool showNavigation READ isShowNavigation WRITE setShowNavigation NOTIFY showNavigationChanged)
     Q_PROPERTY(bool showRightMenu READ isShowRightMenu WRITE setShowRightMenu NOTIFY showRightMenuChanged)
     Q_PROPERTY(bool showImageInfo READ isShowImageInfo WRITE setShowImageInfo NOTIFY showImageInfoChanged)
     Q_PROPERTY(bool viewInteractive READ viewInteractive WRITE setViewInterActive NOTIFY viewInteractiveChanged)
@@ -31,6 +32,10 @@ class GlobalStatus : public QObject
 public:
     explicit GlobalStatus(QObject *parent = nullptr);
     ~GlobalStatus() override;
+
+    bool isShowNavigation() const;
+    void setShowNavigation(bool b);
+    Q_SIGNAL void showNavigationChanged();
 
     bool isShowRightMenu() const;
     void setShowRightMenu(bool b);
@@ -65,6 +70,7 @@ public:
     int rightMenuItemHeight() const;
 
 private:
+    bool showNavigationWidget = true;
     bool showRightMenuDialog = false;
     bool showImageInfoDialog = false;
     bool storeViewInteractive = true;
