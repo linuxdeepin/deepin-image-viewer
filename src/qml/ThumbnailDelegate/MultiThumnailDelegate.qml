@@ -9,8 +9,8 @@ import org.deepin.image.viewer 1.0 as IV
 BaseThumbnailDelegate {
     id: multiThumnailDelegate
 
-    height: 50
-    width: {
+    // 请求的显示宽度
+    property real requestWidth: {
         // 最少需要保留两张图片显示的大小
         var minWidth = 30 + 11
         // 计算允许的多页图显示宽度，宽度计算以当前界面窗口的宽度计算，此处取宽度值
@@ -19,8 +19,11 @@ BaseThumbnailDelegate {
 
         // 每张子图片最多占用30px，间隔1px
         var curMultiImageWidth = (31 * listView.count) - 1
-        return Math.min(619, Math.min(curMultiImageWidth, enableWidth))
+        var multiViewWidth = Math.min(619, Math.min(curMultiImageWidth, enableWidth))
+        return multiViewWidth
     }
+
+    height: 50
     shader.visible: true
     shader.z: 1
     y: 15
@@ -79,7 +82,7 @@ BaseThumbnailDelegate {
 
                 onClicked: {
                     // 向外发送多页图帧号切换事件
-                    GControl.currentFrameIndex = index;
+                    GControl.currentFrameIndex = index
                 }
             }
 
@@ -117,4 +120,17 @@ BaseThumbnailDelegate {
         id: imageInfo
         source: multiThumnailDelegate.source
     }
+
+    // NOTE: 直接设置宽度将被Loader宽度覆盖，使用状态可同时取得动画效果
+    states: [
+        State {
+            name: "active"
+            when: IV.ImageInfo.Ready === imageInfo.status
+
+            PropertyChanges {
+                target: multiThumnailDelegate
+                width: multiThumnailDelegate.requestWidth
+            }
+        }
+    ]
 }
