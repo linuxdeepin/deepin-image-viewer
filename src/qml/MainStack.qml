@@ -11,8 +11,6 @@ import org.deepin.image.viewer 1.0 as IV
 Item {
     id: stackView
 
-    property int stackPage: IV.Types.OpenImagePage
-
     anchors.fill: parent
 
     // 打开图片对话框
@@ -41,19 +39,19 @@ Item {
     }
 
     function switchOpenImage() {
-        stackPage = Number(IV.Types.OpenImagePage)
+        GStatus.stackPage = Number(IV.Types.OpenImagePage)
         window.title = ""
         contentLoader.setSource("qrc:/qml/OpenImageWidget.qml");
     }
 
     function switchImageView() {
-        stackPage = Number(IV.Types.ImageViewPage)
+        GStatus.stackPage = Number(IV.Types.ImageViewPage)
         contentLoader.setSource("qrc:/qml/FullImageView.qml");
     }
 
     function switchSliderShow() {
         if (Number(IV.Types.ImageViewPage) === stackPage) {
-            stackPage = Number(IV.Types.SliderShowPage)
+            GStatus.stackPage = Number(IV.Types.SliderShowPage)
             contentLoader.setSource("qrc:/qml/SliderShow.qml");
         }
     }
@@ -118,6 +116,7 @@ Item {
         id: fileDialogLoader
 
         active: false
+        asynchronous: true
         sourceComponent: FileDialog {
             id: fileDialog
 
@@ -158,7 +157,7 @@ Item {
         sequence: "Ctrl+O"
         onActivated: {
             // 不在动画展示状态
-            if (Number(IV.Types.SliderShowPage) !== stackPage) {
+            if (Number(IV.Types.SliderShowPage) !== GStatus.stackPage) {
                 openImageDialog()
             }
         }

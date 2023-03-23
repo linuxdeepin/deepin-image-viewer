@@ -29,6 +29,6 @@ BaseImageDelegate {
         id: imageInput
 
         anchors.fill: parent
-        targetImage: image
+        targetImage: image.status === Image.Ready ? image : null
     }
 }

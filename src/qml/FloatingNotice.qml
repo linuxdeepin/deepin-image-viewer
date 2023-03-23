@@ -2,13 +2,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.9
-import QtQuick.Window 2.2
+import QtQuick 2.11
 import QtQuick.Controls 2.1
 import QtQml 2.11
 
 //浮动提示框定义
-
 Item {
     id: root
     visible: false

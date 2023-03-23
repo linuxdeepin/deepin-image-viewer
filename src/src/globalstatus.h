@@ -5,18 +5,25 @@
 #ifndef GLOBALSTATUS_H
 #define GLOBALSTATUS_H
 
+#include "types.h"
+
 #include <QObject>
+
+// 定义使用的 QML 全局状态变量
+#define GLOBAL_PROPERTY(T, X, DEFAULT_VAULE)                                                                                     \
+public:                                                                                                                          \
+    Q_PROPERTY(T X READ X WRITE set##X NOTIFY X##Changed)                                                                        \
+    T X() const;                                                                                                                 \
+    void set##X(T value);                                                                                                        \
+    Q_SIGNAL void X##Changed();                                                                                                  \
+                                                                                                                                 \
+private:                                                                                                                         \
+    T store##X = DEFAULT_VAULE;
+// GLOBAL_PROPERTY
 
 class GlobalStatus : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool showNavigation READ isShowNavigation WRITE setShowNavigation NOTIFY showNavigationChanged)
-    Q_PROPERTY(bool showRightMenu READ isShowRightMenu WRITE setShowRightMenu NOTIFY showRightMenuChanged)
-    Q_PROPERTY(bool showImageInfo READ isShowImageInfo WRITE setShowImageInfo NOTIFY showImageInfoChanged)
-    Q_PROPERTY(bool viewInteractive READ viewInteractive WRITE setViewInterActive NOTIFY viewInteractiveChanged)
-    Q_PROPERTY(bool viewFlicking READ viewFlicking WRITE setViewFlicking NOTIFY viewFlickingChanged)
-    Q_PROPERTY(int thumbnailVaildWidth READ thumbnailVaildWidth WRITE setThumbnailVaildWidth NOTIFY thumbnailVaildWidthChanged)
-
     // Constant properties.
     Q_PROPERTY(int minHeight READ minHeight CONSTANT)
     Q_PROPERTY(int minWidth READ minWidth CONSTANT)
@@ -33,30 +40,18 @@ public:
     explicit GlobalStatus(QObject *parent = nullptr);
     ~GlobalStatus() override;
 
-    bool isShowNavigation() const;
-    void setShowNavigation(bool b);
-    Q_SIGNAL void showNavigationChanged();
+    GLOBAL_PROPERTY(bool, showFullScreen, false)       // 全屏显示 (ImageViewer)
+    GLOBAL_PROPERTY(bool, showNavigation, true)        // 允许显示导航窗口
+    GLOBAL_PROPERTY(bool, showRightMenu, false)        // 显示右键菜单
+    GLOBAL_PROPERTY(bool, showImageInfo, false)        // 显示详细图像信息
+    GLOBAL_PROPERTY(bool, viewInteractive, true)       // 滑动视图是否响应操作 (ImageViewer ListView)
+    GLOBAL_PROPERTY(bool, viewFlicking, false)         // 滑动视图是否处于轻弹状态 (ImageViewer ListView)
+    GLOBAL_PROPERTY(bool, animationBlock, false)       // 屏蔽标题栏/底部栏动画效果
+    GLOBAL_PROPERTY(bool, fullScreenAnimating, false)  // 处于全屏动画状态标识，动画前后部分控件需重置，例如缩略图栏重新居中设置
+    GLOBAL_PROPERTY(int, thumbnailVaildWidth, 0)       // 缩略图列表允许的宽度
+    GLOBAL_PROPERTY(Types::StackPage, stackPage, Types::OpenImagePage)  // 当前所处的界面索引
 
-    bool isShowRightMenu() const;
-    void setShowRightMenu(bool b);
-    Q_SIGNAL void showRightMenuChanged();
-
-    bool isShowImageInfo() const;
-    void setShowImageInfo(bool b);
-    Q_SIGNAL void showImageInfoChanged();
-
-    bool viewInteractive() const;
-    void setViewInterActive(bool b);
-    Q_SIGNAL void viewInteractiveChanged();
-
-    bool viewFlicking() const;
-    void setViewFlicking(bool b);
-    Q_SIGNAL void viewFlickingChanged();
-
-    void setThumbnailVaildWidth(int width);
-    int thumbnailVaildWidth() const;
-    Q_SIGNAL void thumbnailVaildWidthChanged();
-
+public:
     // Constant properties.
     int minHeight() const;
     int minWidth() const;
@@ -68,14 +63,6 @@ public:
     int switchImageHotspotWidth() const;
     int actionMargin() const;
     int rightMenuItemHeight() const;
-
-private:
-    bool showNavigationWidget = true;
-    bool showRightMenuDialog = false;
-    bool showImageInfoDialog = false;
-    bool storeViewInteractive = true;
-    bool storeviewFlicking = false;
-    int storeThumbnailVaildWidth = 0;  ///< 缩略图列表允许的宽度
 };
 
 #endif  // GLOBALSTATUS_H
