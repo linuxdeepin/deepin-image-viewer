@@ -1,4 +1,3 @@
-
 // SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later
 import QtQuick 2.11
@@ -6,6 +5,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Window 2.11
 import QtGraphicalEffects 1.0
 import org.deepin.dtk 1.0
+import org.deepin.image.viewer 1.0 as IV
 
 Item {
     id: fullThumbnail
@@ -14,6 +14,8 @@ Item {
     property bool isEnterCurrentView: true
     // 是否标题栏和底栏需要隐藏(仅判断普通模式)
     property bool needBarHideInNormalMode: false
+    // 是否启用动画效果，用于强制更新组件位置而不使用动画效果
+    property bool enableAnimation: false
 
     anchors.fill: parent
 
@@ -21,23 +23,14 @@ Item {
     function switchTopAndBottomBarState() {
         // 判断当前标题栏、工具栏处于是否隐藏模式下
         if (needBarHideInNormalMode || window.isFullScreen) {
-            var curRectY = thumbnailViewBackGround.y
             //判断当前标题栏、工具栏是否已隐藏
-            if (window.height <= curRectY) {
-                hideTopTitleAnimation.stop()
-                hideBottomAnimation.stop()
-
+            if (Window.height <= thumbnailViewBackGround.y) {
                 // 全屏下不展示标题栏
-                if (!window.isFullScreen) {
-                    showTopTitleAnimation.start()
-                }
-                showBottomAnimation.start()
+                titleRect.animationShow = !window.isFullScreen
+                thumbnailViewBackGround.animationShow = true
             } else {
-                showTopTitleAnimation.stop()
-                showBottomAnimation.stop()
-
-                hideTopTitleAnimation.start()
-                hideBottomAnimation.start()
+                titleRect.animationShow = false
+                thumbnailViewBackGround.animationShow = false
             }
         }
     }
@@ -49,7 +42,7 @@ Item {
         }
 
         // 打开界面不计算标题栏显隐
-        if (stackView.currentWidgetIndex === 0) {
+        if (GStatus.stackPage === Number(IV.Types.OpenImagePage)) {
             return
         }
 
@@ -58,71 +51,65 @@ Item {
         var mouseY = imageViewerArea.usingCapture ? imageViewerArea.captureY : imageViewerArea.mouseY
 
         // 判断光标是否离开了窗口
-        var cursorInWidnow = mouseX >= 0 && mouseX <= window.width && mouseY >= 0
-                && mouseY <= window.height
-        // 显示图像的像素高度
-        var viewImageHeight = window.width * (fileControl.getCurrentImageHeight() / fileControl.getCurrentImageWidth())
+        var cursorInWidnow = mouseX >= 0 && mouseX <= Window.width
+                && mouseY >= 0 && mouseY <= Window.height
         // 工具栏显示的热区高度，窗口高度 - 工具栏距底部高度(工具栏高 70px + 边距 10px)
-        var bottomHotspotHeight = window.height - GStatus.showBottomY
+        var bottomHotspotHeight = Window.height - GStatus.showBottomY
+        // 按缩放比例计算是否需要显示标题/工具栏，默认显示
+        var imageScaleNeedShow = true
+        if (imageViewer.targetImage) {
+            // 显示图像的像素高度
+            var imagePaintedHeight = imageViewer.targetImage.paintedHeight
+                    * imageViewer.targetImage.scale
+            // 显示图像的组件高度(组件高度不会随着缩放变更，是组件在布局内的高度)
+            var imageCompoHeight = imageViewer.targetImage.height
+
+            imageScaleNeedShow = Boolean(imagePaintedHeight <= imageCompoHeight)
+        }
 
         if (window.isFullScreen) {
             // 全屏时特殊处理
             if (mouseY > bottomHotspotHeight) {
-                showBottomAnimation.start()
+                thumbnailViewBackGround.animationShow = true
             } else {
-                // 隐藏动画前结束弹出动画
-                showBottomAnimation.stop()
-                showTopTitleAnimation.stop()
-
-                hideBottomAnimation.start()
-                hideTopTitleAnimation.start()
+                titleRect.animationShow = false
+                thumbnailViewBackGround.animationShow = false
             }
         } else {
             // 判断是否弹出标题栏和缩略图栏
             var needShowTopBottom = false
-            if (stackPage != 0 && ((window.height <= GStatus.minHideHeight
-                                    || window.width <= GStatus.minWidth)
-                                   && (mouseY <= bottomHotspotHeight)
-                                   && (mouseY >= titleRect.height))) {
+            if ((Window.height <= GStatus.minHideHeight
+                 || Window.width <= GStatus.minWidth)
+                    && (mouseY <= bottomHotspotHeight)
+                    && (mouseY >= GStatus.titleHeight)) {
+                // 窗口大小大于最小大小，光标不在热区内
                 needShowTopBottom = false
-            } else if (imageViewer.currentScale
-                       <= (1.0 * (window.height - titleRect.height * 2) / window.height)) {
-                // 缩放率小于(允许显示高度/窗口高度)的不会超过工具/标题栏
-                needShowTopBottom = true
-            } else if ((viewImageHeight * imageViewer.currentScale)
-                       <= (window.height - titleRect.height * 2)) {
+            } else if (imageScaleNeedShow) {
                 // 缩放范围高度未超过显示范围高度限制时时，不会隐藏工具/标题栏，根据高度而非宽度计算
                 needShowTopBottom = true
             } else if (cursorInWidnow
-                       && ((mouseY > bottomHotspotHeight && mouseY <= height)
-                           || (0 < mouseY && mouseY < titleRect.height))) {
+                       && ((mouseY > bottomHotspotHeight
+                            && mouseY <= Window.height)
+                           || (0 < mouseY && mouseY < GStatus.titleHeight))) {
                 // 当缩放范围超过工具/标题栏且光标在工具/标题栏范围，显示工具/标题栏
                 needShowTopBottom = true
             } else {
                 needShowTopBottom = false
             }
 
-            if (needShowTopBottom) {
-                showBottomAnimation.start()
-                showTopTitleAnimation.start()
-            } else {
-                // 隐藏动画前结束弹出动画
-                showBottomAnimation.stop()
-                showTopTitleAnimation.stop()
+            titleRect.animationShow = needShowTopBottom
+            thumbnailViewBackGround.animationShow = needShowTopBottom
 
-                hideBottomAnimation.start()
-                hideTopTitleAnimation.start()
-            }
             needBarHideInNormalMode = !needShowTopBottom
         }
 
         // 光标不在切换按钮纵向判断的热区(处于标题栏/工具栏区域)时，隐藏左右切换按钮
         // 判断是否弹出图片切换按钮
         var needShowLeftRightBtn = false
-        if (titleRect.height < mouseY && mouseY < bottomHotspotHeight
+        if (GStatus.titleHeight < mouseY && mouseY < bottomHotspotHeight
                 && isEnterCurrentView && cursorInWidnow) {
-            if (mouseX >= window.width - GStatus.switchImageHotspotWidth
-                    && mouseX <= window.width) {
+            if (mouseX >= Window.width - GStatus.switchImageHotspotWidth
+                    && mouseX <= Window.width) {
                 // 光标处于切换下一张按钮区域
                 needShowLeftRightBtn = true
             } else if (mouseX <= GStatus.switchImageHotspotWidth
@@ -132,74 +119,76 @@ Item {
             }
         }
 
-        if (needShowLeftRightBtn) {
-            showLeftButtonAnimation.start()
-            showRightButtonAnimation.start()
-        } else {
-            // 隐藏动画前结束弹出动画
-            showLeftButtonAnimation.stop()
-            showRightButtonAnimation.stop()
-
-            hideLeftButtonAnimation.start()
-            hideRightButtonAnimation.start()
-        }
+        floatLeftButton.animationShow = needShowLeftRightBtn
+        floatRightButton.animationShow = needShowLeftRightBtn
     }
 
     //判断工具栏和标题栏的显示隐藏
     function changeSizeMoveAll() {
-        showBottomAnimation.stop()
-        showTopTitleAnimation.stop()
-        hideBottomAnimation.stop()
-        hideTopTitleAnimation.stop()
-        showRightButtonAnimation.stop()
-        hideRightButtonAnimation.stop()
+        // 打开界面不计算标题栏显隐
+        if (GStatus.stackPage === Number(IV.Types.OpenImagePage)) {
+            return
+        }
+
+        // 工具栏显示的热区高度，窗口高度 - 工具栏距底部高度(工具栏高 70px + 边距 10px)
+        var bottomHotspotHeight = Window.height - GStatus.showBottomY
+
+        // 按缩放比例计算是否需要显示标题/工具栏
+        var imageScaleNeedShow = true
+        if (imageViewer.targetImage) {
+            // 显示图像的像素高度
+            var imagePaintedHeight = imageViewer.targetImage.paintedHeight
+                    * imageViewer.targetImage.scale
+            // 显示图像的组件高度(组件高度不会随着缩放变更，是组件在布局内的高度)
+            var imageCompoHeight = imageViewer.targetImage.height
+
+            imageScaleNeedShow = Boolean(imagePaintedHeight <= imageCompoHeight)
+        }
+
+        // 变更大小时的位置变更不触发动画效果
+        fullThumbnail.enableAnimation = false
+
+        // 刷新标题栏/底部栏的位置
         if (window.isFullScreen) {
-            if (imageViewerArea.mouseY > height - 100) {
-                thumbnailViewBackGround.y = window.height - GStatus.showBottomY
+            if (imageViewerArea.mouseY > bottomHotspotHeight) {
+                thumbnailViewBackGround.animationShow = true
             } else {
-                thumbnailViewBackGround.y = window.height
-                titleRect.y = -50
+                titleRect.animationShow = false
+                thumbnailViewBackGround.animationShow = false
             }
-        } else if (currentWidgetIndex != 0
-                   && ((window.height <= GStatus.minHideHeight
-                        || window.width <= GStatus.minWidth)
-                       && (imageViewerArea.mouseY <= height - 100)
-                       && imageViewerArea.mouseY >= titleRect.height)) {
-            thumbnailViewBackGround.y = window.height
-            titleRect.y = -50
-        } else if (imageViewerArea.mouseY > height - 100
-                   || imageViewerArea.mouseY < titleRect.height
-                   || (imageViewer.currentScale <= 1.0
-                       * (window.height - titleRect.height * 2) / window.height)) {
-            thumbnailViewBackGround.y = window.height - GStatus.showBottomY
-            titleRect.y = 0
+        } else if ((Window.height <= GStatus.minHideHeight
+                    || Window.width <= GStatus.minWidth)
+                   && (imageViewerArea.mouseY <= bottomHotspotHeight)
+                   && imageViewerArea.mouseY >= GStatus.titleHeight) {
+            titleRect.animationShow = false
+            thumbnailViewBackGround.animationShow = false
+        } else if (imageViewerArea.mouseY > bottomHotspotHeight
+                   || imageViewerArea.mouseY < GStatus.titleHeight
+                   || imageScaleNeedShow) {
+            titleRect.animationShow = true
+            thumbnailViewBackGround.animationShow = true
         } else {
-            thumbnailViewBackGround.y = window.height
-            titleRect.y = -50
+            titleRect.animationShow = false
+            thumbnailViewBackGround.animationShow = false
         }
+        thumbnailViewBackGround.updatePosition()
 
+        // 刷新左右切换按钮的位置
+        var showLeftRightButton = false
         if (imageViewerArea.mouseX <= 100
-                && imageViewerArea.mouseX <= window.width && isEnterCurrentView) {
-            floatLeftButton.x = 20
-            floatRightButton.x = parent.width - 70
-        } else if (imageViewerArea.mouseX >= window.width - 100
+                && imageViewerArea.mouseX <= Window.width
+                && isEnterCurrentView) {
+            showLeftRightButton = true
+        } else if (imageViewerArea.mouseX >= Window.width - 100
                    && imageViewerArea.mouseX >= 0 && isEnterCurrentView) {
-            floatLeftButton.x = 20
-            floatRightButton.x = parent.width - 70
-        } else {
-            floatLeftButton.x = -50
-            floatRightButton.x = parent.width
+            showLeftRightButton = true
         }
-    }
+        floatLeftButton.animationShow = showLeftRightButton
+        floatRightButton.animationShow = showLeftRightButton
+        floatLeftButton.updatePosition()
+        floatRightButton.updatePosition()
 
-    function slotShowFullScreen() {
-        thumbnailViewBackGround.y = Screen.height
-        floatRightButton.x = Screen.width
-    }
-
-    function slotMaxWindow() {
-        thumbnailViewBackGround.y = Screen.height
-        floatRightButton.x = Screen.width
+        fullThumbnail.enableAnimation = true
     }
 
     onHeightChanged: {
@@ -210,139 +199,82 @@ Item {
         changeSizeMoveAll()
     }
 
-    //左右按钮隐藏动画
-    NumberAnimation {
-        id: hideLeftButtonAnimation
-
-        target: floatLeftButton
-        from: floatLeftButton.x
-        to: -50
-        property: "x"
-        duration: 200
-        easing.type: Easing.InOutQuad
-    }
-
-    NumberAnimation {
-        id: showLeftButtonAnimation
-
-        target: floatLeftButton
-        from: floatLeftButton.x
-        to: 20
-        property: "x"
-        duration: 200
-        easing.type: Easing.InOutQuad
-    }
-
-    NumberAnimation {
-        id: hideRightButtonAnimation
-
-        target: floatRightButton
-        from: floatRightButton.x
-        to: parent.width
-        property: "x"
-        duration: 200
-        easing.type: Easing.InOutQuad
-    }
-
-    NumberAnimation {
-        id: showRightButtonAnimation
-
-        target: floatRightButton
-        from: floatRightButton.x
-        to: parent.width - 70
-        property: "x"
-        duration: 200
-        easing.type: Easing.InOutQuad
-    }
-
-    //工具栏动画和标题栏动画
-    NumberAnimation {
-        id: hideBottomAnimation
-
-        target: thumbnailViewBackGround
-        from: thumbnailViewBackGround.y
-        to: window.height
-        property: "y"
-        duration: 200
-        easing.type: Easing.InOutQuad
-    }
-
-    NumberAnimation {
-        id: hideTopTitleAnimation
-
-        target: titleRect
-        from: titleRect.y
-        to: -50
-        property: "y"
-        duration: 200
-        easing.type: Easing.InOutQuad
-    }
-
-    NumberAnimation {
-        id: showBottomAnimation
-
-        target: thumbnailViewBackGround
-        from: thumbnailViewBackGround.y
-        to: window.height - GStatus.showBottomY
-        property: "y"
-        duration: 200
-        easing.type: Easing.InOutQuad
-    }
-
-    NumberAnimation {
-        id: showTopTitleAnimation
-        target: titleRect
-        from: titleRect.y
-        to: 0
-        property: "y"
-        duration: 200
-        easing.type: Easing.InOutQuad
-    }
-
     ImageViewer {
         id: imageViewer
         anchors.fill: parent
     }
 
+    // 缩放变更时触发显示/隐藏标题栏/底部栏
     Connections {
-        target: imageViewer
-        onSigWheelChange: {
-            animationAll()
-        }
+        enabled: undefined !== imageViewer.targetImage
+        target: undefined === imageViewer.targetImage ? null : imageViewer.targetImage
+        onScaleChanged: animationAll()
     }
 
     FloatingButton {
         id: floatLeftButton
+
+        property bool animationShow: false
+
+        function updatePosition() {
+            floatLeftButton.x = animationShow ? 20 : -50
+        }
 
         checked: false
         enabled: GControl.hasPreviousImage
         visible: enabled
         anchors {
             top: parent.top
-            topMargin: GStatus.titleHeight + (parent.height - GStatus.titleHeight - GStatus.showBottomY) / 2
+            topMargin: GStatus.titleHeight + (parent.height - GStatus.titleHeight
+                                              - GStatus.showBottomY) / 2
         }
         width: 50
         height: 50
         icon.name: "icon_previous"
 
+        onAnimationShowChanged: updatePosition()
         onClicked: GControl.previousImage()
+
+        Behavior on x {
+            enabled: fullThumbnail.enableAnimation
+            NumberAnimation {
+                duration: 200
+                easing.type: Easing.InOutQuad
+            }
+        }
     }
 
     FloatingButton {
         id: floatRightButton
+
+        property bool animationShow: false
+
+        function updatePosition() {
+            floatRightButton.x = animationShow ? Window.width - 70 : Window.width
+        }
 
         checked: false
         enabled: GControl.hasNextImage
         visible: enabled
         anchors {
             top: parent.top
-            topMargin: GStatus.titleHeight + (parent.height - GStatus.titleHeight - GStatus.showBottomY) / 2
+            topMargin: GStatus.titleHeight + (parent.height - GStatus.titleHeight
+                                              - GStatus.showBottomY) / 2
         }
         width: 50
         height: 50
         icon.name: "icon_next"
 
+        onAnimationShowChanged: updatePosition()
         onClicked: GControl.nextImage()
+
+        Behavior on x {
+            enabled: fullThumbnail.enableAnimation
+            NumberAnimation {
+                duration: 200
+                easing.type: Easing.InOutQuad
+            }
+        }
     }
 
     MouseArea {
@@ -400,12 +332,32 @@ Item {
     FloatingPanel {
         id: thumbnailViewBackGround
 
+        property bool animationShow: true
+
+        function updatePosition() {
+            thumbnailViewBackGround.y
+                    = animationShow ? Window.height - GStatus.showBottomY : Window.height
+        }
+
         anchors.right: parent.right
         anchors.rightMargin: (parent.width - width) / 2
         // 根据拓展的列表宽度计算, 20px为工具栏和主窗口间的间距 2x10px
-        width: parent.width - 20 < thumbnailListView.btnContentWidth + thumbnailListView.listContentWidth
-               ? parent.width - 20 : thumbnailListView.btnContentWidth + thumbnailListView.listContentWidth
+        width: parent.width - 20 < thumbnailListView.btnContentWidth
+               + thumbnailListView.listContentWidth ? parent.width
+                                                      - 20 : thumbnailListView.btnContentWidth
+                                                      + thumbnailListView.listContentWidth
         height: 70
+        y: Window.height - GStatus.showBottomY
+
+        onAnimationShowChanged: updatePosition()
+
+        Behavior on y {
+            enabled: fullThumbnail.enableAnimation
+            NumberAnimation {
+                duration: 200
+                easing.type: Easing.InOutQuad
+            }
+        }
     }
 
     ThumbnailListView {
@@ -436,6 +388,6 @@ Item {
     }
 
     Component.onCompleted: {
-        animationAll()
+        changeSizeMoveAll()
     }
 }

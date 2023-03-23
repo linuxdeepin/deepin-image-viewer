@@ -6,7 +6,6 @@
         <file>qml/ImageViewer.qml</file>
         <file>qml/ThumbnailListView.qml</file>
         <file>qml/FullImageView.qml</file>
-        <file>qml/GlobalVar.qml</file>
         <file>qml/ReName.qml</file>
         <file>qml/FloatingNotice.qml</file>
         <file>qml/NavigationWidget.qml</file>

@@ -21,18 +21,22 @@ Menu {
     RightMenuItem {
         id: rightFullscreen
 
+        function switchFullScreen() {
+            GStatus.showFullScreen = !GStatus.showFullScreen
+        }
+
         text: !window.isFullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
-        onTriggered: showFulltimer.start()
+        onTriggered: switchFullScreen()
 
         Shortcut {
             sequence: "F11"
-            onActivated: !window.isFullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
+            onActivated: rightFullscreen.switchFullScreen()
         }
 
         Shortcut {
             enabled: window.isFullScreen
             sequence: "Esc"
-            onActivated: !window.isFullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
+            onActivated: rightFullscreen.switchFullScreen()
         }
     }
 

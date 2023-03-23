@@ -15,7 +15,6 @@ BaseImageDelegate {
         width: multiImageDelegate.width
         height: multiImageDelegate.height
         cacheBuffer: 200
-        clip: true
         boundsMovement: Flickable.FollowBoundsBehavior
         boundsBehavior: Flickable.StopAtBounds
         highlightRangeMode: ListView.StrictlyEnforceRange
@@ -39,8 +38,7 @@ BaseImageDelegate {
 
         // 当处理双击缩放界面时，由于坐标变更，可能误触导致图片滑动
         // 调整为在缩放动作时不处理滑动操作
-        //        interactive: !imageViewer.isFullNormalSwitchState
-        //                     && imageViewer.viewInteractive
+        interactive: !GStatus.fullScreenAnimating && GStatus.viewInteractive
         model: imageInfo.frameCount
         delegate: Loader {
             width: multiImageDelegate.width
@@ -58,47 +56,51 @@ BaseImageDelegate {
             asynchronous: multiImageView.currentIndex - 1 === index
                           || multiImageView.currentIndex + 1 === index
 
-            sourceComponent: Image {
-                id: image
+            sourceComponent: Item {
+                id: imageItem
 
                 property bool isCurrentImage: parent.ListView.isCurrentItem
 
-                // TIF 图片暂无旋转功能
                 height: parent.height
                 width: parent.width
-                asynchronous: true
-                cache: false
-                fillMode: Image.PreserveAspectFit
-                mipmap: true
-                smooth: true
-                scale: isCurrentImage ? multiImageDelegate.scale : 1.0
-                source: "image://Multiimage/" + multiImageDelegate.source + "#frame_" + index
 
                 onIsCurrentImageChanged: {
-                    if (isCurrentImage) {
-                        multiImageDelegate.targetImage = this
+                    if (imageItem.isCurrentImage) {
+                        multiImageDelegate.targetImage = image
                     }
 
                     multiImageDelegate.reset()
                     imageInput.reset()
                 }
 
-                Binding {
-                    target: multiImageDelegate
-                    property: "status"
-                    value: image.status
-                    when: isCurrentImage
+                Image {
+                    id: image
+
+                    // TIF 图片暂无旋转功能
+                    height: parent.height
+                    width: parent.width
+                    asynchronous: true
+                    cache: false
+                    fillMode: Image.PreserveAspectFit
+                    mipmap: true
+                    smooth: true
+                    scale: imageItem.isCurrentImage ? multiImageDelegate.scale : 1.0
+                    source: "image://Multiimage/" + multiImageDelegate.source + "#frame_" + index
+
+                    Binding {
+                        target: multiImageDelegate
+                        property: "status"
+                        value: image.status
+                        when: imageItem.isCurrentImage
+                    }
                 }
 
+                // 和 image 保持同一层级
                 ImageInputHandler {
                     id: imageInput
 
                     anchors.fill: parent
-                    targetImage: image
-
-                    onVisibleChanged: {
-                        console.warn("--------------------visible change", visible)
-                    }
+                    targetImage: image.status === Image.Ready ? image : null
                 }
             }
         }

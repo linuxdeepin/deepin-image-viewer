@@ -4,11 +4,12 @@
 
 import QtQuick 2.11
 import QtQuick.Window 2.11
+import org.deepin.image.viewer 1.0 as IV
 
 Item {
     id: imageInput
 
-    property Image targetImage: undefined
+    property Image targetImage: null
 
     function reset() {
         // 复位时立即刷新
@@ -77,6 +78,13 @@ Item {
             }
         }
 
+        onDoubleClicked: {
+            if (GStatus.stackPage === IV.Types.ImageViewPage) {
+                console.warn("show full screen")
+                GStatus.showFullScreen = !GStatus.showFullScreen
+            }
+        }
+
         onWheel: {
             if (undefined === imageInput.targetImage) {
                 return
@@ -105,8 +113,6 @@ Item {
                 imageInput.targetImage.y = imageInput.targetImage.y - restorePoint.y + wheel.y
 
                 delayUpdateDragRect()
-
-                //// FIXME 通知位置变更，刷新导航窗口
             }
         }
 

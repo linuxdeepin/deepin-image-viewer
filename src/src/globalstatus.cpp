@@ -4,6 +4,16 @@
 
 #include "globalstatus.h"
 
+#define GLOBAL_PROPERTY_IMPL(T, X)                                                                                               \
+    T GlobalStatus::X() const { return store##X; }                                                                               \
+    void GlobalStatus::set##X(T value)                                                                                           \
+    {                                                                                                                            \
+        if (value != store##X) {                                                                                                 \
+            store##X = value;                                                                                                    \
+            Q_EMIT X##Changed();                                                                                                 \
+        }                                                                                                                        \
+    }
+
 enum ConstProperty {
     MinHeight = 300,
     MinWidth = 628,
@@ -31,83 +41,16 @@ GlobalStatus::GlobalStatus(QObject *parent)
 
 GlobalStatus::~GlobalStatus() {}
 
-bool GlobalStatus::isShowNavigation() const
-{
-    return showNavigationWidget;
-}
-
-void GlobalStatus::setShowNavigation(bool b)
-{
-    if (showNavigationWidget != b) {
-        showNavigationWidget = b;
-        Q_EMIT showNavigationChanged();
-    }
-}
-
-bool GlobalStatus::isShowRightMenu() const
-{
-    return showRightMenuDialog;
-}
-
-void GlobalStatus::setShowRightMenu(bool b)
-{
-    if (showRightMenuDialog != b) {
-        showRightMenuDialog = b;
-        Q_EMIT showRightMenuChanged();
-    }
-}
-
-bool GlobalStatus::isShowImageInfo() const
-{
-    return showImageInfoDialog;
-}
-
-void GlobalStatus::setShowImageInfo(bool b)
-{
-    if (showImageInfoDialog != b) {
-        showImageInfoDialog = b;
-        Q_EMIT showImageInfoChanged();
-    }
-}
-
-bool GlobalStatus::viewInteractive() const
-{
-    return storeViewInteractive;
-}
-
-void GlobalStatus::setViewInterActive(bool b)
-{
-    if (storeViewInteractive != b) {
-        storeViewInteractive = b;
-        Q_EMIT viewInteractiveChanged();
-    }
-}
-
-bool GlobalStatus::viewFlicking() const
-{
-    return storeviewFlicking;
-}
-
-void GlobalStatus::setViewFlicking(bool b)
-{
-    if (storeviewFlicking != b) {
-        storeviewFlicking = b;
-        Q_EMIT viewFlickingChanged();
-    }
-}
-
-void GlobalStatus::setThumbnailVaildWidth(int width)
-{
-    if (storeThumbnailVaildWidth != width) {
-        storeThumbnailVaildWidth = width;
-        Q_EMIT thumbnailVaildWidthChanged();
-    }
-}
-
-int GlobalStatus::thumbnailVaildWidth() const
-{
-    return storeThumbnailVaildWidth;
-}
+GLOBAL_PROPERTY_IMPL(bool, showFullScreen)
+GLOBAL_PROPERTY_IMPL(bool, showNavigation)
+GLOBAL_PROPERTY_IMPL(bool, showRightMenu)
+GLOBAL_PROPERTY_IMPL(bool, showImageInfo)
+GLOBAL_PROPERTY_IMPL(bool, viewInteractive)
+GLOBAL_PROPERTY_IMPL(bool, viewFlicking)
+GLOBAL_PROPERTY_IMPL(bool, animationBlock)
+GLOBAL_PROPERTY_IMPL(bool, fullScreenAnimating)
+GLOBAL_PROPERTY_IMPL(int, thumbnailVaildWidth)
+GLOBAL_PROPERTY_IMPL(Types::StackPage, stackPage)
 
 int GlobalStatus::minHeight() const
 {

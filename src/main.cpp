@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 
     // 请在此处注册需要导入到QML中的C++类型
     // 例如： engine.rootContext()->setContextProperty("Utils", new Utils);
-    // 后端缩略图加载，使用 QMLEngine 管理生命周期
+    // 后端缩略图加载，由 QMLEngine 管理生命周期
     MultiImageLoad *multiImagaLoad = new MultiImageLoad;
     engine.addImageProvider(QLatin1String("Multiimage"), multiImagaLoad);
 

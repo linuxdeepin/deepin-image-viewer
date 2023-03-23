@@ -35,20 +35,14 @@ Item {
     function previous() {
         // 切换时滑动视图不响应拖拽等触屏操作
         GStatus.viewInteractive = false
-
         GControl.previousImage()
-
-//        imageViewer.recalculateLiveText()
         GStatus.viewInteractive = true
     }
 
     function next() {
         // 切换时滑动视图不响应拖拽等触屏操作
         GStatus.viewInteractive = false
-
         GControl.nextImage()
-
-//        imageViewer.recalculateLiveText()
         GStatus.viewInteractive = true
     }
 
@@ -314,15 +308,18 @@ Item {
         }
 
         Connections {
-            target: imageViewer
+            target: GStatus
 
-            onIsFullNormalSwitchStateChanged: {
-                // 当缩放界面时，缩略图栏重新进行了布局计算，导致高亮缩略图可能不居中
-                if (0 == bottomthumbnaillistView.currentIndex) {
-                    bottomthumbnaillistView.positionViewAtBeginning()
-                } else {
-                    // 尽可能将高亮缩略图显示在列表中
-                    bottomthumbnaillistView.positionViewAtIndex(bottomthumbnaillistView.currentIndex, ListView.Center)
+            onFullScreenAnimatingChanged: {
+                // 动画结束时处理
+                if (!GStatus.fullScreenAnimating) {
+                    // 当缩放界面时，缩略图栏重新进行了布局计算，导致高亮缩略图可能不居中
+                    if (0 == bottomthumbnaillistView.currentIndex) {
+                        bottomthumbnaillistView.positionViewAtBeginning()
+                    } else {
+                        // 尽可能将高亮缩略图显示在列表中
+                        bottomthumbnaillistView.positionViewAtIndex(bottomthumbnaillistView.currentIndex, ListView.Center)
+                    }
                 }
             }
         }
@@ -375,15 +372,15 @@ Item {
 
             width: 50
             height: 50
-            enabled: fileControl.isCanSupportOcr(source)
-                     && !CodeImage.imageIsNull(source)
+            enabled: fileControl.isCanSupportOcr(GStatus.currentSource)
+                     && null !== imageViewer.targetImage
             icon.name: "icon_character_recognition"
             ToolTip.delay: 500
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Extract text")
 
-            onClicked: fileControl.ocrImage(source, imageViewer.frameIndex)
+            onClicked: fileControl.ocrImage(source, GStatus.currentFrameIndex)
         }
     }
 
