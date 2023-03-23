@@ -30,7 +30,7 @@ Item {
     }
 
     function refreshNaviMaskImpl() {
-        if (undefined === targetImage) {
+        if (!targetImage) {
             imageNeedNavi = false
             return
         }
@@ -107,7 +107,7 @@ Item {
     }
 
     onTargetImageChanged: {
-        if (undefined !== targetImage) {
+        if (targetImage) {
             // 立即刷新
             refreshNaviMaskImpl()
 

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.11
+import org.deepin.image.viewer 1.0 as IV
 
 BaseImageDelegate {
     id: delegate
@@ -20,15 +21,22 @@ BaseImageDelegate {
         clip: true
         mipmap: true
         smooth: true
-        sourceSize: Qt.size()
         scale: delegate.scale
         source: delegate.source
+        // SVG 图片源大小需单独设置
+        sourceSize.width: imageInfo.width
+        sourceSize.height: imageInfo.height
     }
 
     ImageInputHandler {
         id: imageInput
 
         anchors.fill: parent
-        targetImage: image
+        targetImage: image.status === Image.Ready ? image : null
+    }
+
+    IV.ImageInfo {
+        id: imageInfo
+        source: delegate.source
     }
 }

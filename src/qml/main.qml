@@ -14,33 +14,29 @@ ApplicationWindow {
     //! \test 重构时过渡使用
     property var window: root
 
-    property bool isFullScreen: root.visibility === Window.FullScreen
+    property bool isFullScreen: window.visibility === Window.FullScreen
 
-    signal sigTitlePress
+    signal sigTitlePress()
 
     // 设置 dtk 风格窗口
     DWindow.enabled: true
     visible: true
-    minimumHeight: global.minHeight
-    minimumWidth: global.minWidth
+    minimumHeight: GStatus.minHeight
+    minimumWidth: GStatus.minWidth
     width: fileControl.getlastWidth()
     height: fileControl.getlastHeight()
     flags: Qt.Window | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
 
-    onWindowStateChanged: {
-        global.sigWindowStateChange()
-    }
-
     onWidthChanged: {
-        if (root.visibility != Window.FullScreen
-                && root.visibility != Window.Maximized) {
+        if (window.visibility != Window.FullScreen
+                && window.visibility != Window.Maximized) {
             fileControl.setSettingWidth(width)
         }
     }
 
     onHeightChanged: {
-        if (root.visibility != Window.FullScreen
-                && root.visibility != Window.Maximized) {
+        if (window.visibility != Window.FullScreen
+                && window.visibility != Window.Maximized) {
             fileControl.setSettingHeight(height)
         }
     }
@@ -48,10 +44,6 @@ ApplicationWindow {
     onClosing: {
         fileControl.saveSetting() //保存信息
         fileControl.terminateShortcutPanelProcess() //结束快捷键面板进程
-    }
-
-    GlobalVar {
-        id: global
     }
 
     MainStack {

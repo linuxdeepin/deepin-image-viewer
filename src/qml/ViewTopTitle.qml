@@ -1,7 +1,6 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
-//
-// SPDX-License-Identifier: GPL-3.0-or-later
 
+// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-License-Identifier: GPL-3.0-or-later
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
@@ -9,10 +8,15 @@ import org.deepin.dtk 1.0
 
 Rectangle {
     property string iconName: "deepin-image-viewer"
+    property bool animationShow: true
+
+    onAnimationShowChanged: {
+        y = animationShow ? 0 : -GStatus.titleHeight
+    }
 
     anchors.top: root.top
     width: parent.width
-    height: 50
+    height: GStatus.titleHeight
     visible: root.visibility === 5 ? false : true
     color: titlecontrol.ColorSelector.backgroundColor
     gradient: Gradient {
@@ -51,26 +55,35 @@ Rectangle {
         }
     }
 
-//    MouseArea {
-//        //为窗口添加鼠标事件
-//        anchors.fill: parent
-//        acceptedButtons: Qt.LeftButton //只处理鼠标左键
-//        property point clickPos: "0,0"
-//        onPressed: {
-//            //接收鼠标按下事件
-//            clickPos = Qt.point(mouse.x, mouse.y)
-//            sigTitlePress()
-//        }
-//        onPositionChanged: {
-//            //鼠标按下后改变位置
-//            //鼠标偏移量
-//            var delta = Qt.point(mouse.x - clickPos.x, mouse.y - clickPos.y)
+    // 捕获标题栏部分鼠标事件，所有事件将穿透，由底层 ApplicationWindow 处理
+    MouseArea {
+        // propagateComposedEvents 使得 MouseArea 不维护状态，单独处理
+        property bool keepPressed: false
 
-//            //如果mainwindow继承自QWidget,用setPos
-//            root.setX(root.x + delta.x)
-//            root.setY(root.y + delta.y)
+        anchors.fill: parent
+        acceptedButtons: Qt.LeftButton
+        propagateComposedEvents: true
+
+        onClicked: mouse.accepted = false
+        onDoubleClicked: mouse.accepted = false
+        onPositionChanged: mouse.accepted = false
+        onPressAndHold: mouse.accepted = false
+        onPressed: {
+            // 隐藏详细信息窗口
+            GStatus.showImageInfo = false
+
+            keepPressed = true
+            mouse.accepted = false
+        }
+        onReleased: {
+            keepPressed = false
+            mouse.accepted = false
+        }
+
+//        onPressedChanged: {
+//             GStatus.animationBlock = keepPressed
 //        }
-//    }
+    }
 
     TitleBar {
         id: title
@@ -88,10 +101,14 @@ Rectangle {
                 }
             }
 
-            MenuSeparator { }
-            ThemeMenu { }
-            MenuSeparator { }
-            HelpAction { }
+            MenuSeparator {
+            }
+            ThemeMenu {
+            }
+            MenuSeparator {
+            }
+            HelpAction {
+            }
             AboutAction {
                 aboutDialog: AboutDialog {
                     maximumWidth: 360
@@ -110,7 +127,8 @@ Rectangle {
                     websiteLink: DTK.deepinWebsiteLink
                 }
             }
-            QuitAction { }
+            QuitAction {
+            }
 
             onVisibleChanged: {
                 GStatus.animationBlock = visible
@@ -129,6 +147,14 @@ Rectangle {
                 // 自动隐藏多余文本
                 elide: Text.ElideRight
             }
+        }
+    }
+
+    Behavior on y {
+        enabled: visible
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.InOutQuad
         }
     }
 }
