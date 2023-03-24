@@ -6,10 +6,15 @@
 #include "unionimage/unionimage_global.h"
 #include "unionimage/unionimage.h"
 #include "printdialog/printhelper.h"
+#include <qmimedata.h>
+#ifdef ENABLEOCR
 #include "ocr/ocrinterface.h"
+#endif
 
 #include <DSysInfo>
 
+#include <QJsonArray>
+#include <QJsonDocument>
 #include <QFileInfo>
 #include <QDir>
 #include <QMimeDatabase>
@@ -82,8 +87,9 @@ QUrl UrlInfo(QString path)
 
 FileControl::FileControl(QObject *parent) : QObject(parent)
 {
+#ifdef ENABLEOCR
     m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
-
+#endif
     m_shortcutViewProcess = new QProcess(this);
 
     m_config = LibConfigSetter::instance();
@@ -340,7 +346,6 @@ void FileControl::copyImage(const QString &path)
     QString localPath = QUrl(path).toLocalFile();
 
     QClipboard *cb = qApp->clipboard();
-
     // Ownership of the new data is transferred to the clipboard.
     QMimeData *newMimeData = new QMimeData();
 
@@ -430,6 +435,7 @@ bool FileControl::isFile(const QString &path)
     return QFileInfo(localPath).isFile();
 }
 
+#ifdef ENABLEOCR
 void FileControl::ocrImage(const QString &path, int index)
 {
     slotRotatePixCurrent();
@@ -445,7 +451,7 @@ void FileControl::ocrImage(const QString &path, int index)
         m_ocrInterface->openFile(tempFileName);
     }
 }
-
+#endif
 QString FileControl::parseCommandlineGetPath(const QString &path)
 {
     Q_UNUSED(path)

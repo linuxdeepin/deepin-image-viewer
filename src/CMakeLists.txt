@@ -1,47 +1,59 @@
-cmake_minimum_required(VERSION 3.1)
-
-#玲珑构建依赖目录
-include_directories(${CMAKE_INSTALL_PREFIX}/include)
-include_directories(${CMAKE_INSTALL_PREFIX}/include/deepin-ocr-plugin-manager)
-
-set(APP_BIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin/)
 set(BIN_NAME ${CMAKE_PROJECT_NAME})
-list (APPEND RESOURCES)
-
 # Set sources
 set(SRC
-    main.cpp
-    )
+  main.cpp
+)
 
-# 源文件
-file(GLOB_RECURSE SRCS
-    ./src/*.h
-    ./src/*.cpp
-    )
+file(GLOB OCR
+  ./src/ocr/*.h
+  ./src/ocr/*.cpp
+)
+
+file(GLOB UIONIMAGE
+  ./src/unionimage/*.h
+  ./src/unionimage/*.cpp
+)
+
+file(GLOB DBUS
+  ./src/dbus/*.h
+  ./src/dbus/*.cpp
+)
+
+file(GLOB PRINTDIALOG
+  ./src/printdialog/*.h
+  ./src/printdialog/*.cpp
+)
+
+file(GLOB UTILS
+  ./src/utils/*.h
+  ./src/utils/*.cpp
+)
+
+file(GLOB TOP
+  ./src/*.h
+  ./src/*.cpp
+)
+
+set(SRCS
+  ${PRINTDIALOG}
+  ${DBUS}
+  ${UIONIMAGE}
+  ${UTILS}
+  ${TOP}
+)
+
+if(ENABLEOCR)
+  list(APPEND SRCS
+    ${OCR}
+  )
+endif()
 
 file(GLOB_RECURSE QMLSRC
-    ./*.qml
-    )
+  ./*.qml
+)
 
-# Find the Qt5Quick library
-find_package(Qt5Quick CONFIG REQUIRED)
-find_package(Qt5QuickCompiler REQUIRED)
-find_package(Qt5DBus CONFIG REQUIRED)
-find_package(Qt5Concurrent CONFIG REQUIRED)
-find_package(Qt5Svg CONFIG REQUIRED)
-find_package(Qt5PrintSupport CONFIG REQUIRED)
-find_package(Qt5LinguistTools CONFIG REQUIRED)
-
+pkg_search_module(LIBRAW REQUIRED IMPORTED_TARGET libraw)
 qtquick_compiler_add_resources(RCC_SOURCES ${RESOURCES})
-
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(3rd_lib REQUIRED
-    dtkwidget
-    )
-
-# OCR
-pkg_search_module(OCR_PLUGIN REQUIRED deepin-ocr-plugin-manager)
-include_directories(${OCR_PLUGIN_INCLUDE_DIRS})
 
 # 保证 src 目录下头文件全局可见
 include_directories(src)
@@ -65,17 +77,28 @@ add_executable(${BIN_NAME}
     ${QM}
     deepin-image-viewer.qrc
     res.qrc
-    )
+)
 
-target_include_directories(${BIN_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
 target_link_libraries(${BIN_NAME}
     ${DtkDeclarative_LIBRARIES}
-    Qt5::Quick Qt5::PrintSupport Qt5::Gui Qt5::Qml Qt5::Core Qt5::DBus Qt5::Concurrent Qt5::Svg
+    Qt5::Quick
+    Qt5::PrintSupport
+    Qt5::Gui
+    Qt5::Qml
+    Qt5::Core
+    Qt5::DBus
+    Qt5::Concurrent
+    Qt5::Svg
     GL pthread freeimage
-    ${3rd_lib_LIBRARIES}
-    ${OCR_PLUGIN_LIBRARIES}
-    )
+    ${DtkWidget_LIBRARIES}
+    PkgConfig::LIBRAW
+  )
+if(ENABLEOCR)
+  target_link_libraries(${BIN_NAME}
+    PkgConfig::OCR_PLUGIN
+  )
 
+endif()
 if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
     TARGET_COMPILE_DEFINITIONS(${BIN_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 endif ()

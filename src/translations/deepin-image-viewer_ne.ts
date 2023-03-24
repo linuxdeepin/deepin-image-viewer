@@ -234,10 +234,6 @@
         <translation type="unfinished">इमेज विएवेर</translation>
     </message>
     <message>
-        <source>day</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -394,6 +390,10 @@
     </message>
     <message>
         <source>%1 is released under %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

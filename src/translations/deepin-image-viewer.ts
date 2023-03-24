@@ -235,7 +235,7 @@
     </message>
     <message>
         <source>day</source>
-        <translation>day</translation>
+        <translation type="vanished">day</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>

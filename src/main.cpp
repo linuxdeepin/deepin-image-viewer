@@ -6,7 +6,9 @@
 #include "src/filecontrol.h"
 #include "src/thumbnailload.h"
 #include "src/cursortool.h"
+#ifdef ENABLEOCR
 #include "src/ocr/livetextanalyzer.h"
+#endif
 #include "src/dbus/applicationadpator.h"
 #include "config.h"
 
@@ -67,6 +69,7 @@ int main(int argc, char *argv[])
     CursorTool *cursorTool = new CursorTool();
     engine.rootContext()->setContextProperty("cursorTool", cursorTool);
     // OCR分析工具
+#ifdef ENABLEOCR
     auto liveTextAnalyzer = new LiveTextAnalyzer;
     engine.rootContext()->setContextProperty("liveTextAnalyzer", liveTextAnalyzer);
     engine.addImageProvider(QLatin1String("liveTextAnalyzer"), liveTextAnalyzer);
@@ -74,7 +77,7 @@ int main(int argc, char *argv[])
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
-
+#endif
     // 设置DBus接口
     ApplicationAdaptor adaptor(fileControl);
     QDBusConnection::sessionBus().registerService("com.deepin.imageViewer");
