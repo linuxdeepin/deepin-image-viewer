@@ -15,6 +15,7 @@
 
 GlobalControl::GlobalControl(QObject *parent)
     : QObject(parent)
+    , sourceModel(new ImageSourceModel(this))
 {
 }
 
@@ -25,6 +26,10 @@ GlobalControl::~GlobalControl() {}
  */
 void GlobalControl::setGlobalModel(ImageSourceModel *model)
 {
+    if (sourceModel) {
+        sourceModel->deleteLater();
+    }
+
     sourceModel = model;
     Q_EMIT globalModelChanged();
 }

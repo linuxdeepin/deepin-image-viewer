@@ -69,9 +69,6 @@ Rectangle {
         onPositionChanged: mouse.accepted = false
         onPressAndHold: mouse.accepted = false
         onPressed: {
-            // 隐藏详细信息窗口
-            GStatus.showImageInfo = false
-
             keepPressed = true
             mouse.accepted = false
         }

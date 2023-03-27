@@ -14,9 +14,13 @@ import "./LiveText"
 Item {
     id: imageViewer
 
+    // 当前图片文件信息
+    property alias targeImageInfo: currentImageInfo
+
     // Image 类型的对象，空图片、错误图片、消失图片等异常为 undefined
     property alias targetImage: view.currentImage
-    property bool targetImageReady: (null !== view.currentImage) && (Image.Ready === view.currentImage.status)
+    property bool targetImageReady: (null !== view.currentImage)
+                                    && (Image.Ready === view.currentImage.status)
 
     // current rotate
     property int currentRotate: 0
@@ -29,7 +33,7 @@ Item {
     function keepImageDisplayScale() {
         if (!targetImageReady) {
             return
-        } 
+        }
 
         // 当前缩放比例与匹配窗口的图片缩放比例比较，不一致则保持缩放比例
         if (Math.abs(targetImage.scale - 1.0) > Number.EPSILON) {
@@ -57,11 +61,14 @@ Item {
         // 图片实际缩放比值 绘制像素宽度 / 图片原始像素宽度
         var readableScale = targetImage.paintedWidth * targetImage.scale
                 / targetImage.sourceSize.width * 100
-        if (readableScale.toFixed(0) > 2000 && readableScale.toFixed(0) <= 3000) {
+        if (readableScale.toFixed(0) > 2000 && readableScale.toFixed(
+                    0) <= 3000) {
             floatLabel.displayStr = "2000%"
-        } else if (readableScale.toFixed(0) < 2 && readableScale.toFixed(0) >= 0) {
+        } else if (readableScale.toFixed(0) < 2 && readableScale.toFixed(
+                       0) >= 0) {
             floatLabel.displayStr = "2%"
-        } else if (readableScale.toFixed(0) >= 2 && readableScale.toFixed(0) <= 2000) {
+        } else if (readableScale.toFixed(0) >= 2 && readableScale.toFixed(
+                       0) <= 2000) {
             floatLabel.displayStr = readableScale.toFixed(0) + "%"
         }
 
@@ -69,7 +76,8 @@ Item {
     }
 
     function recalculateLiveText() {
-        if (targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
+        if (targetImageReady
+                && IV.Types.DynamicImage !== currentImageInfo.type) {
             exitLiveText()
             startLiveText()
         }
@@ -97,24 +105,24 @@ Item {
         CodeImage.setReverseHeightWidth(false)
 
         // 设置图片状态
-//        fileControl.setCurrentImage(source)
-//        CodeImage.setMultiFrameIndex(fileControl.isMultiImage(source) ? 0 : -1)
+        //        fileControl.setCurrentImage(source)
+        //        CodeImage.setMultiFrameIndex(fileControl.isMultiImage(source) ? 0 : -1)
         // 复位图片旋转状态
         imageViewer.currentRotate = 0
 
         // 默认隐藏导航区域
         idNavWidget.visible = false
         // 判断图片大小是否超过了允许显示的展示区域
-//        if (fileControl.getFitWindowScale(
-//                    root.width, root.height - titleRect.height * 2) > 1) {
-//            fitWindow()
-//        } else {
-//            fitImage()
-//        }
+        //        if (fileControl.getFitWindowScale(
+        //                    root.width, root.height - titleRect.height * 2) > 1) {
+        //            fitWindow()
+        //        } else {
+        //            fitImage()
+        //        }
 
         // 设置标题栏
-//        window.title = fileControl.slotGetFileName(
-//                    source) + fileControl.slotFileSuffix(source)
+        //        window.title = fileControl.slotGetFileName(
+        //                    source) + fileControl.slotFileSuffix(source)
         // 显示缩放比例提示框
         showScaleFloatLabel()
 
@@ -146,7 +154,6 @@ Item {
     }
 
     function rotateImage(x) {
-
 
         // 判断是否为首次进行图片旋转
         var needResetBar = (currentRotate == 0)
@@ -190,11 +197,12 @@ Item {
     onWidthChanged: keepImageDisplayScale()
     onHeightChanged: keepImageDisplayScale()
 
-    // 图片变更时触发
-    onTargetImageChanged: {
+    // 图片状态变更时触发
+    onTargetImageReadyChanged: {
         // FIXME
         // 旋转状态
-        if (targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
+        if (targetImageReady
+                && IV.Types.DynamicImage !== currentImageInfo.type) {
             // 适配窗口
             recalculateLiveText()
         } else {
@@ -255,6 +263,9 @@ Item {
 
         onShowFullScreenChanged: {
             if (window.isFullScreen !== GStatus.showFullScreen) {
+                // 关闭详细信息窗口
+                GStatus.showImageInfo = false
+
                 GStatus.showFullScreen ? showPanelFullScreen() : escBack()
             }
         }
@@ -317,8 +328,9 @@ Item {
         sequence: "Ctrl+Shift+/"
         onActivated: {
             var screenPos = mapToGlobal(parent.x, parent.y)
-            fileControl.showShortcutPanel(screenPos.x + parent.Window.width / 2,
-                                          screenPos.y + parent.Window.height / 2)
+            fileControl.showShortcutPanel(
+                        screenPos.x + parent.Window.width / 2,
+                        screenPos.y + parent.Window.height / 2)
         }
     }
 
@@ -536,7 +548,8 @@ Item {
 
         //live text分析启动控制
         function startLiveTextAnalyze() {
-            if (targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
+            if (targetImageReady
+                    && IV.Types.DynamicImage !== currentImageInfo.type) {
                 liveTextTimer.restart()
             }
         }
@@ -653,17 +666,10 @@ Item {
         id: infomationDig
 
         function show() {
-            if (infomationDig.status === Loader.Ready) {
-                item.show()
-            }
+            GStatus.showImageInfo = true
         }
 
-        function hide() {
-            if (infomationDig.status === Loader.Ready) {
-                item.hide()
-            }
-        }
-
+        active: GStatus.showImageInfo
         asynchronous: true
         // 图片属性信息窗口
         source: "qrc:/qml/InformationDialog/InformationDialog.qml"
@@ -673,7 +679,7 @@ Item {
     Loader {
         id: naviLoader
 
-        active: GStatus.showNavigation && null !== targetImage
+        active: GStatus.enableNavigation && null !== targetImage
                 && targetImage.scale > 1
         anchors {
             bottom: parent.bottom

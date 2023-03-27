@@ -57,7 +57,7 @@ Item {
         var bottomHotspotHeight = Window.height - GStatus.showBottomY
         // 按缩放比例计算是否需要显示标题/工具栏，默认显示
         var imageScaleNeedShow = true
-        if (imageViewer.targetImage) {
+        if (imageViewer.targetImageReady) {
             // 显示图像的像素高度
             var imagePaintedHeight = imageViewer.targetImage.paintedHeight
                     * imageViewer.targetImage.scale
@@ -135,7 +135,7 @@ Item {
 
         // 按缩放比例计算是否需要显示标题/工具栏
         var imageScaleNeedShow = true
-        if (imageViewer.targetImage) {
+        if (imageViewer.targetImageReady) {
             // 显示图像的像素高度
             var imagePaintedHeight = imageViewer.targetImage.paintedHeight
                     * imageViewer.targetImage.scale
@@ -206,8 +206,8 @@ Item {
 
     // 缩放变更时触发显示/隐藏标题栏/底部栏
     Connections {
-        enabled: undefined !== imageViewer.targetImage
-        target: undefined === imageViewer.targetImage ? null : imageViewer.targetImage
+        enabled: imageViewer.targetImageReady
+        target: imageViewer.targetImage
         onScaleChanged: animationAll()
     }
 
@@ -364,6 +364,7 @@ Item {
         id: thumbnailListView
 
         anchors.fill: thumbnailViewBackGround
+        targetImage: imageViewer.targetImage
     }
 
     //浮动提示框

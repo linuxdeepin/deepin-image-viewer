@@ -36,7 +36,7 @@ Item {
         drag.target: targetImage ? targetImage : undefined
 
         function delayUpdateDragRect() {
-            if (undefined !== imageInput.targetImage) {
+            if (null !== imageInput.targetImage) {
                 if (imageInput.targetImage.scale < 1.0) {
                     updateDragRect()
                     return
@@ -47,7 +47,7 @@ Item {
         }
 
         function updateDragRect() {
-            if (undefined === imageInput.targetImage) {
+            if (null === imageInput.targetImage) {
                 return
             }
 
@@ -86,7 +86,7 @@ Item {
         }
 
         onWheel: {
-            if (undefined === imageInput.targetImage) {
+            if (null === imageInput.targetImage) {
                 return
             }
 
@@ -137,7 +137,7 @@ Item {
         property bool isRotatable: false
 
         anchors.fill: parent
-        enabled: targetImage !== undefined
+        enabled: targetImage !== null
 
         onPinchStarted: {
             // 缩放和旋转都至少需要2指操作
@@ -202,9 +202,7 @@ Item {
 
             // 双击动作处理
             function doubleClickProcess() {
-                view.exitLiveText()
-                infomationDig.hide()
-                showFulltimer.start()
+                GStatus.showFullScreen = !GStatus.showFullScreen
             }
 
             onReleased: {

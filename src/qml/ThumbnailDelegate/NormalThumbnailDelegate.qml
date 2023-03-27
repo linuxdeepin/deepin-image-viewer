@@ -73,11 +73,8 @@ BaseThumbnailDelegate {
                 verticalAlignment: Text.AlignVCenter
                 font.weight: Font.DemiBold
                 font.pixelSize: 11
-                text: {
-                    // 取得当前索引的图片帧号
-                    var count = fileControl.getImageCount(normalThumbnailDelegate.source)
-                    return (count <= 999) ? count : "999+"
-                }
+                // 取得当前索引的图片帧号
+                text: (img.frameCount <= 999) ? img.frameCount : "999+"
 
                 background: Rectangle {
                     implicitHeight: 14
