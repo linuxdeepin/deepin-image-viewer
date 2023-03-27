@@ -40,15 +40,15 @@ public:
     explicit GlobalStatus(QObject *parent = nullptr);
     ~GlobalStatus() override;
 
-    GLOBAL_PROPERTY(bool, showFullScreen, false)       // 全屏显示 (ImageViewer)
-    GLOBAL_PROPERTY(bool, showNavigation, true)        // 允许显示导航窗口
-    GLOBAL_PROPERTY(bool, showRightMenu, false)        // 显示右键菜单
-    GLOBAL_PROPERTY(bool, showImageInfo, false)        // 显示详细图像信息
-    GLOBAL_PROPERTY(bool, viewInteractive, true)       // 滑动视图是否响应操作 (ImageViewer ListView)
-    GLOBAL_PROPERTY(bool, viewFlicking, false)         // 滑动视图是否处于轻弹状态 (ImageViewer ListView)
-    GLOBAL_PROPERTY(bool, animationBlock, false)       // 屏蔽标题栏/底部栏动画效果
+    GLOBAL_PROPERTY(bool, showFullScreen, false)   // 切换全屏显示图片 (ImageViewer)
+    GLOBAL_PROPERTY(bool, enableNavigation, true)  // 允许显示导航窗口
+    GLOBAL_PROPERTY(bool, showRightMenu, false)    // 显示右键菜单
+    GLOBAL_PROPERTY(bool, showImageInfo, false)    // 显示详细图像信息
+    GLOBAL_PROPERTY(bool, viewInteractive, true)   // 滑动视图是否响应操作 (ImageViewer ListView)
+    GLOBAL_PROPERTY(bool, viewFlicking, false)     // 滑动视图是否处于轻弹状态 (ImageViewer ListView)
+    GLOBAL_PROPERTY(bool, animationBlock, false)   // 屏蔽标题栏/底部栏动画效果
     GLOBAL_PROPERTY(bool, fullScreenAnimating, false)  // 处于全屏动画状态标识，动画前后部分控件需重置，例如缩略图栏重新居中设置
-    GLOBAL_PROPERTY(int, thumbnailVaildWidth, 0)       // 缩略图列表允许的宽度
+    GLOBAL_PROPERTY(int, thumbnailVaildWidth, 0)                        // 缩略图列表允许的宽度
     GLOBAL_PROPERTY(Types::StackPage, stackPage, Types::OpenImagePage)  // 当前所处的界面索引
 
 public:

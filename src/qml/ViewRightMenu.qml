@@ -189,19 +189,19 @@ Menu {
     }
 
     RightMenuItem {
-        id: showNavigation
+        id: enableNavigation
 
         visible: !isNullImage
                  && window.height > GStatus.minHideHeight
                  && window.width > GStatus.minWidth
-        text: !GStatus.showNavigation ? qsTr("Show navigation window") : qsTr("Hide navigation window")
+        text: !GStatus.enableNavigation ? qsTr("Show navigation window") : qsTr("Hide navigation window")
 
         onTriggered: {
             if (!parent.visible) {
                 return
             }
 
-            GStatus.showNavigation = !GStatus.showNavigation
+            GStatus.enableNavigation = !GStatus.enableNavigation
         }
     }
 

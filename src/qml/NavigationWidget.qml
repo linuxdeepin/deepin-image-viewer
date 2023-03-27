@@ -21,7 +21,7 @@ Item {
 
     width: 150
     height: 112
-    visible: GStatus.showNavigation && imageNeedNavi
+    visible: GStatus.enableNavigation && imageNeedNavi
 
     function refreshNaviMask() {
         if (enableRefresh) {
@@ -193,7 +193,7 @@ Item {
         }
 
         onClicked: {
-            GStatus.showNavigation = false
+            GStatus.enableNavigation = false
         }
 
         Image {

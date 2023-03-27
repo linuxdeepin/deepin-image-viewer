@@ -9,6 +9,7 @@ Item {
     id: thumbnailImage
 
     property alias image: contentImage
+    property alias frameCount: imageInfo.frameCount
     property url source
     property int frameIndex: 0
     property int status: imageInfo.status

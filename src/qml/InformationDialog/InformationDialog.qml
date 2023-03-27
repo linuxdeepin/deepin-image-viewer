@@ -13,14 +13,15 @@ DialogWindow {
     property string fileName: fileControl.slotGetFileNameSuffix(filePath)
     property url filePath: GControl.currentSource
 
+    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowStaysOnTopHint
     visible: false
     width: 280
     x: window.x + window.width - width - leftX
     y: window.y + topY
     minimumWidth: 280
     maximumWidth: 280
-    minimumHeight: contentHeight4.height + 60
-    maximumHeight: contentHeight4.height + 60
+    minimumHeight: contentHeight.height + 60
+    maximumHeight: contentHeight.height + 60
     header: DialogTitleBar {
         property string title: fileName
 
@@ -39,7 +40,7 @@ DialogWindow {
     }
 
     ColumnLayout {
-        id: contentHeight4
+        id: contentHeight
 
         width: 260
         anchors {
@@ -229,10 +230,15 @@ DialogWindow {
     // 窗口关闭时复位组件状态
     onClosing: {
         fileNameProp.reset()
+        GStatus.showImageInfo = false
     }
 
     // 图片变更时复位组件状态(切换时关闭重命名框)
     onFileNameChanged: {
         fileNameProp.reset()
+    }
+
+    Component.onCompleted: {
+        show()
     }
 }
