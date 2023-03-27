@@ -25,11 +25,6 @@
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
-// 单实例
-Q_GLOBAL_STATIC(ImageSourceModel, ImageSourceModelInstance)
-
-// 此文件是QML应用的启动文件，一般无需修改
-// 请在LauncherPlugin::main()中实现所需功能
 int main(int argc, char *argv[])
 {
     qputenv("D_POPUP_MODE", "embed");
@@ -52,46 +47,32 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+    // 请在此处注册需要导入到QML中的C++类型
+    // 例如： engine.rootContext()->setContextProperty("Utils", new Utils);
     const QString uri("org.deepin.image.viewer");
     qmlRegisterType<ImageInfo>(uri.toUtf8().data(), 1, 0, "ImageInfo");
+    qmlRegisterType<ImageSourceModel>(uri.toUtf8().data(), 1, 0, "ImageSourceModel");
     qmlRegisterUncreatableType<Types>(uri.toUtf8().data(), 1, 0, "Types", "Types only use for define");
 
-    ImageSourceModel *imageSourceModel = ImageSourceModelInstance();
-    qmlRegisterSingletonType<ImageSourceModel>(
-        uri.toUtf8().data(), 1, 0, "ImageSourceModel", [](QQmlEngine *, QJSEngine *) -> QObject * {
-            return ImageSourceModelInstance();
-        });
-
+    // 全局单例
     GlobalControl control;
-    control.setGlobalModel(imageSourceModel);
     engine.rootContext()->setContextProperty("GControl", &control);
     GlobalStatus status;
     engine.rootContext()->setContextProperty("GStatus", &status);
+    FileControl fileControl;
+    engine.rootContext()->setContextProperty("fileControl", &fileControl);
+    QObject::connect(&fileControl, &FileControl::imageRenamed, &control, &GlobalControl::renameImage);
+    status.setenableNavigation(fileControl.isEnableNavigation());
+    QObject::connect(
+        &status, &GlobalStatus::enableNavigationChanged, [&]() { fileControl.setEnableNavigation(status.enableNavigation()); });
+    // 光标位置查询工具
+    CursorTool cursorTool;
+    engine.rootContext()->setContextProperty("cursorTool", &cursorTool);
 
-    // 请在此处注册需要导入到QML中的C++类型
-    // 例如： engine.rootContext()->setContextProperty("Utils", new Utils);
     // 后端缩略图加载，由 QMLEngine 管理生命周期
     MultiImageLoad *multiImagaLoad = new MultiImageLoad;
     engine.addImageProvider(QLatin1String("Multiimage"), multiImagaLoad);
 
-    FileControl *fileControl = new FileControl();
-    engine.rootContext()->setContextProperty("fileControl", fileControl);
-    // 关联文件处理（需要保证优先处理，onImageFileChanged已做多线程安全）
-    //    QObject::connect(
-    //        fileControl, &FileControl::requestImageFileChanged, load, [&](const QString &filePath, bool isMultiImage, bool
-    //        isExist) {
-    //            // 更新缓存信息
-    //            load->onImageFileChanged(filePath, isMultiImage, isExist);
-    //            // 处理完成后加载图片
-    //            emit fileControl->imageFileChanged(filePath, isMultiImage, isExist);
-    //        });
-
-    QObject::connect(fileControl, &FileControl::imageRenamed, &control, &GlobalControl::renameImage);
-
-
-    // 光标位置查询工具
-    CursorTool *cursorTool = new CursorTool();
-    engine.rootContext()->setContextProperty("cursorTool", cursorTool);
     // OCR分析工具
     auto liveTextAnalyzer = new LiveTextAnalyzer;
     engine.rootContext()->setContextProperty("liveTextAnalyzer", liveTextAnalyzer);
@@ -102,9 +83,9 @@ int main(int argc, char *argv[])
         return -1;
 
     // 设置DBus接口
-    ApplicationAdaptor adaptor(fileControl);
+    ApplicationAdaptor adaptor(&fileControl);
     QDBusConnection::sessionBus().registerService("com.deepin.imageViewer");
-    QDBusConnection::sessionBus().registerObject("/", fileControl);
+    QDBusConnection::sessionBus().registerObject("/", &fileControl);
 
     return app->exec();
 }

@@ -12,22 +12,20 @@ import org.deepin.image.viewer 1.0 as IV
 Item {
     id: thumbnailView
 
+    property Image targetImage
+    property bool imageIsNull: null === targetImage
+
     // 用于外部获取当前缩略图栏内容的长度，用于布局, 10px为焦点缩略图不在ListView中的边框像素宽度(radius = 4 * 1.25)
     property int listContentWidth: bottomthumbnaillistView.contentWidth + 10
     // 除ListView外其它按键的占用宽度
     property int btnContentWidth: switchArrowLayout.width + leftRowLayout.width
                                   + rightRowLayout.width + deleteButton.width
 
-//    function rotateImage(x) {
-//        bottomthumbnaillistView.currentItem.rotation
-//                = bottomthumbnaillistView.currentItem.rotation + x
-//    }
-
     function deleteCurrentImage() {
         /// FIXME 移动到GControl ?
-        fileControl.deleteImagePath(GControl.currentSource);
-        GControl.removeImage(GControl.currentSource);
-        if (0 == GControl.imageCount) {
+        fileControl.deleteImagePath(GControl.currentSource)
+        GControl.removeImage(GControl.currentSource)
+        if (0 === GControl.imageCount) {
             stackView.switchOpenImage()
         }
     }
@@ -124,7 +122,7 @@ Item {
             width: 50
             height: 50
             icon.name: "icon_11"
-            enabled: !CodeImage.imageIsNull(imageViewer.source)
+            enabled: !imageIsNull
             ToolTip.delay: 500
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
@@ -142,7 +140,7 @@ Item {
             width: 50
             height: 50
             icon.name: "icon_self-adaption"
-            enabled: !CodeImage.imageIsNull(imageViewer.source)
+            enabled: !imageIsNull
             ToolTip.delay: 500
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
@@ -160,8 +158,8 @@ Item {
             width: 50
             height: 50
             icon.name: "icon_rotate"
-            enabled: !CodeImage.imageIsNull(imageViewer.source)
-                     && fileControl.isRotatable(imageViewer.source)
+            enabled: !imageIsNull && fileControl.isRotatable(
+                         GControl.currentSource)
 
             onClicked: {
                 imageViewer.rotateImage(-90)
@@ -229,7 +227,9 @@ Item {
 
             onActiveChanged: {
                 if (active && imageInfo.delegateSource) {
-                    setSource(imageInfo.delegateSource, { "source": thumbnailItemLoader.source })
+                    setSource(imageInfo.delegateSource, {
+                                  "source": thumbnailItemLoader.source
+                              })
                 }
             }
 
@@ -256,7 +256,9 @@ Item {
 
                 onDelegateSourceChanged: {
                     if (thumbnailItemLoader.active && delegateSource) {
-                        setSource(delegateSource, { "source": thumbnailItemLoader.source })
+                        setSource(delegateSource, {
+                                      "source": thumbnailItemLoader.source
+                                  })
                     }
                 }
 
@@ -318,7 +320,9 @@ Item {
                         bottomthumbnaillistView.positionViewAtBeginning()
                     } else {
                         // 尽可能将高亮缩略图显示在列表中
-                        bottomthumbnaillistView.positionViewAtIndex(bottomthumbnaillistView.currentIndex, ListView.Center)
+                        bottomthumbnaillistView.positionViewAtIndex(
+                                    bottomthumbnaillistView.currentIndex,
+                                    ListView.Center)
                     }
                 }
             }
@@ -372,15 +376,16 @@ Item {
 
             width: 50
             height: 50
-            enabled: fileControl.isCanSupportOcr(GStatus.currentSource)
-                     && null !== imageViewer.targetImage
+            enabled: fileControl.isCanSupportOcr(GControl.currentSource)
+                     && !imageIsNull
             icon.name: "icon_character_recognition"
             ToolTip.delay: 500
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Extract text")
 
-            onClicked: fileControl.ocrImage(source, GStatus.currentFrameIndex)
+            onClicked: fileControl.ocrImage(GControl.currentSource,
+                                            GControl.currentFrameIndex)
         }
     }
 

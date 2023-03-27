@@ -42,7 +42,7 @@ GlobalStatus::GlobalStatus(QObject *parent)
 GlobalStatus::~GlobalStatus() {}
 
 GLOBAL_PROPERTY_IMPL(bool, showFullScreen)
-GLOBAL_PROPERTY_IMPL(bool, showNavigation)
+GLOBAL_PROPERTY_IMPL(bool, enableNavigation)
 GLOBAL_PROPERTY_IMPL(bool, showRightMenu)
 GLOBAL_PROPERTY_IMPL(bool, showImageInfo)
 GLOBAL_PROPERTY_IMPL(bool, viewInteractive)

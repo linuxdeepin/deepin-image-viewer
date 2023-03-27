@@ -33,19 +33,11 @@ Control {
         if (showPicLabel.visible) {
             showPicLabel.visible = false
             // 每次显示编辑框时显示为图片名称
-            nameedit.text = fileControl.slotGetFileName(imageViewer.source)
+            nameedit.text = fileControl.slotGetFileName(GControl.currentSource)
         } else {
-            if (!fileControl.isShowToolTip(imageViewer.source, nameedit.text)
-                    && nameedit.text.length > 0) {
-                var name = nameedit.text
-                //bool返回值判断是否成功
-                if (fileControl.slotFileReName(name, imageViewer.source)) {
-                    imageViewer.sourcePaths = fileControl.renameOne(
-                                imageViewer.sourcePaths, imageViewer.source,
-                                fileControl.getNamePath(imageViewer.source, name))
-                    imageViewer.source = fileControl.getNamePath(
-                                imageViewer.source, name)
-                }
+            var name = nameedit.text
+            if (!fileControl.isShowToolTip(GControl.currentSource, name) && name.length > 0) {
+                fileControl.slotFileReName(name, GControl.currentSource)
             }
             showPicLabel.visible = true
         }
@@ -70,7 +62,7 @@ Control {
                 id: nameedit
 
                 visible: !showPicLabel.visible
-                text: fileControl.slotGetFileName(imageViewer.source)
+                text: fileControl.slotGetFileName(GControl.currentSource)
                 anchors {
                     topMargin: 5
                     leftMargin: 10
@@ -79,7 +71,7 @@ Control {
                 focus: true
                 selectByMouse: true
                 alertText: qsTr("The file already exists, please use another name")
-                showAlert: fileControl.isShowToolTip(imageViewer.source, nameedit.text) && nameedit.visible
+                showAlert: fileControl.isShowToolTip(GControl.currentSource, nameedit.text) && nameedit.visible
                 height: 20
                 // 限制输入特殊字符
                 validator: RegExpValidator {
