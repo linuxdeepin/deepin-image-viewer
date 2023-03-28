@@ -59,18 +59,19 @@ class ImageInfoCache : public QObject
 {
     Q_OBJECT
 public:
-    typedef QString KeyType;
+    typedef QPair<QString, int> KeyType;
 
     ImageInfoCache();
     ~ImageInfoCache();
 
-    ImageInfoData::Ptr find(const KeyType &path, int frameIndex);
-    void load(const KeyType &path, int frameIndex, bool reload = false);
-    void loadFinished(const KeyType &path, int frameIndex, ImageInfoData::Ptr data);
-
+    ImageInfoData::Ptr find(const QString &path, int frameIndex);
+    void load(const QString &path, int frameIndex, bool reload = false);
+    void loadFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data);
+    void removeCache(const QString &path, int frameIndex);
     void clearCache();
 
-    Q_SIGNAL void imageDataChanged(const KeyType &path, int frameIndex);
+    Q_SIGNAL void imageDataChanged(const QString &path, int frameIndex);
+    Q_SIGNAL void imageSizeChanged(const QString &path, int frameIndex);
 
 private:
     QHash<KeyType, ImageInfoData::Ptr> cache;
@@ -137,16 +138,19 @@ void LoadImageInfoRunnable::run()
             return;
         }
 
-        // 缓存缩略图信息
-        ThumbnailCache::instance()->add(data->path, frameIndex, image);
         data->size = image.size();
         data->frameCount = reader.imageCount();
+        // 保存图片比例缩放
+        image = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        // 缓存缩略图信息
+        ThumbnailCache::instance()->add(data->path, frameIndex, image);
 
     } else if (0 != frameIndex) {
         // 非多页图类型，但指定了索引，存在异常
         data->type = Types::DamagedImage;
         notifyFinished(data->path, frameIndex, data);
         return;
+
     } else {
         QImage image;
         if (loadImage(image, data->size)) {
@@ -201,9 +205,9 @@ ImageInfoCache::~ImageInfoCache() {}
 /**
    @return 返回缓存中文件路径为 \a path 和帧索引为 \a frameIndex 的缓存数据
  */
-ImageInfoData::Ptr ImageInfoCache::find(const KeyType &path, int frameIndex)
+ImageInfoData::Ptr ImageInfoCache::find(const QString &path, int frameIndex)
 {
-    QString key = ThumbnailCache::toFindKey(path, frameIndex);
+    ThumbnailCache::Key key = ThumbnailCache::toFindKey(path, frameIndex);
     return cache.value(key);
 }
 
@@ -211,9 +215,9 @@ ImageInfoData::Ptr ImageInfoCache::find(const KeyType &path, int frameIndex)
    @brief 加载文件路径 \a path 指向的帧索引为 \a frameIndex 的图像文件，
     \a reload 标识用于重新加载图片文件数据
  */
-void ImageInfoCache::load(const KeyType &path, int frameIndex, bool reload)
+void ImageInfoCache::load(const QString &path, int frameIndex, bool reload)
 {
-    QString key = ThumbnailCache::toFindKey(path, frameIndex);
+    ThumbnailCache::Key key = ThumbnailCache::toFindKey(path, frameIndex);
 
     if (waitSet.contains(key)) {
         return;
@@ -231,14 +235,26 @@ void ImageInfoCache::load(const KeyType &path, int frameIndex, bool reload)
    @brief 图像信息加载完成，接收来自 LoadImageInfoRunnable 的完成信号，根据文件路径 \a path
     和图像帧索引 \a frameIndex 区分加载的数据 \a data ，并保存至缓存中
  */
-void ImageInfoCache::loadFinished(const KeyType &path, int frameIndex, ImageInfoData::Ptr data)
+void ImageInfoCache::loadFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data)
 {
-    QString key = ThumbnailCache::toFindKey(path, frameIndex);
+    ThumbnailCache::Key key = ThumbnailCache::toFindKey(path, frameIndex);
 
     waitSet.remove(key);
     if (data) {
         cache.insert(key, data);
     }
+
+    Q_EMIT imageDataChanged(path, frameIndex);
+}
+
+/**
+   @brief 移除文件路径为 \a path 图片的第 \a frameIndex 帧缓存数据
+ */
+void ImageInfoCache::removeCache(const QString &path, int frameIndex)
+{
+    cache.remove(ThumbnailCache::toFindKey(path, frameIndex));
+    // 同时移除缓存的图像数据
+    ThumbnailCache::instance()->remove(path, frameIndex);
 
     Q_EMIT imageDataChanged(path, frameIndex);
 }
@@ -257,13 +273,22 @@ void ImageInfoCache::clearCache()
    @brief 图像信息管理类
    @details 用于后台异步加载图像数据并缓存，此缓存在内部进行复用，可在 C++/QML
     中调用 ImageInfo 取得基础的图像信息。详细的图像信息参见 ExtraImageInfo
-   @note 非线程安全，仅在GUI线程调用
+   @warning 非线程安全，仅在GUI线程调用
  */
 
 ImageInfo::ImageInfo(QObject *parent)
     : QObject(parent)
 {
     connect(CacheInstance(), &ImageInfoCache::imageDataChanged, this, &ImageInfo::onLoadFinished);
+    connect(CacheInstance(), &ImageInfoCache::imageSizeChanged, this, &ImageInfo::onSizeChanged);
+}
+
+ImageInfo::ImageInfo(const QUrl &source, QObject *parent)
+    : QObject(parent)
+{
+    connect(CacheInstance(), &ImageInfoCache::imageDataChanged, this, &ImageInfo::onLoadFinished);
+    connect(CacheInstance(), &ImageInfoCache::imageSizeChanged, this, &ImageInfo::onSizeChanged);
+    setSource(source);
 }
 
 ImageInfo::~ImageInfo() {}
@@ -330,6 +355,19 @@ int ImageInfo::height() const
 }
 
 /**
+   @brief 交换宽高，用于在图片旋转时使用
+    数据通过共享指针存储，仅在单处修改即可
+ */
+void ImageInfo::swapWidthAndHeight()
+{
+    if (data) {
+        data->size = QSize(data->size.height(), data->size.width());
+        // 广播大小变更信号
+        Q_EMIT CacheInstance()->imageSizeChanged(imageUrl.toLocalFile(), currentIndex);
+    }
+}
+
+/**
    @brief 设置当前图片的帧索引，仅对多页图有效，若成功设置，进行异步加载图片
    @param index 图片帧索引
  */
@@ -383,32 +421,54 @@ bool ImageInfo::exists() const
 
 /**
    @return 返回是否存在已缓存的缩略图数据
+   @warning 缓存空间有限，已缓存的缩略图数据可能后续被移除，需重新加载缩略图
  */
 bool ImageInfo::hasCachedThumbnail() const
 {
     if (imageUrl.isEmpty()) {
         return false;
     } else {
+        switch (type()) {
+            case Types::NullImage:
+            case Types::DamagedImage:
+                return false;
+            default:
+                break;
+        }
+
         return ThumbnailCache::instance()->contains(imageUrl.toLocalFile(), frameIndex());
     }
 }
 
 /**
-   @brief 刷新当前图片信息
+   @brief 强制重新加载当前图片信息
  */
-void ImageInfo::refresh()
+void ImageInfo::reloadData()
 {
     setStatus(Loading);
     CacheInstance()->load(imageUrl.toLocalFile(), currentIndex, true);
 }
 
 /**
-   @brief 清空缓存数据
+   @brief 清除当前文件的缓存
+ */
+void ImageInfo::clearCurrentCache()
+{
+    if (data) {
+        for (int i = 0; i < data->frameCount; ++i) {
+            CacheInstance()->removeCache(imageUrl.toLocalFile(), i);
+        }
+    }
+}
+
+/**
+   @brief 清空缓存数据，包括缩略图缓存和图片属性缓存
    @note 这不会影响处于加载队列中的任务
  */
 void ImageInfo::clearCache()
 {
     CacheInstance()->clearCache();
+    ThumbnailCache::instance()->clear();
 }
 
 /**
@@ -473,6 +533,19 @@ void ImageInfo::onLoadFinished(const QString &path, int frameIndex)
             setStatus(data->isError() ? Error : Ready);
         } else {
             setStatus(Error);
+        }
+    }
+}
+
+/**
+   @brief 图片 \a path 的第 \a frameIndex 帧的图片大小出现变更
+ */
+void ImageInfo::onSizeChanged(const QString &path, int frameIndex)
+{
+    if (imageUrl.toLocalFile() == path && currentIndex == frameIndex) {
+        if (data) {
+            Q_EMIT widthChanged();
+            Q_EMIT heightChanged();
         }
     }
 }

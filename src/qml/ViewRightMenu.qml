@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+//
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.11
@@ -13,6 +14,12 @@ Menu {
 
     property url imageSource: GControl.currentSource
     property bool isNullImage: imageInfo.type === IV.Types.NullImage
+    property bool readable: !isNullImage && fileControl.isCanReadable(imageSource)
+    property bool renamable: !isNullImage && fileControl.isCanRename(imageSource)
+    property bool rotatable: !isNullImage && fileControl.isRotatable(imageSource)
+    property bool deletable: !isNullImage && fileControl.isCanDelete(imageSource)
+    property bool supportOcr: !isNullImage && fileControl.isCanSupportOcr(imageSource)
+    property bool supportWallpaper: !isNullImage && fileControl.isSupportSetWallpaper(imageSource)
 
     x: 250
     y: 600
@@ -61,16 +68,18 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Extract text")
-        visible: fileControl.isCanSupportOcr(imageSource) && !isNullImage
+        visible: supportOcr
 
         onTriggered: {
+            GControl.submitImageChangeImmediately()
             fileControl.ocrImage(imageSource, GControl.currentFrameIndex)
         }
 
         Shortcut {
             sequence: "Alt+O"
-            enabled: parent.visible
+            enabled: supportOcr
             onActivated: {
+                GControl.submitImageChangeImmediately()
                 fileControl.ocrImage(imageSource, GControl.currentFrameIndex)
             }
         }
@@ -97,16 +106,18 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Copy")
-        visible: fileControl.isCanReadable(imageSource)
+        visible: readable
 
         onTriggered: {
+            GControl.submitImageChangeImmediately()
             fileControl.copyImage(imageSource)
         }
 
         Shortcut {
             sequence: "Ctrl+C"
-            enabled: parent.visible
+            enabled: readable
             onActivated: {
+                GControl.submitImageChangeImmediately()
                 fileControl.copyImage(imageSource)
             }
         }
@@ -114,7 +125,7 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Rename")
-        visible: fileControl.isCanRename(imageSource)
+        visible: renamable
 
         onTriggered: {
             renamedialog.show()
@@ -122,8 +133,7 @@ Menu {
 
         Shortcut {
             sequence: "F2"
-            // 判断文件是否允许重命名
-            enabled: parent.visible
+            enabled: renamable
             onActivated: {
                 renamedialog.show()
             }
@@ -132,7 +142,7 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Delete")
-        visible: fileControl.isCanDelete(imageSource)
+        visible: deletable
 
         onTriggered: {
             thumbnailListView.deleteCurrentImage()
@@ -140,7 +150,7 @@ Menu {
 
         Shortcut {
             sequence: "Delete"
-            enabled: parent.visible
+            enabled: deletable
             onActivated: {
                 thumbnailListView.deleteCurrentImage()
             }
@@ -156,7 +166,7 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Rotate clockwise")
-        visible: !isNullImage && fileControl.isRotatable(imageSource)
+        visible: rotatable
 
         onTriggered: {
             imageViewer.rotateImage(90)
@@ -164,7 +174,7 @@ Menu {
 
         Shortcut {
             sequence: "Ctrl+R"
-            enabled: parent.visible
+            enabled: rotatable
             onActivated: {
                 imageViewer.rotateImage(90)
             }
@@ -173,7 +183,7 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Rotate counterclockwise")
-        visible: !isNullImage && fileControl.isRotatable(imageSource)
+        visible: rotatable
 
         onTriggered: {
             imageViewer.rotateImage(-90)
@@ -181,7 +191,7 @@ Menu {
 
         Shortcut {
             sequence: "Ctrl+Shift+R"
-            enabled: parent.visible
+            enabled: rotatable
             onActivated: {
                 imageViewer.rotateImage(-90)
             }
@@ -207,16 +217,18 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Set as wallpaper")
-        visible: fileControl.isSupportSetWallpaper(imageSource)
+        visible: supportWallpaper
 
         onTriggered: {
+            GControl.submitImageChangeImmediately()
             fileControl.setWallpaper(imageSource)
         }
 
         Shortcut {
             sequence: "Ctrl+F9"
-            enabled: parent.visible
+            enabled: supportWallpaper
             onActivated: {
+                GControl.submitImageChangeImmediately()
                 fileControl.setWallpaper(imageSource)
             }
         }

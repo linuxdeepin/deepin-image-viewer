@@ -230,8 +230,10 @@ Item {
             maskArea.x = Math.max(mouseX - maskArea.width / 2, 0)
             maskArea.y = Math.max(mouseY - maskArea.height / 2, 0)
             // 限定鼠标点击的蒙皮在图片内移动
-            maskArea.x = Math.max(imgLeft, Math.min(maskArea.x, imgRight - maskArea.width))
-            maskArea.y = Math.max(imgTop, Math.min(maskArea.y, imgBottom - maskArea.height))
+            maskArea.x = Math.max(imgLeft, Math.min(maskArea.x,
+                                                    imgRight - maskArea.width))
+            maskArea.y = Math.max(imgTop, Math.min(maskArea.y,
+                                                   imgBottom - maskArea.height))
 
             // 根据按键位置更新图片展示区域
             updateImagePositionBasedOnMask()

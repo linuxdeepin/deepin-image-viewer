@@ -9,6 +9,7 @@ BaseImageDelegate {
 
     status: image.status
     targetImage: image
+    inputHandler: imageInput
 
     AnimatedImage {
         id: image

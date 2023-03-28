@@ -14,17 +14,20 @@
         通过分割传入的 id ，判断当前读取的文件的行数和图片索引。
         在 QML 中注册的标识为 "multiimage"
    @warning QQuickImageProvider 派生的接口可能多线程调用，必须保证实现函数是可重入的。
+   @threadsafe
  */
 
 MultiImageLoad::MultiImageLoad()
     : QQuickImageProvider(QQuickImageProvider::Image)
 {
+    // 缓存最近3张图片
+    imageCache.setMaxCost(3);
 }
 
 MultiImageLoad::~MultiImageLoad() {}
 
 /**
-   @brief 外部请求多页图中指定帧的图像，指定帧号通过传入的 \a id 进行区分。
+   @brief 外部请求图像文件中指定帧的图像，指定帧号通过传入的 \a id 进行区分。
         \a id 格式为 \b{图像路径#frame_帧号_缩略图标识} ，例如 "/home/tmp.tif#frame_3_thumbnail" ，
         表示 tmp.tif 图像文件的第四帧图像缩略图。_thumbnail 可移除，表示需要完整图片
         这个 id 在 QML 文件中组合。
@@ -70,9 +73,8 @@ QImage MultiImageLoad::requestImage(const QString &id, QSize *size, const QSize 
         if (hasThumbnail) {
             return ThumbnailCache::instance()->get(tempPath, frameIndex);
         }
-    } else if (tempPath == lastImagePath && frameIndex == lastFrameIndex) {
-        QMutexLocker _locker(&mutex);
-        image = lastImage;
+    } else {
+        image = imageCache.get(tempPath, frameIndex);
     }
 
     if (image.isNull()) {
@@ -82,15 +84,12 @@ QImage MultiImageLoad::requestImage(const QString &id, QSize *size, const QSize 
             image = readNormalImage(tempPath);
         }
 
-        QMutexLocker _locker(&mutex);
-        lastFrameIndex = frameIndex;
-        lastImagePath = tempPath;
-        lastImage = image;
+        imageCache.add(tempPath, frameIndex, image);
     }
 
     // 不存在缩略图信息，缓存图片
     if (!hasThumbnail) {
-        QImage tmpImage = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::FastTransformation);
+        QImage tmpImage = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
         ThumbnailCache::instance()->add(tempPath, frameIndex, tmpImage);
     }
 
@@ -111,6 +110,80 @@ QImage MultiImageLoad::requestImage(const QString &id, QSize *size, const QSize 
 QPixmap MultiImageLoad::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
     return QPixmap::fromImage(requestImage(id, size, requestedSize));
+}
+
+/**
+   @brief 对缓存的 \a imagePath 图片执行旋转 \a angle 的操作。
+   @note 待操作的图片必须在缓存中，当前展示的图片必定在缓存中
+ */
+void MultiImageLoad::rotateImageCached(int angle, const QString &imagePath, int frameIndex)
+{
+    // 旋转角度为0时，清除旋转状态缓存，防止外部文件变更后仍使用上一次的旋转状态。
+    QMutexLocker _locker(&mutex);
+    if (0 == angle) {
+        lastRotatePath.clear();
+        lastRotateImage = QImage();
+        return;
+    }
+
+    QImage image;
+    if (imagePath != lastRotatePath) {
+        image = imageCache.get(imagePath, frameIndex);
+
+        // 仅在首次处理时记录图像数据，防止多次旋转处理导致图片质量降低
+        lastRotateImage = image;
+        lastRotatePath = imagePath;
+    } else {
+        image = lastRotateImage;
+    }
+    _locker.unlock();
+
+    if (!image.isNull()) {
+        // 360度不执行旋转
+        if (!!(angle % 360)) {
+            LibUnionImage_NameSpace::rotateImage(angle, image);
+        }
+
+        _locker.relock();
+        // 更新图片缓存
+        imageCache.add(imagePath, frameIndex, image);
+        _locker.unlock();
+
+        // 同样更新缩略图缓存
+        QImage tmpImage = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        ThumbnailCache::instance()->add(imagePath, frameIndex, tmpImage);
+    }
+}
+
+/**
+   @brief 移除文件路径为 \a imagePath 的图片信息，主要用于文件删除，重命名等变更时重置状态
+ */
+void MultiImageLoad::removeImageCache(const QString &imagePath)
+{
+    // 直接缓存的图像信息较少，遍历查询是否包含对应的图片
+    QList<ThumbnailCache::Key> keys;
+    QMutexLocker _locker(&mutex);
+    keys = imageCache.keys();
+    _locker.unlock();
+
+    for (const ThumbnailCache::Key &key : keys) {
+        if (key.first == imagePath) {
+            _locker.relock();
+            imageCache.remove(key.first, key.second);
+            _locker.unlock();
+        }
+    }
+}
+
+/**
+   @brief 移除图像加载器中的缓存数据
+ */
+void MultiImageLoad::clearCache()
+{
+    QMutexLocker _locker(&mutex);
+    imageCache.clear();
+    lastRotatePath.clear();
+    lastRotateImage = QImage();
 }
 
 /**

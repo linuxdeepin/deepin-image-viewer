@@ -3,10 +3,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "filecontrol.h"
+#include "types.h"
 #include "unionimage/unionimage_global.h"
 #include "unionimage/unionimage.h"
 #include "printdialog/printhelper.h"
 #include "ocr/ocrinterface.h"
+#include "imagedata/imageinfo.h"
 
 #include <DSysInfo>
 
@@ -88,14 +90,7 @@ FileControl::FileControl(QObject *parent)
     m_config = LibConfigSetter::instance();
     imageFileWatcher = new ImageFileWatcher(this);
 
-    // 实时保存旋转后图片太卡，因此采用10ms后延时保存的问题
-    if (!m_tSaveImage) {
-        m_tSaveImage = new QTimer(this);
-        connect(m_tSaveImage, &QTimer::timeout, this, [=]() {
-            //保存旋转的图片
-            slotRotatePixCurrent();
-        });
-    }
+    QObject::connect(imageFileWatcher, &ImageFileWatcher::imageFileChanged, this, &FileControl::imageFileChanged);
 
     // 在1000ms以内只保存一次配置信息
     if (!m_tSaveSetting) {
@@ -119,13 +114,6 @@ FileControl::FileControl(QObject *parent)
 FileControl::~FileControl()
 {
     saveSetting();
-}
-
-QString FileControl::getDirPath(const QString &path)
-{
-    QFileInfo firstFileInfo(path);
-
-    return firstFileInfo.dir().path();
 }
 
 QStringList FileControl::getDirImagePath(const QString &path)
@@ -153,6 +141,14 @@ QStringList FileControl::getDirImagePath(const QString &path)
         }
     }
     return image_list;
+}
+
+/**
+   @return 返回文件路径 \a path 所在的文件夹是否为当前监控的文件夹
+ */
+bool FileControl::isCurrentWatcherDir(const QUrl &path)
+{
+    return imageFileWatcher->isCurrentDir(path.toLocalFile());
 }
 
 QString FileControl::getNamePath(const QString &oldPath, const QString &newName)
@@ -189,7 +185,6 @@ bool FileControl::isImage(const QString &path)
 
 void FileControl::setWallpaper(const QString &imgPath)
 {
-    slotRotatePixCurrent();
     QThread *th1 = QThread::create([=]() {
         if (!imgPath.isNull()) {
             QString path = imgPath;
@@ -330,7 +325,6 @@ bool FileControl::displayinFileManager(const QString &path)
 
 void FileControl::copyImage(const QString &path)
 {
-    slotRotatePixCurrent();
     QString localPath = QUrl(path).toLocalFile();
 
     QClipboard *cb = qApp->clipboard();
@@ -416,12 +410,13 @@ bool FileControl::isCanDelete(const QString &path)
 
 void FileControl::ocrImage(const QString &path, int index)
 {
-    slotRotatePixCurrent();
     QString localPath = QUrl(path).toLocalFile();
+    // 此处借用已取得的缓存信息，一般状态下，调用OCR前已完成图像的加载
+    ImageInfo info(path);
 
-    if (!isMultiImage(path)) {  //非多页图使用路径直接进行识别
+    if (Types::MultiImage != info.type()) {  // 非多页图使用路径直接进行识别
         m_ocrInterface->openFile(localPath);
-    } else {  //多页图需要确定识别哪一页
+    } else {  // 多页图需要确定识别哪一页
         QImageReader imageReader(localPath);
         imageReader.jumpToImage(index);
         auto image = imageReader.read();
@@ -449,88 +444,31 @@ QString FileControl::parseCommandlineGetPath(const QString &path)
     return filepath;
 }
 
-bool FileControl::isDynamicImage(const QString &path)
-{
-    bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
-
-    imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
-    if (imageViewerSpace::ImageTypeDynamic == type) {
-        bRet = true;
-    }
-    return bRet;
-}
-
-bool FileControl::isNormalStaticImage(const QString &path)
-{
-    bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
-
-    imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
-    if (imageViewerSpace::ImageTypeStatic == type || imageViewerSpace::ImageTypeMulti == type) {
-        bRet = true;
-    }
-    return bRet;
-}
-
-bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
-{
-    bool bRet = true;
-    QString localPath = QUrl(path).toLocalFile();
-    if (m_currentPath != localPath) {
-        slotRotatePixCurrent();
-        m_currentPath = localPath;
-        m_rotateAngel = rotateAngel;
-    } else {
-        m_rotateAngel += rotateAngel;
-    }
-
-    // 减少频繁的触发旋转进行文件读取写入操作
-    m_tSaveImage->setSingleShot(true);
-    m_tSaveImage->start(200);
-
-    return bRet;
-}
-
 /**
- * @brief 立即保存旋转图片，通过定时器延后触发或图片切换时手动触发
- * @note 当前通过保存图片后，监控文件变更触发更新图片的信号
+   @brief 将传入的图片文件 \a path 旋转 \a angle 角度后保存，覆写文件
  */
-void FileControl::slotRotatePixCurrent()
+void FileControl::rotateImageFile(const QString &path, int angle)
 {
-    // 由QML调用(切换图片)时，停止定时器，防止二次触发
-    if (m_tSaveImage->isActive()) {
-        m_tSaveImage->stop();
-    }
-
-    m_rotateAngel = m_rotateAngel % 360;
-    if (0 != m_rotateAngel) {
+    angle = angle % 360;
+    if (0 != angle) {
         // 20211019修改：特殊位置不执行写入操作
-        imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(m_currentPath);
+        imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(path);
 
         if (pathType != imageViewerSpace::PathTypeMTP && pathType != imageViewerSpace::PathTypePTP &&  //安卓手机
             pathType != imageViewerSpace::PathTypeAPPLE &&                                             //苹果手机
             pathType != imageViewerSpace::PathTypeSAFEBOX &&                                           //保险箱
             pathType != imageViewerSpace::PathTypeRECYCLEBIN) {                                        //回收站
-
-            QString erroMsg;
-            LibUnionImage_NameSpace::rotateImageFIle(m_rotateAngel, m_currentPath, erroMsg);
+            QString errorMsg;
+            if (!LibUnionImage_NameSpace::rotateImageFIle(angle, path, errorMsg)) {
+                qWarning() << QString("Rotate image file failed!, error: %1").arg(errorMsg);
+            } else {
+                // NOTE：处理成功，过滤旋转操作文件更新，旋转图像已在软件中缓存且旋转状态同步，不再从文件中更新读取
+                imageFileWatcher->recordRotateImage(path);
+            }
 
             // 保存文件后发送图片更新更新信号，通过监控文件变更触发
         }
     }
-    m_rotateAngel = 0;
-}
-
-bool FileControl::isReverseHeightWidth()
-{
-    // 判断当前旋转角度是否存在垂直方向的旋转
-    return bool(m_rotateAngel % 180);
-}
-
-int FileControl::currentAngle()
-{
-    return m_rotateAngel;
 }
 
 QString FileControl::slotGetFileName(const QString &path)
@@ -616,13 +554,6 @@ QString FileControl::slotFileSuffix(const QString &path, bool ret)
     }
 
     return returnSuffix;
-}
-
-void FileControl::setCurrentImage(const QString &path)
-{
-    QString localPath = QUrl(path).toLocalFile();
-
-    m_currentAllInfo = LibUnionImage_NameSpace::getAllMetaData(localPath);
 }
 
 bool FileControl::isShowToolTip(const QString &oldPath, const QString &name)
@@ -823,52 +754,16 @@ bool FileControl::isCanReadable(const QString &path)
     return bRet;
 }
 
-bool FileControl::isSvgImage(const QString &path)
-{
-    bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
-    imageViewerSpace::ImageType imgType = LibUnionImage_NameSpace::getImageType(localPath);
-    if (imgType == imageViewerSpace::ImageTypeSvg) {
-        bRet = true;
-    }
-    return bRet;
-}
-
-/**
- * @return 根据传入的文件路径 \a path 读取判断文件是否为多页图，
- *      会在排除 *.gif 等动态图后判断, 例如 .tif 等文件格式。
- */
-bool FileControl::isMultiImage(const QString &path)
-{
-    bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
-    imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
-    if (imageViewerSpace::ImageTypeMulti == type) {
-        bRet = true;
-    }
-
-    return bRet;
-}
-
-/**
- * @brief 根据传入的文件路径 \a path 读取判断文件是否存在
- */
-bool FileControl::imageIsExist(const QString &path)
-{
-    QString localPath = QUrl(path).toLocalFile();
-    return QFile::exists(localPath);
-}
-
 /**
  * @brief 根据传入的文件路径列表 \a filePaths 重设缓存的文件信息，
  *      若在图片打开过程中文件被修改，将发送信号至界面或其它处理。
  */
 void FileControl::resetImageFiles(const QStringList &filePaths)
 {
-    //    // 清空缓存的文件路径信息
-
     // 变更监控的文件
     imageFileWatcher->resetImageFiles(filePaths);
+    // 清理缩略图缓存记录
+    ImageInfo::clearCache();
 }
 
 /**

@@ -10,6 +10,7 @@ BaseImageDelegate {
 
     status: image.status
     targetImage: image
+    inputHandler: imageInput
 
     Image {
         id: image
@@ -19,13 +20,13 @@ BaseImageDelegate {
         asynchronous: true
         cache: false
         clip: true
+        fillMode: Image.PreserveAspectFit
         mipmap: true
         smooth: true
         scale: delegate.scale
         source: delegate.source
-        // SVG 图片源大小需单独设置
-        sourceSize.width: imageInfo.width
-        sourceSize.height: imageInfo.height
+        // 设置为当前图像的图片源，调整因缩放导致的模糊
+        sourceSize: Qt.size(width, height)
     }
 
     ImageInputHandler {
@@ -33,10 +34,5 @@ BaseImageDelegate {
 
         anchors.fill: parent
         targetImage: image.status === Image.Ready ? image : null
-    }
-
-    IV.ImageInfo {
-        id: imageInfo
-        source: delegate.source
     }
 }

@@ -15,6 +15,12 @@ Item {
     property int status: imageInfo.status
     property int type
 
+    function reset() {
+        var temp = contentImage.source
+        contentImage.source = ""
+        contentImage.source = temp
+    }
+
     Image {
         id: contentImage
 
@@ -43,7 +49,7 @@ Item {
                 }
             }
 
-            // 更新类型
+            // 更新类型，不直接绑定
             thumbnailImage.type = imageInfo.type
         }
     }

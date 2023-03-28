@@ -18,8 +18,8 @@ Item {
 
     // 绘制区域变更时，刷新区域
     Connections {
-        enabled: undefined !== targetImage
-        target: undefined === targetImage ? null : targetImage
+        enabled: null !== targetImage
+        target: targetImage
 
         onPaintedHeightChanged: mouseArea.delayUpdateDragRect()
         onPaintedWidthChanged: mouseArea.delayUpdateDragRect()

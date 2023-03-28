@@ -1,5 +1,7 @@
 // SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+//
 // SPDX-License-Identifier: GPL-3.0-or-later
+
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
@@ -14,10 +16,11 @@ import "./LiveText"
 Item {
     id: imageViewer
 
-    // 当前图片文件信息
-    property alias targeImageInfo: currentImageInfo
-
-    // Image 类型的对象，空图片、错误图片、消失图片等异常为 undefined
+    // Note: 对于SVG、动图等特殊类型图片，使用 targeImage 获取的图片 sourceSize 存在差异，
+    // 可能为零或导致缩放模糊，调整为使用从文件中读取的原始大小计算。
+    // 图片旋转后同样会交换宽度和高度，更新缓存的图片源宽高信息
+    property alias targetImageInfo: currentImageInfo
+    // Image 类型的对象，空图片、错误图片、消失图片等异常为 null
     property alias targetImage: view.currentImage
     property bool targetImageReady: (null !== view.currentImage)
                                     && (Image.Ready === view.currentImage.status)
@@ -60,15 +63,12 @@ Item {
 
         // 图片实际缩放比值 绘制像素宽度 / 图片原始像素宽度
         var readableScale = targetImage.paintedWidth * targetImage.scale
-                / targetImage.sourceSize.width * 100
-        if (readableScale.toFixed(0) > 2000 && readableScale.toFixed(
-                    0) <= 3000) {
+                / targetImageInfo.width * 100
+        if (readableScale.toFixed(0) > 2000 && readableScale.toFixed(0) <= 3000) {
             floatLabel.displayStr = "2000%"
-        } else if (readableScale.toFixed(0) < 2 && readableScale.toFixed(
-                       0) >= 0) {
+        } else if (readableScale.toFixed(0) < 2 && readableScale.toFixed(0) >= 0) {
             floatLabel.displayStr = "2%"
-        } else if (readableScale.toFixed(0) >= 2 && readableScale.toFixed(
-                       0) <= 2000) {
+        } else if (readableScale.toFixed(0) >= 2 && readableScale.toFixed(0) <= 2000) {
             floatLabel.displayStr = readableScale.toFixed(0) + "%"
         }
 
@@ -92,57 +92,10 @@ Item {
         view.exitLiveText()
     }
 
-    // 图片源发生改变，隐藏导航区域，重置图片缩放比例
-    property var source
-    onSourceChanged: {
-        // 手动更新图源时，排除空图源影响
-        if (source.length === 0) {
-            return
-        }
-
-        // 多页图索引不在此处进行复位，鼠标点击，按钮切换等不同方式切换显示不同的多页图帧号
-        fileControl.slotRotatePixCurrent()
-        CodeImage.setReverseHeightWidth(false)
-
-        // 设置图片状态
-        //        fileControl.setCurrentImage(source)
-        //        CodeImage.setMultiFrameIndex(fileControl.isMultiImage(source) ? 0 : -1)
-        // 复位图片旋转状态
-        imageViewer.currentRotate = 0
-
-        // 默认隐藏导航区域
-        idNavWidget.visible = false
-        // 判断图片大小是否超过了允许显示的展示区域
-        //        if (fileControl.getFitWindowScale(
-        //                    root.width, root.height - titleRect.height * 2) > 1) {
-        //            fitWindow()
-        //        } else {
-        //            fitImage()
-        //        }
-
-        // 设置标题栏
-        //        window.title = fileControl.slotGetFileName(
-        //                    source) + fileControl.slotFileSuffix(source)
-        // 显示缩放比例提示框
-        showScaleFloatLabel()
-
-        sigSourceChange()
-
-        // 重设工具/菜单栏的隐藏/弹出
-        mainView.animationAll()
-
-        // 启动live text分析
-        if (!GStatus.viewFlicking) {
-            console.debug("onSourceChanged:")
-            recalculateLiveText()
-        }
-    }
-
     function fitImage() {
         if (targetImageReady) {
             // 按图片原始大小执行缩放
-            var imageSourceWidth = targetImage.sourceSize.width
-            targetImage.scale = imageSourceWidth / targetImage.paintedWidth
+            targetImage.scale = targetImageInfo.width / targetImage.paintedWidth
         }
     }
 
@@ -153,32 +106,10 @@ Item {
         }
     }
 
-    function rotateImage(x) {
-
-        // 判断是否为首次进行图片旋转
-        var needResetBar = (currentRotate == 0)
-
-        // 更新当前图片的旋转角度
-        fileControl.rotateFile(source, x)
-        currentRotate = fileControl.currentAngle()
-        CodeImage.setReverseHeightWidth(fileControl.isReverseHeightWidth())
-
-        // 判断图片大小是否超过了允许显示的展示区域
-        if (fileControl.getFitWindowScale(
-                    root.width, root.height - titleRect.height * 2) > 1) {
-            fitWindow()
-        } else {
-            fitImage()
+    function rotateImage(angle) {
+        if (targetImageReady) {
+            GControl.currentRotation += angle
         }
-
-        if (needResetBar) {
-            // 重设工具/菜单栏的隐藏/弹出
-            mainView.animationAll()
-        }
-
-        //重新进行live text分析
-        console.debug("rotateImage")
-        recalculateLiveText()
     }
 
     function showPanelFullScreen() {
@@ -199,8 +130,6 @@ Item {
 
     // 图片状态变更时触发
     onTargetImageReadyChanged: {
-        // FIXME
-        // 旋转状态
         if (targetImageReady
                 && IV.Types.DynamicImage !== currentImageInfo.type) {
             // 适配窗口
@@ -228,32 +157,25 @@ Item {
         onScaleChanged: {
             // 图片实际缩放比值 绘制像素宽度 / 图片原始像素宽度
             var readableScale = targetImage.paintedWidth * targetImage.scale
-                    / targetImage.sourceSize.width * 100
+                    / targetImageInfo.width * 100
             // 缩放限制在 2% ~ 2000% ，变更后再次进入此函数处理
             if (readableScale < 2) {
-                targetImage.scale = targetImage.sourceSize.width * 0.02 / targetImage.paintedWidth
+                targetImage.scale = targetImageInfo.width * 0.02 / targetImage.paintedWidth
                 return
             } else if (readableScale > 2000) {
-                targetImage.scale = targetImage.sourceSize.width * 20 / targetImage.paintedWidth
+                targetImage.scale = targetImageInfo.width * 20 / targetImage.paintedWidth
                 return
             }
 
             // 处于保持效果缩放状态时，保留之前的缩放比例
             if (enableChangeDisplay) {
                 lastDisplayScaleWidth = targetImage.paintedWidth * targetImage.scale
-            } else {
                 // 显示缩放框
                 showScaleFloatLabel()
             }
 
             // 重新文本识别
             recalculateLiveText()
-        }
-
-        onStatusChanged: {
-            if (Image.Ready === targetImage.status) {
-                console.warn("-------------------ready")
-            }
         }
     }
 
@@ -286,8 +208,8 @@ Item {
             // 动画结束时，重置缩放状态
             if (!running && targetImageReady) {
                 // 匹配缩放处理
-                if (targetImage.sourceSize.height < targetImage.height) {
-                    targetImage.scale = targetImage.sourceSize.width / targetImage.paintedWidth
+                if (targetImageInfo.height < targetImage.height) {
+                    targetImage.scale = targetImageInfo.width / targetImage.paintedWidth
                 } else {
                     targetImage.scale = 1.0
                 }

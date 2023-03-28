@@ -4,6 +4,7 @@
 
 #include "globalstatus.h"
 
+// 使用的全局变量实现，是宏 GLOBAL_PROPERTY 的实现
 #define GLOBAL_PROPERTY_IMPL(T, X)                                                                                               \
     T GlobalStatus::X() const { return store##X; }                                                                               \
     void GlobalStatus::set##X(T value)                                                                                           \

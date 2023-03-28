@@ -4,7 +4,11 @@
 
 #include "thumbnailcache.h"
 
-ThumbnailCache::ThumbnailCache() {}
+ThumbnailCache::ThumbnailCache()
+{
+    //  设置默认缓存为256
+    cache.setMaxCost(256);
+}
 
 ThumbnailCache::~ThumbnailCache() {}
 
@@ -25,11 +29,17 @@ bool ThumbnailCache::contains(const QString &path, int frameIndex)
 
 /**
    @return 返回缓存中文件路径为 \a path 和图片帧索引为 \a frameIndex 的缩略图
+    QImage内部使用引用计数降低拷贝次数
  */
 QImage ThumbnailCache::get(const QString &path, int frameIndex)
 {
     QMutexLocker _locker(&mutex);
-    return cache.value(toFindKey(path, frameIndex));
+    QImage *image = cache.object(toFindKey(path, frameIndex));
+    if (image) {
+        return *image;
+    } else {
+        return QImage();
+    }
 }
 
 /**
@@ -38,7 +48,25 @@ QImage ThumbnailCache::get(const QString &path, int frameIndex)
 void ThumbnailCache::add(const QString &path, int frameIndex, const QImage &image)
 {
     QMutexLocker _locker(&mutex);
-    cache.insert(toFindKey(path, frameIndex), image);
+    cache.insert(toFindKey(path, frameIndex), new QImage(image));
+}
+
+/**
+   @brief 移除文件路径为 \a path 和图片帧索引为 \a frameIndex 的缩略图
+ */
+void ThumbnailCache::remove(const QString &path, int frameIndex)
+{
+    QMutexLocker _locker(&mutex);
+    cache.remove(toFindKey(path, frameIndex));
+}
+
+/**
+   @brief 设置当前缓存的最大容量为 \a maxCost
+ */
+void ThumbnailCache::setMaxCost(int maxCost)
+{
+    QMutexLocker _locker(&mutex);
+    cache.setMaxCost(maxCost);
 }
 
 /**
@@ -51,9 +79,17 @@ void ThumbnailCache::clear()
 }
 
 /**
+   @return 返回图片的
+ */
+QList<ThumbnailCache::Key> ThumbnailCache::keys()
+{
+    return cache.keys();
+}
+
+/**
    @return 组合图像文件路径 \a path 和图像帧索引 \a frameIndex 为缩略图缓存处理的 key
  */
-QString ThumbnailCache::toFindKey(const QString &path, int frameIndex)
+ThumbnailCache::Key ThumbnailCache::toFindKey(const QString &path, int frameIndex)
 {
-    return frameIndex ? (path + QString::number(frameIndex)) : path;
+    return qMakePair(path, frameIndex);
 }

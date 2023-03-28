@@ -26,6 +26,7 @@ class ImageInfo : public QObject
 
 public:
     explicit ImageInfo(QObject *parent = nullptr);
+    explicit ImageInfo(const QUrl &source, QObject *parent = nullptr);
     ~ImageInfo() override;
 
     enum Status { Null, Ready, Loading, Error };
@@ -43,6 +44,7 @@ public:
     Q_SIGNAL void widthChanged();
     int height() const;
     Q_SIGNAL void heightChanged();
+    void swapWidthAndHeight();
 
     void setFrameIndex(int index);
     int frameIndex() const;
@@ -55,14 +57,16 @@ public:
     bool hasCachedThumbnail() const;
 
     Q_SIGNAL void infoChanged();
-    Q_INVOKABLE void refresh();
+    Q_INVOKABLE void reloadData();
 
+    void clearCurrentCache();
     static void clearCache();
 
 protected:
     void setStatus(Status status);
     void updateData(const QSharedPointer<ImageInfoData> &newData);
     Q_SLOT void onLoadFinished(const QString &path, int frameIndex = 0);
+    Q_SLOT void onSizeChanged(const QString &path, int frameIndex = 0);
 
 protected:
     QUrl imageUrl;

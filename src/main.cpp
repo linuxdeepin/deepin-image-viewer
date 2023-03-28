@@ -54,24 +54,37 @@ int main(int argc, char *argv[])
     qmlRegisterType<ImageSourceModel>(uri.toUtf8().data(), 1, 0, "ImageSourceModel");
     qmlRegisterUncreatableType<Types>(uri.toUtf8().data(), 1, 0, "Types", "Types only use for define");
 
-    // 全局单例
+    // QML全局单例
     GlobalControl control;
     engine.rootContext()->setContextProperty("GControl", &control);
     GlobalStatus status;
     engine.rootContext()->setContextProperty("GStatus", &status);
     FileControl fileControl;
     engine.rootContext()->setContextProperty("fileControl", &fileControl);
-    QObject::connect(&fileControl, &FileControl::imageRenamed, &control, &GlobalControl::renameImage);
-    status.setenableNavigation(fileControl.isEnableNavigation());
-    QObject::connect(
-        &status, &GlobalStatus::enableNavigationChanged, [&]() { fileControl.setEnableNavigation(status.enableNavigation()); });
     // 光标位置查询工具
     CursorTool cursorTool;
     engine.rootContext()->setContextProperty("cursorTool", &cursorTool);
-
     // 后端缩略图加载，由 QMLEngine 管理生命周期
-    MultiImageLoad *multiImagaLoad = new MultiImageLoad;
-    engine.addImageProvider(QLatin1String("Multiimage"), multiImagaLoad);
+    MultiImageLoad *multiImageLoad = new MultiImageLoad;
+    engine.addImageProvider(QLatin1String("Multiimage"), multiImageLoad);
+
+    // 关联各组件
+    // 提交图片旋转信息到文件，覆写文件
+    QObject::connect(
+        &control, &GlobalControl::requestRotateImage, &fileControl, &FileControl::rotateImageFile, Qt::DirectConnection);
+    // 图片旋转时更新图像缓存
+    QObject::connect(&control, &GlobalControl::requestRotateCacheImage, [&]() {
+        multiImageLoad->rotateImageCached(control.currentRotation(), control.currentSource().toLocalFile());
+    });
+
+    status.setenableNavigation(fileControl.isEnableNavigation());
+    QObject::connect(
+        &status, &GlobalStatus::enableNavigationChanged, [&]() { fileControl.setEnableNavigation(status.enableNavigation()); });
+    QObject::connect(&fileControl, &FileControl::imageRenamed, &control, &GlobalControl::renameImage);
+    // 文件变更时清理缓存
+    QObject::connect(&fileControl, &FileControl::imageFileChanged, [&](const QString &fileName) {
+        multiImageLoad->removeImageCache(fileName);
+    });
 
     // OCR分析工具
     auto liveTextAnalyzer = new LiveTextAnalyzer;
