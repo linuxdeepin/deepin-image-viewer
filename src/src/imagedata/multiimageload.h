@@ -5,6 +5,8 @@
 #ifndef MULTIIMAGELOAD_H
 #define MULTIIMAGELOAD_H
 
+#include "thumbnailcache.h"
+
 #include <QQuickImageProvider>
 #include <QImageReader>
 #include <QImage>
@@ -19,16 +21,21 @@ public:
     virtual QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
     virtual QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize) override;
 
+    void rotateImageCached(int angle, const QString &imagePath, int frameIndex = 0);
+    void removeImageCache(const QString &imagePath);
+    void clearCache();
+
 private:
     QImage readNormalImage(const QString &imagePath);
     QImage readMultiImage(const QString &imagePath, int frameIndex);
 
 private:
     QMutex mutex;
-    int lastFrameIndex = 0;
-    QString lastImagePath;
-    QImage lastImage;
-    QImageReader imageReader;  // 图像读取类
+    ThumbnailCache imageCache;  ///< 图像数据缓存
+    QImageReader imageReader;   ///< 图像读取类
+
+    QString lastRotatePath;  ///< 缓存的旋转文件路径
+    QImage lastRotateImage;  ///< 缓存的旋转图像信息
 };
 
 #endif  // MULTIIMAGELOAD_H

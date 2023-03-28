@@ -39,7 +39,7 @@ BaseImageDelegate {
         // 当处理双击缩放界面时，由于坐标变更，可能误触导致图片滑动
         // 调整为在缩放动作时不处理滑动操作
         interactive: !GStatus.fullScreenAnimating && GStatus.viewInteractive
-        model: imageInfo.frameCount
+        model: IV.ImageInfo.Ready === targetImageInfo.status ? targetImageInfo.frameCount : 0
         delegate: Loader {
             width: multiImageDelegate.width
             height: multiImageDelegate.height
@@ -118,10 +118,5 @@ BaseImageDelegate {
         onMovementEnded: {
             GStatus.viewFlicking = false
         }
-    }
-
-    IV.ImageInfo {
-        id: imageInfo
-        source: multiImageDelegate.source
     }
 }

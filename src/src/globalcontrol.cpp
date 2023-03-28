@@ -6,7 +6,12 @@
 #include "types.h"
 #include "imagedata/imagesourcemodel.h"
 
+#include <QEvent>
 #include <QDebug>
+
+enum Interval {
+    SubmitInterval = 200,  // 图片变更提交定时间隔 200ms
+};
 
 /**
    @class GlobalControl
@@ -19,7 +24,10 @@ GlobalControl::GlobalControl(QObject *parent)
 {
 }
 
-GlobalControl::~GlobalControl() {}
+GlobalControl::~GlobalControl()
+{
+    submitImageChangeImmediately();
+}
 
 /**
    @brief 设置全局使用的数据模型为 \a model
@@ -43,6 +51,21 @@ ImageSourceModel *GlobalControl::globalModel() const
 }
 
 /**
+   @brief 设置当前显示的图片源为 \a source , 若图片源列表中无此图片，则不进行处理
+ */
+void GlobalControl::setCurrentSource(const QUrl &source)
+{
+    if (currentImage.source() == source) {
+        return;
+    }
+
+    int index = sourceModel->indexForImagePath(source);
+    if (-1 != index) {
+        setCurrentIndex(index);
+    }
+}
+
+/**
    @return 返回当前设置的图片url地址
  */
 QUrl GlobalControl::currentSource() const
@@ -57,6 +80,8 @@ void GlobalControl::setCurrentIndex(int index)
 {
     int validIndex = qBound(0, index, imageCount() - 1);
     if (this->index != validIndex) {
+        submitImageChangeImmediately();
+
         // 更新图像信息，无论变更均更新
         QUrl image = sourceModel->data(sourceModel->index(validIndex), Types::ImageUrlRole).toUrl();
         currentImage.setSource(image);
@@ -84,6 +109,8 @@ void GlobalControl::setCurrentFrameIndex(int frameIndex)
 {
     int validFrameIndex = qBound(0, frameIndex, currentImage.frameCount() - 1);
     if (this->frameIndex != validFrameIndex) {
+        submitImageChangeImmediately();
+
         this->frameIndex = validFrameIndex;
         Q_EMIT currentFrameIndexChanged();
 
@@ -108,6 +135,40 @@ int GlobalControl::imageCount() const
 }
 
 /**
+   @brief 设置当前图片旋转角度为 \a angle , 此变更不会立即更新，
+        等待提交定时器结束后更新。
+ */
+void GlobalControl::setCurrentRotation(int angle)
+{
+    if (imageRotation != angle) {
+        if (0 != (angle % 90)) {
+            qWarning() << QString("Image rotate angle must be a multiple of 90 degrees, current is %1 .").arg(angle);
+        }
+
+        // 计算相较上一次是否需要交换宽高，angle 为 0 时特殊处理，不调整
+        if (angle && !!((angle - imageRotation) % 180)) {
+            currentImage.swapWidthAndHeight();
+        }
+
+        imageRotation = angle;
+        // 保证更新界面旋转前刷新缓存，为0时同样通知，用以复位状态
+        Q_EMIT requestRotateCacheImage();
+        Q_EMIT currentRotationChanged();
+
+        // 启动提交定时器
+        submitTimer.start(SubmitInterval, this);
+    }
+}
+
+/**
+   @return 返回当前图片的旋转角度
+ */
+int GlobalControl::currentRotation()
+{
+    return imageRotation;
+}
+
+/**
    @return 返回是否可切换到前一张图片
  */
 bool GlobalControl::hasPreviousImage() const
@@ -128,6 +189,8 @@ bool GlobalControl::hasNextImage() const
  */
 bool GlobalControl::previousImage()
 {
+    submitImageChangeImmediately();
+
     if (hasPreviousImage()) {
         Q_ASSERT(sourceModel);
         if (Types::MultiImage == currentImage.type()) {
@@ -157,6 +220,8 @@ bool GlobalControl::previousImage()
  */
 bool GlobalControl::nextImage()
 {
+    submitImageChangeImmediately();
+
     if (hasNextImage()) {
         Q_ASSERT(sourceModel);
         if (Types::MultiImage == currentImage.type()) {
@@ -183,6 +248,8 @@ bool GlobalControl::nextImage()
  */
 bool GlobalControl::firstImage()
 {
+    submitImageChangeImmediately();
+
     Q_ASSERT(sourceModel);
     if (sourceModel->rowCount()) {
         setCurrentFrameIndex(0);
@@ -197,6 +264,8 @@ bool GlobalControl::firstImage()
  */
 bool GlobalControl::lastImage()
 {
+    submitImageChangeImmediately();
+
     Q_ASSERT(sourceModel);
     int count = sourceModel->rowCount();
     if (count) {
@@ -243,8 +312,16 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
     Q_EMIT imageCountChanged();
 }
 
+/**
+   @brief 移除当前图片列表中文件路径为 \a removeImage 的图片，更新当前图片索引
+ */
 void GlobalControl::removeImage(const QUrl &removeImage)
 {
+    if (0 != currentRotation()) {
+        setCurrentRotation(0);
+        submitTimer.stop();
+    }
+
     // 移除当前图片，默认将后续图片前移，currentIndex将不会变更，手动提示更新
     bool needNotify = (index != sourceModel->rowCount() - 1);
 
@@ -272,17 +349,52 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
 {
     int index = sourceModel->indexForImagePath(oldName);
     if (-1 != index) {
+        submitImageChangeImmediately();
+
         sourceModel->setData(sourceModel->index(index), newName, Types::ImageUrlRole);
 
         if (oldName == currentImage.source()) {
             // 强制刷新，避免出现重命名为已缓存的删除图片
             currentImage.setSource(newName);
-            currentImage.refresh();
+            currentImage.reloadData();
 
             setCurrentFrameIndex(0);
             Q_EMIT currentSourceChanged();
             Q_EMIT currentIndexChanged();
         }
+    }
+}
+
+/**
+   @brief 提交当前图片的变更到图片文件，将触发文件重新写入磁盘
+   @warning 在执行切换、删除、重命名等操作前，需手动执行提交当前图片变更信息的操作
+ */
+void GlobalControl::submitImageChangeImmediately()
+{
+    submitTimer.stop();
+    int rotation = currentRotation();
+    if (0 == rotation) {
+        return;
+    }
+
+    rotation = rotation % 360;
+    if (0 != rotation) {
+        // 请求更新图片，同步图片旋转状态到文件中，将覆写文件
+        Q_EMIT requestRotateImage(currentImage.source().toLocalFile(), rotation);
+    }
+
+    // 重置状态
+    setCurrentRotation(0);
+}
+
+/**
+   @brief 响应定时器事件，此处用于延时更新图片旋转
+ */
+void GlobalControl::timerEvent(QTimerEvent *event)
+{
+    if (submitTimer.timerId() == event->timerId()) {
+        submitTimer.stop();
+        submitImageChangeImmediately();
     }
 }
 

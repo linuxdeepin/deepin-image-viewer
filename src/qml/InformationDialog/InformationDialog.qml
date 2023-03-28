@@ -6,6 +6,7 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0
+import org.deepin.image.viewer 1.0 as IV
 
 DialogWindow {
     property int leftX: 20
@@ -78,7 +79,7 @@ DialogWindow {
 
                     PropertyItemDelegate {
                         title: qsTr("Dimensions")
-                        description: fileControl.slotGetInfo("Dimension", filePath)
+                        description: imageInfo.width + "x" + imageInfo.height
                         Layout.fillWidth: true
                     }
 
@@ -236,6 +237,14 @@ DialogWindow {
     // 图片变更时复位组件状态(切换时关闭重命名框)
     onFileNameChanged: {
         fileNameProp.reset()
+    }
+
+    // DialogWindow 无法直接包含 ImageInfo
+    Item {
+        IV.ImageInfo {
+            id: imageInfo
+            source: GControl.currentSource
+        }
     }
 
     Component.onCompleted: {

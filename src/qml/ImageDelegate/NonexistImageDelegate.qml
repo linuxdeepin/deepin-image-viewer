@@ -19,7 +19,7 @@ BaseImageDelegate {
         height: 100
         smooth: true
         mipmap: true
-        source: imageInfo.hasCachedThumbnail
+        source: delegate.targetImageInfo.hasCachedThumbnail
                 ? "image://Multiimage/" + delegate.source
                 : "qrc:/res/icon_import_photo.svg"
     }
@@ -37,10 +37,5 @@ BaseImageDelegate {
         textFormat: Text.PlainText
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-    }
-
-    IV.ImageInfo {
-        id: imageInfo
-        source: delegate.source
     }
 }
