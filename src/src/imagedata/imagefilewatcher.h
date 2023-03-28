@@ -18,8 +18,11 @@ public:
 
     void resetImageFiles(const QStringList &filePaths);
     void fileRename(const QString &oldPath, const QString &newPath);
+    bool isCurrentDir(const QString &filePath);
+    void recordRotateImage(const QString &targetPath);
 
-    Q_SIGNAL void imageFileChanged(const QUrl &imagePath);
+    // 文件变更通知信号
+    Q_SIGNAL void imageFileChanged(const QString &imagePath);
 
 private:
     // 当处理的图片文件被移动、替换、删除时触发
@@ -28,9 +31,11 @@ private:
     Q_SLOT void onImageDirChanged(const QString &dir);
 
 private:
-    QHash<QString, QUrl> cacheFileInfo;  // 缓存的图片信息，用于判断图片信息是否变更 QHash<完整路径, url信息>
-    QHash<QString, QUrl> removedFile;  // 缓存被移除的文件信息(FileWatcher在文件删除/移动后将不会继续观察)
-    QFileSystemWatcher *fileWatcher = nullptr;  // 文件观察类，用于提示文件变更
+    QHash<QString, QUrl> cacheFileInfo;  ///< 缓存的图片信息，用于判断图片信息是否变更 QHash<完整路径, url信息>
+    QHash<QString, QUrl> removedFile;  ///< 缓存被移除的文件信息(FileWatcher在文件删除/移动后将不会继续观察)
+    QFileSystemWatcher *fileWatcher = nullptr;  ///< 文件观察类，用于提示文件变更
+
+    QString rotateImagePath;
 };
 
 #endif  // IMAGEFILEWATCHER_H

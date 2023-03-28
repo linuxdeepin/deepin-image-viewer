@@ -79,10 +79,14 @@ int ImageSourceModel::rowCount(const QModelIndex &parent) const
 }
 
 /**
-   @return 返回传入文件路径 \a file 在数据模型中的索引
+   @return 返回传入文件路径 \a file 在数据模型中的索引，无此文件则返回 -1
  */
 int ImageSourceModel::indexForImagePath(const QUrl &file)
 {
+    if (file.isEmpty()) {
+        return -1;
+    }
+
     return imageUrlList.indexOf(file);
 }
 

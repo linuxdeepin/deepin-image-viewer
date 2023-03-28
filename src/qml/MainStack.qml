@@ -24,35 +24,40 @@ Item {
 
     // 设置当前使用的图片源
     function setSourcePath(path) {
-        var sourcePaths = fileControl.getDirImagePath(path)
-        if (sourcePaths.length > 0) {
-            GControl.setImageFiles(sourcePaths, path)
-            // 记录当前读取的图片信息
-            fileControl.resetImageFiles(sourcePaths)
-
-            console.log("Load image info", path)
-
-            switchImageView()
+        if (fileControl.isCurrentWatcherDir(path)) {
+            // 更新当前文件路径
+            GControl.currentSource = path
         } else {
-            switchOpenImage()
+            var sourcePaths = fileControl.getDirImagePath(path)
+            if (sourcePaths.length > 0) {
+                GControl.setImageFiles(sourcePaths, path)
+                // 记录当前读取的图片信息
+                fileControl.resetImageFiles(sourcePaths)
+
+                console.log("Load image info", path)
+
+                switchImageView()
+            } else {
+                switchOpenImage()
+            }
         }
     }
 
     function switchOpenImage() {
         GStatus.stackPage = Number(IV.Types.OpenImagePage)
         window.title = ""
-        contentLoader.setSource("qrc:/qml/OpenImageWidget.qml");
+        contentLoader.setSource("qrc:/qml/OpenImageWidget.qml")
     }
 
     function switchImageView() {
         GStatus.stackPage = Number(IV.Types.ImageViewPage)
-        contentLoader.setSource("qrc:/qml/FullImageView.qml");
+        contentLoader.setSource("qrc:/qml/FullImageView.qml")
     }
 
     function switchSliderShow() {
         if (Number(IV.Types.ImageViewPage) === stackPage) {
             GStatus.stackPage = Number(IV.Types.SliderShowPage)
-            contentLoader.setSource("qrc:/qml/SliderShow.qml");
+            contentLoader.setSource("qrc:/qml/SliderShow.qml")
         }
     }
 

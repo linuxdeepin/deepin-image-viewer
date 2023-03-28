@@ -19,6 +19,7 @@ BaseThumbnailDelegate {
 
         ThumbnailImage {
             id: img
+
             anchors.fill: parent
             source: normalThumbnailDelegate.source
         }
@@ -35,6 +36,19 @@ BaseThumbnailDelegate {
             anchors.fill: img
             source: img
             maskSource: maskRect
+        }
+    }
+
+    // 执行旋转操作后，重新读取缓存数据，更新图片状态
+    Connections {
+        enabled: isCurrentItem
+        target: GControl
+        onCurrentRotationChanged: {
+            // Note: 确保缓存中的数据已刷新后更新界面
+            // 0 为复位，缓存中的数据已转换，无需再次加载
+            if (0 !== GControl.currentRotation) {
+                img.reset()
+            }
         }
     }
 

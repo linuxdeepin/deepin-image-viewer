@@ -7,26 +7,31 @@
 
 #include <QObject>
 #include <QMutex>
-#include <QHash>
+#include <QCache>
 #include <QImage>
 
 class ThumbnailCache
 {
+public:
+    typedef QPair<QString, int> Key;
+
     ThumbnailCache();
     ~ThumbnailCache();
-
-public:
     static ThumbnailCache *instance();
+
     bool contains(const QString &path, int frameIndex = 0);
     QImage get(const QString &path, int frameIndex = 0);
     void add(const QString &path, int frameIndex, const QImage &image);
+    void remove(const QString &path, int frameIndex);
+    void setMaxCost(int maxCost);
     void clear();
 
-    static QString toFindKey(const QString &path, int frameIndex = 0);
+    QList<Key> keys();
+    static Key toFindKey(const QString &path, int frameIndex = 0);
 
 private:
     QMutex mutex;
-    QHash<QString, QImage> cache;
+    QCache<Key, QImage> cache;
 };
 
 #endif // THUMBNAILCACHE_H
