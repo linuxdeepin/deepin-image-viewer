@@ -128,14 +128,21 @@ Item {
     onWidthChanged: keepImageDisplayScale()
     onHeightChanged: keepImageDisplayScale()
 
-    // 图片状态变更时触发
-    onTargetImageReadyChanged: {
-        if (targetImageReady
-                && IV.Types.DynamicImage !== currentImageInfo.type) {
+    onTargetImageChanged: {
+        // 部分多页图 targetImage 变更时不会重复触发 targetImageReady ，在此处进行备用的判断
+        if (IV.Types.DynamicImage !== currentImageInfo.type) {
             // 适配窗口
             recalculateLiveText()
         } else {
             exitLiveText()
+        }
+    }
+
+    // 图片状态变更时触发
+    onTargetImageReadyChanged: {
+        if (IV.Types.DynamicImage !== currentImageInfo.type) {
+            // 适配窗口
+            recalculateLiveText()
         }
 
         showScaleFloatLabel()
@@ -498,6 +505,8 @@ Item {
 
     IV.ImageInfo {
         id: currentImageInfo
+
+        frameIndex: GControl.currentFrameIndex
         source: GControl.currentSource
     }
 
@@ -570,6 +579,7 @@ Item {
 
         onClosed: {
             GStatus.showRightMenu = false
+            imageViewer.forceActiveFocus()
         }
 
         Connections {
@@ -616,10 +626,4 @@ Item {
             targetImage: view.currentImage
         }
     }
-
-    //    // 导航窗口显示配置变更时触发
-    //    onIsNavShowChanged: {
-    //        // 保存设置信息
-    //        fileControl.setEnableNavigation(isNavShow)
-    //    }
 }

@@ -85,7 +85,7 @@ BaseImageDelegate {
                     mipmap: true
                     smooth: true
                     scale: imageItem.isCurrentImage ? multiImageDelegate.scale : 1.0
-                    source: "image://Multiimage/" + multiImageDelegate.source + "#frame_" + index
+                    source: "image://ImageLoad/" + multiImageDelegate.source + "#frame_" + index
 
                     Binding {
                         target: multiImageDelegate
@@ -101,6 +101,10 @@ BaseImageDelegate {
 
                     anchors.fill: parent
                     targetImage: image.status === Image.Ready ? image : null
+                }
+
+                Component.onCompleted: {
+                    imageInput.reset()
                 }
             }
         }

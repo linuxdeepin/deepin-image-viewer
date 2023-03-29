@@ -317,8 +317,7 @@ bool FileControl::displayinFileManager(const QString &path)
     if (interface.isValid()) {
         QStringList list;
         list << displayUrl.toString();
-        interface.call("ShowItems", list, "").type() != QDBusMessage::ErrorMessage;
-        bRet = true;
+        bRet = interface.call("ShowItems", list, "").type() != QDBusMessage::ErrorMessage;
     }
     return bRet;
 }
@@ -426,9 +425,8 @@ void FileControl::ocrImage(const QString &path, int index)
     }
 }
 
-QString FileControl::parseCommandlineGetPath(const QString &path)
+QString FileControl::parseCommandlineGetPath()
 {
-    Q_UNUSED(path)
     QString filepath = "";
     QStringList arguments = QCoreApplication::arguments();
     for (QString path : arguments) {

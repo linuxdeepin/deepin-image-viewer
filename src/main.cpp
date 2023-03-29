@@ -11,7 +11,7 @@
 #include "src/types.h"
 #include "src/imagedata/imageinfo.h"
 #include "src/imagedata/imagesourcemodel.h"
-#include "src/imagedata/multiimageload.h"
+#include "src/imagedata/imageprovider.h"
 #include "config.h"
 
 #include <DApplication>
@@ -65,8 +65,10 @@ int main(int argc, char *argv[])
     CursorTool cursorTool;
     engine.rootContext()->setContextProperty("cursorTool", &cursorTool);
     // 后端缩略图加载，由 QMLEngine 管理生命周期
-    MultiImageLoad *multiImageLoad = new MultiImageLoad;
-    engine.addImageProvider(QLatin1String("Multiimage"), multiImageLoad);
+    AsyncImageProvider *asyncImageProvider = new AsyncImageProvider;
+    engine.addImageProvider(QLatin1String("ImageLoad"), asyncImageProvider);
+    ThumbnailProvider *multiImageLoad = new ThumbnailProvider;
+    engine.addImageProvider(QLatin1String("ThumbnailLoad"), multiImageLoad);
 
     // 关联各组件
     // 提交图片旋转信息到文件，覆写文件
@@ -74,7 +76,7 @@ int main(int argc, char *argv[])
         &control, &GlobalControl::requestRotateImage, &fileControl, &FileControl::rotateImageFile, Qt::DirectConnection);
     // 图片旋转时更新图像缓存
     QObject::connect(&control, &GlobalControl::requestRotateCacheImage, [&]() {
-        multiImageLoad->rotateImageCached(control.currentRotation(), control.currentSource().toLocalFile());
+        asyncImageProvider->rotateImageCached(control.currentRotation(), control.currentSource().toLocalFile());
     });
 
     status.setenableNavigation(fileControl.isEnableNavigation());
@@ -83,13 +85,25 @@ int main(int argc, char *argv[])
     QObject::connect(&fileControl, &FileControl::imageRenamed, &control, &GlobalControl::renameImage);
     // 文件变更时清理缓存
     QObject::connect(&fileControl, &FileControl::imageFileChanged, [&](const QString &fileName) {
-        multiImageLoad->removeImageCache(fileName);
+        asyncImageProvider->removeImageCache(fileName);
     });
 
     // OCR分析工具
     auto liveTextAnalyzer = new LiveTextAnalyzer;
     engine.rootContext()->setContextProperty("liveTextAnalyzer", liveTextAnalyzer);
     engine.addImageProvider(QLatin1String("liveTextAnalyzer"), liveTextAnalyzer);
+
+    // 判断命令行数据，在 QML 前优先加载
+    QString cliParam = fileControl.parseCommandlineGetPath();
+    if (!cliParam.isEmpty()) {
+        QStringList filePaths = fileControl.getDirImagePath(cliParam);
+        if (!filePaths.isEmpty()) {
+            control.setImageFiles(filePaths, cliParam);
+            fileControl.resetImageFiles(filePaths);
+
+            status.setstackPage(Types::ImageViewPage);
+        }
+    }
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())

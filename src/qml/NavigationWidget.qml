@@ -161,7 +161,7 @@ Item {
             asynchronous: true
             cache: false
             fillMode: Image.PreserveAspectFit
-            source: "image://Multiimage/" + GControl.currentSource + "#frame_"
+            source: "image://ImageLoad/" + GControl.currentSource + "#frame_"
                     + GControl.currentFrameIndex
 
             onStatusChanged: {

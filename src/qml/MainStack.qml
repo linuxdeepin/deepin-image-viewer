@@ -55,7 +55,7 @@ Item {
     }
 
     function switchSliderShow() {
-        if (Number(IV.Types.ImageViewPage) === stackPage) {
+        if (Number(IV.Types.ImageViewPage) === GStatus.stackPage) {
             GStatus.stackPage = Number(IV.Types.SliderShowPage)
             contentLoader.setSource("qrc:/qml/SliderShow.qml")
         }
@@ -169,7 +169,11 @@ Item {
     }
 
     Component.onCompleted: {
-        // 从命令行启动时取得命令行参数
-        stackView.setSourcePath(fileControl.parseCommandlineGetPath("x"))
+        // main.cpp 从命令行启动时取得命令行参数，判断默认加载界面
+        if (GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
+            switchImageView()
+        } else {
+            switchOpenImage()
+        }
     }
 }

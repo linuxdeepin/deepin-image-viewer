@@ -37,8 +37,9 @@ Item {
     transitions: Transition {
         reversible: true
 
+        // 保留最明显的宽度变更动画，其它属性变更忽略
         NumberAnimation {
-            properties: "scale, x, width, height"
+            properties: "width"
             // 调整不同宽度下的动画时间，最多310ms
             duration: width < 200 ? 100 : width / 2
             easing.type: Easing.OutInQuad
