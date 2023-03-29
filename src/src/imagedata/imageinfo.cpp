@@ -308,17 +308,8 @@ void ImageInfo::setSource(const QUrl &source)
         imageUrl = source;
         Q_EMIT sourceChanged();
 
-        QString localPath = imageUrl.toLocalFile();
-        ImageInfoData::Ptr newData = CacheInstance()->find(localPath, currentIndex);
-        if (newData) {
-            data = newData;
-            Q_EMIT infoChanged();
-
-            setStatus(data->isError() ? Error : Ready);
-        } else {
-            setStatus(Loading);
-            CacheInstance()->load(localPath, currentIndex);
-        }
+        // 刷新数据
+        refreshDataFromCache(true);
     }
 }
 
@@ -377,21 +368,8 @@ void ImageInfo::setFrameIndex(int index)
         currentIndex = index;
         Q_EMIT frameIndexChanged();
 
-        QString localPath = imageUrl.toLocalFile();
-        if (localPath.isEmpty()) {
-            return;
-        }
-
-        ImageInfoData::Ptr newData = CacheInstance()->find(localPath, currentIndex);
-        if (newData) {
-            data = newData;
-            Q_EMIT infoChanged();
-
-            setStatus(data->isError() ? Error : Ready);
-        } else {
-            setStatus(Loading);
-            CacheInstance()->load(localPath, currentIndex);
-        }
+        // 刷新数据
+        refreshDataFromCache(true);
     }
 }
 
@@ -450,7 +428,7 @@ void ImageInfo::reloadData()
 }
 
 /**
-   @brief 清除当前文件的缓存
+   @brief 清除当前文件的缓存，多页图将清空所有帧图像的缓存
  */
 void ImageInfo::clearCurrentCache()
 {
@@ -491,7 +469,6 @@ void ImageInfo::updateData(const QSharedPointer<ImageInfoData> &newData)
     if (newData == data) {
         return;
     }
-
     ImageInfoData::Ptr oldData = data;
     data = newData;
 
@@ -514,26 +491,46 @@ void ImageInfo::updateData(const QSharedPointer<ImageInfoData> &newData)
 }
 
 /**
+   @brief 从缓存中刷新数据，若数据变更，将触发相关数据更新信号。
+    \a reload 标识此次刷新是否为重新加载数据，重新加载在无数据时将请求刷新数据。
+ */
+void ImageInfo::refreshDataFromCache(bool reload)
+{
+    QString localPath = imageUrl.toLocalFile();
+    if (localPath.isEmpty()) {
+        return;
+    }
+
+    ImageInfoData::Ptr newData = CacheInstance()->find(localPath, currentIndex);
+    if (newData) {
+        if (data) {
+            // 刷新旧数据，需发送部分更新信号
+            updateData(newData);
+        } else {
+            data = newData;
+        }
+        Q_EMIT infoChanged();
+
+        setStatus(data->isError() ? Error : Ready);
+    } else {
+        if (reload) {
+            setStatus(Loading);
+            CacheInstance()->load(localPath, currentIndex);
+        } else {
+            setStatus(Error);
+        }
+    }
+}
+
+/**
    @brief 内部数据异步加载完成，返回处理的文件路径 \a path ,
         根据加载结果，设置图片信息状态
  */
 void ImageInfo::onLoadFinished(const QString &path, int frameIndex)
 {
     if (imageUrl.toLocalFile() == path && currentIndex == frameIndex) {
-        ImageInfoData::Ptr newData = CacheInstance()->find(path, currentIndex);
-        if (newData) {
-            if (data) {
-                // 刷新旧数据，需发送部分更新信号
-                updateData(newData);
-            } else {
-                data = newData;
-            }
-            Q_EMIT infoChanged();
-
-            setStatus(data->isError() ? Error : Ready);
-        } else {
-            setStatus(Error);
-        }
+        // 从缓存刷新数据，不重新加载
+        refreshDataFromCache(false);
     }
 }
 

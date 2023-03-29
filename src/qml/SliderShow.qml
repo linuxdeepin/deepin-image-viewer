@@ -32,7 +32,7 @@ Item {
             GControl.nextImage()
         }
 
-        source = "image://Multiimage/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
+        source = "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
     }
 
     function switchPreviousImage() {
@@ -42,7 +42,7 @@ Item {
             GControl.previousImage()
         }
 
-        source = "image://Multiimage/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
+        source = "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
     }
 
     Timer {
@@ -245,7 +245,7 @@ Item {
     }
 
     Component.onCompleted: {
-        source = "image://Multiimage/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
+        source = "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
 
         showFullScreen()
         restart()

@@ -23,7 +23,7 @@ BaseImageDelegate {
         mipmap: true
         fillMode: Image.PreserveAspectFit
         scale: delegate.scale
-        source: "image://Multiimage/" + delegate.source
+        source: "image://ImageLoad/" + delegate.source
     }
 
     ImageInputHandler {
