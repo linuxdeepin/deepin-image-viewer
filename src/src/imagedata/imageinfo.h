@@ -65,6 +65,7 @@ public:
 protected:
     void setStatus(Status status);
     void updateData(const QSharedPointer<ImageInfoData> &newData);
+    void refreshDataFromCache(bool reload = false);
     Q_SLOT void onLoadFinished(const QString &path, int frameIndex = 0);
     Q_SLOT void onSizeChanged(const QString &path, int frameIndex = 0);
 

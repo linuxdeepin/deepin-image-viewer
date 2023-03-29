@@ -335,19 +335,19 @@ Item {
             }
         }
 
-        Behavior on x {
-            NumberAnimation {
-                duration: 50
-                easing.type: Easing.OutQuint
-            }
-        }
+//        Behavior on x {
+//            NumberAnimation {
+//                duration: 50
+//                easing.type: Easing.OutQuint
+//            }
+//        }
 
-        Behavior on y {
-            NumberAnimation {
-                duration: 50
-                easing.type: Easing.OutQuint
-            }
-        }
+//        Behavior on y {
+//            NumberAnimation {
+//                duration: 50
+//                easing.type: Easing.OutQuint
+//            }
+//        }
 
         Component.onCompleted: {
             bottomthumbnaillistView.currentIndex = GControl.currentIndex

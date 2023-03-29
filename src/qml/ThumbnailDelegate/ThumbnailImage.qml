@@ -39,14 +39,11 @@ Item {
         source: thumbnailImage.source
 
         onStatusChanged: {
-            if (IV.ImageInfo.Ready === imageInfo.status
-                    || IV.ImageInfo.Error === imageInfo.status) {
-                if (!imageInfo.hasCachedThumbnail) {
-                    contentImage.source = "qrc:/res/picture_damaged_58.svg"
-                } else {
-                    contentImage.source = "image://Multiimage/" + thumbnailImage.source
-                            + "#frame_" + thumbnailImage.frameIndex + "_thumbnail"
-                }
+            if (IV.ImageInfo.Error === imageInfo.status) {
+                contentImage.source = "qrc:/res/picture_damaged_58.svg"
+            } else if (IV.ImageInfo.Ready === imageInfo.status) {
+                contentImage.source = "image://ThumbnailLoad/" + thumbnailImage.source
+                        + "#frame_" + thumbnailImage.frameIndex
             }
 
             // 更新类型，不直接绑定

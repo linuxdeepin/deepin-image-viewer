@@ -25,8 +25,14 @@ ImageFileWatcher::~ImageFileWatcher() {}
 void ImageFileWatcher::resetImageFiles(const QStringList &filePaths)
 {
     if (filePaths.isEmpty()) {
-        fileWatcher->removePaths(fileWatcher->files());
-        fileWatcher->removePaths(fileWatcher->directories());
+        auto files = fileWatcher->files();
+        if (!files.isEmpty()) {
+            fileWatcher->removePaths(fileWatcher->files());
+        }
+        auto directories = fileWatcher->directories();
+        if (!directories.isEmpty()) {
+            fileWatcher->removePaths(fileWatcher->directories());
+        }
         return;
     }
 

@@ -53,6 +53,8 @@ set_source_files_properties(${TS} PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DI
 qt5_create_translation(QM ${SRC} ${SRCS} ${RCC_SOURCES} ${QMLSRC} ${GLOB})
 
 if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
+    # 调整优化级别
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
     qt5_create_translation(QM ${SRC} ${SRCS} ${RCC_SOURCES} ${QMLSRC} ${TS})
 endif ()
 

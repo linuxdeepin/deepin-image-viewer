@@ -26,7 +26,6 @@ Item {
         scale = 1.0
 
         if (targetImage) {
-
             // 匹配缩放处理
             if (isCurrentImage && imageInfo.width < targetImage.width
                     && imageInfo.height < targetImage.height) {

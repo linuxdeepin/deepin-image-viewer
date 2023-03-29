@@ -243,6 +243,8 @@ DialogWindow {
     Item {
         IV.ImageInfo {
             id: imageInfo
+
+            frameIndex: GControl.currentFrameIndex
             source: GControl.currentSource
         }
     }

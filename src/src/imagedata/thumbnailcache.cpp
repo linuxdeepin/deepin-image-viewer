@@ -6,8 +6,8 @@
 
 ThumbnailCache::ThumbnailCache()
 {
-    //  设置默认缓存为256
-    cache.setMaxCost(256);
+    // 设置默认缓存为240
+    cache.setMaxCost(240);
 }
 
 ThumbnailCache::~ThumbnailCache() {}
