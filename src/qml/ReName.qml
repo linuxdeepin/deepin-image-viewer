@@ -110,8 +110,8 @@ DialogWindow {
         if (visible) {
             setFileName(fileControl.slotGetFileName(GControl.currentSource))
             setFileSuffix(fileControl.slotFileSuffix(GControl.currentSource))
-            setX(root.x + root.width / 2 - width / 2)
-            setY(root.y + root.height / 2 - height / 2)
+            setX(window.x + window.width / 2 - width / 2)
+            setY(window.y + window.height / 2 - height / 2)
         }
     }
 }

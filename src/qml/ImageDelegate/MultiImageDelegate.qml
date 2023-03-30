@@ -67,10 +67,10 @@ BaseImageDelegate {
                 onIsCurrentImageChanged: {
                     if (imageItem.isCurrentImage) {
                         multiImageDelegate.targetImage = image
+                        multiImageDelegate.inputHandler = imageInput
                     }
 
                     multiImageDelegate.reset()
-                    imageInput.reset()
                 }
 
                 Image {

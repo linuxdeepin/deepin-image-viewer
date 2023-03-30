@@ -547,9 +547,10 @@ Item {
             bottomMargin: thumbnailViewBackGround.height + 20
         }
 
-        icon {
+        DciIcon {
             width: 45
             height: 45
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
             name: "icon_recognition_highlight"
         }
 

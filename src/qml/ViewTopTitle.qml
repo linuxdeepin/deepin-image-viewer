@@ -1,10 +1,13 @@
-
 // SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+//
 // SPDX-License-Identifier: GPL-3.0-or-later
+
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0
+import org.deepin.image.viewer 1.0 as IV
 
 Rectangle {
     property string iconName: "deepin-image-viewer"
@@ -14,10 +17,10 @@ Rectangle {
         y = animationShow ? 0 : -GStatus.titleHeight
     }
 
-    anchors.top: root.top
-    width: parent.width
+    anchors.top: window.top
+    width: window.width
     height: GStatus.titleHeight
-    visible: root.visibility === 5 ? false : true
+    visible: !window.isFullScreen
     color: titlecontrol.ColorSelector.backgroundColor
     gradient: Gradient {
         GradientStop {
@@ -55,31 +58,20 @@ Rectangle {
         }
     }
 
-    // 捕获标题栏部分鼠标事件，所有事件将穿透，由底层 ApplicationWindow 处理
-    MouseArea {
-        // propagateComposedEvents 使得 MouseArea 不维护状态，单独处理
-        property bool keepPressed: false
-
+    // 捕获标题栏部分鼠标事件，部分事件将穿透，由底层 ApplicationWindow 处理
+    IV.MouseTrackItem {
+        id: trackItem
         anchors.fill: parent
-        acceptedButtons: Qt.LeftButton
-        propagateComposedEvents: true
 
-        onClicked: mouse.accepted = false
-        onDoubleClicked: mouse.accepted = false
-        onPositionChanged: mouse.accepted = false
-        onPressAndHold: mouse.accepted = false
-        onPressed: {
-            keepPressed = true
-            mouse.accepted = false
-        }
-        onReleased: {
-            keepPressed = false
-            mouse.accepted = false
+        onPressedChanged: {
+            // 点击标题栏时屏蔽动画计算效果
+            GStatus.animationBlock = pressed
         }
 
-//        onPressedChanged: {
-//             GStatus.animationBlock = keepPressed
-//        }
+        onDoubleClicked: {
+            // 切换窗口最大化状态
+            title.toggleWindowState()
+        }
     }
 
     TitleBar {
@@ -114,11 +106,9 @@ Rectangle {
                     minimumHeight: 362
                     productName: qsTr("Image Viewer")
                     productIcon: "deepin-image-viewer"
-                    version: qsTr("Version") + ": %1".arg(
-                                 Qt.application.version)
+                    version: qsTr("Version") + ": %1".arg(Qt.application.version)
                     description: qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
-                    license: qsTr("%1 is released under %2").arg(
-                                 productName).arg("GPLV3")
+                    license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
                     companyLogo: fileControl.getCompanyLogo()
                     websiteName: DTK.deepinWebsiteName
                     websiteLink: DTK.deepinWebsiteLink
