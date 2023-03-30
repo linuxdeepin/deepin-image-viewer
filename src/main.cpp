@@ -6,6 +6,7 @@
 #include "src/cursortool.h"
 #include "src/ocr/livetextanalyzer.h"
 #include "src/dbus/applicationadpator.h"
+#include "src/declarative/mousetrackitem.h"
 #include "src/globalcontrol.h"
 #include "src/globalstatus.h"
 #include "src/types.h"
@@ -52,6 +53,7 @@ int main(int argc, char *argv[])
     const QString uri("org.deepin.image.viewer");
     qmlRegisterType<ImageInfo>(uri.toUtf8().data(), 1, 0, "ImageInfo");
     qmlRegisterType<ImageSourceModel>(uri.toUtf8().data(), 1, 0, "ImageSourceModel");
+    qmlRegisterType<MouseTrackItem>(uri.toUtf8().data(), 1, 0, "MouseTrackItem");
     qmlRegisterUncreatableType<Types>(uri.toUtf8().data(), 1, 0, "Types", "Types only use for define");
 
     // QML全局单例
