@@ -22,8 +22,11 @@ Item {
                                   + rightRowLayout.width + deleteButton.width
 
     function deleteCurrentImage() {
-        /// FIXME 移动到GControl ?
-        fileControl.deleteImagePath(GControl.currentSource)
+        if (!fileControl.deleteImagePath(GControl.currentSource)) {
+            // 取消删除文件
+            return
+        }
+
         GControl.removeImage(GControl.currentSource)
         if (0 === GControl.imageCount) {
             stackView.switchOpenImage()
