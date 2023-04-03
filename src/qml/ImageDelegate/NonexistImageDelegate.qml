@@ -19,9 +19,6 @@ BaseImageDelegate {
         height: 100
         smooth: true
         mipmap: true
-        source: delegate.targetImageInfo.hasCachedThumbnail
-                ? "image://ThumbnailLoad/" + delegate.source
-                : "qrc:/res/icon_import_photo.svg"
     }
 
     Text {
@@ -37,5 +34,13 @@ BaseImageDelegate {
         textFormat: Text.PlainText
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
+    }
+
+    Component.onCompleted: {
+        if (delegate.targetImageInfo.hasCachedThumbnail) {
+            notExistImage.source = "image://ThumbnailLoad/" + delegate.source
+        } else {
+            notExistImage.source = "qrc:/res/icon_import_photo.svg"
+        }
     }
 }
