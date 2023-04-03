@@ -208,7 +208,20 @@ Item {
     Connections {
         enabled: imageViewer.targetImageReady
         target: imageViewer.targetImage
-        onScaleChanged: animationAll()
+        onScaleChanged: delayAnimationTimer.start()
+    }
+
+    // 旋转图片时 targetImage 和 scale (1.0) 可能均不变更，获取旋转状态触发标题栏缩放
+    Connections {
+        target: GControl
+        onCurrentRotationChanged: delayAnimationTimer.start()
+    }
+
+    Timer {
+        id: delayAnimationTimer
+        repeat: false
+        interval: 10
+        onTriggered: animationAll()
     }
 
     FloatingButton {
