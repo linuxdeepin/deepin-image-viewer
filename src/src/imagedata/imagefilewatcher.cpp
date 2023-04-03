@@ -118,9 +118,10 @@ void ImageFileWatcher::onImageFileChanged(const QString &file)
 
         Q_EMIT imageFileChanged(file);
 
-        // 请求重新加载缓存，外部使用 ImageInfo 获取文件状态变更
+        // 请求重新加载缓存，外部使用 ImageInfo 获取文件状态变更，使用 clearCurrentCache() 清理多页图缓存信息
         ImageInfo info;
         info.setSource(url);
+        info.clearCurrentCache();
         info.reloadData();
     }
 }
