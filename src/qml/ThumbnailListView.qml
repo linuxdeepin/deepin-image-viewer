@@ -274,6 +274,15 @@ Item {
                         bottomthumbnaillistView.lastIsMultiImage = false
                     }
                 }
+
+                // 图片被删除、替换，重设当前图片组件
+                onInfoChanged: {
+                    checkDelegateSource()
+
+                    var temp = delegateSource
+                    delegateSource = ""
+                    delegateSource = temp
+                }
             }
         }
 
@@ -337,20 +346,6 @@ Item {
                 bottomthumbnaillistView.rePositionView()
             }
         }
-
-//        Behavior on x {
-//            NumberAnimation {
-//                duration: 50
-//                easing.type: Easing.OutQuint
-//            }
-//        }
-
-//        Behavior on y {
-//            NumberAnimation {
-//                duration: 50
-//                easing.type: Easing.OutQuint
-//            }
-//        }
 
         Component.onCompleted: {
             bottomthumbnaillistView.currentIndex = GControl.currentIndex

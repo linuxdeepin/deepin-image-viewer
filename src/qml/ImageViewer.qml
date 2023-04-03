@@ -387,6 +387,18 @@ Item {
                 }
                 onStatusChanged: checkDelegateSource()
                 onIsCurrentItemChanged: checkDelegateSource()
+
+                // InfoChange 在图片文件变更时触发，此时图片文件路径不变，文件内容被替换、删除
+                onInfoChanged: {
+                    if (isCurrentItem) {
+                        GControl.currentFrameIndex = 0
+                    }
+
+                    checkDelegateSource()
+                    var temp = delegateSource
+                    delegateSource = ""
+                    delegateSource = temp
+                }
             }
         }
 
