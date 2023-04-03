@@ -84,7 +84,7 @@ BaseImageDelegate {
                     fillMode: Image.PreserveAspectFit
                     mipmap: true
                     smooth: true
-                    scale: imageItem.isCurrentImage ? multiImageDelegate.scale : 1.0
+                    scale: 1.0
                     source: "image://ImageLoad/" + multiImageDelegate.source + "#frame_" + index
 
                     Binding {

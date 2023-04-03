@@ -18,16 +18,11 @@ Item {
     property alias targetImageInfo: imageInfo
     property ImageInputHandler inputHandler: null
 
-    property real rotation: 0 // 图片旋转角度
-    property real scale: targetImage ? targetImage.scale : 1 // 图片缩放比例
-
     function reset() {
-        rotation = 0
-        scale = 1.0
-
         if (targetImage) {
-            // 匹配缩放处理
-            if (isCurrentImage && imageInfo.width < targetImage.width
+            // 匹配缩放处理，对于动图，首次加载传入的 paintedWidth 可能为0
+            if (isCurrentImage && targetImage.paintedWidth > 0
+                    && imageInfo.width < targetImage.width
                     && imageInfo.height < targetImage.height) {
                 targetImage.scale = imageInfo.width / targetImage.paintedWidth
             } else {

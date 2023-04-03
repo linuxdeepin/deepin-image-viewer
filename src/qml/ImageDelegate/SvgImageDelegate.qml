@@ -23,7 +23,7 @@ BaseImageDelegate {
         fillMode: Image.PreserveAspectFit
         mipmap: true
         smooth: true
-        scale: delegate.scale
+        scale: 1.0
         source: delegate.source
         // 设置为当前图像的图片源，调整因缩放导致的模糊
         sourceSize: Qt.size(width, height)

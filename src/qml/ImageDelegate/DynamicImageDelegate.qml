@@ -7,6 +7,8 @@ import QtQuick 2.11
 BaseImageDelegate {
     id: delegate
 
+    property bool needInit: true
+
     status: image.status
     targetImage: image
     inputHandler: imageInput
@@ -21,7 +23,7 @@ BaseImageDelegate {
         clip: true
         fillMode: Image.PreserveAspectFit
         smooth: true
-        scale: delegate.scale
+        scale: 1.0
         source: delegate.source
     }
 
@@ -30,5 +32,18 @@ BaseImageDelegate {
 
         anchors.fill: parent
         targetImage: image.status === Image.Ready ? image : null
+    }
+
+    // 动图在首次加载，状态变更为 Ready 时，paintedWidth 可能未更新，为0
+    // 手动复位图片状态，调整缩放比例
+    Connections {
+        enabled: needInit
+        target: image
+        onPaintedWidthChanged: {
+            if (image.paintedWidth > 0) {
+                needInit = false
+                delegate.reset()
+            }
+        }
     }
 }
