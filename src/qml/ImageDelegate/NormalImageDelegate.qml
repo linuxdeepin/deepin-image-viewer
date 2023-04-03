@@ -22,7 +22,7 @@ BaseImageDelegate {
         smooth: true
         mipmap: true
         fillMode: Image.PreserveAspectFit
-        scale: delegate.scale
+        scale: 1.0
         source: "image://ImageLoad/" + delegate.source
     }
 
