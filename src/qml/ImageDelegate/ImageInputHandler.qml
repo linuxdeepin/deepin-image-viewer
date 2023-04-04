@@ -10,6 +10,8 @@ Item {
     id: imageInput
 
     property Image targetImage: null
+    // 仅部分图片允许旋转
+    property bool isRotatable: false
 
     function reset() {
         // 复位时立即刷新
@@ -134,10 +136,9 @@ Item {
         // 记录旧的缩放大小，防止拖拽时未保留当前状态
         property double oldScale: 0
         property double oldRotate: 0
-        property bool isRotatable: false
 
         anchors.fill: parent
-        enabled: targetImage !== null
+        enabled: null !== targetImage
 
         onPinchStarted: {
             // 缩放和旋转都至少需要2指操作
@@ -146,29 +147,26 @@ Item {
                 return
             }
 
-            oldScale = imageInput.scale
-            oldRotate = imageInput.rotation
-            // 不绑定信号，无需每次计算，仅当处理时获取
-            // isRotatable = fileControl.isRotatable(imageViewer.source)
+            oldScale = targetImage.scale
+            oldRotate = targetImage.rotation
             pinch.accepted = true
         }
 
         onPinchUpdated: {
             // 不设置边界，通过 onCurrentScaleChanged 处理限制缩放范围在 2% ~ 2000%
-            imageInput.scale = pinch.scale * oldScale
+            targetImage.scale = pinch.scale * imagePinchArea.oldScale
 
             if (isRotatable) {
-                imageInput.rotation = pinch.rotation + oldRotate
+                targetImage.rotation = pinch.rotation + oldRotate
             }
         }
 
         onPinchFinished: {
             // 更新界面缩放大小
-            imageInput.scale = pinch.scale * imagePinchArea.oldScale
-            msArea.changeRectXY()
+            targetImage.scale = pinch.scale * imagePinchArea.oldScale
 
             // 判断当前图片是否允许旋转
-            if (imagePinchArea.isRotatable) {
+            if (isRotatable) {
                 // 计算旋转角度，限制在旋转梯度为90度，以45度为分界点
                 if (Math.abs(pinch.rotation) > 45) {
                     // 区分正反旋转方向
@@ -177,12 +175,14 @@ Item {
                     var rotateAngle = Math.floor((Math.abs(pinch.rotation) + 45) / 90) * 90;
 
                     // 触摸旋转保存属于低频率操作，可立即保存文件
-                    fileControl.rotateFile(imageViewer.source, isClockWise ? rotateAngle : -rotateAngle)
-                    fileControl.slotRotatePixCurrent()
+                    GControl.currentRotation += isClockWise ? rotateAngle : -rotateAngle
+                    GControl.submitImageChangeImmediately()
                 } else {
-                    imageInput.rotation = imagePinchArea.oldRotate
+                    targetImage.rotation = imagePinchArea.oldRotate
                 }
             }
+
+            mouseArea.updateDragRect()
         }
 
         // 多点触控区域，处理触摸屏上的点击、双击、长按事件

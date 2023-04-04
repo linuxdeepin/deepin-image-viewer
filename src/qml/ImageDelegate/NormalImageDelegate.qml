@@ -31,6 +31,7 @@ BaseImageDelegate {
 
         anchors.fill: parent
         targetImage: image.status === Image.Ready ? image : null
+        isRotatable: fileControl.isRotatable(delegate.source)
     }
 
     Connections {
