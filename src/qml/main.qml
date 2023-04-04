@@ -9,10 +9,7 @@ import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
 ApplicationWindow {
-    id: root
-
-    //! \test 重构时过渡使用
-    property var window: root
+    id: window
 
     property bool isFullScreen: window.visibility === Window.FullScreen
 

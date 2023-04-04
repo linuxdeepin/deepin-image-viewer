@@ -112,15 +112,20 @@ Item {
         }
     }
 
+    // 触发全屏展示图片
     function showPanelFullScreen() {
         view.exitLiveText()
+        GStatus.showImageInfo = false
 
         showFullScreen()
         view.contentItem.forceActiveFocus()
         showfullAnimation.start()
     }
 
+    // 退出全屏展示图片
     function escBack() {
+        GStatus.showImageInfo = false
+
         showNormal()
         showfullAnimation.start()
     }
