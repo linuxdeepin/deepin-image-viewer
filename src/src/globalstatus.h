@@ -9,18 +9,6 @@
 
 #include <QObject>
 
-// 定义使用的 QML 全局状态变量
-#define GLOBAL_PROPERTY(T, X, DEFAULT_VAULE)                                                                                     \
-public:                                                                                                                          \
-    Q_PROPERTY(T X READ X WRITE set##X NOTIFY X##Changed)                                                                        \
-    T X() const;                                                                                                                 \
-    void set##X(T value);                                                                                                        \
-    Q_SIGNAL void X##Changed();                                                                                                  \
-                                                                                                                                 \
-private:                                                                                                                         \
-    T store##X = DEFAULT_VAULE;
-// GLOBAL_PROPERTY
-
 class GlobalStatus : public QObject
 {
     Q_OBJECT
@@ -40,18 +28,65 @@ public:
     explicit GlobalStatus(QObject *parent = nullptr);
     ~GlobalStatus() override;
 
-    GLOBAL_PROPERTY(bool, showFullScreen, false)   // 切换全屏显示图片 (ImageViewer)
-    GLOBAL_PROPERTY(bool, enableNavigation, true)  // 允许显示导航窗口
-    GLOBAL_PROPERTY(bool, showRightMenu, false)    // 显示右键菜单
-    GLOBAL_PROPERTY(bool, showImageInfo, false)    // 显示详细图像信息
-    GLOBAL_PROPERTY(bool, viewInteractive, true)   // 滑动视图是否响应操作 (ImageViewer ListView)
-    GLOBAL_PROPERTY(bool, viewFlicking, false)     // 滑动视图是否处于轻弹状态 (ImageViewer ListView)
-    GLOBAL_PROPERTY(bool, animationBlock, false)   // 屏蔽标题栏/底部栏动画效果
-    GLOBAL_PROPERTY(bool, fullScreenAnimating, false)  // 处于全屏动画状态标识，动画前后部分控件需重置，例如缩略图栏重新居中设置
-    GLOBAL_PROPERTY(int, thumbnailVaildWidth, 0)                        // 缩略图列表允许的宽度
-    GLOBAL_PROPERTY(Types::StackPage, stackPage, Types::OpenImagePage)  // 当前所处的界面索引
+    // 切换全屏显示图片 (ImageViewer)
+    Q_PROPERTY(bool showFullScreen READ showFullScreen WRITE setShowFullScreen NOTIFY showFullScreenChanged)
+    bool showFullScreen() const;
+    void setShowFullScreen(bool value);
+    Q_SIGNAL void showFullScreenChanged();
 
-public:
+    // 允许显示导航窗口
+    Q_PROPERTY(bool enableNavigation READ enableNavigation WRITE setEnableNavigation NOTIFY enableNavigationChanged)
+    bool enableNavigation() const;
+    void setEnableNavigation(bool value);
+    Q_SIGNAL void enableNavigationChanged();
+
+    // 显示右键菜单
+    Q_PROPERTY(bool showRightMenu READ showRightMenu WRITE setShowRightMenu NOTIFY showRightMenuChanged)
+    bool showRightMenu() const;
+    void setShowRightMenu(bool value);
+    Q_SIGNAL void showRightMenuChanged();
+
+    // 显示详细图像信息
+    Q_PROPERTY(bool showImageInfo READ showImageInfo WRITE setShowImageInfo NOTIFY showImageInfoChanged)
+    bool showImageInfo() const;
+    void setShowImageInfo(bool value);
+    Q_SIGNAL void showImageInfoChanged();
+
+    // 滑动视图是否响应操作 (ImageViewer ListView)
+    Q_PROPERTY(bool viewInteractive READ viewInteractive WRITE setViewInteractive NOTIFY viewInteractiveChanged)
+    bool viewInteractive() const;
+    void setViewInteractive(bool value);
+    Q_SIGNAL void viewInteractiveChanged();
+
+    // 滑动视图是否处于轻弹状态 (ImageViewer ListView)
+    Q_PROPERTY(bool viewFlicking READ viewFlicking WRITE setViewFlicking NOTIFY viewFlickingChanged) bool viewFlicking() const;
+    void setViewFlicking(bool value);
+    Q_SIGNAL void viewFlickingChanged();
+
+    // 屏蔽标题栏/底部栏动画效果
+    Q_PROPERTY(bool animationBlock READ animationBlock WRITE setAnimationBlock NOTIFY animationBlockChanged)
+    bool animationBlock() const;
+    void setAnimationBlock(bool value);
+    Q_SIGNAL void animationBlockChanged();
+
+    // 处于全屏动画状态标识，动画前后部分控件需重置，例如缩略图栏重新居中设置
+    Q_PROPERTY(bool fullScreenAnimating READ fullScreenAnimating WRITE setFullScreenAnimating NOTIFY fullScreenAnimatingChanged)
+    bool fullScreenAnimating() const;
+    void setFullScreenAnimating(bool value);
+    Q_SIGNAL void fullScreenAnimatingChanged();
+
+    // 缩略图列表允许的宽度
+    Q_PROPERTY(int thumbnailVaildWidth READ thumbnailVaildWidth WRITE setThumbnailVaildWidth NOTIFY thumbnailVaildWidthChanged)
+    int thumbnailVaildWidth() const;
+    void setThumbnailVaildWidth(int value);
+    Q_SIGNAL void thumbnailVaildWidthChanged();
+
+    // 当前所处的界面索引
+    Q_PROPERTY(Types::StackPage stackPage READ stackPage WRITE setStackPage NOTIFY stackPageChanged)
+    Types::StackPage stackPage() const;
+    void setStackPage(Types::StackPage value);
+    Q_SIGNAL void stackPageChanged();
+
     // Constant properties.
     int minHeight() const;
     int minWidth() const;
@@ -63,6 +98,18 @@ public:
     int switchImageHotspotWidth() const;
     int actionMargin() const;
     int rightMenuItemHeight() const;
+
+private:
+    bool storeshowFullScreen = false;
+    bool storeenableNavigation = true;
+    bool storeshowRightMenu = false;
+    bool storeshowImageInfo = false;
+    bool storeviewInteractive = true;
+    bool storeviewFlicking = false;
+    bool storeanimationBlock = false;
+    bool storefullScreenAnimating = false;
+    int storethumbnailVaildWidth = 0;
+    Types::StackPage storestackPage = Types::OpenImagePage;
 };
 
 #endif  // GLOBALSTATUS_H

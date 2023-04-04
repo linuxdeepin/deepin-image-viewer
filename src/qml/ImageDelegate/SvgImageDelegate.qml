@@ -5,6 +5,8 @@
 import QtQuick 2.11
 import org.deepin.image.viewer 1.0 as IV
 
+import "../Utils"
+
 BaseImageDelegate {
     id: delegate
 

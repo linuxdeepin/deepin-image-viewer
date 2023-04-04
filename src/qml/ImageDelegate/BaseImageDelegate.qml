@@ -6,6 +6,8 @@ import QtQuick 2.11
 import QtQml 2.11
 import org.deepin.image.viewer 1.0 as IV
 
+import "../Utils"
+
 Item {
     id: baseDelegate
 

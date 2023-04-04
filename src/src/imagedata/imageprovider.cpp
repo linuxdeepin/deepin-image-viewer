@@ -126,36 +126,18 @@ void AsyncImageResponse::run()
 }
 
 /**
-   @class AsyncImageProvider
-   @brief 异步图像加载器，提供主要图像的并行加载，主要用于展示图像的加载，会缓存最近的图像信息。
-        缩略图通过 ThumbnailProvider 加载
+   @class ProviderCache
+   @brief 图像加载器缓存，存储最近的图像数据并处理旋转等操作
  */
-AsyncImageProvider::AsyncImageProvider()
-{
-    // 缓存最近3张图片
-    imageCache.setMaxCost(3);
-}
+ProviderCache::ProviderCache() {}
 
-AsyncImageProvider::~AsyncImageProvider() {}
-
-/**
-   @brief 请求图像加载并返回应答，当图像加载成功时，通过接收信号进行实际图像的加载
-   @param id            图像索引(0 ~ frameCount - 1)
-   @param requestedSize 请求的图像大小
-   @return 返回图像加载应答
- */
-QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id, const QSize &requestedSize)
-{
-    AsyncImageResponse *response = new AsyncImageResponse(this, id, requestedSize);
-    QThreadPool::globalInstance()->start(response, QThread::IdlePriority);
-    return response;
-}
+ProviderCache::~ProviderCache() {}
 
 /**
    @brief 对缓存的 \a imagePath 图片执行旋转 \a angle 的操作。
    @note 待操作的图片必须在缓存中，当前展示的图片必定在缓存中
  */
-void AsyncImageProvider::rotateImageCached(int angle, const QString &imagePath, int frameIndex)
+void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int frameIndex)
 {
     // 旋转角度为0时，清除旋转状态缓存，防止外部文件变更后仍使用上一次的旋转状态。
     QMutexLocker _locker(&mutex);
@@ -195,7 +177,7 @@ void AsyncImageProvider::rotateImageCached(int angle, const QString &imagePath, 
 /**
    @brief 移除文件路径为 \a imagePath 的图片信息，主要用于文件删除，重命名等变更时重置状态
  */
-void AsyncImageProvider::removeImageCache(const QString &imagePath)
+void ProviderCache::removeImageCache(const QString &imagePath)
 {
     // 直接缓存的图像信息较少，遍历查询是否包含对应的图片
     QList<ThumbnailCache::Key> keys;
@@ -215,12 +197,91 @@ void AsyncImageProvider::removeImageCache(const QString &imagePath)
 /**
    @brief 移除图像加载器中的缓存数据
  */
-void AsyncImageProvider::clearCache()
+void ProviderCache::clearCache()
 {
     QMutexLocker _locker(&mutex);
     imageCache.clear();
     lastRotatePath.clear();
     lastRotateImage = QImage();
+}
+
+/**
+   @class AsyncImageProvider
+   @brief 异步图像加载器，提供主要图像的并行加载，主要用于展示图像的加载，会缓存最近的图像信息。
+        缩略图通过 ThumbnailProvider 加载
+ */
+AsyncImageProvider::AsyncImageProvider()
+{
+    // 缓存最近3张图片
+    imageCache.setMaxCost(3);
+}
+
+AsyncImageProvider::~AsyncImageProvider() {}
+
+/**
+   @brief 请求图像加载并返回应答，当图像加载成功时，通过接收信号进行实际图像的加载
+   @param id            图像索引(0 ~ frameCount - 1)
+   @param requestedSize 请求的图像大小
+   @return 返回图像加载应答
+ */
+QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id, const QSize &requestedSize)
+{
+    AsyncImageResponse *response = new AsyncImageResponse(this, id, requestedSize);
+    QThreadPool::globalInstance()->start(response, QThread::IdlePriority);
+    return response;
+}
+
+/**
+   @class ImageProvider
+   @brief 图片加载类，读取图像信息并加载。
+   @note 当 QML 中手动设置async时同样可能触发多线程加载
+ */
+ImageProvider::ImageProvider()
+    : QQuickImageProvider(QQmlImageProviderBase::Image)
+{
+}
+
+ImageProvider::~ImageProvider() {}
+
+/**
+   @brief 外部请求图像文件中指定帧的图像，指定帧号通过传入的 \a id 进行区分。
+        \a id 格式为 \b{图像路径#frame_帧号} ，例如 "/home/tmp.tif#frame_3" ，
+        表示 tmp.tif 图像文件的第四帧图像缩略图，这个 id 在 QML 文件中组合。
+   @param id            图像索引(0 ~ frameCount - 1)
+   @param size          图像的原始大小，有需要时可传出
+   @param requestedSize 请求的图像大小
+   @return 读取的图像数据
+ */
+QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
+{
+    // 解析id，获取当前读取的文件和图片索引
+    QString tempPath;
+    int frameIndex;
+    parseProviderID(id, tempPath, frameIndex);
+
+    // 判断缓存中是否存在图片
+    QImage image = imageCache.get(tempPath, frameIndex);
+    if (image.isNull()) {
+        if (frameIndex) {
+            image = readMultiImage(tempPath, frameIndex);
+        } else {
+            image = readNormalImage(tempPath);
+        }
+
+        if (size) {
+            *size = image.size();
+        }
+
+        // 缓存图片信息，即使是异常图片
+        imageCache.add(tempPath, frameIndex, image);
+    }
+
+    // 调整图像大小
+    if (!image.isNull() && image.size() != requestedSize && requestedSize.isValid()) {
+        image = image.scaled(requestedSize);
+    }
+
+    return image;
 }
 
 /**

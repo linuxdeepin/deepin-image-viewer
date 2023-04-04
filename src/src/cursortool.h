@@ -21,10 +21,6 @@ class CursorTool : public QObject
 {
     Q_OBJECT
 public:
-    enum Interval {
-        ESampleInterval = 50,  // 采样间隔 50ms
-    };
-
     explicit CursorTool(QObject *parent = nullptr);
 
     // 取得当前鼠标光标位置

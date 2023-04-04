@@ -66,6 +66,8 @@ public:
     Q_SLOT void submitImageChangeImmediately();
     Q_SIGNAL void requestRotateImage(const QString &localPath, int rotation);
 
+    static bool enableMultiThread();
+
 protected:
     void timerEvent(QTimerEvent *event) override;
 

@@ -7,11 +7,10 @@
 #include "imagedata/imagesourcemodel.h"
 
 #include <QEvent>
+#include <QThread>
 #include <QDebug>
 
-enum Interval {
-    SubmitInterval = 200,  // 图片变更提交定时间隔 200ms
-};
+static const int sc_SubmitInterval = 200;  // 图片变更提交定时间隔 200ms
 
 /**
    @class GlobalControl
@@ -156,7 +155,7 @@ void GlobalControl::setCurrentRotation(int angle)
         Q_EMIT currentRotationChanged();
 
         // 启动提交定时器
-        submitTimer.start(SubmitInterval, this);
+        submitTimer.start(sc_SubmitInterval, this);
     }
 }
 
@@ -385,6 +384,16 @@ void GlobalControl::submitImageChangeImmediately()
 
     // 重置状态
     setCurrentRotation(0);
+}
+
+/**
+   @return 返回是否允许使用多线程处理图像数据
+   @warning 在部分平台多线程可能出现问题，使用多线程的线程计数限制，低于2逻辑线程将不使用多线程处理
+ */
+bool GlobalControl::enableMultiThread()
+{
+    static const int sc_MaxThreadCountLimit = 2 ;
+    return bool(QThread::idealThreadCount() > sc_MaxThreadCountLimit);
 }
 
 /**
