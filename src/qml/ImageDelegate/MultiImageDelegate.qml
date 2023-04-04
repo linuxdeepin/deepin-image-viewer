@@ -5,6 +5,8 @@
 import QtQuick 2.11
 import org.deepin.image.viewer 1.0 as IV
 
+import "../Utils"
+
 // 使用嵌套的ListView进行浏览
 BaseImageDelegate {
     id: multiImageDelegate

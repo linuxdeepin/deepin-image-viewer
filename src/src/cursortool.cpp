@@ -8,11 +8,13 @@
 #include <QCursor>
 #include <DGuiApplicationHelper>
 
+static const int sc_ESampleInterval = 50;  // 采样间隔 50ms
+
 CursorTool::CursorTool(QObject *parent)
     : QObject(parent)
 {
     m_CaptureTimer = new QTimer(this);
-    m_CaptureTimer->setInterval(ESampleInterval);
+    m_CaptureTimer->setInterval(sc_ESampleInterval);
 
     connect(m_CaptureTimer, &QTimer::timeout, this, [this]() {
         QPoint pos = QCursor::pos();
@@ -23,7 +25,7 @@ CursorTool::CursorTool(QObject *parent)
         }
     });
 
-    connect(Dtk::Gui::DGuiApplicationHelper::instance(), &Dtk::Gui::DGuiApplicationHelper::applicationPaletteChanged, [this](){
+    connect(Dtk::Gui::DGuiApplicationHelper::instance(), &Dtk::Gui::DGuiApplicationHelper::applicationPaletteChanged, [this]() {
         auto newColor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         emit activeColorChanged(newColor);
     });

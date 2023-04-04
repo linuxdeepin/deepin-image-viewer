@@ -7,6 +7,8 @@ import QtGraphicalEffects 1.0
 import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
 
+import "./Utils"
+
 Item {
     id: fullThumbnail
 

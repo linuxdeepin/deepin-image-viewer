@@ -6,6 +6,7 @@
 #include "types.h"
 #include "thumbnailcache.h"
 #include "unionimage/unionimage.h"
+#include "globalcontrol.h"
 
 #include <QSet>
 #include <QSize>
@@ -227,8 +228,14 @@ void ImageInfoCache::load(const QString &path, int frameIndex, bool reload)
     }
     waitSet.insert(key);
 
-    LoadImageInfoRunnable *runnable = new LoadImageInfoRunnable(path, frameIndex);
-    QThreadPool::globalInstance()->start(runnable);
+    if (!GlobalControl::enableMultiThread()) {
+        // 低于2逻辑线程，直接加载，防止部分平台出现卡死等情况
+        LoadImageInfoRunnable runnable(path, frameIndex);
+        runnable.run();
+    } else {
+        LoadImageInfoRunnable *runnable = new LoadImageInfoRunnable(path, frameIndex);
+        QThreadPool::globalInstance()->start(runnable);
+    }
 }
 
 /**

@@ -66,9 +66,22 @@ int main(int argc, char *argv[])
     // 光标位置查询工具
     CursorTool cursorTool;
     engine.rootContext()->setContextProperty("cursorTool", &cursorTool);
+
     // 后端缩略图加载，由 QMLEngine 管理生命周期
-    AsyncImageProvider *asyncImageProvider = new AsyncImageProvider;
-    engine.addImageProvider(QLatin1String("ImageLoad"), asyncImageProvider);
+    // 部分平台支持线程数较低时，使用同步加载
+    ProviderCache *providerCache = nullptr;
+    if (!GlobalControl::enableMultiThread()) {
+        ImageProvider *imageProvider = new ImageProvider;
+        engine.addImageProvider(QLatin1String("ImageLoad"), imageProvider);
+
+        providerCache = static_cast<ProviderCache *>(imageProvider);
+    } else {
+        AsyncImageProvider *asyncImageProvider = new AsyncImageProvider;
+        engine.addImageProvider(QLatin1String("ImageLoad"), asyncImageProvider);
+
+        providerCache = static_cast<ProviderCache *>(asyncImageProvider);
+    }
+
     ThumbnailProvider *multiImageLoad = new ThumbnailProvider;
     engine.addImageProvider(QLatin1String("ThumbnailLoad"), multiImageLoad);
 
@@ -78,16 +91,16 @@ int main(int argc, char *argv[])
         &control, &GlobalControl::requestRotateImage, &fileControl, &FileControl::rotateImageFile, Qt::DirectConnection);
     // 图片旋转时更新图像缓存
     QObject::connect(&control, &GlobalControl::requestRotateCacheImage, [&]() {
-        asyncImageProvider->rotateImageCached(control.currentRotation(), control.currentSource().toLocalFile());
+        providerCache->rotateImageCached(control.currentRotation(), control.currentSource().toLocalFile());
     });
 
-    status.setenableNavigation(fileControl.isEnableNavigation());
+    status.setEnableNavigation(fileControl.isEnableNavigation());
     QObject::connect(
         &status, &GlobalStatus::enableNavigationChanged, [&]() { fileControl.setEnableNavigation(status.enableNavigation()); });
     QObject::connect(&fileControl, &FileControl::imageRenamed, &control, &GlobalControl::renameImage);
     // 文件变更时清理缓存
     QObject::connect(&fileControl, &FileControl::imageFileChanged, [&](const QString &fileName) {
-        asyncImageProvider->removeImageCache(fileName);
+        providerCache->removeImageCache(fileName);
     });
 
     // OCR分析工具
@@ -103,7 +116,7 @@ int main(int argc, char *argv[])
             control.setImageFiles(filePaths, cliParam);
             fileControl.resetImageFiles(filePaths);
 
-            status.setstackPage(Types::ImageViewPage);
+            status.setStackPage(Types::ImageViewPage);
         }
     }
 

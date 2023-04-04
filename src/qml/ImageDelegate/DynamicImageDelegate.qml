@@ -4,6 +4,8 @@
 
 import QtQuick 2.11
 
+import "../Utils"
+
 BaseImageDelegate {
     id: delegate
 
