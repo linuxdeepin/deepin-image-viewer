@@ -100,10 +100,8 @@ Rectangle {
             }
             AboutAction {
                 aboutDialog: AboutDialog {
-                    maximumWidth: 360
-                    maximumHeight: 362
-                    minimumWidth: 360
-                    minimumHeight: 362
+                    width: 360
+                    height: 362
                     productName: qsTr("Image Viewer")
                     productIcon: "deepin-image-viewer"
                     version: qsTr("Version") + ": %1".arg(Qt.application.version)
