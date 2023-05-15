@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020-2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2023 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
 {
     //for qt5platform-plugins load DPlatformIntegration or DPlatformIntegrationParent
     if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
-        setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
+        setenv("XDG_CURRENT_DESKTOP", "Deepin", 1)
     }
 
     //判断是否是wayland
@@ -137,7 +137,17 @@ int main(int argc, char *argv[])
     a.setApplicationDisplayName(QObject::tr("Image Viewer"));
     a.setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
     a.setApplicationDescription(QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
+
+    // 通过宏区分是否允许调用开源信息弹窗配置接口
+#ifdef DTKWIDGET_CLASS_DLicenseDialog
+    a.setApplicationCreditsFile(":/licenses/deepin-image-viewer.json");
+    a.setLicensePath(":/licenses/data");
+#else
+    qInfo() << qPrintable("Disable use dtkwidget DLiscenseDialog!");
+#endif
+
     a.loadTranslator();
+
     //save theme
     DApplicationSettings saveTheme;
     Q_UNUSED(saveTheme);

@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/licenses">
+        <file>deepin-image-viewer.json</file>
+        <file>data/LGPL-3.0-only.txt</file>
+        <file>data/BSD-3-Clause.txt</file>
+        <file>data/GPL-2.0-only.txt</file>
+        <file>data/GPL-2.0-or-later.txt</file>
+        <file>data/GPL-3.0-only.txt</file>
+        <file>data/LGPL-2.1-only.txt</file>
+        <file>data/MIT.txt</file>
+    </qresource>
+</RCC>
