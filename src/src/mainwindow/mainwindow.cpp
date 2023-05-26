@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020-2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2023 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -287,7 +287,7 @@ void MainWindow::initUI()
             //需要全屏切回普通窗口
             m_mainwidow->showNormal();
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
-            m_mainwidow->titlebar()->setFixedHeight(50);
+            m_mainwidow->titlebar()->setVisible(true);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
             m_mainwidow->setTitlebarShadowEnabled(true);
             int normalheight = m_mainwidow->height() + 1;
@@ -329,9 +329,9 @@ void MainWindow::slotOpenImg()
         if (m_mainwidow && m_mainwidow->titlebar())
         {
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
-            m_mainwidow->titlebar()->setFixedHeight(0);
+            m_mainwidow->titlebar()->setVisible(false);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
-            m_mainwidow->setTitlebarShadowEnabled(true);
+            m_mainwidow->setTitlebarShadowEnabled(false);
             //全屏的情况不用切换大小
             if (!window()->isFullScreen()) {
                 int normalheight = m_mainwidow->height() + 1;
@@ -370,9 +370,9 @@ bool MainWindow::slotDrogImg(const QStringList &paths)
         }
         if (m_mainwidow && m_mainwidow->titlebar()) {
             //隐藏原有DMainWindow titlebar，使用自定义标题栏
-            m_mainwidow->titlebar()->setFixedHeight(0);
+            m_mainwidow->titlebar()->setVisible(false);
             m_mainwidow->titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
-            m_mainwidow->setTitlebarShadowEnabled(true);
+            m_mainwidow->setTitlebarShadowEnabled(false);
             //全屏的情况不用切换大小
             if (!window()->isFullScreen()) {
                 int normalheight = m_mainwidow->height() + 1;
