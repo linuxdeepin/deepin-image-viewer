@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020-2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2023 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -218,6 +218,10 @@ int main(int argc, char *argv[])
     Eventlogutils::GetInstance()->writeLogs(objStartEvent);
 
     mainwindow->show();
+    if (bRet) {
+        // 正常打开窗口时，隐藏默认的标题栏。
+        mainwindow->titlebar()->setVisible(false);
+    }
 
     //修复窗口会一直在中间变小的问题
     if (checkOnly()) {
