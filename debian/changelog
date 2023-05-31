@@ -1,3 +1,10 @@
+deepin-image-viewer (5.9.13) unstable; urgency=medium
+
+  * fix: Adapt compact mode.(Bug: 199309)(Influence: TitleBar CompactMode)
+  * fix: Adapt comapct mode with click image.(Bug: 199309)(Influence: ComapctMode)
+
+ -- Deepin Packages Builder <packages@deepin.org>  Wed, 31 May 2023 13:32:29 +0800
+
 deepin-image-viewer (5.9.12) unstable; urgency=medium
 
   * fix: 拆分 libxraw 插件和应用(Bug: 199143)(Influence: libxraw 插件)
