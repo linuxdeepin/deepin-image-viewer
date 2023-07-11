@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
     app->loadTranslator();
     app->setApplicationLicense("GPLV3");
     app->setApplicationVersion(VERSION);
+    app->setAttribute(Qt::AA_UseHighDpiPixmaps);
     app->setOrganizationName("deepin");
     app->setApplicationName("deepin-image-viewer");
     app->setApplicationDisplayName(QObject::tr("Image Viewer"));
