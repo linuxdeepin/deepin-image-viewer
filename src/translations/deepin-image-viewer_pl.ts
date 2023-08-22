@@ -106,7 +106,7 @@
     </message>
 </context>
 <context>
-    <name>InfomationDialog</name>
+    <name>InformationDialog</name>
     <message>
         <source>Basic info</source>
         <translation>Informacje podstawowe</translation>
