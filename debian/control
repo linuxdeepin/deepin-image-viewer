@@ -14,6 +14,9 @@ Package: deepin-image-viewer
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5sql5-sqlite, qt5-image-formats-plugins, libimageeditor (>= 1.0.22)
 Recommends: libqt5libqgtk2, kimageformat-plugins ,deepin-ocr,uos-reporter, deepin-event-log 
+Conflicts: libxraw (<< 5.9.14)
+Replaces: libxraw (<< 5.9.14)
+Provides: libxraw (= 5.9.13)
 Description: Image Viewer is an image viewing tool with fashion interface and smooth performance.
  Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.
  
