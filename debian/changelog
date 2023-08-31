@@ -1,3 +1,11 @@
+deepin-image-viewer (5.9.14) unstable; urgency=medium
+
+  * Revert "fix: Split libxraw plugin and app(Bug: 199143)"
+  * Revert "chore: Add install depend libxraw(Bug: 199143)"
+  * chore: Compatible with libxraw package.(Influence: Debian/Control)
+
+ -- renbin <renbin@uniontech.com>  Thu, 31 Aug 2023 15:57:23 +0800
+
 deepin-image-viewer (5.9.13) unstable; urgency=medium
 
   * fix: Adapt compact mode.(Bug: 199309)(Influence: TitleBar CompactMode)
