@@ -609,6 +609,11 @@ Item {
                 }
             }
         }
+
+        // 菜单销毁后也需要发送信号，否则可能未正常送达
+        Component.onDestruction: {
+            GStatus.showRightMenu = false
+        }
     }
 
     // 图片信息窗口
