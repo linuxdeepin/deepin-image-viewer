@@ -63,7 +63,14 @@ bool RawIOHandlerPrivate::load(QIODevice *device)
 
     stream = new Datastream(device);
     raw = new LibRaw;
+
+    // libraw 在 0.21.0 版本调整了 use_rawspeed 参数配置结构
+#if LIBRAW_VERSION < LIBRAW_MAKE_VERSION(0, 21, 0)
     raw->imgdata.params.use_rawspeed = 1;
+#else
+    raw->imgdata.rawparams.use_rawspeed = 1;
+#endif
+
     if (raw->open_datastream(stream) != LIBRAW_SUCCESS) {
         delete raw;
         raw = nullptr;
