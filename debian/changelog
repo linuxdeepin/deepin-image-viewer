@@ -1,3 +1,15 @@
+deepin-image-viewer (6.0.3) unstable; urgency=medium
+
+  * fix: build failed with libraw after version 0.21.0(Influence: RAW)
+  * fix: Fixed the issue where high-resolution screen 
+         icons were displayed too large.(Issue: 4884)
+  * fix: The name "InfomationDialog" in the tr translation file dose
+         not correspond to the qml file name.(Bug: 208451)
+  * fix: The right-click menu disappears after slideshow.
+         (Bug: 208417)(Influence: RightClickMenu)
+
+ -- Deepin Packages Builder <packages@deepin.org>  Fri, 08 Sep 2023 14:28:59 +0800
+
 deepin-image-viewer (6.0.2) unstable; urgency=medium
 
   * fix: AboutDialog's titlebar tearing shadow (#140)(Issue: 4222)
