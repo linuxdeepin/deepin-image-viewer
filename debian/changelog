@@ -1,3 +1,9 @@
+deepin-image-viewer (5.9.15) unstable; urgency=medium
+
+  * fix: build failed with libraw after version 0.21.0(Influence: RAW)
+
+ -- Deepin Packages Builder <packages@deepin.org>  Thu, 21 Sep 2023 15:54:07 +0800
+
 deepin-image-viewer (5.9.14) unstable; urgency=medium
 
   * Revert "fix: Split libxraw plugin and app(Bug: 199143)"
