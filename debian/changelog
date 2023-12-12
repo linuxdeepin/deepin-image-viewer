@@ -1,3 +1,9 @@
+deepin-image-viewer (5.9.16) unstable; urgency=medium
+
+  * Bump version to 5.9.16 for diff branch. 
+
+ -- renbin <renbin@uniontech.com>  Tue, 12 Dec 2023 17:09:15 +0800
+
 deepin-image-viewer (5.9.15) unstable; urgency=medium
 
   * fix: build failed with libraw after version 0.21.0(Influence: RAW)
