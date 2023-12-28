@@ -20,6 +20,7 @@ const QString ICON_IMPORT_PHOTO_DARK = ":/dark/images/icon_import_photo dark.svg
 const QString ICON_IMPORT_PHOTO_LIGHT = ":/light/images/icon_import_photo.svg";
 const QColor DARK_BORDER_COLOR = QColor(255, 255, 255, 26);
 const QColor LIGHT_BORDER_COLOR = QColor(0, 0, 0, 15);
+const int LAYOUT_BELOW_SPACING =50;
 }  // namespace
 HomePageWidget::HomePageWidget(QWidget *parent)
     : DWidget(parent)
@@ -64,7 +65,7 @@ HomePageWidget::HomePageWidget(QWidget *parent)
     layout->addWidget(button, 0, Qt::AlignCenter);
     layout->addStretch();
     setLayout(layout);
-
+    layout->addSpacing(LAYOUT_BELOW_SPACING);
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
                      this, &HomePageWidget::ThemeChange);
 
