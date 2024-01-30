@@ -1,3 +1,11 @@
+deepin-image-viewer (5.9.17) unstable; urgency=medium
+
+  * fix: Not layout center on OpenImage widget.(Bug: 156713)
+  * feat: Merge permission/watermark into master(Task: 27785)
+  * fix: Add implicitly included header files
+
+ -- renbin <renbin@uniontech.com>  Tue, 30 Jan 2024 14:29:35 +0800
+
 deepin-image-viewer (5.9.16) unstable; urgency=medium
 
   * Bump version to 5.9.16 for diff branch. 
