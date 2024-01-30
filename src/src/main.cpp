@@ -26,6 +26,9 @@
 #include <QDesktopWidget>
 #include <QScreen>
 #include <QtDBus/QDBusConnection>
+#include <QDir>
+#include <QFileInfo>
+#include <QProcessEnvironment>
 
 #include <sys/types.h>
 #include <sys/stat.h>
