@@ -195,11 +195,24 @@ int main(int argc, char *argv[])
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
-    qDebug() << "LogFile:" << DLogManager::getlogFilePath();
+
     a.setApplicationVersion("1.0.0");
 #ifdef CMAKE_BUILD
     //增加版本号
     a.setApplicationVersion(VERSION);
+#endif
+
+    qInfo()
+        << QString("%1 start, PID: %2, Version: %3").arg(a.applicationName()).arg(a.applicationPid()).arg(a.applicationVersion());
+    qDebug() << "LogFile:" << DLogManager::getlogFilePath();
+
+    // 在主窗口显示前调用识别是否启用打印窗口
+#ifdef IMAGEVIEWER_CLASS_QUICKPRINT
+    a.parseCommandLine();
+    if (a.isCommandSet(Application::Print)) {
+        // 打印后直接退出
+        return a.triggerPrintAction();
+    }
 #endif
 
     // 构造前关联通知信号，部分信息在构造时通知

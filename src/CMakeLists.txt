@@ -128,6 +128,8 @@ install(FILES ${PROJECT_SOURCE_DIR}/com.deepin.ImageViewer.service
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
     DESTINATION ${APPSHAREDIR}
     FILES_MATCHING PATTERN "*.qm")
-
+#context-menu conf 文管右键菜单配置文件
+install(FILES ${PROJECT_SOURCE_DIR}/misc/context-menus/deepin-print-pictures.conf
+    DESTINATION /usr/share/applications/context-menus/)
 
 
