@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020-2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -17,9 +17,11 @@
 #include <QStandardPaths>
 #include <QDebug>
 #include <QApplication>
+#include <QScreen>
 
 #include <DTableView>
 #include <DFileDialog>
+#include <DGuiApplicationHelper>
 
 #include "module/view/homepagewidget.h"
 #include <libimageviewer/imageviewer.h>
@@ -400,6 +402,20 @@ void MainWindow::showShortCut()
     qDebug() << "receive Ctrl+Shift+/";
     QRect rect = window()->geometry();
     QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+    // 获取当前焦点位置（光标所在屏幕中心）
+    QScreen *screen = nullptr;
+    if (DGuiApplicationHelper::isTabletEnvironment()) {
+        // bug 88079 避免屏幕旋转弹出位置错误
+        screen = qApp->primaryScreen();
+    } else {
+        screen = QGuiApplication::screenAt(QCursor::pos());
+    }
+
+    if (screen) {
+        pos = screen->geometry().center();
+    }
+
+
 
     QStringList shortcutString;
     QJsonObject json = createShorcutJson();
