@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -16,11 +16,13 @@ class ProviderCache
 {
 public:
     ProviderCache();
-    ~ProviderCache();
+    virtual ~ProviderCache();
 
     void rotateImageCached(int angle, const QString &imagePath, int frameIndex = 0);
     void removeImageCache(const QString &imagePath);
     void clearCache();
+
+    virtual void preloadImage(const QString &filePath);
 
 protected:
     QMutex mutex;
@@ -39,6 +41,7 @@ public:
     ~AsyncImageProvider() override;
 
     virtual QQuickImageResponse *requestImageResponse(const QString &id, const QSize &requestedSize) override;
+    void preloadImage(const QString &filePath) override;
 
 private:
     friend class AsyncImageResponse;

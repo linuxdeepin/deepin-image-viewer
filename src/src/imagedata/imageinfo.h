@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -64,7 +64,7 @@ public:
 
 protected:
     void setStatus(Status status);
-    void updateData(const QSharedPointer<ImageInfoData> &newData);
+    bool updateData(const QSharedPointer<ImageInfoData> &newData);
     void refreshDataFromCache(bool reload = false);
     Q_SLOT void onLoadFinished(const QString &path, int frameIndex = 0);
     Q_SLOT void onSizeChanged(const QString &path, int frameIndex = 0);

@@ -1,4 +1,4 @@
-﻿// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+﻿// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -77,6 +77,7 @@ public:
 private:
     QHash<KeyType, ImageInfoData::Ptr> cache;
     QSet<KeyType> waitSet;
+    QScopedPointer<QThreadPool> localPoolPtr;
 };
 Q_GLOBAL_STATIC(ImageInfoCache, CacheInstance)
 
@@ -199,7 +200,12 @@ void LoadImageInfoRunnable::notifyFinished(const QString &path, int frameIndex, 
         CacheInstance(), [=]() { CacheInstance()->loadFinished(path, frameIndex, data); }, Qt::QueuedConnection);
 }
 
-ImageInfoCache::ImageInfoCache() {}
+ImageInfoCache::ImageInfoCache()
+    : localPoolPtr(new QThreadPool)
+{
+    // 调整后台线程，由于imageprovider部分也存在子线程调用
+    localPoolPtr->setMaxThreadCount(qMax(2, QThread::idealThreadCount() / 2));
+}
 
 ImageInfoCache::~ImageInfoCache() {}
 
@@ -234,7 +240,7 @@ void ImageInfoCache::load(const QString &path, int frameIndex, bool reload)
         runnable.run();
     } else {
         LoadImageInfoRunnable *runnable = new LoadImageInfoRunnable(path, frameIndex);
-        QThreadPool::globalInstance()->start(runnable);
+        localPoolPtr->start(runnable, QThread::LowPriority);
     }
 }
 
@@ -470,31 +476,40 @@ void ImageInfo::setStatus(ImageInfo::Status status)
 /**
    @brief 更新图像数据，将发送部分关键数据的更新信号
    @param newData 新图像数据
+   @return 返回数据是否确实存在变更
  */
-void ImageInfo::updateData(const QSharedPointer<ImageInfoData> &newData)
+bool ImageInfo::updateData(const QSharedPointer<ImageInfoData> &newData)
 {
     if (newData == data) {
-        return;
+        return false;
     }
     ImageInfoData::Ptr oldData = data;
     data = newData;
 
+    bool change = false;
     if (oldData->type != newData->type) {
         Q_EMIT typeChanged();
+        change = true;
     }
     if (oldData->size != newData->size) {
         Q_EMIT widthChanged();
         Q_EMIT heightChanged();
+        change = true;
     }
     if (oldData->frameIndex != newData->frameIndex) {
         Q_EMIT frameIndexChanged();
+        change = true;
     }
     if (oldData->frameCount != newData->frameCount) {
         Q_EMIT frameCountChanged();
+        change = true;
     }
     if (oldData->exist != newData->exist) {
         Q_EMIT existsChanged();
+        change = true;
     }
+
+    return change;
 }
 
 /**
@@ -511,12 +526,14 @@ void ImageInfo::refreshDataFromCache(bool reload)
     ImageInfoData::Ptr newData = CacheInstance()->find(localPath, currentIndex);
     if (newData) {
         if (data) {
-            // 刷新旧数据，需发送部分更新信号
-            updateData(newData);
+            // 刷新旧数据，需发送部分更新信号，确有数据变更再发送 infoChanged()
+            if (updateData(newData)) {
+                Q_EMIT infoChanged();
+            }
         } else {
             data = newData;
+            Q_EMIT infoChanged();
         }
-        Q_EMIT infoChanged();
 
         setStatus(data->isError() ? Error : Ready);
     } else {

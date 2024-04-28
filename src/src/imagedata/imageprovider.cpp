@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -206,6 +206,14 @@ void ProviderCache::clearCache()
 }
 
 /**
+   @brief 预载图片数据并缓存
+ */
+void ProviderCache::preloadImage(const QString &)
+{
+    // Nothing
+}
+
+/**
    @class AsyncImageProvider
    @brief 异步图像加载器，提供主要图像的并行加载，主要用于展示图像的加载，会缓存最近的图像信息。
         缩略图通过 ThumbnailProvider 加载
@@ -227,8 +235,18 @@ AsyncImageProvider::~AsyncImageProvider() {}
 QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id, const QSize &requestedSize)
 {
     AsyncImageResponse *response = new AsyncImageResponse(this, id, requestedSize);
-    QThreadPool::globalInstance()->start(response, QThread::IdlePriority);
+    QThreadPool::globalInstance()->start(response, QThread::HighPriority);
     return response;
+}
+
+/**
+   @brief 预加载图片 \a filePath 数据并缓存，用于首次打开应用
+ */
+void AsyncImageProvider::preloadImage(const QString &filePath)
+{
+    AsyncImageResponse *response = new AsyncImageResponse(this, filePath, QSize());
+    response->setAutoDelete(true);
+    QThreadPool::globalInstance()->start(response, QThread::TimeCriticalPriority);
 }
 
 /**

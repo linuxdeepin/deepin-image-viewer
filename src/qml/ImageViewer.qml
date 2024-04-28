@@ -299,7 +299,7 @@ Item {
         y: window.isFullScreen ? 0 : GStatus.titleHeight
         height: window.isFullScreen ? parent.height : (parent.height - (GStatus.titleHeight * 2))
         width: parent.width
-        cacheBuffer: 200
+        cacheBuffer: 100
         interactive: !GStatus.fullScreenAnimating && GStatus.viewInteractive
         preferredHighlightBegin: 0
         preferredHighlightEnd: 0
@@ -343,6 +343,7 @@ Item {
                 }
             }
 
+            // TODO: 这部分组件也应移动到 Component 中，再抽象一层组件，不提前创建
             IV.ImageInfo {
                 id: imageInfo
 
@@ -380,7 +381,10 @@ Item {
                     }
                 }
 
-                source: swipeViewItemLoader.source
+                // WARNING: 由于 Delegate 组件宽度关联的 view.width ，ListView 会计算 Delegate 大小
+                // Loader 在构造时直接设置图片链接会导致数据提前加载，破坏了延迟加载策略
+                // 调整机制，不在激活状态的图片信息置为空，在需要加载时设置图片链接
+                source: swipeViewItemLoader.active ? swipeViewItemLoader.source : ""
 
                 onDelegateSourceChanged: {
                     if (swipeViewItemLoader.active && delegateSource) {
@@ -439,7 +443,8 @@ Item {
                 } else if (view.currentItem.item) {
                     return view.currentItem.item.status === Image.Loading
                 }
-                return false
+                // 非确定状态都为加载，以避免启动时的白屏过长
+                return true
             }
         }
 
