@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 ~ 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 ~ 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -68,6 +68,9 @@ int main(int argc, char *argv[])
     CursorTool cursorTool;
     engine.rootContext()->setContextProperty("cursorTool", &cursorTool);
 
+    // 解析命令行参数
+    QString cliParam = fileControl.parseCommandlineGetPath();
+
     // 后端缩略图加载，由 QMLEngine 管理生命周期
     // 部分平台支持线程数较低时，使用同步加载
     ProviderCache *providerCache = nullptr;
@@ -81,6 +84,10 @@ int main(int argc, char *argv[])
         engine.addImageProvider(QLatin1String("ImageLoad"), asyncImageProvider);
 
         providerCache = static_cast<ProviderCache *>(asyncImageProvider);
+
+        if (!cliParam.isEmpty()) {
+            asyncImageProvider->preloadImage(cliParam);
+        }
     }
 
     ThumbnailProvider *multiImageLoad = new ThumbnailProvider;
@@ -110,7 +117,6 @@ int main(int argc, char *argv[])
     engine.addImageProvider(QLatin1String("liveTextAnalyzer"), liveTextAnalyzer);
 
     // 判断命令行数据，在 QML 前优先加载
-    QString cliParam = fileControl.parseCommandlineGetPath();
     if (!cliParam.isEmpty()) {
         QStringList filePaths = fileControl.getDirImagePath(cliParam);
         if (!filePaths.isEmpty()) {

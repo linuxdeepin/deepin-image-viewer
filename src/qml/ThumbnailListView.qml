@@ -209,7 +209,7 @@ Item {
         spacing: 4
         focus: true
         orientation: Qt.Horizontal
-        cacheBuffer: 200
+        cacheBuffer: 60
 
         model: GControl.globalModel
         delegate: Loader {
