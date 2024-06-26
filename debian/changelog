@@ -1,3 +1,11 @@
+deepin-image-viewer (5.9.19) unstable; urgency=medium
+
+  * feat: add avif and heif image format file support
+  * chore: Update depend libimageeditor version
+  * feat: Add quick print pictures.
+
+ -- zhanghongyuan <zhanghongyuan@union>  Wed, 26 Jun 2024 10:08:03 +0800
+
 deepin-image-viewer (5.9.18) unstable; urgency=medium
 
   * feat: Change default shortcuts popup position(Task: 332273)(Influence: Shortcuts)
