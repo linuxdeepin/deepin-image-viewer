@@ -3,24 +3,26 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.11
+import org.deepin.image.viewer 1.0 as IV
 
 Item {
     id: root
 
+    function setActiveColor(color) {
+        rect.color = color;
+    }
+
     visible: false
 
-    function setActiveColor(color) {
-        rect.color = color
+    Component.onCompleted: {
+        rect.color = IV.CursorTool.activeColor();
+        IV.CursorTool.activeColorChanged.connect(setActiveColor);
     }
 
     Rectangle {
         id: rect
-        opacity: 0.15
-        anchors.fill: parent
-    }
 
-    Component.onCompleted: {
-        rect.color = cursorTool.activeColor()
-        cursorTool.activeColorChanged.connect(setActiveColor)
+        anchors.fill: parent
+        opacity: 0.15
     }
 }

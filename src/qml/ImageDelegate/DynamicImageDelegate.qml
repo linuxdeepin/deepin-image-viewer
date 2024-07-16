@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.11
-
 import "../Utils"
 
 BaseImageDelegate {
@@ -11,22 +10,22 @@ BaseImageDelegate {
 
     property bool needInit: true
 
+    inputHandler: imageInput
     status: image.status
     targetImage: image
-    inputHandler: imageInput
 
     AnimatedImage {
         id: image
 
-        height: delegate.height
-        width: delegate.width
         asynchronous: true
         cache: false
         clip: true
         fillMode: Image.PreserveAspectFit
-        smooth: true
+        height: delegate.height
         scale: 1.0
+        smooth: true
         source: delegate.source
+        width: delegate.width
     }
 
     ImageInputHandler {
@@ -39,13 +38,14 @@ BaseImageDelegate {
     // 动图在首次加载，状态变更为 Ready 时，paintedWidth 可能未更新，为0
     // 手动复位图片状态，调整缩放比例
     Connections {
-        enabled: needInit
-        target: image
-        onPaintedWidthChanged: {
+        function onPaintedWidthChanged() {
             if (image.paintedWidth > 0) {
-                needInit = false
-                delegate.reset()
+                needInit = false;
+                delegate.reset();
             }
         }
+
+        enabled: needInit
+        target: image
     }
 }

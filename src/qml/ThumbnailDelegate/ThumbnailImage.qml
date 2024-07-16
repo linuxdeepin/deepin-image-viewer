@@ -8,17 +8,17 @@ import org.deepin.image.viewer 1.0 as IV
 Item {
     id: thumbnailImage
 
-    property alias image: contentImage
     property alias frameCount: imageInfo.frameCount
-    property url source
     property int frameIndex: 0
+    property alias image: contentImage
+    property url source
     property int status: imageInfo.status
     property int type
 
     function reset() {
-        var temp = contentImage.source
-        contentImage.source = ""
-        contentImage.source = temp
+        var temp = contentImage.source;
+        contentImage.source = "";
+        contentImage.source = temp;
     }
 
     Image {
@@ -39,21 +39,19 @@ Item {
         source: thumbnailImage.source
 
         onStatusChanged: {
-            var imageSource = "image://ThumbnailLoad/" + thumbnailImage.source
-                    + "#frame_" + thumbnailImage.frameIndex
+            var imageSource = "image://ThumbnailLoad/" + thumbnailImage.source + "#frame_" + thumbnailImage.frameIndex;
             if (IV.ImageInfo.Error === imageInfo.status) {
                 if (imageInfo.hasCachedThumbnail) {
-                    contentImage.source = imageSource
+                    contentImage.source = imageSource;
                 } else {
-                    contentImage.source = "qrc:/res/picture_damaged_58.svg"
+                    contentImage.source = "qrc:/res/picture_damaged_58.svg";
                 }
-
             } else if (IV.ImageInfo.Ready === imageInfo.status) {
-                contentImage.source = imageSource
+                contentImage.source = imageSource;
             }
 
             // 更新类型，不直接绑定
-            thumbnailImage.type = imageInfo.type
+            thumbnailImage.type = imageInfo.type;
         }
     }
 }

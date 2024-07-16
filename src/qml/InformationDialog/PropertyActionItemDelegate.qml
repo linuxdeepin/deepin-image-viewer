@@ -33,11 +33,11 @@ Control {
         if (showPicLabel.visible) {
             showPicLabel.visible = false
             // 每次显示编辑框时显示为图片名称
-            nameedit.text = fileControl.slotGetFileName(GControl.currentSource)
+            nameedit.text = IV.FileControl.slotGetFileName(IV.GControl.currentSource)
         } else {
             var name = nameedit.text
-            if (!fileControl.isShowToolTip(GControl.currentSource, name) && name.length > 0) {
-                fileControl.slotFileReName(name, GControl.currentSource)
+            if (!IV.FileControl.isShowToolTip(IV.GControl.currentSource, name) && name.length > 0) {
+                IV.FileControl.slotFileReName(name, IV.GControl.currentSource)
             }
             showPicLabel.visible = true
         }
@@ -62,7 +62,7 @@ Control {
                 id: nameedit
 
                 visible: !showPicLabel.visible
-                text: fileControl.slotGetFileName(GControl.currentSource)
+                text: IV.FileControl.slotGetFileName(IV.GControl.currentSource)
                 anchors {
                     topMargin: 5
                     leftMargin: 10
@@ -71,7 +71,7 @@ Control {
                 focus: true
                 selectByMouse: true
                 alertText: qsTr("The file already exists, please use another name")
-                showAlert: fileControl.isShowToolTip(GControl.currentSource, nameedit.text) && nameedit.visible
+                showAlert: IV.FileControl.isShowToolTip(IV.GControl.currentSource, nameedit.text) && nameedit.visible
                 height: 20
                 // 限制输入特殊字符
                 validator: RegExpValidator {

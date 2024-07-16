@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 
     // 请在此处注册需要导入到QML中的C++类型
     // 例如： engine.rootContext()->setContextProperty("Utils", new Utils);
+    // @uri org.deepin.image.viewer
     const QString uri("org.deepin.image.viewer");
     qmlRegisterType<ImageInfo>(uri.toUtf8().data(), 1, 0, "ImageInfo");
     qmlRegisterType<ImageSourceModel>(uri.toUtf8().data(), 1, 0, "ImageSourceModel");
@@ -59,14 +60,14 @@ int main(int argc, char *argv[])
 
     // QML全局单例
     GlobalControl control;
-    engine.rootContext()->setContextProperty("GControl", &control);
+    qmlRegisterSingletonInstance<GlobalControl>(uri.toUtf8().data(), 1, 0, "GControl", &control);
     GlobalStatus status;
-    engine.rootContext()->setContextProperty("GStatus", &status);
+    qmlRegisterSingletonInstance<GlobalStatus>(uri.toUtf8().data(), 1, 0, "GStatus", &status);
     FileControl fileControl;
-    engine.rootContext()->setContextProperty("fileControl", &fileControl);
+    qmlRegisterSingletonInstance<FileControl>(uri.toUtf8().data(), 1, 0, "FileControl", &fileControl);
     // 光标位置查询工具
     CursorTool cursorTool;
-    engine.rootContext()->setContextProperty("cursorTool", &cursorTool);
+    qmlRegisterSingletonInstance<CursorTool>(uri.toUtf8().data(), 1, 0, "CursorTool", &cursorTool);
 
     // 解析命令行参数
     QString cliParam = fileControl.parseCommandlineGetPath();

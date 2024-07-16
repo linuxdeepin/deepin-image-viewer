@@ -13,6 +13,28 @@ BaseThumbnailDelegate {
     // 判断是否为多页图
     property bool isMultiImage: IV.Types.MultiImage === img.type
 
+    states: [
+        // 激活状态
+        State {
+            name: "active"
+            when: isCurrentItem && !isMultiImage
+
+            PropertyChanges {
+                height: 50
+                imgRadius: 4
+                target: normalThumbnailDelegate
+                width: height
+                y: 15
+            }
+
+            PropertyChanges {
+                target: normalThumbnailDelegate.shader
+                visible: true
+                z: 1
+            }
+        }
+    ]
+
     Item {
         anchors.fill: parent
         visible: true
@@ -26,47 +48,45 @@ BaseThumbnailDelegate {
 
         Rectangle {
             id: maskRect
+
             anchors.fill: img
-            visible: false
             radius: imgRadius
+            visible: false
         }
 
         OpacityMask {
             id: imgMask
+
             anchors.fill: img
-            source: img
             maskSource: maskRect
+            source: img
         }
     }
 
     // 执行旋转操作后，重新读取缓存数据，更新图片状态
     Connections {
-        enabled: isCurrentItem
-        target: GControl
-        onCurrentRotationChanged: {
+        function onCurrentRotationChanged() {
             // Note: 确保缓存中的数据已刷新后更新界面
             // 0 为复位，缓存中的数据已转换，无需再次加载
-            if (0 !== GControl.currentRotation) {
-                img.reset()
+            if (0 !== IV.GControl.currentRotation) {
+                img.reset();
             }
         }
+
+        enabled: isCurrentItem
+        target: IV.GControl
     }
 
     // 图片数角标
     Loader {
         id: anchorLoader
 
-        height: 14
-        width: Math.max(20, implicitWidth)
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-        }
-
         // 非多页图无需实例化
         active: isMultiImage
+        height: 14
         // 仅多页图显示角标(为焦点时不加载)
         visible: isMultiImage
+        width: Math.max(20, implicitWidth)
 
         sourceComponent: Rectangle {
             id: anchorRect
@@ -79,16 +99,16 @@ BaseThumbnailDelegate {
                 id: anchorLabel
 
                 anchors.fill: parent
-                topPadding: 3
                 bottomPadding: 3
+                font.pixelSize: 11
+                font.weight: Font.DemiBold
+                horizontalAlignment: Text.AlignHCenter
                 leftPadding: 2
                 rightPadding: 2
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font.weight: Font.DemiBold
-                font.pixelSize: 11
                 // 取得当前索引的图片帧号
                 text: (img.frameCount <= 999) ? img.frameCount : "999+"
+                topPadding: 3
+                verticalAlignment: Text.AlignVCenter
 
                 background: Rectangle {
                     implicitHeight: 14
@@ -97,12 +117,13 @@ BaseThumbnailDelegate {
 
                     gradient: Gradient {
                         GradientStop {
-                            position: 0.0
                             color: "#FFC3C3C3"
+                            position: 0.0
                         }
+
                         GradientStop {
-                            position: 1.0
                             color: "#FFD8D8D8"
+                            position: 1.0
                         }
                     }
                 }
@@ -111,21 +132,26 @@ BaseThumbnailDelegate {
             // 图片角标的内阴影
             InnerShadow {
                 anchors.fill: anchorLabel
-                verticalOffset: -1
                 color: Qt.rgba(0, 0, 0, 0.1)
                 source: anchorLabel
+                verticalOffset: -1
             }
 
             // 图片角标的外阴影
             DropShadow {
                 anchors.fill: anchorLabel
-                verticalOffset: 1
                 cached: true
+                color: Qt.rgba(0, 0, 0, 0.3)
                 radius: 2
                 samples: 4
-                color: Qt.rgba(0, 0, 0, 0.3)
                 source: anchorLabel
+                verticalOffset: 1
             }
+        }
+
+        anchors {
+            bottom: parent.bottom
+            right: parent.right
         }
     }
 
@@ -136,30 +162,8 @@ BaseThumbnailDelegate {
         hoverEnabled: true
 
         onClicked: {
-            GControl.currentFrameIndex = 0
-            GControl.currentIndex = index
+            IV.GControl.currentFrameIndex = 0;
+            IV.GControl.currentIndex = index;
         }
     }
-
-    states: [
-        // 激活状态
-        State {
-            name: "active"
-            when: isCurrentItem && !isMultiImage
-
-            PropertyChanges {
-                target: normalThumbnailDelegate
-                y: 15
-                height: 50
-                width: height
-                imgRadius: 4
-            }
-
-            PropertyChanges {
-                target: normalThumbnailDelegate.shader
-                visible: true
-                z: 1
-            }
-        }
-    ]
 }

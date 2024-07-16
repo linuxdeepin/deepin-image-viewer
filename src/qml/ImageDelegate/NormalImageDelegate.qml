@@ -4,49 +4,49 @@
 
 import QtQuick 2.11
 import org.deepin.image.viewer 1.0 as IV
-
 import "../Utils"
 
 BaseImageDelegate {
     id: delegate
 
+    inputHandler: imageInput
     status: image.status
     targetImage: image
-    inputHandler: imageInput
 
     Image {
         id: image
 
-        height: delegate.height
-        width: delegate.width
         asynchronous: true
         cache: false
-        smooth: true
-        mipmap: true
         fillMode: Image.PreserveAspectFit
+        height: delegate.height
+        mipmap: true
         scale: 1.0
+        smooth: true
         source: "image://ImageLoad/" + delegate.source
+        width: delegate.width
     }
 
     ImageInputHandler {
         id: imageInput
 
         anchors.fill: parent
+        isRotatable: IV.FileControl.isRotatable(delegate.source)
         targetImage: image.status === Image.Ready ? image : null
-        isRotatable: fileControl.isRotatable(delegate.source)
     }
 
     Connections {
-        enabled: isCurrentImage
-        target: GControl
-        onCurrentRotationChanged: {
+        function onCurrentRotationChanged() {
             // Note: 确保缓存中的数据已刷新后更新界面
             // 0 为复位，缓存中的数据已转换，无需再次加载
-            if (0 !== GControl.currentRotation) {
-                var temp = image.source
-                image.source = ""
-                image.source = temp
+            if (0 !== IV.GControl.currentRotation) {
+                var temp = image.source;
+                image.source = "";
+                image.source = temp;
             }
         }
+
+        enabled: isCurrentImage
+        target: IV.GControl
     }
 }
