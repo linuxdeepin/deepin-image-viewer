@@ -5,88 +5,92 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
+import org.deepin.image.viewer 1.0 as IV
 
 Item {
     id: sliderShow
 
-    // 减少重复触发，变更后单独更新图片源
-    property alias source: fadeInOutImage.imageSource
     property bool autoRun: false
 
-    anchors.fill: parent
-
-    function restart() {
-        autoRun = true
-        fadeInOutImage.restart()
-    }
+    // 减少重复触发，变更后单独更新图片源
+    property alias source: fadeInOutImage.imageSource
 
     function outSliderShow() {
-        showNormal()
-        stackView.switchImageView()
+        showNormal();
+        stackView.switchImageView();
+    }
+
+    function restart() {
+        autoRun = true;
+        fadeInOutImage.restart();
     }
 
     function switchNextImage() {
-        if (!GControl.hasNextImage) {
-            GControl.firstImage()
+        if (!IV.GControl.hasNextImage) {
+            IV.GControl.firstImage();
         } else {
-            GControl.nextImage()
+            IV.GControl.nextImage();
         }
-
-        source = "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
+        source = "image://ImageLoad/" + IV.GControl.currentSource + "#frame_" + IV.GControl.currentFrameIndex;
     }
 
     function switchPreviousImage() {
-        if (!GControl.hasPreviousImage) {
-            GControl.lastImage()
+        if (!IV.GControl.hasPreviousImage) {
+            IV.GControl.lastImage();
         } else {
-            GControl.previousImage()
+            IV.GControl.previousImage();
         }
+        source = "image://ImageLoad/" + IV.GControl.currentSource + "#frame_" + IV.GControl.currentFrameIndex;
+    }
 
-        source = "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
+    anchors.fill: parent
+
+    Component.onCompleted: {
+        source = "image://ImageLoad/" + IV.GControl.currentSource + "#frame_" + IV.GControl.currentFrameIndex;
+        showFullScreen();
+        restart();
     }
 
     Timer {
         id: timer
 
         interval: 3000
-        running: autoRun
         repeat: true
+        running: autoRun
 
         onTriggered: switchNextImage()
     }
 
     SFadeInOut {
         id: fadeInOutImage
+
         anchors.fill: parent
     }
 
     MouseArea {
         id: sliderArea
 
-        anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
+        anchors.fill: parent
         cursorShape: "BlankCursor"
         hoverEnabled: true
 
         onClicked: {
             if (mouse.button === Qt.RightButton) {
-                sliderMenu.popup()
+                sliderMenu.popup();
             }
         }
-
-        onDoubleClicked: outSliderShow()
         onCursorShapeChanged: sliderCursorTimer.start()
-
+        onDoubleClicked: outSliderShow()
         onMouseXChanged: {
-            sliderArea.cursorShape = "ArrowCursor"
+            sliderArea.cursorShape = "ArrowCursor";
         }
-
         onMouseYChanged: {
-            sliderArea.cursorShape = "ArrowCursor"
+            sliderArea.cursorShape = "ArrowCursor";
             if (mouseY > height - 100) {
-                showSliderAnimation.start()
+                showSliderAnimation.start();
             } else {
-                hideSliderAnimation.start()
+                hideSliderAnimation.start();
             }
         }
 
@@ -94,112 +98,114 @@ Item {
             id: sliderCursorTimer
 
             interval: 3000 // 设置定时器定时时间为500ms,默认1000ms
-            running: true // 是否开启定时，默认是false，当为true的时候，进入此界面就开始定时
             repeat: true // 是否重复定时,默认为false
+            running: true // 是否开启定时，默认是false，当为true的时候，进入此界面就开始定时
+
             onTriggered: sliderArea.cursorShape = "BlankCursor"
         }
 
         NumberAnimation {
             id: hideSliderAnimation
 
-            target: sliderFloatPanel
-            from: sliderFloatPanel.y
-            to: screen.height
-            property: "y"
             duration: 200
             easing.type: Easing.InOutQuad
+            from: sliderFloatPanel.y
+            property: "y"
+            target: sliderFloatPanel
+            to: screen.height
         }
 
         NumberAnimation {
             id: showSliderAnimation
 
-            target: sliderFloatPanel
-            from: sliderFloatPanel.y
-            to: screen.height - 80
-            property: "y"
             duration: 200
             easing.type: Easing.InOutQuad
+            from: sliderFloatPanel.y
+            property: "y"
+            target: sliderFloatPanel
+            to: screen.height - 80
         }
 
         FloatingPanel {
             id: sliderFloatPanel
 
-            width: 232
             height: 70
+            width: 232
 
             Component.onCompleted: {
-                sliderFloatPanel.x = (screen.width - width) / 2
-                sliderFloatPanel.y = screen.height - 80
+                sliderFloatPanel.x = (screen.width - width) / 2;
+                sliderFloatPanel.y = screen.height - 80;
             }
 
             Row {
                 height: 50
+                spacing: 10
+
                 anchors {
                     left: parent.left
                     leftMargin: 10
                     top: parent.top
                     topMargin: parent.height / 2 - height / 2
                 }
-                spacing: 10
 
                 IconButton {
                     id: sliderPrevious
 
-                    icon.name: "icon_previous"
-                    width: 50
-                    height: parent.height
                     ToolTip.delay: 500
+                    ToolTip.text: qsTr("Previous")
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Previous")
+                    height: parent.height
+                    icon.name: "icon_previous"
+                    width: 50
 
                     onClicked: {
-                        switchPreviousImage()
-                        autoRun = false
+                        switchPreviousImage();
+                        autoRun = false;
                     }
                 }
 
                 IconButton {
                     id: sliderPause
 
-                    icon.name: autoRun ? "icon_suspend" : "icon_play_start"
-                    width: 50
-                    height: parent.height
                     ToolTip.delay: 500
+                    ToolTip.text: autoRun ? qsTr("Pause") : qsTr("Play")
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
-                    ToolTip.text: autoRun ? qsTr("Pause") : qsTr("Play")
+                    height: parent.height
+                    icon.name: autoRun ? "icon_suspend" : "icon_play_start"
+                    width: 50
 
                     onClicked: {
-                        autoRun = !autoRun
+                        autoRun = !autoRun;
                     }
                 }
 
                 IconButton {
                     id: sliderNext
 
-                    icon.name: "icon_next"
-                    width: 50
-                    height: parent.height
                     ToolTip.delay: 500
+                    ToolTip.text: qsTr("Next")
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Next")
+                    height: parent.height
+                    icon.name: "icon_next"
+                    width: 50
 
                     onClicked: {
-                        switchNextImage()
-                        autoRun = false
+                        switchNextImage();
+                        autoRun = false;
                     }
                 }
 
                 ActionButton {
-                    icon.name: "entry_clear"
-                    width: 24
-                    height: parent.height
                     ToolTip.delay: 500
+                    ToolTip.text: qsTr("Exit")
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Exit")
+                    height: parent.height
+                    icon.name: "entry_clear"
+                    width: 24
 
                     onClicked: outSliderShow()
                 }
@@ -215,39 +221,35 @@ Item {
 
         MenuItem {
             text: autoRun ? qsTr("Pause") : qsTr("Play")
+
             onTriggered: {
-                autoRun = !autoRun
+                autoRun = !autoRun;
             }
 
             // 添加处理快捷键，播放幻灯片时暂停/播放
             Shortcut {
                 id: pauseShortCut
 
-                sequence: "Space"
                 // 进行幻灯片播放时允许响应空格快捷键处理暂停/播放
                 enabled: sliderShow.visible
+                sequence: "Space"
 
                 onActivated: {
-                    autoRun = !autoRun
+                    autoRun = !autoRun;
                 }
             }
         }
 
         MenuItem {
             text: qsTr("Exit")
+
             onTriggered: outSliderShow()
 
             Shortcut {
                 sequence: "Esc"
+
                 onActivated: outSliderShow()
             }
         }
-    }
-
-    Component.onCompleted: {
-        source = "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
-
-        showFullScreen()
-        restart()
     }
 }

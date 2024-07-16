@@ -14,14 +14,14 @@ import "./Utils"
 Menu {
     id: optionMenu
 
-    property url imageSource: GControl.currentSource
+    property url imageSource: IV.GControl.currentSource
     property bool isNullImage: imageInfo.type === IV.Types.NullImage
-    property bool readable: !isNullImage && fileControl.isCanReadable(imageSource)
-    property bool renamable: !isNullImage && fileControl.isCanRename(imageSource)
-    property bool rotatable: !isNullImage && fileControl.isRotatable(imageSource)
-    property bool deletable: !isNullImage && fileControl.isCanDelete(imageSource)
-    property bool supportOcr: !isNullImage && fileControl.isCanSupportOcr(imageSource)
-    property bool supportWallpaper: !isNullImage && fileControl.isSupportSetWallpaper(imageSource)
+    property bool readable: !isNullImage && IV.FileControl.isCanReadable(imageSource)
+    property bool renamable: !isNullImage && IV.FileControl.isCanRename(imageSource)
+    property bool rotatable: !isNullImage && IV.FileControl.isRotatable(imageSource)
+    property bool deletable: !isNullImage && IV.FileControl.isCanDelete(imageSource)
+    property bool supportOcr: !isNullImage && IV.FileControl.isCanSupportOcr(imageSource)
+    property bool supportWallpaper: !isNullImage && IV.FileControl.isSupportSetWallpaper(imageSource)
 
     x: 250
     y: 600
@@ -31,7 +31,7 @@ Menu {
         id: rightFullscreen
 
         function switchFullScreen() {
-            GStatus.showFullScreen = !GStatus.showFullScreen
+            IV.GStatus.showFullScreen = !IV.GStatus.showFullScreen
         }
 
         text: !window.isFullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
@@ -55,7 +55,7 @@ Menu {
 
         onTriggered: {
             optionMenu.close()
-            fileControl.showPrintDialog(imageSource)
+            IV.FileControl.showPrintDialog(imageSource)
         }
 
         Shortcut {
@@ -63,7 +63,7 @@ Menu {
 
             onActivated: {
                 optionMenu.close()
-                fileControl.showPrintDialog(imageSource)
+                IV.FileControl.showPrintDialog(imageSource)
             }
         }
     }
@@ -73,16 +73,16 @@ Menu {
         visible: supportOcr
 
         onTriggered: {
-            GControl.submitImageChangeImmediately()
-            fileControl.ocrImage(imageSource, GControl.currentFrameIndex)
+            IV.GControl.submitImageChangeImmediately()
+            IV.FileControl.ocrImage(imageSource, IV.GControl.currentFrameIndex)
         }
 
         Shortcut {
             sequence: "Alt+O"
             enabled: supportOcr
             onActivated: {
-                GControl.submitImageChangeImmediately()
-                fileControl.ocrImage(imageSource, GControl.currentFrameIndex)
+                IV.GControl.submitImageChangeImmediately()
+                IV.FileControl.ocrImage(imageSource, IV.GControl.currentFrameIndex)
             }
         }
     }
@@ -111,16 +111,16 @@ Menu {
         visible: readable
 
         onTriggered: {
-            GControl.submitImageChangeImmediately()
-            fileControl.copyImage(imageSource)
+            IV.GControl.submitImageChangeImmediately()
+            IV.FileControl.copyImage(imageSource)
         }
 
         Shortcut {
             sequence: "Ctrl+C"
             enabled: readable
             onActivated: {
-                GControl.submitImageChangeImmediately()
-                fileControl.copyImage(imageSource)
+                IV.GControl.submitImageChangeImmediately()
+                IV.FileControl.copyImage(imageSource)
             }
         }
     }
@@ -163,7 +163,7 @@ Menu {
     MenuSeparator {
         // 不显示分割条时调整高度，防止菜单项间距不齐
         height: visible ? firstSeparator.height : 0
-        visible: fileControl.isCanReadable(imageSource) || fileControl.isCanDelete(imageSource)
+        visible: IV.FileControl.isCanReadable(imageSource) || IV.FileControl.isCanDelete(imageSource)
     }
 
     RightMenuItem {
@@ -204,16 +204,16 @@ Menu {
         id: enableNavigation
 
         visible: !isNullImage
-                 && window.height > GStatus.minHideHeight
-                 && window.width > GStatus.minWidth
-        text: !GStatus.enableNavigation ? qsTr("Show navigation window") : qsTr("Hide navigation window")
+                 && window.height > IV.GStatus.minHideHeight
+                 && window.width > IV.GStatus.minWidth
+        text: !IV.GStatus.enableNavigation ? qsTr("Show navigation window") : qsTr("Hide navigation window")
 
         onTriggered: {
             if (!parent.visible) {
                 return
             }
 
-            GStatus.enableNavigation = !GStatus.enableNavigation
+            IV.GStatus.enableNavigation = !IV.GStatus.enableNavigation
         }
     }
 
@@ -222,16 +222,16 @@ Menu {
         visible: supportWallpaper
 
         onTriggered: {
-            GControl.submitImageChangeImmediately()
-            fileControl.setWallpaper(imageSource)
+            IV.GControl.submitImageChangeImmediately()
+            IV.FileControl.setWallpaper(imageSource)
         }
 
         Shortcut {
             sequence: "Ctrl+F9"
             enabled: supportWallpaper
             onActivated: {
-                GControl.submitImageChangeImmediately()
-                fileControl.setWallpaper(imageSource)
+                IV.GControl.submitImageChangeImmediately()
+                IV.FileControl.setWallpaper(imageSource)
             }
         }
     }
@@ -240,14 +240,14 @@ Menu {
         text: qsTr("Display in file manager")
 
         onTriggered: {
-            fileControl.displayinFileManager(imageSource)
+            IV.FileControl.displayinFileManager(imageSource)
         }
 
         Shortcut {
             sequence: "Alt+D"
             enabled: parent.visible
             onActivated: {
-                fileControl.displayinFileManager(imageSource)
+                IV.FileControl.displayinFileManager(imageSource)
             }
         }
     }

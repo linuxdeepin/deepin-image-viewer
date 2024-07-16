@@ -10,32 +10,42 @@ import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
 
 Rectangle {
-    property string iconName: "deepin-image-viewer"
     property bool animationShow: true
-
-    onAnimationShowChanged: {
-        y = animationShow ? 0 : -GStatus.titleHeight
-    }
+    property string iconName: "deepin-image-viewer"
 
     anchors.top: window.top
-    width: window.width
-    height: GStatus.titleHeight
+    height: IV.GStatus.titleHeight
     visible: !window.isFullScreen
-    color: titlecontrol.ColorSelector.backgroundColor
+    width: window.width
+
+    // color: titlecontrol.ColorSelector.backgroundColor
     gradient: Gradient {
         GradientStop {
-            position: 0.0
             color: titlecontrol.ColorSelector.backgroundColor1
+            position: 0.0
         }
+
         GradientStop {
-            position: 1.0
             color: titlecontrol.ColorSelector.backgroundColor2
+            position: 1.0
         }
+    }
+    Behavior on y {
+        enabled: visible
+
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+    }
+
+    onAnimationShowChanged: {
+        y = animationShow ? 0 : -IV.GStatus.titleHeight;
     }
 
     Control {
         id: titlecontrol
-        hoverEnabled: true // 开启 Hover 属性
+
         property Palette backgroundColor1: Palette {
             normal: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.6)
             normalDark: Qt.rgba(26 / 255, 26 / 255, 26 / 255, 0.6)
@@ -44,102 +54,103 @@ Rectangle {
             normal: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.02)
             normalDark: Qt.rgba(26 / 255, 26 / 255, 26 / 255, 0.02)
         }
+
+        hoverEnabled: true // 开启 Hover 属性
     }
 
     ActionButton {
-        anchors.top: parent.top
-        anchors.topMargin: GStatus.actionMargin
         anchors.left: parent.left
-        anchors.leftMargin: GStatus.actionMargin
+        anchors.leftMargin: IV.GStatus.actionMargin
+        anchors.top: parent.top
+        anchors.topMargin: IV.GStatus.actionMargin
+
         icon {
+            height: 32
             name: iconName
             width: 32
-            height: 32
         }
     }
 
     // 捕获标题栏部分鼠标事件，部分事件将穿透，由底层 ApplicationWindow 处理
     IV.MouseTrackItem {
         id: trackItem
-        anchors.fill: parent
 
-        onPressedChanged: {
-            // 点击标题栏时屏蔽动画计算效果
-            GStatus.animationBlock = pressed
-        }
+        anchors.fill: parent
 
         onDoubleClicked: {
             // 切换窗口最大化状态
-            title.toggleWindowState()
+            title.toggleWindowState();
+        }
+        onPressedChanged: {
+            // 点击标题栏时屏蔽动画计算效果
+            IV.GStatus.animationBlock = pressed;
         }
     }
 
     TitleBar {
         id: title
+
         anchors.fill: parent
-
-        menu: Menu {
-            // 打开图片动作项
-            Action {
-                id: openImageAction
-
-                text: qsTr("Open image")
-                onTriggered: {
-                    // 发送打开窗口信号
-                    stackView.openImageDialog()
-                }
-            }
-
-            MenuSeparator {
-            }
-            ThemeMenu {
-            }
-            MenuSeparator {
-            }
-            HelpAction {
-            }
-            AboutAction {
-                aboutDialog: AboutDialog {
-                    width: 360
-                    height: 362
-                    productName: qsTr("Image Viewer")
-                    productIcon: "deepin-image-viewer"
-                    version: qsTr("Version") + ": %1".arg(Qt.application.version)
-                    description: qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
-                    license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
-                    companyLogo: fileControl.getCompanyLogo()
-                    websiteName: DTK.deepinWebsiteName
-                    websiteLink: DTK.deepinWebsiteLink
-                }
-            }
-            QuitAction {
-            }
-
-            onVisibleChanged: {
-                GStatus.animationBlock = visible
-            }
-        }
 
         // 使用自定的文本
         content: Loader {
             active: true
 
             sourceComponent: Label {
-                textFormat: Text.PlainText
-                text: title.title
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
                 // 自动隐藏多余文本
                 elide: Text.ElideRight
+                horizontalAlignment: Text.AlignHCenter
+                text: title.title
+                textFormat: Text.PlainText
+                verticalAlignment: Text.AlignVCenter
             }
         }
-    }
+        menu: Menu {
+            onVisibleChanged: {
+                IV.GStatus.animationBlock = visible;
+            }
 
-    Behavior on y {
-        enabled: visible
-        NumberAnimation {
-            duration: 200
-            easing.type: Easing.InOutQuad
+            // 打开图片动作项
+            Action {
+                id: openImageAction
+
+                text: qsTr("Open image")
+
+                onTriggered: {
+                    // 发送打开窗口信号
+                    stackView.openImageDialog();
+                }
+            }
+
+            MenuSeparator {
+            }
+
+            ThemeMenu {
+            }
+
+            MenuSeparator {
+            }
+
+            HelpAction {
+            }
+
+            AboutAction {
+                aboutDialog: AboutDialog {
+                    companyLogo: IV.FileControl.getCompanyLogo()
+                    description: qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
+                    height: 362
+                    license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
+                    productIcon: "deepin-image-viewer"
+                    productName: qsTr("Image Viewer")
+                    version: qsTr("Version") + ": %1".arg(Qt.application.version)
+                    websiteLink: DTK.deepinWebsiteLink
+                    websiteName: DTK.deepinWebsiteName
+                    width: 360
+                }
+            }
+
+            QuitAction {
+            }
         }
     }
 }

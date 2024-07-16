@@ -28,10 +28,10 @@ BaseImageDelegate {
         flickDeceleration: 500
         currentIndex: {
             if (isCurrentImage) {
-                return GControl.currentFrameIndex
-            } else if (index === GControl.currentIndex + 1) {
+                return IV.GControl.currentFrameIndex
+            } else if (index === IV.GControl.currentIndex + 1) {
                 return 0
-            } else if (index === GControl.currentIndex - 1) {
+            } else if (index === IV.GControl.currentIndex - 1) {
                 return count - 1
             }
 
@@ -40,7 +40,7 @@ BaseImageDelegate {
 
         // 当处理双击缩放界面时，由于坐标变更，可能误触导致图片滑动
         // 调整为在缩放动作时不处理滑动操作
-        interactive: !GStatus.fullScreenAnimating && GStatus.viewInteractive
+        interactive: !IV.GStatus.fullScreenAnimating && IV.GStatus.viewInteractive
         model: IV.ImageInfo.Ready === targetImageInfo.status ? targetImageInfo.frameCount : 0
         delegate: Loader {
             width: multiImageDelegate.width
@@ -112,17 +112,17 @@ BaseImageDelegate {
         }
 
         onCurrentIndexChanged: {
-            if (isCurrentImage && currentIndex != GControl.currentFrameIndex) {
-                GControl.currentFrameIndex = currentIndex
+            if (isCurrentImage && currentIndex != IV.GControl.currentFrameIndex) {
+                IV.GControl.currentFrameIndex = currentIndex
             }
         }
 
         onMovementStarted: {
-            GStatus.viewFlicking = true
+            IV.GStatus.viewFlicking = true
         }
 
         onMovementEnded: {
-            GStatus.viewFlicking = false
+            IV.GStatus.viewFlicking = false
         }
     }
 }

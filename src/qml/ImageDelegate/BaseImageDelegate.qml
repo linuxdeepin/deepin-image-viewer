@@ -14,7 +14,7 @@ Item {
     property url source
     property int type: IV.Types.NullImage
     property int status: Image.Null
-    property bool isCurrentImage: index === GControl.currentIndex
+    property bool isCurrentImage: index === IV.GControl.currentIndex
 
     property Image targetImage
     property alias targetImageInfo: imageInfo
