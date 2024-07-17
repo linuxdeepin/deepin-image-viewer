@@ -4,37 +4,39 @@
 
 import QtQuick 2.11
 import QtQuick.Controls 2.4
-import org.deepin.dtk 1.0 as DTK
+import org.deepin.dtk 1.0
 
-Rectangle {
+Control {
+    id: control
+
     anchors.fill: parent
-    color: backcontrol.DTK.ColorSelector.backgroundColor
 
-    DTK.ActionButton {
+    DciIcon {
         id: openWidgetImage
 
         anchors.centerIn: parent
-        icon {
-            name: "import_photo"
-            width: 128
-            height: 128
-        }
+        // TODO: 当前图标文件存在异常，仅有亮色主题
+        name: "import_photo"
+        sourceSize.height: 128
+        sourceSize.width: 128
+        theme: DTK.themeType
     }
 
-    DTK.RecommandButton {
+    RecommandButton {
         id: openFileBtn
 
-        width: 300
-        height: 35
-        anchors {
-            top: openWidgetImage.bottom
-            topMargin: 10
-            left: openWidgetImage.left
-            leftMargin: -86
-        }
         font.capitalization: Font.MixedCase
+        height: 35
         text: qsTr("Open Image")
+        width: 300
 
         onClicked: stackView.openImageDialog()
+
+        anchors {
+            left: openWidgetImage.left
+            leftMargin: -86
+            top: openWidgetImage.bottom
+            topMargin: 10
+        }
     }
 }
