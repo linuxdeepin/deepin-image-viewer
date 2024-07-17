@@ -597,6 +597,9 @@ Item {
     ViewRightMenu {
         id: rightMenu
 
+        // 拷贝快捷键冲突：选中实况文本时，屏蔽拷贝图片的快捷键
+        copyableConfig: !ltw.currentHasSelect
+
         // 菜单销毁后也需要发送信号，否则可能未正常送达
         Component.onDestruction: {
             IV.GStatus.showRightMenu = false;
