@@ -14,6 +14,11 @@ DialogWindow {
 
     property string filesuffix: ".jpg"
 
+    function renameFile() {
+        IV.FileControl.slotFileReName(nameedit.text, IV.GControl.currentSource);
+        renamedialog.visible = false;
+    }
+
     function setFileName(name) {
         nameedit.text = name;
     }
@@ -45,6 +50,12 @@ DialogWindow {
     Text {
         id: renametitle
 
+        property Palette textColor: Palette {
+            normal: ("black")
+            normalDark: ("white")
+        }
+
+        color: ColorSelector.textColor
         font.pixelSize: 16
         height: 24
         horizontalAlignment: Text.AlignHCenter
@@ -76,6 +87,20 @@ DialogWindow {
             regExp: /^[^ \\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/
         }
 
+        Keys.onPressed: event => {
+            switch (event.key) {
+            case Qt.Key_Return:
+            case Qt.Key_Enter:
+                renameFile();
+                break;
+            case Qt.Key_Escape:
+                renamedialog.visible = false;
+                break;
+            default:
+                break;
+            }
+        }
+
         anchors {
             top: renametitle.bottom
             topMargin: 16
@@ -101,7 +126,7 @@ DialogWindow {
         }
     }
 
-    Button {
+    RecommandButton {
         id: enterbtn
 
         enabled: !IV.FileControl.isShowToolTip(IV.GControl.currentSource, nameedit.text) && nameedit.text.length > 0
@@ -110,8 +135,7 @@ DialogWindow {
         width: 185
 
         onClicked: {
-            IV.FileControl.slotFileReName(nameedit.text, IV.GControl.currentSource);
-            renamedialog.visible = false;
+            renameFile();
         }
 
         anchors {
