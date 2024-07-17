@@ -8,43 +8,47 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
-
 import "./Utils"
 
 Menu {
     id: optionMenu
 
+    // 处理拷贝快捷键冲突
+    property bool copyableConfig: true
+    property bool deletable: !isNullImage && IV.FileControl.isCanDelete(imageSource)
     property url imageSource: IV.GControl.currentSource
     property bool isNullImage: imageInfo.type === IV.Types.NullImage
     property bool readable: !isNullImage && IV.FileControl.isCanReadable(imageSource)
     property bool renamable: !isNullImage && IV.FileControl.isCanRename(imageSource)
     property bool rotatable: !isNullImage && IV.FileControl.isRotatable(imageSource)
-    property bool deletable: !isNullImage && IV.FileControl.isCanDelete(imageSource)
     property bool supportOcr: !isNullImage && IV.FileControl.isCanSupportOcr(imageSource)
     property bool supportWallpaper: !isNullImage && IV.FileControl.isSupportSetWallpaper(imageSource)
 
+    maxVisibleItems: 20
     x: 250
     y: 600
-    maxVisibleItems: 20
 
     RightMenuItem {
         id: rightFullscreen
 
         function switchFullScreen() {
-            IV.GStatus.showFullScreen = !IV.GStatus.showFullScreen
+            IV.GStatus.showFullScreen = !IV.GStatus.showFullScreen;
         }
 
         text: !window.isFullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
+
         onTriggered: switchFullScreen()
 
         Shortcut {
             sequence: "F11"
+
             onActivated: rightFullscreen.switchFullScreen()
         }
 
         Shortcut {
             enabled: window.isFullScreen
             sequence: "Esc"
+
             onActivated: rightFullscreen.switchFullScreen()
         }
     }
@@ -54,16 +58,16 @@ Menu {
         visible: !isNullImage
 
         onTriggered: {
-            optionMenu.close()
-            IV.FileControl.showPrintDialog(imageSource)
+            optionMenu.close();
+            IV.FileControl.showPrintDialog(imageSource);
         }
 
         Shortcut {
             sequence: "Ctrl+P"
 
             onActivated: {
-                optionMenu.close()
-                IV.FileControl.showPrintDialog(imageSource)
+                optionMenu.close();
+                IV.FileControl.showPrintDialog(imageSource);
             }
         }
     }
@@ -73,16 +77,17 @@ Menu {
         visible: supportOcr
 
         onTriggered: {
-            IV.GControl.submitImageChangeImmediately()
-            IV.FileControl.ocrImage(imageSource, IV.GControl.currentFrameIndex)
+            IV.GControl.submitImageChangeImmediately();
+            IV.FileControl.ocrImage(imageSource, IV.GControl.currentFrameIndex);
         }
 
         Shortcut {
-            sequence: "Alt+O"
             enabled: supportOcr
+            sequence: "Alt+O"
+
             onActivated: {
-                IV.GControl.submitImageChangeImmediately()
-                IV.FileControl.ocrImage(imageSource, IV.GControl.currentFrameIndex)
+                IV.GControl.submitImageChangeImmediately();
+                IV.FileControl.ocrImage(imageSource, IV.GControl.currentFrameIndex);
             }
         }
     }
@@ -91,19 +96,21 @@ Menu {
         text: qsTr("Slide show")
 
         onTriggered: {
-            stackView.switchSliderShow()
+            stackView.switchSliderShow();
         }
 
         Shortcut {
             sequence: "F5"
+
             onActivated: {
-                stackView.switchSliderShow()
+                stackView.switchSliderShow();
             }
         }
     }
 
     MenuSeparator {
         id: firstSeparator
+
     }
 
     RightMenuItem {
@@ -111,16 +118,17 @@ Menu {
         visible: readable
 
         onTriggered: {
-            IV.GControl.submitImageChangeImmediately()
-            IV.FileControl.copyImage(imageSource)
+            IV.GControl.submitImageChangeImmediately();
+            IV.FileControl.copyImage(imageSource);
         }
 
         Shortcut {
+            enabled: readable && copyableConfig
             sequence: "Ctrl+C"
-            enabled: readable
+
             onActivated: {
-                IV.GControl.submitImageChangeImmediately()
-                IV.FileControl.copyImage(imageSource)
+                IV.GControl.submitImageChangeImmediately();
+                IV.FileControl.copyImage(imageSource);
             }
         }
     }
@@ -130,14 +138,15 @@ Menu {
         visible: renamable
 
         onTriggered: {
-            renamedialog.show()
+            renamedialog.show();
         }
 
         Shortcut {
-            sequence: "F2"
             enabled: renamable
+            sequence: "F2"
+
             onActivated: {
-                renamedialog.show()
+                renamedialog.show();
             }
         }
     }
@@ -147,14 +156,15 @@ Menu {
         visible: deletable
 
         onTriggered: {
-            thumbnailListView.deleteCurrentImage()
+            thumbnailListView.deleteCurrentImage();
         }
 
         Shortcut {
-            sequence: "Delete"
             enabled: deletable
+            sequence: "Delete"
+
             onActivated: {
-                thumbnailListView.deleteCurrentImage()
+                thumbnailListView.deleteCurrentImage();
             }
         }
     }
@@ -171,14 +181,15 @@ Menu {
         visible: rotatable
 
         onTriggered: {
-            imageViewer.rotateImage(90)
+            imageViewer.rotateImage(90);
         }
 
         Shortcut {
-            sequence: "Ctrl+R"
             enabled: rotatable
+            sequence: "Ctrl+R"
+
             onActivated: {
-                imageViewer.rotateImage(90)
+                imageViewer.rotateImage(90);
             }
         }
     }
@@ -188,14 +199,15 @@ Menu {
         visible: rotatable
 
         onTriggered: {
-            imageViewer.rotateImage(-90)
+            imageViewer.rotateImage(-90);
         }
 
         Shortcut {
-            sequence: "Ctrl+Shift+R"
             enabled: rotatable
+            sequence: "Ctrl+Shift+R"
+
             onActivated: {
-                imageViewer.rotateImage(-90)
+                imageViewer.rotateImage(-90);
             }
         }
     }
@@ -203,17 +215,14 @@ Menu {
     RightMenuItem {
         id: enableNavigation
 
-        visible: !isNullImage
-                 && window.height > IV.GStatus.minHideHeight
-                 && window.width > IV.GStatus.minWidth
         text: !IV.GStatus.enableNavigation ? qsTr("Show navigation window") : qsTr("Hide navigation window")
+        visible: !isNullImage && window.height > IV.GStatus.minHideHeight && window.width > IV.GStatus.minWidth
 
         onTriggered: {
             if (!parent.visible) {
-                return
+                return;
             }
-
-            IV.GStatus.enableNavigation = !IV.GStatus.enableNavigation
+            IV.GStatus.enableNavigation = !IV.GStatus.enableNavigation;
         }
     }
 
@@ -222,16 +231,17 @@ Menu {
         visible: supportWallpaper
 
         onTriggered: {
-            IV.GControl.submitImageChangeImmediately()
-            IV.FileControl.setWallpaper(imageSource)
+            IV.GControl.submitImageChangeImmediately();
+            IV.FileControl.setWallpaper(imageSource);
         }
 
         Shortcut {
-            sequence: "Ctrl+F9"
             enabled: supportWallpaper
+            sequence: "Ctrl+F9"
+
             onActivated: {
-                IV.GControl.submitImageChangeImmediately()
-                IV.FileControl.setWallpaper(imageSource)
+                IV.GControl.submitImageChangeImmediately();
+                IV.FileControl.setWallpaper(imageSource);
             }
         }
     }
@@ -240,14 +250,15 @@ Menu {
         text: qsTr("Display in file manager")
 
         onTriggered: {
-            IV.FileControl.displayinFileManager(imageSource)
+            IV.FileControl.displayinFileManager(imageSource);
         }
 
         Shortcut {
-            sequence: "Alt+D"
             enabled: parent.visible
+            sequence: "Alt+D"
+
             onActivated: {
-                IV.FileControl.displayinFileManager(imageSource)
+                IV.FileControl.displayinFileManager(imageSource);
             }
         }
     }
@@ -256,27 +267,29 @@ Menu {
         text: qsTr("Image info")
 
         onTriggered: {
-            infomationDig.show()
+            infomationDig.show();
         }
 
         Shortcut {
-            sequence: "Ctrl+I"
             enabled: parent.visible
+            sequence: "Ctrl+I"
+
             onActivated: {
-                infomationDig.show()
+                infomationDig.show();
             }
         }
     }
 
     IV.ImageInfo {
         id: imageInfo
+
         source: imageSource
 
         onStatusChanged: {
             if (IV.ImageInfo.Ready === imageInfo.status) {
-                isNullImage = (imageInfo.type === IV.Types.NullImage)
+                isNullImage = (imageInfo.type === IV.Types.NullImage);
             } else {
-                isNullImage = true
+                isNullImage = true;
             }
         }
     }

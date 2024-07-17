@@ -15,6 +15,7 @@ Item {
 
     //block汇总
     property var blockArray: new Array
+    property bool currentHasSelect: false
 
     //清除选择效果，参数为发出此信号的index，-1表示全部清除且只有root可以发出
     signal clearSelect(int pressesIndex)
@@ -35,8 +36,31 @@ Item {
     function clearLive() {
         root.visible = false;
         liveExit();
+
+        // 销毁控件
+        for (var i = 0; i != blockArray.length; ++i) {
+            var rectDetail = blockArray[i];
+            // 信号连接需显式断开
+            // 清除选择
+            clearSelect.disconnect(rectDetail.clearSelect);
+            // 框选相关
+            // 广播信号发出
+            mousePressedInBlock.disconnect(rectDetail.mousePressed);
+            mouseMoveInLive.disconnect(rectDetail.mouseAxisChanged);
+            mouseReleasedInBlock.disconnect(rectDetail.mouseReleased);
+            //触发广播信号
+            rectDetail.blockPressed.disconnect(mousePressedInBlock);
+            rectDetail.blockMouseMoved.disconnect(mouseMoveInLive);
+            rectDetail.blockMouseReleased.disconnect(mouseReleasedInBlock);
+            // 弹出菜单
+            rectDetail.blockMenu.disconnect(doPopMenu);
+            rectDetail.destroy();
+        }
         blockArray = [];
         highlightTextButton.visible = false;
+
+        // 清除选中标记
+        currentHasSelect = false;
     }
 
     function doPopMenu() {
@@ -59,6 +83,7 @@ Item {
         for (var i = 0; i != blockArray.length; ++i) {
             blockArray[i].selectAll();
         }
+        currentHasSelect = haveSelect();
     }
 
     //目前暂时只能处理对齐的矩形框
@@ -77,8 +102,7 @@ Item {
             rectDetail.x = blocks[id][0];
             rectDetail.y = blocks[id][1];
             rectDetail.setCharLocations(liveTextAnalyzer.charBox(id));
-            //控件销毁
-            liveExit.connect(rectDetail.destroy);
+            //控件销毁在 clearLive() 处理(需断开信号连接)
             //清除选择
             clearSelect.connect(rectDetail.clearSelect);
             //框选相关
@@ -112,6 +136,10 @@ Item {
 
     visible: false
 
+    onMouseReleasedInBlock: {
+        currentHasSelect = haveSelect();
+    }
+
     Menu {
         id: liveMenu
 
@@ -131,11 +159,11 @@ Item {
             }
 
             Shortcut {
-                enabled: parent.enabled
+                enabled: currentHasSelect
                 sequence: "Ctrl+C"
 
                 onActivated: {
-                    doTextCopy();
+                    Qt.callLater(doTextCopy);
                 }
             }
         }
