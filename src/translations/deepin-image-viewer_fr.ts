@@ -91,18 +91,11 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Sélectionnez tout</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>Fichier image non trouvé</translation>
+        <translation>Texte en direct</translation>
     </message>
 </context>
 <context>
@@ -113,7 +106,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>Taille</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -177,7 +170,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation>Nom de fichier</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -193,18 +186,32 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation>Modèle d&apos;appareil</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"/>
+        <translation>Copier (CTRL+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"/>
+        <translation>Sélectionner tout (CTRL+A)</translation>
+    </message>
+</context>
+<context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation>Sélectionnez des images</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>Fichier image non trouvé</translation>
     </message>
 </context>
 <context>
@@ -213,16 +220,12 @@
         <source>Open Image</source>
         <translation>Ouvrir une image</translation>
     </message>
-    <message>
-        <source>Select pictures</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Le fichier existe déjà, veuillez utiliser un nom différent</translation>
     </message>
 </context>
 <context>
@@ -248,7 +251,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Le fichier existe déjà, veuillez utiliser un nom différent</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -294,7 +297,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>Taille originale</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -302,7 +305,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Rotation</translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -388,15 +391,15 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"/>
+        <translation>Version</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 est réalisé sous %2</translation>
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Ouvrir image</translation>
     </message>
 </context>
 </TS>

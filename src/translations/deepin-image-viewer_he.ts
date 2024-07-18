@@ -1,400 +1,405 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="he">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="he">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>מסך מלא</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>יציאה ממסך מלא</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>חילוץ טקסט</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>מצגת</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">שינוי שם</translation>
+        <translation>שינוי שם</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>העתקה</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>מחיקה</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>הטייה עם כיוון השעון</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>הטייה נגד כיוון השעון</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>הגדרה כתמונת רקע</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>הצגה במנהל הקבצים</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"></translation>
+        <translation>פרטי התמונה</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>הקודם</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>הבא</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>התקרבות</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>התרחקות</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>פתיחה</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>הדפסה</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>צפייה בתמונות</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>עזרה</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>הצגת קיצורי דרך</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>הגדרות</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation>בחירה בהכול</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>טקסט חי</translation>
     </message>
 </context>
 <context>
     <name>InformationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"></translation>
+        <translation>פרטים בסיסיים</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>גודל</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"></translation>
+        <translation>מועד הצילום</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished"></translation>
+        <translation>מועד השינוי</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>פרטים</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>צמצם</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"></translation>
+        <translation>תכנית חשיפה</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"></translation>
+        <translation>אורך מוקד</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>חשיפה</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"></translation>
+        <translation>מצב חשיפה</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"></translation>
+        <translation>זמן חשיפה</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>מבזק</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"></translation>
+        <translation>פיצוי מבזק</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"></translation>
+        <translation>מרחב צבע</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"></translation>
+        <translation>מצב מדידה</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"></translation>
+        <translation>איזון לבן</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="unfinished"></translation>
+        <translation>דגם העדשה</translation>
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>שם הקובץ</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"></translation>
+        <translation>ממדים</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>סוג</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>צמצם מרבי</translation>
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>דגם התקן</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקה (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation>בחירה בהכול (Ctrl+A)</translation>
+    </message>
+</context>
+<context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation>בחירת תמונות</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>קובץ התמונה לא נמצא</translation>
     </message>
 </context>
 <context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>פתיחת תמונה</translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>הקובץ כבר קיים, נא להשתמש בשם אחר</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>מציג תמונות</translation>
     </message>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>יום</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>מציג התמונות הוא כלי להצגת תמונות עם מראה אופנתי וביצועים חלקים.</translation>
     </message>
 </context>
 <context>
     <name>ReName</name>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>נא למלא שם חדש</translation>
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>הקובץ כבר קיים, נא להשתמש בשם אחר</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>ביטול</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>אישור</translation>
     </message>
 </context>
 <context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>הקודם</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>השהיה</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>נגינה</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>הבא</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>יציאה</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>הבא</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>הקודם</translation>
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>הגודל המקורי</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
+        <translation>התאמה לחלון</translation>
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>סיבוב</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>חילוץ טקסט</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>מחיקה</translation>
     </message>
 </context>
 <context>
     <name>ViewRightMenu</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>מסך מלא</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>יציאה ממסך מלא</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>הדפסה</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>חילוץ טקסט</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>מצגת</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקה</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">שינוי שם</translation>
+        <translation>שינוי שם</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>מחיקה</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>הטייה עם כיוון השעון</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>הטייה נגד כיוון השעון</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת חלון ניווט</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>הסתרת חלון ניווט</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדרה כתמונת רקע</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגה במנהל הקבצים</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"></translation>
+        <translation>פרטי התמונה</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>מציג התמונות הוא כלי להצגת תמונות עם מראה אופנתי וביצועים חלקים.</translation>
     </message>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>מציג תמונות</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>גרסה</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 כפוף לתנאי %2</translation>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation>פתיחת תמונה</translation>
     </message>
 </context>
 </TS>

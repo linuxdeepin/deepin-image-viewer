@@ -99,13 +99,6 @@
     </message>
 </context>
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>Gambar tidak ditemukan</translation>
-    </message>
-</context>
-<context>
     <name>InformationDialog</name>
     <message>
         <source>Basic info</source>
@@ -208,14 +201,24 @@
     </message>
 </context>
 <context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>Gambar tidak ditemukan</translation>
+    </message>
+</context>
+<context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
         <translation>Buka Gambar</translation>
-    </message>
-    <message>
-        <source>Select pictures</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>

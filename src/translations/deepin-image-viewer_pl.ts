@@ -99,13 +99,6 @@
     </message>
 </context>
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>Nie odnaleziono obrazu</translation>
-    </message>
-</context>
-<context>
     <name>InformationDialog</name>
     <message>
         <source>Basic info</source>
@@ -153,11 +146,11 @@
     </message>
     <message>
         <source>Flash</source>
-        <translation>Lampa błyskowa</translation>
+        <translation>Flesz</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Korekcja lampy błyskowej</translation>
+        <translation>Kompensacja flesza</translation>
     </message>
     <message>
         <source>Colorspace</source>
@@ -208,14 +201,24 @@
     </message>
 </context>
 <context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation>Zaznacz zdjęcia</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>Nie odnaleziono obrazu</translation>
+    </message>
+</context>
+<context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
         <translation>Otwórz obraz</translation>
-    </message>
-    <message>
-        <source>Select pictures</source>
-        <translation>Zaznacz zdjęcia</translation>
     </message>
 </context>
 <context>
@@ -267,7 +270,7 @@
     </message>
     <message>
         <source>Pause</source>
-        <translation>Pauza</translation>
+        <translation>Wstrzymaj</translation>
     </message>
     <message>
         <source>Play</source>
@@ -396,7 +399,7 @@
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Otwórz obraz</translation>
     </message>
 </context>
 </TS>

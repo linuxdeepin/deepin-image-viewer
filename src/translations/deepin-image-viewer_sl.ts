@@ -91,18 +91,11 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Izberi vse</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>Slika ni bila najdena</translation>
+        <translation>Besedilo v živo</translation>
     </message>
 </context>
 <context>
@@ -113,7 +106,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>Velikost</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -177,7 +170,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation>Ime datoteke</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -193,18 +186,32 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation>Model naprave</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"/>
+        <translation>Kopiraj (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"/>
+        <translation>Izberi vse (Ctrl+A)</translation>
+    </message>
+</context>
+<context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation>Izberi slike</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>Slika ni bila najdena</translation>
     </message>
 </context>
 <context>
@@ -213,16 +220,12 @@
         <source>Open Image</source>
         <translation>Odpri sliko</translation>
     </message>
-    <message>
-        <source>Select pictures</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Datoteka že obstaja. Izberite drugo ime</translation>
     </message>
 </context>
 <context>
@@ -248,7 +251,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Datoteka že obstaja. Izberite drugo ime</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -294,7 +297,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>Velikost originala</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -302,7 +305,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Zavrti</translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -388,15 +391,15 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"/>
+        <translation>Različica</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 je objavljen(a) pod %2</translation>
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Odpri sliko</translation>
     </message>
 </context>
 </TS>

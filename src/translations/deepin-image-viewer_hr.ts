@@ -91,18 +91,11 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Odaberi sve</translation>
     </message>
     <message>
         <source>Live Text</source>
         <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>Slikovna datoteka nije nađena</translation>
     </message>
 </context>
 <context>
@@ -208,14 +201,24 @@
     </message>
 </context>
 <context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation>Odaberi slike</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>Slikovna datoteka nije nađena</translation>
+    </message>
+</context>
+<context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
         <translation>Otvori sliku</translation>
-    </message>
-    <message>
-        <source>Select pictures</source>
-        <translation>Odaberi slike</translation>
     </message>
 </context>
 <context>
@@ -396,7 +399,7 @@
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Otvori sliku</translation>
     </message>
 </context>
 </TS>
