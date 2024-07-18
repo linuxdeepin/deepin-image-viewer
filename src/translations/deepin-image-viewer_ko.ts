@@ -1,400 +1,405 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ko">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ko">
 <context>
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">전체화면</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">파일 관리도구에 표시</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">슬라이드 표시</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">복사</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">삭제</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">바탕화면으로 설정</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">시계 방향으로 회전</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">시계 반대 방향으로 회전</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished">이전</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">다음</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>전체화면</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">전체화면 종료</translation>
+        <translation>전체화면 종료</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>슬라이드 표시</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">이름 변경</translation>
+        <translation>이름 변경</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>복사</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>삭제</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>시계 방향으로 회전</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>시계 반대 방향으로 회전</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>바탕화면으로 설정</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>파일 관리도구에 표시</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">이미지 정보</translation>
+        <translation>이미지 정보</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>이전</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>다음</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>확대</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>축소</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>열기</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>인쇄</translation>
+    </message>
+    <message>
+        <source>Image Viewing</source>
+        <translation>이미지 보는 중</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>도움말</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>단축키 표시</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>설정</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>InformationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"></translation>
+        <translation>기본 정보</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"></translation>
+        <translation>캡처된 날짜</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished"></translation>
+        <translation>수정된 날짜</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>상세 정보</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>조리개</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"></translation>
+        <translation>노출 프로그램</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"></translation>
+        <translation>초점 거리</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"></translation>
+        <translation>노출 모드</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"></translation>
+        <translation>노출 시간</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>플래시</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"></translation>
+        <translation>플래시 보정</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"></translation>
+        <translation>색상공간</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"></translation>
+        <translation>미터링 모드</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"></translation>
+        <translation>화이트 밸런스</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="unfinished"></translation>
+        <translation>렌즈 모델</translation>
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"></translation>
+        <translation>치수</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>형식</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>최대 조리개</translation>
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>이미지 파일을 찾을 수 없음</translation>
     </message>
 </context>
 <context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished">이미지 열기</translation>
-    </message>
-    <message>
-        <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>이미지 열기</translation>
     </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished">이미지 보기도구</translation>
+        <translation>이미지 보기도구</translation>
     </message>
     <message>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>이미지 보기도구는 인기있는 인터페이스와 원활한 성능을 갖춘 이미지보기 도구입니다.</translation>
     </message>
 </context>
 <context>
     <name>ReName</name>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>새 이름 입력</translation>
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>확인</translation>
     </message>
 </context>
 <context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">이전</translation>
+        <translation>이전</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>일시중지</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>재생</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">다음</translation>
+        <translation>다음</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>종료</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>Next</source>
-        <translation type="unfinished">다음</translation>
+        <translation>다음</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">이전</translation>
+        <translation>이전</translation>
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
+        <translation>창에 맞춤</translation>
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">삭제</translation>
+        <translation>삭제</translation>
     </message>
 </context>
 <context>
     <name>ViewRightMenu</name>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">전체화면</translation>
+        <translation>전체화면</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">전체화면 종료</translation>
+        <translation>전체화면 종료</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>인쇄</translation>
     </message>
     <message>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">슬라이드 표시</translation>
+        <translation>슬라이드 표시</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">복사</translation>
+        <translation>복사</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">이름 변경</translation>
+        <translation>이름 변경</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">삭제</translation>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">시계 방향으로 회전</translation>
+        <translation>시계 방향으로 회전</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">시계 반대 방향으로 회전</translation>
+        <translation>시계 반대 방향으로 회전</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>탐색 창 표시</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>탐색 창 숨기기</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">바탕화면으로 설정</translation>
+        <translation>바탕화면으로 설정</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">파일 관리도구에 표시</translation>
+        <translation>파일 관리도구에 표시</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">이미지 정보</translation>
+        <translation>이미지 정보</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>이미지 보기도구는 인기있는 인터페이스와 원활한 성능을 갖춘 이미지보기 도구입니다.</translation>
     </message>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished">이미지 보기도구</translation>
+        <translation>이미지 보기도구</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

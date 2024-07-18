@@ -3,11 +3,11 @@
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation>Beeldvullend</translation>
+        <translation>Schermvullende weergave</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Beeldvullende modus afsluiten</translation>
+        <translation>Schermvullende weergave verlaten</translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -95,14 +95,7 @@
     </message>
     <message>
         <source>Live Text</source>
-        <translation>Live-ondersteuning</translation>
-    </message>
-</context>
-<context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>Afbeelding niet aangetroffen</translation>
+        <translation>Live-tekst</translation>
     </message>
 </context>
 <context>
@@ -208,14 +201,24 @@
     </message>
 </context>
 <context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation>Afbeeldingen selecteren</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>Afbeelding niet aangetroffen</translation>
+    </message>
+</context>
+<context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
         <translation>Afbeelding openen</translation>
-    </message>
-    <message>
-        <source>Select pictures</source>
-        <translation>Afbeeldingen selecteren</translation>
     </message>
 </context>
 <context>
@@ -237,7 +240,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Afbeeldingen is een programma om afbeeldingen te tonen met een stijlvolle vormgeving en vloeiende prestaties.</translation>
+        <translation>Met Afbeeldingen kun je al je foto&apos;s en afbeeldingen bekijken. Het programma is voorzien van een stijlvolle vormgeving en vloeiende prestaties.</translation>
     </message>
 </context>
 <context>
@@ -298,7 +301,7 @@
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Aanpassen aan venster</translation>
+        <translation>Inpassen</translation>
     </message>
     <message>
         <source>Rotate</source>
@@ -317,11 +320,11 @@
     <name>ViewRightMenu</name>
     <message>
         <source>Fullscreen</source>
-        <translation>Beeldvullend</translation>
+        <translation>Schermvullende weergave</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Beeldvullende modus afsluiten</translation>
+        <translation>Schermvullende weergave verlaten</translation>
     </message>
     <message>
         <source>Print</source>
@@ -380,7 +383,7 @@
     <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Afbeeldingen is een programma om afbeeldingen te tonen met een stijlvolle vormgeving en vloeiende prestaties.</translation>
+        <translation>Met Afbeeldingen kun je al je foto&apos;s en afbeeldingen bekijken. Het programma is voorzien van een stijlvolle vormgeving en vloeiende prestaties.</translation>
     </message>
     <message>
         <source>Image Viewer</source>
@@ -396,7 +399,7 @@
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Afbeelding openen</translation>
     </message>
 </context>
 </TS>

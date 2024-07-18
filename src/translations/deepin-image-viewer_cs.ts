@@ -91,18 +91,11 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Vybrat vše</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>Soubor s obrázkem nenalezen.</translation>
+        <translation>Živý text</translation>
     </message>
 </context>
 <context>
@@ -157,7 +150,7 @@
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Náhrada za blesk</translation>
+        <translation>Korekce intenzity záblesku</translation>
     </message>
     <message>
         <source>Colorspace</source>
@@ -208,21 +201,31 @@
     </message>
 </context>
 <context>
-    <name>OpenImageWidget</name>
-    <message>
-        <source>Open Image</source>
-        <translation>Otevřít obrázek</translation>
-    </message>
+    <name>MainStack</name>
     <message>
         <source>Select pictures</source>
         <translation>Vybrat obrázky</translation>
     </message>
 </context>
 <context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>Soubor s obrázkem nenalezen.</translation>
+    </message>
+</context>
+<context>
+    <name>OpenImageWidget</name>
+    <message>
+        <source>Open Image</source>
+        <translation>Otevřít obrázek</translation>
+    </message>
+</context>
+<context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation>Soubor již existuje, použijte jiný název</translation>
+        <translation>Soubor už existuje – použijte jiný název</translation>
     </message>
 </context>
 <context>
@@ -248,7 +251,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation>Soubor již existuje, použijte jiný název</translation>
+        <translation>Soubor už existuje – použijte jiný název</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -396,7 +399,7 @@
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Otevřít obrázek</translation>
     </message>
 </context>
 </TS>

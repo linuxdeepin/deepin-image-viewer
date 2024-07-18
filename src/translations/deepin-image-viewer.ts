@@ -101,13 +101,6 @@
     </message>
 </context>
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>Image file not found</translation>
-    </message>
-</context>
-<context>
     <name>InformationDialog</name>
     <message>
         <source>Basic info</source>
@@ -210,14 +203,24 @@
     </message>
 </context>
 <context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished">Select pictures</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished">Image file not found</translation>
+    </message>
+</context>
+<context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
         <translation>Open Image</translation>
-    </message>
-    <message>
-        <source>Select pictures</source>
-        <translation>Select pictures</translation>
     </message>
 </context>
 <context>

@@ -99,13 +99,6 @@
     </message>
 </context>
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>Ficheiro de imagem não encontrado</translation>
-    </message>
-</context>
-<context>
     <name>InformationDialog</name>
     <message>
         <source>Basic info</source>
@@ -208,14 +201,24 @@
     </message>
 </context>
 <context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation>Selecionar imagens</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>Ficheiro de imagem não encontrado</translation>
+    </message>
+</context>
+<context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
         <translation>Abrir imagem</translation>
-    </message>
-    <message>
-        <source>Select pictures</source>
-        <translation>Selecionar imagens</translation>
     </message>
 </context>
 <context>
@@ -396,7 +399,7 @@
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Abrir imagem</translation>
     </message>
 </context>
 </TS>

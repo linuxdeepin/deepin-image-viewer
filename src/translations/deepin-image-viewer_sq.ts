@@ -99,17 +99,10 @@
     </message>
 </context>
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>S’u gjet kartelë figure</translation>
-    </message>
-</context>
-<context>
     <name>InformationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Të dhëna elementare</translation>
+        <translation>Hollësi elementare</translation>
     </message>
     <message>
         <source>Size</source>
@@ -121,7 +114,7 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Datë kur u ndryshua</translation>
+        <translation>Datë ndryshimi</translation>
     </message>
     <message>
         <source>Details</source>
@@ -208,14 +201,24 @@
     </message>
 </context>
 <context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation>Përzgjidhni foto</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>S’u gjet kartelë figure</translation>
+    </message>
+</context>
+<context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
         <translation>Hap Figurë</translation>
-    </message>
-    <message>
-        <source>Select pictures</source>
-        <translation>Përzgjidhni foto</translation>
     </message>
 </context>
 <context>
@@ -279,7 +282,7 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation>Dil</translation>
+        <translation>Dalje</translation>
     </message>
 </context>
 <context>
@@ -396,7 +399,7 @@
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Hapni figurë</translation>
     </message>
 </context>
 </TS>

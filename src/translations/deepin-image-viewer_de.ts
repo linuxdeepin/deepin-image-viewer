@@ -99,13 +99,6 @@
     </message>
 </context>
 <context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>Bilddatei nicht gefunden</translation>
-    </message>
-</context>
-<context>
     <name>InformationDialog</name>
     <message>
         <source>Basic info</source>
@@ -208,14 +201,24 @@
     </message>
 </context>
 <context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation>Bilder auswählen</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>Bilddatei nicht gefunden</translation>
+    </message>
+</context>
+<context>
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
         <translation>Bild öffnen</translation>
-    </message>
-    <message>
-        <source>Select pictures</source>
-        <translation>Bilder auswählen</translation>
     </message>
 </context>
 <context>
@@ -392,11 +395,11 @@
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation>%1 ist unter der %2 veröffentlicht</translation>
+        <translation>%1 ist unter %2 veröffentlicht</translation>
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Bild öffnen</translation>
     </message>
 </context>
 </TS>

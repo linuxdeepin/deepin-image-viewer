@@ -91,18 +91,11 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Valitse kaikki</translation>
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>ImageViewer</name>
-    <message>
-        <source>Image file not found</source>
-        <translation>Kuvatiedostoa ei löytynyt</translation>
+        <translation>Elävä teksti</translation>
     </message>
 </context>
 <context>
@@ -113,7 +106,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>Koko</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -177,7 +170,7 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation>Tiedoston nimi</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -193,18 +186,32 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen malli</translation>
     </message>
 </context>
 <context>
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"/>
+        <translation>Kopioi (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"/>
+        <translation>Valitse kaikki (Ctrl+A)</translation>
+    </message>
+</context>
+<context>
+    <name>MainStack</name>
+    <message>
+        <source>Select pictures</source>
+        <translation>Valitse kuvat</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <source>Image file not found</source>
+        <translation>Kuvatiedostoa ei löytynyt</translation>
     </message>
 </context>
 <context>
@@ -213,16 +220,12 @@
         <source>Open Image</source>
         <translation>Avaa kuva</translation>
     </message>
-    <message>
-        <source>Select pictures</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Tiedosto on jo olemassa, käytä toista nimeä</translation>
     </message>
 </context>
 <context>
@@ -248,7 +251,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Tiedosto on jo olemassa, käytä toista nimeä</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -294,7 +297,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>Alkuperäinen koko</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -302,7 +305,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Käännä</translation>
     </message>
     <message>
         <source>Extract text</source>
@@ -388,15 +391,15 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"/>
+        <translation>Versio</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 on julkaistu %2 alla</translation>
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Avaa kuva</translation>
     </message>
 </context>
 </TS>
