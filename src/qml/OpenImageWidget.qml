@@ -15,7 +15,6 @@ Control {
         id: openWidgetImage
 
         anchors.centerIn: parent
-        // TODO: 当前图标文件存在异常，仅有亮色主题
         name: "import_photo"
         sourceSize.height: 128
         sourceSize.width: 128
