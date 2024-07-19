@@ -29,7 +29,6 @@ DialogWindow {
 
     flags: Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint
     height: 180
-    icon: "deepin-image-viewer"
     maximumHeight: 180
     maximumWidth: 400
     minimumHeight: 180
@@ -37,6 +36,14 @@ DialogWindow {
     modality: Qt.WindowModal
     visible: false
     width: 400
+
+    // 调整默认的 titlebar
+    header: DialogTitleBar {
+        enableInWindowBlendBlur: true
+        // 仅保留默认状态，否则 hover 上会有变化效果
+        icon.mode: DTK.NormalState
+        icon.name: "deepin-image-viewer"
+    }
 
     onVisibleChanged: {
         if (visible) {
