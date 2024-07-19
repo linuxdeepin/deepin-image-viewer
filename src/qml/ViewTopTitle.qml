@@ -136,16 +136,12 @@ Rectangle {
 
             AboutAction {
                 aboutDialog: AboutDialog {
-                    companyLogo: IV.FileControl.getCompanyLogo()
                     description: qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
-                    height: 362
-                    license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
                     productIcon: "deepin-image-viewer"
                     productName: qsTr("Image Viewer")
-                    version: qsTr("Version") + ": %1".arg(Qt.application.version)
-                    websiteLink: DTK.deepinWebsiteLink
-                    websiteName: DTK.deepinWebsiteName
-                    width: 360
+                    version: Qt.application.version
+                    websiteLink: "www.chinauos.com"
+                    websiteName: "www.chinauos.com"
                 }
             }
 
