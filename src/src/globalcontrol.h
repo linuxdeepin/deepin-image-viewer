@@ -29,10 +29,12 @@ public:
     explicit GlobalControl(QObject *parent = nullptr);
     ~GlobalControl() override;
 
+    // 用于全局的图像源数据模型
     void setGlobalModel(ImageSourceModel *model);
     ImageSourceModel *globalModel() const;
     Q_SIGNAL void globalModelChanged();
 
+    // 当前图像设置及(帧)索引变更信号
     void setCurrentSource(const QUrl &source);
     QUrl currentSource() const;
     Q_SIGNAL void currentSourceChanged();
@@ -45,11 +47,13 @@ public:
     int imageCount() const;
     Q_SIGNAL void imageCountChanged();
 
+    // 图像旋转处理
     void setCurrentRotation(int angle);
     int currentRotation();
     Q_SIGNAL void currentRotationChanged();
     Q_SIGNAL void requestRotateCacheImage();
 
+    // 图片切换操作
     bool hasPreviousImage() const;
     Q_SIGNAL void hasPreviousImageChanged();
     bool hasNextImage() const;
@@ -59,6 +63,7 @@ public:
     Q_INVOKABLE bool firstImage();
     Q_INVOKABLE bool lastImage();
 
+    // 图像文件变更操作
     Q_SLOT void setImageFiles(const QStringList &imageFiles, const QString &openFile);
     Q_SLOT void removeImage(const QUrl &removeImage);
     Q_SLOT void renameImage(const QUrl &oldName, const QUrl &newName);
@@ -66,6 +71,7 @@ public:
     Q_SLOT void submitImageChangeImmediately();
     Q_SIGNAL void requestRotateImage(const QString &localPath, int rotation);
 
+    // 判断当前设备是否支持多线程处理
     static bool enableMultiThread();
 
 protected:

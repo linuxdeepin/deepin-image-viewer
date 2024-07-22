@@ -6,74 +6,137 @@ import QtQuick 2.11
 import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
+import org.deepin.dtk.style 1.0 as DS
+import "../"
 
 Control {
     id: control
 
-    property string title
-    property string description
-    property int corners: RoundRectangle.NoneCorner
-    property string iconName
-    property int contrlImplicitWidth: 66
-    property int contrlIntimplicitHeight: 40
     property Component action: ActionButton {
-        visible: control.iconName
         Layout.alignment: Qt.AlignRight
-        icon {
-            width: 14
-            height: 14
-            name: control.iconName
-        }
+        visible: control.iconName
 
         onClicked: control.clicked()
+
+        icon {
+            height: 14
+            name: control.iconName
+            width: 14
+        }
     }
+    property int contrlImplicitWidth: 66
+    property int contrlIntimplicitHeight: 40
+    property int corners: RoundRectangle.NoneCorner
+    property string description
+    property int descriptionWidth: control.width - leftPadding - rightPadding
+    property string iconName
+    property Palette infoTextColor: Palette {
+        normal: Qt.rgba(0, 0, 0, 1)
+        normalDark: Qt.rgba(1, 1, 1, 1)
+    }
+    property Palette sectionTextColor: Palette {
+        normal: Qt.rgba(0, 0, 0, 0.6)
+        normalDark: Qt.rgba(1, 1, 1, 0.6)
+    }
+    property string title
 
     signal clicked
 
-    width: 66
-    padding: 5
+    bottomPadding: 4
+    implicitWidth: contrlImplicitWidth
+    leftPadding: 10
+    rightPadding: 10
+    topPadding: 3
+
+    background: RoundRectangle {
+        color: Qt.rgba(0, 0, 0, 0.05)
+        corners: control.corners
+        implicitHeight: contrlIntimplicitHeight
+        implicitWidth: contrlImplicitWidth
+        radius: Style.control.radius
+    }
     contentItem: ColumnLayout {
+        spacing: 0
+
         Label {
-            visible: control.title
+            color: control.ColorSelector.sectionTextColor
+            font: DTK.fontManager.t10
             text: control.title
             textFormat: Text.PlainText
-            font: DTK.fontManager.t10
+            visible: control.title
         }
 
         RowLayout {
-            Item {
-                Label {
-                    id: showlabel
+            id: content
 
-                    width: contrlImplicitWidth
-                    visible: control.description.length > 0
-                    Layout.fillWidth: true
-                    text: control.description
-                    textFormat: Text.PlainText
-                    font: DTK.fontManager.t8
+            Label {
+                id: showlabel
+
+                Layout.fillWidth: true
+                color: control.ColorSelector.infoTextColor
+                font: DTK.fontManager.t8
+                text: textMetics.elidedText
+                textFormat: Text.PlainText
+                visible: control.description
+
+                TextMetrics {
+                    id: textMetics
+
                     elide: Text.ElideMiddle
+                    elideWidth: descriptionWidth
+                    font: showlabel.font
+                    text: control.description
+                }
 
-                    MouseArea {
+                Loader {
+                    active: textMetics.width > descriptionWidth
+                    anchors.fill: parent
+
+                    sourceComponent: MouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
 
-                        AlertToolTip {
-                            id: tip
-
-                            visible: parent.focus
-                            text: control.description
+                        onExited: {
+                            tip.visible = false;
                         }
-
                         onMouseXChanged: {
-                            if (tip.width < control.width + 15) {
-                                tip.visible = false
+                            if (textMetics.width < descriptionWidth) {
+                                tip.visible = false;
                             } else {
-                                tip.visible = true
+                                tip.visible = true;
                             }
                         }
 
-                        onExited: {
-                            tip.visible = false
+                        ToolTip {
+                            id: tip
+
+                            parent: parent
+                            text: control.description
+                            visible: parent.focus
+                            width: control.width - 5
+                            y: showlabel.y + 20
+
+                            background: FloatingPanel {
+                                ColorSelector.family: Palette.CrystalColor
+                                implicitHeight: DS.Style.toolTip.height
+                                implicitWidth: 0
+                                radius: DS.Style.control.radius
+
+                                backgroundColor: Palette {
+                                    normal {
+                                        common: "#f0f0f0"
+                                        crystal: Qt.rgba(0.20, 0.2, 0.2, 0.1)
+                                    }
+                                }
+                            }
+                            contentItem: Text {
+                                color: control.palette.toolTipText
+                                font: DTK.fontManager.t8
+                                horizontalAlignment: Text.AlignLeft
+                                text: control.description
+                                verticalAlignment: Text.AlignVCenter
+                                wrapMode: Text.Wrap
+                            }
                         }
                     }
                 }
@@ -84,13 +147,5 @@ Control {
                 sourceComponent: control.action
             }
         }
-    }
-
-    background: RoundRectangle {
-        implicitWidth: contrlImplicitWidth
-        implicitHeight: contrlIntimplicitHeight
-        color: Qt.rgba(0, 0, 0, 0.05)
-        radius: Style.control.radius
-        corners: control.corners
     }
 }

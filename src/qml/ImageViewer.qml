@@ -11,6 +11,7 @@ import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
 import "./ImageDelegate"
 import "./LiveText"
+import "./InformationDialog"
 
 Item {
     id: imageViewer
@@ -614,6 +615,9 @@ Item {
                 if (IV.GStatus.showRightMenu) {
                     rightMenu.popup(IV.CursorTool.currentCursorPos());
                     rightMenu.focus = true;
+
+                    // 关闭详细信息弹窗
+                    IV.GStatus.showImageInfo = false;
                 }
             }
 
@@ -631,8 +635,10 @@ Item {
 
         active: IV.GStatus.showImageInfo
         asynchronous: true
+
         // 图片属性信息窗口
-        source: "qrc:/qml/InformationDialog/InformationDialog.qml"
+        sourceComponent: InformationDialog {
+        }
     }
 
     //导航窗口
