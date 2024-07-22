@@ -581,9 +581,10 @@ Item {
         }
 
         DciIcon {
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            anchors.centerIn: parent
             height: 45
             name: "icon_recognition_highlight"
+            palette: DTK.makeIconPalette(parent.palette)
             width: 45
         }
     }
