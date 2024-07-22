@@ -5,115 +5,183 @@
 import QtQuick 2.11
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0
+import org.deepin.dtk.style 1.0 as DS
+import org.deepin.image.viewer 1.0 as IV
 
 Control {
     id: control
 
-    property string title
-    property string description
-    property int corners: RoundRectangle.NoneCorner
-    property string iconName
     property Component action: ActionButton {
-        visible: showPicLabel.visible
         Layout.alignment: Qt.AlignRight
-        icon {
-            width: 14
-            height: 14
-            name: control.iconName
-        }
+        visible: showPicLabel.visible
 
         onClicked: {
-            dealShowPicLabelClick()
+            dealShowPicLabelClick();
+        }
+
+        icon {
+            height: 14
+            name: control.iconName
+            width: 14
         }
     }
+    property int corners: RoundRectangle.NoneCorner
+    property string description
+    property int descriptionWidth: control.width - leftPadding - rightPadding - 10
+    property string iconName
+    property Palette infoTextColor: Palette {
+        normal: Qt.rgba(0, 0, 0, 1)
+        normalDark: Qt.rgba(1, 1, 1, 1)
+    }
+    property Palette sectionTextColor: Palette {
+        normal: Qt.rgba(0, 0, 0, 0.6)
+        normalDark: Qt.rgba(1, 1, 1, 0.6)
+    }
+    property string title
 
-    signal clicked()
+    signal clicked
 
     function dealShowPicLabelClick() {
         if (showPicLabel.visible) {
-            showPicLabel.visible = false
+            showPicLabel.visible = false;
             // 每次显示编辑框时显示为图片名称
-            nameedit.text = IV.FileControl.slotGetFileName(IV.GControl.currentSource)
+            nameedit.text = IV.FileControl.slotGetFileName(IV.GControl.currentSource);
         } else {
-            var name = nameedit.text
+            var name = nameedit.text;
             if (!IV.FileControl.isShowToolTip(IV.GControl.currentSource, name) && name.length > 0) {
-                IV.FileControl.slotFileReName(name, IV.GControl.currentSource)
+                IV.FileControl.slotFileReName(name, IV.GControl.currentSource);
             }
-            showPicLabel.visible = true
+            showPicLabel.visible = true;
         }
     }
 
     // 复位当前属性编辑组件，关闭编辑框
     function reset() {
-        showPicLabel.visible = true
+        showPicLabel.visible = true;
     }
 
-    padding: 5
+    bottomPadding: 4
+    leftPadding: 10
+    rightPadding: 10
+    topPadding: 3
+
+    background: RoundRectangle {
+        color: Qt.rgba(0, 0, 0, 0.05)
+        corners: control.corners
+        implicitHeight: 40
+        implicitWidth: 66
+        radius: Style.control.radius
+    }
     contentItem: ColumnLayout {
+        spacing: 0
+
         Label {
-            visible: control.title.length > 0
+            color: control.ColorSelector.sectionTextColor
+            font: DTK.fontManager.t10
             text: control.title
             textFormat: Text.PlainText
-            font: DTK.fontManager.t10
+            visible: control.title.length > 0
         }
 
         RowLayout {
             LineEdit {
                 id: nameedit
 
-                visible: !showPicLabel.visible
-                text: IV.FileControl.slotGetFileName(IV.GControl.currentSource)
-                anchors {
-                    topMargin: 5
-                    leftMargin: 10
-                }
-                font.pixelSize: 16
-                focus: true
-                selectByMouse: true
                 alertText: qsTr("The file already exists, please use another name")
-                showAlert: IV.FileControl.isShowToolTip(IV.GControl.currentSource, nameedit.text) && nameedit.visible
+                color: control.ColorSelector.infoTextColor
+                focus: true
+                font.pixelSize: 16
                 height: 20
+                selectByMouse: true
+                showAlert: IV.FileControl.isShowToolTip(IV.GControl.currentSource, nameedit.text) && nameedit.visible
+                text: IV.FileControl.slotGetFileName(IV.GControl.currentSource)
+                visible: !showPicLabel.visible
+
                 // 限制输入特殊字符
                 validator: RegExpValidator {
                     regExp: /^[^ \\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/
                 }
 
                 Keys.onPressed: {
-                    if (event.key === Qt.Key_Enter
-                            || event.key === Qt.Key_Return) {
-                        dealShowPicLabelClick()
+                    if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
+                        dealShowPicLabelClick();
                     }
                 }
+
+                anchors {
+                    leftMargin: 10
+                    topMargin: 5
+                }
             }
+
             Label {
                 id: showPicLabel
-                visible: control.description
+
                 Layout.fillWidth: true
-                text: control.description
+                color: control.ColorSelector.infoTextColor
                 font: DTK.fontManager.t8
-                elide: Text.ElideMiddle
-                MouseArea {
+                text: textMetics.elidedText
+                visible: control.description
+
+                TextMetrics {
+                    id: textMetics
+
+                    elide: Text.ElideMiddle
+                    elideWidth: descriptionWidth
+                    font: showPicLabel.font
+                    text: control.description
+                }
+
+                Loader {
+                    active: textMetics.width > descriptionWidth
                     anchors.fill: parent
-                    hoverEnabled: true
 
-                    AlertToolTip {
-                        id: tip
-                        parent: parent
-                        visible: parent.focus
-                        text: control.description
-                        y: showPicLabel.y + 20
-                    }
+                    sourceComponent: MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
 
-                    onMouseXChanged: {
-                        if (tip.width < control.width + 15) {
-                            tip.visible = false
-                        } else {
-                            tip.visible = true
+                        onExited: {
+                            tip.visible = false;
                         }
-                    }
+                        onMouseXChanged: {
+                            if (textMetics.width < descriptionWidth) {
+                                tip.visible = false;
+                            } else {
+                                tip.visible = true;
+                            }
+                        }
 
-                    onExited: {
-                        tip.visible = false
+                        ToolTip {
+                            id: tip
+
+                            parent: parent
+                            text: control.description
+                            visible: parent.focus
+                            width: control.width - 5
+                            y: showPicLabel.y + 20
+
+                            background: FloatingPanel {
+                                ColorSelector.family: Palette.CrystalColor
+                                implicitHeight: DS.Style.toolTip.height
+                                implicitWidth: 0
+                                radius: DS.Style.control.radius
+
+                                backgroundColor: Palette {
+                                    normal {
+                                        common: "#f0f0f0"
+                                        crystal: Qt.rgba(0.20, 0.2, 0.2, 0.1)
+                                    }
+                                }
+                            }
+                            contentItem: Text {
+                                color: control.palette.toolTipText
+                                font: DTK.fontManager.t8
+                                horizontalAlignment: Text.AlignLeft
+                                text: control.description
+                                verticalAlignment: Text.AlignVCenter
+                                wrapMode: Text.Wrap
+                            }
+                        }
                     }
                 }
             }
@@ -123,13 +191,5 @@ Control {
                 sourceComponent: control.action
             }
         }
-    }
-
-    background: RoundRectangle {
-        implicitWidth: 66
-        implicitHeight: 40
-        color: Qt.rgba(0, 0, 0, 0.05)
-        radius: Style.control.radius
-        corners: control.corners
     }
 }

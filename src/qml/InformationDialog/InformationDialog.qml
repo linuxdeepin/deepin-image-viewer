@@ -9,41 +9,68 @@ import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
 
 DialogWindow {
-    property int leftX: 20
-    property int topY: 70
+    id: dialog
+
     property string fileName: IV.FileControl.slotGetFileNameSuffix(filePath)
     property url filePath: IV.GControl.currentSource
+    property int leftX: 20
+    property int propFullWidth: 260
+    property int propLeftWidth: 66
+    property int propMidWidth: 106
+    property int propRightWidth: 86
+    property int topY: 70
 
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowStaysOnTopHint
-    visible: false
-    width: 280
-    x: window.x + window.width - width - leftX
-    y: window.y + topY
-    minimumWidth: 280
     maximumWidth: 280
-    minimumHeight: contentHeight.height + 60
-    maximumHeight: contentHeight.height + 60
+    minimumWidth: 280
+    visible: true
+    width: 280
+
     header: DialogTitleBar {
         property string title: fileName
 
         enableInWindowBlendBlur: true
+
         content: Loader {
             sourceComponent: Label {
                 anchors.centerIn: parent
+                elide: Text.ElideMiddle
+                font: DTK.fontManager.t6
                 horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font: DTK.fontManager.t8
                 text: title
                 textFormat: Text.PlainText
-                elide: Text.ElideMiddle
+                verticalAlignment: Text.AlignVCenter
             }
         }
+    }
+    Behavior on height {
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+    }
+
+    Component.onCompleted: {
+        x = window.x + window.width - width - leftX;
+        y = window.y + topY;
+    }
+
+    // 窗口关闭时复位组件状态
+    onClosing: {
+        fileNameProp.reset();
+        IV.GStatus.showImageInfo = false;
+    }
+
+    // 图片变更时复位组件状态(切换时关闭重命名框)
+    onFileNameChanged: {
+        fileNameProp.reset();
     }
 
     ColumnLayout {
         id: contentHeight
 
         width: 260
+
         anchors {
             horizontalCenter: parent.horizontalCenter
             margins: 10
@@ -57,14 +84,13 @@ DialogWindow {
 
                 PropertyActionItemDelegate {
                     id: fileNameProp
+
                     Layout.fillWidth: true
-                    title: qsTr("File name")
+                    corners: RoundRectangle.TopCorner
                     description: fileName
                     iconName: "action_edit"
-                    onClicked: {
-
-                    }
-                    corners: RoundRectangle.TopCorner
+                    implicitWidth: propFullWidth
+                    title: qsTr("File name")
                 }
 
                 RowLayout {
@@ -72,21 +98,24 @@ DialogWindow {
                     spacing: 1
 
                     PropertyItemDelegate {
-                        title: qsTr("Size")
-                        description: IV.FileControl.slotGetInfo("FileSize", filePath)
+                        contrlImplicitWidth: propLeftWidth
                         corners: RoundRectangle.BottomLeftCorner
+                        description: IV.FileControl.slotGetInfo("FileSize", filePath)
+                        title: qsTr("Size")
                     }
 
                     PropertyItemDelegate {
-                        title: qsTr("Dimensions")
-                        description: imageInfo.width + "x" + imageInfo.height
                         Layout.fillWidth: true
+                        contrlImplicitWidth: propMidWidth
+                        description: imageInfo.width + "x" + imageInfo.height
+                        title: qsTr("Dimensions")
                     }
 
                     PropertyItemDelegate {
-                        title: qsTr("Type")
-                        description: IV.FileControl.slotFileSuffix(filePath, false)
+                        contrlImplicitWidth: propRightWidth
                         corners: RoundRectangle.BottomRightCorner
+                        description: IV.FileControl.slotFileSuffix(filePath, false)
+                        title: qsTr("Type")
                     }
                 }
             }
@@ -96,147 +125,142 @@ DialogWindow {
 
                 PropertyActionItemDelegate {
                     Layout.fillWidth: true
-                    title: qsTr("Date captured")
-                    description: IV.FileControl.slotGetInfo("DateTimeOriginal", filePath)
                     corners: RoundRectangle.TopCorner
+                    description: IV.FileControl.slotGetInfo("DateTimeOriginal", filePath)
+                    title: qsTr("Date captured")
                 }
 
                 PropertyActionItemDelegate {
                     Layout.fillWidth: true
-                    title: qsTr("Date modified")
-                    description: IV.FileControl.slotGetInfo("DateTimeDigitized", filePath)
                     corners: RoundRectangle.BottomCorner
+                    description: IV.FileControl.slotGetInfo("DateTimeDigitized", filePath)
+                    title: qsTr("Date modified")
                 }
             }
         }
+
         PropertyItem {
+            id: detailInfoItem
+
+            // 详细信息默认不显示，会影响自动布局效果，因此目前设置为固定布局
+            showProperty: false
             title: qsTr("Details")
 
             GridLayout {
+                Layout.fillWidth: true
                 columnSpacing: 1
+                columns: 3
                 rowSpacing: 1
                 rows: 4
-                columns: 3
-                Layout.fillWidth: true
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 66
-                    title: qsTr("Aperture")
-                    description: IV.FileControl.slotGetInfo("ApertureValue", filePath)
+                    contrlImplicitWidth: propLeftWidth
                     corners: RoundRectangle.TopLeftCorner
+                    description: IV.FileControl.slotGetInfo("ApertureValue", filePath)
+                    title: qsTr("Aperture")
                 }
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 106
-                    title: qsTr("Exposure program")
+                    Layout.fillWidth: true
+                    Layout.minimumWidth: propMidWidth
+                    contrlImplicitWidth: propMidWidth
                     description: IV.FileControl.slotGetInfo("ExposureProgram", filePath)
-                    Layout.fillWidth: true
+                    title: qsTr("Exposure program")
                 }
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 86
-                    title: qsTr("Focal length")
-                    description: IV.FileControl.slotGetInfo("FocalLength", filePath)
+                    contrlImplicitWidth: propRightWidth
                     corners: RoundRectangle.TopRightCorner
+                    description: IV.FileControl.slotGetInfo("FocalLength", filePath)
+                    title: qsTr("Focal length")
                 }
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 66
-                    title: qsTr("ISO")
+                    contrlImplicitWidth: propLeftWidth
                     description: IV.FileControl.slotGetInfo("ISOSpeedRatings", filePath)
+                    title: qsTr("ISO")
                 }
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 106
-                    title: qsTr("Exposure mode")
+                    Layout.fillWidth: true
+                    contrlImplicitWidth: propMidWidth
                     description: IV.FileControl.slotGetInfo("ExposureMode", filePath)
-                    Layout.fillWidth: true
+                    title: qsTr("Exposure mode")
                 }
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 86
-                    title: qsTr("Exposure time")
+                    contrlImplicitWidth: propRightWidth
                     description: IV.FileControl.slotGetInfo("ExposureTime", filePath)
+                    title: qsTr("Exposure time")
                 }
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 66
-                    title: qsTr("Flash")
+                    contrlImplicitWidth: propLeftWidth
                     description: IV.FileControl.slotGetInfo("Flash", filePath)
+                    title: qsTr("Flash")
                 }
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 106
-                    title: qsTr("Flash compensation")
+                    Layout.fillWidth: true
+                    contrlImplicitWidth: propMidWidth
                     description: IV.FileControl.slotGetInfo("FlashExposureComp", filePath)
-                    Layout.fillWidth: true
+                    title: qsTr("Flash compensation")
                 }
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 86
-                    title: qsTr("Max aperture")
+                    contrlImplicitWidth: propRightWidth
                     description: IV.FileControl.slotGetInfo("MaxApertureValue", filePath)
+                    title: qsTr("Max aperture")
                 }
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 66
-                    title: qsTr("Colorspace")
-                    description: IV.FileControl.slotGetInfo("ColorSpace", filePath)
+                    contrlImplicitWidth: propLeftWidth
                     corners: RoundRectangle.BottomLeftCorner
+                    description: IV.FileControl.slotGetInfo("ColorSpace", filePath)
+                    title: qsTr("Colorspace")
                 }
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 106
-                    title: qsTr("Metering mode")
-                    description: IV.FileControl.slotGetInfo("MeteringMode", filePath)
                     Layout.fillWidth: true
+                    contrlImplicitWidth: propMidWidth
+                    description: IV.FileControl.slotGetInfo("MeteringMode", filePath)
+                    title: qsTr("Metering mode")
                 }
 
                 PropertyItemDelegate {
-                    contrlImplicitWidth: 86
-                    title: qsTr("White balance")
-                    description: IV.FileControl.slotGetInfo("WhiteBalance", filePath)
+                    contrlImplicitWidth: propRightWidth
                     corners: RoundRectangle.BottomRightCorner
+                    description: IV.FileControl.slotGetInfo("WhiteBalance", filePath)
+                    title: qsTr("White balance")
                 }
             }
 
-            PropertyItemDelegate {
-                contrlImplicitWidth: 240
-                title: qsTr("Device model")
-                description: IV.FileControl.slotGetInfo("Model", filePath)
-                corners: RoundRectangle.AllCorner
-            }
+            ColumnLayout {
+                spacing: 1
 
-            PropertyItemDelegate {
-                contrlImplicitWidth: 240
-                title: qsTr("Lens model")
-                description: IV.FileControl.slotGetInfo("LensType", filePath)
-                corners: RoundRectangle.AllCorner
-            }
+                PropertyItemDelegate {
+                    contrlImplicitWidth: propFullWidth
+                    corners: RoundRectangle.AllCorner
+                    description: IV.FileControl.slotGetInfo("Model", filePath)
+                    title: qsTr("Device model")
+                }
 
-            // 默认隐藏"详细"菜单，再初始布局完成后隐藏
-            Component.onCompleted: {
-                showProperty = false
+                PropertyItemDelegate {
+                    contrlImplicitWidth: propFullWidth
+                    corners: RoundRectangle.AllCorner
+                    description: IV.FileControl.slotGetInfo("LensType", filePath)
+                    title: qsTr("Lens model")
+                }
             }
         }
-    }
 
-    onVisibleChanged: {
-        if (visible) {
-            setX(window.x + window.width / 2 - width / 2)
-            setY(window.y + window.height / 2 - height / 2)
+        // 隐藏占位组件
+        Item {
+            id: footer
+
+            Layout.preferredHeight: detailInfoItem.showProperty ? 5 : 10
+            width: 10
         }
-    }
-
-    // 窗口关闭时复位组件状态
-    onClosing: {
-        fileNameProp.reset()
-        IV.GStatus.showImageInfo = false
-    }
-
-    // 图片变更时复位组件状态(切换时关闭重命名框)
-    onFileNameChanged: {
-        fileNameProp.reset()
     }
 
     // DialogWindow 无法直接包含 ImageInfo
@@ -247,9 +271,5 @@ DialogWindow {
             frameIndex: IV.GControl.currentFrameIndex
             source: IV.GControl.currentSource
         }
-    }
-
-    Component.onCompleted: {
-        show()
     }
 }
