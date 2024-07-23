@@ -1,5 +1,7 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
+//
 // SPDX-License-Identifier: GPL-3.0-or-later
+
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Window 2.11
@@ -46,7 +48,12 @@ Item {
             // 显示图像的组件高度(组件高度不会随着缩放变更，是组件在布局内的高度)
             var imageCompoHeight = imageViewer.targetImage.height;
             imageScaleNeedShow = Boolean(imagePaintedHeight <= imageCompoHeight);
+
+            // 设置标题栏的状态，是否图片已缩放到标题栏部分
+            titleRect.imageScaledToTitle = !imageScaleNeedShow;
         }
+
+        // 判断标题栏和底栏的计算
         if (window.isFullScreen) {
             // 全屏时特殊处理
             if (mouseY > bottomHotspotHeight) {
@@ -62,7 +69,7 @@ Item {
                 // 窗口大小大于最小大小，光标不在热区内
                 needShowTopBottom = false;
             } else if (imageScaleNeedShow) {
-                // 缩放范围高度未超过显示范围高度限制时时，不会隐藏工具/标题栏，根据高度而非宽度计算
+                // 缩放范围高度未超过显示范围高度限制时，不会隐藏工具/标题栏，根据高度而非宽度计算
                 needShowTopBottom = true;
             } else if (cursorInWidnow && ((mouseY > bottomHotspotHeight && mouseY <= Window.height) || (0 < mouseY && mouseY < IV.GStatus.titleHeight))) {
                 // 当缩放范围超过工具/标题栏且光标在工具/标题栏范围，显示工具/标题栏

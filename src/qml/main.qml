@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -7,6 +7,7 @@ import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
+import org.deepin.dtk.style 1.0 as DS
 import org.deepin.image.viewer 1.0 as IV
 
 ApplicationWindow {
@@ -18,6 +19,8 @@ ApplicationWindow {
 
     // 设置 dtk 风格窗口
     DWindow.enabled: true
+    // 调整暗色主题下的窗口背景色
+    color: DS.Style.control.selectColor(palette.window, palette.window, Qt.rgba(24 / 255, 24 / 255, 24 / 255, 1))
     flags: Qt.Window | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
     height: IV.FileControl.getlastHeight()
     minimumHeight: IV.GStatus.minHeight
