@@ -110,25 +110,14 @@ Control {
                         ToolTip {
                             id: tip
 
+                            // 此处代码并非设置背景，而是由palette的变更信号触发 ColorSelector.controlTheme 的更新
+                            palette.window: DTK.themeType === ApplicationHelper.LightType ? "white" : "black"
                             parent: parent
                             text: control.description
                             visible: parent.focus
                             width: control.width - 5
                             y: showlabel.y + 20
 
-                            background: FloatingPanel {
-                                ColorSelector.family: Palette.CrystalColor
-                                implicitHeight: DS.Style.toolTip.height
-                                implicitWidth: 0
-                                radius: DS.Style.control.radius
-
-                                backgroundColor: Palette {
-                                    normal {
-                                        common: "#f0f0f0"
-                                        crystal: Qt.rgba(0.20, 0.2, 0.2, 0.1)
-                                    }
-                                }
-                            }
                             contentItem: Text {
                                 color: control.palette.toolTipText
                                 font: DTK.fontManager.t8
