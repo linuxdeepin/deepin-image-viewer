@@ -177,6 +177,8 @@ Menu {
     }
 
     RightMenuItem {
+        id: rotateClockItem
+
         text: qsTr("Rotate clockwise")
         visible: rotatable
 
@@ -195,6 +197,8 @@ Menu {
     }
 
     RightMenuItem {
+        id: rotateCounterClockItem
+
         text: qsTr("Rotate counterclockwise")
         visible: rotatable
 
@@ -212,14 +216,22 @@ Menu {
         }
     }
 
+    // 不允许无读写权限时上方选项已屏蔽，不展示此分割条
+    MenuSeparator {
+        // 不显示分割条时调整高度，防止菜单项间距不齐
+        height: visible ? firstSeparator.height : 0
+        visible: rotateClockItem.visible || rotateCounterClockItem.visible
+    }
+
     RightMenuItem {
         id: enableNavigation
 
+        enabled: visible && window.height > IV.GStatus.minHideHeight && window.width > IV.GStatus.minWidth
         text: !IV.GStatus.enableNavigation ? qsTr("Show navigation window") : qsTr("Hide navigation window")
-        visible: !isNullImage && window.height > IV.GStatus.minHideHeight && window.width > IV.GStatus.minWidth
+        visible: !isNullImage
 
         onTriggered: {
-            if (!parent.visible) {
+            if (!parent.enabled) {
                 return;
             }
             IV.GStatus.enableNavigation = !IV.GStatus.enableNavigation;

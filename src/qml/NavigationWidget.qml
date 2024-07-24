@@ -32,6 +32,12 @@ Item {
             return;
         }
 
+        // 窗口小于最小尺寸时导航功能不可用
+        if (!(window.height > IV.GStatus.minHideHeight && window.width > IV.GStatus.minWidth)) {
+            imageNeedNavi = false;
+            return;
+        }
+
         // 图片实际绘制大小
         var paintedWidth = targetImage.paintedWidth * targetImage.scale;
         var paintedHeight = targetImage.paintedHeight * targetImage.scale;
