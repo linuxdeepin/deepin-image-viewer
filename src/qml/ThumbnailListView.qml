@@ -8,6 +8,7 @@ import QtQuick.Layouts 1.11
 import QtGraphicalEffects 1.0
 import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
+import "./Dialog"
 
 Item {
     id: thumbnailView
@@ -21,11 +22,31 @@ Item {
     property Image targetImage
 
     function deleteCurrentImage() {
-        if (!IV.FileControl.deleteImagePath(IV.GControl.currentSource)) {
-            // 取消删除文件
-            return;
+        var trashFile = IV.GControl.currentSource;
+        if (!fileTrashHelper.fileCanTrash(trashFile)) {
+            // 无法移动到回收站，显示删除提示对话框
+            removeDialogLoader.active = true;
+        } else {
+            deleteCurrentImageImpl(false);
         }
-        IV.GControl.removeImage(IV.GControl.currentSource);
+    }
+
+    // 实际移除文件操作， directDelete：是否直接删除文件而不是移动到回收站(部分文件系统不支持)
+    function deleteCurrentImageImpl(directDelete) {
+        var trashFile = IV.GControl.currentSource;
+        if (directDelete) {
+            if (!fileTrashHelper.removeFile(trashFile)) {
+                return;
+            }
+        } else {
+            // 移动文件到回收站
+            if (!fileTrashHelper.moveFileToTrash(trashFile)) {
+                return;
+            }
+        }
+        IV.GControl.removeImage(trashFile);
+
+        // 删除最后图片，恢复到初始界面
         if (0 === IV.GControl.imageCount) {
             stackView.switchOpenImage();
         }
@@ -43,6 +64,32 @@ Item {
         IV.GStatus.viewInteractive = false;
         IV.GControl.previousImage();
         IV.GStatus.viewInteractive = true;
+    }
+
+    // 用于文件移动至回收站/删除的辅助类
+    IV.FileTrashHelper {
+        id: fileTrashHelper
+
+    }
+
+    // 删除确认对话框加载器 
+    Loader {
+        id: removeDialogLoader
+
+        active: false
+        asynchronous: true
+
+        sourceComponent: RemoveDialog {
+            fileName: IV.FileControl.slotGetFileNameSuffix(IV.GControl.currentSource)
+
+            onFinished: {
+                if (ret) {
+                    thumbnailView.deleteCurrentImageImpl(true);
+                }
+                // 使用后释放对话框
+                removeDialogLoader.active = false;
+            }
+        }
     }
 
     Binding {

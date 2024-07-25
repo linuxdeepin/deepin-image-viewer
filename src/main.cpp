@@ -13,6 +13,7 @@
 #include "src/imagedata/imageinfo.h"
 #include "src/imagedata/imagesourcemodel.h"
 #include "src/imagedata/imageprovider.h"
+#include "src/utils/filetrashhelper.h"
 #include "config.h"
 
 #include <DApplication>
@@ -57,6 +58,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<ImageSourceModel>(uri.toUtf8().data(), 1, 0, "ImageSourceModel");
     qmlRegisterType<MouseTrackItem>(uri.toUtf8().data(), 1, 0, "MouseTrackItem");
     qmlRegisterUncreatableType<Types>(uri.toUtf8().data(), 1, 0, "Types", "Types only use for define");
+    // 文件回收站处理
+    qmlRegisterType<FileTrashHelper>(uri.toUtf8().data(), 1, 0, "FileTrashHelper");
 
     // QML全局单例
     GlobalControl control;

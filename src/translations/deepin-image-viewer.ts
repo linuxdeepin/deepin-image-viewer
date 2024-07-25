@@ -265,6 +265,25 @@
     </message>
 </context>
 <context>
+    <name>RemoveDialog</name>
+    <message>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</translation>
+    </message>
+    <message>
+        <source>This action cannot be undone</source>
+        <translation>This action cannot be undone</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancel</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>Confirm</translation>
+    </message>
+</context>
+<context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
@@ -393,11 +412,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation>Version</translation>
+        <translation type="vanished">Version</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation>%1 is released under %2</translation>
+        <translation type="vanished">%1 is released under %2</translation>
     </message>
     <message>
         <source>Open image</source>

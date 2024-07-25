@@ -14,7 +14,6 @@ BaseImageDelegate {
         anchors.centerIn: parent
         height: 151
         name: "photo_breach"
-        palette: DTK.makeIconPalette(parent.palette)
         theme: DTK.DTK.themeType
         width: 151
     }

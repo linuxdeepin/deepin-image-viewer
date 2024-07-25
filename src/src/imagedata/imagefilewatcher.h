@@ -13,8 +13,7 @@ class ImageFileWatcher : public QObject
 {
     Q_OBJECT
 public:
-    explicit ImageFileWatcher(QObject *parent = nullptr);
-    ~ImageFileWatcher() override;
+    static ImageFileWatcher *instance();
 
     void resetImageFiles(const QStringList &filePaths);
     void fileRename(const QString &oldPath, const QString &newPath);
@@ -30,12 +29,17 @@ private:
     // 当处理的图片文件夹变更(新增图片等)
     Q_SLOT void onImageDirChanged(const QString &dir);
 
+    explicit ImageFileWatcher(QObject *parent = nullptr);
+    ~ImageFileWatcher() override;
+
 private:
-    QHash<QString, QUrl> cacheFileInfo;  ///< 缓存的图片信息，用于判断图片信息是否变更 QHash<完整路径, url信息>
-    QHash<QString, QUrl> removedFile;  ///< 缓存被移除的文件信息(FileWatcher在文件删除/移动后将不会继续观察)
-    QFileSystemWatcher *fileWatcher = nullptr;  ///< 文件观察类，用于提示文件变更
+    QHash<QString, QUrl> cacheFileInfo;   ///< 缓存的图片信息，用于判断图片信息是否变更 QHash<完整路径, url信息>
+    QHash<QString, QUrl> removedFile;   ///< 缓存被移除的文件信息(FileWatcher在文件删除/移动后将不会继续观察)
+    QFileSystemWatcher *fileWatcher = nullptr;   ///< 文件观察类，用于提示文件变更
 
     QString rotateImagePath;
+
+    Q_DISABLE_COPY(ImageFileWatcher)
 };
 
-#endif  // IMAGEFILEWATCHER_H
+#endif   // IMAGEFILEWATCHER_H

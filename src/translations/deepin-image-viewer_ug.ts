@@ -263,6 +263,25 @@
     </message>
 </context>
 <context>
+    <name>RemoveDialog</name>
+    <message>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>«%1» نى ئەخلەت ساندۇقىغا قويغىلى بولمىدى، تەلتۆكۈس ئۆچۈرەمسىز؟</translation>
+    </message>
+    <message>
+        <source>This action cannot be undone</source>
+        <translation>بۇ مەشغۇلاتنى ئەسلىگە قايتۇرغىلى بولمايدۇ</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>بىكار قىلىش</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>جەزملەش</translation>
+    </message>
+</context>
+<context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
@@ -391,11 +410,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation>نەشرى</translation>
+        <translation type="vanished">نەشرى</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation>%1 كېلىشىم %2 گە ئەمەل قىلغان ئاساستا ئېلان قىلىندى</translation>
+        <translation type="vanished">%1 كېلىشىم %2 گە ئەمەل قىلغان ئاساستا ئېلان قىلىندى</translation>
     </message>
     <message>
         <source>Open image</source>

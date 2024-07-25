@@ -263,6 +263,25 @@
     </message>
 </context>
 <context>
+    <name>RemoveDialog</name>
+    <message>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>无法将“%1”放到回收站，您要彻底删除吗？</translation>
+    </message>
+    <message>
+        <source>This action cannot be undone</source>
+        <translation>此操作不可以恢复</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>确定</translation>
+    </message>
+</context>
+<context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
@@ -391,11 +410,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation>版本</translation>
+        <translation type="vanished">版本</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation>%1遵循%2协议发布</translation>
+        <translation type="vanished">%1遵循%2协议发布</translation>
     </message>
     <message>
         <source>Open image</source>

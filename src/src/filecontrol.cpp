@@ -88,7 +88,7 @@ FileControl::FileControl(QObject *parent)
     m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
     m_shortcutViewProcess = new QProcess(this);
     m_config = LibConfigSetter::instance();
-    imageFileWatcher = new ImageFileWatcher(this);
+    imageFileWatcher = ImageFileWatcher::instance();
 
     QObject::connect(imageFileWatcher, &ImageFileWatcher::imageFileChanged, this, &FileControl::imageFileChanged);
 

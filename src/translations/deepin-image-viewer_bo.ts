@@ -263,6 +263,25 @@
     </message>
 </context>
 <context>
+    <name>RemoveDialog</name>
+    <message>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>“%1”ནང་དོན་སྙིགས་སྣོད་སུ་འཇོག་ཐབས་མེད་པས། ཁྱེད་ཀྱིས་རྦད་དེ་བསུབ་བམ།</translation>
+    </message>
+    <message>
+        <source>This action cannot be undone</source>
+        <translation>བཀོལ་སྤྱོད་འདི་བྱས་ཚེ་སོར་ཆུད་མི་ཐུབ།</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>འདོར་བ། </translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>གཏན་འཁེལ།</translation>
+    </message>
+</context>
+<context>
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
@@ -391,11 +410,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation>པར་གཞི།</translation>
+        <translation type="vanished">པར་གཞི།</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation>%1བརྩི་སྲུང་། %2ཆིངས་ཡིག་ཁྱབ་བསྒྲགས།</translation>
+        <translation type="vanished">%1བརྩི་སྲུང་། %2ཆིངས་ཡིག་ཁྱབ་བསྒྲགས།</translation>
     </message>
     <message>
         <source>Open image</source>

@@ -34,5 +34,6 @@
         <file>qml/Utils/FloatingNotice.qml</file>
         <file>qml/Utils/ImageInputHandler.qml</file>
         <file>qml/Utils/RightMenuItem.qml</file>
+        <file>qml/Dialog/RemoveDialog.qml</file>
     </qresource>
 </RCC>

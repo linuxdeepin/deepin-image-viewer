@@ -94,7 +94,7 @@ DialogWindow {
             regExp: /^[^ \\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/
         }
 
-        Keys.onPressed: event => {
+        Keys.onPressed: {
             switch (event.key) {
             case Qt.Key_Return:
             case Qt.Key_Enter:
@@ -117,7 +117,6 @@ DialogWindow {
     Button {
         id: cancelbtn
 
-        font.pixelSize: 16
         height: 36
         text: qsTr("Cancel")
         width: 185
