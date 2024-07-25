@@ -10,14 +10,19 @@
 #include <QFileSystemWatcher>
 
 ImageFileWatcher::ImageFileWatcher(QObject *parent)
-    : QObject(parent)
-    , fileWatcher(new QFileSystemWatcher(this))
+    : QObject(parent), fileWatcher(new QFileSystemWatcher(this))
 {
     connect(fileWatcher, &QFileSystemWatcher::fileChanged, this, &ImageFileWatcher::onImageFileChanged);
     connect(fileWatcher, &QFileSystemWatcher::directoryChanged, this, &ImageFileWatcher::onImageDirChanged);
 }
 
-ImageFileWatcher::~ImageFileWatcher() {}
+ImageFileWatcher::~ImageFileWatcher() { }
+
+ImageFileWatcher *ImageFileWatcher::instance()
+{
+    static ImageFileWatcher ins;
+    return &ins;
+}
 
 /**
    @brief 重置监控文件列表为 \a filePaths , 若监控的文件路重复，则不执行重置
