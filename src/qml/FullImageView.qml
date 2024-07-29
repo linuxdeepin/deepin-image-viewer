@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-import QtQuick.Window 2.11
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Window
+import Qt5Compat.GraphicalEffects
 import org.deepin.dtk 1.0
+import org.deepin.dtk.style 1.0 as DS
 import org.deepin.image.viewer 1.0 as IV
 import "./Utils"
 
@@ -294,7 +295,6 @@ Item {
         property bool usingCapture: false // 是否使用定时捕获光标位置
 
         acceptedButtons: Qt.LeftButton
-        anchors.fill: imageViewer
         hoverEnabled: true
 
         onEntered: {
@@ -309,9 +309,15 @@ Item {
             IV.CursorTool.setCaptureCursor(true);
             imageViewerArea.usingCapture = true;
         }
-        onMouseYChanged: {
+        onMouseYChanged: mouse => {
             animationAll();
             mouse.accepted = false;
+        }
+
+        // NOTE: 不能遮挡顶部标题栏，否则无法传递鼠标消息到底部组件移动窗口
+        anchors {
+            fill: imageViewer
+            topMargin: IV.GStatus.titleHeight
         }
 
         Connections {
@@ -336,7 +342,7 @@ Item {
         }
     }
 
-    FloatingPanel {
+    ThumbnailListView {
         id: thumbnailViewBackGround
 
         property bool animationShow: true
@@ -345,13 +351,18 @@ Item {
             thumbnailViewBackGround.y = animationShow ? Window.height - IV.GStatus.showBottomY : Window.height;
         }
 
-        anchors.right: parent.right
-        anchors.rightMargin: (parent.width - width) / 2
+        anchors.horizontalCenter: parent.horizontalCenter
         height: 70
+        targetImage: imageViewer.targetImage
         // 根据拓展的列表宽度计算, 20px为工具栏和主窗口间的间距 2x10px
-        width: parent.width - 20 < thumbnailListView.btnContentWidth + thumbnailListView.listContentWidth ? parent.width - 20 : thumbnailListView.btnContentWidth + thumbnailListView.listContentWidth
+        width: parent.width - 20 < btnContentWidth + listContentWidth ? parent.width - 20 : btnContentWidth + listContentWidth
         y: Window.height - IV.GStatus.showBottomY
 
+        background: FloatingPanel {
+            id: control
+
+            implicitHeight: 70
+        }
         Behavior on y {
             enabled: fullThumbnail.enableAnimation
 
@@ -362,13 +373,6 @@ Item {
         }
 
         onAnimationShowChanged: updatePosition()
-    }
-
-    ThumbnailListView {
-        id: thumbnailListView
-
-        anchors.fill: thumbnailViewBackGround
-        targetImage: imageViewer.targetImage
     }
 
     //浮动提示框

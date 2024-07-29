@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-import QtQuick.Dialogs 1.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Dialogs
 import org.deepin.dtk 1.0 as DTK
 import org.deepin.image.viewer 1.0 as IV
 
@@ -68,19 +68,7 @@ Item {
         }
     }
 
-    Control {
-        id: backcontrol
-
-        property DTK.Palette backgroundColor: DTK.Palette {
-            normal: "#F8F8F8"
-            normalDark: "#000000"
-        }
-
-        hoverEnabled: true // 开启 Hover 属性
-    }
-
     Connections {
-
         // 关联外部通过 DBus 等方式触发调用看图
         function onOpenImageFile() {
             setSourcePath(fileName);
@@ -133,16 +121,17 @@ Item {
         sourceComponent: FileDialog {
             id: fileDialog
 
-            folder: shortcuts.pictures
+            currentFolder: shortcuts.pictures
+            // selectMultiple: true
+            fileMode: FileDialog.OpenFiles
             nameFilters: ["Image files (*.jpg *.png *.bmp *.gif *.ico *.jpe " + "*.jps *.jpeg *.jng *.koala *.koa *.lbm " + "*.iff *.mng *.pbm *.pbmraw *.pcd *.pcx " + "*.pgm *.pgmraw *.ppm *.ppmraw *.ras *.tga " + "*.targa *.tiff *.tif *.wbmp *.psd *.cut *.xbm " + "*.xpm *.dds *.fax *.g3 *.sgi *.exr *.pct *.pic " + "*.pict *.webp *.jxr *.mrw *.raf *.mef *.raw *.orf " + "*.djvu *.or2 *.icns *.dng *.svg *.nef *.pef *.pxm *.pnm)"]
-            selectMultiple: true
             title: qsTr("Select pictures")
 
             Component.onCompleted: {
                 fileDialog.open();
             }
             onAccepted: {
-                stackView.setSourcePath(fileDialog.fileUrls[0]);
+                stackView.setSourcePath(fileDialog.selectedFiles[0]);
             }
         }
     }

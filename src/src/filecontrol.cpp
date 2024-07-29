@@ -24,7 +24,6 @@
 #include <QScreen>
 #include <QDesktopServices>
 #include <QClipboard>
-#include <QDesktopWidget>
 #include <QApplication>
 #include <QUrl>
 #include <QDebug>
@@ -52,7 +51,7 @@ bool compareByFileInfo(const QFileInfo &str1, const QFileInfo &str2)
     return sortCollator.compare(str1.baseName(), str2.baseName()) < 0;
 }
 
-//转换路径
+// 转换路径
 QUrl UrlInfo(QString path)
 {
     QUrl url;
@@ -128,14 +127,14 @@ QStringList FileControl::getDirImagePath(const QString &path)
     QDir _dirinit(DirPath);
     QFileInfoList m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
 
-    //修复Ｑt带后缀排序错误的问题
+    // 修复Ｑt带后缀排序错误的问题
     std::sort(m_AllPath.begin(), m_AllPath.end(), compareByFileInfo);
     for (int i = 0; i < m_AllPath.size(); i++) {
         QString tmpPath = m_AllPath.at(i).filePath();
         if (tmpPath.isEmpty()) {
             continue;
         }
-        //判断是否图片格式
+        // 判断是否图片格式
         if (isImage(tmpPath)) {
             image_list << QUrl::fromLocalFile(tmpPath).toString();
         }
@@ -190,7 +189,7 @@ void FileControl::setWallpaper(const QString &imgPath)
             QString path = imgPath;
             // 202011/12 bug54279
             {
-                //设置壁纸代码改变，采用DBus,原方法保留
+                // 设置壁纸代码改变，采用DBus,原方法保留
                 if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/ 1) {
                     // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m
                     // com.deepin.daemon.Appearance.Set background /home/test/test.png
@@ -204,7 +203,7 @@ void FileControl::setWallpaper(const QString &imgPath)
                     if (interfaceV23.isValid() || interfaceV20.isValid()) {
                         QString screenname;
 
-                        //判断环境是否是wayland
+                        // 判断环境是否是wayland
                         auto e = QProcessEnvironment::systemEnvironment();
                         QString XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
                         QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
@@ -383,7 +382,7 @@ bool FileControl::isCanWrite(const QString &path)
 {
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
-    bool bRet = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  //是否可写
+    bool bRet = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  // 是否可写
     return bRet;
 }
 
@@ -393,8 +392,8 @@ bool FileControl::isCanDelete(const QString &path)
     bool isAlbum = false;
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
-    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  //是否可写
-    bool isReadable = info.isReadable();                                                           //是否可读
+    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  // 是否可写
+    bool isReadable = info.isReadable();                                                           // 是否可读
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);
     if ((imageViewerSpace::PathTypeAPPLE != pathType && imageViewerSpace::PathTypeSAFEBOX != pathType &&
          imageViewerSpace::PathTypeRECYCLEBIN != pathType && imageViewerSpace::PathTypeMTP != pathType &&
@@ -452,10 +451,10 @@ void FileControl::rotateImageFile(const QString &path, int angle)
         // 20211019修改：特殊位置不执行写入操作
         imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(path);
 
-        if (pathType != imageViewerSpace::PathTypeMTP && pathType != imageViewerSpace::PathTypePTP &&  //安卓手机
-            pathType != imageViewerSpace::PathTypeAPPLE &&                                             //苹果手机
-            pathType != imageViewerSpace::PathTypeSAFEBOX &&                                           //保险箱
-            pathType != imageViewerSpace::PathTypeRECYCLEBIN) {                                        //回收站
+        if (pathType != imageViewerSpace::PathTypeMTP && pathType != imageViewerSpace::PathTypePTP &&  // 安卓手机
+            pathType != imageViewerSpace::PathTypeAPPLE &&                                             // 苹果手机
+            pathType != imageViewerSpace::PathTypeSAFEBOX &&                                           // 保险箱
+            pathType != imageViewerSpace::PathTypeRECYCLEBIN) {                                        // 回收站
             QString errorMsg;
             if (!LibUnionImage_NameSpace::rotateImageFIle(angle, path, errorMsg)) {
                 qWarning() << QString("Rotate image file failed!, error: %1").arg(errorMsg);
@@ -597,17 +596,16 @@ int FileControl::getlastWidth()
     int reWidth = 0;
     int defaultW = 0;
 
-    QDesktopWidget *dw = QApplication::desktop();
-    if (double(dw->geometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
-        defaultW = MAINWIDGET_MINIMUN_WIDTH;
+    // 多屏下仅采用单个屏幕处理， 使用主屏的参考宽度计算
+    QScreen *screen = QGuiApplication::primaryScreen();
+    if (!screen) {
+        return MAINWIDGET_MINIMUN_WIDTH;
+    }
+
+    if (QGuiApplication::screens().size() > 1 && screen) {
+        defaultW = int(double(screen->size().width()) * 0.60);
     } else {
-        // 多屏下仅采用单个屏幕处理， 使用主屏的参考宽度计算
-        QScreen *screen = QGuiApplication::primaryScreen();
-        if (QGuiApplication::screens().size() > 1 && screen) {
-            defaultW = int(double(screen->size().width()) * 0.60);
-        } else {
-            defaultW = int(double(dw->geometry().width()) * 0.60);
-        }
+        defaultW = int(double(screen->geometry().width()) * 0.60);
     }
 
     const int ww = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
@@ -622,18 +620,18 @@ int FileControl::getlastHeight()
     int reHeight = 0;
     int defaultH = 0;
 
-    QDesktopWidget *dw = QApplication::desktop();
-    if (double(dw->geometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
-        defaultH = MAINWIDGET_MINIMUN_HEIGHT;
-    } else {
-        // 多屏下仅采用单个屏幕处理， 使用主屏的参考高度计算
-        QScreen *screen = QGuiApplication::primaryScreen();
-        if (QGuiApplication::screens().size() > 1 && screen) {
-            defaultH = int(double(screen->size().height()) * 0.60);
-        } else {
-            defaultH = int(double(dw->geometry().height()) * 0.60);
-        }
+    // 多屏下仅采用单个屏幕处理， 使用主屏的参考高度计算
+    QScreen *screen = QGuiApplication::primaryScreen();
+    if (!screen) {
+        return MAINWIDGET_MINIMUN_HEIGHT;
     }
+
+    if (QGuiApplication::screens().size() > 1 && screen) {
+        defaultH = int(double(screen->size().height()) * 0.60);
+    } else {
+        defaultH = int(double(screen->geometry().height()) * 0.60);
+    }
+
     const int wh = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
 
     reHeight = wh >= MAINWIDGET_MINIMUN_HEIGHT ? wh : MAINWIDGET_MINIMUN_HEIGHT;
@@ -731,9 +729,9 @@ bool FileControl::isCanRename(const QString &path)
 {
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
-    imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);  //路径类型
+    imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);  // 路径类型
     QFileInfo info(localPath);
-    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  //是否可写
+    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  // 是否可写
     if (info.isReadable() && isWritable && imageViewerSpace::PathTypeMTP != pathType &&
         imageViewerSpace::PathTypePTP != pathType && imageViewerSpace::PathTypeAPPLE != pathType) {
         bRet = true;

@@ -12,8 +12,7 @@
 #include <QtConcurrent/QtConcurrent>
 
 LiveTextAnalyzer::LiveTextAnalyzer(QObject *parent)
-    : QObject(parent)
-    , QQuickImageProvider(Image)
+    : QQuickImageProvider(Image)
     , ocrDriver(new DeepinOCRPlugin::DeepinOCRDriver)
 {
     ocrDriver->loadDefaultPlugin();

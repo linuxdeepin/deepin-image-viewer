@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Window 2.11
+import QtQuick
+import QtQuick.Window
 import org.deepin.image.viewer 1.0 as IV
 
 Item {
@@ -84,12 +84,12 @@ Item {
                 IV.GStatus.showFullScreen = !IV.GStatus.showFullScreen;
             }
         }
-        onPressed: {
+        onPressed: mouse => {
             if (Qt.RightButton === mouse.button) {
                 IV.GStatus.showRightMenu = true;
             }
         }
-        onWheel: {
+        onWheel: wheel => {
             if (null === imageInput.targetImage) {
                 return;
             }

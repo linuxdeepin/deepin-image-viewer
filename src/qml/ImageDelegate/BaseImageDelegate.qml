@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQml 2.11
+import QtQuick
+import QtQml
 import org.deepin.image.viewer 1.0 as IV
 
 import "../Utils"

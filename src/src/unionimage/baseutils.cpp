@@ -14,9 +14,6 @@
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QDesktopServices>
-//#include <QDBusInterface>
-//#include <QDBusPendingCall>
-//#include <QDBusPendingCallWatcher>
 #include <QDir>
 #include <QFontMetrics>
 #include <QFileInfo>
@@ -29,7 +26,7 @@
 #include <QTextStream>
 #include <QtMath>
 #include <QImageReader>
-
+#include <QStandardPaths>
 #include <QDesktopServices>
 
 
@@ -366,12 +363,12 @@ bool trashFile(const QString &file)
 QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool bReturn)
 {
     QFontMetrics fm(font);
-    int nTextSize = fm.width(text);
+    int nTextSize = fm.horizontalAdvance(text);
     if (nTextSize > nLabelSize) {
         int nPos = 0;
         long nOffset = 0;
         for (int i = 0; i < text.size(); i++) {
-            nOffset += fm.width(text.at(i));
+            nOffset += fm.horizontalAdvance(text.at(i));
             if (nOffset >= nLabelSize) {
                 nPos = i;
                 break;

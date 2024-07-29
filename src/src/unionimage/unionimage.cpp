@@ -542,7 +542,7 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *QImge2FIBitMap(QImage img)
 UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int flags FI_DEFAULT(0))
 {
     QByteArray b;
-    b.append(path);
+    b.append(path.toLocal8Bit());
     const char *pc = b.data();
     QString().toStdString();
     const FREE_IMAGE_FORMAT fif = detectImageFormat_f(path);
@@ -1026,7 +1026,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         QPainter rotatePainter;
         rotatePainter.begin(&generator);
         rotatePainter.resetTransform();
-        rotatePainter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+        rotatePainter.setRenderHint(QPainter::Antialiasing, true);
         int realangel = angel / 90;
         if (realangel > 0) {
             for (int i = 0; i < qAbs(realangel); i++) {
@@ -1051,7 +1051,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         QImage image_copy(path);
         image_copy = adjustImageToRealPosition(image_copy, orientation);
         if (!image_copy.isNull()) {
-            QMatrix rotatematrix;
+            QTransform rotatematrix;
             rotatematrix.rotate(angel);
             image_copy = image_copy.transformed(rotatematrix, Qt::SmoothTransformation);
             if (image_copy.save(path, format.toLatin1().data(), SAVE_QUAITY_VALUE))
@@ -1083,7 +1083,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         }
     }
     QByteArray temp_path;
-    temp_path.append(path);
+    temp_path.append(path.toLocal8Bit());
     FREE_IMAGE_FORMAT f = FREE_IMAGE_FORMAT(union_image_private.m_freeimage_formats[QFileInfo(path).suffix().toUpper()]);
     if (f == FREE_IMAGE_FORMAT::FIF_UNKNOWN) {
         erroMsg = "rotate image format error";
@@ -1122,7 +1122,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
         QPainter rotatePainter;
         rotatePainter.begin(&generator);
         rotatePainter.resetTransform();
-        rotatePainter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+        rotatePainter.setRenderHint(QPainter::Antialiasing, true);
         int realangel = angel / 90;
         if (realangel > 0) {
             for (int i = 0; i < qAbs(realangel); i++) {
@@ -1169,7 +1169,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
         }
     }
     QByteArray temp_path;
-    temp_path.append(path);
+    temp_path.append(path.toLocal8Bit());
     FREE_IMAGE_FORMAT f = FREE_IMAGE_FORMAT(union_image_private.m_freeimage_formats[QFileInfo(path).suffix().toUpper()]);
     if (f == FREE_IMAGE_FORMAT::FIF_UNKNOWN) {
         erroMsg = "rotate image format error";
@@ -1193,13 +1193,24 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
 UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &path)
 {
     FIBITMAP *dib = readFile2FIBITMAP(path, FIF_LOAD_NOPIXELS);
+
+    static auto unitMap = [](QMap<QString, QString> &dst, const QMap<QString, QString> &src){
+        for (auto itr = src.begin(); itr != src.end(); ++itr) {
+            if (!dst.contains(itr.key())) {
+                dst.insert(itr.key(), itr.value());
+            }
+        }
+    };
+
+    // TODO: 优化插入方式
     QMap<QString, QString> admMap;
-    admMap.unite(getMetaData(FIMD_EXIF_MAIN, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_EXIF, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_GPS, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_MAKERNOTE, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_INTEROP, dib));
-    admMap.unite(getMetaData(FIMD_IPTC, dib));
+    unitMap(admMap, getMetaData(FIMD_EXIF_MAIN, dib));
+    unitMap(admMap, getMetaData(FIMD_EXIF_EXIF, dib));
+    unitMap(admMap, getMetaData(FIMD_EXIF_GPS, dib));
+    unitMap(admMap, getMetaData(FIMD_EXIF_MAKERNOTE, dib));
+    unitMap(admMap, getMetaData(FIMD_EXIF_INTEROP, dib));
+    unitMap(admMap, getMetaData(FIMD_IPTC, dib));
+
     //移除秒　　2020/6/5 DJH
     //需要转义才能读出：或者/　　2020/8/21 DJH
     QFileInfo info(path);

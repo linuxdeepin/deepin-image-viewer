@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Window 2.10
-import QtQuick.Controls 2.4
-import QtQuick.Layouts 1.11
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Layouts
 import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
 
@@ -90,8 +90,8 @@ DialogWindow {
         showAlert: IV.FileControl.isShowToolTip(IV.GControl.currentSource, nameedit.text)
         width: 380
 
-        validator: RegExpValidator {
-            regExp: /^[^ \\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/
+        validator: RegularExpressionValidator {
+            regularExpression: /^[^ \\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/
         }
 
         Keys.onPressed: {
