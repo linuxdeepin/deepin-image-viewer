@@ -34,19 +34,19 @@ int main(int argc, char *argv[])
         qputenv("XDG_CURRENT_DESKTOP", "Deepin");
     }
 
-    // 注意:请不要管理 QGuiApplication 对象的生命周期！
-    DApplication *app = new DApplication(argc, argv);
-    app->loadTranslator();
-    app->setApplicationLicense("GPLV3");
-    app->setApplicationVersion(VERSION);
-    app->setAttribute(Qt::AA_UseHighDpiPixmaps);
-    app->setOrganizationName("deepin");
-    app->setApplicationName("deepin-image-viewer");
-    app->setApplicationDisplayName(QObject::tr("Image Viewer"));
-    app->setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
-    app->setApplicationDescription(
+    DApplication app(argc, argv);
+    app.loadTranslator();
+    app.setApplicationLicense("GPLV3");
+    app.setApplicationVersion(VERSION);
+    app.setAttribute(Qt::AA_UseHighDpiPixmaps);
+    // TODO: ? 设置后在 DTK6 下菜单显示空白
+    // app.setOrganizationName("deepin");
+    app.setApplicationName("deepin-image-viewer");
+    app.setApplicationDisplayName(QObject::tr("Image Viewer"));
+    app.setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
+    app.setApplicationDescription(
         QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
-    app->setWindowIcon(QIcon::fromTheme("deepin-image-viewer"));
+    app.setWindowIcon(QIcon::fromTheme("deepin-image-viewer"));
 
     QQmlApplicationEngine engine;
 
@@ -140,5 +140,5 @@ int main(int argc, char *argv[])
     QDBusConnection::sessionBus().registerService("com.deepin.imageViewer");
     QDBusConnection::sessionBus().registerObject("/", &fileControl);
 
-    return app->exec();
+    return app.exec();
 }

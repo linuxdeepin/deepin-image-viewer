@@ -169,7 +169,7 @@ void RequestedSlot::paintRequestSync(DPrinter *_printer)
         if (!img.isNull()) {
             painter.setRenderHint(QPainter::Antialiasing);
             painter.setRenderHint(QPainter::SmoothPixmapTransform);
-            QRect wRect  = _printer->pageRect();
+            QRectF wRect = _printer->pageRect(QPrinter::DevicePixel);
             //修复bug98129，打印不完全问题，ratio应该是适应宽或者高，不应该直接适应宽
             qreal ratio = 0.0;
             qDebug() << wRect;

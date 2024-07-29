@@ -21,7 +21,7 @@ static const QString s_tagFrame = "#frame_";
 static void parseProviderID(const QString &id, QString &filePath, int &frameIndex)
 {
     // 从后向前查询索引标识
-    int index = id.lastIndexOf(QRegExp(QString("%1\\d+$").arg(s_tagFrame)));
+    int index = id.lastIndexOf(QRegularExpression(QString("%1\\d+$").arg(s_tagFrame)));
     if (-1 == index) {
         filePath = QUrl(id).toLocalFile();
         frameIndex = 0;

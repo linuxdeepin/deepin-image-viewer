@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Layouts 1.11
-import QtQml.Models 2.11
+import QtQuick
+import QtQuick.Layouts
+import QtQml.Models
 import org.deepin.dtk 1.0
 import org.deepin.dtk.style 1.0 as DS
 

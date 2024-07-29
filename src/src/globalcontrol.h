@@ -6,13 +6,13 @@
 #define GLOBALCONTROL_H
 
 #include "imagedata/imageinfo.h"
+#include "imagedata/imagesourcemodel.h"
 #include "types.h"
 
 #include <QObject>
 #include <QUrl>
 #include <QBasicTimer>
 
-class ImageSourceModel;
 class GlobalControl : public QObject
 {
     Q_OBJECT

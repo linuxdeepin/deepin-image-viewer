@@ -12,7 +12,7 @@ namespace DeepinOCRPlugin {
     class DeepinOCRDriver;
 }
 
-class LiveTextAnalyzer : public QObject, public QQuickImageProvider
+class LiveTextAnalyzer : public QQuickImageProvider
 {
     Q_OBJECT
 public:

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Layouts 1.11
+import QtQuick
+import QtQuick.Layouts
 import org.deepin.dtk 1.0
 import org.deepin.dtk.style 1.0 as DS
 import org.deepin.image.viewer 1.0 as IV
@@ -98,8 +98,8 @@ Control {
                 visible: !showPicLabel.visible
 
                 // 限制输入特殊字符
-                validator: RegExpValidator {
-                    regExp: /^[^ \\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/
+                validator: RegularExpressionValidator {
+                    regularExpression: /^[^ \\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/
                 }
 
                 Keys.onPressed: {

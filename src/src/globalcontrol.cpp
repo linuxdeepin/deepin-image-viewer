@@ -106,7 +106,7 @@ int GlobalControl::currentIndex() const
  */
 void GlobalControl::setCurrentFrameIndex(int frameIndex)
 {
-    int validFrameIndex = qBound(0, frameIndex, currentImage.frameCount() - 1);
+    int validFrameIndex = qBound(0, frameIndex, qMax(0, currentImage.frameCount() - 1));
     if (this->frameIndex != validFrameIndex) {
         submitImageChangeImmediately();
 

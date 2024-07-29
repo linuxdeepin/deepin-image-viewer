@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-import QtQuick.Layouts 1.11
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
 import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
 import "./Dialog"
 
-Item {
+Control {
     id: thumbnailView
 
     // 除ListView外其它按键的占用宽度
@@ -72,7 +72,7 @@ Item {
 
     }
 
-    // 删除确认对话框加载器 
+    // 删除确认对话框加载器
     Loader {
         id: removeDialogLoader
 
@@ -96,7 +96,7 @@ Item {
         delayed: true
         property: "thumbnailVaildWidth"
         target: IV.GStatus
-        value: window.width - 20 - thumbnailListView.btnContentWidth
+        value: window.width - 20 - btnContentWidth
     }
 
     Row {
