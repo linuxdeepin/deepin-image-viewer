@@ -45,14 +45,14 @@ Item {
     function fitImage() {
         if (targetImageReady) {
             // 按图片原始大小执行缩放
-            targetImage.scale = targetImageInfo.width / targetImage.paintedWidth;
+            imageAnimation.scaleAnime(targetImageInfo.width / targetImage.paintedWidth);
         }
     }
 
     function fitWindow() {
         // 默认状态的图片即适应窗口大小(使用 Image.PreserveAspectFit)
         if (targetImageReady) {
-            targetImage.scale = 1.0;
+            imageAnimation.scaleAnime(1.0);
         }
     }
 
@@ -146,6 +146,13 @@ Item {
         lastDisplayScaleWidth = 0;
     }
     onWidthChanged: keepImageDisplayScale()
+
+    // 图像动画：缩放
+    ImageAnimation {
+        id: imageAnimation
+
+        targetImage: imageViewer.targetImage
+    }
 
     Connections {
         function onPaintedHeightChanged() {
@@ -644,13 +651,28 @@ Item {
     Loader {
         id: naviLoader
 
-        active: IV.GStatus.enableNavigation && null !== targetImage && targetImage.scale > 1
+        // 导航窗口是否显示
+        property bool expectShow: IV.GStatus.enableNavigation && (null !== targetImage) && (targetImage.scale > 1)
+
         height: 112
         width: 150
 
         sourceComponent: NavigationWidget {
-            anchors.fill: parent
             targetImage: view.currentImage
+            // 默认位置，窗体底部
+            y: naviLoader.height + 70
+
+            // 长时间隐藏，请求释放导航窗口
+            onRequestRelease: {
+                naviLoader.active = false;
+            }
+        }
+
+        // 仅控制弹出显示导航窗口
+        onExpectShowChanged: {
+            if (expectShow) {
+                active = true;
+            }
         }
 
         anchors {

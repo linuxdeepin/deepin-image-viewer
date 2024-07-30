@@ -37,13 +37,27 @@ Rectangle {
         enabled: visible
 
         NumberAnimation {
-            duration: 200
-            easing.type: Easing.InOutQuad
+            duration: 366
+            easing.type: Easing.OutExpo
         }
     }
 
     onAnimationShowChanged: {
-        y = animationShow ? 0 : -IV.GStatus.titleHeight;
+        if (animationShow) {
+            y = 0;
+        } else {
+            animationQuitDelay.restart();
+        }
+    }
+
+    Timer {
+        id: animationQuitDelay
+
+        interval: 500
+
+        onTriggered: {
+            y = animationShow ? 0 : -IV.GStatus.titleHeight;
+        }
     }
 
     // 底部阴影

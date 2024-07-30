@@ -367,12 +367,26 @@ Item {
             enabled: fullThumbnail.enableAnimation
 
             NumberAnimation {
-                duration: 200
-                easing.type: Easing.InOutQuad
+                duration: 366
+                easing.type: Easing.OutExpo
             }
         }
 
-        onAnimationShowChanged: updatePosition()
+        onAnimationShowChanged: {
+            if (animationShow) {
+                updatePosition();
+            } else {
+                animationQuitDelay.restart();
+            }
+        }
+
+        Timer {
+            id: animationQuitDelay
+
+            interval: 500
+
+            onTriggered: thumbnailViewBackGround.updatePosition()
+        }
     }
 
     //浮动提示框

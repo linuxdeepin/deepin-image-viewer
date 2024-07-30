@@ -25,6 +25,13 @@ BaseImageDelegate {
         smooth: true
         source: "image://ImageLoad/" + delegate.source
         width: delegate.width
+
+        Behavior on rotation {
+            NumberAnimation {
+                duration: 366
+                easing.type: Easing.InOutQuad
+            }
+        }
     }
 
     ImageInputHandler {
