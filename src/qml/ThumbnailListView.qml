@@ -230,11 +230,12 @@ Control {
         property bool lastIsMultiImage: false
 
         // 重新定位图片位置
-        function rePositionView() {
+        function rePositionView(force) {
             // 特殊处理，防止默认显示首个缩略图时采用Center的策略会被遮挡部分
             if (0 === currentIndex) {
                 positionViewAtBeginning();
-            } else {
+            } else if (force) {
+                // 不再默认居中，允许在范围内切换
                 // 尽可能将高亮缩略图显示在列表中
                 positionViewAtIndex(currentIndex, ListView.Center);
             }
@@ -249,11 +250,44 @@ Control {
         highlightRangeMode: ListView.ApplyRange
         model: IV.GControl.globalModel
         orientation: Qt.Horizontal
-        preferredHighlightBegin: width / 2 - 25
-        preferredHighlightEnd: width / 2 + 25
+        preferredHighlightBegin: width / 4
+        preferredHighlightEnd: width / 4 * 3
         spacing: 4
         width: thumbnailView.width - thumbnailView.btnContentWidth
 
+        Behavior on currentIndex {
+            ParallelAnimation {
+                onRunningChanged: {
+                    // 进入退出时均捕获当前列表显示状态
+                    fadeOutEffect.scheduleUpdate();
+                    if (running) {
+                        fadeOutEffect.visible = true;
+                    } else {
+                        fadeOutEffect.visible = false;
+                    }
+                }
+
+                // 淡出
+                NumberAnimation {
+                    duration: 366
+                    easing.type: Easing.OutExpo
+                    from: 1
+                    property: "opacity"
+                    target: fadeOutEffect
+                    to: 0
+                }
+
+                // 淡入
+                NumberAnimation {
+                    duration: 366
+                    easing.type: Easing.OutExpo
+                    from: 0
+                    property: "opacity"
+                    target: bottomthumbnaillistView
+                    to: 1
+                }
+            }
+        }
         delegate: Loader {
             id: thumbnailItemLoader
 
@@ -335,7 +369,7 @@ Control {
         Component.onCompleted: {
             bottomthumbnaillistView.currentIndex = IV.GControl.currentIndex;
             forceLayout();
-            rePositionView();
+            rePositionView(true);
         }
 
         //滑动联动主视图
@@ -343,9 +377,6 @@ Control {
             if (currentItem) {
                 currentItem.forceActiveFocus();
             }
-
-            // 直接定位，屏蔽动画效果
-            rePositionView();
 
             // 仅在边缘缩略图时进行二次定位
             if (0 === currentIndex || currentIndex === (count - 1)) {
@@ -392,9 +423,23 @@ Control {
 
             onTriggered: {
                 bottomthumbnaillistView.forceLayout();
-                bottomthumbnaillistView.rePositionView();
+                bottomthumbnaillistView.rePositionView(false);
             }
         }
+    }
+
+    // 捕获列表Item，用于切换图片时淡入淡出效果
+    ShaderEffectSource {
+        id: fadeOutEffect
+
+        anchors.fill: bottomthumbnaillistView
+        hideSource: false
+        // 不自动刷新，使用 scheduleUpdate() 刷新显示状态
+        live: false
+        recursive: false
+        sourceItem: bottomthumbnaillistView
+        visible: true
+        z: 1
     }
 
     Row {
