@@ -5,11 +5,13 @@
 import QtQuick
 
 Item {
+    property real prefferImageScale: 0
     property bool running: fitImageAniamtion.running
     property Item targetImage: null
 
     // 缩放动画
     function scaleAnime(to) {
+        prefferImageScale = to;
         moveAnimation.to = 0;
         scaleAnimation.to = to;
         fitImageAniamtion.start();

@@ -658,6 +658,13 @@ Item {
         width: 150
 
         sourceComponent: NavigationWidget {
+            // 根据当前缩放动画预期的缩放比例调整导航窗口是否提前触发隐藏
+            prefferHide: {
+                if (imageAnimation.running) {
+                    return imageAnimation.prefferImageScale <= 1;
+                }
+                return false;
+            }
             targetImage: view.currentImage
             // 默认位置，窗体底部
             y: naviLoader.height + 70
