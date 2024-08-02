@@ -75,6 +75,7 @@ public:
     Q_SIGNAL void imageSizeChanged(const QString &path, int frameIndex);
 
 private:
+    bool aboutToQuit { false };
     QHash<KeyType, ImageInfoData::Ptr> cache;
     QSet<KeyType> waitSet;
     QScopedPointer<QThreadPool> localPoolPtr;
@@ -110,6 +111,10 @@ Types::ImageType imageTypeAdapator(imageViewerSpace::ImageType type)
  */
 void LoadImageInfoRunnable::run()
 {
+    if (qApp->closingDown()) {
+        return;
+    }
+
     ImageInfoData::Ptr data(new ImageInfoData);
     data->path = loadPath;
     data->exist = QFileInfo::exists(loadPath);
@@ -205,9 +210,17 @@ ImageInfoCache::ImageInfoCache()
 {
     // 调整后台线程，由于imageprovider部分也存在子线程调用
     localPoolPtr->setMaxThreadCount(qMax(2, QThread::idealThreadCount() / 2));
+
+    // 退出时清理线程状态
+    connect(qApp, &QCoreApplication::aboutToQuit, this, [this](){
+        aboutToQuit = true;
+        clearCache();
+
+        localPoolPtr->waitForDone();
+    });
 }
 
-ImageInfoCache::~ImageInfoCache() {}
+ImageInfoCache::~ImageInfoCache() { }
 
 /**
    @return 返回缓存中文件路径为 \a path 和帧索引为 \a frameIndex 的缓存数据
@@ -224,6 +237,10 @@ ImageInfoData::Ptr ImageInfoCache::find(const QString &path, int frameIndex)
  */
 void ImageInfoCache::load(const QString &path, int frameIndex, bool reload)
 {
+    if (aboutToQuit) {
+        return;
+    }
+
     ThumbnailCache::Key key = ThumbnailCache::toFindKey(path, frameIndex);
 
     if (waitSet.contains(key)) {
@@ -250,6 +267,10 @@ void ImageInfoCache::load(const QString &path, int frameIndex, bool reload)
  */
 void ImageInfoCache::loadFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data)
 {
+    if (aboutToQuit) {
+        return;
+    }
+
     ThumbnailCache::Key key = ThumbnailCache::toFindKey(path, frameIndex);
 
     waitSet.remove(key);
@@ -277,6 +298,8 @@ void ImageInfoCache::removeCache(const QString &path, int frameIndex)
  */
 void ImageInfoCache::clearCache()
 {
+    // 清理还未启动的线程任务
+    localPoolPtr->clear();
     waitSet.clear();
     cache.clear();
 }
@@ -304,7 +327,7 @@ ImageInfo::ImageInfo(const QUrl &source, QObject *parent)
     setSource(source);
 }
 
-ImageInfo::~ImageInfo() {}
+ImageInfo::~ImageInfo() { }
 
 ImageInfo::Status ImageInfo::status() const
 {
