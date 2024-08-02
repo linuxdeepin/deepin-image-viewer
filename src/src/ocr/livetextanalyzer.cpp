@@ -17,6 +17,9 @@ LiveTextAnalyzer::LiveTextAnalyzer(QObject *parent)
 {
     ocrDriver->loadDefaultPlugin();
     ocrDriver->setUseHardware({{DeepinOCRPlugin::HardwareID::GPU_Vulkan, 0}});
+
+    // 退出时终止文本识别
+    connect(qApp, &QCoreApplication::aboutToQuit, this, &LiveTextAnalyzer::breakAnalyze);
 }
 
 void LiveTextAnalyzer::setImage(const QImage &image)
@@ -40,7 +43,9 @@ void LiveTextAnalyzer::analyze(const QString &token)
 
 void LiveTextAnalyzer::breakAnalyze()
 {
-    ocrDriver->breakAnalyze();
+    if (ocrDriver->isRunning()) {
+        ocrDriver->breakAnalyze();
+    }
 }
 
 QVariant LiveTextAnalyzer::liveBlock() const
