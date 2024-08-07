@@ -7,6 +7,7 @@
 #include "src/ocr/livetextanalyzer.h"
 #include "src/dbus/applicationadpator.h"
 #include "src/declarative/mousetrackitem.h"
+#include "src/declarative/pathviewrangehandler.h"
 #include "src/globalcontrol.h"
 #include "src/globalstatus.h"
 #include "src/types.h"
@@ -55,8 +56,11 @@ int main(int argc, char *argv[])
     // @uri org.deepin.image.viewer
     const QString uri("org.deepin.image.viewer");
     qmlRegisterType<ImageInfo>(uri.toUtf8().data(), 1, 0, "ImageInfo");
-    qmlRegisterType<ImageSourceModel>(uri.toUtf8().data(), 1, 0, "ImageSourceModel");
+    qmlRegisterUncreatableType<ImageSourceModel>(uri.toUtf8().data(), 1, 0, "ImageSourceModel", "Use for global data");
+    qmlRegisterUncreatableType<PathViewProxyModel>(uri.toUtf8().data(), 1, 0, "PathViewProxyModel", "Use for view data");
     qmlRegisterType<MouseTrackItem>(uri.toUtf8().data(), 1, 0, "MouseTrackItem");
+    qmlRegisterType<PathViewRangeHandler>(uri.toUtf8().data(), 1, 0, "PathViewRangeHandler");
+
     qmlRegisterUncreatableType<Types>(uri.toUtf8().data(), 1, 0, "Types", "Types only use for define");
     // 文件回收站处理
     qmlRegisterType<FileTrashHelper>(uri.toUtf8().data(), 1, 0, "FileTrashHelper");

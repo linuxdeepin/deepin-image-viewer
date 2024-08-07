@@ -8,9 +8,12 @@ import org.deepin.dtk 1.0 as DTK
 BaseImageDelegate {
     id: delegate
 
+    paintedPaddingWidth: (width - damagedIcon.width) / 2
     status: Image.Error
 
     DTK.DciIcon {
+        id: damagedIcon
+
         anchors.centerIn: parent
         height: 151
         name: "photo_breach"

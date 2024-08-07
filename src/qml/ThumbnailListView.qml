@@ -53,6 +53,11 @@ Control {
     }
 
     function next() {
+        if (repeatTimer.running) {
+            return;
+        }
+        repeatTimer.start();
+
         // 切换时滑动视图不响应拖拽等触屏操作
         IV.GStatus.viewInteractive = false;
         IV.GControl.nextImage();
@@ -60,10 +65,22 @@ Control {
     }
 
     function previous() {
+        if (repeatTimer.running) {
+            return;
+        }
+        repeatTimer.start();
+
         // 切换时滑动视图不响应拖拽等触屏操作
         IV.GStatus.viewInteractive = false;
         IV.GControl.previousImage();
         IV.GStatus.viewInteractive = true;
+    }
+
+    Timer {
+        id: repeatTimer
+
+        // 过快切换会使显示异常，且效果不佳
+        interval: 100
     }
 
     // 用于文件移动至回收站/删除的辅助类
@@ -129,7 +146,9 @@ Control {
             Shortcut {
                 sequence: "Left"
 
-                onActivated: previous()
+                onActivated: {
+                    previous();
+                }
             }
         }
 
@@ -256,6 +275,8 @@ Control {
         width: thumbnailView.width - thumbnailView.btnContentWidth
 
         Behavior on currentIndex {
+            enabled: false
+
             ParallelAnimation {
                 onRunningChanged: {
                     // 进入退出时均捕获当前列表显示状态

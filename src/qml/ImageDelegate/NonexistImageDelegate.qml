@@ -10,6 +10,7 @@ import org.deepin.image.viewer 1.0 as IV
 BaseImageDelegate {
     id: delegate
 
+    paintedPaddingWidth: (width - notExistImage.width) / 2
     status: notExistImage.status
 
     Component.onCompleted: {

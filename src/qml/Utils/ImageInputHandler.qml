@@ -6,6 +6,8 @@ import QtQuick
 import QtQuick.Window
 import org.deepin.image.viewer 1.0 as IV
 
+// TODO: 旧版由于 tiff 图片特殊处理，部分 Delegate 单独设置了 ImageInputHandler
+//      后续应移动至外部，无需重复创建
 Item {
     id: imageInput
 
@@ -77,12 +79,15 @@ Item {
         anchors.fill: parent
         drag.axis: Drag.XAndYAxis
         drag.target: targetImage ? targetImage : undefined
+        propagateComposedEvents: true
 
         onDoubleClicked: {
             if (IV.GStatus.stackPage === IV.Types.ImageViewPage) {
                 console.warn("show full screen");
                 IV.GStatus.showFullScreen = !IV.GStatus.showFullScreen;
             }
+        }
+        onPressAndHold: {
         }
         onPressed: mouse => {
             if (Qt.RightButton === mouse.button) {

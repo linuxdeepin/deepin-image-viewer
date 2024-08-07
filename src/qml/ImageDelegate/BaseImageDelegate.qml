@@ -4,54 +4,131 @@
 
 import QtQuick
 import QtQml
+import QtQuick.Effects
 import org.deepin.image.viewer 1.0 as IV
-
 import "../Utils"
 
 Item {
     id: baseDelegate
 
-    property url source
-    property int type: IV.Types.NullImage
-    property int status: Image.Null
+    // 动画时调整显示距离的偏移量
+    property real animationOffsetWidth: {
+        // 默认的 PathView 显示在路径中的 item 有 3 个， 两侧显示在 PathView 1/6 或 5/6 的位置，图片居中显示
+        if (paintedPaddingWidth > 0) {
+            // 此处计算考虑 PathView 的 Path 和 Item 显示宽度等
+            return -(width / IV.GStatus.pathViewItemCount) + paintedPaddingWidth;
+        }
+        return 0;
+    }
+    property int frameIndex: 0
+    property ImageInputHandler inputHandler: null
     property bool isCurrentImage: index === IV.GControl.currentIndex
-
+    // 坐标偏移，用于动画效果时调整显示位置
+    property real offset: 0
+    // 图片绘制区域到边框的位置
+    property real paintedPaddingWidth: 0
+    property url source
+    property int status: Image.Null
     property Image targetImage
     property alias targetImageInfo: imageInfo
-    property ImageInputHandler inputHandler: null
+    property int type: IV.Types.NullImage
 
     function reset() {
         if (targetImage) {
             // 匹配缩放处理，对于动图，首次加载传入的 paintedWidth 可能为0
-            if (isCurrentImage && targetImage.paintedWidth > 0
-                    && imageInfo.width < targetImage.width
-                    && imageInfo.height < targetImage.height) {
-                targetImage.scale = imageInfo.width / targetImage.paintedWidth
+            if (targetImage.paintedWidth > 0 && imageInfo.width < targetImage.width && imageInfo.height < targetImage.height) {
+                targetImage.scale = imageInfo.width / targetImage.paintedWidth;
             } else {
-                targetImage.scale = 1
+                targetImage.scale = 1;
             }
-
-            targetImage.rotation = 0
+            targetImage.rotation = 0;
         }
 
         // 复位图片拖拽状态，多页图将在子 Delegate 单独处理
         if (inputHandler) {
-            inputHandler.reset()
+            inputHandler.reset();
         }
     }
 
-    onIsCurrentImageChanged: {
-        reset()
+    function updateOffset() {
+        // 需要考虑缩放时的处理
+        var realdWidth = targetImage.paintedWidth * targetImage.scale;
+
+        // 更新绘制边距，用于动画时对齐边界
+        paintedPaddingWidth = (width - realdWidth) / 2;
     }
 
+    // 动画时调整显示距离
+    x: animationOffsetWidth * offset
+
+    onIsCurrentImageChanged: {
+        reset();
+    }
     onStatusChanged: {
         if (Image.Ready === status || Image.Error === status) {
-            reset()
+            // 重置状态
+            reset();
+        }
+    }
+
+    Connections {
+        function onPaintedWidthChanged() {
+            updateOffset();
+        }
+
+        function onScaleChanged() {
+            updateOffset();
+        }
+
+        enabled: undefined !== targetImage
+        target: undefined === targetImage ? null : targetImage
+    }
+
+    // 用于加载大图时的延迟显示效果
+    Loader {
+        id: previosLoader
+
+        property bool needBlur: false
+
+        active: needBlur && Image.Loading === baseDelegate.status
+        anchors.fill: parent
+        z: parent.z + 1
+
+        sourceComponent: Item {
+            anchors.fill: parent
+
+            Image {
+                id: loadImage
+
+                anchors.fill: parent
+                fillMode: Image.PreserveAspectFit
+                source: "image://ThumbnailLoad/" + delegate.source + "#frame_" + delegate.frameIndex
+            }
+
+            MultiEffect {
+                anchors.fill: loadImage
+                blur: 1.0
+                blurEnabled: true
+                blurMax: 4
+                scale: loadImage.scale
+                source: loadImage
+            }
+        }
+
+        // 短时间完成加载的图片内无需模糊延迟效果
+        Timer {
+            interval: 20
+            running: Image.Loading === baseDelegate.status
+
+            onTriggered: {
+                previosLoader.needBlur = true;
+            }
         }
     }
 
     IV.ImageInfo {
         id: imageInfo
+
         source: baseDelegate.source
     }
 }

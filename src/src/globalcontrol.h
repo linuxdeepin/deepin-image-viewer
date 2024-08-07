@@ -7,6 +7,7 @@
 
 #include "imagedata/imageinfo.h"
 #include "imagedata/imagesourcemodel.h"
+#include "imagedata/pathviewproxymodel.h"
 #include "types.h"
 
 #include <QObject>
@@ -16,7 +17,8 @@
 class GlobalControl : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(ImageSourceModel *globalModel READ globalModel NOTIFY globalModelChanged)
+    Q_PROPERTY(ImageSourceModel *globalModel READ globalModel CONSTANT)
+    Q_PROPERTY(PathViewProxyModel *viewModel READ viewModel CONSTANT)
     Q_PROPERTY(QUrl currentSource READ currentSource WRITE setCurrentSource NOTIFY currentSourceChanged)
     Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
     Q_PROPERTY(int currentFrameIndex READ currentFrameIndex WRITE setCurrentFrameIndex NOTIFY currentFrameIndexChanged)
@@ -30,9 +32,10 @@ public:
     ~GlobalControl() override;
 
     // 用于全局的图像源数据模型
-    void setGlobalModel(ImageSourceModel *model);
     ImageSourceModel *globalModel() const;
-    Q_SIGNAL void globalModelChanged();
+
+    // 用于大图展示界面的数据
+    PathViewProxyModel *viewModel() const;
 
     // 当前图像设置及(帧)索引变更信号
     void setCurrentSource(const QUrl &source);
@@ -79,13 +82,15 @@ protected:
 
 private:
     void checkSwitchEnable();
+    void setIndexAndFrameIndex(int index, int frameIndex);
 
 private:
-    int index = 0;
-    int frameIndex = 0;
+    int curIndex = 0;
+    int curFrameIndex = 0;
     ImageInfo currentImage;
 
-    ImageSourceModel *sourceModel = nullptr;
+    ImageSourceModel *sourceModel { nullptr };
+    PathViewProxyModel *viewSourceModel { nullptr };
     bool hasPrevious = false;
     bool hasNext = false;
 

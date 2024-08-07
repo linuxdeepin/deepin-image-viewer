@@ -17,6 +17,10 @@ ApplicationWindow {
 
     signal sigTitlePress
 
+    // Bug fix: 使用 ListView 替换 PathView 时，出现内部的 mouseArea 鼠标操作会被 DWindow 截取
+    // 导致 flicking 时拖动窗口，此处使用此标志禁用此行为
+    DWindow.enableSystemMove: !IV.GStatus.viewFlicking
+
     // 设置 dtk 风格窗口
     DWindow.enabled: true
     // 调整暗色主题下的窗口背景色

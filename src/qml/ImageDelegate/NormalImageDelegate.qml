@@ -23,7 +23,7 @@ BaseImageDelegate {
         mipmap: true
         scale: 1.0
         smooth: true
-        source: "image://ImageLoad/" + delegate.source
+        source: "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex
         width: delegate.width
 
         Behavior on rotation {

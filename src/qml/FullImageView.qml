@@ -18,7 +18,7 @@ Item {
     property bool enableAnimation: false
 
     // 鼠标是否进入当前的视图
-    property bool isEnterCurrentView: true
+    property bool isEnterCurrentView: false
     // 是否标题栏和底栏需要隐藏(仅判断普通模式)
     property bool needBarHideInNormalMode: false
 
