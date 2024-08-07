@@ -23,6 +23,8 @@ class GlobalStatus : public QObject
     Q_PROPERTY(int switchImageHotspotWidth READ switchImageHotspotWidth CONSTANT)
     Q_PROPERTY(int actionMargin READ actionMargin CONSTANT)
     Q_PROPERTY(int rightMenuItemHeight READ rightMenuItemHeight CONSTANT)
+    Q_PROPERTY(double animationDefaultDuration READ animationDefaultDuration CONSTANT)
+    Q_PROPERTY(int pathViewItemCount READ pathViewItemCount CONSTANT)
 
 public:
     explicit GlobalStatus(QObject *parent = nullptr);
@@ -98,6 +100,9 @@ public:
     int switchImageHotspotWidth() const;
     int actionMargin() const;
     int rightMenuItemHeight() const;
+
+    double animationDefaultDuration() const;
+    int pathViewItemCount() const;
 
 private:
     bool storeshowFullScreen = false;

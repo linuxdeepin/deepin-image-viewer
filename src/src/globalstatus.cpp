@@ -15,6 +15,9 @@ static const int sc_SwitchImageHotspotWidth = 100;  // 左右切换图片按钮�
 static const int sc_ActionMargin = 9;               // 应用图标距离顶栏
 static const int sc_RightMenuItemHeight = 32;       // 右键菜单item的高度
 
+static const double sc_AnimationDefaultDuration = 366;  // 默认动画时长
+static const int sc_PathViewItemCount = 3;              // 默认 PathView 在路径中的 Item 计数
+
 /**
    @class GlobalStatus
    @brief QML单例类，维护全局状态，同步不同组件间的状态信息
@@ -27,7 +30,7 @@ GlobalStatus::GlobalStatus(QObject *parent)
 {
 }
 
-GlobalStatus::~GlobalStatus() {}
+GlobalStatus::~GlobalStatus() { }
 
 /**
    @return 返回是否全屏显示图片
@@ -267,4 +270,18 @@ int GlobalStatus::actionMargin() const
 int GlobalStatus::rightMenuItemHeight() const
 {
     return sc_RightMenuItemHeight;
+}
+
+double GlobalStatus::animationDefaultDuration() const
+{
+    return sc_AnimationDefaultDuration;
+}
+
+/**
+   @brief 默认 PathView 在路径中的 Item 计数
+   @note 会影响 PathView 相关的动画效果计算，修改此值需慎重考虑
+ */
+int GlobalStatus::pathViewItemCount() const
+{
+    return sc_PathViewItemCount;
 }

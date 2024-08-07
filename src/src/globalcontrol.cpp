@@ -19,8 +19,9 @@ static const int sc_SubmitInterval = 200;  // 图片变更提交定时间隔 200
 
 GlobalControl::GlobalControl(QObject *parent)
     : QObject(parent)
-    , sourceModel(new ImageSourceModel(this))
 {
+    sourceModel = new ImageSourceModel(this);
+    viewSourceModel = new PathViewProxyModel(sourceModel, this);
 }
 
 GlobalControl::~GlobalControl()
@@ -29,24 +30,19 @@ GlobalControl::~GlobalControl()
 }
 
 /**
-   @brief 设置全局使用的数据模型为 \a model
- */
-void GlobalControl::setGlobalModel(ImageSourceModel *model)
-{
-    if (sourceModel) {
-        sourceModel->deleteLater();
-    }
-
-    sourceModel = model;
-    Q_EMIT globalModelChanged();
-}
-
-/**
    @return 返回全局的数据模型
  */
 ImageSourceModel *GlobalControl::globalModel() const
 {
     return sourceModel;
+}
+
+/**
+   @return 返回用于大图展示的数据模型
+ */
+PathViewProxyModel *GlobalControl::viewModel() const
+{
+    return viewSourceModel;
 }
 
 /**
@@ -60,7 +56,7 @@ void GlobalControl::setCurrentSource(const QUrl &source)
 
     int index = sourceModel->indexForImagePath(source);
     if (-1 != index) {
-        setCurrentIndex(index);
+        setIndexAndFrameIndex(index, 0);
     }
 }
 
@@ -77,20 +73,7 @@ QUrl GlobalControl::currentSource() const
  */
 void GlobalControl::setCurrentIndex(int index)
 {
-    int validIndex = qBound(0, index, imageCount() - 1);
-    if (this->index != validIndex) {
-        submitImageChangeImmediately();
-
-        // 更新图像信息，无论变更均更新
-        QUrl image = sourceModel->data(sourceModel->index(validIndex), Types::ImageUrlRole).toUrl();
-        currentImage.setSource(image);
-        Q_EMIT currentSourceChanged();
-
-        this->index = index;
-        Q_EMIT currentIndexChanged();
-
-        checkSwitchEnable();
-    }
+    setIndexAndFrameIndex(index, curFrameIndex);
 }
 
 /**
@@ -98,7 +81,7 @@ void GlobalControl::setCurrentIndex(int index)
  */
 int GlobalControl::currentIndex() const
 {
-    return index;
+    return curIndex;
 }
 
 /**
@@ -106,15 +89,7 @@ int GlobalControl::currentIndex() const
  */
 void GlobalControl::setCurrentFrameIndex(int frameIndex)
 {
-    int validFrameIndex = qBound(0, frameIndex, qMax(0, currentImage.frameCount() - 1));
-    if (this->frameIndex != validFrameIndex) {
-        submitImageChangeImmediately();
-
-        this->frameIndex = validFrameIndex;
-        Q_EMIT currentFrameIndexChanged();
-
-        checkSwitchEnable();
-    }
+    setIndexAndFrameIndex(curIndex, frameIndex);
 }
 
 /**
@@ -122,7 +97,7 @@ void GlobalControl::setCurrentFrameIndex(int frameIndex)
  */
 int GlobalControl::currentFrameIndex() const
 {
-    return frameIndex;
+    return curFrameIndex;
 }
 
 /**
@@ -193,20 +168,15 @@ bool GlobalControl::previousImage()
     if (hasPreviousImage()) {
         Q_ASSERT(sourceModel);
         if (Types::MultiImage == currentImage.type()) {
-            if (frameIndex > 0) {
-                setCurrentFrameIndex(frameIndex - 1);
+            if (curFrameIndex > 0) {
+                setIndexAndFrameIndex(curIndex, curFrameIndex - 1);
                 return true;
             }
         }
 
-        if (index > 0) {
-            setCurrentIndex(index - 1);
-
-            if (Types::MultiImage == currentImage.type()) {
-                setCurrentFrameIndex(currentImage.frameCount() - 1);
-            } else {
-                setCurrentFrameIndex(0);
-            }
+        if (curIndex > 0) {
+            // 不确定前一张图片是何种类型，使用 INT_MAX 限定帧索引从尾部开始
+            setIndexAndFrameIndex(curIndex - 1, INT_MAX);
             return true;
         }
     }
@@ -224,17 +194,15 @@ bool GlobalControl::nextImage()
     if (hasNextImage()) {
         Q_ASSERT(sourceModel);
         if (Types::MultiImage == currentImage.type()) {
-            if (frameIndex < currentImage.frameCount() - 1) {
-                setCurrentFrameIndex(frameIndex + 1);
+            if (curFrameIndex < currentImage.frameCount() - 1) {
+                setIndexAndFrameIndex(curIndex, curFrameIndex + 1);
                 return true;
             }
         }
 
-        if (index < sourceModel->rowCount() - 1) {
-            setCurrentIndex(index + 1);
-
+        if (curIndex < sourceModel->rowCount() - 1) {
             // 无论是否为多页图，均设置为0
-            setCurrentFrameIndex(0);
+            setIndexAndFrameIndex(curIndex + 1, 0);
             return true;
         }
     }
@@ -251,8 +219,7 @@ bool GlobalControl::firstImage()
 
     Q_ASSERT(sourceModel);
     if (sourceModel->rowCount()) {
-        setCurrentFrameIndex(0);
-        setCurrentIndex(0);
+        setIndexAndFrameIndex(0, 0);
         return true;
     }
     return false;
@@ -268,11 +235,14 @@ bool GlobalControl::lastImage()
     Q_ASSERT(sourceModel);
     int count = sourceModel->rowCount();
     if (count) {
-        setCurrentIndex(count - 1);
+        int index = count - 1;
+        int frameIndex = 0;
+
         if (Types::MultiImage == currentImage.type()) {
-            setCurrentFrameIndex(currentImage.frameCount() - 1);
+            frameIndex = currentImage.frameCount() - 1;
         }
 
+        setIndexAndFrameIndex(index, frameIndex);
         return true;
     }
     return false;
@@ -287,19 +257,13 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
     Q_ASSERT(sourceModel);
     // 优先更新数据源
     sourceModel->setImageFiles(QUrl::fromStringList(filePaths));
+
     int index = filePaths.indexOf(openFile);
     if (-1 == index || filePaths.isEmpty()) {
         index = 0;
     }
 
-    if (this->index != index) {
-        this->index = index;
-        Q_EMIT currentIndexChanged();
-    }
-    if (0 != this->frameIndex) {
-        this->frameIndex = 0;
-        Q_EMIT currentFrameIndexChanged();
-    }
+    setIndexAndFrameIndex(index, 0);
 
     // 更新图像信息，无论变更均更新
     if (currentImage.source() != openFile) {
@@ -309,6 +273,9 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
 
     checkSwitchEnable();
     Q_EMIT imageCountChanged();
+
+    // 更新视图展示模型
+    viewSourceModel->resetModel(index, 0);
 }
 
 /**
@@ -322,17 +289,20 @@ void GlobalControl::removeImage(const QUrl &removeImage)
     }
 
     // 移除当前图片，默认将后续图片前移，currentIndex将不会变更，手动提示更新
-    bool needNotify = (index != sourceModel->rowCount() - 1);
+    bool needNotify = (curIndex != sourceModel->rowCount() - 1);
 
     // 模型更新后将自动触发QML切换当前显示图片
     sourceModel->removeImage(removeImage);
 
+    // NOTE：viewModel依赖源数据模型更新
+    viewModel()->deleteCurrent();
+
     if (needNotify) {
         // 需要提示的情况下不会越界
-        QUrl image = sourceModel->data(sourceModel->index(index), Types::ImageUrlRole).toUrl();
+        QUrl image = sourceModel->data(sourceModel->index(curIndex), Types::ImageUrlRole).toUrl();
         currentImage.setSource(image);
 
-        setCurrentFrameIndex(0);
+        setIndexAndFrameIndex(curIndex, 0);
         Q_EMIT currentSourceChanged();
         Q_EMIT currentIndexChanged();
     }
@@ -357,7 +327,7 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
             currentImage.setSource(newName);
             currentImage.reloadData();
 
-            setCurrentFrameIndex(0);
+            setIndexAndFrameIndex(curIndex, 0);
             Q_EMIT currentSourceChanged();
             Q_EMIT currentIndexChanged();
         }
@@ -392,7 +362,7 @@ void GlobalControl::submitImageChangeImmediately()
  */
 bool GlobalControl::enableMultiThread()
 {
-    static const int sc_MaxThreadCountLimit = 2 ;
+    static const int sc_MaxThreadCountLimit = 2;
     return bool(QThread::idealThreadCount() > sc_MaxThreadCountLimit);
 }
 
@@ -413,8 +383,8 @@ void GlobalControl::timerEvent(QTimerEvent *event)
 void GlobalControl::checkSwitchEnable()
 {
     Q_ASSERT(sourceModel);
-    bool previous = (index > 0 || frameIndex > 0);
-    bool next = (index < (sourceModel->rowCount() - 1) || frameIndex < (currentImage.frameCount() - 1));
+    bool previous = (curIndex > 0 || curFrameIndex > 0);
+    bool next = (curIndex < (sourceModel->rowCount() - 1) || curFrameIndex < (currentImage.frameCount() - 1));
 
     if (previous != hasPrevious) {
         hasPrevious = previous;
@@ -424,4 +394,37 @@ void GlobalControl::checkSwitchEnable()
         hasNext = next;
         Q_EMIT hasNextImageChanged();
     }
+}
+
+/**
+   @brief 根据图片索引 \a index 和帧索引 \a frameIndex 设置当前展示的图片
+    会调整索引位置在允许范围内，可通过传入 \a frameIndex 为 INT_MAX 限制从尾帧开始读取图片
+ */
+void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
+{
+    int validIndex = qBound(0, index, imageCount() - 1);
+    if (this->curIndex != validIndex) {
+        submitImageChangeImmediately();
+
+        // 更新图像信息，无论变更均更新
+        QUrl image = sourceModel->data(sourceModel->index(validIndex), Types::ImageUrlRole).toUrl();
+        currentImage.setSource(image);
+        Q_EMIT currentSourceChanged();
+
+        this->curIndex = index;
+        Q_EMIT currentIndexChanged();
+    }
+
+    int validFrameIndex = qBound(0, frameIndex, qMax(0, currentImage.frameCount() - 1));
+    if (this->curFrameIndex != validFrameIndex) {
+        submitImageChangeImmediately();
+
+        this->curFrameIndex = validFrameIndex;
+        Q_EMIT currentFrameIndexChanged();
+    }
+
+    checkSwitchEnable();
+
+    // 更新视图模型
+    viewSourceModel->setCurrentSourceIndex(curIndex, curFrameIndex);
 }

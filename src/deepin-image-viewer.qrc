@@ -36,5 +36,6 @@
         <file>qml/Utils/RightMenuItem.qml</file>
         <file>qml/Dialog/RemoveDialog.qml</file>
         <file>qml/ImageAnimation.qml</file>
+        <file>qml/ImageDelegate/ViewDelegateLoader.qml</file>
     </qresource>
 </RCC>

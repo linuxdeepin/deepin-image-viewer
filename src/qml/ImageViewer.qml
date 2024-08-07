@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -12,6 +12,7 @@ import org.deepin.image.viewer 1.0 as IV
 import "./ImageDelegate"
 import "./LiveText"
 import "./InformationDialog"
+import "./Utils"
 
 Item {
     id: imageViewer
@@ -39,7 +40,7 @@ Item {
     }
 
     function exitLiveText() {
-        view.exitLiveText();
+        ltw.exitLiveText();
     }
 
     function fitImage() {
@@ -94,7 +95,7 @@ Item {
 
     // 触发全屏展示图片
     function showPanelFullScreen() {
-        view.exitLiveText();
+        ltw.exitLiveText();
         IV.GStatus.showImageInfo = false;
         showFullScreen();
         view.contentItem.forceActiveFocus();
@@ -120,7 +121,7 @@ Item {
     }
 
     function startLiveText() {
-        view.startLiveTextAnalyze();
+        ltw.startLiveTextAnalyze();
     }
 
     onHeightChanged: keepImageDisplayScale()
@@ -279,14 +280,14 @@ Item {
     }
 
     // 图片滑动视图的上层组件
-    Item {
+    Control {
         id: viewBackground
 
         anchors.fill: parent
     }
 
     // 图片滑动视图
-    ListView {
+    PathView {
         id: view
 
         // 当前展示的 Image 图片对象，空图片、错误图片、消失图片等异常为 undefined
@@ -299,6 +300,222 @@ Item {
             }
             return null;
         }
+        // 用于限制拖拽方向(处于头尾时)
+        property real previousOffset: 0
+
+        // WARNING: 目前 ListView 组件屏蔽输入处理，窗口拖拽依赖底层的 ApplicationWindow
+        // 因此不允许 ListView 的区域超过标题栏，图片缩放超过显示区域无妨。
+        // 显示图片上下边界距边框 50px (标题栏宽度)，若上下间隔不一致时，进行拖拽、导航定位或需减去(间隔差/2)
+        // 在全屏时无上下边框
+        anchors.horizontalCenter: parent.horizontalCenter
+        dragMargin: width / 2
+        flickDeceleration: 500
+        focus: true
+        height: window.isFullScreen ? parent.height : (parent.height - (IV.GStatus.titleHeight * 2))
+        // 动画过程中不允许拖拽
+        interactive: !IV.GStatus.fullScreenAnimating && IV.GStatus.viewInteractive && !offsetAnimation.running
+        model: IV.GControl.viewModel
+        // 设置滑动视图的父组件以获取完整的OCR图片信息
+        parent: viewBackground
+        // PathView 的动画效果通过 Path 路径和 Item 个数及 Item 宽度共同计算
+        pathItemCount: IV.GStatus.pathViewItemCount
+        preferredHighlightBegin: 0.5
+        preferredHighlightEnd: 0.5
+        snapMode: ListView.SnapOneItem
+        width: parent.width
+        y: Window.window.isFullScreen ? 0 : IV.GStatus.titleHeight
+
+        // 代理组件加载器
+        delegate: ViewDelegateLoader {
+        }
+        Behavior on offset {
+            id: offsetBehavior
+
+            enabled: !IV.GStatus.viewFlicking
+
+            NumberAnimation {
+                id: offsetAnimation
+
+                duration: IV.GStatus.animationDefaultDuration
+                easing.type: Easing.OutExpo
+
+                onRunningChanged: {
+                    // 动画结束，触发更新同步状态
+                    IV.GControl.viewModel.syncState();
+                }
+            }
+        }
+
+        // 注意图片路径是按照 总长 / pathItemCount 来平均计算位置的，各项间距等分
+        path: Path {
+            startX: 0
+            startY: view.height / 2
+
+            // 前一图片位置
+            PathLine {
+                x: view.width / 6
+                y: view.height / 2
+            }
+
+            PathAttribute {
+                name: "delegateOpacity"
+                value: 0
+            }
+
+            PathAttribute {
+                name: "delegateOffset"
+                value: -1
+            }
+
+            // 当前图片位置
+            PathLine {
+                x: view.width / 2
+                y: view.height / 2
+            }
+
+            PathAttribute {
+                name: "delegateOpacity"
+                value: 1
+            }
+
+            PathAttribute {
+                name: "delegateOffset"
+                value: 0
+            }
+
+            // 后一图片位置
+            PathLine {
+                x: view.width * 5 / 6
+                y: view.height / 2
+            }
+
+            PathAttribute {
+                name: "delegateOpacity"
+                value: 0
+            }
+
+            PathAttribute {
+                name: "delegateOffset"
+                value: 1
+            }
+
+            PathLine {
+                x: view.width
+                y: view.height / 2
+            }
+        }
+
+        onCurrentIndexChanged: {
+            var curIndex = view.currentIndex;
+            var previousIndex = IV.GControl.viewModel.currentIndex;
+            var lastIndex = view.count - 1;
+
+            // 若索引变更通过model触发，则没有必要更新
+            if (curIndex == previousIndex) {
+                return;
+            }
+
+            // 特殊场景处理，到达边界后循环显示图片
+            if (0 === curIndex && previousIndex === lastIndex) {
+                IV.GControl.nextImage();
+                return;
+            }
+            if (curIndex === lastIndex && 0 === previousIndex) {
+                IV.GControl.previousImage();
+                return;
+            }
+
+            // 当通过界面拖拽导致索引变更，需要调整多页图索引范围
+            if (view.currentIndex < previousIndex) {
+                IV.GControl.previousImage();
+            } else if (view.currentIndex > previousIndex) {
+                IV.GControl.nextImage();
+            }
+        }
+        onMovementEnded: {
+            IV.GStatus.viewFlicking = false;
+        }
+        onMovementStarted: {
+            IV.GStatus.viewFlicking = true;
+            previousOffset = offset;
+        }
+
+        Connections {
+            // 模型的索引变更时(缩略图栏点击)触发图片切换的动画效果
+            function onCurrentIndexChanged(index) {
+                if (view.currentIndex === index) {
+                    return;
+                }
+
+                /*  NOTE: 由于 PathView 循环显示的特殊性，index 递增，而 offset 递减(index + offset = count)
+                    以 count = 5 为例， 在边界 (index 0->4 4->0 0->1) 场景会出现跳变现象
+                    index 0 -> 1 对应的 offset 是 0 -> 4 ，实际动画会经过 index 0 4 3 2 1
+
+                    此问题可以通过对场景特殊判断处理，但是动画过程中的 offset 不定，需要结束之前动画后再调整
+                */
+                if (offsetAnimation.running) {
+                    var targetValue = offsetBehavior.targetValue;
+                    offsetAnimation.complete();
+                    IV.GStatus.viewFlicking = true;
+                    view.offset = targetValue;
+                    IV.GStatus.viewFlicking = false;
+                }
+
+                // 计算相对距离，调整 offset 以触发动画效果
+                var distance = Math.abs(view.currentIndex - index);
+                if (distance !== 1 && distance !== view.count - 1) {
+                    // 动画处理
+                    view.currentIndex = index;
+                    return;
+                }
+                var lastIndex = view.count - 1;
+
+                // 调整 offset 进行坐标偏移
+                var oldOffset = view.offset;
+                var newOffset = (view.count - index);
+                if (view.currentIndex === 0 && 1 === index) {
+                    IV.GStatus.viewFlicking = true;
+                    view.offset = view.count - 0.00001;
+                    IV.GStatus.viewFlicking = false;
+                } else if (view.currentIndex === lastIndex && 0 === index) {
+                    newOffset = 0;
+                }
+                view.offset = newOffset;
+            }
+
+            target: IV.GControl.viewModel
+        }
+
+        IV.PathViewRangeHandler {
+            enableBackward: IV.GControl.hasNextImage
+            enableForward: IV.GControl.hasPreviousImage
+            target: view
+        }
+    }
+
+    IV.ImageInfo {
+        id: currentImageInfo
+
+        frameIndex: IV.GControl.currentFrameIndex
+        source: IV.GControl.currentSource
+    }
+
+    Connections {
+        function onViewFlickingChanged() {
+            if (IV.GStatus.viewFlicking) {
+                ltw.exitLiveText();
+            } else {
+                ltw.startLiveTextAnalyze();
+            }
+        }
+
+        target: IV.GStatus
+    }
+
+    // 实况文本蒙版
+    LiveTextWidget {
+        //live text主控件
+        id: ltw
 
         //live text退出函数
         function exitLiveText() {
@@ -310,19 +527,17 @@ Item {
         //live text分析函数
         //缩放和切换需要重新执行此函数
         function liveTextAnalyze() {
-            console.debug("Live Text analyze start");
             viewBackground.grabToImage(function (result) {
                     //截取当前控件显示
                     liveTextAnalyzer.setImage(result.image); //设置分析图片
-                    liveTextAnalyzer.analyze(currentIndex); //执行分析（异步执行，函数会立即返回）
+                    liveTextAnalyzer.analyze(view.currentIndex); //执行分析（异步执行，函数会立即返回）
                     // result.saveToFile("/home/user/Desktop/viewer.png") //保存截取的图片，debug用
                 });
         }
 
         //live text执行函数
         function runLiveText(resultCanUse, token) {
-            console.debug("function runLiveText", token, currentIndex);
-            if (resultCanUse && token == currentIndex) {
+            if (resultCanUse && token == view.currentIndex) {
                 //这里无视警告，就是需要js的==来进行自动类型转换
                 console.debug("run live start");
                 ltw.drawRect(liveTextAnalyzer.liveBlock());
@@ -337,156 +552,10 @@ Item {
             }
         }
 
-        // WARNING: 目前 ListView 组件屏蔽输入处理，窗口拖拽依赖底层的 ApplicationWindow
-        // 因此不允许 ListView 的区域超过标题栏，图片缩放超过显示区域无妨。
-        // 显示图片上下边界距边框 50px (标题栏宽度)，若上下间隔不一致时，进行拖拽、导航定位或需减去(间隔差/2)
-        // 在全屏时无上下边框
-        anchors.horizontalCenter: parent.horizontalCenter
-        boundsBehavior: Flickable.StopAtBounds
-        boundsMovement: Flickable.FollowBoundsBehavior
-        cacheBuffer: 100
-        currentIndex: IV.GControl.currentIndex
-        flickDeceleration: 500
-        height: window.isFullScreen ? parent.height : (parent.height - (IV.GStatus.titleHeight * 2))
-        highlightMoveDuration: 0
-        highlightRangeMode: ListView.StrictlyEnforceRange
-        interactive: !IV.GStatus.fullScreenAnimating && IV.GStatus.viewInteractive
-        model: IV.GControl.globalModel
-        orientation: ListView.Horizontal
-
-        // 设置滑动视图的父组件以获取完整的OCR图片信息
-        parent: viewBackground
-        preferredHighlightBegin: 0
-        preferredHighlightEnd: 0
-        snapMode: ListView.SnapOneItem
-        width: parent.width
-        y: window.isFullScreen ? 0 : IV.GStatus.titleHeight
-
-        delegate: Loader {
-            id: swipeViewItemLoader
-
-            property alias frameCount: imageInfo.frameCount
-            property url imageSource: model.imageUrl
-
-            active: {
-                if (ListView.isCurrentItem) {
-                    return true;
-                }
-                if (view.currentIndex - 1 === index || view.currentIndex + 1 === index) {
-                    return true;
-                }
-                return false;
-            }
-            asynchronous: true
-            height: view.height
-            visible: active
-            width: view.width
-
-            onActiveChanged: {
-                if (active && imageInfo.delegateSource) {
-                    setSource(imageInfo.delegateSource, {
-                            "source": swipeViewItemLoader.imageSource,
-                            "type": imageInfo.type
-                        });
-                }
-            }
-
-            // TODO: 这部分组件也应移动到 Component 中，再抽象一层组件，不提前创建
-            IV.ImageInfo {
-                id: imageInfo
-
-                property url delegateSource
-                property bool isCurrentItem: swipeViewItemLoader.ListView.isCurrentItem
-
-                function checkDelegateSource() {
-                    if (IV.ImageInfo.Ready !== status && IV.ImageInfo.Error !== status) {
-                        return;
-                    }
-                    if (!imageInfo.exists) {
-                        delegateSource = "qrc:/qml/ImageDelegate/NonexistImageDelegate.qml";
-                        return;
-                    }
-                    switch (type) {
-                    case IV.Types.NormalImage:
-                        delegateSource = "qrc:/qml/ImageDelegate/NormalImageDelegate.qml";
-                        return;
-                    case IV.Types.DynamicImage:
-                        delegateSource = "qrc:/qml/ImageDelegate/DynamicImageDelegate.qml";
-                        return;
-                    case IV.Types.SvgImage:
-                        delegateSource = "qrc:/qml/ImageDelegate/SvgImageDelegate.qml";
-                        return;
-                    case IV.Types.MultiImage:
-                        delegateSource = "qrc:/qml/ImageDelegate/MultiImageDelegate.qml";
-                        return;
-                    default:
-                        // Default is damaged image.
-                        delegateSource = "qrc:/qml/ImageDelegate/DamagedImageDelegate.qml";
-                        return;
-                    }
-                }
-
-                // WARNING: 由于 Delegate 组件宽度关联的 view.width ，ListView 会计算 Delegate 大小
-                // Loader 在构造时直接设置图片链接会导致数据提前加载，破坏了延迟加载策略
-                // 调整机制，不在激活状态的图片信息置为空，在需要加载时设置图片链接
-                source: swipeViewItemLoader.active ? swipeViewItemLoader.imageSource : ""
-
-                onDelegateSourceChanged: {
-                    if (swipeViewItemLoader.active && delegateSource) {
-                        setSource(delegateSource, {
-                                "source": swipeViewItemLoader.imageSource,
-                                "type": imageInfo.type
-                            });
-                    }
-                }
-
-                // InfoChange 在图片文件变更时触发，此时图片文件路径不变，文件内容被替换、删除
-                onInfoChanged: {
-                    if (isCurrentItem) {
-                        IV.GControl.currentFrameIndex = 0;
-                    }
-                    checkDelegateSource();
-                    var temp = delegateSource;
-                    delegateSource = "";
-                    delegateSource = temp;
-                }
-                onIsCurrentItemChanged: checkDelegateSource()
-                onStatusChanged: checkDelegateSource()
-            }
-        }
+        anchors.fill: parent
 
         Component.onCompleted: {
             liveTextAnalyzer.analyzeFinished.connect(runLiveText);
-        }
-        onCurrentIndexChanged: {
-            // 当通过界面拖拽导致索引变更，需要调整多页图索引范围
-            if (view.currentIndex < IV.GControl.currentIndex) {
-                IV.GControl.previousImage();
-            } else if (view.currentIndex > IV.GControl.currentIndex) {
-                IV.GControl.nextImage();
-            }
-        }
-        onMovementEnded: {
-            IV.GStatus.viewFlicking = false;
-        }
-        onMovementStarted: {
-            IV.GStatus.viewFlicking = true;
-        }
-
-        BusyIndicator {
-            anchors.centerIn: parent
-            height: 48
-            running: visible
-            visible: {
-                if (view.currentItem.status === Loader.Loading) {
-                    return true;
-                } else if (view.currentItem.item) {
-                    return view.currentItem.item.status === Image.Loading;
-                }
-                // 非确定状态都为加载，以避免启动时的白屏过长
-                return true;
-            }
-            width: 48
         }
 
         // 实况文本背景遮罩
@@ -519,38 +588,11 @@ Item {
                 var supportOcr = IV.FileControl.isCanSupportOcr(IV.GControl.currentSource);
                 if (supportOcr && targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
                     // 执行条件和OCR按钮使能条件一致
-                    view.liveTextAnalyze();
+                    ltw.liveTextAnalyze();
                     running = false;
                 }
             }
         }
-    }
-
-    IV.ImageInfo {
-        id: currentImageInfo
-
-        frameIndex: IV.GControl.currentFrameIndex
-        source: IV.GControl.currentSource
-    }
-
-    Connections {
-        function onViewFlickingChanged() {
-            if (IV.GStatus.viewFlicking) {
-                view.exitLiveText();
-            } else {
-                view.startLiveTextAnalyze();
-            }
-        }
-
-        target: IV.GStatus
-    }
-
-    LiveTextWidget {
-        //live text主控件
-        id: ltw
-
-        anchors.fill: parent
-        parent: stackView
     }
 
     FloatingButton {
@@ -563,7 +605,7 @@ Item {
         parent: imageViewerArea
         visible: false
         width: 50
-        z: parent.z + 100
+        z: ltw.z + 100
 
         // 高亮时不弹出工具栏栏以方便选取
         onCheckedChanged: {
