@@ -47,8 +47,17 @@ BaseThumbnailDelegate {
         ThumbnailImage {
             id: img
 
-            anchors.fill: parent
+            anchors.centerIn: parent
+            height: parent.height
             source: normalThumbnailDelegate.source
+            width: parent.width
+        }
+
+        Rectangle {
+            id: maskRect
+
+            anchors.fill: img
+            radius: imgRadius
             visible: false
         }
 
@@ -76,13 +85,28 @@ BaseThumbnailDelegate {
         }
     }
 
+    RotationAnimation {
+        id: rotateAnimation
+
+        duration: IV.GStatus.animationDefaultDuration
+        easing.type: Easing.OutExpo
+        target: img.image
+
+        onRunningChanged: {
+            if (!running) {
+                img.reset();
+            }
+        }
+    }
+
     // 执行旋转操作后，重新读取缓存数据，更新图片状态
     Connections {
         function onCurrentRotationChanged() {
             // Note: 确保缓存中的数据已刷新后更新界面
             // 0 为复位，缓存中的数据已转换，无需再次加载
             if (0 !== IV.GControl.currentRotation) {
-                img.reset();
+                rotateAnimation.to = IV.GControl.currentRotation;
+                rotateAnimation.start();
             }
         }
 

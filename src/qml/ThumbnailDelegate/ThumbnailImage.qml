@@ -19,7 +19,10 @@ Item {
         var temp = contentImage.source;
         contentImage.source = "";
         contentImage.source = temp;
+        contentImage.rotation = 0;
     }
+
+    clip: true
 
     Image {
         id: contentImage
@@ -29,7 +32,16 @@ Item {
         cache: false
         fillMode: Image.PreserveAspectCrop
         height: thumbnailImage.height
-        smooth: false
+        // 用于在旋转过程中不显示白边，图片大小比例 1 -> sqrt(2) -> 1
+        scale: {
+            if (0 === rotation) {
+                return 1;
+            }
+            var normalRotation = (Math.abs(rotation) % 90);
+            var ratio = (normalRotation < 45) ? (normalRotation / 45) : ((90 - normalRotation) / 45);
+            return 1 + ((Math.sqrt(2) - 1) * ratio);
+        }
+        smooth: true
         width: thumbnailImage.width
     }
 

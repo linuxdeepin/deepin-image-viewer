@@ -88,7 +88,8 @@ Item {
     }
 
     function rotateImage(angle) {
-        if (targetImageReady) {
+        if (targetImageReady && !rotateDelay.running) {
+            rotateDelay.start();
             IV.GControl.currentRotation += angle;
         }
     }
@@ -147,6 +148,12 @@ Item {
         lastDisplayScaleWidth = 0;
     }
     onWidthChanged: keepImageDisplayScale()
+
+    Timer {
+        id: rotateDelay
+
+        interval: IV.GStatus.animationDefaultDuration + 50
+    }
 
     // 图像动画：缩放
     ImageAnimation {

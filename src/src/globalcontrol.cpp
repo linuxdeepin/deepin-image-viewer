@@ -120,11 +120,17 @@ void GlobalControl::setCurrentRotation(int angle)
         }
 
         // 计算相较上一次是否需要交换宽高，angle 为 0 时特殊处理，不调整
-        if (angle && !!((angle - imageRotation) % 180)) {
+        bool needSwap = angle && !!((angle - imageRotation) % 180);
+
+        imageRotation = angle;
+
+        // 开始变更旋转文件缓存和参数设置前触发，用于部分前置操作更新
+        Q_EMIT changeRotationCacheBegin();
+
+        if (needSwap) {
             currentImage.swapWidthAndHeight();
         }
 
-        imageRotation = angle;
         // 保证更新界面旋转前刷新缓存，为0时同样通知，用以复位状态
         Q_EMIT requestRotateCacheImage();
         Q_EMIT currentRotationChanged();
