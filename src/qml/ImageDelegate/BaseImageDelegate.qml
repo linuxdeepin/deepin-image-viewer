@@ -21,8 +21,12 @@ Item {
         return 0;
     }
     property int frameIndex: 0
+
+    // 图片绘制后是否初始化，Qt6后 Image.Ready 时 PaintedWidth 没有更新，以此标志判断是否执行初始化
+    property bool inited: false
     property ImageInputHandler inputHandler: null
-    property bool isCurrentImage: index === IV.GControl.currentIndex
+    // PathView下不再提供 index === IV.GControl.currentIndex
+    property bool isCurrentImage: parent.PathView.isCurrentItem
     // 坐标偏移，用于动画效果时调整显示位置
     property real offset: 0
     // 图片绘制区域到边框的位置
@@ -58,11 +62,15 @@ Item {
         paintedPaddingWidth = (width - realdWidth) / 2;
     }
 
-    // 动画时调整显示距离
+    // 动画时调整显示距离 ( 前一张图片 (-1) <-- 当前图片 (0) --> 下一张图片 (1) )
     x: animationOffsetWidth * offset
 
-    onIsCurrentImageChanged: {
-        reset();
+    // TODO: 优化绑定计算
+    // 根据当前图片在 PathView 中的相对距离计算是否还原显示参数
+    onOffsetChanged: {
+        if (offset < -0.99 || 0.99 < offset) {
+            reset();
+        }
     }
     onStatusChanged: {
         if (Image.Ready === status || Image.Error === status) {
@@ -72,7 +80,14 @@ Item {
     }
 
     Connections {
+        // 用于绘制更新后缩放等处理
         function onPaintedWidthChanged() {
+            if (!inited) {
+                if (targetImage.paintedWidth > 0) {
+                    inited = true;
+                }
+                reset();
+            }
             updateOffset();
         }
 

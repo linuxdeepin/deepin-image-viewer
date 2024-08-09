@@ -53,6 +53,7 @@ public:
     // 图像旋转处理
     void setCurrentRotation(int angle);
     int currentRotation();
+    Q_SIGNAL void changeRotationCacheBegin();
     Q_SIGNAL void currentRotationChanged();
     Q_SIGNAL void requestRotateCacheImage();
 
