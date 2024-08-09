@@ -24,11 +24,13 @@ Item {
     Image {
         id: contentImage
 
-        anchors.fill: thumbnailImage
+        anchors.centerIn: thumbnailImage
         asynchronous: true
         cache: false
         fillMode: Image.PreserveAspectCrop
+        height: thumbnailImage.height
         smooth: false
+        width: thumbnailImage.width
     }
 
     // 使用 ImageInfo 控制加载状态

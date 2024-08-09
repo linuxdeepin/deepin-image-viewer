@@ -251,12 +251,14 @@ Control {
         // 重新定位图片位置
         function rePositionView(force) {
             // 特殊处理，防止默认显示首个缩略图时采用Center的策略会被遮挡部分
-            if (0 === currentIndex) {
-                positionViewAtBeginning();
-            } else if (force) {
+            if (force) {
                 // 不再默认居中，允许在范围内切换
                 // 尽可能将高亮缩略图显示在列表中
                 positionViewAtIndex(currentIndex, ListView.Center);
+            } else if (0 === currentIndex) {
+                positionViewAtBeginning();
+            } else if (currentIndex === count - 1) {
+                positionViewAtEnd();
             }
         }
 
@@ -265,17 +267,21 @@ Control {
         focus: true
         height: thumbnailView.height + 10
         highlightFollowsCurrentItem: true
-        // 使用范围模式，允许高亮缩略图在preferredHighlightBegin~End的范围外，使缩略图填充空白区域
+        // 禁用ListView自带的动画效果，但仍需要 highlight 机制使图片切换后显示在可见范围
+        highlightMoveDuration: 200
+        highlightMoveVelocity: -1
+        // 使用范围模式，允许高亮缩略图在 preferredHighlightBegin ~ End 的范围外，使缩略图填充空白区域
         highlightRangeMode: ListView.ApplyRange
         model: IV.GControl.globalModel
         orientation: Qt.Horizontal
-        preferredHighlightBegin: width / 4
-        preferredHighlightEnd: width / 4 * 3
+        preferredHighlightBegin: width / 2
+        preferredHighlightEnd: width / 2
         spacing: 4
         width: thumbnailView.width - thumbnailView.btnContentWidth
 
+        // 用于图片变更，缩略图跳变(非左右侧图片)切换时的动画效果
         Behavior on currentIndex {
-            enabled: false
+            id: indexChangeBehavior
 
             ParallelAnimation {
                 onRunningChanged: {
@@ -290,7 +296,7 @@ Control {
 
                 // 淡出
                 NumberAnimation {
-                    duration: 366
+                    duration: IV.GStatus.animationDefaultDuration
                     easing.type: Easing.OutExpo
                     from: 1
                     property: "opacity"
@@ -300,7 +306,7 @@ Control {
 
                 // 淡入
                 NumberAnimation {
-                    duration: 366
+                    duration: IV.GStatus.animationDefaultDuration
                     easing.type: Easing.OutExpo
                     from: 0
                     property: "opacity"
@@ -312,6 +318,7 @@ Control {
         delegate: Loader {
             id: thumbnailItemLoader
 
+            property alias frameCount: imageInfo.frameCount
             property url imageSource: model.imageUrl
 
             active: true
@@ -413,7 +420,15 @@ Control {
 
         Connections {
             function onCurrentIndexChanged() {
+                // 切换的图片为左右两侧时，不触发跳变动画
+                var disableBehavior = Boolean(1 === Math.abs(IV.GControl.currentIndex - bottomthumbnaillistView.currentIndex));
+                if (disableBehavior) {
+                    indexChangeBehavior.enabled = false;
+                }
                 bottomthumbnaillistView.currentIndex = IV.GControl.currentIndex;
+                if (disableBehavior) {
+                    indexChangeBehavior.enabled = true;
+                }
             }
 
             target: IV.GControl
@@ -449,7 +464,7 @@ Control {
         }
     }
 
-    // 捕获列表Item，用于切换图片时淡入淡出效果
+    // 捕获列表Item，用于跳变切换图片时淡入淡出效果
     ShaderEffectSource {
         id: fadeOutEffect
 

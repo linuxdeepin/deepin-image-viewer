@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
+import QtQuick.Effects
 import Qt5Compat.GraphicalEffects
 import org.deepin.dtk 1.0 as DTK
 import org.deepin.image.viewer 1.0 as IV
@@ -28,6 +29,8 @@ BaseThumbnailDelegate {
             }
 
             PropertyChanges {
+                border.width: imgRadius
+                opacity: 1
                 target: normalThumbnailDelegate.shader
                 visible: true
                 z: 1
@@ -36,6 +39,8 @@ BaseThumbnailDelegate {
     ]
 
     Item {
+        id: imageItem
+
         anchors.fill: parent
         visible: true
 
@@ -44,22 +49,30 @@ BaseThumbnailDelegate {
 
             anchors.fill: parent
             source: normalThumbnailDelegate.source
-        }
-
-        Rectangle {
-            id: maskRect
-
-            anchors.fill: img
-            radius: imgRadius
             visible: false
         }
 
-        OpacityMask {
-            id: imgMask
-
+        MultiEffect {
             anchors.fill: img
-            maskSource: maskRect
+            maskEnabled: true
+            maskSource: mask
             source: img
+        }
+
+        Item {
+            id: mask
+
+            height: img.height
+            layer.enabled: true
+            visible: false
+            width: img.width
+
+            Rectangle {
+                color: "black"
+                height: img.height
+                radius: 4
+                width: img.width
+            }
         }
     }
 
