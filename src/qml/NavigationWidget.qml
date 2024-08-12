@@ -243,15 +243,8 @@ Item {
         Image {
             id: currentImage
 
-            anchors.fill: parent
-            asynchronous: true
-            cache: false
-            fillMode: Image.PreserveAspectFit
-            source: "image://ImageLoad/" + IV.GControl.currentSource + "#frame_" + IV.GControl.currentFrameIndex
-
-            // QML6 Image Ready 时 paintedGeometry 不一定更新，调整 onStatusChanged 为 onPaintedGeometryChanged
-            onPaintedGeometryChanged: {
-                if (Image.Ready === status) {
+            function updateMask() {
+                if (Image.Ready === currentImage.status) {
                     imgLeft = (currentImage.width - currentImage.paintedWidth) / 2;
                     imgTop = (currentImage.height - currentImage.paintedHeight) / 2;
                     imgRight = imgLeft + currentImage.paintedWidth;
@@ -259,6 +252,40 @@ Item {
                     refreshNaviMaskImpl();
                 }
             }
+
+            function updateSource() {
+                source = "image://ImageLoad/" + IV.GControl.currentSource + "#frame_" + IV.GControl.currentFrameIndex;
+            }
+
+            anchors.fill: parent
+            asynchronous: true
+            cache: false
+            fillMode: Image.PreserveAspectFit
+            source: "image://ImageLoad/" + IV.GControl.currentSource + "#frame_" + IV.GControl.currentFrameIndex
+
+            // QML6 Image Ready 时 paintedGeometry 不一定更新，调整 onStatusChanged 为 onPaintedGeometryChanged
+            onPaintedGeometryChanged: updateMask()
+            onSourceChanged: updateMask()
+        }
+
+        // 旋转图片触发更新导航窗口，重设图片后绑定会失效，因此手动触发图片源更新
+        Connections {
+            function onCurrentFrameIndexChanged() {
+                currentImage.updateSource();
+            }
+
+            function onCurrentRotationChanged() {
+                var temp = currentImage.source;
+                currentImage.source = "";
+                currentImage.source = temp;
+                currentImage.updateMask();
+            }
+
+            function onCurrentSourceChanged() {
+                currentImage.updateSource();
+            }
+
+            target: IV.GControl
         }
     }
 

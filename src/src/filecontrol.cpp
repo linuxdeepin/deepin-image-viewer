@@ -446,6 +446,7 @@ QString FileControl::parseCommandlineGetPath()
  */
 void FileControl::rotateImageFile(const QString &path, int angle)
 {
+    // TODO: 逻辑有问题，调整缓存文件而不是对原文件处理
     angle = angle % 360;
     if (0 != angle) {
         // 20211019修改：特殊位置不执行写入操作
