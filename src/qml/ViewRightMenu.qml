@@ -156,7 +156,7 @@ Menu {
         visible: deletable
 
         onTriggered: {
-            thumbnailListView.deleteCurrentImage();
+            thumbnailViewBackGround.deleteCurrentImage();
         }
 
         Shortcut {
@@ -164,7 +164,7 @@ Menu {
             sequence: "Delete"
 
             onActivated: {
-                thumbnailListView.deleteCurrentImage();
+                thumbnailViewBackGround.deleteCurrentImage();
             }
         }
     }
