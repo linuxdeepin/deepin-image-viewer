@@ -37,5 +37,6 @@
         <file>qml/Dialog/RemoveDialog.qml</file>
         <file>qml/ImageAnimation.qml</file>
         <file>qml/ImageDelegate/ViewDelegateLoader.qml</file>
+        <file>qml/InformationDialog/ElideLabel.qml</file>
     </qresource>
 </RCC>

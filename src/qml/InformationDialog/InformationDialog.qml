@@ -117,14 +117,14 @@ DialogWindow {
             ColumnLayout {
                 spacing: 1
 
-                PropertyActionItemDelegate {
+                PropertyItemDelegate {
                     Layout.fillWidth: true
                     corners: RoundRectangle.TopCorner
                     description: IV.FileControl.slotGetInfo("DateTimeOriginal", filePath)
                     title: qsTr("Date captured")
                 }
 
-                PropertyActionItemDelegate {
+                PropertyItemDelegate {
                     Layout.fillWidth: true
                     corners: RoundRectangle.BottomCorner
                     description: IV.FileControl.slotGetInfo("DateTimeDigitized", filePath)
