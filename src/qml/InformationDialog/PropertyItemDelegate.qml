@@ -58,77 +58,24 @@ Control {
     contentItem: ColumnLayout {
         spacing: 0
 
-        Label {
+        ElideLabel {
+            Layout.fillWidth: true
             color: control.ColorSelector.sectionTextColor
             font: DTK.fontManager.t10
-            text: control.title
-            textFormat: Text.PlainText
-            visible: control.title
+            sourceText: control.title
+            tipsColor: control.palette.toolTipText
+            width: descriptionWidth
         }
 
         RowLayout {
             id: content
 
-            Label {
-                id: showlabel
-
+            ElideLabel {
                 Layout.fillWidth: true
                 color: control.ColorSelector.infoTextColor
-                font: DTK.fontManager.t8
-                text: textMetics.elidedText
-                textFormat: Text.PlainText
-                visible: control.description
-
-                TextMetrics {
-                    id: textMetics
-
-                    elide: Text.ElideMiddle
-                    elideWidth: descriptionWidth
-                    font: showlabel.font
-                    text: control.description
-                }
-
-                Loader {
-                    active: textMetics.width > descriptionWidth
-                    anchors.fill: parent
-
-                    sourceComponent: MouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-
-                        onExited: {
-                            tip.visible = false;
-                        }
-                        onMouseXChanged: {
-                            if (textMetics.width < descriptionWidth) {
-                                tip.visible = false;
-                            } else {
-                                tip.visible = true;
-                            }
-                        }
-
-                        ToolTip {
-                            id: tip
-
-                            // 此处代码并非设置背景，而是由palette的变更信号触发 ColorSelector.controlTheme 的更新
-                            palette.window: DTK.themeType === ApplicationHelper.LightType ? "white" : "black"
-                            parent: parent
-                            text: control.description
-                            visible: parent.focus
-                            width: control.width - 5
-                            y: showlabel.y + 20
-
-                            contentItem: Text {
-                                color: control.palette.toolTipText
-                                font: DTK.fontManager.t8
-                                horizontalAlignment: Text.AlignLeft
-                                text: control.description
-                                verticalAlignment: Text.AlignVCenter
-                                wrapMode: Text.Wrap
-                            }
-                        }
-                    }
-                }
+                sourceText: control.description
+                tipsColor: control.palette.toolTipText
+                width: descriptionWidth
             }
 
             Loader {

@@ -46,6 +46,7 @@ Control {
             showPicLabel.visible = false;
             // 每次显示编辑框时显示为图片名称
             nameedit.text = IV.FileControl.slotGetFileName(IV.GControl.currentSource);
+            nameedit.forceActiveFocus();
         } else {
             var name = nameedit.text;
             if (!IV.FileControl.isShowToolTip(IV.GControl.currentSource, name) && name.length > 0) {
@@ -75,18 +76,20 @@ Control {
     contentItem: ColumnLayout {
         spacing: 0
 
-        Label {
+        ElideLabel {
+            Layout.fillWidth: true
             color: control.ColorSelector.sectionTextColor
             font: DTK.fontManager.t10
-            text: control.title
-            textFormat: Text.PlainText
-            visible: control.title.length > 0
+            sourceText: control.title
+            tipsColor: control.palette.toolTipText
+            width: descriptionWidth
         }
 
         RowLayout {
             LineEdit {
                 id: nameedit
 
+                Layout.fillWidth: true
                 alertText: qsTr("The file already exists, please use another name")
                 color: control.ColorSelector.infoTextColor
                 focus: true
@@ -106,6 +109,9 @@ Control {
                     if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
                         dealShowPicLabelClick();
                     }
+                    if (event.key === Qt.Key_Escape) {
+                        reset();
+                    }
                 }
 
                 anchors {
@@ -114,65 +120,14 @@ Control {
                 }
             }
 
-            Label {
+            ElideLabel {
                 id: showPicLabel
 
                 Layout.fillWidth: true
                 color: control.ColorSelector.infoTextColor
-                font: DTK.fontManager.t8
-                text: textMetics.elidedText
-                visible: control.description
-
-                TextMetrics {
-                    id: textMetics
-
-                    elide: Text.ElideMiddle
-                    elideWidth: descriptionWidth
-                    font: showPicLabel.font
-                    text: control.description
-                }
-
-                Loader {
-                    active: textMetics.width > descriptionWidth
-                    anchors.fill: parent
-
-                    sourceComponent: MouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-
-                        onExited: {
-                            tip.visible = false;
-                        }
-                        onMouseXChanged: {
-                            if (textMetics.width < descriptionWidth) {
-                                tip.visible = false;
-                            } else {
-                                tip.visible = true;
-                            }
-                        }
-
-                        ToolTip {
-                            id: tip
-
-                            // 此处代码并非设置背景，而是由palette的变更信号触发 ColorSelector.controlTheme 的更新
-                            palette.window: DTK.themeType === ApplicationHelper.LightType ? "white" : "black"
-                            parent: parent
-                            text: control.description
-                            visible: parent.focus
-                            width: control.width - 5
-                            y: showPicLabel.y + 20
-
-                            contentItem: Text {
-                                color: control.palette.toolTipText
-                                font: DTK.fontManager.t8
-                                horizontalAlignment: Text.AlignLeft
-                                text: control.description
-                                verticalAlignment: Text.AlignVCenter
-                                wrapMode: Text.Wrap
-                            }
-                        }
-                    }
-                }
+                sourceText: control.description
+                tipsColor: control.palette.toolTipText
+                width: descriptionWidth
             }
 
             Loader {
