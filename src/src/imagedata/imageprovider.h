@@ -27,8 +27,9 @@ public:
 protected:
     QMutex mutex;
     ThumbnailCache imageCache;  ///< 图像数据缓存(已存在锁保护)
-    QString lastRotatePath;  ///< 缓存的旋转文件路径
-    QImage lastRotateImage;  ///< 缓存的旋转图像信息
+    QString lastRotatePath;     ///< 缓存的旋转文件路径
+    QImage lastRotateImage;     ///< 缓存的旋转图像信息
+    int lastRotation { 0 };     ///< 缓存的旋转角度
 
     Q_DISABLE_COPY(ProviderCache)
 };

@@ -44,7 +44,6 @@ public:
     Q_INVOKABLE void ocrImage(const QString &path, int index);    // 进行ocr识别
     Q_INVOKABLE void showPrintDialog(const QString &path);        // 调用打印接口
     Q_INVOKABLE QString parseCommandlineGetPath();                // 解析命令行
-    Q_SLOT void rotateImageFile(const QString &path, int angle);  // 旋转图片文件
 
     Q_INVOKABLE bool isCheckOnly();                               // 判断当前进程是否为唯一看图实例
     Q_INVOKABLE bool isSupportSetWallpaper(const QString &path);  // 是否支持设置壁纸

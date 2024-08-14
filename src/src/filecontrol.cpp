@@ -441,34 +441,6 @@ QString FileControl::parseCommandlineGetPath()
     return filepath;
 }
 
-/**
-   @brief 将传入的图片文件 \a path 旋转 \a angle 角度后保存，覆写文件
- */
-void FileControl::rotateImageFile(const QString &path, int angle)
-{
-    // TODO: 逻辑有问题，调整缓存文件而不是对原文件处理
-    angle = angle % 360;
-    if (0 != angle) {
-        // 20211019修改：特殊位置不执行写入操作
-        imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(path);
-
-        if (pathType != imageViewerSpace::PathTypeMTP && pathType != imageViewerSpace::PathTypePTP &&  // 安卓手机
-            pathType != imageViewerSpace::PathTypeAPPLE &&                                             // 苹果手机
-            pathType != imageViewerSpace::PathTypeSAFEBOX &&                                           // 保险箱
-            pathType != imageViewerSpace::PathTypeRECYCLEBIN) {                                        // 回收站
-            QString errorMsg;
-            if (!LibUnionImage_NameSpace::rotateImageFIle(angle, path, errorMsg)) {
-                qWarning() << QString("Rotate image file failed!, error: %1").arg(errorMsg);
-            } else {
-                // NOTE：处理成功，过滤旋转操作文件更新，旋转图像已在软件中缓存且旋转状态同步，不再从文件中更新读取
-                imageFileWatcher->recordRotateImage(path);
-            }
-
-            // 保存文件后发送图片更新更新信号，通过监控文件变更触发
-        }
-    }
-}
-
 QString FileControl::slotGetFileName(const QString &path)
 {
     QString tmppath = path;

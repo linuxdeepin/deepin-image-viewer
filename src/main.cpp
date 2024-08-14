@@ -102,9 +102,6 @@ int main(int argc, char *argv[])
     engine.addImageProvider(QLatin1String("ThumbnailLoad"), multiImageLoad);
 
     // 关联各组件
-    // 提交图片旋转信息到文件，覆写文件
-    QObject::connect(
-        &control, &GlobalControl::requestRotateImage, &fileControl, &FileControl::rotateImageFile, Qt::DirectConnection);
     // 图片旋转时更新图像缓存
     QObject::connect(&control, &GlobalControl::requestRotateCacheImage, [&]() {
         providerCache->rotateImageCached(control.currentRotation(), control.currentSource().toLocalFile());

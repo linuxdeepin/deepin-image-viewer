@@ -5,6 +5,7 @@
 #include "globalcontrol.h"
 #include "types.h"
 #include "imagedata/imagesourcemodel.h"
+#include "utils/rotateimagehelper.h"
 
 #include <QEvent>
 #include <QThread>
@@ -22,6 +23,13 @@ GlobalControl::GlobalControl(QObject *parent)
 {
     sourceModel = new ImageSourceModel(this);
     viewSourceModel = new PathViewProxyModel(sourceModel, this);
+
+    // 图片旋转完成后触发信息变更
+    connect(RotateImageHelper::instance(), &RotateImageHelper::rotateImageFinished, this, [this](const QString &path, bool ret) {
+        if (path == currentImage.source().toLocalFile()) {
+            submitImageChangeImmediately();
+        }
+    });
 }
 
 GlobalControl::~GlobalControl()
@@ -131,6 +139,8 @@ void GlobalControl::setCurrentRotation(int angle)
             currentImage.swapWidthAndHeight();
         }
 
+        // 执行实际的旋转文件操作
+        RotateImageHelper::instance()->rotateImageFile(currentImage.source().toLocalFile(), angle);
         // 保证更新界面旋转前刷新缓存，为0时同样通知，用以复位状态
         Q_EMIT requestRotateCacheImage();
         Q_EMIT currentRotationChanged();

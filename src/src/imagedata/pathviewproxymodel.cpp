@@ -256,8 +256,6 @@ void PathViewProxyModel::deleteCurrent()
 
         refreshBothSideData();
     }
-
-    dumpInfo();
 }
 
 /**

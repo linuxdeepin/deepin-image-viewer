@@ -88,10 +88,10 @@ Rectangle {
             normal: Qt.rgba(0, 0, 0, 0.0)
             normalDark: Qt.rgba(26 / 255, 26 / 255, 26 / 255, 0.02)
         }
-        // 非渐变背景色
+        // 非渐变背景色 BugFix: 旋转图片时不希望标题栏有透视，调整颜色为无透明度版本
         property Palette nonGradientColor: Palette {
-            normal: Qt.rgba(1, 1, 1, 0.8)
-            normalDark: Qt.rgba(37 / 255, 37 / 255, 37 / 255, 0.6)
+            normal: Qt.rgba(254 / 255, 254 / 255, 254 / 255, 1)
+            normalDark: Qt.rgba(32 / 255, 32 / 255, 32 / 255, 1)
         }
         // 阴影颜色
         property Palette shadowColor: Palette {

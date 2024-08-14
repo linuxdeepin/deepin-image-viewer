@@ -473,6 +473,7 @@ Control {
         // 不自动刷新，使用 scheduleUpdate() 刷新显示状态
         live: false
         recursive: false
+        smooth: true
         sourceItem: bottomthumbnaillistView
         visible: true
         z: 1
