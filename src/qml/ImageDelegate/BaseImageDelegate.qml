@@ -56,10 +56,22 @@ Item {
 
     function updateOffset() {
         // 需要考虑缩放时的处理
-        var realdWidth = targetImage.paintedWidth * targetImage.scale;
+        var realWidth = targetImage.paintedWidth * targetImage.scale;
+        // 图片加载过程时，图片可能未加载完成，调整默认的缩放比值以获取近似值
+        if (realWidth <= 0) {
+            if (imageInfo.width < baseDelegate.width && imageInfo.height < baseDelegate.height) {
+                realWidth = imageInfo.width;
+            } else {
+                // 存在缩放可能，计算可能的宽度
+                var scaleWidthRatio = baseDelegate.width / imageInfo.width;
+                var scaleHeightRatio = baseDelegate.height / imageInfo.height;
+                var scaleRatio = Math.min(scaleWidthRatio, scaleHeightRatio);
+                realWidth = scaleRatio * imageInfo.width;
+            }
+        }
 
         // 更新绘制边距，用于动画时对齐边界
-        paintedPaddingWidth = (width - realdWidth) / 2;
+        paintedPaddingWidth = (width - realWidth) / 2;
     }
 
     // 动画时调整显示距离 ( 前一张图片 (-1) <-- 当前图片 (0) --> 下一张图片 (1) )
@@ -116,6 +128,8 @@ Item {
                 id: loadImage
 
                 anchors.fill: parent
+                // cache会缓存数据(即便Loader重新加载)，取消此设置以正确在快速旋转/切换时从正确缓存管理中读取
+                cache: false
                 fillMode: Image.PreserveAspectFit
                 source: "image://ThumbnailLoad/" + delegate.source + "#frame_" + delegate.frameIndex
             }

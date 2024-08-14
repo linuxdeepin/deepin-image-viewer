@@ -38,6 +38,10 @@ BaseThumbnailDelegate {
         }
     ]
 
+    onIsCurrentItemChanged: {
+        rotateAnimation.complete();
+    }
+
     Item {
         id: imageItem
 
@@ -49,38 +53,18 @@ BaseThumbnailDelegate {
 
             anchors.centerIn: parent
             height: parent.height
+            layer.enabled: true
             source: normalThumbnailDelegate.source
             width: parent.width
-        }
 
-        Rectangle {
-            id: maskRect
-
-            anchors.fill: img
-            radius: imgRadius
-            visible: false
-        }
-
-        MultiEffect {
-            anchors.fill: img
-            maskEnabled: true
-            maskSource: mask
-            source: img
-        }
-
-        Item {
-            id: mask
-
-            height: img.height
-            layer.enabled: true
-            visible: false
-            width: img.width
-
-            Rectangle {
-                color: "black"
-                height: img.height
-                radius: 4
-                width: img.width
+            // 1. 使用 layer 而不是外部 OpacityMask 组件蒙版以在动画时仍支持圆角
+            // 2. Qt6 下的 MultiEffect 圆角效果没有 OpacityMask 平滑
+            layer.effect: OpacityMask {
+                maskSource: Rectangle {
+                    height: img.height
+                    radius: imgRadius
+                    width: img.width
+                }
             }
         }
     }
@@ -88,6 +72,7 @@ BaseThumbnailDelegate {
     RotationAnimation {
         id: rotateAnimation
 
+        alwaysRunToEnd: true
         duration: IV.GStatus.animationDefaultDuration
         easing.type: Easing.OutExpo
         target: img.image

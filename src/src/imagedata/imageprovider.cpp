@@ -87,7 +87,7 @@ AsyncImageResponse::AsyncImageResponse(AsyncImageProvider *p, const QString &i, 
     setAutoDelete(false);
 }
 
-AsyncImageResponse::~AsyncImageResponse() {}
+AsyncImageResponse::~AsyncImageResponse() { }
 
 QQuickTextureFactory *AsyncImageResponse::textureFactory() const
 {
@@ -129,9 +129,9 @@ void AsyncImageResponse::run()
    @class ProviderCache
    @brief 图像加载器缓存，存储最近的图像数据并处理旋转等操作
  */
-ProviderCache::ProviderCache() {}
+ProviderCache::ProviderCache() { }
 
-ProviderCache::~ProviderCache() {}
+ProviderCache::~ProviderCache() { }
 
 /**
    @brief 对缓存的 \a imagePath 图片执行旋转 \a angle 的操作。
@@ -142,8 +142,6 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
     // 旋转角度为0时，清除旋转状态缓存，防止外部文件变更后仍使用上一次的旋转状态。
     QMutexLocker _locker(&mutex);
     if (0 == angle) {
-        lastRotatePath.clear();
-        lastRotateImage = QImage();
         return;
     }
 
@@ -151,18 +149,20 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
     if (imagePath != lastRotatePath) {
         image = imageCache.get(imagePath, frameIndex);
 
-        // 仅在首次处理时记录图像数据，防止多次旋转处理导致图片质量降低
+        // 首次处理时记录图像数据，防止多次旋转处理导致图片质量降低
         lastRotateImage = image;
         lastRotatePath = imagePath;
+        lastRotation = angle;
     } else {
         image = lastRotateImage;
+        lastRotation += angle;
     }
     _locker.unlock();
 
     if (!image.isNull()) {
         // 360度不执行旋转
-        if (!!(angle % 360)) {
-            LibUnionImage_NameSpace::rotateImage(angle, image);
+        if (!!(lastRotation % 360)) {
+            LibUnionImage_NameSpace::rotateImage(lastRotation, image);
         }
 
         // 更新图片缓存
@@ -220,11 +220,11 @@ void ProviderCache::preloadImage(const QString &)
  */
 AsyncImageProvider::AsyncImageProvider()
 {
-    // 缓存最近3张图片
-    imageCache.setMaxCost(3);
+    // 缓存最近 3 张图片 + 1 张切换之前的图片
+    imageCache.setMaxCost(4);
 }
 
-AsyncImageProvider::~AsyncImageProvider() {}
+AsyncImageProvider::~AsyncImageProvider() { }
 
 /**
    @brief 请求图像加载并返回应答，当图像加载成功时，通过接收信号进行实际图像的加载
@@ -259,7 +259,7 @@ ImageProvider::ImageProvider()
 {
 }
 
-ImageProvider::~ImageProvider() {}
+ImageProvider::~ImageProvider() { }
 
 /**
    @brief 外部请求图像文件中指定帧的图像，指定帧号通过传入的 \a id 进行区分。
@@ -316,7 +316,7 @@ ThumbnailProvider::ThumbnailProvider()
 {
 }
 
-ThumbnailProvider::~ThumbnailProvider() {}
+ThumbnailProvider::~ThumbnailProvider() { }
 
 /**
    @brief 外部请求图像文件中指定帧的图像，指定帧号通过传入的 \a id 进行区分。

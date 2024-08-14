@@ -10,7 +10,8 @@
 #include <QFileSystemWatcher>
 
 ImageFileWatcher::ImageFileWatcher(QObject *parent)
-    : QObject(parent), fileWatcher(new QFileSystemWatcher(this))
+    : QObject(parent)
+    , fileWatcher(new QFileSystemWatcher(this))
 {
     connect(fileWatcher, &QFileSystemWatcher::fileChanged, this, &ImageFileWatcher::onImageFileChanged);
     connect(fileWatcher, &QFileSystemWatcher::directoryChanged, this, &ImageFileWatcher::onImageDirChanged);
@@ -94,11 +95,22 @@ bool ImageFileWatcher::isCurrentDir(const QString &filePath)
 /**
    @brief 设置当前旋转的图片文件路径为 \a targetPath ，在执行旋转操作前调用，
     旋转覆写文件时将不会发送变更信号(文件的旋转状态已在缓存中记录)
-    文件更新将在之后异步通知。
+    文件旋转操作现移至子线程处理，和文件更新信号到达时间不定，因此在拷贝前记录操作文件，
+    若旋转操作成功，通过文件更新处理重置；旋转操作失败，通过 cleareRotateStatus() 重置
  */
 void ImageFileWatcher::recordRotateImage(const QString &targetPath)
 {
-    rotateImagePath = targetPath;
+    rotateImagePathSet.insert(targetPath);
+}
+
+/**
+   @brief 若 \a targetPath 和当前缓存的旋转记录文件一致，则清除记录。
+ */
+void ImageFileWatcher::clearRotateStatus(const QString &targetPath)
+{
+    if (rotateImagePathSet.contains(targetPath)) {
+        rotateImagePathSet.remove(targetPath);
+    }
 }
 
 /**
@@ -107,8 +119,7 @@ void ImageFileWatcher::recordRotateImage(const QString &targetPath)
 void ImageFileWatcher::onImageFileChanged(const QString &file)
 {
     // 若为当前旋转处理的文件，不触发更新，状态在图像缓存中已同步
-    if (rotateImagePath == file) {
-        rotateImagePath.clear();
+    if (rotateImagePathSet.contains(file)) {
         return;
     }
 

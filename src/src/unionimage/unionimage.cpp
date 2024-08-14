@@ -1007,12 +1007,16 @@ QImage adjustImageToRealPosition(const QImage &image, int orientation)
     return result;
 }
 
-UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QString &erroMsg)
+UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QString &erroMsg, const QString &targetPath)
 {
     if (angel % 90 != 0) {
         erroMsg = "unsupported angel";
         return false;
     }
+
+    // 保存文件路径，若未设置则保存至原文件
+    QString savePath = targetPath.isEmpty() ? path : targetPath;
+
     QString format = detectImageFormat(path);
     if (format == "SVG") {
         QImage image_copy;
@@ -1021,7 +1025,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
             return false;
         }
         QSvgGenerator generator;
-        generator.setFileName(path);
+        generator.setFileName(savePath);
         generator.setViewBox(QRect(0, 0, image_copy.width(), image_copy.height()));
         QPainter rotatePainter;
         rotatePainter.begin(&generator);
@@ -1044,6 +1048,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         generator.setSize(QSize(image_copy.width(), image_copy.height()));
         rotatePainter.end();
         return true;
+
     } else if (union_image_private.m_qtrotate.contains(format)) {
         //由于Qt内部不会去读图片的EXIF信息来判断当前的图像矩阵的真实位置，同时回写数据的时候会丢失全部的EXIF数据
         //因此在这里需要额外基于FreeImage来读取相关的数据，确保图片能旋转到合理的位置
@@ -1054,7 +1059,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
             QTransform rotatematrix;
             rotatematrix.rotate(angel);
             image_copy = image_copy.transformed(rotatematrix, Qt::SmoothTransformation);
-            if (image_copy.save(path, format.toLatin1().data(), SAVE_QUAITY_VALUE))
+            if (image_copy.save(savePath, format.toLatin1().data(), SAVE_QUAITY_VALUE))
                 return true;
             else {
                 return false;
@@ -1063,6 +1068,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         erroMsg = "rotate by qt failed";
         return false;
     }
+
     FIBITMAP *dib = readFile2FIBITMAP(path);
     if (nullptr == dib) {
         erroMsg = "unsupported format";
@@ -1092,7 +1098,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         return false;
     }
     ;
-    if (!writeFIBITMAPToFile(rotateRes, path)) {
+    if (!writeFIBITMAPToFile(rotateRes, savePath)) {
         erroMsg = "rotate image save faild, unkown format";
         FreeImage_Unload(dib);
         FreeImage_Unload(rotateRes);

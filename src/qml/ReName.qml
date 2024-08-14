@@ -39,7 +39,8 @@ DialogWindow {
 
     // 调整默认的 titlebar
     header: DialogTitleBar {
-        enableInWindowBlendBlur: true
+        // BugFix: 暂时屏蔽 Blur 效果，待 DTK 修复 D.InWindowBlur 后恢复
+        enableInWindowBlendBlur: false
         // 仅保留默认状态，否则 hover 上会有变化效果
         icon.mode: DTK.NormalState
         icon.name: "deepin-image-viewer"
@@ -114,24 +115,6 @@ DialogWindow {
         }
     }
 
-    Button {
-        id: cancelbtn
-
-        height: 36
-        text: qsTr("Cancel")
-        width: 185
-
-        onClicked: {
-            renamedialog.visible = false;
-        }
-
-        anchors {
-            right: nameedit.right
-            top: nameedit.bottom
-            topMargin: 10
-        }
-    }
-
     RecommandButton {
         id: enterbtn
 
@@ -142,6 +125,24 @@ DialogWindow {
 
         onClicked: {
             renameFile();
+        }
+
+        anchors {
+            right: nameedit.right
+            top: nameedit.bottom
+            topMargin: 10
+        }
+    }
+
+    Button {
+        id: cancelbtn
+
+        height: 36
+        text: qsTr("Cancel")
+        width: 185
+
+        onClicked: {
+            renamedialog.visible = false;
         }
 
         anchors {

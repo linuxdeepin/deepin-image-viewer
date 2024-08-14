@@ -20,9 +20,17 @@ BaseImageDelegate {
         image.source = temp;
     }
 
+    function updateSource() {
+        // 由于会 resetSource() 破坏绑定，因此重新设置源数据
+        image.source = "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex;
+    }
+
     inputHandler: imageInput
     status: image.status
     targetImage: image
+
+    onFrameIndexChanged: updateSource()
+    onSourceChanged: updateSource()
 
     Image {
         id: image
@@ -123,6 +131,8 @@ BaseImageDelegate {
             // 并行动画
             ParallelAnimation {
                 id: aniamtion
+
+                alwaysRunToEnd: true
 
                 onRunningChanged: {
                     if (running) {
