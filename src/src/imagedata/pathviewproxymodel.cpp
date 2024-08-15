@@ -186,14 +186,16 @@ void PathViewProxyModel::resetModel(int sourceIndex, int frameIndex)
 {
     beginResetModel();
 
-    setCurrentIndex(0);
+    // 无需通知
+    currentProxyIdx = 0;
+    jumpFlag = Current;
     indexQueue.clear();
     indexQueue.append(infoFromIndex(sourceIndex, frameIndex));
 
     QList<IndexInfoPtr> prependQueue;
 
     while ((indexQueue.size() + prependQueue.size()) < maxCount) {
-        // 首次进入时，前面的节点不填充，而是追加到尾部
+        // 首次进入时，前面的节点不填充，而是追加到尾部，保证首张图片索引指向 0
         if (prependQueue.isEmpty()) {
             prependQueue.prepend(createPreviousIndexInfo(indexQueue.first()));
         } else {

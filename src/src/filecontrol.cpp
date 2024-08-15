@@ -418,7 +418,13 @@ void FileControl::ocrImage(const QString &path, int index)
         QImageReader imageReader(localPath);
         imageReader.jumpToImage(index);
         auto image = imageReader.read();
-        auto tempFileName = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + QDir::separator() + "rec.png";
+        auto tempDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+        QDir dir(tempDir);
+        if (!dir.exists()) {
+            dir.mkpath(".");
+        }
+        auto tempFileName = tempDir + QDir::separator() + "rec.png";
+
         image.save(tempFileName);
         m_ocrInterface->openFile(tempFileName);
     }

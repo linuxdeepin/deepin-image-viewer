@@ -412,6 +412,12 @@ Item {
             }
         }
 
+        Component.onCompleted: {
+            // 首次进入(退出缩略图后创建)重置当前显示的索引
+            IV.GStatus.viewFlicking = true;
+            currentIndex = IV.GControl.viewModel.currentIndex;
+            IV.GStatus.viewFlicking = false;
+        }
         onCurrentIndexChanged: {
             var curIndex = view.currentIndex;
             var previousIndex = IV.GControl.viewModel.currentIndex;
