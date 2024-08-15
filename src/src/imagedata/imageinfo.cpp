@@ -543,6 +543,7 @@ void ImageInfo::refreshDataFromCache(bool reload)
 {
     QString localPath = imageUrl.toLocalFile();
     if (localPath.isEmpty()) {
+        setStatus(Error);
         return;
     }
 

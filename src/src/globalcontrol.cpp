@@ -305,20 +305,30 @@ void GlobalControl::removeImage(const QUrl &removeImage)
     }
 
     // 移除当前图片，默认将后续图片前移，currentIndex将不会变更，手动提示更新
-    bool needNotify = (curIndex != sourceModel->rowCount() - 1);
+    bool atEnd = (curIndex >= sourceModel->rowCount() - 1);
 
     // 模型更新后将自动触发QML切换当前显示图片
     sourceModel->removeImage(removeImage);
 
     // NOTE：viewModel依赖源数据模型更新
-    viewModel()->deleteCurrent();
+    if (removeImage == currentImage.source()) {
+        viewModel()->deleteCurrent();
+    }
 
-    if (needNotify) {
+    if (!atEnd) {
         // 需要提示的情况下不会越界
-        QUrl image = sourceModel->data(sourceModel->index(curIndex), Types::ImageUrlRole).toUrl();
+        const QUrl image = sourceModel->data(sourceModel->index(curIndex), Types::ImageUrlRole).toUrl();
         currentImage.setSource(image);
 
         setIndexAndFrameIndex(curIndex, 0);
+        Q_EMIT currentSourceChanged();
+        Q_EMIT currentIndexChanged();
+    } else if (/*atEnd &&*/ (0 != sourceModel->rowCount())) {
+        // 删除的尾部文件且仍有数据，更新当前文件信息
+        const QUrl image = sourceModel->data(sourceModel->index(curIndex - 1), Types::ImageUrlRole).toUrl();
+        currentImage.setSource(image);
+
+        setIndexAndFrameIndex(curIndex - 1, INT_MAX);
         Q_EMIT currentSourceChanged();
         Q_EMIT currentIndexChanged();
     }
@@ -415,6 +425,7 @@ void GlobalControl::checkSwitchEnable()
 /**
    @brief 根据图片索引 \a index 和帧索引 \a frameIndex 设置当前展示的图片
     会调整索引位置在允许范围内，可通过传入 \a frameIndex 为 INT_MAX 限制从尾帧开始读取图片
+   @note \a index 和 \a frameIndex 均变更时需调用此函数，分别设置时会导致视图模型的前后计算位置不正确
  */
 void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
 {

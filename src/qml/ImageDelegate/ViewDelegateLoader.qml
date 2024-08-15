@@ -71,6 +71,7 @@ Loader {
 
         function checkDelegateSource() {
             if (IV.ImageInfo.Ready !== status && IV.ImageInfo.Error !== status) {
+                delegateSource = "";
                 return;
             }
             if (!imageInfo.exists) {

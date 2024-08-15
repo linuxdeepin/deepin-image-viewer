@@ -219,8 +219,8 @@ void PathViewProxyModel::deleteCurrent()
         return;
     }
 
-    // 特殊处理
-    if (1 == sourceModel->rowCount()) {
+    // 特殊处理，此时源数据无文件
+    if (0 == sourceModel->rowCount()) {
         beginResetModel();
         setCurrentIndex(0);
         indexQueue.clear();
@@ -241,7 +241,7 @@ void PathViewProxyModel::deleteCurrent()
 
         // 如果删除的是尾部数据，则索引会 - 1 . INT_MAX 会将帧索引指向尾帧
         auto previous = infoFromIndex(current->index - 1, INT_MAX);
-        indexQueue[previousIdx] = previous;
+        updateIndexInfo(previousIdx, previous);
         // 更新完成数据后再更新界面，触发动画
         setCurrentIndex(previousIdx);
 
@@ -250,7 +250,8 @@ void PathViewProxyModel::deleteCurrent()
     } else {
         int nextIdx = nextProxyIdx(currentProxyIdx);
         // NOTE: 源数据模型移除当前图片后，index不会变更
-        indexQueue[nextIdx] = infoFromIndex(current->index, 0);
+        auto next = infoFromIndex(current->index, 0);
+        updateIndexInfo(nextIdx, next);
 
         setCurrentIndex(nextIdx);
 

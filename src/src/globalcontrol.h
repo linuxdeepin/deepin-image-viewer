@@ -50,6 +50,9 @@ public:
     int imageCount() const;
     Q_SIGNAL void imageCountChanged();
 
+    // index 和 frameIndex 同时变更时必须一同设置
+    Q_INVOKABLE void setIndexAndFrameIndex(int index, int frameIndex);
+
     // 图像旋转处理
     void setCurrentRotation(int angle);
     int currentRotation();
@@ -83,7 +86,6 @@ protected:
 
 private:
     void checkSwitchEnable();
-    void setIndexAndFrameIndex(int index, int frameIndex);
 
 private:
     int curIndex = 0;
