@@ -28,7 +28,7 @@ Control {
     property int contrlIntimplicitHeight: 40
     property int corners: RoundRectangle.NoneCorner
     property string description
-    property int descriptionWidth: control.width - leftPadding - rightPadding
+    property int descriptionWidth: control.width - control.leftPadding - control.rightPadding
     property string iconName
     property Palette infoTextColor: Palette {
         normal: Qt.rgba(0, 0, 0, 1)
@@ -60,11 +60,12 @@ Control {
 
         ElideLabel {
             Layout.fillWidth: true
+            // 系数微调整以满足默认字号标签均显示的效果
+            Layout.minimumWidth: descriptionWidth + 5
             color: control.ColorSelector.sectionTextColor
             font: DTK.fontManager.t10
             sourceText: control.title
             tipsColor: control.palette.toolTipText
-            width: descriptionWidth
         }
 
         RowLayout {
