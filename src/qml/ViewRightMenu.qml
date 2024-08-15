@@ -152,6 +152,7 @@ Menu {
     }
 
     RightMenuItem {
+        enabled: !thumbnailViewBackGround.imageDeleting
         text: qsTr("Delete")
         visible: deletable
 
@@ -160,7 +161,7 @@ Menu {
         }
 
         Shortcut {
-            enabled: deletable
+            enabled: deletable && parent.enabled
             sequence: "Delete"
 
             onActivated: {

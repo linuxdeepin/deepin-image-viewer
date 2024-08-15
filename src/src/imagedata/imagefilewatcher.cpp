@@ -30,6 +30,11 @@ ImageFileWatcher *ImageFileWatcher::instance()
  */
 void ImageFileWatcher::resetImageFiles(const QStringList &filePaths)
 {
+    // 重置时清理缓存记录
+    cacheFileInfo.clear();
+    removedFile.clear();
+    rotateImagePathSet.clear();
+
     if (filePaths.isEmpty()) {
         auto files = fileWatcher->files();
         if (!files.isEmpty()) {

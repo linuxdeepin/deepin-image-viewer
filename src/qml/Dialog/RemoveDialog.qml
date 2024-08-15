@@ -21,7 +21,7 @@ DialogWindow {
     maximumWidth: 400
     minimumHeight: 180
     minimumWidth: 400
-    modality: Qt.WindowModal
+    modality: Qt.ApplicationModal
     visible: false
     width: 400
 

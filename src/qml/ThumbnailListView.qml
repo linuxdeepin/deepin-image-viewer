@@ -15,6 +15,8 @@ Control {
 
     // 除ListView外其它按键的占用宽度
     property int btnContentWidth: switchArrowLayout.width + leftRowLayout.width + rightRowLayout.width + deleteButton.width
+    // 当前是否处于文件删除状态，防止快速点击导致重复触发
+    property bool imageDeleting: false
     property bool imageIsNull: null === targetImage
 
     // 用于外部获取当前缩略图栏内容的长度，用于布局, 10px为焦点缩略图不在ListView中的边框像素宽度(radius = 4 * 1.25)
@@ -22,6 +24,7 @@ Control {
     property Image targetImage
 
     function deleteCurrentImage() {
+        thumbnailView.imageDeleting = true;
         var trashFile = IV.GControl.currentSource;
         if (!fileTrashHelper.fileCanTrash(trashFile)) {
             // 无法移动到回收站，显示删除提示对话框
@@ -36,18 +39,23 @@ Control {
         var trashFile = IV.GControl.currentSource;
         if (directDelete) {
             if (!fileTrashHelper.removeFile(trashFile)) {
+                thumbnailView.imageDeleting = false;
                 return;
             }
         } else {
             // 移动文件到回收站
             if (!fileTrashHelper.moveFileToTrash(trashFile)) {
+                thumbnailView.imageDeleting = false;
                 return;
             }
         }
+        thumbnailView.imageDeleting = false;
         IV.GControl.removeImage(trashFile);
 
         // 删除最后图片，恢复到初始界面
         if (0 === IV.GControl.imageCount) {
+            // 重置监控的文件列表
+            IV.FileControl.resetImageFiles();
             stackView.switchOpenImage();
         }
     }
@@ -517,7 +525,7 @@ Control {
         ToolTip.text: qsTr("Delete")
         ToolTip.timeout: 5000
         ToolTip.visible: hovered
-        enabled: IV.FileControl.isCanDelete(IV.GControl.currentSource)
+        enabled: !thumbnailView.imageDeleting && IV.FileControl.isCanDelete(IV.GControl.currentSource)
         height: 50
         icon.color: enabled ? "red" : "ffffff"
         icon.name: "icon_delete"

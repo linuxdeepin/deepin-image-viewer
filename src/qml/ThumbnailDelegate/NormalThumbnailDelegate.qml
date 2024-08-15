@@ -184,8 +184,8 @@ BaseThumbnailDelegate {
         hoverEnabled: true
 
         onClicked: {
-            IV.GControl.currentFrameIndex = 0;
-            IV.GControl.currentIndex = index;
+            // index 和 frameIndex 同时变更时必须一同设置
+            IV.GControl.setIndexAndFrameIndex(index, 0);
         }
     }
 }

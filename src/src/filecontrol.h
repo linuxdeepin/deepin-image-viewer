@@ -27,7 +27,7 @@ public:
     explicit FileControl(QObject *parent = nullptr);
     ~FileControl();
 
-    Q_INVOKABLE void resetImageFiles(const QStringList &filePaths);            // 重设当前展示图片列表
+    Q_INVOKABLE void resetImageFiles(const QStringList &filePaths = {});       // 重设当前展示图片列表
     Q_INVOKABLE QStringList getDirImagePath(const QString &path);              // 获得路径下的所有图片路径
     Q_INVOKABLE bool isCurrentWatcherDir(const QUrl &path);                    // 判断是否为当前正在监控的文件路径
     Q_INVOKABLE QString slotGetInfo(const QString &key, const QString &path);  // 获取某项info
@@ -36,14 +36,14 @@ public:
     Q_INVOKABLE QString getNamePath(const QString &oldPath, const QString &newName);  // 公共接口，获得路径
     Q_INVOKABLE QString slotFileSuffix(const QString &path, bool ret = true);         // 文件后缀
 
-    Q_INVOKABLE void setWallpaper(const QString &imgPath);        // 设置壁纸
-    Q_INVOKABLE bool deleteImagePath(const QString &path);        // 删除文件
-    Q_INVOKABLE bool displayinFileManager(const QString &path);   // 在文件目录中显示
-    Q_INVOKABLE void copyImage(const QString &path);              // 复制图片
-    Q_INVOKABLE void copyText(const QString &str);                // 复制文字
-    Q_INVOKABLE void ocrImage(const QString &path, int index);    // 进行ocr识别
-    Q_INVOKABLE void showPrintDialog(const QString &path);        // 调用打印接口
-    Q_INVOKABLE QString parseCommandlineGetPath();                // 解析命令行
+    Q_INVOKABLE void setWallpaper(const QString &imgPath);       // 设置壁纸
+    Q_INVOKABLE bool deleteImagePath(const QString &path);       // 删除文件
+    Q_INVOKABLE bool displayinFileManager(const QString &path);  // 在文件目录中显示
+    Q_INVOKABLE void copyImage(const QString &path);             // 复制图片
+    Q_INVOKABLE void copyText(const QString &str);               // 复制文字
+    Q_INVOKABLE void ocrImage(const QString &path, int index);   // 进行ocr识别
+    Q_INVOKABLE void showPrintDialog(const QString &path);       // 调用打印接口
+    Q_INVOKABLE QString parseCommandlineGetPath();               // 解析命令行
 
     Q_INVOKABLE bool isCheckOnly();                               // 判断当前进程是否为唯一看图实例
     Q_INVOKABLE bool isSupportSetWallpaper(const QString &path);  // 是否支持设置壁纸

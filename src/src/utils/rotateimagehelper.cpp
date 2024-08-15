@@ -99,7 +99,7 @@ void RotateImageHelper::rotateImageFile(const QString &path, int angle)
 }
 
 /**
-   @brief 用于重置旋转记录信息，用于，不会影响在处理中的文件
+   @brief 用于重置旋转记录信息，不会影响在处理中的文件
  */
 void RotateImageHelper::resetRotateState()
 {
