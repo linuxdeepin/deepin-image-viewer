@@ -17,9 +17,6 @@ import "./Utils"
 Item {
     id: imageViewer
 
-    // current rotate
-    property int currentRotate: 0
-
     // 记录图像缩放，用于在窗口缩放时，根据前后窗口变化保持图片缩放比例
     property bool enableChangeDisplay: true
     property real lastDisplayScaleWidth: 0

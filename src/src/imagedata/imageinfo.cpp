@@ -29,6 +29,10 @@ public:
         other->size = this->size;
         other->frameIndex = this->frameIndex;
         other->frameCount = this->frameCount;
+        
+        other->scale = this->scale;
+        other->x = this->x;
+        other->y = this->y;
 
         return other;
     }
@@ -41,6 +45,11 @@ public:
     int frameIndex = 0;     ///< 当前图片帧号
     int frameCount = 0;     ///< 当前图片总帧数
     bool exist = false;     ///< 图片是否存在
+
+    // runtime property
+    qreal scale = -1;  ///< 图片缩放比值
+    qreal x = 0;       ///< 相对坐标X轴偏移
+    qreal y = 0;       ///< 相对坐标Y轴偏移
 };
 
 class LoadImageInfoRunnable : public QRunnable
@@ -63,7 +72,7 @@ public:
     typedef QPair<QString, int> KeyType;
 
     ImageInfoCache();
-    ~ImageInfoCache();
+    ~ImageInfoCache() override;
 
     ImageInfoData::Ptr find(const QString &path, int frameIndex);
     void load(const QString &path, int frameIndex, bool reload = false);
@@ -212,7 +221,7 @@ ImageInfoCache::ImageInfoCache()
     localPoolPtr->setMaxThreadCount(qMax(2, QThread::idealThreadCount() / 2));
 
     // 退出时清理线程状态
-    connect(qApp, &QCoreApplication::aboutToQuit, this, [this](){
+    connect(qApp, &QCoreApplication::aboutToQuit, this, [this]() {
         aboutToQuit = true;
         clearCache();
 
@@ -315,6 +324,7 @@ void ImageInfoCache::clearCache()
 ImageInfo::ImageInfo(QObject *parent)
     : QObject(parent)
 {
+    // TODO(renbin): 这种方式效率不佳，应调整为记录文件对应的 ImageInfo 对象进行直接调用(均在同一线程)
     connect(CacheInstance(), &ImageInfoCache::imageDataChanged, this, &ImageInfo::onLoadFinished);
     connect(CacheInstance(), &ImageInfoCache::imageSizeChanged, this, &ImageInfo::onSizeChanged);
 }
@@ -423,6 +433,46 @@ int ImageInfo::frameIndex() const
 int ImageInfo::frameCount() const
 {
     return data ? data->frameCount : 1;
+}
+
+/**
+   @brief 设置图片运行时属性缩放为 \a s ，除缩放外，还有图片组件在界面上的偏移值 x y 。
+    这些属性不会用于状态的实时同步或抛出信号，仅在初始化图片展示时取缓存数据复位状态。
+ */
+void ImageInfo::setScale(qreal s)
+{
+    if (data && data->scale != s) {
+        data->scale = s;
+    }
+}
+
+qreal ImageInfo::scale() const
+{
+    return data ? data->scale : -1;
+}
+
+void ImageInfo::setX(qreal x)
+{
+    if (data) {
+        data->x = x;
+    }
+}
+
+qreal ImageInfo::x() const
+{
+    return data ? data->x : 0;
+}
+
+void ImageInfo::setY(qreal y)
+{
+    if (data) {
+        data->y = y;
+    }
+}
+
+qreal ImageInfo::y() const
+{
+    return data ? data->y : 0;
 }
 
 /**

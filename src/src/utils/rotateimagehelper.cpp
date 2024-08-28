@@ -133,10 +133,10 @@ bool RotateImageHelper::rotateImageImpl(const QString &cachePath, const QString 
 
     // NOTE：处理结束，过滤旋转操作文件更新，旋转图像已在软件中缓存且旋转状态同步，不再从文件中更新读取
     // 保存文件后发送图片更新更新信号，通过监控文件变更触发。文件更新可能滞后，延时一定时间处理
-    QTimer::singleShot(10, [ret, path]() {
-        Q_EMIT RotateImageHelper::instance()->clearRotateStatus(path);
-        Q_EMIT RotateImageHelper::instance()->rotateImageFinished(path, ret);
-    });
+    // 处于子线程中，慎用事件循环(没有初始化)
+    QThread::msleep(10);
+    Q_EMIT RotateImageHelper::instance()->clearRotateStatus(path);
+    Q_EMIT RotateImageHelper::instance()->rotateImageFinished(path, ret);
 
     if (!ret) {
         qWarning() << QString("Rotate image file failed!, error: %1").arg(errorMsg);
