@@ -110,6 +110,9 @@ Control {
             onFinished: {
                 if (ret) {
                     thumbnailView.deleteCurrentImageImpl(true);
+                } else {
+                    // 取消删除，恢复删除按钮状态
+                    thumbnailView.imageDeleting = false;
                 }
                 // 使用后释放对话框
                 removeDialogLoader.active = false;

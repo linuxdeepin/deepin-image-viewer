@@ -21,8 +21,12 @@ BaseImageDelegate {
     }
 
     function updateSource() {
-        // 由于会 resetSource() 破坏绑定，因此重新设置源数据
-        image.source = "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex;
+        if (delegate.source != "") {
+            // 由于会 resetSource() 破坏绑定，因此重新设置源数据
+            image.source = "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex;
+        } else {
+            image.source = "";
+        }
     }
 
     inputHandler: imageInput

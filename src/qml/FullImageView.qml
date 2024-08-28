@@ -188,6 +188,13 @@ Item {
         id: imageViewer
 
         anchors.fill: parent
+
+        onTargetImageChanged: {
+            delayAnimationTimer.start();
+        }
+        onTargetImageReadyChanged: {
+            delayAnimationTimer.start();
+        }
     }
 
     // 缩放变更时触发显示/隐藏标题栏/底部栏

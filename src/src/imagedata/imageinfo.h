@@ -24,6 +24,11 @@ class ImageInfo : public QObject
     Q_PROPERTY(bool exists READ exists NOTIFY existsChanged)
     Q_PROPERTY(bool hasCachedThumbnail READ hasCachedThumbnail)
 
+    // runtime properties
+    Q_PROPERTY(qreal scale READ scale WRITE setScale FINAL)
+    Q_PROPERTY(qreal x READ x WRITE setX FINAL)
+    Q_PROPERTY(qreal y READ y WRITE setY FINAL)
+
 public:
     explicit ImageInfo(QObject *parent = nullptr);
     explicit ImageInfo(const QUrl &source, QObject *parent = nullptr);
@@ -51,6 +56,14 @@ public:
     Q_SIGNAL void frameIndexChanged();
     int frameCount() const;
     Q_SIGNAL void frameCountChanged();
+
+    // runtime properties: scale x y
+    void setScale(qreal s);
+    qreal scale() const;
+    void setX(qreal x);
+    qreal x() const;
+    void setY(qreal y);
+    qreal y() const;
 
     bool exists() const;
     Q_SIGNAL void existsChanged();
