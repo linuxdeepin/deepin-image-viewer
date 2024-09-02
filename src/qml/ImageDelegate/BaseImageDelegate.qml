@@ -26,7 +26,7 @@ Item {
     property bool inited: false
     property ImageInputHandler inputHandler: null
     // PathView下不再提供 index === IV.GControl.currentIndex
-    property bool isCurrentImage: parent.PathView.isCurrentItem
+    property bool isCurrentImage: parent.PathView.view.currentIndex === model.index
     // 坐标偏移，用于动画效果时调整显示位置
     property real offset: 0
     // 图片绘制区域到边框的位置
@@ -153,11 +153,11 @@ Item {
 
     // 用于加载大图时的延迟显示效果
     Loader {
-        id: previosLoader
+        id: previousLoader
 
         property bool needBlur: false
 
-        active: needBlur && (Image.Loading === baseDelegate.status)
+        active: needBlur && isCurrentImage && (Image.Loading === baseDelegate.status)
         height: parent.height
         width: parent.width
         z: parent.z + 1
@@ -201,7 +201,7 @@ Item {
             running: Image.Loading === baseDelegate.status
 
             onTriggered: {
-                previosLoader.needBlur = true;
+                previousLoader.needBlur = true;
             }
         }
     }

@@ -11,6 +11,7 @@ Loader {
     property alias frameCount: imageInfo.frameCount
     property int frameIndex: model.frameIndex
     property url imageSource: model.imageUrl
+    readonly property int index: model.index
 
     function updateLoaderSource() {
         if (active && imageInfo.delegateSource) {
