@@ -1,3 +1,11 @@
+deepin-image-viewer (6.0.5) unstable; urgency=medium
+
+  * fix: image switching does not retain settings(Bug: 270339)(Influence: keep-image-status)
+  * fix: only current item need blur(Bug: 270339)
+  * chore: [dbus] Adapt V25 dde-file-manager dbus service name changed
+
+ -- renbin <renbin@uniontech.com>  Thu, 05 Sep 2024 16:33:15 +0800
+
 deepin-image-viewer (6.0.4) unstable; urgency=medium
 
   * fix: Improve image load policy(Bug: 254141)
