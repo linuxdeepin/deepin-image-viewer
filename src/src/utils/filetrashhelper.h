@@ -32,7 +32,7 @@ private:
     bool moveFileToTrashWithDBus(const QUrl &url);
 
 private:
-    QScopedPointer<QDBusInterface> dfmDeviceManager;
+    QScopedPointer<QDBusInterface> m_dfmDeviceManager;
 
     bool initData { false };                    // 挂载数据是否被初始化
     QDir lastDir;                               // 上一次访问的文件目录

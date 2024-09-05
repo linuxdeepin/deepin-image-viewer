@@ -9,6 +9,14 @@
 #include <QTimer>
 #include <QColor>
 
+#define V23_FILEMANAGER_DAEMON_SERVICE      "org.deepin.filemanager.server"
+#define V23_FILEMANAGER_DAEMON_PATH         "/org/deepin/filemanager/server/DeviceManager"
+#define V23_FILEMANAGER_DAEMON_INTERFACE    "org.deepin.filemanager.server.DeviceManager"
+
+#define V25_FILEMANAGER_DAEMON_SERVICE      "org.deepin.Filemanager.Daemon"
+#define V25_FILEMANAGER_DAEMON_PATH         "/org/deepin/Filemanager/Daemon/DeviceManager"
+#define V25_FILEMANAGER_DAEMON_INTERFACE    "org.deepin.Filemanager.Daemon.DeviceManager"
+
 #if QT_VERSION >= 0x050500
 #define TIMER_SINGLESHOT(Time, Code, captured...){ \
         QTimer::singleShot(Time, [captured] {Code});\
