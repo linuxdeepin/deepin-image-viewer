@@ -44,21 +44,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     //检查OCR是否存在
     try {
-        QProcess bash;
-        bash.start("bash");
-        bash.waitForStarted();
-        bash.write("command -v deepin-ocr");
-        bash.closeWriteChannel();
-        if (!bash.waitForFinished()) {
-            qWarning() << bash.errorString();
-            m_ocrIsExisted = false;
-        }
-        auto output = bash.readAllStandardOutput();
-        if (output.isEmpty()) {
-            m_ocrIsExisted = false;
-        } else {
-            m_ocrIsExisted = true;
-        }
+        QString path = QStandardPaths::findExecutable("deepin-ocr");
+        m_ocrIsExisted = !path.isEmpty();
     } catch (std::logic_error &e) {
         qWarning() << e.what();
         m_ocrIsExisted = false;
