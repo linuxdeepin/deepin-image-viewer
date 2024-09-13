@@ -115,6 +115,11 @@ FileControl::~FileControl()
     saveSetting();
 }
 
+QString FileControl::standardPicturesPath() const
+{
+    return QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+}
+
 QStringList FileControl::getDirImagePath(const QString &path)
 {
     if (path.isEmpty()) {

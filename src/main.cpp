@@ -18,6 +18,7 @@
 #include "config.h"
 
 #include <DApplication>
+#include <DLog>
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -48,6 +49,15 @@ int main(int argc, char *argv[])
     app.setApplicationDescription(
         QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
     app.setWindowIcon(QIcon::fromTheme("deepin-image-viewer"));
+
+    // LOG
+    DLogManager::registerConsoleAppender();
+    DLogManager::registerFileAppender();
+    qInfo() << QString("%1 start, PID: %2, Version: %3")
+                   .arg(app.applicationName())
+                   .arg(app.applicationPid())
+                   .arg(app.applicationVersion());
+    qDebug() << "LogFile:" << DLogManager::getlogFilePath();
 
     QQmlApplicationEngine engine;
 
