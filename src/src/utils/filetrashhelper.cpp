@@ -32,6 +32,16 @@ enum DeviceQueryOption {
 };
 
 /*!
+   \brief Result type for moving a file to the Trash via DBus.
+ */
+enum DeletionResult {
+    kTrashTimeout,  // default error
+    kTrashInterfaceError,
+    kTrashInvalidUrl,
+    kTrashSuccess,
+};
+
+/*!
    \class FileTrashHelper::FileTrashHelper
    \brief 文件回收站辅助类
    \details 用于判断文件是否可被移动到回收站中，以及移动文件到回收站
@@ -52,10 +62,8 @@ FileTrashHelper::FileTrashHelper(QObject *parent)
     }
 
     qInfo() << "m_dfmDeviceManager: majorVersion:" << DSysInfo::majorVersion()
-               << "dbus service:" << m_dfmDeviceManager.data()->service()
-               << "interface:" << m_dfmDeviceManager.data()->interface()
-               << "object:" << m_dfmDeviceManager.data()->objectName()
-               << "path:" << m_dfmDeviceManager.data()->path();
+            << "dbus service:" << m_dfmDeviceManager.data()->service() << "interface:" << m_dfmDeviceManager.data()->interface()
+            << "object:" << m_dfmDeviceManager.data()->objectName() << "path:" << m_dfmDeviceManager.data()->path();
 }
 
 /*!
@@ -89,19 +97,22 @@ bool FileTrashHelper::fileCanTrash(const QUrl &url)
 bool FileTrashHelper::moveFileToTrash(const QUrl &url)
 {
     // 优先采用文管后端 DBus 服务
-    bool ret = moveFileToTrashWithDBus(url);
+    int ret = moveFileToTrashWithDBus(url);
 
-    if (!ret) {
+    if (kTrashInterfaceError == ret) {
         qInfo() << qPrintable("Move file to trash DBus interface failed! Rollback to v20 version");
-        // 备用 V20 接口
-        ret = Libutils::base::trashFile(url.path());
+        // rollback v20 interface
+        if (Libutils::base::trashFile(url.path())) {
+            return true;
+        }
     }
 
-    if (!ret) {
-        qWarning() << qPrintable("Move file to trash failed:");
+    if (kTrashSuccess != ret) {
+        qWarning() << qPrintable("Move file to trash failed");
+        return false;
     }
 
-    return ret;
+    return true;
 }
 
 /*!
@@ -212,10 +223,10 @@ bool FileTrashHelper::isGvfsFile(const QUrl &url) const
     注意文管接口是异步接口且没有返回值，此处通过文件变更信号判断文件是否被移动。
    \return 移动文件到回收站是否成功
  */
-bool FileTrashHelper::moveFileToTrashWithDBus(const QUrl &url)
+int FileTrashHelper::moveFileToTrashWithDBus(const QUrl &url)
 {
     if (!url.isValid()) {
-        return false;
+        return kTrashInvalidUrl;
     }
 
     QStringList list;
@@ -224,13 +235,10 @@ bool FileTrashHelper::moveFileToTrashWithDBus(const QUrl &url)
     QDBusInterface interface(QStringLiteral("org.freedesktop.FileManager1"),
                              QStringLiteral("/org/freedesktop/FileManager1"),
                              QStringLiteral("org.freedesktop.FileManager1"));
-    // 默认超时时间大约25s, 修改为最大限制
-    interface.setTimeout(INT_MAX);
-    auto pendingCall = interface.asyncCall("Trash", list);
 
     QEventLoop loop;
-    bool waitRet = false;
-    // 等待文件变更
+    int waitRet = kTrashTimeout;
+    // wait file deleted signal
     QString filePath = url.path();
     auto conn = QObject::connect(ImageFileWatcher::instance(),
                                  &ImageFileWatcher::imageFileChanged,
@@ -238,19 +246,27 @@ bool FileTrashHelper::moveFileToTrashWithDBus(const QUrl &url)
                                  [&filePath, &loop, &waitRet](const QString &imagePath) {
                                      // 删除信息未通过 DBus 返回，直接判断文件是否已被删除
                                      if ((imagePath == filePath) && !QFile::exists(filePath)) {
-                                         waitRet = true;
+                                         waitRet = kTrashSuccess;
                                          loop.quit();
                                      };
                                  });
 
-    // 等待最多200ms超时
-    static const int overTime = 200;
-    QTimer::singleShot(overTime, &loop, &QEventLoop::quit);
-    loop.exec();
+    auto pendingCall = interface.asyncCall("Trash", list);
+    // will return soon
+    pendingCall.waitForFinished();
 
     if (pendingCall.isError()) {
         auto error = pendingCall.error();
-        qWarning() << "Delete image by dbus error:" << error.name() << error.message();
+        qWarning() << "Delete image by dbus error(directly):" << error.name() << error.message();
+        QObject::disconnect(conn);
+        return kTrashInterfaceError;
+    }
+
+    if (kTrashSuccess != waitRet) {
+        // FIX-273813 Wait up to 10 seconds
+        static constexpr int kDelTimeout = 1000 * 10;
+        QTimer::singleShot(kDelTimeout, &loop, &QEventLoop::quit);
+        loop.exec();
     }
 
     QObject::disconnect(conn);

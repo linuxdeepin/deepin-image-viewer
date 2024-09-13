@@ -29,7 +29,7 @@ private:
     bool isExternalDevice(const QString &path);
     bool isGvfsFile(const QUrl &url) const;
 
-    bool moveFileToTrashWithDBus(const QUrl &url);
+    int moveFileToTrashWithDBus(const QUrl &url);
 
 private:
     QScopedPointer<QDBusInterface> m_dfmDeviceManager;
