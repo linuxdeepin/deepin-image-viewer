@@ -27,6 +27,8 @@ public:
     explicit FileControl(QObject *parent = nullptr);
     ~FileControl();
 
+    Q_INVOKABLE QString standardPicturesPath() const;
+
     Q_INVOKABLE void resetImageFiles(const QStringList &filePaths = {});       // 重设当前展示图片列表
     Q_INVOKABLE QStringList getDirImagePath(const QString &path);              // 获得路径下的所有图片路径
     Q_INVOKABLE bool isCurrentWatcherDir(const QUrl &path);                    // 判断是否为当前正在监控的文件路径
