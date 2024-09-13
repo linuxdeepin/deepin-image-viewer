@@ -157,4 +157,14 @@ Item {
             }
         }
     }
+
+    // show shortcut panel
+    Shortcut {
+        sequence: "Ctrl+Shift+/"
+
+        onActivated: {
+            var screenPos = mapToGlobal(parent.x, parent.y);
+            IV.FileControl.showShortcutPanel(screenPos.x + parent.Window.width / 2, screenPos.y + parent.Window.height / 2);
+        }
+    }
 }
