@@ -15,7 +15,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"/>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -240,7 +240,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Der Deepin Bildbetrachter ist eine elegante &amp; schnelle Bildverwaltung.</translation>
     </message>
 </context>
 <context>
@@ -285,7 +285,7 @@
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation>Vorheriges</translation>
     </message>
     <message>
         <source>Pause</source>
