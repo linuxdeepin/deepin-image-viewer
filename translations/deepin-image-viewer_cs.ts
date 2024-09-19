@@ -15,7 +15,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"/>
+        <translation>Promítání</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -240,7 +240,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Prohlížeč obrázků je nástroj pro zobrazování obrázků, který má hezké rozhraní a je rychlý.</translation>
     </message>
 </context>
 <context>
@@ -285,7 +285,7 @@
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation>Předchozí</translation>
     </message>
     <message>
         <source>Pause</source>
