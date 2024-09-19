@@ -15,7 +15,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"/>
+        <translation>Diaprojekcija</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -240,7 +240,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Pregledovalnik slik je orodje za prikazovanje slik z modernim vmesnikom in mehkim delovanjem.</translation>
     </message>
 </context>
 <context>
@@ -285,7 +285,7 @@
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation>Prejšnja</translation>
     </message>
     <message>
         <source>Pause</source>
