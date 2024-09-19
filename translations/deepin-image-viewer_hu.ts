@@ -15,7 +15,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"/>
+        <translation>Diavetítés</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -240,7 +240,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>A Képnézegető egy képmegtekintő eszköz divatos felülettel és gördülékeny teljesítménnyel.</translation>
     </message>
 </context>
 <context>
@@ -285,7 +285,7 @@
     <name>SliderShow</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation>Előző</translation>
     </message>
     <message>
         <source>Pause</source>
