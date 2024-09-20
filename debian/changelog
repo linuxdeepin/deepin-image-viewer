@@ -1,3 +1,12 @@
+deepin-image-viewer (6.0.6) unstable; urgency=medium
+
+  * fix: shortcut and log file(Bug: 273543)
+  * fix: error pop-up deletion dialog(Bug: 273813)
+  * fix: move show shortcut panel to mainwindow(Bug: 273543)
+  * feat: [translation]add transifex config(Task: 361363)
+
+ -- renbin <renbin@uniontech.com>  Fri, 20 Sep 2024 13:06:24 +0800
+
 deepin-image-viewer (6.0.5) unstable; urgency=medium
 
   * fix: image switching does not retain settings(Bug: 270339)(Influence: keep-image-status)
