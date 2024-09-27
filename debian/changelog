@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.7) unstable; urgency=medium
+
+  * fix: cannot drag window with title bar(Bug: 269541)
+
+ -- renbin <renbin@uniontech.com>  Fri, 27 Sep 2024 09:32:29 +0800
+
 deepin-image-viewer (6.0.6) unstable; urgency=medium
 
   * fix: shortcut and log file(Bug: 273543)
