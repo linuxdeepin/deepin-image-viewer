@@ -113,7 +113,6 @@ target_link_libraries(
     X11
     Xext
     exif
-    freeimage
     pthread
     imageviewer
     gtest
