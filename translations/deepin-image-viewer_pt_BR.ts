@@ -320,7 +320,7 @@
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Ajustar na janela</translation>
+        <translation>Ajustar à janela</translation>
     </message>
     <message>
         <source>Rotate</source>
