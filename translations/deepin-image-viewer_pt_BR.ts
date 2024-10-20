@@ -218,7 +218,7 @@
     <name>OpenImageWidget</name>
     <message>
         <source>Open Image</source>
-        <translation>Abrir Imagem</translation>
+        <translation>Abrir imagem</translation>
     </message>
 </context>
 <context>
