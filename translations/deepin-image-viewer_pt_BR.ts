@@ -3,7 +3,7 @@
     <name>FileControl</name>
     <message>
         <source>Fullscreen</source>
-        <translation>Tela Cheia</translation>
+        <translation>Tela cheia</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
