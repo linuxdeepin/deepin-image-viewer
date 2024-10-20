@@ -240,7 +240,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>O Imagem é uma ferramenta de visualização de imagens com interface fashion e desempenho suave.</translation>
+        <translation>O Imagem é uma ferramenta de visualização de imagens com uma interface elegante e desempenho suave.</translation>
     </message>
 </context>
 <context>
