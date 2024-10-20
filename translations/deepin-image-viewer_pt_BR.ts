@@ -395,7 +395,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informação da imagem</translation>
+        <translation>Informações da imagem</translation>
     </message>
 </context>
 <context>
