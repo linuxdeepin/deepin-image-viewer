@@ -355,7 +355,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação de Slides</translation>
+        <translation>Apresentar slides</translation>
     </message>
     <message>
         <source>Copy</source>
