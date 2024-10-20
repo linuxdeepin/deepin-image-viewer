@@ -110,7 +110,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Data de captura</translation>
+        <translation>Data da captura</translation>
     </message>
     <message>
         <source>Date modified</source>
