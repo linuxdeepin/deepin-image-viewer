@@ -343,7 +343,7 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Sair da Tela Cheia</translation>
+        <translation>Sair da tela cheia</translation>
     </message>
     <message>
         <source>Print</source>
