@@ -70,7 +70,7 @@ Item {
 
     Connections {
         // 关联外部通过 DBus 等方式触发调用看图
-        function onOpenImageFile() {
+        function onOpenImageFile(fileName) {
             setSourcePath(fileName);
         }
 
