@@ -42,15 +42,19 @@ const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm:ss";
 
 QPixmap renderSVG(const QString &filePath, const QSize &size)
 {
-    /*lmh0724使用USE_UNIONIMAGE*/
-    QImage tImg(size, QImage::Format_ARGB32);
-    QString errMsg;
-    QSize realSize;
-    if (!LibUnionImage_NameSpace::loadStaticImageFromFile(filePath, tImg, errMsg)) {
-        qDebug() << errMsg;
-    }
+    QImageReader reader;
     QPixmap pixmap;
-    pixmap = QPixmap::fromImage(tImg);
+
+    reader.setFileName(filePath);
+
+    if (reader.canRead()) {
+        const qreal ratio = qApp->devicePixelRatio();
+        reader.setScaledSize(size * ratio);
+        pixmap = QPixmap::fromImage(reader.read());
+        pixmap.setDevicePixelRatio(ratio);
+    } else {
+        pixmap.load(filePath);
+    }
 
     return pixmap;
 }

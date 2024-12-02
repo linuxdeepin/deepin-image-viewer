@@ -19,7 +19,6 @@ Build-Depends:
 # Deepin
  libdeepin-ocr-plugin-manager-dev,
 # 3rd party
- libfreeimage-dev,
  libraw-dev,
  libexif-dev,
 Standards-Version: 3.9.8

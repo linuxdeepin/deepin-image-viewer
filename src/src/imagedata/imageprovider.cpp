@@ -33,7 +33,7 @@ static void parseProviderID(const QString &id, QString &filePath, int &frameInde
 }
 
 /**
-   @return 使用 FreeImage 库读取 \a imagePath 的图像数据并返回
+   @return 读取 \a imagePath 的图像数据并返回
  */
 static QImage readNormalImage(const QString &imagePath)
 {

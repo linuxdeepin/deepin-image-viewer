@@ -32,21 +32,40 @@ const QImage scaleImage(const QString &path, const QSize &size)
     if (!imageSupportRead(path)) {
         return QImage();
     }
-    /*lmh0724使用USE_UNIONIMAGE*/
+    QImageReader reader(path);
+    reader.setAutoTransform(true);
+    if (! reader.canRead()) {
+        qDebug() << "Can't read image: " << path;
+        return QImage();
+    }
 
-    QImage tImg(size, QImage::Format_ARGB32);
-    QString errMsg;
-    QSize realSize;
-//    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg)) {
-//        qDebug() << errMsg;
-//    }
-    if (!LibUnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-        qDebug() << errMsg;
+    QSize tSize = reader.size();
+    if (! tSize.isValid()) {
+        QStringList rl = getAllMetaData(path).value("Dimension").split("x");
+        if (rl.length() == 2) {
+            tSize = QSize(QString(rl.first()).toInt(),
+                          QString(rl.last()).toInt());
+        }
     }
-    if (tImg.size() != size) { //调用加速接口失败，主动进行缩放
-        tImg = tImg.scaled(size);
-    }
-    return tImg;
+    tSize.scale(size, Qt::KeepAspectRatio);
+    reader.setScaledSize(tSize);
+    QImage tImg = reader.read();
+    // Some format does not support scaling
+    if (tImg.width() > size.width() || tImg.height() > size.height()) {
+        if (tImg.isNull()) {
+            return QImage();
+        } else {
+            // Save as supported format and scale it again
+            const QString tmp = QDir::tempPath() + "/scale_tmp_image.png";
+            QFile::remove(tmp);
+            if (tImg.save(tmp, "png", 50)) {
+                return scaleImage(tmp, size);
+            } else {
+                return QImage();
+            }
+        }
+    } else
+        return tImg;
 }
 
 const QDateTime getCreateDateTime(const QString &path)
@@ -82,17 +101,16 @@ const QDateTime getCreateDateTime(const QString &path)
 
 bool imageSupportRead(const QString &path)
 {
-    /*lmh0724使用USE_UNIONIMAGE*/
-    //修正论坛上提出的格式判断错误，应该采用真实格式
-    //20210220真实格式来做判断
-    QMap<QString, QString> dataMap = getAllMetaData(path);
-    const QString suffix = dataMap.value("FileFormat");
+    const QString suffix = QFileInfo(path).suffix();
+    if (suffix == "icns") return true;
+    // take them here for good.
     QStringList errorList;
     errorList << "X3F";
+
     if (errorList.indexOf(suffix.toUpper()) != -1) {
         return false;
     }
-    return LibUnionImage_NameSpace::unionImageSupportFormat().contains(suffix.toUpper());
+    return true;
 }
 
 bool imageSupportSave(const QString &path)
@@ -100,16 +118,6 @@ bool imageSupportSave(const QString &path)
     /*lmh0724使用USE_UNIONIMAGE*/
     return LibUnionImage_NameSpace::canSave(path);
 }
-
-//bool imageSupportWrite(const QString &path)
-//{
-//        /*lmh0724使用USE_UNIONIMAGE*/
-//#ifdef USE_UNIONIMAGE
-//    return UnionImage_NameSpace::canSave(path);
-//#else
-//    return freeimage::isSupportsWriting(path);
-//#endif
-//}
 
 bool rotate(const QString &path, int degree)
 {
@@ -218,22 +226,82 @@ int getOrientation(const QString &path)
  */
 const QImage getRotatedImage(const QString &path)
 {
-
-
     QImage tImg;
-    /*lmh0724使用USE_UNIONIMAGE*/
-    QString errMsg;
-    QSize realSize;
-    if (!LibUnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-        qDebug() << errMsg;
+    QString format = LibUnionImage_NameSpace::detectImageFormat(path);
+    if (format.isEmpty()) {
+        QImageReader reader(path);
+        reader.setAutoTransform(true);
+        if (reader.canRead()) {
+            tImg = reader.read();
+        }
+    } else {
+        QImageReader readerF(path, format.toLatin1());
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            tImg = readerF.read();
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString()
+            << format;
+
+            tImg = QImage(path);
+        }
     }
     return tImg;
 }
 
+QString size2HumanT(const qlonglong bytes)
+{
+    qlonglong kb = 1024;
+    if (bytes < kb) {
+        return QString::number(bytes) + " B";
+    } else if (bytes < kb * kb) {
+        QString vs = QString::number(static_cast<double>(bytes) / kb, 'f', 1);
+        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            return QString::number(static_cast<int>(vs.toDouble())) + " KB";
+        } else {
+            return vs + " KB";
+        }
+    } else if (bytes < kb * kb * kb) {
+        QString vs = QString::number(static_cast<double>(bytes) / kb / kb, 'f', 1);
+        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            return QString::number(static_cast<int>(vs.toDouble())) + " MB";
+        } else {
+            return vs + " MB";
+        }
+    } else {
+        //修改了当超过一个G的图片,应该用G返回,不应该返回一堆数字,bug68094
+        QString vs = QString::number(static_cast<double>(bytes) / kb / kb / kb, 'f', 1);
+        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            return QString::number(static_cast<int>(vs.toDouble())) + " GB";
+        } else {
+            return vs + " GB";
+        }
+    }
+}
+
 const QMap<QString, QString> getAllMetaData(const QString &path)
 {
-    /*lmh0724使用USE_UNIONIMAGE*/
-    return LibUnionImage_NameSpace::getAllMetaData(path);
+    QMap<QString, QString> admMap;
+    //移除秒　　2020/6/5 DJH
+    //需要转义才能读出：或者/　　2020/8/21 DJH
+    QFileInfo info(path);
+    if (admMap.contains("DateTime")) {
+        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
+        admMap["DateTimeOriginal"] = time.toString("yyyy/MM/dd hh:mm");
+    } else {
+        admMap.insert("DateTimeOriginal", info.lastModified().toString("yyyy/MM/dd HH:mm"));
+    }
+    admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
+    //    // The value of width and height might incorrect
+    QImageReader reader(path);
+    int w = reader.size().width();
+    int h = reader.size().height();
+    admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
+    admMap.insert("FileName", info.fileName());
+    //应该使用qfileinfo的格式
+    admMap.insert("FileFormat", info.suffix());
+    admMap.insert("FileSize", size2HumanT(info.size()));
+    return admMap;
 }
 
 const QPixmap cachePixmap(const QString &path)
@@ -458,9 +526,6 @@ QStringList supportedImageFormats()
     return list;
 
 }
-
-
-
 
 bool imageSupportWallPaper(const QString &path)
 {
