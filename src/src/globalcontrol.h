@@ -69,6 +69,7 @@ public:
     Q_INVOKABLE bool nextImage();
     Q_INVOKABLE bool firstImage();
     Q_INVOKABLE bool lastImage();
+    Q_INVOKABLE void forceExit();
 
     // 图像文件变更操作
     Q_SLOT void setImageFiles(const QStringList &imageFiles, const QString &openFile);

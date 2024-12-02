@@ -41,6 +41,7 @@ ApplicationWindow {
     onClosing: {
         IV.FileControl.saveSetting(); //保存信息
         IV.FileControl.terminateShortcutPanelProcess(); //结束快捷键面板进程
+        IV.GControl.forceExit();
     }
     onHeightChanged: {
         if (window.visibility != Window.FullScreen && window.visibility != Window.Maximized) {
