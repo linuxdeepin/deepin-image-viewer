@@ -200,38 +200,6 @@ UNIONIMAGESHARED_EXPORT imageViewerSpace::ImageType getImageType(const QString &
  * 获得路径类型
  */
 UNIONIMAGESHARED_EXPORT imageViewerSpace::PathType getPathType(const QString &imagepath);
-
-QT_BEGIN_NAMESPACE
-
-class UnionMovieImagePrivate;
-/**
- * @brief The UnionDynamicImage class
- * @author DJH
- * 用来读取动态图片,使用下标来获取动图的每一帧
- */
-class UNIONIMAGESHARED_EXPORT UnionMovieImage
-{
-public:
-    explicit UnionMovieImage();
-    ~UnionMovieImage();
-
-    void setFileName(const QString &path);
-
-    /**
-     * @brief next
-     * @return QImage
-     * 返回下一帧，该函数可以循环调用
-     */
-    QImage next();
-
-private:
-    UnionMovieImagePrivate *const d_ptr;
-    Q_DECLARE_PRIVATE(UnionMovieImage)
-    Q_DISABLE_COPY(UnionMovieImage)
-};
-
-QT_END_NAMESPACE
-
 };
 
 

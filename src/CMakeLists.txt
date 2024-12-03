@@ -74,7 +74,6 @@ target_link_libraries(${BIN_NAME}
     Dtk${DTK_VERSION_MAJOR}::Declarative
     GL
     pthread
-    freeimage
     ${OCR_PLUGIN_LIBRARIES}
 )
 
