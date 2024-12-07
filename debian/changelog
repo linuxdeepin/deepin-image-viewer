@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.8) unstable; urgency=medium
+
+  * remove freeimage.
+
+ -- xiepengfei <xiepengfei@uniontech.com>  Sat, 07 Dec 2024 13:49:22 +0800
+
 deepin-image-viewer (6.0.7) unstable; urgency=medium
 
   * fix: cannot drag window with title bar(Bug: 269541)
