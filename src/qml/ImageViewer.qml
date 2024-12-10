@@ -682,6 +682,12 @@ Item {
             IV.GStatus.showImageInfo = true;
         }
 
+        function close() {
+            if (IV.GStatus.showImageInfo && Loader.Ready === status) {
+                infomationDig.item.close()
+            }
+        }
+
         active: IV.GStatus.showImageInfo
         asynchronous: true
 
