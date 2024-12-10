@@ -288,7 +288,11 @@ Menu {
             sequence: "Ctrl+I"
 
             onActivated: {
-                infomationDig.show();
+                if (IV.GStatus.showImageInfo) {
+                    infomationDig.close()
+                } else {
+                    infomationDig.show()
+                }
             }
         }
     }
