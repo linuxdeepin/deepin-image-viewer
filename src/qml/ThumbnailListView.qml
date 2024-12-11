@@ -130,7 +130,10 @@ Control {
     Row {
         id: switchArrowLayout
 
+        visible: IV.GControl.imageCount > 1
+        width: visible ? implicitWidth : 0
         leftPadding: 10
+        rightPadding: 20
         spacing: 10
 
         anchors {
@@ -190,7 +193,7 @@ Control {
     Row {
         id: leftRowLayout
 
-        leftPadding: 40
+        leftPadding: 10
         rightPadding: 20
         spacing: 10
 
