@@ -73,8 +73,8 @@ Rectangle {
     }
 
     Image {
+        // Note: we need to use default fillMode, to support diff devicePixelRatio (>1.0)
         anchors.fill: parent
-        fillMode: Image.Tile
         source: "image://liveTextAnalyzer/" + Math.random() + "_" + index
     }
 
