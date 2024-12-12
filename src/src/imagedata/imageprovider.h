@@ -20,6 +20,7 @@ public:
 
     void rotateImageCached(int angle, const QString &imagePath, int frameIndex = 0);
     void removeImageCache(const QString &imagePath);
+    void renameImageCache(const QString &oldPath, const QString &newPath);
     void clearCache();
 
     virtual void preloadImage(const QString &filePath);

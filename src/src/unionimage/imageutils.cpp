@@ -123,7 +123,7 @@ bool rotate(const QString &path, int degree)
 {
     /*lmh0724使用USE_UNIONIMAGE*/
     QString erroMsg;
-    return LibUnionImage_NameSpace::rotateImageFIle(degree, path, erroMsg);
+    return LibUnionImage_NameSpace::rotateImageFile(degree, path, erroMsg);
 }
 
 /*!

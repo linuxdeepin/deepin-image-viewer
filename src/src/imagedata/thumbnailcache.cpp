@@ -42,11 +42,23 @@ QImage ThumbnailCache::get(const QString &path, int frameIndex)
     }
 }
 
+QImage ThumbnailCache::take(const QString &path, int frameIndex)
+{
+    QMutexLocker _locker(&mutex);
+    QImage *image = cache.take(toFindKey(path, frameIndex));
+    if (image) {
+        return *image;
+    } else {
+        return QImage();
+    }
+}
+
 /**
    @brief 添加文件路径为 \a path 和图片帧索引为 \a frameIndex 的缩略图
  */
 void ThumbnailCache::add(const QString &path, int frameIndex, const QImage &image)
 {
+    // TODO: not need reallocate
     QMutexLocker _locker(&mutex);
     cache.insert(toFindKey(path, frameIndex), new QImage(image));
 }
@@ -83,6 +95,7 @@ void ThumbnailCache::clear()
  */
 QList<ThumbnailCache::Key> ThumbnailCache::keys()
 {
+    QMutexLocker _locker(&mutex);
     return cache.keys();
 }
 

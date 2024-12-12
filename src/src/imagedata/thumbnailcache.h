@@ -21,6 +21,7 @@ public:
 
     bool contains(const QString &path, int frameIndex = 0);
     QImage get(const QString &path, int frameIndex = 0);
+    QImage take(const QString &path, int frameIndex = 0);
     void add(const QString &path, int frameIndex, const QImage &image);
     void remove(const QString &path, int frameIndex);
     void setMaxCost(int maxCost);

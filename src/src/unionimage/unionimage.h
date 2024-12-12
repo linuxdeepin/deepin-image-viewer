@@ -123,7 +123,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImage(int angel, QImage &image);
  * 当不需要获取旋转图片的结果或者只有文件地址时调用该函数
  * 失败时会将错误信息写入erroMsg
  */
-UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QString &erroMsg, const QString &targetPath = {});
+UNIONIMAGESHARED_EXPORT bool rotateImageFile(int angel, const QString &path, QString &erroMsg, const QString &targetPath = {});
 
 /**
  * @brief rotateImageFIle

@@ -354,6 +354,7 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
         submitImageChangeImmediately();
 
         sourceModel->setData(sourceModel->index(index), newName, Types::ImageUrlRole);
+        viewSourceModel->setData(viewSourceModel->index(viewSourceModel->currentIndex()), newName, Types::ImageUrlRole);
 
         if (oldName == currentImage.source()) {
             // 强制刷新，避免出现重命名为已缓存的删除图片

@@ -29,7 +29,7 @@ public:
         other->size = this->size;
         other->frameIndex = this->frameIndex;
         other->frameCount = this->frameCount;
-        
+
         other->scale = this->scale;
         other->x = this->x;
         other->y = this->y;
@@ -84,7 +84,7 @@ public:
     Q_SIGNAL void imageSizeChanged(const QString &path, int frameIndex);
 
 private:
-    bool aboutToQuit { false };
+    bool aboutToQuit{false};
     QHash<KeyType, ImageInfoData::Ptr> cache;
     QSet<KeyType> waitSet;
     QScopedPointer<QThreadPool> localPoolPtr;
@@ -229,7 +229,7 @@ ImageInfoCache::ImageInfoCache()
     });
 }
 
-ImageInfoCache::~ImageInfoCache() { }
+ImageInfoCache::~ImageInfoCache() {}
 
 /**
    @return 返回缓存中文件路径为 \a path 和帧索引为 \a frameIndex 的缓存数据
@@ -282,10 +282,10 @@ void ImageInfoCache::loadFinished(const QString &path, int frameIndex, ImageInfo
 
     ThumbnailCache::Key key = ThumbnailCache::toFindKey(path, frameIndex);
 
-    waitSet.remove(key);
-    if (data) {
+    if (data && waitSet.contains(key)) {
         cache.insert(key, data);
     }
+    waitSet.remove(key);
 
     Q_EMIT imageDataChanged(path, frameIndex);
 }
@@ -337,7 +337,7 @@ ImageInfo::ImageInfo(const QUrl &source, QObject *parent)
     setSource(source);
 }
 
-ImageInfo::~ImageInfo() { }
+ImageInfo::~ImageInfo() {}
 
 ImageInfo::Status ImageInfo::status() const
 {
