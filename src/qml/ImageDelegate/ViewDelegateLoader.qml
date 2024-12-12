@@ -9,17 +9,18 @@ Loader {
     id: pathViewItemLoader
 
     property alias frameCount: imageInfo.frameCount
-    property int frameIndex: model.frameIndex
-    property url imageSource: model.imageUrl
-    readonly property int index: model.index
+    // model.frameIndex
+    required property int frameIndex
+    // model.imageUrl
+    required property url imageUrl
 
     function updateLoaderSource() {
         if (active && imageInfo.delegateSource) {
             setSource(imageInfo.delegateSource, {
-                    "source": pathViewItemLoader.imageSource,
-                    "type": imageInfo.type,
-                    "frameIndex": pathViewItemLoader.frameIndex
-                });
+                "source": pathViewItemLoader.imageUrl,
+                "type": imageInfo.type,
+                "frameIndex": pathViewItemLoader.frameIndex
+            });
         }
     }
 
@@ -45,7 +46,7 @@ Loader {
     Binding {
         property: "source"
         target: pathViewItemLoader.item
-        value: pathViewItemLoader.imageSource
+        value: pathViewItemLoader.imageUrl
         when: Loader.Ready === pathViewItemLoader.status
     }
 
@@ -72,7 +73,6 @@ Loader {
 
         function checkDelegateSource() {
             if (IV.ImageInfo.Ready !== status && IV.ImageInfo.Error !== status) {
-                delegateSource = "";
                 return;
             }
             if (!imageInfo.exists) {
@@ -104,7 +104,7 @@ Loader {
         // WARNING: 由于 Delegate 组件宽度关联的 view.width ，PathView 会计算 Delegate 大小
         // Loader 在构造时直接设置图片链接会导致数据提前加载，破坏了延迟加载策略
         // 调整机制，不在激活状态的图片信息置为空，在需要加载时设置图片链接
-        source: pathViewItemLoader.active ? pathViewItemLoader.imageSource : ""
+        source: pathViewItemLoader.active ? pathViewItemLoader.imageUrl : ""
 
         onDelegateSourceChanged: {
             updateLoaderSource();

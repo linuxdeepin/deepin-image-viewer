@@ -61,12 +61,49 @@ QVariant PathViewProxyModel::data(const QModelIndex &index, int role) const
     return {};
 }
 
-bool PathViewProxyModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool PathViewProxyModel::setData(const QModelIndex &idx, const QVariant &value, int role)
 {
-    // Do nothing
-    Q_UNUSED(index)
-    Q_UNUSED(value)
-    Q_UNUSED(role)
+    if (!checkIndex(idx, CheckIndexOption::ParentIsInvalid | CheckIndexOption::IndexIsValid)) {
+        return false;
+    }
+
+    auto infoPtr = indexQueue[idx.row()];
+    switch (role) {
+    case Types::ImageUrlRole:
+        if (infoPtr) {
+            QUrl oldUrl = infoPtr->url;
+            QUrl newUrl = value.toUrl();
+
+            infoPtr->url = newUrl;
+            Q_EMIT dataChanged(idx, idx);
+
+            // update previous and next
+            for (int previous = idx.row() - 1; previous >= 0; --previous) {
+                if (auto preInfo = indexQueue[previous]) {
+                    if (preInfo->url == oldUrl) {
+                        preInfo->url = newUrl;
+                        QModelIndex notifyIdx = index(previous, idx.column());
+                        Q_EMIT dataChanged(notifyIdx, notifyIdx);
+                    }
+                }
+            }
+
+            for (int next = idx.row() + 1; next < indexQueue.size(); ++next) {
+                if (auto nextInfo = indexQueue[next]) {
+                    if (nextInfo->url == oldUrl) {
+                        nextInfo->url = newUrl;
+                        QModelIndex notifyIdx = index(next, idx.column());
+                        Q_EMIT dataChanged(notifyIdx, notifyIdx);
+                    }
+                }
+            }
+
+        }
+        return true;
+    default:
+        break;
+    }
+
     return false;
 }
 

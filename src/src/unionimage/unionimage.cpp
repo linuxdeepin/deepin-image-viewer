@@ -229,7 +229,6 @@ UNIONIMAGESHARED_EXPORT QString unionImageVersion()
     return ver;
 }
 
-QString PrivateDetectImageFormat(const QString &filepath);
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
     QFileInfo file_info(path);
@@ -258,7 +257,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
             res_qt = reader.read();
             if (res_qt.isNull()) {
                 //try old loading method
-                QString format = PrivateDetectImageFormat(path);
+                QString format = detectImageFormat(path);
                 QImageReader readerF(path, format.toLatin1());
                 QImage try_res;
                 readerF.setAutoTransform(true);
@@ -300,57 +299,57 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
 
     // Check bmp file.
     if (data.startsWith("BM")) {
-        return "bmp";
+        return "BMP";
     }
 
     // Check dds file.
     if (data.startsWith("DDS")) {
-        return "dds";
+        return "DDS";
     }
 
     // Check gif file.
     if (data.startsWith("GIF8")) {
-        return "gif";
+        return "GIF";
     }
 
     // Check Max OS icons file.
     if (data.startsWith("icns")) {
-        return "icns";
+        return "ICNS";
     }
 
     // Check jpeg file.
     if (data.startsWith("\xff\xd8")) {
-        return "jpg";
+        return "JPG";
     }
 
     // Check mng file.
     if (data.startsWith("\x8a\x4d\x4e\x47\x0d\x0a\x1a\x0a")) {
-        return "mng";
+        return "MNG";
     }
 
     // Check net pbm file (BitMap).
     if (data.startsWith("P1") || data.startsWith("P4")) {
-        return "pbm";
+        return "PBM";
     }
 
     // Check pgm file (GrayMap).
     if (data.startsWith("P2") || data.startsWith("P5")) {
-        return "pgm";
+        return "PGM";
     }
 
     // Check ppm file (PixMap).
     if (data.startsWith("P3") || data.startsWith("P6")) {
-        return "ppm";
+        return "PPM";
     }
 
     // Check png file.
     if (data.startsWith("\x89PNG\x0d\x0a\x1a\x0a")) {
-        return "png";
+        return "PNG";
     }
 
     // Check svg file.
     if (data.indexOf("<svg") > -1) {
-        return "svg";
+        return "SVG";
     }
 
     // TODO(xushaohua): tga file is not supported yet.
@@ -358,28 +357,28 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
     // Check tiff file.
     if (data.startsWith("MM\x00\x2a") || data.startsWith("II\x2a\x00")) {
         // big-endian, little-endian.
-        return "tiff";
+        return "TIFF";
     }
 
     // TODO(xushaohua): Support wbmp file.
 
     // Check webp file.
     if (data.startsWith("RIFFr\x00\x00\x00WEBPVP")) {
-        return "webp";
+        return "WEBP";
     }
 
     // Check xbm file.
     if (data.indexOf("#define max_width ") > -1 && data.indexOf("#define max_height ") > -1) {
-        return "xbm";
+        return "XBM";
     }
 
     // Check xpm file.
     if (data.startsWith("/* XPM */")) {
-        return "xpm";
+        return "XPM";
     }
 
-
-    return "";
+    QFileInfo info(path);
+    return info.suffix().toUpper();
 }
 
 UNIONIMAGESHARED_EXPORT bool isNoneQImage(const QImage &qi)
@@ -446,7 +445,7 @@ QImage adjustImageToRealPosition(const QImage &image, int orientation)
     return result;
 }
 
-UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QString &erroMsg, const QString &targetPath)
+UNIONIMAGESHARED_EXPORT bool rotateImageFile(int angel, const QString &path, QString &erroMsg, const QString &targetPath)
 {
     if (angel % 90 != 0) {
         erroMsg = "unsupported angel";
@@ -497,14 +496,18 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
             QTransform rotatematrix;
             rotatematrix.rotate(angel);
             image_copy = image_copy.transformed(rotatematrix, Qt::SmoothTransformation);
-            if (image_copy.save(savePath, format.toLatin1().data(), SAVE_QUAITY_VALUE))
+            if (image_copy.save(savePath, format.toLatin1().data(), SAVE_QUAITY_VALUE)) {
                 return true;
-            else
+            } else {
+                erroMsg = "save image failed";
                 return false;
+            }
         }
         erroMsg = "rotate by qt failed";
         return false;
     }
+
+    erroMsg = "not support rotate image format: " + format;
     return false;
 }
 
@@ -672,98 +675,6 @@ imageViewerSpace::PathType getPathType(const QString &imagepath)
     }
     //todo
     return type;
-}
-
-QString PrivateDetectImageFormat(const QString &filepath)
-{
-    QFile file(filepath);
-    if (!file.open(QIODevice::ReadOnly)) {
-        return "";
-    }
-
-    const QByteArray data = file.read(1024);
-
-    // Check bmp file.
-    if (data.startsWith("BM")) {
-        return "bmp";
-    }
-
-    // Check dds file.
-    if (data.startsWith("DDS")) {
-        return "dds";
-    }
-
-    // Check gif file.
-    if (data.startsWith("GIF8")) {
-        return "gif";
-    }
-
-    // Check Max OS icons file.
-    if (data.startsWith("icns")) {
-        return "icns";
-    }
-
-    // Check jpeg file.
-    if (data.startsWith("\xff\xd8")) {
-        return "jpg";
-    }
-
-    // Check mng file.
-    if (data.startsWith("\x8a\x4d\x4e\x47\x0d\x0a\x1a\x0a")) {
-        return "mng";
-    }
-
-    // Check net pbm file (BitMap).
-    if (data.startsWith("P1") || data.startsWith("P4")) {
-        return "pbm";
-    }
-
-    // Check pgm file (GrayMap).
-    if (data.startsWith("P2") || data.startsWith("P5")) {
-        return "pgm";
-    }
-
-    // Check ppm file (PixMap).
-    if (data.startsWith("P3") || data.startsWith("P6")) {
-        return "ppm";
-    }
-
-    // Check png file.
-    if (data.startsWith("\x89PNG\x0d\x0a\x1a\x0a")) {
-        return "png";
-    }
-
-    // Check svg file.
-    if (data.indexOf("<svg") > -1) {
-        return "svg";
-    }
-
-    // TODO(xushaohua): tga file is not supported yet.
-
-    // Check tiff file.
-    if (data.startsWith("MM\x00\x2a") || data.startsWith("II\x2a\x00")) {
-        // big-endian, little-endian.
-        return "tiff";
-    }
-
-    // TODO(xushaohua): Support wbmp file.
-
-    // Check webp file.
-    if (data.startsWith("RIFFr\x00\x00\x00WEBPVP")) {
-        return "webp";
-    }
-
-    // Check xbm file.
-    if (data.indexOf("#define max_width ") > -1 &&
-            data.indexOf("#define max_height ") > -1) {
-        return "xbm";
-    }
-
-    // Check xpm file.
-    if (data.startsWith("/* XPM */")) {
-        return "xpm";
-    }
-    return "";
 }
 
 };

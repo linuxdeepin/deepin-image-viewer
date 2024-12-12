@@ -120,7 +120,10 @@ int main(int argc, char *argv[])
     status.setEnableNavigation(fileControl.isEnableNavigation());
     QObject::connect(
         &status, &GlobalStatus::enableNavigationChanged, [&]() { fileControl.setEnableNavigation(status.enableNavigation()); });
-    QObject::connect(&fileControl, &FileControl::imageRenamed, &control, &GlobalControl::renameImage);
+    QObject::connect(&fileControl, &FileControl::imageRenamed, &control, [&](const QUrl &oldName, const QUrl &newName){
+        providerCache->renameImageCache(oldName.toLocalFile(), newName.toLocalFile());
+        control.renameImage(oldName, newName);
+    });
     // 文件变更时清理缓存
     QObject::connect(&fileControl, &FileControl::imageFileChanged, [&](const QString &fileName) {
         providerCache->removeImageCache(fileName);

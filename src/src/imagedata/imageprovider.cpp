@@ -87,7 +87,7 @@ AsyncImageResponse::AsyncImageResponse(AsyncImageProvider *p, const QString &i, 
     setAutoDelete(false);
 }
 
-AsyncImageResponse::~AsyncImageResponse() { }
+AsyncImageResponse::~AsyncImageResponse() {}
 
 QQuickTextureFactory *AsyncImageResponse::textureFactory() const
 {
@@ -106,6 +106,7 @@ void AsyncImageResponse::run()
 
     // 判断缓存中是否存在图片
     image = provider->imageCache.get(tempPath, frameIndex);
+
     if (image.isNull()) {
         if (frameIndex) {
             image = readMultiImage(tempPath, frameIndex);
@@ -129,9 +130,9 @@ void AsyncImageResponse::run()
    @class ProviderCache
    @brief 图像加载器缓存，存储最近的图像数据并处理旋转等操作
  */
-ProviderCache::ProviderCache() { }
+ProviderCache::ProviderCache() {}
 
-ProviderCache::~ProviderCache() { }
+ProviderCache::~ProviderCache() {}
 
 /**
    @brief 对缓存的 \a imagePath 图片执行旋转 \a angle 的操作。
@@ -180,16 +181,22 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
 void ProviderCache::removeImageCache(const QString &imagePath)
 {
     // 直接缓存的图像信息较少，遍历查询是否包含对应的图片
-    QList<ThumbnailCache::Key> keys;
-    QMutexLocker _locker(&mutex);
-    keys = imageCache.keys();
-    _locker.unlock();
-
+    QList<ThumbnailCache::Key> keys = imageCache.keys();
     for (const ThumbnailCache::Key &key : keys) {
         if (key.first == imagePath) {
-            _locker.relock();
             imageCache.remove(key.first, key.second);
-            _locker.unlock();
+        }
+    }
+}
+
+void ProviderCache::renameImageCache(const QString &oldPath, const QString &newPath)
+{
+    // 直接缓存的图像信息较少，遍历查询是否包含对应的图片
+    QList<ThumbnailCache::Key> keys = imageCache.keys();
+    for (const ThumbnailCache::Key &key : keys) {
+        if (key.first == oldPath) {
+            QImage image = imageCache.take(key.first, key.second);
+            imageCache.add(newPath, key.second, image);
         }
     }
 }
@@ -224,7 +231,7 @@ AsyncImageProvider::AsyncImageProvider()
     imageCache.setMaxCost(4);
 }
 
-AsyncImageProvider::~AsyncImageProvider() { }
+AsyncImageProvider::~AsyncImageProvider() {}
 
 /**
    @brief 请求图像加载并返回应答，当图像加载成功时，通过接收信号进行实际图像的加载
@@ -259,7 +266,7 @@ ImageProvider::ImageProvider()
 {
 }
 
-ImageProvider::~ImageProvider() { }
+ImageProvider::~ImageProvider() {}
 
 /**
    @brief 外部请求图像文件中指定帧的图像，指定帧号通过传入的 \a id 进行区分。
@@ -316,7 +323,7 @@ ThumbnailProvider::ThumbnailProvider()
 {
 }
 
-ThumbnailProvider::~ThumbnailProvider() { }
+ThumbnailProvider::~ThumbnailProvider() {}
 
 /**
    @brief 外部请求图像文件中指定帧的图像，指定帧号通过传入的 \a id 进行区分。

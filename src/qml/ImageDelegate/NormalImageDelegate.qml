@@ -12,6 +12,9 @@ BaseImageDelegate {
     property bool rotationRunning: false
 
     function resetSource() {
+        // check if source rename
+        updateSource()
+
         // 加载完成，触发动画效果
         var temp = image.source;
         image.source = "";
@@ -48,6 +51,8 @@ BaseImageDelegate {
         smooth: true
         source: "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex
         width: delegate.width
+        // TODO: wait for Qt6.8 avoid flickering when image source change
+        // retainWhileLoading: true
 
         onStatusChanged: {
             if (Image.Ready === image.status && !rotationRunning) {

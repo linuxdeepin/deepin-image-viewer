@@ -25,8 +25,8 @@ Item {
     // 图片绘制后是否初始化，Qt6后 Image.Ready 时 PaintedWidth 没有更新，以此标志判断是否执行初始化
     property bool inited: false
     property ImageInputHandler inputHandler: null
-    // PathView下不再提供 index === IV.GControl.currentIndex
-    property bool isCurrentImage: parent.PathView.view.currentIndex === model.index
+    // PathView not provides index === IV.GControl.currentIndex, use ViewDelegateLoader.enabled
+    property bool isCurrentImage: parent.enabled
     // 坐标偏移，用于动画效果时调整显示位置
     property real offset: 0
     // 图片绘制区域到边框的位置
@@ -38,10 +38,10 @@ Item {
     property int type: IV.Types.NullImage
 
     function reset() {
-        if (targetImage.paintedWidth > 0) {
-            resetCache();
-        }
         if (targetImage) {
+            if (targetImage.paintedWidth > 0) {
+                resetCache();
+            }
             targetImage.rotation = 0;
         }
 

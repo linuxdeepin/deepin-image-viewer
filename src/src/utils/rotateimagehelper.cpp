@@ -121,15 +121,17 @@ bool RotateImageHelper::rotateImageImpl(const QString &cachePath, const QString 
 {
     // 拷贝文件到目录
     if (!QFile::exists(cachePath)) {
-        if (!QFile::copy(path, cachePath))
+        if (!QFile::copy(path, cachePath)) {
+            qWarning() << "Copy rotate file to cache failed!";
             return false;
+        }
     }
 
     // 操作前标记动作
     Q_EMIT RotateImageHelper::instance()->recordRotateImage(path);
 
     QString errorMsg;
-    bool ret = LibUnionImage_NameSpace::rotateImageFIle(angle, cachePath, errorMsg, path);
+    bool ret = LibUnionImage_NameSpace::rotateImageFile(angle, cachePath, errorMsg, path);
 
     // NOTE：处理结束，过滤旋转操作文件更新，旋转图像已在软件中缓存且旋转状态同步，不再从文件中更新读取
     // 保存文件后发送图片更新更新信号，通过监控文件变更触发。文件更新可能滞后，延时一定时间处理

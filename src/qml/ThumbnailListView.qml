@@ -350,6 +350,13 @@ Control {
                 }
             }
 
+            Binding {
+                property: "source"
+                target: thumbnailItemLoader.item
+                value: thumbnailItemLoader.imageSource
+                when: Loader.Ready === thumbnailItemLoader.status
+            }
+
             IV.ImageInfo {
                 id: imageInfo
 
