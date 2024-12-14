@@ -1,3 +1,11 @@
+deepin-image-viewer (6.0.9) unstable; urgency=medium
+
+  * fix: can not rotate after rename.
+  * fix: hide btn when only single image.
+  * fix: shortcut hide information dialog.
+
+ -- xiepengfei <xiepengfei@uniontech.com>  Sat, 14 Dec 2024 10:57:46 +0800
+
 deepin-image-viewer (6.0.8) unstable; urgency=medium
 
   * remove freeimage.
