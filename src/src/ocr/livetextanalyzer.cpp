@@ -5,6 +5,8 @@
 #include "livetextanalyzer.h"
 
 #include <QVariant>
+#include <QApplication>
+#include <QScreen>
 
 #include <deepin-ocr-plugin-manager/deepinocrplugindef.h>
 #include <deepin-ocr-plugin-manager/deepinocrplugin.h>
@@ -20,23 +22,37 @@ LiveTextAnalyzer::LiveTextAnalyzer(QObject *parent)
 
     // 退出时终止文本识别
     connect(qApp, &QCoreApplication::aboutToQuit, this, &LiveTextAnalyzer::breakAnalyze);
+
+    if (QScreen *screen = qApp->primaryScreen()) {
+        pixelRatio = screen->devicePixelRatio();
+    }
 }
 
 void LiveTextAnalyzer::setImage(const QImage &image)
 {
     imageCache = image;
+
     QImage image_copy = image.convertToFormat(QImage::Format_RGB888);
-    ocrDriver->setMatrix(image_copy.height(), image_copy.width(), image_copy.bits(),
-                         static_cast<size_t>(image_copy.bytesPerLine()), DeepinOCRPlugin::PixelType::Pixel_RGB);
+    // If the device pixel ratio is > 1, we need to reset the width and height to get the actual position.
+    if (pixelRatio > 1) {
+        image_copy = image_copy.scaled(
+            image.width() / pixelRatio, image.height() / pixelRatio, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    }
+
+    ocrDriver->setMatrix(image_copy.height(),
+                         image_copy.width(),
+                         image_copy.bits(),
+                         static_cast<size_t>(image_copy.bytesPerLine()),
+                         DeepinOCRPlugin::PixelType::Pixel_RGB);
 }
 
 void LiveTextAnalyzer::analyze(const QString &token)
 {
-    //此处使用token来标记本次识别的目标，后续的识别结果也随token发出
-    //外部调用的时候也凭借收到的token判断是否采用此次的识别结果
-    //以此来解决QML的信号延迟问题，但仅降低此问题的复现概率，没有完全解决
+    // 此处使用token来标记本次识别的目标，后续的识别结果也随token发出
+    // 外部调用的时候也凭借收到的token判断是否采用此次的识别结果
+    // 以此来解决QML的信号延迟问题，但仅降低此问题的复现概率，没有完全解决
     QtConcurrent::run([this, token]() {
-        while(ocrDriver->isRunning()) {}; //等待之前的分析结束
+        while (ocrDriver->isRunning()) { }; // 等待之前的分析结束
         emit analyzeFinished(ocrDriver->analyze(), token);
     });
 }
@@ -53,9 +69,9 @@ QVariant LiveTextAnalyzer::liveBlock() const
     auto boxes = ocrDriver->getTextBoxes();
 
     QList<QVariant> result;
-    for(auto &box : boxes) {
+    for (auto &box : boxes) {
         QList<QVariant> temp;
-        for(size_t i = 0;i != box.points.size();++i) {
+        for (size_t i = 0; i != box.points.size(); ++i) {
             temp.push_back(box.points[i].first);
             temp.push_back(box.points[i].second);
         }
@@ -68,7 +84,7 @@ QVariant LiveTextAnalyzer::liveBlock() const
 
 QVariant LiveTextAnalyzer::charBox(int blockIndex) const
 {
-    if(static_cast<size_t>(blockIndex) >= ocrDriver->getTextBoxes().size()) {
+    if (static_cast<size_t>(blockIndex) >= ocrDriver->getTextBoxes().size()) {
         return QVariant();
     }
 
@@ -78,7 +94,7 @@ QVariant LiveTextAnalyzer::charBox(int blockIndex) const
 
     float base = boxes[0].points[0].first;
     result.push_back(0);
-    for(auto &box : boxes) {
+    for (auto &box : boxes) {
         result.push_back(box.points[1].first - base);
     }
 
@@ -87,7 +103,7 @@ QVariant LiveTextAnalyzer::charBox(int blockIndex) const
 
 QString LiveTextAnalyzer::textResult(int blockIndex, int startIndex, int len) const
 {
-    if(static_cast<size_t>(blockIndex) >= ocrDriver->getTextBoxes().size() || startIndex < 0 || len <= 0) {
+    if (static_cast<size_t>(blockIndex) >= ocrDriver->getTextBoxes().size() || startIndex < 0 || len <= 0) {
         return "";
     }
 
@@ -95,25 +111,26 @@ QString LiveTextAnalyzer::textResult(int blockIndex, int startIndex, int len) co
     return fullStr.mid(startIndex, len);
 }
 
-//格式：random_index
+// 格式：random_index
 QImage LiveTextAnalyzer::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     auto startIndex = id.indexOf("_") + 1;
     size_t index = id.mid(startIndex).toUInt();
 
-    if(index >= ocrDriver->getTextBoxes().size()) {
+    if (index >= ocrDriver->getTextBoxes().size()) {
         return QImage();
     }
 
+    // Combined with Image fileMode, show the original image
     auto box = ocrDriver->getTextBoxes()[index];
-    QRect rect(QPoint(static_cast<int>(box.points[0].first), static_cast<int>(box.points[0].second)),
-               QPoint(static_cast<int>(box.points[2].first), static_cast<int>(box.points[2].second)));
+    QRect rect(QPoint(static_cast<int>(box.points[0].first * pixelRatio), static_cast<int>(box.points[0].second * pixelRatio)),
+               QPoint(static_cast<int>(box.points[2].first * pixelRatio), static_cast<int>(box.points[2].second * pixelRatio)));
+
     QImage image = imageCache.copy(rect);
-    if(size != nullptr)
-    {
+    if (size != nullptr) {
         *size = image.size();
     }
-    if(requestedSize.width() > 0 && requestedSize.height() > 0) {
+    if (requestedSize.width() > 0 && requestedSize.height() > 0) {
         return image.scaled(requestedSize);
     } else {
         return image;

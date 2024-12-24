@@ -9,7 +9,7 @@
 #include <QQuickImageProvider>
 
 namespace DeepinOCRPlugin {
-    class DeepinOCRDriver;
+class DeepinOCRDriver;
 }
 
 class LiveTextAnalyzer : public QQuickImageProvider
@@ -36,4 +36,5 @@ protected:
 private:
     DeepinOCRPlugin::DeepinOCRDriver *ocrDriver;
     QImage imageCache;
+    qreal pixelRatio{1.0};  // for diff devicePixelRatio
 };
