@@ -285,6 +285,10 @@ int main(int argc, char *argv[])
     //修复窗口会一直在中间变小的问题
     if (checkOnly()) {
         Dtk::Widget::moveToCenter(mainwindow);
+        QPoint pt = mainwindow->geometry().topLeft();
+        if(pt.x() < 0 || pt.y() < 0) {
+            mainwindow->move(0, 0);
+        }
     }
 
     QObject::connect(dApp, &Application::sigQuit, w, &MainWindow::quitApp, Qt::DirectConnection);
