@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>Размер</translation>
     </message>
     <message>
         <source>Date captured</source>
