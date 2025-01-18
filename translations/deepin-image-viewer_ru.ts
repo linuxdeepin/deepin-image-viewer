@@ -266,7 +266,7 @@
     <name>RemoveDialog</name>
     <message>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <translation>Не удается переместить «%1» в корзину. Вы хотите удалить его навсегда?</translation>
     </message>
     <message>
         <source>This action cannot be undone</source>
