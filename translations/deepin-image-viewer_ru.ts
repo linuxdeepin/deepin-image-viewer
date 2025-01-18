@@ -316,7 +316,7 @@
     </message>
     <message>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>Оригинальный размер</translation>
     </message>
     <message>
         <source>Fit to window</source>
