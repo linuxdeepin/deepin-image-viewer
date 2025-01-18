@@ -418,7 +418,7 @@
     </message>
     <message>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Открытое изображение</translation>
     </message>
 </context>
 </TS>
