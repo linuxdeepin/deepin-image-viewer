@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>Живой текст</translation>
     </message>
 </context>
 <context>
