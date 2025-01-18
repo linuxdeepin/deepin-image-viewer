@@ -186,7 +186,7 @@
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation>Модель устройства</translation>
     </message>
 </context>
 <context>
