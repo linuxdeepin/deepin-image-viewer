@@ -91,7 +91,7 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Выбрать все</translation>
     </message>
     <message>
         <source>Live Text</source>
