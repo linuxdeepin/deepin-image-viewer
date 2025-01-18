@@ -414,7 +414,7 @@
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">%1 выпущен под %2</translation>
     </message>
     <message>
         <source>Open image</source>
