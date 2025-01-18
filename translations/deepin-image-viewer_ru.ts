@@ -324,7 +324,7 @@
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Повернуть</translation>
     </message>
     <message>
         <source>Extract text</source>
