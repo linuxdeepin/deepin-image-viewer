@@ -225,7 +225,7 @@
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Файл уже существует, пожалуйста, используйте другое имя</translation>
     </message>
 </context>
 <context>
@@ -251,7 +251,7 @@
     </message>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Файл уже существует, пожалуйста, используйте другое имя</translation>
     </message>
     <message>
         <source>Cancel</source>
