@@ -410,7 +410,7 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Turn</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
