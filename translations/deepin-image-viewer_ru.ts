@@ -197,7 +197,7 @@
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"/>
+        <translation>Выбрать все (Ctrl+A)</translation>
     </message>
 </context>
 <context>
