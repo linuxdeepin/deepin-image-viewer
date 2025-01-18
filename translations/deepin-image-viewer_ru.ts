@@ -270,7 +270,7 @@
     </message>
     <message>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>Это действие нельзя отменить</translation>
     </message>
     <message>
         <source>Cancel</source>
