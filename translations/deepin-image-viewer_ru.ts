@@ -204,7 +204,7 @@
     <name>MainStack</name>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"/>
+        <translation>Выберите фотографии</translation>
     </message>
 </context>
 <context>
