@@ -193,7 +193,7 @@
     <name>LiveTextWidget</name>
     <message>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"/>
+        <translation>Копировать (Ctrl+C)</translation>
     </message>
     <message>
         <source>Select all (Ctrl+A)</source>
