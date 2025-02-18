@@ -15,6 +15,7 @@
 #include "src/imagedata/imagesourcemodel.h"
 #include "src/imagedata/imageprovider.h"
 #include "src/utils/filetrashhelper.h"
+#include "src/commandparser.h"
 #include "config.h"
 
 #include <DApplication>
@@ -47,17 +48,26 @@ int main(int argc, char *argv[])
     app.setApplicationDisplayName(QObject::tr("Image Viewer"));
     app.setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
     app.setApplicationDescription(
-        QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
+            QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
     app.setWindowIcon(QIcon::fromTheme("deepin-image-viewer"));
 
     // LOG
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qInfo() << QString("%1 start, PID: %2, Version: %3")
-                   .arg(app.applicationName())
-                   .arg(app.applicationPid())
-                   .arg(app.applicationVersion());
+                       .arg(app.applicationName())
+                       .arg(app.applicationPid())
+                       .arg(app.applicationVersion());
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
+
+    // command
+    CommandParser::instance()->process();
+    if (CommandParser::instance()->isSet("h")) {
+        return app.exec();
+    } else if (CommandParser::instance()->isSet("print")) {
+        CommandParser::instance()->quickPrint();
+        return 0;
+    }
 
     QQmlApplicationEngine engine;
 
@@ -119,8 +129,8 @@ int main(int argc, char *argv[])
 
     status.setEnableNavigation(fileControl.isEnableNavigation());
     QObject::connect(
-        &status, &GlobalStatus::enableNavigationChanged, [&]() { fileControl.setEnableNavigation(status.enableNavigation()); });
-    QObject::connect(&fileControl, &FileControl::imageRenamed, &control, [&](const QUrl &oldName, const QUrl &newName){
+            &status, &GlobalStatus::enableNavigationChanged, [&]() { fileControl.setEnableNavigation(status.enableNavigation()); });
+    QObject::connect(&fileControl, &FileControl::imageRenamed, &control, [&](const QUrl &oldName, const QUrl &newName) {
         providerCache->renameImageCache(oldName.toLocalFile(), newName.toLocalFile());
         control.renameImage(oldName, newName);
     });
