@@ -100,4 +100,4 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/assets/deepin-image-viewer
     FILES_MATCHING PATTERN "*")
 #context-menu conf 文管右键菜单配置文件
 install(FILES ${PROJECT_SOURCE_DIR}/src/misc/context-menus/deepin-print-pictures.conf
-    DESTINATION /usr/share/applications/context-menus/)
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications/context-menus/)
