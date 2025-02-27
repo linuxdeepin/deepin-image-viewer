@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.14) unstable; urgency=medium
+
+  * Bump version to 6.0.14
+
+ -- wangrong <wangrong@uniontech.com>  Thu, 27 Feb 2025 19:33:03 +0800
+
 deepin-image-viewer (6.0.13) unstable; urgency=medium
 
   * chore: Adjust paths for linglong application(Bug: 303741)
