@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2025 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -18,7 +18,13 @@ LiveTextAnalyzer::LiveTextAnalyzer(QObject *parent)
     , ocrDriver(new DeepinOCRPlugin::DeepinOCRDriver)
 {
     ocrDriver->loadDefaultPlugin();
+
+    // FIXME: Loong64 with llvm are temporarily unstable, disable GPU for now.
+#if !defined(_loongarch) && !defined(__loongarch__) && !defined(__loongarch64)
     ocrDriver->setUseHardware({{DeepinOCRPlugin::HardwareID::GPU_Vulkan, 0}});
+#else
+    ocrDriver->setUseHardware({});
+#endif
 
     // 退出时终止文本识别
     connect(qApp, &QCoreApplication::aboutToQuit, this, &LiveTextAnalyzer::breakAnalyze);
