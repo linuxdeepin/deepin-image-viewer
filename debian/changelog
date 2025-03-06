@@ -1,3 +1,10 @@
+deepin-image-viewer (6.0.15) unstable; urgency=medium
+
+  * Bump version to 6.0.15
+  * Update linglong env
+
+ -- re2zero <yangwu@uniontech.com>  Thu, 06 Mar 2025 10:48:45 +0800
+
 deepin-image-viewer (6.0.14) unstable; urgency=medium
 
   * Bump version to 6.0.14
