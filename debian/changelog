@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.15) unstable; urgency=medium
+
+  * fix: ocr crash on loongarch(Bug: 304463)
+
+ -- renbin <renbin@uniontech.com>  Thu, 06 Mar 2025 17:43:15 +0800
+
 deepin-image-viewer (6.0.14) unstable; urgency=medium
 
   * Bump version to 6.0.14
