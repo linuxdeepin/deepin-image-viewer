@@ -3,13 +3,13 @@ host = https://www.transifex.com
 minimum_perc = 80
 mode = developer
 
-[o:linuxdeepin:p:deepin-image-viewer:r:deepin-image-viewer]
+[o:linuxdeepin:p:deepin-image-viewer:r:6e2055f447de32f8704811905980f953]
 file_filter = src/translations/deepin-image-viewer_<lang>.ts
 source_file = src/translations/deepin-image-viewer.ts
 source_lang = en
 type = QT
 
-[o:linuxdeepin:p:deepin-image-viewer:r:desktop]
+[o:linuxdeepin:p:deepin-image-viewer:r:087b4c39aecd83c32a62f95b59343cf1]
 file_filter = src/translations/desktop/desktop_<lang>.ts
 source_file = src/translations/desktop/desktop.ts
 preTranslate_file = src/deepin-image-viewer.desktop
