@@ -20,6 +20,9 @@ runtime: org.deepin.runtime.dtk/25.2.0/loong64
 
 build: |
   bash ./install_dep linglong/sources "$PREFIX"
+  
+  # for linglong DBus service
+  sed -i "s|Exec=/usr/bin/deepin-image-viewer|Exec=deepin-image-viewer|g" ./src/com.deepin.imageViewer.service
 
   # add path for searching OpenGL
   export PATH=$PATH:/runtime/include:/runtime/lib/${TRIPLET}
