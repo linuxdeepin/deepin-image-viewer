@@ -1,3 +1,12 @@
+deepin-image-viewer (6.0.16) unstable; urgency=medium
+
+  * fix: update translations and config
+  * [skip CI] Translate desktop.ts in ja [Manual Sync] (#220)
+  * fix: can not start via dbus
+  * chore: update desktop file
+
+ -- renbin <renbin@uniontech.com>  Thu, 27 Mar 2025 16:53:26 +0800
+
 deepin-image-viewer (6.0.15) unstable; urgency=medium
 
   * fix: ocr crash on loongarch(Bug: 304463)
