@@ -14,7 +14,7 @@ Copyright: None
 License: CC0-1.0
 
 # xml toml json conf yaml sh
-Files:  *.toml *.json *conf *.yaml *.sh
+Files:  *.toml *.json *conf *.yaml *.sh *.in
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
