@@ -42,8 +42,7 @@ int main(int argc, char *argv[])
     app.setApplicationLicense("GPLV3");
     app.setApplicationVersion(VERSION);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
-    // TODO: ? 设置后在 DTK6 下菜单显示空白
-    // app.setOrganizationName("deepin");
+    app.setOrganizationName("deepin");
     app.setApplicationName("deepin-image-viewer");
     app.setApplicationDisplayName(QObject::tr("Image Viewer"));
     app.setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
