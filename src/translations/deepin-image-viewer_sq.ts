@@ -120,7 +120,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>Tekst Live</translation>
     </message>
 </context>
 <context>
