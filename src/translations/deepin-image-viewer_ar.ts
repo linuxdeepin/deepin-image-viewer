@@ -327,12 +327,12 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <translation>لا يمكن نقل &quot;%1&quot; إلى سلة المهملات. هل تريد تجاوزها وتدميرها بشكل دائري؟</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>لا يمكن إنكار هذه الخدعة</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -510,7 +510,7 @@
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">&apos;%1 تم إطلاقها بناءً على %2&apos; </translation>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="162"/>
