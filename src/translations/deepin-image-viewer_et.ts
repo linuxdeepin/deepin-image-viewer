@@ -286,7 +286,7 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>Piltvaade</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
@@ -502,7 +502,7 @@
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>Piltvaade</translation>
     </message>
     <message>
         <source>Version</source>
