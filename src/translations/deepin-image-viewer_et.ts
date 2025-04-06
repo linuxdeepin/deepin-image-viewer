@@ -14,7 +14,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>Laiu tekst</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="797"/>
@@ -75,12 +75,12 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation>Suurendage</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation>Vähendage</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="849"/>
@@ -115,12 +115,12 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Vali kõik</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>Veeblane tekst</translation>
     </message>
 </context>
 <context>
@@ -133,7 +133,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>Suurus</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
@@ -158,7 +158,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Exposure program</source>
-        <translation type="unfinished"/>
+        <translation>Espoosprogramm</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="169"/>
@@ -173,12 +173,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="182"/>
         <source>Exposure mode</source>
-        <translation type="unfinished"/>
+        <translation>Espoosrežiim</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="188"/>
         <source>Exposure time</source>
-        <translation type="unfinished"/>
+        <translation>Espoosajad</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="194"/>
@@ -188,7 +188,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="201"/>
         <source>Flash compensation</source>
-        <translation type="unfinished"/>
+        <translation>Värvistaja korraldus</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
@@ -198,22 +198,22 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation>Mittimood</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
         <source>White balance</source>
-        <translation type="unfinished"/>
+        <translation>Värvistaja tasandimine</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="246"/>
         <source>Lens model</source>
-        <translation type="unfinished"/>
+        <translation>Linsimootor</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation>Failinimi</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
@@ -228,12 +228,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation type="unfinished"/>
+        <translation>Maksimaalne avamine</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation>Seadmeti mõõt</translation>
     </message>
 </context>
 <context>
@@ -241,12 +241,12 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"/>
+        <translation>Kopeeri (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"/>
+        <translation>Vali kõik (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -254,7 +254,7 @@
     <message>
         <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished"/>
+        <translation>Vali piltid</translation>
     </message>
 </context>
 <context>
@@ -278,7 +278,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Fail on juba olemas, kasutage teist nime</translation>
     </message>
 </context>
 <context>
@@ -286,17 +286,17 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>Piltvaade</translation>
+        <translation>Piltikuuva</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
         <source>day</source>
-        <translation type="unfinished"/>
+        <translation>päev</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Piltikuuva on piltide vaatamise lihtne veebipõhiline tööriist, mis pakub kindel ja tugevast kasutusvare.</translation>
     </message>
 </context>
 <context>
@@ -309,7 +309,7 @@
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Fail on juba olemas, kasutage teist nime</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
@@ -327,12 +327,12 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <translation>Ei saa &quot;%1&quot; pöördlaual pöörduda. Soovite selle eemaldada aeglaselt?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>Selle tegevust ei saa tagasi võtta</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -391,7 +391,7 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>Väiksem kuueldud kujund</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="228"/>
@@ -401,12 +401,12 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Pöörda</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>Laiutada teksti</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="538"/>
@@ -434,7 +434,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>Laiutada teksti</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
@@ -469,12 +469,12 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation type="unfinished"/>
+        <translation>Näita navigeerimisakna</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Hide navigation window</source>
-        <translation type="unfinished"/>
+        <translation>Peida navigeerimisakna</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
@@ -497,25 +497,25 @@
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Piltivaataja on pildivaataja, mis on modernne ja tõhus.</translation>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation>Piltvaade</translation>
+        <translation>Piltivaataja</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Versioon</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">%1 on avalikult saadaval %2 käigus</translation>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Ava pilt</translation>
     </message>
 </context>
 </TS>
