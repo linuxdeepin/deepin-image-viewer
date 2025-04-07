@@ -327,12 +327,12 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; qovva saxağa göndərilə bilməz. Bu nəticəni qayıtara bilməzsiniz. Silmək istəyirsiniz?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>Bu aməzin qayıtara bilməz</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
