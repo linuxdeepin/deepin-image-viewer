@@ -14,7 +14,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>Atsisiųsti tekstą</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="797"/>
@@ -115,12 +115,12 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkti viską</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>Žmogus skaitoma</translation>
     </message>
 </context>
 <context>
@@ -133,7 +133,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>Dydis</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
@@ -213,7 +213,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation> failo pavadinimas</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
@@ -233,7 +233,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation>Ugnies modelis</translation>
     </message>
 </context>
 <context>
@@ -241,12 +241,12 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"/>
+        <translation>Kopijuoti (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkti viską (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -254,7 +254,7 @@
     <message>
         <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkti paveikslus</translation>
     </message>
 </context>
 <context>
@@ -278,7 +278,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Failas jau egzistuoja, naudokite kitą pavadinimą</translation>
     </message>
 </context>
 <context>
@@ -291,7 +291,7 @@
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
         <source>day</source>
-        <translation type="unfinished"/>
+        <translation>dienos</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="51"/>
@@ -309,7 +309,7 @@
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Failas jau egzistuoja, naudokite kitą pavadinimą</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
@@ -327,12 +327,12 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; negali būti perkeltas į šaukimąjį lauką. Ar norite tiesiogiai ištrinti jį?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>Ši veikla negali būti atšaukti</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -391,7 +391,7 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>Originalus dydis</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="228"/>
@@ -401,12 +401,12 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Rotavimas</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>Atsisiųsti tekstą</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="538"/>
@@ -434,7 +434,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>Atsisiųsti tekstą</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
@@ -506,16 +506,16 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Versija</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">%1 buvo iešinta pagal %2</translation>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Atidaryti paveikslą</translation>
     </message>
 </context>
 </TS>
