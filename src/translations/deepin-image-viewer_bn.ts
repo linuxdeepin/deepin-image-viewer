@@ -1,126 +1,126 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bn">
 <context>
     <name>FileControl</name>
     <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Fullscreen</source>
-        <translation>Celozaslonski način</translation>
+        <translation>পূর্ণ পরিস্থিতি</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Exit fullscreen</source>
-        <translation>Izhod iz celozaslonskega načina</translation>
+        <translation>পূর্ণ পরিস্থিতি থেকে বের হওয়া</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Extract text</source>
-        <translation>Ekstrahiraj tekst</translation>
+        <translation>টেক্সট পরিবেশন</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Slide show</source>
-        <translation>Diaprojekcija</translation>
+        <translation>প্রেzentেশন</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Rename</source>
-        <translation>Preimenuj</translation>
+        <translation>পরিবর্তন করুন</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="805"/>
         <location filename="../src/filecontrol.cpp" line="897"/>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>কopiর</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Ջোড়া</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate clockwise</source>
-        <translation>Zasukaj v desno</translation>
+        <translation>সংক্ষেপে ছোট অংশ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Rotate counterclockwise</source>
-        <translation>Zasukaj v levo</translation>
+        <translation>সংক্ষেপে বড় অংশ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Set as wallpaper</source>
-        <translation>Nastavi za ozadje</translation>
+        <translation>ছবি অ্যাডভার্স করুন</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Display in file manager</source>
-        <translation>Prikaži v upravitelju datotek</translation>
+        <translation>ফাইল ম্যানেজারে প্রদর্শন</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Image info</source>
-        <translation>Podatki o sliki</translation>
+        <translation>ছবি তথ্য</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
-        <translation>Prejšnja</translation>
+        <translation>পূর্ববর্তী</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
-        <translation>Naslednja</translation>
+        <translation>পরবর্তী</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom in</source>
-        <translation>Približaj</translation>
+        <translation>বৃদ্ধি করুন</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Zoom out</source>
-        <translation>Oddalji</translation>
+        <translation>কমান</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Open</source>
-        <translation>Odpri</translation>
+        <translation>নিখালো</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
-        <translation>Tiskanje</translation>
+        <translation>প্রিন্ট</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Image Viewing</source>
-        <translation>Prikazovanje slik</translation>
+        <translation>ছবি দেখা</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
-        <translation>Pomoč</translation>
+        <translation>সাহায্য</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
-        <translation>Prikaži bližnjice</translation>
+        <translation>শটকুট দেখান</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
-        <translation>Nastavitve</translation>
+        <translation>সেটিংস</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation>Izberi vse</translation>
+        <translation>সব নির্বাছন করুন</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation>Besedilo v živo</translation>
+        <translation>জীবনের টেক্সট</translation>
     </message>
 </context>
 <context>
@@ -128,112 +128,112 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="74"/>
         <source>Basic info</source>
-        <translation>Osnovni podatki</translation>
+        <translation>সূচনা তথ্য</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
         <source>Size</source>
-        <translation>Velikost</translation>
+        <translation>বাইটের আকার</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>Datum slikanja</translation>
+        <translation>প্রিন্ট করা তারিখ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
         <source>Date modified</source>
-        <translation>Datum spremembe</translation>
+        <translation>সংশোধিত তারিখ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
         <source>Details</source>
-        <translation>Podrobnosti</translation>
+        <translation>বিস্তারিত</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="154"/>
         <source>Aperture</source>
-        <translation>Zaslonka</translation>
+        <translation>অপারচাপ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Exposure program</source>
-        <translation>Program osvetlitve</translation>
+        <translation>আলো প্রোগ্রাম</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="169"/>
         <source>Focal length</source>
-        <translation>Goriščna razdalja</translation>
+        <translation>ফকাল দৈর্ঘ্য</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="175"/>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation>আইএসও</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="182"/>
         <source>Exposure mode</source>
-        <translation>Način osvetlitve</translation>
+        <translation>আলো মুদ্রণ মুন্ডর</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="188"/>
         <source>Exposure time</source>
-        <translation>Čas osvetlitve</translation>
+        <translation>আলো সময়</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="194"/>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation>ফ্ল্যাশ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="201"/>
         <source>Flash compensation</source>
-        <translation>Kompenzacija flasha</translation>
+        <translation>ফ্ল্যাশ কম্পেনসেশন</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
         <source>Colorspace</source>
-        <translation>Barvni model</translation>
+        <translation>কলোর স্পেস</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
         <source>Metering mode</source>
-        <translation>Način meritve</translation>
+        <translation>মিটারিং মুন্ডর</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
         <source>White balance</source>
-        <translation>Temperatura beline</translation>
+        <translation>হুইট ব্যালেন্স</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="246"/>
         <source>Lens model</source>
-        <translation>Model objektiva</translation>
+        <translation>লেন্স মডেল</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
         <source>File name</source>
-        <translation>Ime datoteke</translation>
+        <translation>ফাইলের নাম</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
         <source>Dimensions</source>
-        <translation>Dimenzije</translation>
+        <translation>মাপ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="112"/>
         <source>Type</source>
-        <translation>Vrsta</translation>
+        <translation>প্রকার</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation>Največja zaslonka</translation>
+        <translation>মেক্স অপারচাপ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation>Model naprave</translation>
+        <translation>দিভাইস মডেল</translation>
     </message>
 </context>
 <context>
@@ -241,12 +241,12 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation>Kopiraj (Ctrl+C)</translation>
+        <translation>কপি (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation>Izberi vse (Ctrl+A)</translation>
+        <translation>সব সিলেক্ট (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -254,7 +254,7 @@
     <message>
         <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation>Izberi slike</translation>
+        <translation>ছবি সিলেক্ট করুন</translation>
     </message>
 </context>
 <context>
@@ -262,7 +262,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation>Slika ni bila najdena</translation>
+        <translation>ছবি ফাইল পাওয়া যায় নি</translation>
     </message>
 </context>
 <context>
@@ -270,7 +270,7 @@
     <message>
         <location filename="../qml/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>Odpri sliko</translation>
+        <translation>ছবি খোলো</translation>
     </message>
 </context>
 <context>
@@ -278,7 +278,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>Datoteka že obstaja. Izberite drugo ime</translation>
+        <translation>ফাইল প্রতিষ্ঠিত রয়েছে, অন্য একটি নাম ব্যবহার করুন</translation>
     </message>
 </context>
 <context>
@@ -286,17 +286,17 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>Deepin pregledovalnik slik</translation>
+        <translation>ছবি দেখার সাধনা</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
         <source>day</source>
-        <translation>dan</translation>
+        <translation>দিন</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Pregledovalnik slik je orodje za prikazovanje slik z modernim vmesnikom in mehkim delovanjem.</translation>
+        <translation>ছবি দেখার সাধনা একটি ডাইসাইনের সুন্দর সুত্র এবং একটি স্মার্ট পরিপুর্ণ অভিযান সাথে ছবি দেখার সাধনা।</translation>
     </message>
 </context>
 <context>
@@ -304,22 +304,22 @@
     <message>
         <location filename="../qml/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation>Vnesite novo ime</translation>
+        <translation>নতুন নাম লিখুন</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>Datoteka že obstaja. Izberite drugo ime</translation>
+        <translation>ফাইল প্রতিষ্ঠিত রয়েছে, অন্য একটি নাম ব্যবহার করুন</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation>বন্ধ করুন</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>Potrdi</translation>
+        <translation>সংশোধন করুন</translation>
     </message>
 </context>
 <context>
@@ -327,22 +327,22 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation>Ne moremo premakniti &quot;%1&quot; v koš. Zelите ga izbrisati trajno?</translation>
+        <translation>&quot;%1&quot; ড্রাফ্টে প্রেরণ করা যাবে না। আপনি কি এটি অস্ত্র থেকে অবাস্ত্র করতে চান?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>Ta dejanje se ne more ponovno uraditi</translation>
+        <translation>এই কর্ম পুনরায় করা যাবে না</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation>বন্ধ করুন</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation>Potrdi</translation>
+        <translation>সংশোধন করুন</translation>
     </message>
 </context>
 <context>
@@ -350,30 +350,30 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="155"/>
         <source>Previous</source>
-        <translation>Prejšnja</translation>
+        <translation>পূর্ববর্তী</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Pause</source>
-        <translation>Pavza</translation>
+        <translation>প্রতিরোধ</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Play</source>
-        <translation>Predvajaj</translation>
+        <translation>প্লে</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
         <source>Next</source>
-        <translation>Naslednja</translation>
+        <translation>পরবর্তী</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
         <location filename="../qml/SliderShow.qml" line="244"/>
         <source>Exit</source>
-        <translation>Izhod</translation>
+        <translation>প্রস্থান</translation>
     </message>
 </context>
 <context>
@@ -381,37 +381,37 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="173"/>
         <source>Next</source>
-        <translation>Naslednja</translation>
+        <translation>পরবর্তী</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="148"/>
         <source>Previous</source>
-        <translation>Prejšnja</translation>
+        <translation>পূর্ববর্তী</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation>Velikost originala</translation>
+        <translation>আসল আকার</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
-        <translation>Prilagodi oknu</translation>
+        <translation>বার্টিকেল ফিটিং</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation>Zavrti</translation>
+        <translation>চাপা দিন</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation>Ekstrahiraj tekst</translation>
+        <translation>টেক্সট পরিস্ফুটন</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>মুছে ফেলুন</translation>
     </message>
 </context>
 <context>
@@ -419,77 +419,77 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Fullscreen</source>
-        <translation>Celozaslonski način</translation>
+        <translation>পূর্ণ স্ক্রিন দেখান</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Exit fullscreen</source>
-        <translation>Izhod iz celozaslonskega načina</translation>
+        <translation>পূর্ণ স্ক্রিন থেকে বের হওয়া</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="57"/>
         <source>Print</source>
-        <translation>Tiskanje</translation>
+        <translation>প্রিন্ট করুন</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation>Ekstrahiraj tekst</translation>
+        <translation>টেক্সট পরিস্কার করুন</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
         <source>Slide show</source>
-        <translation>Diaprojekcija</translation>
+        <translation>প্রেzentেশন দেখান</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="117"/>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>কপি করুন</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="137"/>
         <source>Rename</source>
-        <translation>Preimenuj</translation>
+        <translation>পরিবর্তন করুন</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="156"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>ডিলিট করুন</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="183"/>
         <source>Rotate clockwise</source>
-        <translation>Zasukaj v desno</translation>
+        <translation>সংক্ষেপে ঘুরান</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>Zasukaj v levo</translation>
+        <translation>বিস্তারিতে ঘুরান</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation>Pokaži navigacijsko okno</translation>
+        <translation>নেভিগেশন উইন্ডো দেখান</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Hide navigation window</source>
-        <translation>Skrij navigacijsko okno</translation>
+        <translation>নেভিগেশন উইন্ডো সরান</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
         <source>Set as wallpaper</source>
-        <translation>Nastavi za ozadje</translation>
+        <translation>�েস্কটপ পেপার হিসেবে সেট করুন</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>Prikaži v upravitelju datotek</translation>
+        <translation>ফাইল ম্যানেজারে দেখান</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
         <source>Image info</source>
-        <translation>Podatki o sliki</translation>
+        <translation>ছবির তথ্য</translation>
     </message>
 </context>
 <context>
@@ -497,25 +497,25 @@
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Pregledovalnik slik je orodje za prikazovanje slik z modernim vmesnikom in mehkim delovanjem.</translation>
+        <translation>ছবি দেখার টুল একটি মুখ্য ইন্টারফেস এবং স্মার্ট পরিকল্পনার সাথে একটি স্মার্ট কর্মক্ষমতার সাথে সংযুক্ত।</translation>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation>Deepin pregledovalnik slik</translation>
+        <translation>ছবি দেখার টুল</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="vanished">Različica</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="vanished">%1 je objavljen(a) pod %2</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>Odpri sliko</translation>
+        <translation>ছবি খুলুন</translation>
     </message>
 </context>
 </TS>
