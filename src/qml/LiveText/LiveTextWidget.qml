@@ -97,8 +97,8 @@ Item {
             BlockLoader.createBlockObjects(root);
             var rectDetail = BlockLoader.block;
             rectDetail.index = id;
-            rectDetail.width = blocks[id][2] - blocks[id][0];
-            rectDetail.height = blocks[id][5] - blocks[id][3];
+            rectDetail.width = blocks[id][2] - blocks[id][0] + 1;
+            rectDetail.height = blocks[id][5] - blocks[id][3] + 1;
             rectDetail.x = blocks[id][0];
             rectDetail.y = blocks[id][1];
             rectDetail.setCharLocations(liveTextAnalyzer.charBox(id));
