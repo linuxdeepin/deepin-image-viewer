@@ -115,88 +115,93 @@ Rectangle {
         }
     }
 
-    TitleBar {
-        id: titlebar
-
-        property Palette defaultTextColor: Palette {
-            normal: Qt.rgba(0, 0, 0, 0.7)
-            normalDark: Qt.rgba(1, 1, 1, 0.7)
-        }
-        property bool menuPopup: false
-        property Palette scaledTextColor: Palette {
-            normal: Qt.rgba(1, 1, 1, 0.7)
-            normalDark: Qt.rgba(1, 1, 1, 0.7)
-        }
-        property Palette scaledTitleTextColor: Palette {
-            normal: Qt.rgba(1, 1, 1, 1)
-            normalDark: Qt.rgba(1, 1, 1, 1)
-        }
-
+    Loader {
         anchors.fill: parent
-        textColor: imageScaledToTitle ? scaledTextColor : defaultTextColor
+        asynchronous: true
 
-        // 使用自定的文本
-        content: Loader {
-            active: true
+        sourceComponent: TitleBar {
+            id: titlebar
 
-            sourceComponent: Label {
-                color: imageScaledToTitle ? titlebar.ColorSelector.scaledTitleTextColor : palette.text
-                // 自动隐藏多余文本
-                elide: Text.ElideRight
-                horizontalAlignment: Text.AlignHCenter
-                text: titlebar.title
-                textFormat: Text.PlainText
-                verticalAlignment: Text.AlignVCenter
+            property Palette defaultTextColor: Palette {
+                normal: Qt.rgba(0, 0, 0, 0.7)
+                normalDark: Qt.rgba(1, 1, 1, 0.7)
             }
-        }
-        menu: Menu {
-            onVisibleChanged: {
-                titlebar.menuPopup = visible;
-                IV.GStatus.animationBlock = visible;
+            property bool menuPopup: false
+            property Palette scaledTextColor: Palette {
+                normal: Qt.rgba(1, 1, 1, 0.7)
+                normalDark: Qt.rgba(1, 1, 1, 0.7)
+            }
+            property Palette scaledTitleTextColor: Palette {
+                normal: Qt.rgba(1, 1, 1, 1)
+                normalDark: Qt.rgba(1, 1, 1, 1)
             }
 
-            // 打开图片动作项
-            Action {
-                id: openImageAction
+            anchors.fill: parent
+            textColor: imageScaledToTitle ? scaledTextColor : defaultTextColor
 
-                text: qsTr("Open image")
+            // 使用自定的文本
+            content: Loader {
+                active: true
 
-                onTriggered: {
-                    // 发送打开窗口信号
-                    stackView.openImageDialog();
+                sourceComponent: Label {
+                    color: imageScaledToTitle ? titlebar.ColorSelector.scaledTitleTextColor : palette.text
+                    // 自动隐藏多余文本
+                    elide: Text.ElideRight
+                    horizontalAlignment: Text.AlignHCenter
+                    text: titlebar.title
+                    textFormat: Text.PlainText
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+            menu: Menu {
+                onVisibleChanged: {
+                    titlebar.menuPopup = visible;
+                    IV.GStatus.animationBlock = visible;
+                }
+
+                // 打开图片动作项
+                Action {
+                    id: openImageAction
+
+                    text: qsTr("Open image")
+
+                    onTriggered: {
+                        // 发送打开窗口信号
+                        stackView.openImageDialog();
+                    }
+                }
+
+                MenuSeparator {
+                }
+
+                ThemeMenu {
+                }
+
+                MenuSeparator {
+                }
+
+                HelpAction {
+                }
+
+                AboutAction {
+                    aboutDialog: AboutDialog {
+                        description: qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
+                        productIcon: "deepin-image-viewer"
+                        productName: qsTr("Image Viewer")
+                        version: Qt.application.version
+                        websiteLink: "www.chinauos.com"
+                        websiteName: "www.chinauos.com"
+                    }
+                }
+
+                QuitAction {
                 }
             }
 
-            MenuSeparator {
+            // 标题栏在hover，菜单展开时屏蔽动画效果，包括点击标题栏拖动
+            onHoveredChanged: {
+                IV.GStatus.animationBlock = hovered || menuPopup;
             }
-
-            ThemeMenu {
-            }
-
-            MenuSeparator {
-            }
-
-            HelpAction {
-            }
-
-            AboutAction {
-                aboutDialog: AboutDialog {
-                    description: qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
-                    productIcon: "deepin-image-viewer"
-                    productName: qsTr("Image Viewer")
-                    version: Qt.application.version
-                    websiteLink: "www.chinauos.com"
-                    websiteName: "www.chinauos.com"
-                }
-            }
-
-            QuitAction {
-            }
-        }
-
-        // 标题栏在hover，菜单展开时屏蔽动画效果，包括点击标题栏拖动
-        onHoveredChanged: {
-            IV.GStatus.animationBlock = hovered || menuPopup;
         }
     }
 }

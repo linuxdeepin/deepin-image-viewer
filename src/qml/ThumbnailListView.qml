@@ -130,11 +130,11 @@ Control {
     Row {
         id: switchArrowLayout
 
-        visible: IV.GControl.imageCount > 1
-        width: visible ? implicitWidth : 0
         leftPadding: 10
         rightPadding: 20
         spacing: 10
+        visible: IV.GControl.imageCount > 1
+        width: visible ? implicitWidth : 0
 
         anchors {
             left: parent.left
@@ -217,7 +217,6 @@ Control {
 
             onClicked: {
                 imageViewer.fitImage();
-                imageViewer.recalculateLiveText();
             }
         }
 
@@ -235,7 +234,6 @@ Control {
 
             onClicked: {
                 imageViewer.fitWindow();
-                imageViewer.recalculateLiveText();
             }
         }
 
@@ -345,8 +343,8 @@ Control {
             onActiveChanged: {
                 if (active && imageInfo.delegateSource) {
                     setSource(imageInfo.delegateSource, {
-                            "source": thumbnailItemLoader.imageSource
-                        });
+                        "source": thumbnailItemLoader.imageSource
+                    });
                 }
             }
 
@@ -379,8 +377,8 @@ Control {
                 onDelegateSourceChanged: {
                     if (thumbnailItemLoader.active && delegateSource) {
                         setSource(delegateSource, {
-                                "source": thumbnailItemLoader.imageSource
-                            });
+                            "source": thumbnailItemLoader.imageSource
+                        });
                     }
                 }
 

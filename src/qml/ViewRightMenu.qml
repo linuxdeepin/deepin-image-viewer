@@ -138,7 +138,7 @@ Menu {
         visible: renamable
 
         onTriggered: {
-            renamedialog.show();
+            renameLoader.showDialog();
         }
 
         Shortcut {
@@ -146,7 +146,7 @@ Menu {
             sequence: "F2"
 
             onActivated: {
-                renamedialog.show();
+                renameLoader.showDialog();
             }
         }
     }
@@ -289,9 +289,9 @@ Menu {
 
             onActivated: {
                 if (IV.GStatus.showImageInfo) {
-                    infomationDig.close()
+                    infomationDig.close();
                 } else {
-                    infomationDig.show()
+                    infomationDig.show();
                 }
             }
         }

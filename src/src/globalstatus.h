@@ -89,6 +89,12 @@ public:
     void setStackPage(Types::StackPage value);
     Q_SIGNAL void stackPageChanged();
 
+    // block animation while start initialization, `MUST` set false after inited.
+    Q_PROPERTY(bool delayInit READ delayInit WRITE setDelayInit NOTIFY delayInitChanged)
+    bool delayInit() const;
+    void setDelayInit(bool b);
+    Q_SIGNAL void delayInitChanged();
+
     // Constant properties.
     int minHeight() const;
     int minWidth() const;
@@ -115,6 +121,8 @@ private:
     bool storefullScreenAnimating = false;
     int storethumbnailVaildWidth = 0;
     Types::StackPage storestackPage = Types::OpenImagePage;
+
+    bool storeDelayInit = true;
 };
 
 #endif  // GLOBALSTATUS_H

@@ -90,6 +90,8 @@ Item {
 
         active: true
         anchors.fill: parent
+        // Note: show at first
+        asynchronous: true
     }
 
     DropArea {

@@ -13,7 +13,7 @@ BaseImageDelegate {
 
     function resetSource() {
         // check if source rename
-        updateSource()
+        updateSource();
 
         // 加载完成，触发动画效果
         var temp = image.source;

@@ -20,6 +20,8 @@ Item {
     // 记录图像缩放，用于在窗口缩放时，根据前后窗口变化保持图片缩放比例
     property bool enableChangeDisplay: true
     property real lastDisplayScaleWidth: 0
+    // current LiveText select text
+    property bool liveTextSelected: false
     // Image 类型的对象，空图片、错误图片、消失图片等异常为 null
     property alias targetImage: view.currentImage
 
@@ -29,6 +31,16 @@ Item {
     property alias targetImageInfo: currentImageInfo
     property bool targetImageReady: (null !== view.currentImage) && (Image.Ready === view.currentImage.status)
 
+    function delayInit() {
+        ltwLoader.active = true;
+        naviLoader.active = true;
+        rightMenuLoader.active = true;
+        rotateAnimarionLoader.active = true;
+
+        // enable other component load
+        IV.GStatus.delayInit = false;
+    }
+
     // 退出全屏展示图片
     function escBack() {
         IV.GStatus.showImageInfo = false;
@@ -36,14 +48,12 @@ Item {
         showfullAnimation.start();
     }
 
-    function exitLiveText() {
-        ltw.exitLiveText();
-    }
-
     function fitImage() {
         if (targetImageReady) {
             // 按图片原始大小执行缩放
             imageAnimation.scaleAnime(targetImageInfo.width / targetImage.paintedWidth);
+
+            ltwLoader.recalculateLiveText();
         }
     }
 
@@ -51,6 +61,8 @@ Item {
         // 默认状态的图片即适应窗口大小(使用 Image.PreserveAspectFit)
         if (targetImageReady) {
             imageAnimation.scaleAnime(1.0);
+
+            ltwLoader.recalculateLiveText();
         }
     }
 
@@ -77,13 +89,6 @@ Item {
         }
     }
 
-    function recalculateLiveText() {
-        if (targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
-            exitLiveText();
-            startLiveText();
-        }
-    }
-
     function rotateImage(angle) {
         if (targetImageReady && !rotateDelay.running) {
             rotateDelay.start();
@@ -93,7 +98,8 @@ Item {
 
     // 触发全屏展示图片
     function showPanelFullScreen() {
-        ltw.exitLiveText();
+        ltwLoader.stopLiveText();
+
         IV.GStatus.showImageInfo = false;
         showFullScreen();
         view.contentItem.forceActiveFocus();
@@ -118,18 +124,18 @@ Item {
         floatLabel.visible = true;
     }
 
-    function startLiveText() {
-        ltw.startLiveTextAnalyze();
+    Component.onCompleted: {
+        // finish init
+        Qt.callLater(delayInit);
     }
-
     onHeightChanged: keepImageDisplayScale()
     onTargetImageChanged: {
         // 部分多页图 targetImage 变更时不会重复触发 targetImageReady ，在此处进行备用的判断
         if (IV.Types.DynamicImage !== currentImageInfo.type) {
             // 适配窗口
-            recalculateLiveText();
+            ltwLoader.recalculateLiveText();
         } else {
-            exitLiveText();
+            ltwLoader.stopLiveText();
         }
     }
 
@@ -137,7 +143,7 @@ Item {
     onTargetImageReadyChanged: {
         if (IV.Types.DynamicImage !== currentImageInfo.type) {
             // 适配窗口
-            recalculateLiveText();
+            ltwLoader.recalculateLiveText();
         }
         showScaleFloatLabel();
 
@@ -146,12 +152,6 @@ Item {
     }
     onWidthChanged: keepImageDisplayScale()
 
-    Timer {
-        id: rotateDelay
-
-        interval: IV.GStatus.animationDefaultDuration + 50
-    }
-
     // 图像动画：缩放
     ImageAnimation {
         id: imageAnimation
@@ -159,13 +159,19 @@ Item {
         targetImage: imageViewer.targetImage
     }
 
+    Timer {
+        id: rotateDelay
+
+        interval: IV.GStatus.animationDefaultDuration + 50
+    }
+
     Connections {
         function onPaintedHeightChanged() {
-            recalculateLiveText();
+            ltwLoader.recalculateLiveText();
         }
 
         function onPaintedWidthChanged() {
-            recalculateLiveText();
+            ltwLoader.recalculateLiveText();
         }
 
         function onScaleChanged() {
@@ -188,15 +194,15 @@ Item {
             }
 
             // 重新文本识别
-            recalculateLiveText();
+            ltwLoader.recalculateLiveText();
         }
 
         function onXChanged() {
-            recalculateLiveText();
+            ltwLoader.recalculateLiveText();
         }
 
         function onYChanged() {
-            recalculateLiveText();
+            ltwLoader.recalculateLiveText();
         }
 
         enabled: targetImageReady
@@ -204,13 +210,21 @@ Item {
         target: targetImage
     }
 
-    // 触发切换全屏状态
     Connections {
+        // 触发切换全屏状态
         function onShowFullScreenChanged() {
             if (window.isFullScreen !== IV.GStatus.showFullScreen) {
                 // 关闭详细信息窗口
                 IV.GStatus.showImageInfo = false;
                 IV.GStatus.showFullScreen ? showPanelFullScreen() : escBack();
+            }
+        }
+
+        function onViewFlickingChanged() {
+            if (IV.GStatus.viewFlicking) {
+                ltwLoader.stopLiveText();
+            } else {
+                ltwLoader.startLiveText();
             }
         }
 
@@ -501,176 +515,219 @@ Item {
         source: IV.GControl.currentSource
     }
 
-    Connections {
-        function onViewFlickingChanged() {
-            if (IV.GStatus.viewFlicking) {
-                ltw.exitLiveText();
-            } else {
-                ltw.startLiveTextAnalyze();
+    Loader {
+        id: ltwLoader
+
+        function recalculateLiveText() {
+            if (Loader.Ready === status && (targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type)) {
+                item.exitLiveText();
+                item.startLiveTextAnalyze();
             }
         }
 
-        target: IV.GStatus
-    }
-
-    // 实况文本蒙版
-    LiveTextWidget {
-        //live text主控件
-        id: ltw
-
-        //live text退出函数
-        function exitLiveText() {
-            liveTextAnalyzer.breakAnalyze();
-            ltw.clearLive();
-            liveTextTimer.stop();
+        function startLiveText() {
+            if (Loader.Ready === status) {
+                item.startLiveTextAnalyze();
+            }
         }
 
-        //live text分析函数
-        //缩放和切换需要重新执行此函数
-        function liveTextAnalyze() {
-            viewBackground.grabToImage(function (result) {
+        function stopLiveText() {
+            if (Loader.Ready === status) {
+                item.exitLiveText();
+            }
+        }
+
+        active: false
+        anchors.fill: parent
+        asynchronous: true
+
+        // 实况文本蒙版
+        sourceComponent: LiveTextWidget {
+            //live text主控件
+            id: ltw
+
+            //live text退出函数
+            function exitLiveText() {
+                liveTextAnalyzer.breakAnalyze();
+                ltw.clearLive();
+                liveTextTimer.stop();
+            }
+
+            //live text分析函数
+            //缩放和切换需要重新执行此函数
+            function liveTextAnalyze() {
+                viewBackground.grabToImage(function (result) {
                     //截取当前控件显示
                     liveTextAnalyzer.setImage(result.image); //设置分析图片
                     liveTextAnalyzer.analyze(view.currentIndex); //执行分析（异步执行，函数会立即返回）
                     // result.saveToFile("/home/user/Desktop/viewer.png") //保存截取的图片，debug用
                 });
-        }
-
-        //live text执行函数
-        function runLiveText(resultCanUse, token) {
-            if (resultCanUse && token == view.currentIndex) {
-                //这里无视警告，就是需要js的==来进行自动类型转换
-                console.debug("run live start");
-                ltw.drawRect(liveTextAnalyzer.liveBlock());
-                ltw.visible = true;
             }
-        }
 
-        //live text分析启动控制
-        function startLiveTextAnalyze() {
-            if (targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
-                liveTextTimer.restart();
-            }
-        }
-
-        anchors.fill: parent
-
-        Component.onCompleted: {
-            liveTextAnalyzer.analyzeFinished.connect(runLiveText);
-        }
-
-        // 实况文本背景遮罩
-        Rectangle {
-            id: liveTextBackground
-
-            anchors.centerIn: parent
-            color: "#000000" // live text高亮阴影
-            opacity: 0.5
-            visible: highlightTextButton.checked && highlightTextButton.visible
-
-            onVisibleChanged: {
-                var target = view.currentImage;
-                if (null !== target) {
-                    width = target.paintedWidth * target.scale;
-                    height = target.paintedHeight * target.scale;
+            //live text执行函数
+            function runLiveText(resultCanUse, token) {
+                if (resultCanUse && token == view.currentIndex) {
+                    //这里无视警告，就是需要js的==来进行自动类型转换
+                    console.debug("run live start");
+                    ltw.drawRect(liveTextAnalyzer.liveBlock());
+                    ltw.visible = true;
                 }
             }
-        }
 
-        //live text分析启动延迟
-        Timer {
-            id: liveTextTimer
+            //live text分析启动控制
+            function startLiveTextAnalyze() {
+                if (targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
+                    liveTextTimer.restart();
+                }
+            }
 
-            interval: 1500
-            repeat: false
-            running: false
+            anchors.fill: parent
 
-            onTriggered: {
-                var supportOcr = IV.FileControl.isCanSupportOcr(IV.GControl.currentSource);
-                if (supportOcr && targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
-                    // 执行条件和OCR按钮使能条件一致
-                    ltw.liveTextAnalyze();
-                    running = false;
+            Component.onCompleted: {
+                liveTextAnalyzer.analyzeFinished.connect(runLiveText);
+            }
+            onCurrentHasSelectChanged: {
+                imageViewer.liveTextSelected = currentHasSelect;
+            }
+
+            // 实况文本背景遮罩
+            Rectangle {
+                id: liveTextBackground
+
+                anchors.centerIn: parent
+                color: "#000000" // live text高亮阴影
+                opacity: 0.5
+                visible: highlightTextButton.checked && highlightTextButton.visible
+
+                onVisibleChanged: {
+                    var target = view.currentImage;
+                    if (null !== target) {
+                        width = target.paintedWidth * target.scale;
+                        height = target.paintedHeight * target.scale;
+                    }
+                }
+            }
+
+            //live text分析启动延迟
+            Timer {
+                id: liveTextTimer
+
+                interval: 1500
+                repeat: false
+                running: false
+
+                onTriggered: {
+                    var supportOcr = IV.FileControl.isCanSupportOcr(IV.GControl.currentSource);
+                    if (supportOcr && targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
+                        // 执行条件和OCR按钮使能条件一致
+                        ltw.liveTextAnalyze();
+                        running = false;
+                    }
+                }
+            }
+
+            FloatingButton {
+                id: highlightTextButton
+
+                property bool isHighlight: false
+
+                checked: isHighlight
+                height: 50
+                parent: imageViewerArea
+                visible: false
+                width: 50
+                z: ltw.z + 100
+
+                // 高亮时不弹出工具栏栏以方便选取
+                onCheckedChanged: {
+                    IV.GStatus.animationBlock = checked;
+                }
+                onClicked: {
+                    isHighlight = !isHighlight;
+                }
+                onVisibleChanged: {
+                    if (!visible) {
+                        IV.GStatus.animationBlock = false;
+                    }
+                }
+
+                anchors {
+                    bottom: parent.bottom
+                    bottomMargin: thumbnailViewBackGround.height + 20
+                    right: parent.right
+                    rightMargin: 100
+                }
+
+                DciIcon {
+                    anchors.centerIn: parent
+                    height: 45
+                    name: "icon_recognition_highlight"
+                    palette: DTK.makeIconPalette(parent.palette)
+                    width: 45
                 }
             }
         }
     }
 
-    FloatingButton {
-        id: highlightTextButton
+    Loader {
+        id: renameLoader
 
-        property bool isHighlight: false
-
-        checked: isHighlight
-        height: 50
-        parent: imageViewerArea
-        visible: false
-        width: 50
-        z: ltw.z + 100
-
-        // 高亮时不弹出工具栏栏以方便选取
-        onCheckedChanged: {
-            IV.GStatus.animationBlock = checked;
-        }
-        onClicked: {
-            isHighlight = !isHighlight;
-        }
-        onVisibleChanged: {
-            if (!visible) {
-                IV.GStatus.animationBlock = false;
+        function showDialog() {
+            if (Loader.Ready === status) {
+                item.show();
+            } else {
+                active = true;
             }
         }
 
-        anchors {
-            bottom: parent.bottom
-            bottomMargin: thumbnailViewBackGround.height + 20
-            right: parent.right
-            rightMargin: 100
-        }
+        active: false
+        asynchronous: true
 
-        DciIcon {
-            anchors.centerIn: parent
-            height: 45
-            name: "icon_recognition_highlight"
-            palette: DTK.makeIconPalette(parent.palette)
-            width: 45
+        //rename窗口
+        sourceComponent: ReName {
+            id: renamedialog
+
+            Component.onCompleted: {
+                renamedialog.show();
+            }
         }
     }
 
-    //rename窗口
-    ReName {
-        id: renamedialog
+    Loader {
+        id: rightMenuLoader
 
-    }
+        active: false
+        asynchronous: true
 
-    // 右键菜单
-    ViewRightMenu {
-        id: rightMenu
+        // 右键菜单
+        sourceComponent: ViewRightMenu {
+            id: rightMenu
 
-        // 拷贝快捷键冲突：选中实况文本时，屏蔽拷贝图片的快捷键
-        copyableConfig: !ltw.currentHasSelect
+            // 拷贝快捷键冲突：选中实况文本时，屏蔽拷贝图片的快捷键
+            copyableConfig: !imageViewer.liveTextSelected
 
-        // 菜单销毁后也需要发送信号，否则可能未正常送达
-        Component.onDestruction: {
-            IV.GStatus.showRightMenu = false;
-        }
-        onClosed: {
-            IV.GStatus.showRightMenu = false;
-            imageViewer.forceActiveFocus();
-        }
+            // 菜单销毁后也需要发送信号，否则可能未正常送达
+            Component.onDestruction: {
+                IV.GStatus.showRightMenu = false;
+            }
+            onClosed: {
+                IV.GStatus.showRightMenu = false;
+                imageViewer.forceActiveFocus();
+            }
 
-        Connections {
-            function onShowRightMenuChanged() {
-                if (IV.GStatus.showRightMenu) {
-                    rightMenu.popup(IV.CursorTool.currentCursorPos());
-                    rightMenu.focus = true;
+            Connections {
+                function onShowRightMenuChanged() {
+                    if (IV.GStatus.showRightMenu) {
+                        rightMenu.popup(IV.CursorTool.currentCursorPos());
+                        rightMenu.focus = true;
 
-                    // 关闭详细信息弹窗
-                    IV.GStatus.showImageInfo = false;
+                        // 关闭详细信息弹窗
+                        IV.GStatus.showImageInfo = false;
+                    }
                 }
-            }
 
-            target: IV.GStatus
+                target: IV.GStatus
+            }
         }
     }
 
@@ -678,14 +735,14 @@ Item {
     Loader {
         id: infomationDig
 
-        function show() {
-            IV.GStatus.showImageInfo = true;
-        }
-
         function close() {
             if (IV.GStatus.showImageInfo && Loader.Ready === status) {
-                infomationDig.item.close()
+                infomationDig.item.close();
             }
+        }
+
+        function show() {
+            IV.GStatus.showImageInfo = true;
         }
 
         active: IV.GStatus.showImageInfo
@@ -703,6 +760,8 @@ Item {
         // 导航窗口是否显示
         property bool expectShow: IV.GStatus.enableNavigation && (null !== targetImage) && (targetImage.scale > 1)
 
+        active: false
+        asynchronous: true
         height: 112
         width: 150
 

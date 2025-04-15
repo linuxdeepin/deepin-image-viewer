@@ -302,6 +302,7 @@ Item {
         property bool usingCapture: false // 是否使用定时捕获光标位置
 
         acceptedButtons: Qt.LeftButton
+        enabled: !IV.GStatus.delayInit
         hoverEnabled: true
 
         onEntered: {
