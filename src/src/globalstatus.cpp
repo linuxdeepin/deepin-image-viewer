@@ -222,6 +222,19 @@ void GlobalStatus::setStackPage(Types::StackPage value)
     }
 }
 
+bool GlobalStatus::delayInit() const
+{
+    return storeDelayInit;
+}
+
+void GlobalStatus::setDelayInit(bool b)
+{
+    if (storeDelayInit != b) {
+        storeDelayInit = b;
+        Q_EMIT delayInitChanged();
+    }
+}
+
 int GlobalStatus::minHeight() const
 {
     return sc_MinHeight;

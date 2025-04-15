@@ -105,6 +105,7 @@ BaseThumbnailDelegate {
 
         // 非多页图无需实例化
         active: isMultiImage
+        asynchronous: true
         height: 14
         // 仅多页图显示角标(为焦点时不加载)
         visible: isMultiImage
