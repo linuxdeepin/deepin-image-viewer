@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.image.viewer
   name: deepin-image-viewer
-  version: 6.0.18.1
+  version: 6.0.19.1
   kind: app
   description: |
     view images for deepin os.
