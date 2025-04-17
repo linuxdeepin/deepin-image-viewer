@@ -8,7 +8,7 @@
 #ifdef IMAGEVIEWER_CLASS_QUICKPRINT
 #include <libimageviewer/quickprint.h>
 #endif
-
+#include <QtDebug>
 #include <QCommandLineParser>
 
 Application::Application(int &argc, char **argv)
