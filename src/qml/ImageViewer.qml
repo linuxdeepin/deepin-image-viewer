@@ -35,7 +35,6 @@ Item {
         ltwLoader.active = true;
         naviLoader.active = true;
         rightMenuLoader.active = true;
-        rotateAnimarionLoader.active = true;
 
         // enable other component load
         IV.GStatus.delayInit = false;
