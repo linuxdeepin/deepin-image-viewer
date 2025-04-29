@@ -366,9 +366,9 @@ Control {
                         return;
                     }
                     if (IV.Types.MultiImage === type && isCurrentItem) {
-                        delegateSource = "qrc:/qml/ThumbnailDelegate/MultiThumnailDelegate.qml";
+                        delegateSource = "qrc:/qt/qml/IVModule/qml/ThumbnailDelegate/MultiThumnailDelegate.qml";
                     } else {
-                        delegateSource = "qrc:/qml/ThumbnailDelegate/NormalThumbnailDelegate.qml";
+                        delegateSource = "qrc:/qt/qml/IVModule/qml/ThumbnailDelegate/NormalThumbnailDelegate.qml";
                     }
                 }
 

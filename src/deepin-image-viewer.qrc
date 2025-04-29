@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/qt/qml/IVModule">
         <file>qml/main.qml</file>
         <file>qml/MainStack.qml</file>
         <file>qml/OpenImageWidget.qml</file>
