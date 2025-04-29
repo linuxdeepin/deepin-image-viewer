@@ -76,27 +76,27 @@ Loader {
                 return;
             }
             if (!imageInfo.exists) {
-                delegateSource = "qrc:/qml/ImageDelegate/NonexistImageDelegate.qml";
+                delegateSource = "qrc:/qt/qml/IVModule/qml/ImageDelegate/NonexistImageDelegate.qml";
                 return;
             }
             switch (type) {
             case IV.Types.NormalImage:
-                delegateSource = "qrc:/qml/ImageDelegate/NormalImageDelegate.qml";
+                delegateSource = "qrc:/qt/qml/IVModule/qml/ImageDelegate/NormalImageDelegate.qml";
                 return;
             case IV.Types.DynamicImage:
-                delegateSource = "qrc:/qml/ImageDelegate/DynamicImageDelegate.qml";
+                delegateSource = "qrc:/qt/qml/IVModule/qml/ImageDelegate/DynamicImageDelegate.qml";
                 return;
             case IV.Types.SvgImage:
-                delegateSource = "qrc:/qml/ImageDelegate/SvgImageDelegate.qml";
+                delegateSource = "qrc:/qt/qml/IVModule/qml/ImageDelegate/SvgImageDelegate.qml";
                 return;
             case IV.Types.MultiImage:
                 // PathView 替换 ListView 后，不再单独展开多页图，而是每页单独更新
-                // delegateSource = "qrc:/qml/ImageDelegate/MultiImageDelegate.qml";
-                delegateSource = "qrc:/qml/ImageDelegate/NormalImageDelegate.qml";
+                // delegateSource = "qrc:/qt/qml/IVModule/qml/ImageDelegate/MultiImageDelegate.qml";
+                delegateSource = "qrc:/qt/qml/IVModule/qml/ImageDelegate/NormalImageDelegate.qml";
                 return;
             default:
                 // Default is damaged image.
-                delegateSource = "qrc:/qml/ImageDelegate/DamagedImageDelegate.qml";
+                delegateSource = "qrc:/qt/qml/IVModule/qml/ImageDelegate/DamagedImageDelegate.qml";
                 return;
             }
         }

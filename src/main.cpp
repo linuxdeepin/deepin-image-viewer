@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    engine.load(QUrl("qrc:/qt/qml/IVModule/qml/main.qml"));
     if (engine.rootObjects().isEmpty())
         return -1;
 

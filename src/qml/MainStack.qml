@@ -41,19 +41,19 @@ Item {
 
     function switchImageView() {
         IV.GStatus.stackPage = Number(IV.Types.ImageViewPage);
-        contentLoader.setSource("qrc:/qml/FullImageView.qml");
+        contentLoader.setSource("qrc:/qt/qml/IVModule/qml/FullImageView.qml");
     }
 
     function switchOpenImage() {
         IV.GStatus.stackPage = Number(IV.Types.OpenImagePage);
         window.title = "";
-        contentLoader.setSource("qrc:/qml/OpenImageWidget.qml");
+        contentLoader.setSource("qrc:/qt/qml/IVModule/qml/OpenImageWidget.qml");
     }
 
     function switchSliderShow() {
         if (Number(IV.Types.ImageViewPage) === IV.GStatus.stackPage) {
             IV.GStatus.stackPage = Number(IV.Types.SliderShowPage);
-            contentLoader.setSource("qrc:/qml/SliderShow.qml");
+            contentLoader.setSource("qrc:/qt/qml/IVModule/qml/SliderShow.qml");
         }
     }
 
