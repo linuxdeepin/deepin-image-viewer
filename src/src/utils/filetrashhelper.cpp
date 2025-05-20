@@ -14,6 +14,9 @@
 #include <QFile>
 #include <QFileSystemWatcher>
 #include <QRegularExpression>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 DCORE_USE_NAMESPACE
 /*!
@@ -35,7 +38,7 @@ enum DeviceQueryOption {
    \brief Result type for moving a file to the Trash via DBus.
  */
 enum DeletionResult {
-    kTrashTimeout,  // default error
+    kTrashTimeout,   // default error
     kTrashInterfaceError,
     kTrashInvalidUrl,
     kTrashSuccess,
@@ -61,9 +64,10 @@ FileTrashHelper::FileTrashHelper(QObject *parent)
                                                     QStringLiteral(V23_FILEMANAGER_DAEMON_INTERFACE)));
     }
 
-    qInfo() << "m_dfmDeviceManager: majorVersion:" << DSysInfo::majorVersion()
-            << "dbus service:" << m_dfmDeviceManager.data()->service() << "interface:" << m_dfmDeviceManager.data()->interface()
-            << "object:" << m_dfmDeviceManager.data()->objectName() << "path:" << m_dfmDeviceManager.data()->path();
+    qCInfo(logImageViewer) << "Device manager initialized - version:" << DSysInfo::majorVersion()
+                           << "service:" << m_dfmDeviceManager.data()->service()
+                           << "interface:" << m_dfmDeviceManager.data()->interface()
+                           << "path:" << m_dfmDeviceManager.data()->path();
 }
 
 /*!
@@ -71,9 +75,11 @@ FileTrashHelper::FileTrashHelper(QObject *parent)
  */
 bool FileTrashHelper::fileCanTrash(const QUrl &url)
 {
+    qCDebug(logImageViewer) << "Checking if file can be trashed:" << url.toString();
     // 检测当前文件和上次是否相同
     QDir currentDir(url.path());
     if (lastDir != currentDir) {
+        qCDebug(logImageViewer) << "Directory changed, resetting mount info";
         lastDir = currentDir;
         resetMountInfo();
     }
@@ -81,13 +87,16 @@ bool FileTrashHelper::fileCanTrash(const QUrl &url)
     queryMountInfo();
 
     if (isGvfsFile(url)) {
+        qCDebug(logImageViewer) << "File is on GVFS, cannot be trashed";
         return false;
     }
 
     if (isExternalDevice(url.path())) {
+        qCDebug(logImageViewer) << "File is on external device, cannot be trashed";
         return false;
     }
 
+    qCDebug(logImageViewer) << "File can be trashed";
     return true;
 }
 
@@ -96,22 +105,25 @@ bool FileTrashHelper::fileCanTrash(const QUrl &url)
  */
 bool FileTrashHelper::moveFileToTrash(const QUrl &url)
 {
+    qCDebug(logImageViewer) << "Moving file to trash:" << url.toString();
     // 优先采用文管后端 DBus 服务
     int ret = moveFileToTrashWithDBus(url);
 
     if (kTrashInterfaceError == ret) {
-        qInfo() << qPrintable("Move file to trash DBus interface failed! Rollback to v20 version");
+        qCInfo(logImageViewer) << "DBus interface failed, falling back to v20 version";
         // rollback v20 interface
         if (Libutils::base::trashFile(url.path())) {
+            qCDebug(logImageViewer) << "Successfully moved file to trash using v20 interface";
             return true;
         }
     }
 
     if (kTrashSuccess != ret) {
-        qWarning() << qPrintable("Move file to trash failed");
+        qCWarning(logImageViewer) << "Failed to move file to trash:" << url.toString();
         return false;
     }
 
+    qCDebug(logImageViewer) << "Successfully moved file to trash";
     return true;
 }
 
@@ -120,12 +132,14 @@ bool FileTrashHelper::moveFileToTrash(const QUrl &url)
  */
 bool FileTrashHelper::removeFile(const QUrl &url)
 {
+    qCDebug(logImageViewer) << "Removing file:" << url.toString();
     QFile file(url.path());
     bool ret = file.remove();
     if (!ret) {
-        qWarning() << qPrintable("Remove file failed:") << file.errorString();
+        qCWarning(logImageViewer) << "Failed to remove file:" << url.toString() << "error:" << file.errorString();
+    } else {
+        qCDebug(logImageViewer) << "Successfully removed file";
     }
-
     return ret;
 }
 
@@ -151,21 +165,22 @@ void FileTrashHelper::queryMountInfo()
         return;
     }
 
+    qCDebug(logImageViewer) << "Querying mount information";
     initData = true;
 
     // 调用 DBus 接口查询可被卸载设备信息
-    // GetBlockDevicesIdList(int opts)
     QDBusReply<QStringList> deviceListReply = m_dfmDeviceManager->call("GetBlockDevicesIdList", kRemovable);
     if (!deviceListReply.isValid()) {
-        qWarning() << qPrintable("DBus call GetBlockDevicesIdList failed") << deviceListReply.error().message();
+        qCWarning(logImageViewer) << "Failed to get block devices list:" << deviceListReply.error().message();
         return;
     }
 
+    qCDebug(logImageViewer) << "Found" << deviceListReply.value().size() << "removable devices";
+
     for (const QString &id : deviceListReply.value()) {
-        // QueryBlockDeviceInfo(const QString &id, bool reload)
         QDBusReply<QVariantMap> deviceReply = m_dfmDeviceManager->call("QueryBlockDeviceInfo", id, false);
         if (!deviceReply.isValid()) {
-            qWarning() << qPrintable("DBus call QueryBlockDeviceInfo failed") << deviceReply.error().message();
+            qCWarning(logImageViewer) << "Failed to query device info for" << id << ":" << deviceReply.error().message();
             continue;
         }
 
@@ -174,13 +189,14 @@ void FileTrashHelper::queryMountInfo()
             const QStringList mountPaths = deviceInfo.value("MountPoints").toStringList();
             if (mountPaths.isEmpty()) {
                 const QString mountPath = deviceInfo.value("MountPoint").toString();
-
                 if (!mountPath.isEmpty()) {
+                    qCDebug(logImageViewer) << "Adding USB device mount point:" << mountPath;
                     mountDevices.insert(id, mountPath);
                 }
             } else {
                 for (const QString &mount : mountPaths) {
                     if (!mount.isEmpty()) {
+                        qCDebug(logImageViewer) << "Adding USB device mount point:" << mount;
                         mountDevices.insert(id, mount);
                     }
                 }
@@ -194,12 +210,15 @@ void FileTrashHelper::queryMountInfo()
  */
 bool FileTrashHelper::isExternalDevice(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking if path is on external device:" << path;
     for (auto itr = mountDevices.begin(); itr != mountDevices.end(); ++itr) {
         if (path.startsWith(itr.value())) {
+            qCDebug(logImageViewer) << "Path is on external device:" << itr.value();
             return true;
         }
     }
 
+    qCDebug(logImageViewer) << "Path is not on external device";
     return false;
 }
 
@@ -208,14 +227,18 @@ bool FileTrashHelper::isExternalDevice(const QString &path)
  */
 bool FileTrashHelper::isGvfsFile(const QUrl &url) const
 {
-    if (!url.isValid())
+    if (!url.isValid()) {
+        qCDebug(logImageViewer) << "Invalid URL for GVFS check";
         return false;
+    }
 
     const QString &path = url.toLocalFile();
     static const QString gvfsMatch { "(^/run/user/\\d+/gvfs/|^/root/.gvfs/|^/media/[\\s\\S]*/smbmounts)" };
     QRegularExpression re { gvfsMatch };
     QRegularExpressionMatch match { re.match(path) };
-    return match.hasMatch();
+    bool isGvfs = match.hasMatch();
+    qCDebug(logImageViewer) << "GVFS check for path:" << path << "result:" << isGvfs;
+    return isGvfs;
 }
 
 /*!
@@ -225,7 +248,9 @@ bool FileTrashHelper::isGvfsFile(const QUrl &url) const
  */
 int FileTrashHelper::moveFileToTrashWithDBus(const QUrl &url)
 {
+    qCDebug(logImageViewer) << "Moving file to trash via DBus:" << url.toString();
     if (!url.isValid()) {
+        qCWarning(logImageViewer) << "Invalid URL for trash operation";
         return kTrashInvalidUrl;
     }
 
@@ -246,6 +271,7 @@ int FileTrashHelper::moveFileToTrashWithDBus(const QUrl &url)
                                  [&filePath, &loop, &waitRet](const QString &imagePath) {
                                      // 删除信息未通过 DBus 返回，直接判断文件是否已被删除
                                      if ((imagePath == filePath) && !QFile::exists(filePath)) {
+                                         qCDebug(logImageViewer) << "File successfully moved to trash:" << filePath;
                                          waitRet = kTrashSuccess;
                                          loop.quit();
                                      };
@@ -257,7 +283,7 @@ int FileTrashHelper::moveFileToTrashWithDBus(const QUrl &url)
 
     if (pendingCall.isError()) {
         auto error = pendingCall.error();
-        qWarning() << "Delete image by dbus error(directly):" << error.name() << error.message();
+        qCWarning(logImageViewer) << "DBus trash operation failed:" << error.name() << error.message();
         QObject::disconnect(conn);
         return kTrashInterfaceError;
     }
@@ -270,5 +296,8 @@ int FileTrashHelper::moveFileToTrashWithDBus(const QUrl &url)
     }
 
     QObject::disconnect(conn);
+    if (waitRet == kTrashTimeout) {
+        qCWarning(logImageViewer) << "Trash operation timed out";
+    }
     return waitRet;
 }

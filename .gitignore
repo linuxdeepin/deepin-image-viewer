@@ -25,6 +25,7 @@ vendor/include/*
 vendor/lib/*
 
 .vscode/*
+.cursor
 
 *.log
 

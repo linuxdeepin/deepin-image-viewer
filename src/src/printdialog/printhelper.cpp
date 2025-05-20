@@ -3,6 +3,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "printhelper.h"
+#include "printhelper.h"
+#include "unionimage/unionimage.h"
+
+#include <DApplication>
 
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
@@ -13,14 +17,9 @@
 #include <QCoreApplication>
 #include <QImageReader>
 #include <QDebug>
+#include <QLoggingCategory>
 
-#include <DApplication>
-
-
-#include "printhelper.h"
-#include "unionimage/unionimage.h"
-
-
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 PrintHelper *PrintHelper::m_Printer = nullptr;
 
@@ -43,7 +42,7 @@ PrintHelper::~PrintHelper()
     m_re->deleteLater();
 }
 
-//暂时没有使用配置文件的快捷键，现在是根据代码中的快捷键
+// 暂时没有使用配置文件的快捷键，现在是根据代码中的快捷键
 /*
 static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction = nullptr)
 {
@@ -98,42 +97,48 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
     Q_UNUSED(parent)
+    qCDebug(logImageViewer) << "Showing print dialog for" << paths.size() << "images";
     m_re->m_paths.clear();
     m_re->m_imgs.clear();
 
     m_re->m_paths = paths;
-    QStringList tempExsitPaths;//保存存在的图片路径
+    QStringList tempExsitPaths;   // 保存存在的图片路径
     QImage imgTemp;
     for (const QString &path : paths) {
         QString errMsg;
         QImageReader imgReadreder(path);
         if (imgReadreder.imageCount() > 1) {
+            qCDebug(logImageViewer) << "Loading multi-page image:" << path << "with" << imgReadreder.imageCount() << "pages";
             for (int imgindex = 0; imgindex < imgReadreder.imageCount(); imgindex++) {
                 imgReadreder.jumpToImage(imgindex);
                 m_re->m_imgs << imgReadreder.read();
             }
         } else {
-            //QImage不应该多次赋值，所以换到这里来，修复style问题
+            // QImage不应该多次赋值，所以换到这里来，修复style问题
             QImage img;
             LibUnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
             if (!img.isNull()) {
+                qCDebug(logImageViewer) << "Loaded single image:" << path << "size:" << img.size();
                 m_re->m_imgs << img;
+            } else {
+                qCWarning(logImageViewer) << "Failed to load image:" << path << "error:" << errMsg;
             }
         }
         tempExsitPaths << paths;
-
     }
-    //看图采用同步,因为只有一张图片
+
+    // 看图采用同步,因为只有一张图片
     DPrintPreviewDialog printDialog2(nullptr);
-#if (DTK_VERSION_MAJOR > 5 \
-    || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4) \
-    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10))//5.4.4暂时没有合入
-    //增加运行时版本判断
+#if (DTK_VERSION_MAJOR > 5                                \
+     || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR > 4) \
+     || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10))   // 5.4.4暂时没有合入
+    // 增加运行时版本判断
     if (DApplication::runtimeDtkVersion() >= DTK_VERSION_CHECK(5, 4, 10, 0)) {
         if (tempExsitPaths.count() > 0) {
-            //直接传递为路径,不会有问题
+            // 直接传递为路径,不会有问题
             QString docName = QString(QFileInfo(tempExsitPaths.at(0)).completeBaseName());
             docName = docName + ".pdf";
+            qCDebug(logImageViewer) << "Setting document name for print preview:" << docName;
             printDialog2.setDocName(docName);
         }
     }
@@ -142,8 +147,10 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             m_re, SLOT(paintRequestSync(DPrinter *)));
 
 #ifndef USE_TEST
+    qCDebug(logImageViewer) << "Executing print preview dialog";
     printDialog2.exec();
 #else
+    qCDebug(logImageViewer) << "Showing print preview dialog (test mode)";
     printDialog2.show();
 #endif
     m_re->m_paths.clear();
@@ -157,12 +164,12 @@ RequestedSlot::RequestedSlot(QObject *parent)
 
 RequestedSlot::~RequestedSlot()
 {
-
 }
 
 void RequestedSlot::paintRequestSync(DPrinter *_printer)
 {
-    //由于之前再度修改了打印的逻辑，导致了相同图片不在被显示，多余多页tiff来说不合理
+    qCDebug(logImageViewer) << "Starting print job with" << m_imgs.size() << "images";
+    // 由于之前再度修改了打印的逻辑，导致了相同图片不在被显示，多余多页tiff来说不合理
     QPainter painter(_printer);
     int indexNum = 0;
     for (QImage img : m_imgs) {
@@ -170,27 +177,32 @@ void RequestedSlot::paintRequestSync(DPrinter *_printer)
             painter.setRenderHint(QPainter::Antialiasing);
             painter.setRenderHint(QPainter::SmoothPixmapTransform);
             QRectF wRect = _printer->pageRect(QPrinter::DevicePixel);
-            //修复bug98129，打印不完全问题，ratio应该是适应宽或者高，不应该直接适应宽
+            // 修复bug98129，打印不完全问题，ratio应该是适应宽或者高，不应该直接适应宽
             qreal ratio = 0.0;
-            qDebug() << wRect;
+            qCDebug(logImageViewer) << "Printing page" << (indexNum + 1) << "of" << m_imgs.size()
+                                    << "page rect:" << wRect << "image size:" << img.size();
             ratio = wRect.width() * 1.0 / img.width();
             if (qreal(wRect.height() - img.height() * ratio) > 0) {
+                qCDebug(logImageViewer) << "Fitting image to width, ratio:" << ratio;
                 painter.drawImage(QRectF(0, abs(qreal(wRect.height() - img.height() * ratio)) / 2,
-                                         wRect.width(), img.height() * ratio), img);
+                                         wRect.width(), img.height() * ratio),
+                                  img);
             } else {
                 ratio = wRect.height() * 1.0 / img.height();
+                qCDebug(logImageViewer) << "Fitting image to height, ratio:" << ratio;
                 painter.drawImage(QRectF(qreal(wRect.width() - img.width() * ratio) / 2, 0,
-                                         img.width() * ratio, wRect.height()), img);
+                                         img.width() * ratio, wRect.height()),
+                                  img);
             }
-
-
+        } else {
+            qCWarning(logImageViewer) << "Skipping null image at index" << indexNum;
         }
         indexNum++;
         if (indexNum != m_imgs.size()) {
+            qCDebug(logImageViewer) << "Adding new page";
             _printer->newPage();
-
         }
     }
     painter.end();
+    qCDebug(logImageViewer) << "Print job completed";
 }
-

@@ -19,6 +19,7 @@
 #include <QtSvg/QSvgRenderer>
 #include <QDir>
 #include <QDebug>
+#include <QLoggingCategory>
 
 #include "unionimage/imageutils.h"
 
@@ -26,6 +27,7 @@
 
 #define SAVE_QUAITY_VALUE 100
 
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 const QString DATETIME_FORMAT_NORMAL = "yyyy.MM.dd";
 const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm";
 
@@ -116,7 +118,6 @@ public:
     }
     ~UnionImage_Private()
     {
-
     }
     QStringList m_qtSupported;
     QHash<QString, int> m_movie_formats;
@@ -184,7 +185,7 @@ UNIONIMAGESHARED_EXPORT QString size2Human(const qlonglong bytes)
             return vs + " MB";
         }
     } else {
-        //修改了当超过一个G的图片,应该用G返回,不应该返回一堆数字,bug68094
+        // 修改了当超过一个G的图片,应该用G返回,不应该返回一堆数字,bug68094
         QString vs = QString::number(static_cast<double>(bytes) / kb / kb / kb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
             return QString::number(static_cast<int>(vs.toDouble())) + " GB";
@@ -231,8 +232,10 @@ UNIONIMAGESHARED_EXPORT QString unionImageVersion()
 
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
+    qCDebug(logImageViewer) << "Loading static image from file:" << path;
     QFileInfo file_info(path);
     if (file_info.size() == 0) {
+        qCWarning(logImageViewer) << "Empty file:" << path;
         res = QImage();
         errorMsg = "error file!";
         return false;
@@ -256,7 +259,8 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
         if (reader.imageCount() > 0 || file_suffix_upper != "ICNS") {
             res_qt = reader.read();
             if (res_qt.isNull()) {
-                //try old loading method
+                qCDebug(logImageViewer) << "Failed to read image with QImageReader, trying old method";
+                // try old loading method
                 QString format = detectImageFormat(path);
                 QImageReader readerF(path, format.toLatin1());
                 QImage try_res;
@@ -265,33 +269,40 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
                     try_res = readerF.read();
                 } else {
                     errorMsg = "can't read image:" + readerF.errorString() + format;
+                    qCWarning(logImageViewer) << errorMsg;
                     try_res = QImage(path);
                 }
                 if (try_res.isNull()) {
                     errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
+                    qCWarning(logImageViewer) << errorMsg;
                     res = QImage();
                     return false;
                 }
                 errorMsg = "use old method to load QImage";
+                qCDebug(logImageViewer) << "Successfully loaded image using old method";
                 res = try_res;
                 return true;
             }
             errorMsg = "use QImage";
+            qCDebug(logImageViewer) << "Successfully loaded image using QImageReader";
             res = res_qt;
         } else {
+            qCWarning(logImageViewer) << "No images found in file:" << path;
             res = QImage();
             return false;
         }
         return true;
     }
+    qCWarning(logImageViewer) << "Unsupported image format:" << file_suffix_upper;
     return false;
 }
 
 UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
 {
+    qCDebug(logImageViewer) << "Detecting image format for:" << path;
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "DetectImageFormat() failed to open file:" << path;
+        qCWarning(logImageViewer) << "Failed to open file for format detection:" << path;
         return "";
     }
 
@@ -299,56 +310,67 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
 
     // Check bmp file.
     if (data.startsWith("BM")) {
+        qCDebug(logImageViewer) << "Detected BMP format";
         return "BMP";
     }
 
     // Check dds file.
     if (data.startsWith("DDS")) {
+        qCDebug(logImageViewer) << "Detected DDS format";
         return "DDS";
     }
 
     // Check gif file.
     if (data.startsWith("GIF8")) {
+        qCDebug(logImageViewer) << "Detected GIF format";
         return "GIF";
     }
 
     // Check Max OS icons file.
     if (data.startsWith("icns")) {
+        qCDebug(logImageViewer) << "Detected ICNS format";
         return "ICNS";
     }
 
     // Check jpeg file.
     if (data.startsWith("\xff\xd8")) {
+        qCDebug(logImageViewer) << "Detected JPG format";
         return "JPG";
     }
 
     // Check mng file.
     if (data.startsWith("\x8a\x4d\x4e\x47\x0d\x0a\x1a\x0a")) {
+        qCDebug(logImageViewer) << "Detected MNG format";
         return "MNG";
     }
 
     // Check net pbm file (BitMap).
     if (data.startsWith("P1") || data.startsWith("P4")) {
+        qCDebug(logImageViewer) << "Detected PBM format";
         return "PBM";
     }
 
     // Check pgm file (GrayMap).
     if (data.startsWith("P2") || data.startsWith("P5")) {
+        qCDebug(logImageViewer) << "Detected PGM format";
         return "PGM";
     }
 
     // Check ppm file (PixMap).
     if (data.startsWith("P3") || data.startsWith("P6")) {
+        qCDebug(logImageViewer) << "Detected PPM format";
         return "PPM";
     }
 
     // Check png file.
     if (data.startsWith("\x89PNG\x0d\x0a\x1a\x0a")) {
+        qCDebug(logImageViewer) << "Detected PNG format";
         return "PNG";
     }
 
     // Check svg file.
     if (data.indexOf("<svg") > -1) {
+        qCDebug(logImageViewer) << "Detected SVG format";
         return "SVG";
     }
 
@@ -356,7 +378,7 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
 
     // Check tiff file.
     if (data.startsWith("MM\x00\x2a") || data.startsWith("II\x2a\x00")) {
-        // big-endian, little-endian.
+        qCDebug(logImageViewer) << "Detected TIFF format";
         return "TIFF";
     }
 
@@ -364,21 +386,26 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
 
     // Check webp file.
     if (data.startsWith("RIFFr\x00\x00\x00WEBPVP")) {
+        qCDebug(logImageViewer) << "Detected WEBP format";
         return "WEBP";
     }
 
     // Check xbm file.
     if (data.indexOf("#define max_width ") > -1 && data.indexOf("#define max_height ") > -1) {
+        qCDebug(logImageViewer) << "Detected XBM format";
         return "XBM";
     }
 
     // Check xpm file.
     if (data.startsWith("/* XPM */")) {
+        qCDebug(logImageViewer) << "Detected XPM format";
         return "XPM";
     }
 
     QFileInfo info(path);
-    return info.suffix().toUpper();
+    QString suffix = info.suffix().toUpper();
+    qCDebug(logImageViewer) << "Using file extension as format:" << suffix;
+    return suffix;
 }
 
 UNIONIMAGESHARED_EXPORT bool isNoneQImage(const QImage &qi)
@@ -388,9 +415,13 @@ UNIONIMAGESHARED_EXPORT bool isNoneQImage(const QImage &qi)
 
 UNIONIMAGESHARED_EXPORT bool rotateImage(int angel, QImage &image)
 {
-    if (angel % 90 != 0)
+    qCDebug(logImageViewer) << "Rotating image by" << angel << "degrees";
+    if (angel % 90 != 0) {
+        qCWarning(logImageViewer) << "Unsupported rotation angle:" << angel;
         return false;
+    }
     if (image.isNull()) {
+        qCWarning(logImageViewer) << "Cannot rotate null image";
         return false;
     }
     QImage image_copy(image);
@@ -398,8 +429,10 @@ UNIONIMAGESHARED_EXPORT bool rotateImage(int angel, QImage &image)
         QTransform rotatematrix;
         rotatematrix.rotate(angel);
         image = image_copy.transformed(rotatematrix, Qt::SmoothTransformation);
+        qCDebug(logImageViewer) << "Successfully rotated image to" << angel << "degrees";
         return true;
     }
+    qCWarning(logImageViewer) << "Failed to create image copy for rotation";
     return false;
 }
 
@@ -414,30 +447,30 @@ QImage adjustImageToRealPosition(const QImage &image, int orientation)
     QImage result = image;
 
     switch (orientation) {
-    case 1: //不做操作
+    case 1:   // 不做操作
     default:
         break;
-    case 2: //水平翻转
+    case 2:   // 水平翻转
         result = result.mirrored(true, false);
         break;
-    case 3: //180度翻转
+    case 3:   // 180度翻转
         rotateImage(180, result);
         break;
-    case 4: //垂直翻转
+    case 4:   // 垂直翻转
         result = result.mirrored(false, true);
         break;
-    case 5: //顺时针90度+水平翻转
+    case 5:   // 顺时针90度+水平翻转
         rotateImage(90, result);
         result = result.mirrored(true, false);
         break;
-    case 6: //顺时针90度
+    case 6:   // 顺时针90度
         rotateImage(90, result);
         break;
-    case 7: //顺时针90度+垂直翻转
+    case 7:   // 顺时针90度+垂直翻转
         rotateImage(90, result);
         result = result.mirrored(false, true);
         break;
-    case 8: //逆时针90度
+    case 8:   // 逆时针90度
         rotateImage(-90, result);
         break;
     };
@@ -447,8 +480,10 @@ QImage adjustImageToRealPosition(const QImage &image, int orientation)
 
 UNIONIMAGESHARED_EXPORT bool rotateImageFile(int angel, const QString &path, QString &erroMsg, const QString &targetPath)
 {
+    qCDebug(logImageViewer) << "Rotating image file:" << path << "by" << angel << "degrees";
     if (angel % 90 != 0) {
         erroMsg = "unsupported angel";
+        qCWarning(logImageViewer) << erroMsg;
         return false;
     }
 
@@ -457,9 +492,11 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFile(int angel, const QString &path, QSt
 
     QString format = detectImageFormat(path);
     if (format == "SVG") {
+        qCDebug(logImageViewer) << "Rotating SVG file";
         QImage image_copy;
         if (!loadStaticImageFromFile(path, image_copy, erroMsg)) {
             erroMsg = "rotate load QImage faild, path:" + path + "  ,format:+" + format;
+            qCWarning(logImageViewer) << erroMsg;
             return false;
         }
         QSvgGenerator generator;
@@ -485,10 +522,11 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFile(int angel, const QString &path, QSt
         rotatePainter.resetTransform();
         generator.setSize(QSize(image_copy.width(), image_copy.height()));
         rotatePainter.end();
+        qCDebug(logImageViewer) << "Successfully rotated SVG file";
         return true;
 
     } else if (union_image_private.m_qtrotate.contains(format)) {
-        //由于Qt内部不会去读图片的EXIF信息来判断当前的图像矩阵的真实位置，同时回写数据的时候会丢失全部的EXIF数据
+        // 由于Qt内部不会去读图片的EXIF信息来判断当前的图像矩阵的真实位置，同时回写数据的时候会丢失全部的EXIF数据
         int orientation = getOrientation(path);
         QImage image_copy(path);
         image_copy = adjustImageToRealPosition(image_copy, orientation);
@@ -497,17 +535,21 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFile(int angel, const QString &path, QSt
             rotatematrix.rotate(angel);
             image_copy = image_copy.transformed(rotatematrix, Qt::SmoothTransformation);
             if (image_copy.save(savePath, format.toLatin1().data(), SAVE_QUAITY_VALUE)) {
+                qCDebug(logImageViewer) << "Successfully rotated and saved image";
                 return true;
             } else {
                 erroMsg = "save image failed";
+                qCWarning(logImageViewer) << erroMsg;
                 return false;
             }
         }
         erroMsg = "rotate by qt failed";
+        qCWarning(logImageViewer) << erroMsg;
         return false;
     }
 
     erroMsg = "not support rotate image format: " + format;
+    qCWarning(logImageViewer) << erroMsg;
     return false;
 }
 
@@ -518,8 +560,10 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
         return false;
     }
     QImage image_copy;
-    if (img.isNull()) return false;
-    else image_copy = img;
+    if (img.isNull())
+        return false;
+    else
+        image_copy = img;
 
     QString format = detectImageFormat(path);
     if (format == "SVG") {
@@ -562,17 +606,18 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
 
 UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &path)
 {
+    qCDebug(logImageViewer) << "Getting metadata for:" << path;
     QMap<QString, QString> admMap;
-    //移除秒　　2020/6/5 DJH
-    //需要转义才能读出：或者/　　2020/8/21 DJH
+    // 移除秒　　2020/6/5 DJH
+    // 需要转义才能读出：或者/　　2020/8/21 DJH
     QFileInfo info(path);
     if (admMap.contains("DateTime")) {
         QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
         admMap["DateTimeOriginal"] = time.toString("yyyy/MM/dd hh:mm");
     } else {
-        admMap.insert("DateTimeOriginal",  info.lastModified().toString("yyyy/MM/dd HH:mm"));
+        admMap.insert("DateTimeOriginal", info.lastModified().toString("yyyy/MM/dd HH:mm"));
     }
-    admMap.insert("DateTimeDigitized",  info.lastModified().toString("yyyy/MM/dd HH:mm"));
+    admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
 
     // The value of width and height might incorrect
     QImageReader reader(path);
@@ -584,7 +629,7 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     admMap.insert("Height", QString::number(h));
 
     admMap.insert("FileName", info.fileName());
-    //应该使用qfileinfo的格式
+    // 应该使用qfileinfo的格式
     admMap.insert("FileFormat", getFileFormat(path));
     admMap.insert("FileSize", size2Human(info.size()));
 
@@ -593,7 +638,7 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
 
 UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path)
 {
-    return canSave(path) ;
+    return canSave(path);
 }
 
 UNIONIMAGESHARED_EXPORT int getOrientation(const QString &path)
@@ -617,17 +662,19 @@ UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width, int height, i
 
 imageViewerSpace::ImageType getImageType(const QString &imagepath)
 {
+    qCDebug(logImageViewer) << "Getting image type for:" << imagepath;
     imageViewerSpace::ImageType type = imageViewerSpace::ImageType::ImageTypeBlank;
-    //新增获取图片是属于静态图还是动态图还是多页图
+    // 新增获取图片是属于静态图还是动态图还是多页图
     if (!imagepath.isEmpty()) {
         QFileInfo fi(imagepath);
         if (!fi.exists()) {
             // 文件不存在返回空
+            qCWarning(logImageViewer) << "File does not exist:" << imagepath;
             return imageViewerSpace::ImageTypeBlank;
         }
 
         QString strType = fi.suffix().toLower();
-        //解决bug57394 【专业版1031】【看图】【5.6.3.74】【修改引入】pic格式图片变为翻页状态，不为动图且首张显示序号为0
+        // 解决bug57394 【专业版1031】【看图】【5.6.3.74】【修改引入】pic格式图片变为翻页状态，不为动图且首张显示序号为0
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(imagepath, QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(imagepath, QMimeDatabase::MatchExtension);
@@ -638,6 +685,7 @@ imageViewerSpace::ImageType getImageType(const QString &imagepath)
         int nSize = imgreader.imageCount();
         //
         if (strType == "svg" && QSvgRenderer().load(imagepath)) {
+            qCDebug(logImageViewer) << "Detected SVG image type";
             type = imageViewerSpace::ImageTypeSvg;
         } else if ((strType == "mng")
                    || ((strType == "gif") && nSize > 1)
@@ -646,10 +694,13 @@ imageViewerSpace::ImageType getImageType(const QString &imagepath)
                    || ((mt1.name().startsWith("image/gif")) && nSize > 1)
                    || ((mt.name().startsWith("video/x-mng")))
                    || ((mt1.name().startsWith("video/x-mng")))) {
+            qCDebug(logImageViewer) << "Detected dynamic image type with" << nSize << "frames";
             type = imageViewerSpace::ImageTypeDynamic;
         } else if (nSize > 1) {
+            qCDebug(logImageViewer) << "Detected multi-page image type with" << nSize << "pages";
             type = imageViewerSpace::ImageTypeMulti;
         } else {
+            qCDebug(logImageViewer) << "Detected static image type";
             type = imageViewerSpace::ImageTypeStatic;
         }
     }
@@ -658,26 +709,30 @@ imageViewerSpace::ImageType getImageType(const QString &imagepath)
 
 imageViewerSpace::PathType getPathType(const QString &imagepath)
 {
-    //判断文件路径来自于哪里
+    qCDebug(logImageViewer) << "Getting path type for:" << imagepath;
+    // 判断文件路径来自于哪里
     imageViewerSpace::PathType type = imageViewerSpace::PathType::PathTypeLOCAL;
     if (imagepath.indexOf("smb-share:server=") != -1) {
+        qCDebug(logImageViewer) << "Detected SMB path type";
         type = imageViewerSpace::PathTypeSMB;
     } else if (imagepath.indexOf("mtp:host=") != -1) {
+        qCDebug(logImageViewer) << "Detected MTP path type";
         type = imageViewerSpace::PathTypeMTP;
     } else if (imagepath.indexOf("gphoto2:host=") != -1) {
+        qCDebug(logImageViewer) << "Detected PTP path type";
         type = imageViewerSpace::PathTypePTP;
     } else if (imagepath.indexOf("gphoto2:host=Apple") != -1) {
+        qCDebug(logImageViewer) << "Detected Apple path type";
         type = imageViewerSpace::PathTypeAPPLE;
     } else if (Libutils::image::isVaultFile(imagepath)) {
+        qCDebug(logImageViewer) << "Detected safebox path type";
         type = imageViewerSpace::PathTypeSAFEBOX;
     } else if (imagepath.contains(QDir::homePath() + "/.local/share/Trash")) {
+        qCDebug(logImageViewer) << "Detected recycle bin path type";
         type = imageViewerSpace::PathTypeRECYCLEBIN;
     }
-    //todo
+    // todo
     return type;
 }
 
 };
-
-
-

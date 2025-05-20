@@ -8,6 +8,9 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QFileSystemWatcher>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 ImageFileWatcher::ImageFileWatcher(QObject *parent)
     : QObject(parent)
@@ -44,11 +47,13 @@ void ImageFileWatcher::resetImageFiles(const QStringList &filePaths)
         if (!directories.isEmpty()) {
             fileWatcher->removePaths(fileWatcher->directories());
         }
+        qCDebug(logImageViewer) << "Cleared all file watchers";
         return;
     }
 
     // 目前仅会处理单个文件夹路径，重复追加将忽略
     if (isCurrentDir(filePaths.first())) {
+        qCDebug(logImageViewer) << "Directory already being watched:" << filePaths.first();
         return;
     }
 
@@ -64,6 +69,9 @@ void ImageFileWatcher::resetImageFiles(const QStringList &filePaths)
             cacheFileInfo.insert(tempPath, filePath);
             // 将文件追加到记录中
             fileWatcher->addPath(tempPath);
+            qCDebug(logImageViewer) << "Added file to watch:" << tempPath;
+        } else {
+            qCWarning(logImageViewer) << "File does not exist:" << tempPath;
         }
     }
 
@@ -71,7 +79,9 @@ void ImageFileWatcher::resetImageFiles(const QStringList &filePaths)
     if (!fileList.isEmpty()) {
         // 观察文件夹变更
         QFileInfo info(fileList.first());
-        fileWatcher->addPath(info.absolutePath());
+        QString dirPath = info.absolutePath();
+        fileWatcher->addPath(dirPath);
+        qCDebug(logImageViewer) << "Added directory to watch:" << dirPath;
     }
 }
 
@@ -82,9 +92,9 @@ void ImageFileWatcher::fileRename(const QString &oldPath, const QString &newPath
 {
     if (cacheFileInfo.contains(oldPath)) {
         fileWatcher->removePath(oldPath);
-
         cacheFileInfo.insert(newPath, newPath);
         fileWatcher->addPath(newPath);
+        qCInfo(logImageViewer) << "File renamed:" << oldPath << "->" << newPath;
     }
 }
 
@@ -125,6 +135,7 @@ void ImageFileWatcher::onImageFileChanged(const QString &file)
 {
     // 若为当前旋转处理的文件，不触发更新，状态在图像缓存中已同步
     if (rotateImagePathSet.contains(file)) {
+        qCDebug(logImageViewer) << "Ignoring file change for rotating image:" << file;
         return;
     }
 
@@ -135,6 +146,9 @@ void ImageFileWatcher::onImageFileChanged(const QString &file)
         // 文件移动或删除，缓存记录
         if (!isExist) {
             removedFile.insert(file, url);
+            qCWarning(logImageViewer) << "File removed or moved:" << file;
+        } else {
+            qCInfo(logImageViewer) << "File changed:" << file;
         }
 
         Q_EMIT imageFileChanged(file);
@@ -152,6 +166,7 @@ void ImageFileWatcher::onImageFileChanged(const QString &file)
  */
 void ImageFileWatcher::onImageDirChanged(const QString &dir)
 {
+    qCDebug(logImageViewer) << "Directory changed:" << dir;
     // 文件夹变更，判断是否存在新增已移除的文件
     QDir imageDir(dir);
     QStringList dirFiles = imageDir.entryList();
@@ -161,6 +176,7 @@ void ImageFileWatcher::onImageDirChanged(const QString &dir)
         if (dirFiles.contains(info.fileName())) {
             // 重新追加到文件观察中
             fileWatcher->addPath(itr.key());
+            qCInfo(logImageViewer) << "File restored:" << itr.key();
             // 文件恢复或替换，发布文件变更信息
             onImageFileChanged(itr.key());
 

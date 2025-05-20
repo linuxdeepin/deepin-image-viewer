@@ -22,6 +22,9 @@
 #include <QReadWriteLock>
 #include <QUrl>
 #include <QApplication>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 namespace Libutils {
 
@@ -30,17 +33,19 @@ namespace image {
 const QImage scaleImage(const QString &path, const QSize &size)
 {
     if (!imageSupportRead(path)) {
+        qCWarning(logImageViewer) << "Image format not supported for scaling:" << path;
         return QImage();
     }
     QImageReader reader(path);
     reader.setAutoTransform(true);
-    if (! reader.canRead()) {
-        qDebug() << "Can't read image: " << path;
+    if (!reader.canRead()) {
+        qCWarning(logImageViewer) << "Can't read image for scaling:" << path;
         return QImage();
     }
 
     QSize tSize = reader.size();
-    if (! tSize.isValid()) {
+    if (!tSize.isValid()) {
+        qCDebug(logImageViewer) << "Image size not valid, trying to get from metadata:" << path;
         QStringList rl = getAllMetaData(path).value("Dimension").split("x");
         if (rl.length() == 2) {
             tSize = QSize(QString(rl.first()).toInt(),
@@ -53,24 +58,30 @@ const QImage scaleImage(const QString &path, const QSize &size)
     // Some format does not support scaling
     if (tImg.width() > size.width() || tImg.height() > size.height()) {
         if (tImg.isNull()) {
+            qCWarning(logImageViewer) << "Failed to read scaled image:" << path;
             return QImage();
         } else {
             // Save as supported format and scale it again
             const QString tmp = QDir::tempPath() + "/scale_tmp_image.png";
             QFile::remove(tmp);
             if (tImg.save(tmp, "png", 50)) {
+                qCDebug(logImageViewer) << "Saved temporary PNG for rescaling:" << tmp;
                 return scaleImage(tmp, size);
             } else {
+                qCWarning(logImageViewer) << "Failed to save temporary PNG for rescaling:" << tmp;
                 return QImage();
             }
         }
-    } else
+    } else {
+        qCDebug(logImageViewer) << "Successfully scaled image:" << path << "from" << tSize << "to" << size;
         return tImg;
+    }
 }
 
 const QDateTime getCreateDateTime(const QString &path)
 {
-    QDateTime dt; /*= libexif::getCreateDateTime(path);*/
+    qCDebug(logImageViewer) << "Getting creation date for:" << path;
+    QDateTime dt;
 
     // fallback to metadata.
     if (!dt.isValid()) {
@@ -83,17 +94,20 @@ const QDateTime getCreateDateTime(const QString &path)
             s = QDateTime::currentDateTime().toString();
         }
         dt = QDateTime::fromString(s, "yyyy.MM.dd HH:mm:ss");
+        qCDebug(logImageViewer) << "Using metadata date:" << dt;
     }
 
     // fallback to file create time.
     if (!dt.isValid()) {
         QFileInfo finfo(path);
         dt = finfo.birthTime();
+        qCDebug(logImageViewer) << "Using file birth time:" << dt;
     }
 
     // fallback to today.
     if (!dt.isValid()) {
         dt = QDateTime::currentDateTime();
+        qCDebug(logImageViewer) << "Using current time as fallback:" << dt;
     }
 
     return dt;
@@ -102,12 +116,16 @@ const QDateTime getCreateDateTime(const QString &path)
 bool imageSupportRead(const QString &path)
 {
     const QString suffix = QFileInfo(path).suffix();
-    if (suffix == "icns") return true;
+    if (suffix == "icns") {
+        qCDebug(logImageViewer) << "ICNS format supported:" << path;
+        return true;
+    }
     // take them here for good.
     QStringList errorList;
     errorList << "X3F";
 
     if (errorList.indexOf(suffix.toUpper()) != -1) {
+        qCWarning(logImageViewer) << "Unsupported image format:" << suffix;
         return false;
     }
     return true;
@@ -122,8 +140,13 @@ bool imageSupportSave(const QString &path)
 bool rotate(const QString &path, int degree)
 {
     /*lmh0724使用USE_UNIONIMAGE*/
+    qCDebug(logImageViewer) << "Rotating image:" << path << "by" << degree << "degrees";
     QString erroMsg;
-    return LibUnionImage_NameSpace::rotateImageFile(degree, path, erroMsg);
+    bool result = LibUnionImage_NameSpace::rotateImageFile(degree, path, erroMsg);
+    if (!result) {
+        qCWarning(logImageViewer) << "Failed to rotate image:" << path << "error:" << erroMsg;
+    }
+    return result;
 }
 
 /*!
@@ -146,6 +169,7 @@ const QPixmap cutSquareImage(const QPixmap &pixmap)
  */
 const QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size)
 {
+    qCDebug(logImageViewer) << "Cutting square image, original size:" << pixmap.size() << "target size:" << size;
     const qreal ratio = qApp->devicePixelRatio();
     QImage img = pixmap.toImage().scaled(size * ratio,
                                          Qt::KeepAspectRatioByExpanding,
@@ -187,15 +211,17 @@ const QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size)
  */
 const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
 {
+    qCDebug(logImageViewer) << "Getting image info for directory:" << dir << "recursive:" << recursive;
     QFileInfoList infos;
 
-    if (! recursive) {
+    if (!recursive) {
         auto nsl = QDir(dir).entryInfoList(QDir::Files);
         for (QFileInfo info : nsl) {
             if (imageSupportRead(info.absoluteFilePath())) {
                 infos << info;
             }
         }
+        qCDebug(logImageViewer) << "Found" << infos.size() << "images in directory";
         return infos;
     }
 
@@ -206,10 +232,10 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
         dirIterator.next();
         if (imageSupportRead(dirIterator.fileInfo().absoluteFilePath())) {
             infos << dirIterator.fileInfo();
-#include "imageutils.h"
         }
     }
 
+    qCDebug(logImageViewer) << "Found" << infos.size() << "images recursively";
     return infos;
 }
 
@@ -226,6 +252,7 @@ int getOrientation(const QString &path)
  */
 const QImage getRotatedImage(const QString &path)
 {
+    qCDebug(logImageViewer) << "Getting rotated image:" << path;
     QImage tImg;
     QString format = LibUnionImage_NameSpace::detectImageFormat(path);
     if (format.isEmpty()) {
@@ -233,16 +260,16 @@ const QImage getRotatedImage(const QString &path)
         reader.setAutoTransform(true);
         if (reader.canRead()) {
             tImg = reader.read();
+            qCDebug(logImageViewer) << "Read image with auto transform";
         }
     } else {
         QImageReader readerF(path, format.toLatin1());
         readerF.setAutoTransform(true);
         if (readerF.canRead()) {
             tImg = readerF.read();
+            qCDebug(logImageViewer) << "Read image with format:" << format;
         } else {
-            qWarning() << "can't read image:" << readerF.errorString()
-            << format;
-
+            qCWarning(logImageViewer) << "Can't read image:" << readerF.errorString() << "format:" << format;
             tImg = QImage(path);
         }
     }
@@ -269,7 +296,7 @@ QString size2HumanT(const qlonglong bytes)
             return vs + " MB";
         }
     } else {
-        //修改了当超过一个G的图片,应该用G返回,不应该返回一堆数字,bug68094
+        // 修改了当超过一个G的图片,应该用G返回,不应该返回一堆数字,bug68094
         QString vs = QString::number(static_cast<double>(bytes) / kb / kb / kb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
             return QString::number(static_cast<int>(vs.toDouble())) + " GB";
@@ -281,9 +308,10 @@ QString size2HumanT(const qlonglong bytes)
 
 const QMap<QString, QString> getAllMetaData(const QString &path)
 {
+    qCDebug(logImageViewer) << "Getting metadata for:" << path;
     QMap<QString, QString> admMap;
-    //移除秒　　2020/6/5 DJH
-    //需要转义才能读出：或者/　　2020/8/21 DJH
+    // 移除秒　　2020/6/5 DJH
+    // 需要转义才能读出：或者/　　2020/8/21 DJH
     QFileInfo info(path);
     if (admMap.contains("DateTime")) {
         QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
@@ -298,18 +326,25 @@ const QMap<QString, QString> getAllMetaData(const QString &path)
     int h = reader.size().height();
     admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
     admMap.insert("FileName", info.fileName());
-    //应该使用qfileinfo的格式
+    // 应该使用qfileinfo的格式
     admMap.insert("FileFormat", info.suffix());
     admMap.insert("FileSize", size2HumanT(info.size()));
+
+    qCDebug(logImageViewer) << "Metadata retrieved - dimensions:" << w << "x" << h
+                            << "format:" << info.suffix() << "size:" << size2HumanT(info.size());
     return admMap;
 }
 
 const QPixmap cachePixmap(const QString &path)
 {
+    qCDebug(logImageViewer) << "Caching pixmap:" << path;
     QPixmap pp;
-    if (! QPixmapCache::find(path, &pp)) {
+    if (!QPixmapCache::find(path, &pp)) {
         pp = QPixmap(path);
         QPixmapCache::insert(path, pp);
+        qCDebug(logImageViewer) << "Added pixmap to cache, size:" << pp.size();
+    } else {
+        qCDebug(logImageViewer) << "Retrieved pixmap from cache, size:" << pp.size();
     }
     return pp;
 }
@@ -325,7 +360,7 @@ const QString toMd5(const QByteArray &data)
  * \param url
  * \return
  */
-QMap<QString, QString> thumbnailAttribute(const QUrl  &url)
+QMap<QString, QString> thumbnailAttribute(const QUrl &url)
 {
     QMap<QString, QString> set;
 
@@ -344,7 +379,7 @@ QMap<QString, QString> thumbnailAttribute(const QUrl  &url)
             set.insert("Thumb::Image::Height", QString::number(reader.size().height()));
         }
     } else {
-        //TODO for other's scheme
+        // TODO for other's scheme
     }
 
     return set;
@@ -377,10 +412,10 @@ QMutex mutex;
 const QPixmap getThumbnail(const QString &path, bool cacheOnly)
 {
     QMutexLocker locker(&mutex);
-    //优先读取自身缓存的图片
-//    if (dApp->m_imagemap.value(path).isNull()) {
-//        return dApp->m_imagemap.value(path);
-//    }
+    // 优先读取自身缓存的图片
+    //    if (dApp->m_imagemap.value(path).isNull()) {
+    //        return dApp->m_imagemap.value(path);
+    //    }
     const QString cacheP = thumbnailCachePath();
     const QUrl url = QUrl::fromLocalFile(path);
     const QString md5s = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());
@@ -391,11 +426,11 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
     }
     /*lmh0724使用USE_UNIONIMAGE*/
     else if (QFileInfo(failEncodePath).exists()) {
-        qDebug() << "Fail-thumbnail exist, won't regenerate: " ;
+        qDebug() << "Fail-thumbnail exist, won't regenerate: ";
         return QPixmap();
     } else {
         // Try to generate thumbnail and load it later
-        if (! cacheOnly && generateThumbnail(path)) {
+        if (!cacheOnly && generateThumbnail(path)) {
             return QPixmap(encodePath);
         } else {
             return QPixmap();
@@ -410,6 +445,7 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
  */
 bool generateThumbnail(const QString &path)
 {
+    qCDebug(logImageViewer) << "Generating thumbnail for:" << path;
     const QUrl url = QUrl::fromLocalFile(path);
     const QString md5 = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());
     const auto attributes = thumbnailAttribute(url);
@@ -421,9 +457,7 @@ bool generateThumbnail(const QString &path)
 
     // Normal thumbnail
     QImage nImg = lImg.scaled(
-                      QSize(THUMBNAIL_NORMAL_SIZE, THUMBNAIL_NORMAL_SIZE)
-                      , Qt::KeepAspectRatio
-                      , Qt::SmoothTransformation);
+            QSize(THUMBNAIL_NORMAL_SIZE, THUMBNAIL_NORMAL_SIZE), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // Create filed thumbnail
     if (lImg.isNull() || nImg.isNull()) {
@@ -434,8 +468,8 @@ bool generateThumbnail(const QString &path)
             img.setText(key, attributes[key]);
         }
 
-        qDebug() << "Save failed thumbnail:" << img.save(failedP,  "png")
-                 << failedP << url;
+        qCWarning(logImageViewer) << "Failed to generate thumbnail, saving failure marker:" << failedP;
+        img.save(failedP, "png");
         return false;
     } else {
         for (QString key : attributes.keys()) {
@@ -445,8 +479,10 @@ bool generateThumbnail(const QString &path)
         const QString largeP = cacheP + "/large/" + md5 + ".png";
         const QString normalP = cacheP + "/normal/" + md5 + ".png";
         if (lImg.save(largeP, "png", 50) && nImg.save(normalP, "png", 50)) {
+            qCDebug(logImageViewer) << "Successfully generated thumbnails - large:" << largeP << "normal:" << normalP;
             return true;
         } else {
+            qCWarning(logImageViewer) << "Failed to save thumbnails";
             return false;
         }
     }
@@ -476,6 +512,7 @@ const QString thumbnailPath(const QString &path, ThumbnailType type)
 
 void removeThumbnail(const QString &path)
 {
+    qCDebug(logImageViewer) << "Removing thumbnails for:" << path;
     QFile(thumbnailPath(path, ThumbLarge)).remove();
     QFile(thumbnailPath(path, ThumbNormal)).remove();
     QFile(thumbnailPath(path, ThumbFail)).remove();
@@ -484,9 +521,9 @@ void removeThumbnail(const QString &path)
 bool thumbnailExist(const QString &path, ThumbnailType type)
 {
     if (QFileInfo(thumbnailPath(path, type)).exists()
-//            || QFileInfo(thumbnailPath(path, ThumbNormal)).exists()
-//            || QFileInfo(thumbnailPath(path, ThumbFail)).exists()
-       ) {
+        //            || QFileInfo(thumbnailPath(path, ThumbNormal)).exists()
+        //            || QFileInfo(thumbnailPath(path, ThumbFail)).exists()
+    ) {
         return true;
     } else {
         return false;
@@ -518,21 +555,21 @@ static QStringList fromByteArrayList(const QByteArrayList &list)
 QStringList supportedImageFormats()
 {
     /*lmh0724使用USE_UNIONIMAGE*/
-    QStringList list ;
+    QStringList list;
     for (auto str : LibUnionImage_NameSpace::unionImageSupportFormat()) {
         str = "*." + str;
         list += str;
     }
     return list;
-
 }
 
 bool imageSupportWallPaper(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking wallpaper support for:" << path;
     bool iRet = false;
     QStringList listsupportWallPaper;
     listsupportWallPaper << "bmp"
-//                         << "cod"
+                         //                         << "cod"
                          << "png"
                          << "gif"
                          << "ief"
@@ -540,61 +577,55 @@ bool imageSupportWallPaper(const QString &path)
                          << "jpeg"
                          << "jpg"
                          << "jfif"
-//                         << "svg"
+                         //                         << "svg"
                          << "tif"
                          << "tiff"
-//                         << "ras"
-//                         << "cmx"
-//                         << "ico"
-//                         << "pnm"
-//                         << "pbm"
-//                         << "pgm"
-//                         << "ppm"
-//                         << "rgb"
-//                         << "xbm"
-//                         << "xpm"
-//                         << "xwd"
-                         ;
+            //                         << "ras"
+            //                         << "cmx"
+            //                         << "ico"
+            //                         << "pnm"
+            //                         << "pbm"
+            //                         << "pgm"
+            //                         << "ppm"
+            //                         << "rgb"
+            //                         << "xbm"
+            //                         << "xpm"
+            //                         << "xwd"
+            ;
     //
     QImageReader reader(path);
     if (reader.imageCount() > 0) {
-
-        //2020/11/12 bug54279
+        // 2020/11/12 bug54279
         if (listsupportWallPaper.contains(reader.format().toLower()) && listsupportWallPaper.contains(QFileInfo(path).suffix().toLower())) {
             iRet = true;
+            qCDebug(logImageViewer) << "Image format supported for wallpaper:" << reader.format();
+        } else {
+            qCDebug(logImageViewer) << "Image format not supported for wallpaper:" << reader.format();
         }
-        //20201012 lmh ico不支持设置壁纸
-//        else {
-//            const QString suffix = QFileInfo(path).suffix();
-//            if(suffix=="ico")
-//            {
-//                iRet=true;
-//            }
-//        }
     }
 
     return iRet;
 }
 
-//bool suffixisImage(const QString &path)
+// bool suffixisImage(const QString &path)
 //{
-//#ifdef USE_UNIONIMAGE
-//    return UnionImage_NameSpace::suffixisImage(path);
-//#else
-//    bool iRet = false;
-//    QFileInfo info(path);
-//    QMimeDatabase db;
-//    QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
-//    QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
-//    QString str = info.suffix();
-//    // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
-//    if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-//            mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-//        iRet = true;
-//    }
-//    return iRet;
-//#endif
-//}
+// #ifdef USE_UNIONIMAGE
+//     return UnionImage_NameSpace::suffixisImage(path);
+// #else
+//     bool iRet = false;
+//     QFileInfo info(path);
+//     QMimeDatabase db;
+//     QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
+//     QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
+//     QString str = info.suffix();
+//     // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
+//     if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+//             mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+//         iRet = true;
+//     }
+//     return iRet;
+// #endif
+// }
 
 QString makeVaultLocalPath(const QString &path, const QString &base)
 {
@@ -618,18 +649,17 @@ bool isVaultFile(const QString &path)
     }
 
     return bVaultFile;
-
 }
 bool isCanRemove(const QString &path)
 {
     bool bRet = true;
     QString trashPath = QDir::homePath() + "/.local/share/Trash";
-    //新增保险箱的判断,回收站判断
+    // 新增保险箱的判断,回收站判断
     if (isVaultFile(path) || path.contains(trashPath)) {
         bRet = false;
     }
     return bRet;
 }
-}  // namespace image
+}   // namespace image
 
-}  //namespace utils
+}   // namespace utils
