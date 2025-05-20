@@ -8,12 +8,15 @@
 #include "imagesourcemodel.h"
 
 #include <QDebug>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 PathViewProxyModel::IndexInfo::IndexInfo(const IndexInfo &other)
-    : url { other.url }
-    , index { other.index }
-    , frameCount { other.frameCount }
-    , frameIndex { other.frameIndex }
+    : url { other.url },
+      index { other.index },
+      frameCount { other.frameCount },
+      frameIndex { other.frameIndex }
 {
 }
 
@@ -25,8 +28,8 @@ PathViewProxyModel::IndexInfo::IndexInfo(const IndexInfo &other)
     会自动在反方向插入数据，以达到在 PathView 中无缝切换图片的效果
  */
 PathViewProxyModel::PathViewProxyModel(ImageSourceModel *srcModel, QObject *parent)
-    : QAbstractListModel { parent }
-    , sourceModel(srcModel)
+    : QAbstractListModel { parent },
+      sourceModel(srcModel)
 {
     Q_ASSERT_X(nullptr != sourceModel, "init proxy model", "must contain source data");
 
@@ -50,12 +53,12 @@ QVariant PathViewProxyModel::data(const QModelIndex &index, int role) const
 
     auto infoPtr = indexQueue[index.row()];
     switch (role) {
-        case Types::ImageUrlRole:
-            return infoPtr ? infoPtr->url : QUrl();
-        case Types::FrameIndexRole:
-            return infoPtr ? infoPtr->frameIndex : 0;
-        default:
-            break;
+    case Types::ImageUrlRole:
+        return infoPtr ? infoPtr->url : QUrl();
+    case Types::FrameIndexRole:
+        return infoPtr ? infoPtr->frameIndex : 0;
+    default:
+        break;
     }
 
     return {};
@@ -97,7 +100,6 @@ bool PathViewProxyModel::setData(const QModelIndex &idx, const QVariant &value, 
                     }
                 }
             }
-
         }
         return true;
     default:
@@ -170,19 +172,19 @@ void PathViewProxyModel::setCurrentSourceIndex(int sourceIndex, int frameIndex)
     }
 
     switch (type) {
-        case Previous:
-            movePrevoius();
-            break;
-        case Next:
-            moveNext();
-            break;
-        case OutOfRange:
-            // 触发跳转动画设置
-            jumpToIndex(sourceIndex, frameIndex);
-            break;
-        default:
-            // Current / Invalid
-            break;
+    case Previous:
+        movePrevoius();
+        break;
+    case Next:
+        moveNext();
+        break;
+    case OutOfRange:
+        // 触发跳转动画设置
+        jumpToIndex(sourceIndex, frameIndex);
+        break;
+    default:
+        // Current / Invalid
+        break;
     }
 }
 
@@ -317,18 +319,18 @@ void PathViewProxyModel::setQueueCount(int count)
  */
 void PathViewProxyModel::dumpInfo()
 {
-    qWarning() << "[ProxyModel] Currnet proxy index:" << currentProxyIdx;
+    qCDebug(logImageViewer) << "[ProxyModel] Current proxy index:" << currentProxyIdx;
     for (int i = 0; i < indexQueue.size(); ++i) {
         const IndexInfoPtr &info = indexQueue.at(i);
         if (info) {
-            qWarning() << QString("[ProxyModel] index: %1, count: %2, frameIndex: %3, Url: %4 %5")
-                              .arg(info->index)
-                              .arg(info->frameCount)
-                              .arg(info->frameIndex)
-                              .arg(info->url.toString())
-                              .arg((i == currentProxyIdx) ? "  <--" : "");
+            qCDebug(logImageViewer) << QString("[ProxyModel] index: %1, count: %2, frameIndex: %3, Url: %4 %5")
+                                               .arg(info->index)
+                                               .arg(info->frameCount)
+                                               .arg(info->frameIndex)
+                                               .arg(info->url.toString())
+                                               .arg((i == currentProxyIdx) ? "  <--" : "");
         } else {
-            qWarning() << QString("[ProxyModel] Empty index info");
+            qCDebug(logImageViewer) << "[ProxyModel] Empty index info";
         }
     }
 }
@@ -340,10 +342,13 @@ void PathViewProxyModel::jumpToIndex(int sourceIndex, int frameIndex)
 {
     const IndexInfoPtr &current = indexQueue[currentProxyIdx];
     if (!current) {
-        qWarning() << "No current data" << currentProxyIdx;
+        qCWarning(logImageViewer) << "No current data at index:" << currentProxyIdx;
         dumpInfo();
         return;
     }
+
+    qCDebug(logImageViewer) << "Jumping to index:" << sourceIndex << "frame:" << frameIndex
+                            << "from current:" << current->index << "frame:" << current->frameIndex;
 
     int jumpIndex = currentProxyIdx;
     DistanceType flag = Current;
@@ -372,6 +377,7 @@ void PathViewProxyModel::jumpToIndex(int sourceIndex, int frameIndex)
  */
 void PathViewProxyModel::refreshBothSideData()
 {
+    qCDebug(logImageViewer) << "Refreshing both sides of current index:" << currentProxyIdx;
     // 根据当前图片的位置，更新两侧半径的数据
     int previousIndex = currentProxyIdx;
     int nextIndex = currentProxyIdx;
@@ -412,20 +418,20 @@ PathViewProxyModel::DistanceType PathViewProxyModel::distance(int sourceIndex, i
     int range = OutOfRange;
     int indexDis = sourceIndex - current->index;
     switch (indexDis) {
-        case Current:
-            range = frameIndex - current->frameIndex;
-            break;
-        case Previous: {
-            const IndexInfoPtr &previous = indexQueue[previousPorxyIdx(currentProxyIdx)];
-            if (previous) {
-                range = -(previous->frameCount - frameIndex) - current->frameIndex;
-            }
-        } break;
-        case Next:
-            range = current->frameCount - current->frameIndex + frameIndex;
-            break;
-        default:
-            break;
+    case Current:
+        range = frameIndex - current->frameIndex;
+        break;
+    case Previous: {
+        const IndexInfoPtr &previous = indexQueue[previousPorxyIdx(currentProxyIdx)];
+        if (previous) {
+            range = -(previous->frameCount - frameIndex) - current->frameIndex;
+        }
+    } break;
+    case Next:
+        range = current->frameCount - current->frameIndex + frameIndex;
+        break;
+    default:
+        break;
     }
 
     // 判断范围
@@ -473,12 +479,13 @@ PathViewProxyModel::IndexInfoPtr PathViewProxyModel::infoFromIndex(int sourceInd
 {
     QUrl url = sourcePath(sourceIndex);
     if (url.isEmpty()) {
+        qCWarning(logImageViewer) << "Empty URL for source index:" << sourceIndex;
         return {};
     }
 
     ImageInfo imageInfo(url);
     if (ImageInfo::Loading == imageInfo.status()) {
-        qWarning() << "Not ready image data";
+        qCDebug(logImageViewer) << "Image data not ready, will update asynchronously:" << url.toString();
         asyncUpdateLoadInfo(url, sourceIndex, frameIndex);
     }
 
@@ -499,10 +506,14 @@ void PathViewProxyModel::asyncUpdateLoadInfo(const QUrl &url, int sourceIndex, i
 {
     // 异步更新加载信息，一般仅初次加载存在此问题
     if (0 == frameIndex) {
+        qCDebug(logImageViewer) << "Starting async update for:" << url.toString()
+                                << "source index:" << sourceIndex;
         ImageInfo *delayInfo = new ImageInfo(url, this);
         connect(delayInfo, &ImageInfo::statusChanged, this, [this, delayInfo, sourceIndex]() {
             // 仅更新加载成功的多页图数据，其它类型的数据无需关注，默认的 frameIndex 都是 0
             if (ImageInfo::Ready == delayInfo->status() && Types::MultiImage == delayInfo->type()) {
+                qCDebug(logImageViewer) << "Async update completed for multi-image:" << delayInfo->source().toString()
+                                        << "frames:" << delayInfo->frameCount();
                 auto current = indexQueue[currentProxyIdx];
                 if (!current) {
                     delayInfo->deleteLater();

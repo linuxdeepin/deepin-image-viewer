@@ -27,6 +27,7 @@
 #include <QQmlContext>
 #include <QIcon>
 
+Q_LOGGING_CATEGORY(logImageViewer, "org.deepin.dde.imageviewer")
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
@@ -53,11 +54,12 @@ int main(int argc, char *argv[])
     // LOG
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
-    qInfo() << QString("%1 start, PID: %2, Version: %3")
+    DLogManager::registerJournalAppender();
+    qCInfo(logImageViewer) << QString("%1 start, PID: %2, Version: %3")
                        .arg(app.applicationName())
                        .arg(app.applicationPid())
                        .arg(app.applicationVersion());
-    qDebug() << "LogFile:" << DLogManager::getlogFilePath();
+    qCDebug(logImageViewer) << "LogFile:" << DLogManager::getlogFilePath();
 
     // command
     CommandParser::instance()->process();

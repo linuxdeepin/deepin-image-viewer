@@ -11,8 +11,11 @@
 #include <QThread>
 #include <QDebug>
 #include <QApplication>
+#include <QLoggingCategory>
 
-static const int sc_SubmitInterval = 200;  // 图片变更提交定时间隔 200ms
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
+
+static const int sc_SubmitInterval = 200;   // 图片变更提交定时间隔 200ms
 
 /**
    @class GlobalControl
@@ -27,6 +30,7 @@ GlobalControl::GlobalControl(QObject *parent)
 
     // 图片旋转完成后触发信息变更
     connect(RotateImageHelper::instance(), &RotateImageHelper::rotateImageFinished, this, [this](const QString &path, bool ret) {
+        qCDebug(logImageViewer) << "Rotation finished for" << path << "success:" << ret;
         if (path == currentImage.source().toLocalFile()) {
             submitImageChangeImmediately();
         }
@@ -59,13 +63,18 @@ PathViewProxyModel *GlobalControl::viewModel() const
  */
 void GlobalControl::setCurrentSource(const QUrl &source)
 {
+    qCDebug(logImageViewer) << "Setting current source:" << source;
     if (currentImage.source() == source) {
+        qCDebug(logImageViewer) << "Source unchanged, skipping update";
         return;
     }
 
     int index = sourceModel->indexForImagePath(source);
     if (-1 != index) {
+        qCDebug(logImageViewer) << "Found source at index:" << index;
         setIndexAndFrameIndex(index, 0);
+    } else {
+        qCDebug(logImageViewer) << "Source not found in model";
     }
 }
 
@@ -123,13 +132,15 @@ int GlobalControl::imageCount() const
  */
 void GlobalControl::setCurrentRotation(int angle)
 {
+    qCDebug(logImageViewer) << "Setting rotation angle:" << angle;
     if (imageRotation != angle) {
         if (0 != (angle % 90)) {
-            qWarning() << QString("Image rotate angle must be a multiple of 90 degrees, current is %1 .").arg(angle);
+            qCWarning(logImageViewer) << "Invalid rotation angle:" << angle << "- must be multiple of 90 degrees";
         }
 
         // 计算相较上一次是否需要交换宽高，angle 为 0 时特殊处理，不调整
         bool needSwap = angle && !!((angle - imageRotation) % 180);
+        qCDebug(logImageViewer) << "Rotation change requires width/height swap:" << needSwap;
 
         imageRotation = angle;
 
@@ -138,9 +149,11 @@ void GlobalControl::setCurrentRotation(int angle)
 
         if (needSwap) {
             currentImage.swapWidthAndHeight();
+            qCDebug(logImageViewer) << "Swapped image dimensions";
         }
 
         // 执行实际的旋转文件操作
+        qCDebug(logImageViewer) << "Requesting image rotation:" << currentImage.source().toLocalFile() << "angle:" << angle;
         RotateImageHelper::instance()->rotateImageFile(currentImage.source().toLocalFile(), angle);
         // 保证更新界面旋转前刷新缓存，为0时同样通知，用以复位状态
         Q_EMIT requestRotateCacheImage();
@@ -148,6 +161,7 @@ void GlobalControl::setCurrentRotation(int angle)
 
         // 启动提交定时器
         submitTimer.start(sc_SubmitInterval, this);
+        qCDebug(logImageViewer) << "Started rotation submit timer:" << sc_SubmitInterval << "ms";
     }
 }
 
@@ -180,24 +194,28 @@ bool GlobalControl::hasNextImage() const
  */
 bool GlobalControl::previousImage()
 {
+    qCDebug(logImageViewer) << "Attempting to navigate to previous image";
     submitImageChangeImmediately();
 
     if (hasPreviousImage()) {
         Q_ASSERT(sourceModel);
         if (Types::MultiImage == currentImage.type()) {
             if (curFrameIndex > 0) {
+                qCDebug(logImageViewer) << "Navigating to previous frame in multi-image:" << (curFrameIndex - 1);
                 setIndexAndFrameIndex(curIndex, curFrameIndex - 1);
                 return true;
             }
         }
 
         if (curIndex > 0) {
+            qCDebug(logImageViewer) << "Navigating to previous image at index:" << (curIndex - 1);
             // 不确定前一张图片是何种类型，使用 INT_MAX 限定帧索引从尾部开始
             setIndexAndFrameIndex(curIndex - 1, INT_MAX);
             return true;
         }
     }
 
+    qCDebug(logImageViewer) << "No previous image available";
     return false;
 }
 
@@ -206,24 +224,28 @@ bool GlobalControl::previousImage()
  */
 bool GlobalControl::nextImage()
 {
+    qCDebug(logImageViewer) << "Attempting to navigate to next image";
     submitImageChangeImmediately();
 
     if (hasNextImage()) {
         Q_ASSERT(sourceModel);
         if (Types::MultiImage == currentImage.type()) {
             if (curFrameIndex < currentImage.frameCount() - 1) {
+                qCDebug(logImageViewer) << "Navigating to next frame in multi-image:" << (curFrameIndex + 1);
                 setIndexAndFrameIndex(curIndex, curFrameIndex + 1);
                 return true;
             }
         }
 
         if (curIndex < sourceModel->rowCount() - 1) {
+            qCDebug(logImageViewer) << "Navigating to next image at index:" << (curIndex + 1);
             // 无论是否为多页图，均设置为0
             setIndexAndFrameIndex(curIndex + 1, 0);
             return true;
         }
     }
 
+    qCDebug(logImageViewer) << "No next image available";
     return false;
 }
 
@@ -277,6 +299,7 @@ void GlobalControl::forceExit()
  */
 void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &openFile)
 {
+    qCDebug(logImageViewer) << "Setting image files, count:" << filePaths.size() << "initial file:" << openFile;
     Q_ASSERT(sourceModel);
     // 优先更新数据源
     sourceModel->setImageFiles(QUrl::fromStringList(filePaths));
@@ -284,12 +307,14 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
     int index = filePaths.indexOf(openFile);
     if (-1 == index || filePaths.isEmpty()) {
         index = 0;
+        qCDebug(logImageViewer) << "Using default index 0";
     }
 
     setIndexAndFrameIndex(index, 0);
 
     // 更新图像信息，无论变更均更新
     if (currentImage.source() != openFile) {
+        qCDebug(logImageViewer) << "Updating current image source to:" << openFile;
         currentImage.setSource(openFile);
     }
     Q_EMIT currentSourceChanged();
@@ -299,6 +324,7 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
 
     // 更新视图展示模型
     viewSourceModel->resetModel(index, 0);
+    qCDebug(logImageViewer) << "Image files set complete";
 }
 
 /**
@@ -306,25 +332,30 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
  */
 void GlobalControl::removeImage(const QUrl &removeImage)
 {
+    qCDebug(logImageViewer) << "Removing image:" << removeImage;
     if (0 != currentRotation()) {
+        qCDebug(logImageViewer) << "Resetting rotation before removal";
         setCurrentRotation(0);
         submitTimer.stop();
     }
 
     // 移除当前图片，默认将后续图片前移，currentIndex将不会变更，手动提示更新
     bool atEnd = (curIndex >= sourceModel->rowCount() - 1);
+    qCDebug(logImageViewer) << "Image is at end of list:" << atEnd;
 
     // 模型更新后将自动触发QML切换当前显示图片
     sourceModel->removeImage(removeImage);
 
     // NOTE：viewModel依赖源数据模型更新
     if (removeImage == currentImage.source()) {
+        qCDebug(logImageViewer) << "Removing current image from view model";
         viewModel()->deleteCurrent();
     }
 
     if (!atEnd) {
         // 需要提示的情况下不会越界
         const QUrl image = sourceModel->data(sourceModel->index(curIndex), Types::ImageUrlRole).toUrl();
+        qCDebug(logImageViewer) << "Updating current image to next in list:" << image;
         currentImage.setSource(image);
 
         setIndexAndFrameIndex(curIndex, 0);
@@ -333,6 +364,7 @@ void GlobalControl::removeImage(const QUrl &removeImage)
     } else if (/*atEnd &&*/ (0 != sourceModel->rowCount())) {
         // 删除的尾部文件且仍有数据，更新当前文件信息
         const QUrl image = sourceModel->data(sourceModel->index(curIndex - 1), Types::ImageUrlRole).toUrl();
+        qCDebug(logImageViewer) << "Updating current image to previous in list:" << image;
         currentImage.setSource(image);
 
         setIndexAndFrameIndex(curIndex - 1, INT_MAX);
@@ -342,6 +374,7 @@ void GlobalControl::removeImage(const QUrl &removeImage)
 
     checkSwitchEnable();
     Q_EMIT imageCountChanged();
+    qCDebug(logImageViewer) << "Image removal complete";
 }
 
 /**
@@ -349,6 +382,7 @@ void GlobalControl::removeImage(const QUrl &removeImage)
  */
 void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
 {
+    qCDebug(logImageViewer) << "Renaming image from" << oldName << "to" << newName;
     int index = sourceModel->indexForImagePath(oldName);
     if (-1 != index) {
         submitImageChangeImmediately();
@@ -357,6 +391,7 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
         viewSourceModel->setData(viewSourceModel->index(viewSourceModel->currentIndex()), newName, Types::ImageUrlRole);
 
         if (oldName == currentImage.source()) {
+            qCDebug(logImageViewer) << "Updating current image source after rename";
             // 强制刷新，避免出现重命名为已缓存的删除图片
             currentImage.setSource(newName);
             currentImage.reloadData();
@@ -365,6 +400,8 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
             Q_EMIT currentSourceChanged();
             Q_EMIT currentIndexChanged();
         }
+    } else {
+        qCDebug(logImageViewer) << "Image not found in model for rename";
     }
 }
 
@@ -374,20 +411,24 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
  */
 void GlobalControl::submitImageChangeImmediately()
 {
+    qCDebug(logImageViewer) << "Submitting image changes immediately";
     submitTimer.stop();
     int rotation = currentRotation();
     if (0 == rotation) {
+        qCDebug(logImageViewer) << "No rotation changes to submit";
         return;
     }
 
     rotation = rotation % 360;
     if (0 != rotation) {
+        qCDebug(logImageViewer) << "Submitting rotation:" << rotation << "for image:" << currentImage.source().toLocalFile();
         // 请求更新图片，同步图片旋转状态到文件中，将覆写文件
         Q_EMIT requestRotateImage(currentImage.source().toLocalFile(), rotation);
     }
 
     // 重置状态
     setCurrentRotation(0);
+    qCDebug(logImageViewer) << "Image changes submitted";
 }
 
 /**
@@ -437,12 +478,14 @@ void GlobalControl::checkSwitchEnable()
  */
 void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
 {
+    qCDebug(logImageViewer) << "Setting index:" << index << "frame index:" << frameIndex;
     int validIndex = qBound(0, index, imageCount() - 1);
     if (this->curIndex != validIndex) {
         submitImageChangeImmediately();
 
         // 更新图像信息，无论变更均更新
         QUrl image = sourceModel->data(sourceModel->index(validIndex), Types::ImageUrlRole).toUrl();
+        qCDebug(logImageViewer) << "Updating current image to:" << image;
         currentImage.setSource(image);
         Q_EMIT currentSourceChanged();
 
@@ -462,4 +505,5 @@ void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
 
     // 更新视图模型
     viewSourceModel->setCurrentSourceIndex(curIndex, curFrameIndex);
+    qCDebug(logImageViewer) << "Index and frame index update complete";
 }

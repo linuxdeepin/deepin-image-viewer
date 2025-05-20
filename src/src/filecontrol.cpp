@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QUrl>
 #include <QDebug>
+#include <QLoggingCategory>
 
 #include <iostream>
 #include <sys/types.h>
@@ -34,6 +35,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 DCORE_USE_NAMESPACE
 
 const QString SETTINGS_GROUP = "MAINWINDOW";
@@ -122,12 +124,15 @@ QString FileControl::standardPicturesPath() const
 
 QStringList FileControl::getDirImagePath(const QString &path)
 {
+    qCDebug(logImageViewer) << "Getting image paths from directory:" << path;
     if (path.isEmpty()) {
+        qCDebug(logImageViewer) << "Empty path provided";
         return QStringList();
     }
 
     QStringList image_list;
     QString DirPath = QFileInfo(QUrl(path).toLocalFile()).dir().path();
+    qCDebug(logImageViewer) << "Directory path:" << DirPath;
 
     QDir _dirinit(DirPath);
     QFileInfoList m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
@@ -144,6 +149,7 @@ QStringList FileControl::getDirImagePath(const QString &path)
             image_list << QUrl::fromLocalFile(tmpPath).toString();
         }
     }
+    qCDebug(logImageViewer) << "Found" << image_list.size() << "images in directory";
     return image_list;
 }
 
@@ -180,8 +186,7 @@ bool FileControl::isImage(const QString &path)
     QMimeDatabase db;
     QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
     QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
-    if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") || mt1.name().startsWith("image/") ||
-        mt1.name().startsWith("video/x-mng")) {
+    if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
         bRet = true;
     }
     return bRet;
@@ -189,6 +194,7 @@ bool FileControl::isImage(const QString &path)
 
 void FileControl::setWallpaper(const QString &imgPath)
 {
+    qCDebug(logImageViewer) << "Setting wallpaper:" << imgPath;
     QThread *th1 = QThread::create([=]() {
         if (!imgPath.isNull()) {
             QString path = imgPath;
@@ -198,12 +204,11 @@ void FileControl::setWallpaper(const QString &imgPath)
                 if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/ 1) {
                     // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m
                     // com.deepin.daemon.Appearance.Set background /home/test/test.png
-                    qDebug() << "SettingWallpaper: "
-                             << "flatpak" << path;
+                    qCDebug(logImageViewer) << "Setting wallpaper via DBus";
                     QDBusInterface interfaceV23(
-                        "org.deepin.dde.Appearance1", "/org/deepin/dde/Appearance1", "org.deepin.dde.Appearance1");
+                            "org.deepin.dde.Appearance1", "/org/deepin/dde/Appearance1", "org.deepin.dde.Appearance1");
                     QDBusInterface interfaceV20(
-                        "com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance");
+                            "com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance");
 
                     if (interfaceV23.isValid() || interfaceV20.isValid()) {
                         QString screenname;
@@ -214,29 +219,29 @@ void FileControl::setWallpaper(const QString &imgPath)
                         QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
 
                         bool isWayland = false;
-                        if (XDG_SESSION_TYPE != QLatin1String("wayland") &&
-                            !WAYLAND_DISPLAY.contains(QLatin1String("wayland"), Qt::CaseInsensitive)) {
+                        if (XDG_SESSION_TYPE != QLatin1String("wayland") && !WAYLAND_DISPLAY.contains(QLatin1String("wayland"), Qt::CaseInsensitive)) {
                             isWayland = false;
                         } else {
                             isWayland = true;
                         }
+                        qCDebug(logImageViewer) << "Display environment:" << (isWayland ? "Wayland" : "X11");
+
                         // wayland下设置壁纸使用，2020/09/21
                         if (isWayland) {
                             QDBusInterface interfaceWaylandV23(
-                                "org.deepin.dde.Display1", "/org/deepin/dde/Display1", "org.deepin.dde.Display1");
+                                    "org.deepin.dde.Display1", "/org/deepin/dde/Display1", "org.deepin.dde.Display1");
                             if (interfaceWaylandV23.isValid()) {
                                 screenname = qvariant_cast<QString>(interfaceWaylandV23.property("Primary"));
-                                qDebug() << qPrintable("SetWallpaper: v23 wayland get org.deepin.dde.Display1 Primary property");
-
+                                qCDebug(logImageViewer) << "Got primary screen from v23 Wayland interface:" << screenname;
                             } else {
                                 QDBusInterface interfaceWaylandV20(
-                                    "com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
+                                        "com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
                                 screenname = qvariant_cast<QString>(interfaceWaylandV20.property("Primary"));
-                                qDebug() << qPrintable(
-                                    "SetWallpaper: v20 wayland get com.deepin.daemon.Display Primary property");
+                                qCDebug(logImageViewer) << "Got primary screen from v20 Wayland interface:" << screenname;
                             }
                         } else {
                             screenname = QGuiApplication::primaryScreen()->name();
+                            qCDebug(logImageViewer) << "Got primary screen from X11:" << screenname;
                         }
 
                         bool settingSucc = false;
@@ -244,28 +249,22 @@ void FileControl::setWallpaper(const QString &imgPath)
                             QDBusMessage reply = interfaceV23.call(QStringLiteral("SetMonitorBackground"), screenname, path);
                             settingSucc = reply.errorMessage().isEmpty();
 
-                            qDebug() << qPrintable(
-                                "SetWallpaper: Using v23 interface org.deepin.dde.Appearance1.SetMonitorBackground");
-                            qDebug() << qPrintable(QString("DBus Param %1, %2").arg(screenname).arg(path));
+                            qCDebug(logImageViewer) << "Attempting to set wallpaper via v23 interface";
                             if (!settingSucc) {
-                                qWarning() << qPrintable(QString("DBus error: %1").arg(reply.errorMessage()));
+                                qCWarning(logImageViewer) << "Failed to set wallpaper via v23 interface:" << reply.errorMessage();
                             }
                         }
 
                         if (interfaceV20.isValid() && !settingSucc) {
                             QDBusMessage reply = interfaceV20.call(QStringLiteral("SetMonitorBackground"), screenname, path);
-
-                            qDebug() << qPrintable(
-                                "SetWallpaper: Using v20 interface com.deepin.daemon.Appearance.SetMonitorBackground");
-                            qDebug() << qPrintable(QString("DBus Param %1, %2").arg(screenname).arg(path));
+                            qCDebug(logImageViewer) << "Attempting to set wallpaper via v20 interface";
                             if (!reply.errorMessage().isEmpty()) {
-                                qWarning() << qPrintable(QString("DBus error: %1").arg(reply.errorMessage()));
+                                qCWarning(logImageViewer) << "Failed to set wallpaper via v20 interface:" << reply.errorMessage();
                             }
                         }
                     } else {
-                        qWarning() << qPrintable(QString("SetWallpaper failed! v23 interface error: %1, v20 interface error:%2")
-                                                     .arg(interfaceV23.lastError().message())
-                                                     .arg(interfaceV20.lastError().message()));
+                        qCWarning(logImageViewer) << "Failed to initialize wallpaper interfaces - v23:"
+                                                  << interfaceV23.lastError().message() << "v20:" << interfaceV20.lastError().message();
                     }
                 }
             }
@@ -277,6 +276,7 @@ void FileControl::setWallpaper(const QString &imgPath)
 
 bool FileControl::deleteImagePath(const QString &path)
 {
+    qCDebug(logImageViewer) << "Attempting to delete image:" << path;
     QUrl displayUrl = QUrl(path);
 
     if (displayUrl.isValid()) {
@@ -294,18 +294,20 @@ bool FileControl::deleteImagePath(const QString &path)
 
         if (pendingCall.isError()) {
             auto error = pendingCall.error();
-            qWarning() << "Delete image by dbus error:" << error.name() << error.message();
+            qCWarning(logImageViewer) << "Failed to delete image via DBus:" << error.name() << error.message();
             return false;
         }
 
         // 删除信息未通过 DBus 返回，直接判断文件是否已被删除
         if (QFile::exists(displayUrl.toLocalFile())) {
-            qWarning() << "Delete image error, image still exists.";
+            qCWarning(logImageViewer) << "Delete operation failed - file still exists:" << displayUrl.toLocalFile();
             return false;
         }
 
+        qCDebug(logImageViewer) << "Successfully deleted image:" << path;
         return true;
     }
+    qCWarning(logImageViewer) << "Invalid URL for deletion:" << path;
     return false;
 }
 
@@ -328,17 +330,13 @@ bool FileControl::displayinFileManager(const QString &path)
 
 void FileControl::copyImage(const QString &path)
 {
+    qCDebug(logImageViewer) << "Copying image to clipboard:" << path;
     QString localPath = QUrl(path).toLocalFile();
 
     QClipboard *cb = qApp->clipboard();
 
     // Ownership of the new data is transferred to the clipboard.
     QMimeData *newMimeData = new QMimeData();
-
-    // Copy old mimedata
-    //    const QMimeData* oldMimeData = cb->mimeData();
-    //    for ( const QString &f : oldMimeData->formats())
-    //        newMimeData->setData(f, oldMimeData->data(f));
 
     // Copy file (gnome)
     QByteArray gnomeFormat = QByteArray("copy\n");
@@ -355,14 +353,8 @@ void FileControl::copyImage(const QString &path)
     gnomeFormat.remove(gnomeFormat.length() - 1, 1);
     newMimeData->setData("x-special/gnome-copied-files", gnomeFormat);
 
-    // Copy Image Date
-    //    QImage img(paths.first());
-    //    Q_ASSERT(!img.isNull());
-    //    newMimeData->setImageData(img);
-
-    // Set the mimedata
-    //    cb->setMimeData(newMimeData);
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
+    qCDebug(logImageViewer) << "Image copied to clipboard successfully";
 }
 
 void FileControl::copyText(const QString &str)
@@ -387,7 +379,7 @@ bool FileControl::isCanWrite(const QString &path)
 {
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
-    bool bRet = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  // 是否可写
+    bool bRet = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();   // 是否可写
     return bRet;
 }
 
@@ -397,13 +389,10 @@ bool FileControl::isCanDelete(const QString &path)
     bool isAlbum = false;
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
-    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  // 是否可写
-    bool isReadable = info.isReadable();                                                           // 是否可读
+    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();   // 是否可写
+    bool isReadable = info.isReadable();   // 是否可读
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);
-    if ((imageViewerSpace::PathTypeAPPLE != pathType && imageViewerSpace::PathTypeSAFEBOX != pathType &&
-         imageViewerSpace::PathTypeRECYCLEBIN != pathType && imageViewerSpace::PathTypeMTP != pathType &&
-         imageViewerSpace::PathTypePTP != pathType && isWritable && isReadable) ||
-        (isAlbum && isWritable)) {
+    if ((imageViewerSpace::PathTypeAPPLE != pathType && imageViewerSpace::PathTypeSAFEBOX != pathType && imageViewerSpace::PathTypeRECYCLEBIN != pathType && imageViewerSpace::PathTypeMTP != pathType && imageViewerSpace::PathTypePTP != pathType && isWritable && isReadable) || (isAlbum && isWritable)) {
         bRet = true;
     } else {
         bRet = false;
@@ -413,13 +402,16 @@ bool FileControl::isCanDelete(const QString &path)
 
 void FileControl::ocrImage(const QString &path, int index)
 {
+    qCDebug(logImageViewer) << "Starting OCR for image:" << path << "index:" << index;
     QString localPath = QUrl(path).toLocalFile();
     // 此处借用已取得的缓存信息，一般状态下，调用OCR前已完成图像的加载
     ImageInfo info(path);
 
-    if (Types::MultiImage != info.type()) {  // 非多页图使用路径直接进行识别
+    if (Types::MultiImage != info.type()) {   // 非多页图使用路径直接进行识别
+        qCDebug(logImageViewer) << "Processing single page image for OCR";
         m_ocrInterface->openFile(localPath);
-    } else {  // 多页图需要确定识别哪一页
+    } else {   // 多页图需要确定识别哪一页
+        qCDebug(logImageViewer) << "Processing multi-page image for OCR, page:" << index;
         QImageReader imageReader(localPath);
         imageReader.jumpToImage(index);
         auto image = imageReader.read();
@@ -431,6 +423,7 @@ void FileControl::ocrImage(const QString &path, int index)
         auto tempFileName = tempDir + QDir::separator() + "rec.png";
 
         image.save(tempFileName);
+        qCDebug(logImageViewer) << "Saved temporary image for OCR:" << tempFileName;
         m_ocrInterface->openFile(tempFileName);
     }
 }
@@ -713,11 +706,10 @@ bool FileControl::isCanRename(const QString &path)
 {
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
-    imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);  // 路径类型
+    imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);   // 路径类型
     QFileInfo info(localPath);
-    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  // 是否可写
-    if (info.isReadable() && isWritable && imageViewerSpace::PathTypeMTP != pathType &&
-        imageViewerSpace::PathTypePTP != pathType && imageViewerSpace::PathTypeAPPLE != pathType) {
+    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();   // 是否可写
+    if (info.isReadable() && isWritable && imageViewerSpace::PathTypeMTP != pathType && imageViewerSpace::PathTypePTP != pathType && imageViewerSpace::PathTypeAPPLE != pathType) {
         bRet = true;
     }
     return bRet;
@@ -740,10 +732,12 @@ bool FileControl::isCanReadable(const QString &path)
  */
 void FileControl::resetImageFiles(const QStringList &filePaths)
 {
+    qCDebug(logImageViewer) << "Resetting image files, count:" << filePaths.size();
     // 变更监控的文件
     imageFileWatcher->resetImageFiles(filePaths);
     // 清理缩略图缓存记录
     ImageInfo::clearCache();
+    qCDebug(logImageViewer) << "Image files reset complete";
 }
 
 /**
@@ -763,6 +757,7 @@ void FileControl::terminateShortcutPanelProcess()
 
 void FileControl::showShortcutPanel(int windowCenterX, int windowCenterY)
 {
+    qCDebug(logImageViewer) << "Showing shortcut panel at position:" << windowCenterX << "," << windowCenterY;
     QPoint pos(windowCenterX, windowCenterY);
     QStringList shortcutString;
     auto json = createShortcutString();
@@ -773,6 +768,7 @@ void FileControl::showShortcutPanel(int windowCenterX, int windowCenterY)
 
     terminateShortcutPanelProcess();
     m_shortcutViewProcess->start("deepin-shortcut-viewer", shortcutString);
+    qCDebug(logImageViewer) << "Shortcut panel process started";
 }
 
 QString FileControl::createShortcutString()

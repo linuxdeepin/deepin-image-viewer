@@ -28,10 +28,11 @@
 #include <QImageReader>
 #include <QStandardPaths>
 #include <QDesktopServices>
+#include <QLoggingCategory>
 
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 #include "unionimage.h"
-
 
 namespace Libutils {
 
@@ -52,36 +53,38 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
         reader.setScaledSize(size * ratio);
         pixmap = QPixmap::fromImage(reader.read());
         pixmap.setDevicePixelRatio(ratio);
+        qCDebug(logImageViewer) << "Rendered SVG:" << filePath << "size:" << size << "ratio:" << ratio;
     } else {
+        qCWarning(logImageViewer) << "Failed to read SVG file:" << filePath;
         pixmap.load(filePath);
     }
 
     return pixmap;
 }
 
-//QString sizeToHuman(const qlonglong bytes)
+// QString sizeToHuman(const qlonglong bytes)
 //{
-//    qlonglong sb = 1024;
-//    if (bytes < sb) {
-//        return QString::number(bytes) + " B";
-//    } else if (bytes < sb * sb) {
-//        QString vs = QString::number((double)bytes / sb, 'f', 1);
-//        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
-//            return QString::number((int)vs.toDouble()) + " KB";
-//        } else {
-//            return vs + " KB";
-//        }
-//    } else if (bytes < sb * sb * sb) {
-//        QString vs = QString::number((double)bytes / sb / sb, 'f', 1);
-//        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
-//            return QString::number((int)vs.toDouble()) + " MB";
-//        } else {
-//            return vs + " MB";
-//        }
-//    } else {
-//        return QString::number(bytes);
-//    }
-//}
+//     qlonglong sb = 1024;
+//     if (bytes < sb) {
+//         return QString::number(bytes) + " B";
+//     } else if (bytes < sb * sb) {
+//         QString vs = QString::number((double)bytes / sb, 'f', 1);
+//         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+//             return QString::number((int)vs.toDouble()) + " KB";
+//         } else {
+//             return vs + " KB";
+//         }
+//     } else if (bytes < sb * sb * sb) {
+//         QString vs = QString::number((double)bytes / sb / sb, 'f', 1);
+//         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+//             return QString::number((int)vs.toDouble()) + " MB";
+//         } else {
+//             return vs + " MB";
+//         }
+//     } else {
+//         return QString::number(bytes);
+//     }
+// }
 
 QString timeToString(const QDateTime &time, bool normalFormat)
 {
@@ -106,7 +109,7 @@ int stringHeight(const QFont &f, const QString &str)
 QDateTime stringToDateTime(const QString &time)
 {
     QDateTime dt = QDateTime::fromString(time, DATETIME_FORMAT_EXIF);
-    if (! dt.isValid()) {
+    if (!dt.isValid()) {
         dt = QDateTime::fromString(time, DATETIME_FORMAT_NORMAL);
     }
     return dt;
@@ -115,61 +118,65 @@ QDateTime stringToDateTime(const QString &time)
 void showInFileManager(const QString &path)
 {
     if (path.isEmpty() || !QFile::exists(path)) {
+        qCWarning(logImageViewer) << "Invalid path for file manager:" << path;
         return;
     }
 
 #if 1
     QUrl url = QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath());
+    qCDebug(logImageViewer) << "Opening file manager for:" << url.toString();
+    QDesktopServices::openUrl(url);
 #else
     QUrl url = QUrl::fromLocalFile(path);
 #endif
     QDesktopServices::openUrl(url);
-//    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
-//    QUrlQuery query;
-//    query.addQueryItem("selectUrl", QUrl::fromLocalFile(path).toString());
-//    url.setQuery(query);
-//    qDebug() << "showInFileManager:" << url.toString();
-//    // Try dde-file-manager
-//    QProcess *fp = new QProcess();
-//    QObject::connect(fp, SIGNAL(finished(int)), fp, SLOT(deleteLater()));
-//    fp->start("dde-file-manager", QStringList(url.toString()));
-//    fp->waitForStarted(3000);
-//    if (fp->error() == QProcess::FailedToStart) {
-//        // Start dde-file-manager failed, try nautilus
-//        QDBusInterface iface("org.freedesktop.FileManager1",
-//                             "/org/freedesktop/FileManager1",
-//                             "org.freedesktop.FileManager1",
-//                             QDBusConnection::sessionBus());
-//        if (iface.isValid()) {
-//            // Convert filepath to URI first.
-//            const QStringList uris = { QUrl::fromLocalFile(path).toString() };
-//            qDebug() << "freedesktop.FileManager";
-//            // StartupId is empty here.
-//            QDBusPendingCall call = iface.asyncCall("ShowItems", uris, "");
-//            Q_UNUSED(call);
-//        }
-//        // Try to launch other file manager if nautilus is invalid
-//        else {
-//            qDebug() << "desktopService::openUrl";
-//            QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath()));
-//        }
-//        fp->deleteLater();
-//    }
+    //    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
+    //    QUrlQuery query;
+    //    query.addQueryItem("selectUrl", QUrl::fromLocalFile(path).toString());
+    //    url.setQuery(query);
+    //    qDebug() << "showInFileManager:" << url.toString();
+    //    // Try dde-file-manager
+    //    QProcess *fp = new QProcess();
+    //    QObject::connect(fp, SIGNAL(finished(int)), fp, SLOT(deleteLater()));
+    //    fp->start("dde-file-manager", QStringList(url.toString()));
+    //    fp->waitForStarted(3000);
+    //    if (fp->error() == QProcess::FailedToStart) {
+    //        // Start dde-file-manager failed, try nautilus
+    //        QDBusInterface iface("org.freedesktop.FileManager1",
+    //                             "/org/freedesktop/FileManager1",
+    //                             "org.freedesktop.FileManager1",
+    //                             QDBusConnection::sessionBus());
+    //        if (iface.isValid()) {
+    //            // Convert filepath to URI first.
+    //            const QStringList uris = { QUrl::fromLocalFile(path).toString() };
+    //            qDebug() << "freedesktop.FileManager";
+    //            // StartupId is empty here.
+    //            QDBusPendingCall call = iface.asyncCall("ShowItems", uris, "");
+    //            Q_UNUSED(call);
+    //        }
+    //        // Try to launch other file manager if nautilus is invalid
+    //        else {
+    //            qDebug() << "desktopService::openUrl";
+    //            QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath()));
+    //        }
+    //        fp->deleteLater();
+    //    }
 }
 
 void copyImageToClipboard(const QStringList &paths)
 {
+    qCDebug(logImageViewer) << "Copying" << paths.size() << "images to clipboard";
     //  Get clipboard
-//    QClipboard *cb = QApplication::clipboard();
+    //    QClipboard *cb = QApplication::clipboard();
     QClipboard *cb = qApp->clipboard();
 
     // Ownership of the new data is transferred to the clipboard.
     QMimeData *newMimeData = new QMimeData();
 
     // Copy old mimedata
-//    const QMimeData* oldMimeData = cb->mimeData();
-//    for ( const QString &f : oldMimeData->formats())
-//        newMimeData->setData(f, oldMimeData->data(f));
+    //    const QMimeData* oldMimeData = cb->mimeData();
+    //    for ( const QString &f : oldMimeData->formats())
+    //        newMimeData->setData(f, oldMimeData->data(f));
 
     // Copy file (gnome)
     QByteArray gnomeFormat = QByteArray("copy\n");
@@ -188,41 +195,47 @@ void copyImageToClipboard(const QStringList &paths)
     newMimeData->setData("x-special/gnome-copied-files", gnomeFormat);
 
     // Copy Image Date
-//    QImage img(paths.first());
-//    Q_ASSERT(!img.isNull());
-//    newMimeData->setImageData(img);
+    //    QImage img(paths.first());
+    //    Q_ASSERT(!img.isNull());
+    //    newMimeData->setImageData(img);
 
     // Set the mimedata
-//    cb->setMimeData(newMimeData);
+    //    cb->setMimeData(newMimeData);
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
+    qCDebug(logImageViewer) << "Clipboard updated with" << paths.size() << "images";
 }
 
 QString getFileContent(const QString &file)
 {
+    qCDebug(logImageViewer) << "Reading file content:" << file;
     QFile f(file);
     QString fileContent = "";
     if (f.open(QFile::ReadOnly)) {
         fileContent = QLatin1String(f.readAll());
         f.close();
+        qCDebug(logImageViewer) << "Successfully read file content, size:" << fileContent.size();
+    } else {
+        qCWarning(logImageViewer) << "Failed to open file for reading:" << file;
     }
     return fileContent;
 }
 
-//bool writeTextFile(QString filePath, QString content)
+// bool writeTextFile(QString filePath, QString content)
 //{
-//    QFile file(filePath);
-//    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-//        QTextStream in(&file);
-//        in << content << endl;
-//        file.close();
-//        return true;
-//    }
+//     QFile file(filePath);
+//     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+//         QTextStream in(&file);
+//         in << content << endl;
+//         file.close();
+//         return true;
+//     }
 
 //    return false;
 //}
 
 QString getNotExistsTrashFileName(const QString &fileName)
 {
+    qCDebug(logImageViewer) << "Generating unique trash filename for:" << fileName;
     QByteArray name = fileName.toUtf8();
 
     int index = name.lastIndexOf('/');
@@ -252,6 +265,7 @@ QString getNotExistsTrashFileName(const QString &fileName)
         }
 
         name = QCryptographicHash::hash(name, QCryptographicHash::Md5).toHex();
+        qCDebug(logImageViewer) << "Generated new hash for trash filename";
     }
 
     return QString::fromUtf8(name + suffix);
@@ -260,6 +274,7 @@ QString getNotExistsTrashFileName(const QString &fileName)
 bool trashFile(const QString &file)
 {
 #ifdef QT_GUI_LIB
+    qCDebug(logImageViewer) << "Moving file to trash:" << file;
     QString trashPath;
     QString trashInfoPath;
     QString trashFilesPath;
@@ -271,16 +286,18 @@ bool trashFile(const QString &file)
     trashPath = home + "/.local/share/Trash";
     trashInfoPath = trashPath + "/info";
     trashFilesPath = trashPath + "/files";
-    if (! QDir(trashFilesPath).exists()) {
+    if (!QDir(trashFilesPath).exists()) {
+        qCDebug(logImageViewer) << "Creating trash files directory";
         QDir().mkpath(trashFilesPath);
     }
-    if (! QDir(trashInfoPath).exists()) {
+    if (!QDir(trashInfoPath).exists()) {
+        qCDebug(logImageViewer) << "Creating trash info directory";
         QDir().mkpath(trashInfoPath);
     }
 
     QFileInfo originalInfo(file);
-    if (! originalInfo.exists()) {
-        qWarning() << "File doesn't exists, can't move to trash";
+    if (!originalInfo.exists()) {
+        qCWarning(logImageViewer) << "File doesn't exists, can't move to trash";
         return false;
     }
     // Info for restore
@@ -310,11 +327,11 @@ bool trashFile(const QString &file)
         infoFile.close();
 
         if (!QDir().rename(originalInfo.absoluteFilePath(), filepath)) {
-            qWarning() << "move to trash failed!";
+            qCWarning(logImageViewer) << "move to trash failed!";
             return false;
         }
     } else {
-        qDebug() << "Move to trash failed! Could not write *.trashinfo!";
+        qCDebug(logImageViewer) << "Move to trash failed! Could not write *.trashinfo!";
         return false;
     }
     // Remove thumbnail
@@ -322,18 +339,18 @@ bool trashFile(const QString &file)
     return true;
 #else
     Q_UNUSED(file);
-    qWarning() << "Trash in server-mode not supported";
+    qCWarning(logImageViewer) << "Trash in server-mode not supported";
     return false;
 #endif
 }
 
-//bool trashFiles(const QStringList &files)
+// bool trashFiles(const QStringList &files)
 //{
-//    bool v = true;
-//    for (QString file : files) {
-//        if (! trashFile(file))
-//            v = false;
-//    }
+//     bool v = true;
+//     for (QString file : files) {
+//         if (! trashFile(file))
+//             v = false;
+//     }
 
 //    return v;
 //}
@@ -346,7 +363,7 @@ bool trashFile(const QString &file)
 // * \param maxWidth
 // * \return
 // */
-//QString wrapStr(const QString &str, const QFont &font, int maxWidth)
+// QString wrapStr(const QString &str, const QFont &font, int maxWidth)
 //{
 //    QFontMetrics fm(font);
 //    QString ns;
@@ -363,9 +380,9 @@ bool trashFile(const QString &file)
 ////    return str;
 //}
 
-
 QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool bReturn)
 {
+    qCDebug(logImageViewer) << "Splitting text, length:" << text.length() << "label size:" << nLabelSize;
     QFontMetrics fm(font);
     int nTextSize = fm.horizontalAdvance(text);
     if (nTextSize > nLabelSize) {
@@ -396,21 +413,21 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool 
     return text;
 }
 
-
-//QString symFilePath(const QString &path)
+// QString symFilePath(const QString &path)
 //{
-//    QFileInfo fileInfo(path);
-//    if (fileInfo.isSymLink()) {
-//        return fileInfo.symLinkTarget();
-//    } else {
-//        return path;
-//    }
-//}
+//     QFileInfo fileInfo(path);
+//     if (fileInfo.isSymLink()) {
+//         return fileInfo.symLinkTarget();
+//     } else {
+//         return path;
+//     }
+// }
 
 QString hash(const QString &str)
 {
     return QString(QCryptographicHash::hash(str.toUtf8(),
-                                            QCryptographicHash::Md5).toHex());
+                                            QCryptographicHash::Md5)
+                           .toHex());
 }
 
 bool onMountDevice(const QString &path)
@@ -420,6 +437,7 @@ bool onMountDevice(const QString &path)
 
 bool mountDeviceExist(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking mount device existence for path:" << path;
     QString mountPoint;
     if (path.startsWith("/media/")) {
         const int sp = path.indexOf("/", 7) + 1;
@@ -434,12 +452,12 @@ bool mountDeviceExist(const QString &path)
 
     return QFileInfo(mountPoint).exists();
 }
-//bool        isCommandExist(const QString &command)
+// bool        isCommandExist(const QString &command)
 //{
-//    QProcess *proc = new QProcess;
-//    QString cm = QString("which %1\n").arg(command);
-//    proc->start(cm);
-//    proc->waitForFinished(1000);
+//     QProcess *proc = new QProcess;
+//     QString cm = QString("which %1\n").arg(command);
+//     proc->start(cm);
+//     proc->waitForFinished(1000);
 
 //    if (proc->exitCode() == 0) {
 //        return true;
@@ -448,6 +466,6 @@ bool mountDeviceExist(const QString &path)
 //    }
 
 //}
-}  // namespace base
+}   // namespace base
 
-}  // namespace utils
+}   // namespace utils

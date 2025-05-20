@@ -12,17 +12,23 @@
 #include <deepin-ocr-plugin-manager/deepinocrplugin.h>
 
 #include <QtConcurrent/QtConcurrent>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 LiveTextAnalyzer::LiveTextAnalyzer(QObject *parent)
-    : QQuickImageProvider(Image)
-    , ocrDriver(new DeepinOCRPlugin::DeepinOCRDriver)
+    : QQuickImageProvider(Image),
+      ocrDriver(new DeepinOCRPlugin::DeepinOCRDriver)
 {
+    qCDebug(logImageViewer) << "Initializing LiveTextAnalyzer";
     ocrDriver->loadDefaultPlugin();
 
     // FIXME: Loong64 with llvm are temporarily unstable, disable GPU for now.
 #if !defined(_loongarch) && !defined(__loongarch__) && !defined(__loongarch64)
-    ocrDriver->setUseHardware({{DeepinOCRPlugin::HardwareID::GPU_Vulkan, 0}});
+    qCDebug(logImageViewer) << "Enabling GPU acceleration for OCR";
+    ocrDriver->setUseHardware({ { DeepinOCRPlugin::HardwareID::GPU_Vulkan, 0 } });
 #else
+    qCDebug(logImageViewer) << "GPU acceleration disabled for LoongArch";
     ocrDriver->setUseHardware({});
 #endif
 
@@ -31,18 +37,21 @@ LiveTextAnalyzer::LiveTextAnalyzer(QObject *parent)
 
     if (QScreen *screen = qApp->primaryScreen()) {
         pixelRatio = screen->devicePixelRatio();
+        qCDebug(logImageViewer) << "Screen pixel ratio:" << pixelRatio;
     }
 }
 
 void LiveTextAnalyzer::setImage(const QImage &image)
 {
+    qCDebug(logImageViewer) << "Setting new image for OCR analysis, size:" << image.size();
     imageCache = image;
 
     QImage image_copy = image.convertToFormat(QImage::Format_RGB888);
     // If the device pixel ratio is > 1, we need to reset the width and height to get the actual position.
     if (pixelRatio > 1) {
         image_copy = image_copy.scaled(
-            image.width() / pixelRatio, image.height() / pixelRatio, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                image.width() / pixelRatio, image.height() / pixelRatio, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        qCDebug(logImageViewer) << "Scaled image for high DPI display, new size:" << image_copy.size();
     }
 
     ocrDriver->setMatrix(image_copy.height(),
@@ -54,18 +63,22 @@ void LiveTextAnalyzer::setImage(const QImage &image)
 
 void LiveTextAnalyzer::analyze(const QString &token)
 {
+    qCDebug(logImageViewer) << "Starting OCR analysis with token:" << token;
     // 此处使用token来标记本次识别的目标，后续的识别结果也随token发出
     // 外部调用的时候也凭借收到的token判断是否采用此次的识别结果
     // 以此来解决QML的信号延迟问题，但仅降低此问题的复现概率，没有完全解决
     QtConcurrent::run([this, token]() {
-        while (ocrDriver->isRunning()) { }; // 等待之前的分析结束
-        emit analyzeFinished(ocrDriver->analyze(), token);
+        while (ocrDriver->isRunning()) { };   // 等待之前的分析结束
+        bool result = ocrDriver->analyze();
+        qCDebug(logImageViewer) << "OCR analysis completed with token:" << token << "result:" << result;
+        emit analyzeFinished(result, token);
     });
 }
 
 void LiveTextAnalyzer::breakAnalyze()
 {
     if (ocrDriver->isRunning()) {
+        qCDebug(logImageViewer) << "Breaking current OCR analysis";
         ocrDriver->breakAnalyze();
     }
 }
@@ -73,6 +86,7 @@ void LiveTextAnalyzer::breakAnalyze()
 QVariant LiveTextAnalyzer::liveBlock() const
 {
     auto boxes = ocrDriver->getTextBoxes();
+    qCDebug(logImageViewer) << "Getting text blocks, count:" << boxes.size();
 
     QList<QVariant> result;
     for (auto &box : boxes) {
@@ -91,10 +105,12 @@ QVariant LiveTextAnalyzer::liveBlock() const
 QVariant LiveTextAnalyzer::charBox(int blockIndex) const
 {
     if (static_cast<size_t>(blockIndex) >= ocrDriver->getTextBoxes().size()) {
+        qCWarning(logImageViewer) << "Invalid block index:" << blockIndex;
         return QVariant();
     }
 
     auto boxes = ocrDriver->getCharBoxes(static_cast<size_t>(blockIndex));
+    qCDebug(logImageViewer) << "Getting character boxes for block:" << blockIndex << "count:" << boxes.size();
 
     QList<QVariant> result;
 
@@ -110,11 +126,17 @@ QVariant LiveTextAnalyzer::charBox(int blockIndex) const
 QString LiveTextAnalyzer::textResult(int blockIndex, int startIndex, int len) const
 {
     if (static_cast<size_t>(blockIndex) >= ocrDriver->getTextBoxes().size() || startIndex < 0 || len <= 0) {
+        qCWarning(logImageViewer) << "Invalid parameters for text result - block:" << blockIndex
+                                  << "start:" << startIndex << "len:" << len;
         return "";
     }
 
     QString fullStr(ocrDriver->getResultFromBox(static_cast<size_t>(blockIndex)).c_str());
-    return fullStr.mid(startIndex, len);
+    QString result = fullStr.mid(startIndex, len);
+    qCDebug(logImageViewer) << "Getting text result for block:" << blockIndex
+                            << "start:" << startIndex << "len:" << len
+                            << "result length:" << result.length();
+    return result;
 }
 
 // 格式：random_index
@@ -124,6 +146,7 @@ QImage LiveTextAnalyzer::requestImage(const QString &id, QSize *size, const QSiz
     size_t index = id.mid(startIndex).toUInt();
 
     if (index >= ocrDriver->getTextBoxes().size()) {
+        qCWarning(logImageViewer) << "Invalid text box index:" << index;
         return QImage();
     }
 
@@ -132,13 +155,15 @@ QImage LiveTextAnalyzer::requestImage(const QString &id, QSize *size, const QSiz
     QRect rect(QPoint(static_cast<int>(box.points[0].first * pixelRatio), static_cast<int>(box.points[0].second * pixelRatio)),
                QPoint(static_cast<int>(box.points[2].first * pixelRatio), static_cast<int>(box.points[2].second * pixelRatio)));
 
+    qCDebug(logImageViewer) << "Requesting image for text box:" << index << "rect:" << rect;
+
     QImage image = imageCache.copy(rect);
     if (size != nullptr) {
         *size = image.size();
     }
     if (requestedSize.width() > 0 && requestedSize.height() > 0) {
-        return image.scaled(requestedSize);
-    } else {
-        return image;
+        image = image.scaled(requestedSize);
+        qCDebug(logImageViewer) << "Scaled image to requested size:" << requestedSize;
     }
+    return image;
 }
