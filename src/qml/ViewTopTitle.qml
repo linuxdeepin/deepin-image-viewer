@@ -117,7 +117,8 @@ Rectangle {
 
     Loader {
         anchors.fill: parent
-        asynchronous: true
+        // BUG: 315613 标题栏异步加载时，标题栏内容偶发无法显示
+        asynchronous: false
 
         sourceComponent: TitleBar {
             id: titlebar
