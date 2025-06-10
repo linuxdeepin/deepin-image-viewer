@@ -16,6 +16,7 @@
 #include <QSvgGenerator>
 #include <QImageReader>
 #include <QMimeDatabase>
+#include <QMimeType>
 #include <QtSvg/QSvgRenderer>
 #include <QDir>
 #include <QDebug>
@@ -209,6 +210,83 @@ UNIONIMAGESHARED_EXPORT const QString getFileFormat(const QString &path)
     return suffix;
 }
 
+UNIONIMAGESHARED_EXPORT const QString getFileMimeType(const QString &path)
+{
+    QMimeDatabase mimeDB;
+    QMimeType mimeType = mimeDB.mimeTypeForFile(path);
+    QString mimeTypeName = mimeType.name();
+
+    static QMap<QString, QString> mimeToFormat;
+    if (mimeToFormat.isEmpty()) {
+        mimeToFormat["image/jpeg"] = "JPEG";
+        mimeToFormat["image/pjpeg"] = "JPEG";
+        mimeToFormat["image/jpg"] = "JPG";
+        mimeToFormat["image/x-jps"] = "JPS";
+        mimeToFormat["image/x-jpe"] = "JPE";
+        mimeToFormat["image/png"] = "PNG";
+        mimeToFormat["image/x-portable-bitmap"] = "PBM";
+        mimeToFormat["image/x-portable-graymap"] = "PGM";
+        mimeToFormat["image/x-portable-pixmap"] = "PPM";
+        mimeToFormat["image/x-portable-anymap"] = "PNM";
+        mimeToFormat["image/vnd.wap.wbmp"] = "WBMP";
+        mimeToFormat["image/webp"] = "WEBP";
+        mimeToFormat["image/svg+xml"] = "SVG";
+        mimeToFormat["application/x-icns"] = "ICNS";
+        mimeToFormat["image/x-icns"] = "ICNS";
+        mimeToFormat["image/gif"] = "GIF";
+        mimeToFormat["video/x-mng"] = "MNG";
+        mimeToFormat["image/tif"] = "TIF";
+        mimeToFormat["image/tiff"] = "TIFF";
+        mimeToFormat["image/bmp"] = "BMP";
+        mimeToFormat["image/x-ms-bmp"] = "BMP";
+        mimeToFormat["image/x-xpixmap"] = "XPM";
+        mimeToFormat["image/x-adobe-dng"] = "DNG";
+        mimeToFormat["image/x-fuji-raf"] = "RAF";
+        mimeToFormat["image/x-canon-cr2"] = "CR2";
+        mimeToFormat["image/x-mef"] = "MEF";
+        mimeToFormat["image/x-olympus-orf"] = "ORF";
+        mimeToFormat["image/x-icon"] = "ICO";
+        mimeToFormat["image/vnd.microsoft.icon"] = "ICO";
+        mimeToFormat["image/x-raw"] = "RAW";
+        mimeToFormat["image/x-minolta-mrw"] = "MRW";
+        mimeToFormat["image/x-nikon-nef"] = "NEF";
+        mimeToFormat["image/jp2"] = "JP2";
+        mimeToFormat["image/jpx"] = "JP2";
+        mimeToFormat["image/jpm"] = "JP2";
+        mimeToFormat["image/heif"] = "HEIF";
+        mimeToFormat["image/heic"] = "HEIC";
+        mimeToFormat["image/hej2"] = "HEJ2";
+        mimeToFormat["image/avif"] = "AVIF";
+        mimeToFormat["image/avifs"] = "AVIFS";
+        mimeToFormat["image/x-tga"] = "TGA";
+        mimeToFormat["image/vnd.adobe.photoshop"] = "PSD";
+        mimeToFormat["image/x-pxm"] = "PXM";
+        mimeToFormat["image/x-pic"] = "PIC";
+        mimeToFormat["image/x-pentax-pef"] = "PEF";
+        mimeToFormat["image/x-xbitmap"] = "XBM";
+        mimeToFormat["image/x-sony-arw"] = "ARW";
+        mimeToFormat["image/x-hdr"] = "HDR";
+        mimeToFormat["image/x-j2k"] = "J2K";
+        mimeToFormat["image/avi"] = "AVI";
+        mimeToFormat["video/avi"] = "AVI";
+        mimeToFormat["image/x-viff"] = "VIFF";
+        mimeToFormat["image/x-ilbm"] = "IFF";
+        mimeToFormat["image/x-windows-metafile"] = "WMF";
+        mimeToFormat["application/x-msmetafile"] = "WMF";
+        mimeToFormat["image/x-wmf"] = "WMF";
+        mimeToFormat["image/x-canon-crw"] = "CRW";
+        mimeToFormat["image/x-sigma-x3f"] = "X3F";
+        mimeToFormat["image/x-eps"] = "EPS";
+        mimeToFormat["image/x-sony-sr2"] = "SR2";
+    }
+
+    if (mimeToFormat.contains(mimeTypeName)) {
+        return mimeToFormat[mimeTypeName];
+    }
+
+    return QString();
+}
+
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
     QImageReader r(path);
@@ -242,11 +320,13 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
     }
     QMap<QString, QString> dataMap = getAllMetaData(path);
     QString file_suffix_upper = dataMap.value("FileFormat").toUpper();
+    QString file_mimeType = dataMap.value("FileMimeType").toUpper();
 
     QByteArray temp_path;
     temp_path.append(path.toUtf8());
     QString file_suffix_lower = file_suffix_upper.toLower();
-    if (union_image_private.m_qtSupported.contains(file_suffix_upper)) {
+
+    if (union_image_private.m_qtSupported.contains(file_suffix_upper) || union_image_private.m_qtSupported.contains(file_mimeType)) {
         QImageReader reader;
         QImage res_qt;
         reader.setFileName(path);
@@ -632,7 +712,7 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     // 应该使用qfileinfo的格式
     admMap.insert("FileFormat", getFileFormat(path));
     admMap.insert("FileSize", size2Human(info.size()));
-
+    admMap.insert("FileMimeType", getFileMimeType(path));
     return admMap;
 }
 
