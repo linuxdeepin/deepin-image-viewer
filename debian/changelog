@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.23) unstable; urgency=medium
+
+  * chore: update dependencies in configuration files
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Thu, 19 Jun 2025 21:53:37 +0800
+
 deepin-image-viewer (6.0.22) unstable; urgency=medium
 
   * fix: fix OCR recognition crash on sw architecture when viewing images
