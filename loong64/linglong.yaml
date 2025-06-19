@@ -50,7 +50,7 @@ build: |
 
 sources:
   # linglong:gen_deb_source sources loong64 https://ci.deepin.com/repo/deepin/deepin-community/backup/23-release/ beige main community
-  # linglong:gen_deb_source install libdtk6gui-dev, libdtk6widget-dev, qt6-svg-dev, qt6-tools-dev, qt6-tools-dev-tools, qt6-base-dev, qt6-base-dev-tools, qt6-base-private-dev, qt6-l10n-tools, libraw-dev, libexif-dev, libdeepin-ocr-plugin-manager-dev
+  # linglong:gen_deb_source install libdtk6gui-dev, libdtk6widget-dev, qt6-svg-dev, qt6-tools-dev, qt6-tools-dev-tools, qt6-base-dev, qt6-base-dev-tools, qt6-base-private-dev, qt6-l10n-tools, libraw-dev, libexif-dev, libdeepin-ocr-plugin-manager-dev, libncnn-dev, libopencv-mobile-dev
   - kind: file
     url: https://ci.deepin.com/repo/deepin/deepin-community/backup/23-release//pool/main/q/qt6-tools/assistant-qt6_6.8.0-0deepin3_loong64.deb
     digest: f6ff5fd88f299cfe07c0c808da8795d6ba4a6add35435dde5be1a64a4403de0d
@@ -511,6 +511,9 @@ sources:
     url: https://ci.deepin.com/repo/deepin/deepin-community/backup/23-release//pool/main/m/mtdev/libmtdev1_1.1.6-1_loong64.deb
     digest: 4a5019080a0454a1380d3353dbc52b5bfebd3ad8f4c210425beeef8b6e5113e8
   - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/23-release//pool/main/n/ncnn/libncnn-dev_1.0.20240820-0deepin2_loong64.deb
+    digest: 2660fd0e0a01afd0ce9a6e7afb9f10f62eb1f618413439202d3ed3c0dc7dcff8
+  - kind: file
     url: https://ci.deepin.com/repo/deepin/deepin-community/backup/23-release//pool/main/n/ncnn/libncnn_1.0.20240820-0deepin2_loong64.deb
     digest: 49dd26fcdea6289777c3f084f38e3c2679c66de1b59177c0416f0e3d09c58105
   - kind: file
@@ -525,6 +528,9 @@ sources:
   - kind: file
     url: https://ci.deepin.com/repo/deepin/deepin-community/backup/23-release//pool/main/libn/libnsl/libnsl2_1.3.0-2_loong64.deb
     digest: 295c4fdb7405a01bac01bc50e542232014a5225cac5f675bfbe33ea41d1acd67
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/23-release//pool/community/o/opencv-mobile/libopencv-mobile-dev_4.5.4+14_loong64.deb
+    digest: 571fb6214c8a36d72ff93d4419498ed8f590b1beeb0d8c15403f44c1de3cd34d
   - kind: file
     url: https://ci.deepin.com/repo/deepin/deepin-community/backup/23-release//pool/community/o/opencv-mobile/libopencv-mobile_4.5.4+14_loong64.deb
     digest: 6cc5c8a4ce37eb0210d8b411d0e760357963767a88b9aff5f4c137fc48e374f8

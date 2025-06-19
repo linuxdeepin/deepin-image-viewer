@@ -21,6 +21,8 @@ Build-Depends:
 # 3rd party
  libraw-dev,
  libexif-dev,
+ libncnn-dev,
+ libopencv-mobile-dev
 Standards-Version: 3.9.8
 Homepage: http://www.deepin.org
 
