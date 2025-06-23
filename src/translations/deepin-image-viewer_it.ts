@@ -1,124 +1,126 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="it">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="it">
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
+        <location filename="../src/filecontrol.cpp" line="781"/>
         <source>Fullscreen</source>
         <translation>Schermo intero</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="789"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Exit fullscreen</source>
         <translation>Esci dalla modalità schermo intero</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Extract text</source>
         <translation>Estrai testo</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Slide show</source>
         <translation>Presentazione</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Rename</source>
         <translation>Rinomina</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Copy</source>
         <translation>Copia</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Rotate clockwise</source>
         <translation>Ruota in senso orario</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate counterclockwise</source>
         <translation>Ruota in senso antiorario</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Set as wallpaper</source>
         <translation>Imposta come wallpaper</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Display in file manager</source>
         <translation>Visualizza nel file manager</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Image info</source>
         <translation>Info immagine</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Previous</source>
         <translation>Precedente</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Next</source>
         <translation>Successiva</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Zoom in</source>
         <translation>Aumenta zoom</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom out</source>
         <translation>Diminuisci zoom</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Open</source>
         <translation>Apri</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="853"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Print</source>
         <translation>Stampa</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="873"/>
         <source>Image Viewing</source>
         <translation>Visualizzazione immagine</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Help</source>
         <translation>Aiuto</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="885"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Display shortcuts</source>
         <translation>Visualizza scorciatoie</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="893"/>
+        <location filename="../src/filecontrol.cpp" line="889"/>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="901"/>
+        <location filename="../src/filecontrol.cpp" line="897"/>
         <source>Select all</source>
         <translation>Seleziona tutto</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="909"/>
+        <location filename="../src/filecontrol.cpp" line="905"/>
         <source>Live Text</source>
         <translation>Testo live</translation>
     </message>
@@ -252,7 +254,7 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="127"/>
+        <location filename="../qml/MainStack.qml" line="129"/>
         <source>Select pictures</source>
         <translation>Seleziona immagini</translation>
     </message>
@@ -328,12 +330,12 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -395,22 +397,22 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <translation>Dimensioni originali</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="228"/>
+        <location filename="../qml/ThumbnailListView.qml" line="227"/>
         <source>Fit to window</source>
         <translation>Adatta alla finestra</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="246"/>
+        <location filename="../qml/ThumbnailListView.qml" line="244"/>
         <source>Rotate</source>
         <translation>Ruota</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="519"/>
+        <location filename="../qml/ThumbnailListView.qml" line="517"/>
         <source>Extract text</source>
         <translation>Estrai testo</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="538"/>
+        <location filename="../qml/ThumbnailListView.qml" line="536"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
@@ -496,26 +498,18 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="184"/>
+        <location filename="../qml/ViewTopTitle.qml" line="189"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation>Il Visualizzatore immagini di Deepin è un gestore di immagini elegante e veloce.
 Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="186"/>
+        <location filename="../qml/ViewTopTitle.qml" line="191"/>
         <source>Image Viewer</source>
         <translation>Visualizzatore immagini</translation>
     </message>
     <message>
-        <source>Version</source>
-        <translation type="vanished">Versione</translation>
-    </message>
-    <message>
-        <source>%1 is released under %2</source>
-        <translation type="vanished">%1 rilasciato secondo %2</translation>
-    </message>
-    <message>
-        <location filename="../qml/ViewTopTitle.qml" line="162"/>
+        <location filename="../qml/ViewTopTitle.qml" line="167"/>
         <source>Open image</source>
         <translation>Apri immagine</translation>
     </message>

@@ -1,124 +1,125 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="cs">
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
+        <location filename="../src/filecontrol.cpp" line="781"/>
         <source>Fullscreen</source>
         <translation>Celá obrazovka</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="789"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Exit fullscreen</source>
         <translation>Opustit celou obrazovku</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Extract text</source>
         <translation>Rozpoznat text</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Slide show</source>
         <translation>Promítání</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Rename</source>
         <translation>Přejmenovat</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Copy</source>
         <translation>Zkopírovat</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Rotate clockwise</source>
         <translation>Otočit doprava</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate counterclockwise</source>
         <translation>Otočit doleva</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Set as wallpaper</source>
         <translation>Nastavit jako pozadí plochy</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Display in file manager</source>
         <translation>Zobrazit ve správci souborů</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Image info</source>
         <translation>Informace o obrázku</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Previous</source>
         <translation>Předchozí</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Next</source>
         <translation>Další</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Zoom in</source>
         <translation>Přiblížit</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom out</source>
         <translation>Oddálit</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Open</source>
         <translation>Otevřít</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="853"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Print</source>
         <translation>Tisk</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="873"/>
         <source>Image Viewing</source>
         <translation>Zobrazení obrázku</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="885"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Display shortcuts</source>
         <translation>Zobrazit zkratky</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="893"/>
+        <location filename="../src/filecontrol.cpp" line="889"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="901"/>
+        <location filename="../src/filecontrol.cpp" line="897"/>
         <source>Select all</source>
         <translation>Vybrat vše</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="909"/>
+        <location filename="../src/filecontrol.cpp" line="905"/>
         <source>Live Text</source>
         <translation>Živý text</translation>
     </message>
@@ -252,7 +253,7 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="127"/>
+        <location filename="../qml/MainStack.qml" line="129"/>
         <source>Select pictures</source>
         <translation>Vybrat obrázky</translation>
     </message>
@@ -326,13 +327,13 @@
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
+        <translation>Nelze přesunout "%1" do koše. Chcete ho trvale smazat?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>Tato akce se nedá vrátit zpět</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -354,13 +355,11 @@
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
-        <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Pause</source>
         <translation>Pozastavit</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
-        <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Play</source>
         <translation>Přehrát</translation>
     </message>
@@ -371,7 +370,6 @@
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
-        <location filename="../qml/SliderShow.qml" line="244"/>
         <source>Exit</source>
         <translation>Ukončit</translation>
     </message>
@@ -394,22 +392,22 @@
         <translation>Původní velikost</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="228"/>
+        <location filename="../qml/ThumbnailListView.qml" line="227"/>
         <source>Fit to window</source>
         <translation>Přizpůsobit oknu</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="246"/>
+        <location filename="../qml/ThumbnailListView.qml" line="244"/>
         <source>Rotate</source>
         <translation>Otočit</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="519"/>
+        <location filename="../qml/ThumbnailListView.qml" line="517"/>
         <source>Extract text</source>
         <translation>Rozpoznat text</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="538"/>
+        <location filename="../qml/ThumbnailListView.qml" line="536"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
@@ -495,25 +493,17 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="184"/>
+        <location filename="../qml/ViewTopTitle.qml" line="189"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation>Prohlížeč obrázků je nástroj pro zobrazování obrázků, který má hezké rozhraní a je rychlý.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="186"/>
+        <location filename="../qml/ViewTopTitle.qml" line="191"/>
         <source>Image Viewer</source>
         <translation>Prohlížeč obrázků</translation>
     </message>
     <message>
-        <source>Version</source>
-        <translation type="vanished">Verze</translation>
-    </message>
-    <message>
-        <source>%1 is released under %2</source>
-        <translation type="vanished">%1 je vydán pod %2</translation>
-    </message>
-    <message>
-        <location filename="../qml/ViewTopTitle.qml" line="162"/>
+        <location filename="../qml/ViewTopTitle.qml" line="167"/>
         <source>Open image</source>
         <translation>Otevřít obrázek</translation>
     </message>

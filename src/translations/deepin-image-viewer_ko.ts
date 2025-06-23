@@ -1,126 +1,127 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ko">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ko">
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
+        <location filename="../src/filecontrol.cpp" line="781"/>
         <source>Fullscreen</source>
         <translation>전체화면</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="789"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Exit fullscreen</source>
         <translation>전체화면 종료</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>텍스트 추출</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Slide show</source>
         <translation>슬라이드 표시</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Rename</source>
         <translation>이름 변경</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Copy</source>
         <translation>복사</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Rotate clockwise</source>
         <translation>시계 방향으로 회전</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate counterclockwise</source>
         <translation>시계 반대 방향으로 회전</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Set as wallpaper</source>
         <translation>바탕화면으로 설정</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Display in file manager</source>
         <translation>파일 관리도구에 표시</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Image info</source>
         <translation>이미지 정보</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Previous</source>
         <translation>이전</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Next</source>
         <translation>다음</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Zoom in</source>
         <translation>확대</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom out</source>
         <translation>축소</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Open</source>
         <translation>열기</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="853"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Print</source>
         <translation>인쇄</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="873"/>
         <source>Image Viewing</source>
         <translation>이미지 보는 중</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Help</source>
         <translation>도움말</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="885"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Display shortcuts</source>
         <translation>단축키 표시</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="893"/>
+        <location filename="../src/filecontrol.cpp" line="889"/>
         <source>Settings</source>
         <translation>설정</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="901"/>
+        <location filename="../src/filecontrol.cpp" line="897"/>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>모두 선택</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="909"/>
+        <location filename="../src/filecontrol.cpp" line="905"/>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>실시간 텍스트</translation>
     </message>
 </context>
 <context>
@@ -133,7 +134,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>크기</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
@@ -213,7 +214,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation>파일 이름</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
@@ -233,7 +234,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation>장치 모델</translation>
     </message>
 </context>
 <context>
@@ -241,20 +242,20 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"/>
+        <translation>복사 (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"/>
+        <translation>모두 선택 (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="127"/>
+        <location filename="../qml/MainStack.qml" line="129"/>
         <source>Select pictures</source>
-        <translation type="unfinished"/>
+        <translation>사진 선택</translation>
     </message>
 </context>
 <context>
@@ -278,7 +279,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>이 파일은 이미 존재합니다. 다른 이름을 사용하세요</translation>
     </message>
 </context>
 <context>
@@ -291,7 +292,7 @@
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
         <source>day</source>
-        <translation type="unfinished"/>
+        <translation>일</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="51"/>
@@ -309,7 +310,7 @@
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>이 파일은 이미 존재합니다. 다른 이름을 사용하세요</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
@@ -326,13 +327,13 @@
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
+        <translation>"%1"를 쓰레기통으로 이동할 수 없습니다. 영구히 삭제하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>이 작업은 되돌릴 수 없습니다</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -354,13 +355,11 @@
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
-        <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Pause</source>
         <translation>일시중지</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
-        <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Play</source>
         <translation>재생</translation>
     </message>
@@ -371,7 +370,6 @@
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
-        <location filename="../qml/SliderShow.qml" line="244"/>
         <source>Exit</source>
         <translation>종료</translation>
     </message>
@@ -391,25 +389,25 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>원본 크기</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="228"/>
+        <location filename="../qml/ThumbnailListView.qml" line="227"/>
         <source>Fit to window</source>
         <translation>창에 맞춤</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="246"/>
+        <location filename="../qml/ThumbnailListView.qml" line="244"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>회전</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="519"/>
+        <location filename="../qml/ThumbnailListView.qml" line="517"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>텍스트 추출</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="538"/>
+        <location filename="../qml/ThumbnailListView.qml" line="536"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
@@ -434,7 +432,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>텍스트 추출</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
@@ -495,27 +493,19 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="184"/>
+        <location filename="../qml/ViewTopTitle.qml" line="189"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation>이미지 보기도구는 인기있는 인터페이스와 원활한 성능을 갖춘 이미지보기 도구입니다.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="186"/>
+        <location filename="../qml/ViewTopTitle.qml" line="191"/>
         <source>Image Viewer</source>
         <translation>이미지 보기도구</translation>
     </message>
     <message>
-        <source>Version</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1 is released under %2</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/ViewTopTitle.qml" line="162"/>
+        <location filename="../qml/ViewTopTitle.qml" line="167"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>이미지 열기</translation>
     </message>
 </context>
 </TS>
