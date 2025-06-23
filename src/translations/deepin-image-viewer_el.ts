@@ -1,126 +1,127 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="el">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="el">
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
+        <location filename="../src/filecontrol.cpp" line="781"/>
         <source>Fullscreen</source>
         <translation>Πλήρης οθόνη</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="789"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Exit fullscreen</source>
         <translation>Έξοδος από πλήρη οθόνη</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>Εξαγωγή κειμένου</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Slide show</source>
         <translation>Παρουσίαση εικόνων</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Rename</source>
         <translation>Μετονομασία</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Copy</source>
         <translation>Αντιγραφή</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Delete</source>
         <translation>Διαγραφή</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Rotate clockwise</source>
         <translation>Περιστροφή δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate counterclockwise</source>
         <translation>Περιστροφή αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Set as wallpaper</source>
         <translation>Θέσε ως ταπετσαρία</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Display in file manager</source>
         <translation>Προβολή στον διαχειριστή αρχείον</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Image info</source>
         <translation>Πληροφοριες εικονας</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Previous</source>
         <translation>Προηγούμενο</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Next</source>
         <translation>Επόμενο</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation>Μεγέθυνση</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="841"/>
+        <source>Zoom out</source>
+        <translation>Συμπύκνωση</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
-        <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <source>Open</source>
+        <translation>Άνοιγμα</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="849"/>
-        <source>Open</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
         <translation>Εκτύπωση</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="873"/>
         <source>Image Viewing</source>
         <translation>Προβολή εικόνας</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Help</source>
-        <translation type="unfinished"/>
+        <translation>Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="885"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Display shortcuts</source>
         <translation>Προβολή συντομεύσεων</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="893"/>
+        <location filename="../src/filecontrol.cpp" line="889"/>
         <source>Settings</source>
         <translation>Ρυθμίσεις</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="901"/>
+        <location filename="../src/filecontrol.cpp" line="897"/>
         <source>Select all</source>
-        <translation type="unfinished"/>
+        <translation>Επιλογή όλων</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="909"/>
+        <location filename="../src/filecontrol.cpp" line="905"/>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>Ζωντανό Κείμενο</translation>
     </message>
 </context>
 <context>
@@ -128,17 +129,17 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="74"/>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation>Βασικές πληροφορίεs</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>Μέγεθος</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation>Ημερομηνία συλλογής</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
@@ -148,7 +149,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation>Λεπτομέρειες</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="154"/>
@@ -213,12 +214,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation>Όνομα αρχείου</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation>Διαστάσεις</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="112"/>
@@ -233,7 +234,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation>Μοντέλο συσκευής</translation>
     </message>
 </context>
 <context>
@@ -241,20 +242,20 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"/>
+        <translation>Αντιγραφή (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"/>
+        <translation>Επιλογή όλων (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="127"/>
+        <location filename="../qml/MainStack.qml" line="129"/>
         <source>Select pictures</source>
-        <translation type="unfinished"/>
+        <translation>Επιλογή φωτογραφιών</translation>
     </message>
 </context>
 <context>
@@ -262,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
+        <translation>Το αρχείο εικόνας δεν βρέθηκε</translation>
     </message>
 </context>
 <context>
@@ -270,7 +271,7 @@
     <message>
         <location filename="../qml/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Άνοιγμα Εικόνας</translation>
     </message>
 </context>
 <context>
@@ -278,7 +279,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Το αρχείο υπάρχει ήδη. Παρακαλώ χρησιμοποιήσετε άλλο όνομα</translation>
     </message>
 </context>
 <context>
@@ -286,17 +287,17 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>Εικονοπροβολέας</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
         <source>day</source>
-        <translation type="unfinished"/>
+        <translation>ημέρα</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Ο Εικονοπροβολέας είναι ένας εργαλειος προβολής εικόνας με όμορφο κατασκευαστικό διεπείδοντας και στοχευμένο απόδοση</translation>
     </message>
 </context>
 <context>
@@ -304,12 +305,12 @@
     <message>
         <location filename="../qml/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>Εισαγωγή νέου ονόματος</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Επιβεβαίωση</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
@@ -319,20 +320,20 @@
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>Επιβεβαίωση</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
+        <translation>Η δράση αυτή δεν μπορεί να αναιρεθεί</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>Παύση</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -342,7 +343,7 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>Επιβεβαίωση</translation>
     </message>
 </context>
 <context>
@@ -354,15 +355,13 @@
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
-        <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Pause</source>
-        <translation type="unfinished"/>
+        <translation>Διακοπή</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
-        <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation>Εκτέλεση</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
@@ -371,9 +370,8 @@
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
-        <location filename="../qml/SliderShow.qml" line="244"/>
         <source>Exit</source>
-        <translation type="unfinished"/>
+        <translation>Έξοδος</translation>
     </message>
 </context>
 <context>
@@ -391,25 +389,25 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>Αρχικό μέγεθος</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="228"/>
+        <location filename="../qml/ThumbnailListView.qml" line="227"/>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Εμφάνιση σε παράθυρο</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="246"/>
+        <location filename="../qml/ThumbnailListView.qml" line="244"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Περιστροφή</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="519"/>
+        <location filename="../qml/ThumbnailListView.qml" line="517"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>Εξαγωγή κειμένου</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="538"/>
+        <location filename="../qml/ThumbnailListView.qml" line="536"/>
         <source>Delete</source>
         <translation>Διαγραφή</translation>
     </message>
@@ -434,7 +432,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>Εξαγωγή κειμένου</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
@@ -469,12 +467,12 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation type="unfinished"/>
+        <translation>Εμφάνιση παραθύρου πλοήγησης</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Hide navigation window</source>
-        <translation type="unfinished"/>
+        <translation>Κρύωση παραθύρου πλοήγησης</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
@@ -495,27 +493,19 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="184"/>
+        <location filename="../qml/ViewTopTitle.qml" line="189"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Ο Εικονικός Προβολέας είναι ένας εργαλειοσύνολος προβολής εικόνας με επεξεργασμένο διαστημικό και χαλαρή εργασία.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="186"/>
+        <location filename="../qml/ViewTopTitle.qml" line="191"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>Εικονικός Προβολέας</translation>
     </message>
     <message>
-        <source>Version</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1 is released under %2</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/ViewTopTitle.qml" line="162"/>
+        <location filename="../qml/ViewTopTitle.qml" line="167"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Άνοιγμα εικόνας</translation>
     </message>
 </context>
 </TS>

@@ -1,124 +1,126 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ar">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ar">
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
+        <location filename="../src/filecontrol.cpp" line="781"/>
         <source>Fullscreen</source>
         <translation>ملء الشاشة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="789"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Exit fullscreen</source>
         <translation>الخروج من وضع ملء الشاشة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Extract text</source>
         <translation>استخراج النص</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Slide show</source>
         <translation>عرض الشرائح</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Rename</source>
         <translation>إعادة التسمية</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Copy</source>
         <translation>نسخ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Delete</source>
         <translation>حذف</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Rotate clockwise</source>
         <translation>تدوير باتجاه عقارب الساعة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate counterclockwise</source>
         <translation>تدوير عكس اتجاه عقارب الساعة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Set as wallpaper</source>
         <translation>تعيين كخلفية</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Display in file manager</source>
         <translation>عرض في مدير الملفات</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Image info</source>
         <translation>معلومات الصورة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Previous</source>
         <translation>السابق</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Next</source>
         <translation>التالي</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Zoom in</source>
         <translation>تكبير</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom out</source>
         <translation>تصغير</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Open</source>
         <translation>فتح</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="853"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Print</source>
         <translation>طباعة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="873"/>
         <source>Image Viewing</source>
         <translation>عرض الصورة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Help</source>
         <translation>مساعدة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="885"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Display shortcuts</source>
         <translation>اختصارات العرض</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="893"/>
+        <location filename="../src/filecontrol.cpp" line="889"/>
         <source>Settings</source>
         <translation>الإعدادات</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="901"/>
+        <location filename="../src/filecontrol.cpp" line="897"/>
         <source>Select all</source>
         <translation>تحديد الكل</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="909"/>
+        <location filename="../src/filecontrol.cpp" line="905"/>
         <source>Live Text</source>
         <translation>نص مباشر</translation>
     </message>
@@ -252,7 +254,7 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="127"/>
+        <location filename="../qml/MainStack.qml" line="129"/>
         <source>Select pictures</source>
         <translation>اختيار الصور</translation>
     </message>
@@ -394,22 +396,22 @@
         <translation>الحجم الأصلي</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="228"/>
+        <location filename="../qml/ThumbnailListView.qml" line="227"/>
         <source>Fit to window</source>
         <translation>ملء النافذة</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="246"/>
+        <location filename="../qml/ThumbnailListView.qml" line="244"/>
         <source>Rotate</source>
         <translation>استدارة</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="519"/>
+        <location filename="../qml/ThumbnailListView.qml" line="517"/>
         <source>Extract text</source>
         <translation>استخراج النص</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="538"/>
+        <location filename="../qml/ThumbnailListView.qml" line="536"/>
         <source>Delete</source>
         <translation>حذف</translation>
     </message>
@@ -495,25 +497,17 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="184"/>
+        <location filename="../qml/ViewTopTitle.qml" line="189"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation>عرض صور ديبين هو أداة لعرض الصور بواجهة أنيقة وأداء سلس.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="186"/>
+        <location filename="../qml/ViewTopTitle.qml" line="191"/>
         <source>Image Viewer</source>
         <translation>عارض الصور</translation>
     </message>
     <message>
-        <source>Version</source>
-        <translation type="vanished">الإصدار</translation>
-    </message>
-    <message>
-        <source>%1 is released under %2</source>
-        <translation type="vanished">&apos;%1 تم إطلاقها بناءً على %2&apos; </translation>
-    </message>
-    <message>
-        <location filename="../qml/ViewTopTitle.qml" line="162"/>
+        <location filename="../qml/ViewTopTitle.qml" line="167"/>
         <source>Open image</source>
         <translation>فتح صورة</translation>
     </message>

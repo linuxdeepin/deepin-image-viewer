@@ -1,124 +1,126 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ca">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ca">
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
+        <location filename="../src/filecontrol.cpp" line="781"/>
         <source>Fullscreen</source>
         <translation>Pantalla completa</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="789"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Exit fullscreen</source>
         <translation>Surt de la pantalla completa</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Extract text</source>
         <translation>Extreu-ne el text</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Slide show</source>
         <translation>Presentació de diapositives</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Rename</source>
         <translation>Canvia&apos;n el nom</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Copy</source>
         <translation>Copia</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Rotate clockwise</source>
         <translation>Gira a la dreta</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate counterclockwise</source>
         <translation>Gira a l&apos;esquerra</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Set as wallpaper</source>
         <translation>Estableix com a fons d&apos;escriptori</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Display in file manager</source>
         <translation>Mostra al gestor de fitxers</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Image info</source>
         <translation>Informació de la imatge</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Previous</source>
         <translation>Anterior</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Next</source>
         <translation>Següent</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Zoom in</source>
         <translation>Amplia</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom out</source>
         <translation>Allunya</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Open</source>
         <translation>Obre</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="853"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Print</source>
         <translation>Imprimeix</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="873"/>
         <source>Image Viewing</source>
         <translation>Visualització d&apos;imatges</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="885"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Display shortcuts</source>
         <translation>Mostra les dreceres</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="893"/>
+        <location filename="../src/filecontrol.cpp" line="889"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="901"/>
+        <location filename="../src/filecontrol.cpp" line="897"/>
         <source>Select all</source>
         <translation>Selecciona-ho tot</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="909"/>
+        <location filename="../src/filecontrol.cpp" line="905"/>
         <source>Live Text</source>
         <translation>Text viu</translation>
     </message>
@@ -252,7 +254,7 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="127"/>
+        <location filename="../qml/MainStack.qml" line="129"/>
         <source>Select pictures</source>
         <translation>Seleccioneu imatges</translation>
     </message>
@@ -394,22 +396,22 @@
         <translation>Mida original</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="228"/>
+        <location filename="../qml/ThumbnailListView.qml" line="227"/>
         <source>Fit to window</source>
         <translation>Ajusta a la finestra</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="246"/>
+        <location filename="../qml/ThumbnailListView.qml" line="244"/>
         <source>Rotate</source>
         <translation>Gira</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="519"/>
+        <location filename="../qml/ThumbnailListView.qml" line="517"/>
         <source>Extract text</source>
         <translation>Extreu-ne el text</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="538"/>
+        <location filename="../qml/ThumbnailListView.qml" line="536"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
@@ -495,25 +497,17 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="184"/>
+        <location filename="../qml/ViewTopTitle.qml" line="189"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation>El Visor d&apos;imatges és una eina de visualització d&apos;imatges amb una interfície moderna i un rendiment eficient.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="186"/>
+        <location filename="../qml/ViewTopTitle.qml" line="191"/>
         <source>Image Viewer</source>
         <translation>Visualitzador d&apos;imatges</translation>
     </message>
     <message>
-        <source>Version</source>
-        <translation type="vanished">Versió</translation>
-    </message>
-    <message>
-        <source>%1 is released under %2</source>
-        <translation type="vanished">%1 es publica d&apos;acord amb %2</translation>
-    </message>
-    <message>
-        <location filename="../qml/ViewTopTitle.qml" line="162"/>
+        <location filename="../qml/ViewTopTitle.qml" line="167"/>
         <source>Open image</source>
         <translation>Obre la imatge</translation>
     </message>
