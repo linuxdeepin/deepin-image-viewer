@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.25) unstable; urgency=medium
+
+  * chore: Update translations (#245)
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Mon, 23 Jun 2025 12:59:58 +0800
+
 deepin-image-viewer (6.0.24) unstable; urgency=medium
 
   * chore: Update dman's resources
