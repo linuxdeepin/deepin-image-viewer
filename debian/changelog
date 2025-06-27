@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.26) unstable; urgency=medium
+
+  * chore: update translations
+
+ -- Liu Zhangjian <liuzhangjian@uniontech.com>  Fri, 27 Jun 2025 17:28:20 +0800
+
 deepin-image-viewer (6.0.25) unstable; urgency=medium
 
   * chore: Update translations (#245)
