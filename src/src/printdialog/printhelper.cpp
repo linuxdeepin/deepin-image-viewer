@@ -26,6 +26,7 @@ PrintHelper *PrintHelper::m_Printer = nullptr;
 PrintHelper *PrintHelper::getIntance()
 {
     if (!m_Printer) {
+        qCDebug(logImageViewer) << "Creating new PrintHelper instance";
         m_Printer = new PrintHelper();
     }
     return m_Printer;
@@ -34,11 +35,13 @@ PrintHelper *PrintHelper::getIntance()
 PrintHelper::PrintHelper(QObject *parent)
     : QObject(parent)
 {
+    qCDebug(logImageViewer) << "PrintHelper instance created";
     m_re = new RequestedSlot(this);
 }
 
 PrintHelper::~PrintHelper()
 {
+    qCDebug(logImageViewer) << "PrintHelper instance destroyed";
     m_re->deleteLater();
 }
 
@@ -114,6 +117,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
                 m_re->m_imgs << imgReadreder.read();
             }
         } else {
+            qCDebug(logImageViewer) << "Loading single image:" << path;
             // QImage不应该多次赋值，所以换到这里来，修复style问题
             QImage img;
             LibUnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
@@ -160,10 +164,12 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 RequestedSlot::RequestedSlot(QObject *parent)
 {
     Q_UNUSED(parent)
+    qCDebug(logImageViewer) << "RequestedSlot instance created";
 }
 
 RequestedSlot::~RequestedSlot()
 {
+    qCDebug(logImageViewer) << "RequestedSlot instance destroyed";
 }
 
 void RequestedSlot::paintRequestSync(DPrinter *_printer)
@@ -188,6 +194,7 @@ void RequestedSlot::paintRequestSync(DPrinter *_printer)
                                          wRect.width(), img.height() * ratio),
                                   img);
             } else {
+                qCDebug(logImageViewer) << "Fitting image to height";
                 ratio = wRect.height() * 1.0 / img.height();
                 qCDebug(logImageViewer) << "Fitting image to height, ratio:" << ratio;
                 painter.drawImage(QRectF(qreal(wRect.width() - img.width() * ratio) / 2, 0,

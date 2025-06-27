@@ -4,9 +4,17 @@
 
 #include "types.h"
 
+#include <DLog>
+
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
+
 Types::Types(QObject *parent)
     : QObject(parent)
 {
+    qCDebug(logImageViewer) << "Types constructor called";
 }
 
-Types::~Types() {}
+Types::~Types()
+{
+    qCDebug(logImageViewer) << "Types destructor called";
+}

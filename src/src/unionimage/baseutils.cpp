@@ -88,28 +88,36 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
 
 QString timeToString(const QDateTime &time, bool normalFormat)
 {
-    if (normalFormat)
+    qCDebug(logImageViewer) << "Converting QDateTime to string. Normal format requested:" << normalFormat;
+    if (normalFormat) {
+        qCDebug(logImageViewer) << "Using normal date format for conversion.";
         return time.toString(DATETIME_FORMAT_NORMAL);
-    else
+    } else {
+        qCDebug(logImageViewer) << "Using EXIF date format for conversion.";
         return time.toString(DATETIME_FORMAT_EXIF);
+    }
 }
 
 int stringWidth(const QFont &f, const QString &str)
 {
+    qCDebug(logImageViewer) << "Calculating string width for:" << str;
     QFontMetrics fm(f);
     return fm.boundingRect(str).width();
 }
 
 int stringHeight(const QFont &f, const QString &str)
 {
+    qCDebug(logImageViewer) << "Calculating string height for:" << str;
     QFontMetrics fm(f);
     return fm.boundingRect(str).height();
 }
 
 QDateTime stringToDateTime(const QString &time)
 {
+    qCDebug(logImageViewer) << "Converting string to QDateTime:" << time;
     QDateTime dt = QDateTime::fromString(time, DATETIME_FORMAT_EXIF);
     if (!dt.isValid()) {
+        qCDebug(logImageViewer) << "EXIF format failed, trying normal format.";
         dt = QDateTime::fromString(time, DATETIME_FORMAT_NORMAL);
     }
     return dt;
@@ -240,27 +248,35 @@ QString getNotExistsTrashFileName(const QString &fileName)
 
     int index = name.lastIndexOf('/');
 
-    if (index >= 0)
+    if (index >= 0) {
+        qCDebug(logImageViewer) << "Found '/' in filename, extracting name part.";
         name = name.mid(index + 1);
+    }
 
     index = name.lastIndexOf('.');
     QByteArray suffix;
 
-    if (index >= 0)
+    if (index >= 0) {
+        qCDebug(logImageViewer) << "Found '.' in filename, extracting suffix.";
         suffix = name.mid(index);
+    }
 
     if (suffix.size() > 200)
         suffix = suffix.left(200);
+    qCDebug(logImageViewer) << "Adjusted suffix size to:" << suffix.size();
 
     name.chop(suffix.size());
     name = name.left(200 - suffix.size());
+    qCDebug(logImageViewer) << "Adjusted name size to:" << name.size();
 
     QString trashpath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/.local/share/Trash";
+    qCDebug(logImageViewer) << "Trash path determined as:" << trashpath;
 
     while (true) {
         QFileInfo info(trashpath + name + suffix);
         // QFile::exists ==> If the file is a symlink that points to a non-existing file, false is returned.
         if (!info.isSymLink() && !info.exists()) {
+            qCDebug(logImageViewer) << "Generated unique trash filename:" << QString::fromUtf8(name + suffix);
             break;
         }
 
@@ -307,35 +323,44 @@ bool trashFile(const QString &file)
     infoStr += "\nDeletionDate=";
     infoStr += QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzzZ");
     infoStr += "\n";
+    qCDebug(logImageViewer) << "Trash info string generated.";
 
     QString trashname = getNotExistsTrashFileName(originalInfo.fileName());
     QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
     QString filepath = trashFilesPath + "/" + trashname;
     int nr = 1;
+    qCDebug(logImageViewer) << "Initial trash name:" << trashname;
     while (QFileInfo(infopath).exists() || QFileInfo(filepath).exists()) {
+        qCDebug(logImageViewer) << "Trash file or info path already exists, generating new name.";
         nr++;
         trashname = originalInfo.baseName() + "." + QString::number(nr);
         if (!originalInfo.completeSuffix().isEmpty()) {
             trashname += QString(".") + originalInfo.completeSuffix();
+            qCDebug(logImageViewer) << "Adding suffix to new trash name.";
         }
         infopath = trashInfoPath + "/" + trashname + ".trashinfo";
         filepath = trashFilesPath + "/" + trashname;
+        qCDebug(logImageViewer) << "New trash name generated:" << trashname;
     }
     QFile infoFile(infopath);
     if (infoFile.open(QIODevice::WriteOnly)) {
+        qCDebug(logImageViewer) << "Successfully opened trash info file for writing:" << infopath;
         infoFile.write(infoStr.toUtf8());
         infoFile.close();
+        qCDebug(logImageViewer) << "Trash info file written and closed.";
 
         if (!QDir().rename(originalInfo.absoluteFilePath(), filepath)) {
             qCWarning(logImageViewer) << "move to trash failed!";
             return false;
         }
+        qCDebug(logImageViewer) << "File successfully moved to trash.";
     } else {
         qCDebug(logImageViewer) << "Move to trash failed! Could not write *.trashinfo!";
         return false;
     }
     // Remove thumbnail
     Libutils::image::removeThumbnail(file);
+    qCDebug(logImageViewer) << "Thumbnail removed for file:" << file;
     return true;
 #else
     Q_UNUSED(file);
@@ -385,22 +410,28 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool 
     qCDebug(logImageViewer) << "Splitting text, length:" << text.length() << "label size:" << nLabelSize;
     QFontMetrics fm(font);
     int nTextSize = fm.horizontalAdvance(text);
+    qCDebug(logImageViewer) << "Calculated text size:" << nTextSize;
     if (nTextSize > nLabelSize) {
+        qCDebug(logImageViewer) << "Text size exceeds label size, splitting text.";
         int nPos = 0;
         long nOffset = 0;
         for (int i = 0; i < text.size(); i++) {
             nOffset += fm.horizontalAdvance(text.at(i));
             if (nOffset >= nLabelSize) {
                 nPos = i;
+                qCDebug(logImageViewer) << "Split position found at index:" << nPos;
                 break;
             }
         }
 
         nPos = (nPos - 1 < 0) ? 0 : nPos - 1;
+        qCDebug(logImageViewer) << "Adjusted split position:" << nPos;
 
         QString qstrLeftData = text.left(nPos);
         QString qstrMidData = text.mid(nPos);
+        qCDebug(logImageViewer) << "Left data:" << qstrLeftData.length() << "chars, Mid data:" << qstrMidData.length() << "chars.";
         if (bReturn) {
+            qCDebug(logImageViewer) << "Replacing spaces with newlines in left and mid data.";
             qstrLeftData.replace(" ", "\n");
             qstrMidData.replace(" ", "\n");
             if (qstrLeftData != "")
@@ -409,7 +440,9 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool 
             if (qstrLeftData != "")
                 return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
         }
+        qCDebug(logImageViewer) << "Returning split text.";
     }
+    qCDebug(logImageViewer) << "Text size is within limits, returning original text.";
     return text;
 }
 
@@ -425,6 +458,7 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool 
 
 QString hash(const QString &str)
 {
+    qCDebug(logImageViewer) << "Calculating MD5 hash for string.";
     return QString(QCryptographicHash::hash(str.toUtf8(),
                                             QCryptographicHash::Md5)
                            .toHex());
@@ -432,6 +466,7 @@ QString hash(const QString &str)
 
 bool onMountDevice(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking if path is on a mounted device:" << path;
     return (path.startsWith("/media/") || path.startsWith("/run/media/"));
 }
 
@@ -440,16 +475,18 @@ bool mountDeviceExist(const QString &path)
     qCDebug(logImageViewer) << "Checking mount device existence for path:" << path;
     QString mountPoint;
     if (path.startsWith("/media/")) {
+        qCDebug(logImageViewer) << "Path starts with /media/, extracting mount point.";
         const int sp = path.indexOf("/", 7) + 1;
         const int ep = path.indexOf("/", sp) + 1;
         mountPoint = path.mid(0, ep);
 
     } else if (path.startsWith("/run/media/")) {
+        qCDebug(logImageViewer) << "Path starts with /run/media/, extracting mount point.";
         const int sp = path.indexOf("/", 11) + 1;
         const int ep = path.indexOf("/", sp) + 1;
         mountPoint = path.mid(0, ep);
     }
-
+    qCDebug(logImageViewer) << "Determined mount point:" << mountPoint;
     return QFileInfo(mountPoint).exists();
 }
 // bool        isCommandExist(const QString &command)

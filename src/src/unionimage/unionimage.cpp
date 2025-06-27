@@ -40,6 +40,7 @@ class UnionImage_Private
 public:
     UnionImage_Private()
     {
+        qCDebug(logImageViewer) << "Initializing UnionImage_Private.";
         /*
          * 由于原设计方案采用多个key对应一个value的方案，在判断可读可写的过程中是通过value去找key因此造成了多种情况而在下方变量中未将key，写完整因此补全
          * */
@@ -97,6 +98,7 @@ public:
                       << "EPS"
                       << "SR2"
                       << "AVIFS";
+        qCDebug(logImageViewer) << "Supported formats initialized. Count:" << m_qtSupported.size();
         m_canSave << "BMP"
                   << "JPG"
                   << "JPEG"
@@ -106,6 +108,7 @@ public:
                   << "XPM"
                   << "ICO"
                   << "ICNS";
+        qCDebug(logImageViewer) << "Saveable formats initialized. Count:" << m_canSave.size();
         /*<< "PGM" << "PBM"*/
         m_qtrotate << "BMP"
                    << "JPG"
@@ -116,9 +119,11 @@ public:
                    << "XPM"
                    << "ICO"
                    << "ICNS";
+        qCDebug(logImageViewer) << "Rotatable formats initialized. Count:" << m_qtrotate.size();
     }
     ~UnionImage_Private()
     {
+        qCDebug(logImageViewer) << "UnionImage_Private destroyed.";
     }
     QStringList m_qtSupported;
     QHash<QString, int> m_movie_formats;
@@ -135,27 +140,33 @@ static UnionImage_Private union_image_private;
  */
 UNIONIMAGESHARED_EXPORT QImage noneQImage()
 {
+    qCDebug(logImageViewer) << "Returning an empty QImage.";
     static QImage none(0, 0, QImage::Format_Invalid);
     return none;
 }
 
 UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat()
 {
+    qCDebug(logImageViewer) << "Getting supported image formats.";
     static QStringList res;
     if (res.empty()) {
+        qCDebug(logImageViewer) << "Result list is empty, populating from m_qtSupported.";
         QStringList list = union_image_private.m_qtSupported;
         res.append(list);
     }
+    qCDebug(logImageViewer) << "Returning" << res.size() << "supported formats.";
     return res;
 }
 
 UNIONIMAGESHARED_EXPORT const QStringList supportStaticFormat()
 {
+    qCDebug(logImageViewer) << "Getting supported static image formats.";
     return (union_image_private.m_qtSupported);
 }
 
 UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat()
 {
+    qCDebug(logImageViewer) << "Getting supported movie formats.";
     return (union_image_private.m_movie_formats.keys());
 }
 
@@ -168,29 +179,40 @@ UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat()
  */
 UNIONIMAGESHARED_EXPORT QString size2Human(const qlonglong bytes)
 {
+    qCDebug(logImageViewer) << "Converting bytes to human readable size:" << bytes;
     qlonglong kb = 1024;
     if (bytes < kb) {
+        qCDebug(logImageViewer) << "Size less than KB, returning in Bytes.";
         return QString::number(bytes) + " B";
     } else if (bytes < kb * kb) {
+        qCDebug(logImageViewer) << "Size less than MB, returning in KB.";
         QString vs = QString::number(static_cast<double>(bytes) / kb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            qCDebug(logImageViewer) << "KB value is integer.";
             return QString::number(static_cast<int>(vs.toDouble())) + " KB";
         } else {
+            qCDebug(logImageViewer) << "KB value has decimal.";
             return vs + " KB";
         }
     } else if (bytes < kb * kb * kb) {
+        qCDebug(logImageViewer) << "Size less than GB, returning in MB.";
         QString vs = QString::number(static_cast<double>(bytes) / kb / kb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            qCDebug(logImageViewer) << "MB value is integer.";
             return QString::number(static_cast<int>(vs.toDouble())) + " MB";
         } else {
+            qCDebug(logImageViewer) << "MB value has decimal.";
             return vs + " MB";
         }
     } else {
         // 修改了当超过一个G的图片,应该用G返回,不应该返回一堆数字,bug68094
+        qCDebug(logImageViewer) << "Size is 1GB or more, returning in GB.";
         QString vs = QString::number(static_cast<double>(bytes) / kb / kb / kb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            qCDebug(logImageViewer) << "GB value is integer.";
             return QString::number(static_cast<int>(vs.toDouble())) + " GB";
         } else {
+            qCDebug(logImageViewer) << "GB value has decimal.";
             return vs + " GB";
         }
     }
@@ -205,19 +227,24 @@ UNIONIMAGESHARED_EXPORT QString size2Human(const qlonglong bytes)
  */
 UNIONIMAGESHARED_EXPORT const QString getFileFormat(const QString &path)
 {
+    qCDebug(logImageViewer) << "Getting file format for path:" << path;
     QFileInfo fi(path);
     QString suffix = fi.suffix();
+    qCDebug(logImageViewer) << "File suffix:" << suffix;
     return suffix;
 }
 
 UNIONIMAGESHARED_EXPORT const QString getFileMimeType(const QString &path)
 {
+    qCDebug(logImageViewer) << "Getting file MIME type for path:" << path;
     QMimeDatabase mimeDB;
     QMimeType mimeType = mimeDB.mimeTypeForFile(path);
     QString mimeTypeName = mimeType.name();
+    qCDebug(logImageViewer) << "Detected MIME type name:" << mimeTypeName;
 
     static QMap<QString, QString> mimeToFormat;
     if (mimeToFormat.isEmpty()) {
+        qCDebug(logImageViewer) << "MIME to format map is empty, initializing.";
         mimeToFormat["image/jpeg"] = "JPEG";
         mimeToFormat["image/pjpeg"] = "JPEG";
         mimeToFormat["image/jpg"] = "JPG";
@@ -281,30 +308,40 @@ UNIONIMAGESHARED_EXPORT const QString getFileMimeType(const QString &path)
     }
 
     if (mimeToFormat.contains(mimeTypeName)) {
-        return mimeToFormat[mimeTypeName];
+        QString format = mimeToFormat[mimeTypeName];
+        qCDebug(logImageViewer) << "Mapped MIME type to format:" << format;
+        return format;
     }
 
+    qCDebug(logImageViewer) << "MIME type not found in map, returning original MIME type name:" << mimeTypeName;
     return QString();
 }
 
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking if image can be saved for path:" << path;
     QImageReader r(path);
     if (r.imageCount() > 1) {
+        qCDebug(logImageViewer) << "Image has multiple frames, cannot be saved directly.";
         return false;
     }
     QFileInfo info(path);
-    if (union_image_private.m_canSave.contains(info.suffix().toUpper()))
+    if (union_image_private.m_canSave.contains(info.suffix().toUpper())) {
+        qCDebug(logImageViewer) << "Image format " << info.suffix().toUpper() << " is in supported save list.";
         return true;
+    }
+    qCDebug(logImageViewer) << "Image format " << info.suffix().toUpper() << " is not in supported save list.";
     return false;
 }
 
 UNIONIMAGESHARED_EXPORT QString unionImageVersion()
 {
+    qCDebug(logImageViewer) << "Retrieving UnionImage version.";
     QString ver;
     ver.append("UnionImage Version:");
     ver.append("0.0.4");
     ver.append("\n");
+    qCDebug(logImageViewer) << "UnionImage version:" << ver;
     return ver;
 }
 
@@ -321,22 +358,27 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
     QMap<QString, QString> dataMap = getAllMetaData(path);
     QString file_suffix_upper = dataMap.value("FileFormat").toUpper();
     QString file_mimeType = dataMap.value("FileMimeType").toUpper();
+    qCDebug(logImageViewer) << "Detected file suffix:" << file_suffix_upper << ", MIME type:" << file_mimeType;
 
     QByteArray temp_path;
     temp_path.append(path.toUtf8());
     QString file_suffix_lower = file_suffix_upper.toLower();
 
     if (union_image_private.m_qtSupported.contains(file_suffix_upper) || union_image_private.m_qtSupported.contains(file_mimeType)) {
+        qCDebug(logImageViewer) << "File format or MIME type is supported by Qt.";
         QImageReader reader;
         QImage res_qt;
         reader.setFileName(path);
         if (format_bar.isEmpty()) {
+            qCDebug(logImageViewer) << "Format bar is empty, setting format to detected suffix:" << file_suffix_lower;
             reader.setFormat(file_suffix_lower.toLatin1());
         } else {
+            qCDebug(logImageViewer) << "Format bar is not empty, setting format to:" << format_bar;
             reader.setFormat(format_bar.toLatin1());
         }
         reader.setAutoTransform(true);
         if (reader.imageCount() > 0 || file_suffix_upper != "ICNS") {
+            qCDebug(logImageViewer) << "Image has frames or is not ICNS, attempting to read.";
             res_qt = reader.read();
             if (res_qt.isNull()) {
                 qCDebug(logImageViewer) << "Failed to read image with QImageReader, trying old method";
@@ -347,10 +389,12 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
                 readerF.setAutoTransform(true);
                 if (readerF.canRead()) {
                     try_res = readerF.read();
+                    qCDebug(logImageViewer) << "Successfully read image with old method.";
                 } else {
                     errorMsg = "can't read image:" + readerF.errorString() + format;
                     qCWarning(logImageViewer) << errorMsg;
                     try_res = QImage(path);
+                    qCDebug(logImageViewer) << "Failed to read image with old method, falling back to QImage constructor.";
                 }
                 if (try_res.isNull()) {
                     errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
@@ -387,6 +431,8 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
     }
 
     const QByteArray data = file.read(1024);
+    file.close();
+    qCDebug(logImageViewer) << "Read" << data.size() << "bytes for format detection.";
 
     // Check bmp file.
     if (data.startsWith("BM")) {
@@ -490,6 +536,7 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
 
 UNIONIMAGESHARED_EXPORT bool isNoneQImage(const QImage &qi)
 {
+    qCDebug(logImageViewer) << "Checking if QImage is null or invalid.";
     return (qi == noneQImage());
 }
 
@@ -524,6 +571,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImage(int angel, QImage &image)
  */
 QImage adjustImageToRealPosition(const QImage &image, int orientation)
 {
+    qCDebug(logImageViewer) << "Adjusting image to real position based on orientation:" << orientation;
     QImage result = image;
 
     switch (orientation) {
