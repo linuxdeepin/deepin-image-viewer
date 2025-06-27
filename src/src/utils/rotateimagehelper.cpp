@@ -30,7 +30,10 @@ public:
     QTemporaryDir cacheDir;   // 临时文件目录
 };
 
-RotateImageHelperData::RotateImageHelperData() { }
+RotateImageHelperData::RotateImageHelperData()
+{
+    qCDebug(logImageViewer) << "RotateImageHelperData instance created.";
+}
 
 /**
    @class RotateImageHelper
@@ -40,6 +43,7 @@ RotateImageHelperData::RotateImageHelperData() { }
 RotateImageHelper::RotateImageHelper(QObject *parent)
     : QObject { parent }
 {
+    qCDebug(logImageViewer) << "RotateImageHelper instance created.";
     connect(qApp, &QCoreApplication::aboutToQuit, this, [this]() {
         qCDebug(logImageViewer) << "Application quitting, cleaning up rotation tasks";
         // 等待拷贝文件结束
@@ -54,6 +58,7 @@ RotateImageHelper::RotateImageHelper(QObject *parent)
 
 RotateImageHelper *RotateImageHelper::instance()
 {
+    qCDebug(logImageViewer) << "Getting RotateImageHelper singleton instance.";
     static RotateImageHelper ins;
     return &ins;
 }
@@ -72,6 +77,7 @@ void RotateImageHelper::rotateImageFile(const QString &path, int angle)
 
     // 20211019修改：特殊位置不执行写入操作
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(path);
+    qCDebug(logImageViewer) << "Detected path type:" << pathType;
 
     if (pathType == imageViewerSpace::PathTypeMTP || pathType == imageViewerSpace::PathTypePTP ||   // 安卓手机
         pathType == imageViewerSpace::PathTypeAPPLE ||   // 苹果手机
@@ -91,6 +97,7 @@ void RotateImageHelper::rotateImageFile(const QString &path, int angle)
     qCDebug(logImageViewer) << "Updated total rotation angle for" << path << "to" << totalAngle << "degrees";
 
     if (data->watcher.isRunning()) {
+        qCDebug(logImageViewer) << "Watcher is running, adding or updating task in queue.";
         QMutexLocker locker(&(data->queueMutex));
         for (auto &proc : data->processQueue) {
             if (proc.first == path) {
@@ -103,6 +110,7 @@ void RotateImageHelper::rotateImageFile(const QString &path, int angle)
         data->processQueue.enqueue(qMakePair(path, totalAngle));
         qCDebug(logImageViewer) << "Added new rotation task to queue for" << path;
     } else {
+        qCDebug(logImageViewer) << "Watcher is not running, enqueueing and starting new rotation task.";
         enqueueRotateTask(path, totalAngle);
     }
 }
@@ -114,6 +122,7 @@ void RotateImageHelper::resetRotateState()
 {
     qCDebug(logImageViewer) << "Resetting rotation state";
     if (!data) {
+        qCDebug(logImageViewer) << "Data is null, no rotation state to reset.";
         return;
     }
 
@@ -140,20 +149,26 @@ bool RotateImageHelper::rotateImageImpl(const QString &cachePath, const QString 
             qCWarning(logImageViewer) << "Failed to copy file to cache:" << path;
             return false;
         }
+        qCDebug(logImageViewer) << "Successfully copied file to cache.";
     }
 
     // 操作前标记动作
     Q_EMIT RotateImageHelper::instance()->recordRotateImage(path);
+    qCDebug(logImageViewer) << "Emitted recordRotateImage signal for:" << path;
 
     QString errorMsg;
     bool ret = LibUnionImage_NameSpace::rotateImageFile(angle, cachePath, errorMsg, path);
+    qCDebug(logImageViewer) << "LibUnionImage_NameSpace::rotateImageFile returned:" << ret;
 
     // NOTE：处理结束，过滤旋转操作文件更新，旋转图像已在软件中缓存且旋转状态同步，不再从文件中更新读取
     // 保存文件后发送图片更新更新信号，通过监控文件变更触发。文件更新可能滞后，延时一定时间处理
     // 处于子线程中，慎用事件循环(没有初始化)
     QThread::msleep(10);
+    qCDebug(logImageViewer) << "Sleeping for 10ms after rotation.";
     Q_EMIT RotateImageHelper::instance()->clearRotateStatus(path);
+    qCDebug(logImageViewer) << "Emitted clearRotateStatus signal for:" << path;
     Q_EMIT RotateImageHelper::instance()->rotateImageFinished(path, ret);
+    qCDebug(logImageViewer) << "Emitted rotateImageFinished signal for:" << path << "with result:" << ret;
 
     if (!ret) {
         qCWarning(logImageViewer) << "Failed to rotate image:" << path << "error:" << errorMsg;
@@ -173,6 +188,7 @@ void RotateImageHelper::enqueueRotateTask(const QString &path, int angle)
     QMutexLocker queueLocker(&(data->queueMutex));
     data->processQueue.enqueue(qMakePair(path, angle));
     queueLocker.unlock();
+    qCDebug(logImageViewer) << "Task enqueued. Queue size:" << data->processQueue.size();
 
     auto rotateFuture = QtConcurrent::run([this]() {
         qCDebug(logImageViewer) << "Starting rotation task processing";
@@ -182,6 +198,7 @@ void RotateImageHelper::enqueueRotateTask(const QString &path, int angle)
 
             QMutexLocker locker(&(data->queueMutex));
             if (data->processQueue.isEmpty()) {
+                qCDebug(logImageViewer) << "Rotation queue is empty, breaking processing loop.";
                 break;
             }
             currentData = data->processQueue.dequeue();
@@ -203,6 +220,7 @@ void RotateImageHelper::enqueueRotateTask(const QString &path, int angle)
     });
 
     data->watcher.setFuture(rotateFuture);
+    qCDebug(logImageViewer) << "Watcher set to monitor rotation future.";
 }
 
 /**
@@ -210,6 +228,7 @@ void RotateImageHelper::enqueueRotateTask(const QString &path, int angle)
  */
 void RotateImageHelper::checkDataValid()
 {
+    qCDebug(logImageViewer) << "Checking if RotateImageHelperData needs initialization.";
     if (!data) {
         qCDebug(logImageViewer) << "Initializing rotation helper data";
         data.reset(new RotateImageHelperData);
@@ -232,4 +251,5 @@ void RotateImageHelper::checkDataValid()
                 Qt::QueuedConnection);
         qCDebug(logImageViewer) << "Connected rotation signals to file watcher";
     }
+    qCDebug(logImageViewer) << "RotateImageHelperData is valid.";
 }

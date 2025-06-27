@@ -26,6 +26,8 @@ vendor/lib/*
 
 .vscode/*
 .cursor
+.cursorindexingignore
+.specstory/
 
 *.log
 

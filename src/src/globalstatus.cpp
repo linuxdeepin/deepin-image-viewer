@@ -3,6 +3,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "globalstatus.h"
+#include <DLog>
+#include "types.h"
+
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 static const int sc_MinHeight = 300;           // 窗口最小高度
 static const int sc_MinWidth = 628;            // 窗口最小宽度
@@ -28,15 +32,19 @@ static const int sc_PathViewItemCount = 3;              // 默认 PathView 在�
 GlobalStatus::GlobalStatus(QObject *parent)
     : QObject(parent)
 {
+    qCDebug(logImageViewer) << "GlobalStatus constructor called.";
 }
 
-GlobalStatus::~GlobalStatus() { }
+GlobalStatus::~GlobalStatus() {
+    qCDebug(logImageViewer) << "GlobalStatus destructor called.";
+}
 
 /**
    @return 返回是否全屏显示图片
  */
 bool GlobalStatus::showFullScreen() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::showFullScreen() called, returning: " << storeshowFullScreen;
     return storeshowFullScreen;
 }
 
@@ -45,9 +53,11 @@ bool GlobalStatus::showFullScreen() const
  */
 void GlobalStatus::setShowFullScreen(bool value)
 {
+    qCDebug(logImageViewer) << "GlobalStatus::setShowFullScreen() called with value: " << value;
     if (value != storeshowFullScreen) {
         storeshowFullScreen = value;
         Q_EMIT showFullScreenChanged();
+        qCDebug(logImageViewer) << "showFullScreen changed to: " << storeshowFullScreen << ", emitting showFullScreenChanged.";
     }
 }
 
@@ -56,6 +66,7 @@ void GlobalStatus::setShowFullScreen(bool value)
  */
 bool GlobalStatus::enableNavigation() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::enableNavigation() called, returning: " << storeenableNavigation;
     return storeenableNavigation;
 }
 
@@ -64,9 +75,11 @@ bool GlobalStatus::enableNavigation() const
  */
 void GlobalStatus::setEnableNavigation(bool value)
 {
+    qCDebug(logImageViewer) << "GlobalStatus::setEnableNavigation() called with value: " << value;
     if (value != storeenableNavigation) {
         storeenableNavigation = value;
         Q_EMIT enableNavigationChanged();
+        qCDebug(logImageViewer) << "enableNavigation changed to: " << storeenableNavigation << ", emitting enableNavigationChanged.";
     }
 }
 
@@ -75,6 +88,7 @@ void GlobalStatus::setEnableNavigation(bool value)
  */
 bool GlobalStatus::showRightMenu() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::showRightMenu() called, returning: " << storeshowRightMenu;
     return storeshowRightMenu;
 }
 
@@ -83,9 +97,11 @@ bool GlobalStatus::showRightMenu() const
  */
 void GlobalStatus::setShowRightMenu(bool value)
 {
+    qCDebug(logImageViewer) << "GlobalStatus::setShowRightMenu() called with value: " << value;
     if (value != storeshowRightMenu) {
         storeshowRightMenu = value;
         Q_EMIT showRightMenuChanged();
+        qCDebug(logImageViewer) << "showRightMenu changed to: " << storeshowRightMenu << ", emitting showRightMenuChanged.";
     }
 }
 
@@ -94,6 +110,7 @@ void GlobalStatus::setShowRightMenu(bool value)
  */
 bool GlobalStatus::showImageInfo() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::showImageInfo() called, returning: " << storeshowImageInfo;
     return storeshowImageInfo;
 }
 
@@ -102,9 +119,11 @@ bool GlobalStatus::showImageInfo() const
  */
 void GlobalStatus::setShowImageInfo(bool value)
 {
+    qCDebug(logImageViewer) << "GlobalStatus::setShowImageInfo() called with value: " << value;
     if (value != storeshowImageInfo) {
         storeshowImageInfo = value;
         Q_EMIT showImageInfoChanged();
+        qCDebug(logImageViewer) << "showImageInfo changed to: " << storeshowImageInfo << ", emitting showImageInfoChanged.";
     }
 }
 
@@ -113,6 +132,7 @@ void GlobalStatus::setShowImageInfo(bool value)
  */
 bool GlobalStatus::viewInteractive() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::viewInteractive() called, returning: " << storeviewInteractive;
     return storeviewInteractive;
 }
 
@@ -121,9 +141,11 @@ bool GlobalStatus::viewInteractive() const
  */
 void GlobalStatus::setViewInteractive(bool value)
 {
+    qCDebug(logImageViewer) << "GlobalStatus::setViewInteractive() called with value: " << value;
     if (value != storeviewInteractive) {
         storeviewInteractive = value;
         Q_EMIT viewInteractiveChanged();
+        qCDebug(logImageViewer) << "viewInteractive changed to: " << storeviewInteractive << ", emitting viewInteractiveChanged.";
     }
 }
 
@@ -132,6 +154,7 @@ void GlobalStatus::setViewInteractive(bool value)
  */
 bool GlobalStatus::viewFlicking() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::viewFlicking() called, returning: " << storeviewFlicking;
     return storeviewFlicking;
 }
 
@@ -140,9 +163,11 @@ bool GlobalStatus::viewFlicking() const
  */
 void GlobalStatus::setViewFlicking(bool value)
 {
+    qCDebug(logImageViewer) << "GlobalStatus::setViewFlicking() called with value: " << value;
     if (value != storeviewFlicking) {
         storeviewFlicking = value;
         Q_EMIT viewFlickingChanged();
+        qCDebug(logImageViewer) << "viewFlicking changed to: " << storeviewFlicking << ", emitting viewFlickingChanged.";
     }
 }
 
@@ -151,6 +176,7 @@ void GlobalStatus::setViewFlicking(bool value)
  */
 bool GlobalStatus::animationBlock() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::animationBlock() called, returning: " << storeanimationBlock;
     return storeanimationBlock;
 }
 
@@ -159,9 +185,11 @@ bool GlobalStatus::animationBlock() const
  */
 void GlobalStatus::setAnimationBlock(bool value)
 {
+    qCDebug(logImageViewer) << "GlobalStatus::setAnimationBlock() called with value: " << value;
     if (value != storeanimationBlock) {
         storeanimationBlock = value;
         Q_EMIT animationBlockChanged();
+        qCDebug(logImageViewer) << "animationBlock changed to: " << storeanimationBlock << ", emitting animationBlockChanged.";
     }
 }
 
@@ -170,6 +198,7 @@ void GlobalStatus::setAnimationBlock(bool value)
  */
 bool GlobalStatus::fullScreenAnimating() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::fullScreenAnimating() called, returning: " << storefullScreenAnimating;
     return storefullScreenAnimating;
 }
 
@@ -178,9 +207,11 @@ bool GlobalStatus::fullScreenAnimating() const
  */
 void GlobalStatus::setFullScreenAnimating(bool value)
 {
+    qCDebug(logImageViewer) << "GlobalStatus::setFullScreenAnimating() called with value: " << value;
     if (value != storefullScreenAnimating) {
         storefullScreenAnimating = value;
         Q_EMIT fullScreenAnimatingChanged();
+        qCDebug(logImageViewer) << "fullScreenAnimating changed to: " << storefullScreenAnimating << ", emitting fullScreenAnimatingChanged.";
     }
 }
 
@@ -189,6 +220,7 @@ void GlobalStatus::setFullScreenAnimating(bool value)
  */
 int GlobalStatus::thumbnailVaildWidth() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::thumbnailVaildWidth() called, returning: " << storethumbnailVaildWidth;
     return storethumbnailVaildWidth;
 }
 
@@ -197,9 +229,11 @@ int GlobalStatus::thumbnailVaildWidth() const
  */
 void GlobalStatus::setThumbnailVaildWidth(int value)
 {
+    qCDebug(logImageViewer) << "GlobalStatus::setThumbnailVaildWidth() called with value: " << value;
     if (value != storethumbnailVaildWidth) {
         storethumbnailVaildWidth = value;
         Q_EMIT thumbnailVaildWidthChanged();
+        qCDebug(logImageViewer) << "thumbnailVaildWidth changed to: " << storethumbnailVaildWidth << ", emitting thumbnailVaildWidthChanged.";
     }
 }
 
@@ -208,6 +242,7 @@ void GlobalStatus::setThumbnailVaildWidth(int value)
  */
 Types::StackPage GlobalStatus::stackPage() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::stackPage() called, returning: " << storestackPage;
     return storestackPage;
 }
 
@@ -216,77 +251,93 @@ Types::StackPage GlobalStatus::stackPage() const
  */
 void GlobalStatus::setStackPage(Types::StackPage value)
 {
+    qCDebug(logImageViewer) << "GlobalStatus::setStackPage() called with value: " << value;
     if (value != storestackPage) {
         storestackPage = value;
         Q_EMIT stackPageChanged();
+        qCDebug(logImageViewer) << "stackPage changed to: " << storestackPage << ", emitting stackPageChanged.";
     }
 }
 
 bool GlobalStatus::delayInit() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::delayInit() called, returning: " << storeDelayInit;
     return storeDelayInit;
 }
 
 void GlobalStatus::setDelayInit(bool b)
 {
+    qCDebug(logImageViewer) << "GlobalStatus::setDelayInit() called with value: " << b;
     if (storeDelayInit != b) {
         storeDelayInit = b;
         Q_EMIT delayInitChanged();
+        qCDebug(logImageViewer) << "delayInit changed to: " << storeDelayInit << ", emitting delayInitChanged.";
     }
 }
 
 int GlobalStatus::minHeight() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::minHeight() called, returning: " << sc_MinHeight;
     return sc_MinHeight;
 }
 
 int GlobalStatus::minWidth() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::minWidth() called, returning: " << sc_MinWidth;
     return sc_MinWidth;
 }
 
 int GlobalStatus::minHideHeight() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::minHideHeight() called, returning: " << sc_MinHideHeight;
     return sc_MinHideHeight;
 }
 
 int GlobalStatus::floatMargin() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::floatMargin() called, returning: " << sc_FloatMargin;
     return sc_FloatMargin;
 }
 
 int GlobalStatus::titleHeight() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::titleHeight() called, returning: " << sc_TitleHeight;
     return sc_TitleHeight;
 }
 
 int GlobalStatus::thumbnailViewHeight() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::thumbnailViewHeight() called, returning: " << sc_ThumbnailViewHeight;
     return sc_ThumbnailViewHeight;
 }
 
 int GlobalStatus::showBottomY() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::showBottomY() called, returning: " << sc_ShowBottomY;
     return sc_ShowBottomY;
 }
 
 int GlobalStatus::switchImageHotspotWidth() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::switchImageHotspotWidth() called, returning: " << sc_SwitchImageHotspotWidth;
     return sc_SwitchImageHotspotWidth;
 }
 
 int GlobalStatus::actionMargin() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::actionMargin() called, returning: " << sc_ActionMargin;
     return sc_ActionMargin;
 }
 
 int GlobalStatus::rightMenuItemHeight() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::rightMenuItemHeight() called, returning: " << sc_RightMenuItemHeight;
     return sc_RightMenuItemHeight;
 }
 
 double GlobalStatus::animationDefaultDuration() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::animationDefaultDuration() called, returning: " << sc_AnimationDefaultDuration;
     return sc_AnimationDefaultDuration;
 }
 
@@ -296,5 +347,6 @@ double GlobalStatus::animationDefaultDuration() const
  */
 int GlobalStatus::pathViewItemCount() const
 {
+    qCDebug(logImageViewer) << "GlobalStatus::pathViewItemCount() called, returning: " << sc_PathViewItemCount;
     return sc_PathViewItemCount;
 }

@@ -25,21 +25,27 @@ static const int sc_SubmitInterval = 200;   // 图片变更提交定时间隔 20
 GlobalControl::GlobalControl(QObject *parent)
     : QObject(parent)
 {
+    qCDebug(logImageViewer) << "GlobalControl constructor entered.";
     sourceModel = new ImageSourceModel(this);
     viewSourceModel = new PathViewProxyModel(sourceModel, this);
+    qCDebug(logImageViewer) << "ImageSourceModel and PathViewProxyModel initialized.";
 
     // 图片旋转完成后触发信息变更
     connect(RotateImageHelper::instance(), &RotateImageHelper::rotateImageFinished, this, [this](const QString &path, bool ret) {
         qCDebug(logImageViewer) << "Rotation finished for" << path << "success:" << ret;
         if (path == currentImage.source().toLocalFile()) {
             submitImageChangeImmediately();
+            qCDebug(logImageViewer) << "Image change submitted immediately after rotation.";
         }
     });
+    qCDebug(logImageViewer) << "Connected RotateImageHelper::rotateImageFinished signal.";
 }
 
 GlobalControl::~GlobalControl()
 {
+    qCDebug(logImageViewer) << "GlobalControl destructor entered.";
     submitImageChangeImmediately();
+    qCDebug(logImageViewer) << "Image changes submitted on destruction.";
 }
 
 /**
@@ -73,6 +79,7 @@ void GlobalControl::setCurrentSource(const QUrl &source)
     if (-1 != index) {
         qCDebug(logImageViewer) << "Found source at index:" << index;
         setIndexAndFrameIndex(index, 0);
+        qCDebug(logImageViewer) << "Updated index and frame index for new source.";
     } else {
         qCDebug(logImageViewer) << "Source not found in model";
     }
@@ -91,6 +98,7 @@ QUrl GlobalControl::currentSource() const
  */
 void GlobalControl::setCurrentIndex(int index)
 {
+    qCDebug(logImageViewer) << "GlobalControl::setCurrentIndex() called, setting index to:" << index;
     setIndexAndFrameIndex(index, curFrameIndex);
 }
 
@@ -99,6 +107,7 @@ void GlobalControl::setCurrentIndex(int index)
  */
 int GlobalControl::currentIndex() const
 {
+    qCDebug(logImageViewer) << "GlobalControl::currentIndex() called, returning:" << curIndex;
     return curIndex;
 }
 
@@ -107,6 +116,7 @@ int GlobalControl::currentIndex() const
  */
 void GlobalControl::setCurrentFrameIndex(int frameIndex)
 {
+    qCDebug(logImageViewer) << "GlobalControl::setCurrentFrameIndex() called, setting frame index to:" << frameIndex;
     setIndexAndFrameIndex(curIndex, frameIndex);
 }
 
@@ -115,6 +125,7 @@ void GlobalControl::setCurrentFrameIndex(int frameIndex)
  */
 int GlobalControl::currentFrameIndex() const
 {
+    qCDebug(logImageViewer) << "GlobalControl::currentFrameIndex() called, returning:" << curFrameIndex;
     return curFrameIndex;
 }
 
@@ -123,6 +134,7 @@ int GlobalControl::currentFrameIndex() const
  */
 int GlobalControl::imageCount() const
 {
+    qCDebug(logImageViewer) << "GlobalControl::imageCount() called, returning:" << sourceModel->rowCount();
     return sourceModel->rowCount();
 }
 
@@ -134,6 +146,7 @@ void GlobalControl::setCurrentRotation(int angle)
 {
     qCDebug(logImageViewer) << "Setting rotation angle:" << angle;
     if (imageRotation != angle) {
+        qCDebug(logImageViewer) << "Rotation angle changed from" << imageRotation << "to" << angle;
         if (0 != (angle % 90)) {
             qCWarning(logImageViewer) << "Invalid rotation angle:" << angle << "- must be multiple of 90 degrees";
         }
@@ -146,6 +159,7 @@ void GlobalControl::setCurrentRotation(int angle)
 
         // 开始变更旋转文件缓存和参数设置前触发，用于部分前置操作更新
         Q_EMIT changeRotationCacheBegin();
+        qCDebug(logImageViewer) << "Emitted changeRotationCacheBegin signal.";
 
         if (needSwap) {
             currentImage.swapWidthAndHeight();
@@ -158,10 +172,13 @@ void GlobalControl::setCurrentRotation(int angle)
         // 保证更新界面旋转前刷新缓存，为0时同样通知，用以复位状态
         Q_EMIT requestRotateCacheImage();
         Q_EMIT currentRotationChanged();
+        qCDebug(logImageViewer) << "Emitted requestRotateCacheImage and currentRotationChanged signals.";
 
         // 启动提交定时器
         submitTimer.start(sc_SubmitInterval, this);
         qCDebug(logImageViewer) << "Started rotation submit timer:" << sc_SubmitInterval << "ms";
+    } else {
+        qCDebug(logImageViewer) << "Rotation angle unchanged, skipping update.";
     }
 }
 
@@ -170,6 +187,7 @@ void GlobalControl::setCurrentRotation(int angle)
  */
 int GlobalControl::currentRotation()
 {
+    qCDebug(logImageViewer) << "GlobalControl::currentRotation() called, returning:" << imageRotation;
     return imageRotation;
 }
 
@@ -178,6 +196,7 @@ int GlobalControl::currentRotation()
  */
 bool GlobalControl::hasPreviousImage() const
 {
+    qCDebug(logImageViewer) << "GlobalControl::hasPreviousImage() called, returning:" << hasPrevious;
     return hasPrevious;
 }
 
@@ -186,6 +205,7 @@ bool GlobalControl::hasPreviousImage() const
  */
 bool GlobalControl::hasNextImage() const
 {
+    qCDebug(logImageViewer) << "GlobalControl::hasNextImage() called, returning:" << hasNext;
     return hasNext;
 }
 
@@ -196,13 +216,16 @@ bool GlobalControl::previousImage()
 {
     qCDebug(logImageViewer) << "Attempting to navigate to previous image";
     submitImageChangeImmediately();
+    qCDebug(logImageViewer) << "Image change submitted immediately before navigating previous.";
 
     if (hasPreviousImage()) {
+        qCDebug(logImageViewer) << "Previous image available.";
         Q_ASSERT(sourceModel);
         if (Types::MultiImage == currentImage.type()) {
             if (curFrameIndex > 0) {
                 qCDebug(logImageViewer) << "Navigating to previous frame in multi-image:" << (curFrameIndex - 1);
                 setIndexAndFrameIndex(curIndex, curFrameIndex - 1);
+                qCDebug(logImageViewer) << "Successfully navigated to previous frame.";
                 return true;
             }
         }
@@ -211,6 +234,7 @@ bool GlobalControl::previousImage()
             qCDebug(logImageViewer) << "Navigating to previous image at index:" << (curIndex - 1);
             // 不确定前一张图片是何种类型，使用 INT_MAX 限定帧索引从尾部开始
             setIndexAndFrameIndex(curIndex - 1, INT_MAX);
+            qCDebug(logImageViewer) << "Successfully navigated to previous image.";
             return true;
         }
     }
@@ -226,13 +250,16 @@ bool GlobalControl::nextImage()
 {
     qCDebug(logImageViewer) << "Attempting to navigate to next image";
     submitImageChangeImmediately();
+    qCDebug(logImageViewer) << "Image change submitted immediately before navigating next.";
 
     if (hasNextImage()) {
+        qCDebug(logImageViewer) << "Next image available.";
         Q_ASSERT(sourceModel);
         if (Types::MultiImage == currentImage.type()) {
             if (curFrameIndex < currentImage.frameCount() - 1) {
                 qCDebug(logImageViewer) << "Navigating to next frame in multi-image:" << (curFrameIndex + 1);
                 setIndexAndFrameIndex(curIndex, curFrameIndex + 1);
+                qCDebug(logImageViewer) << "Successfully navigated to next frame.";
                 return true;
             }
         }
@@ -241,6 +268,7 @@ bool GlobalControl::nextImage()
             qCDebug(logImageViewer) << "Navigating to next image at index:" << (curIndex + 1);
             // 无论是否为多页图，均设置为0
             setIndexAndFrameIndex(curIndex + 1, 0);
+            qCDebug(logImageViewer) << "Successfully navigated to next image.";
             return true;
         }
     }
@@ -254,13 +282,16 @@ bool GlobalControl::nextImage()
  */
 bool GlobalControl::firstImage()
 {
+    qCDebug(logImageViewer) << "GlobalControl::firstImage() called.";
     submitImageChangeImmediately();
 
     Q_ASSERT(sourceModel);
     if (sourceModel->rowCount()) {
+        qCDebug(logImageViewer) << "Setting index and frame index to 0,0.";
         setIndexAndFrameIndex(0, 0);
         return true;
     }
+    qCDebug(logImageViewer) << "No images in model, cannot go to first image.";
     return false;
 }
 
@@ -269,26 +300,32 @@ bool GlobalControl::firstImage()
  */
 bool GlobalControl::lastImage()
 {
+    qCDebug(logImageViewer) << "GlobalControl::lastImage() called.";
     submitImageChangeImmediately();
 
     Q_ASSERT(sourceModel);
     int count = sourceModel->rowCount();
     if (count) {
+        qCDebug(logImageViewer) << "Model has images, count: " << count;
         int index = count - 1;
         int frameIndex = 0;
 
         if (Types::MultiImage == currentImage.type()) {
+            qCDebug(logImageViewer) << "Current image is multi-page, setting frame index to last frame.";
             frameIndex = currentImage.frameCount() - 1;
         }
 
         setIndexAndFrameIndex(index, frameIndex);
+        qCDebug(logImageViewer) << "Set index to " << index << " and frame index to " << frameIndex;
         return true;
     }
+    qCDebug(logImageViewer) << "No images in model, cannot go to last image.";
     return false;
 }
 
 void GlobalControl::forceExit()
 {
+    qCDebug(logImageViewer) << "GlobalControl::forceExit() called, exiting application.";
     QApplication::exit(0);
     _Exit(0);
 }
@@ -303,6 +340,7 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
     Q_ASSERT(sourceModel);
     // 优先更新数据源
     sourceModel->setImageFiles(QUrl::fromStringList(filePaths));
+    qCDebug(logImageViewer) << "Source model image files set.";
 
     int index = filePaths.indexOf(openFile);
     if (-1 == index || filePaths.isEmpty()) {
@@ -318,9 +356,11 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
         currentImage.setSource(openFile);
     }
     Q_EMIT currentSourceChanged();
+    qCDebug(logImageViewer) << "Emitted currentSourceChanged signal.";
 
     checkSwitchEnable();
     Q_EMIT imageCountChanged();
+    qCDebug(logImageViewer) << "Emitted imageCountChanged signal.";
 
     // 更新视图展示模型
     viewSourceModel->resetModel(index, 0);
@@ -337,6 +377,7 @@ void GlobalControl::removeImage(const QUrl &removeImage)
         qCDebug(logImageViewer) << "Resetting rotation before removal";
         setCurrentRotation(0);
         submitTimer.stop();
+        qCDebug(logImageViewer) << "Submit timer stopped.";
     }
 
     // 移除当前图片，默认将后续图片前移，currentIndex将不会变更，手动提示更新
@@ -345,6 +386,7 @@ void GlobalControl::removeImage(const QUrl &removeImage)
 
     // 模型更新后将自动触发QML切换当前显示图片
     sourceModel->removeImage(removeImage);
+    qCDebug(logImageViewer) << "Image removed from source model.";
 
     // NOTE：viewModel依赖源数据模型更新
     if (removeImage == currentImage.source()) {
@@ -353,6 +395,7 @@ void GlobalControl::removeImage(const QUrl &removeImage)
     }
 
     if (!atEnd) {
+        qCDebug(logImageViewer) << "Current image was not at the end of the list. Updating to next image in list.";
         // 需要提示的情况下不会越界
         const QUrl image = sourceModel->data(sourceModel->index(curIndex), Types::ImageUrlRole).toUrl();
         qCDebug(logImageViewer) << "Updating current image to next in list:" << image;
@@ -361,7 +404,9 @@ void GlobalControl::removeImage(const QUrl &removeImage)
         setIndexAndFrameIndex(curIndex, 0);
         Q_EMIT currentSourceChanged();
         Q_EMIT currentIndexChanged();
+        qCDebug(logImageViewer) << "Emitted currentSourceChanged and currentIndexChanged signals.";
     } else if (/*atEnd &&*/ (0 != sourceModel->rowCount())) {
+        qCDebug(logImageViewer) << "Current image was at the end of the list, and there are still images. Updating to previous image.";
         // 删除的尾部文件且仍有数据，更新当前文件信息
         const QUrl image = sourceModel->data(sourceModel->index(curIndex - 1), Types::ImageUrlRole).toUrl();
         qCDebug(logImageViewer) << "Updating current image to previous in list:" << image;
@@ -370,6 +415,9 @@ void GlobalControl::removeImage(const QUrl &removeImage)
         setIndexAndFrameIndex(curIndex - 1, INT_MAX);
         Q_EMIT currentSourceChanged();
         Q_EMIT currentIndexChanged();
+        qCDebug(logImageViewer) << "Emitted currentSourceChanged and currentIndexChanged signals.";
+    } else {
+        qCDebug(logImageViewer) << "No images left in the model after removal.";
     }
 
     checkSwitchEnable();
@@ -385,10 +433,12 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
     qCDebug(logImageViewer) << "Renaming image from" << oldName << "to" << newName;
     int index = sourceModel->indexForImagePath(oldName);
     if (-1 != index) {
+        qCDebug(logImageViewer) << "Image found at index: " << index;
         submitImageChangeImmediately();
 
         sourceModel->setData(sourceModel->index(index), newName, Types::ImageUrlRole);
         viewSourceModel->setData(viewSourceModel->index(viewSourceModel->currentIndex()), newName, Types::ImageUrlRole);
+        qCDebug(logImageViewer) << "Image data updated in source and view models.";
 
         if (oldName == currentImage.source()) {
             qCDebug(logImageViewer) << "Updating current image source after rename";
@@ -399,6 +449,7 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
             setIndexAndFrameIndex(curIndex, 0);
             Q_EMIT currentSourceChanged();
             Q_EMIT currentIndexChanged();
+            qCDebug(logImageViewer) << "Emitted currentSourceChanged and currentIndexChanged signals.";
         }
     } else {
         qCDebug(logImageViewer) << "Image not found in model for rename";
@@ -424,6 +475,7 @@ void GlobalControl::submitImageChangeImmediately()
         qCDebug(logImageViewer) << "Submitting rotation:" << rotation << "for image:" << currentImage.source().toLocalFile();
         // 请求更新图片，同步图片旋转状态到文件中，将覆写文件
         Q_EMIT requestRotateImage(currentImage.source().toLocalFile(), rotation);
+        qCDebug(logImageViewer) << "Emitted requestRotateImage signal.";
     }
 
     // 重置状态
@@ -437,6 +489,7 @@ void GlobalControl::submitImageChangeImmediately()
  */
 bool GlobalControl::enableMultiThread()
 {
+    qCDebug(logImageViewer) << "GlobalControl::enableMultiThread() called.";
     static const int sc_MaxThreadCountLimit = 2;
     return bool(QThread::idealThreadCount() > sc_MaxThreadCountLimit);
 }
@@ -446,9 +499,12 @@ bool GlobalControl::enableMultiThread()
  */
 void GlobalControl::timerEvent(QTimerEvent *event)
 {
+    qCDebug(logImageViewer) << "GlobalControl::timerEvent() called.";
     if (submitTimer.timerId() == event->timerId()) {
+        qCDebug(logImageViewer) << "Submit timer timed out.";
         submitTimer.stop();
         submitImageChangeImmediately();
+        qCDebug(logImageViewer) << "Submit timer stopped and image changes submitted.";
     }
 }
 
@@ -457,17 +513,21 @@ void GlobalControl::timerEvent(QTimerEvent *event)
  */
 void GlobalControl::checkSwitchEnable()
 {
+    qCDebug(logImageViewer) << "GlobalControl::checkSwitchEnable() called.";
     Q_ASSERT(sourceModel);
     bool previous = (curIndex > 0 || curFrameIndex > 0);
     bool next = (curIndex < (sourceModel->rowCount() - 1) || curFrameIndex < (currentImage.frameCount() - 1));
+    qCDebug(logImageViewer) << "Can go previous: " << previous << ", Can go next: " << next;
 
     if (previous != hasPrevious) {
         hasPrevious = previous;
         Q_EMIT hasPreviousImageChanged();
+        qCDebug(logImageViewer) << "hasPreviousImage changed to " << hasPrevious << ", emitting hasPreviousImageChanged.";
     }
     if (next != hasNext) {
         hasNext = next;
         Q_EMIT hasNextImageChanged();
+        qCDebug(logImageViewer) << "hasNextImage changed to " << hasNext << ", emitting hasNextImageChanged.";
     }
 }
 
@@ -481,6 +541,7 @@ void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
     qCDebug(logImageViewer) << "Setting index:" << index << "frame index:" << frameIndex;
     int validIndex = qBound(0, index, imageCount() - 1);
     if (this->curIndex != validIndex) {
+        qCDebug(logImageViewer) << "Current index changed from " << this->curIndex << " to " << validIndex << ", submitting image change.";
         submitImageChangeImmediately();
 
         // 更新图像信息，无论变更均更新
@@ -488,13 +549,16 @@ void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
         qCDebug(logImageViewer) << "Updating current image to:" << image;
         currentImage.setSource(image);
         Q_EMIT currentSourceChanged();
+        qCDebug(logImageViewer) << "Emitted currentSourceChanged signal.";
 
         this->curIndex = index;
         Q_EMIT currentIndexChanged();
+        qCDebug(logImageViewer) << "Emitted currentIndexChanged signal.";
     }
 
     int validFrameIndex = qBound(0, frameIndex, qMax(0, currentImage.frameCount() - 1));
     if (this->curFrameIndex != validFrameIndex) {
+        qCDebug(logImageViewer) << "Current frame index changed from " << this->curFrameIndex << " to " << validFrameIndex << ", submitting image change.";
         submitImageChangeImmediately();
 
         this->curFrameIndex = validFrameIndex;

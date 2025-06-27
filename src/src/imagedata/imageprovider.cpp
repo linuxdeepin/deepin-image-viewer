@@ -139,9 +139,15 @@ void AsyncImageResponse::run()
    @class ProviderCache
    @brief 图像加载器缓存，存储最近的图像数据并处理旋转等操作
  */
-ProviderCache::ProviderCache() { }
+ProviderCache::ProviderCache()
+{
+    qCDebug(logImageViewer) << "ProviderCache instance created";
+}
 
-ProviderCache::~ProviderCache() { }
+ProviderCache::~ProviderCache()
+{
+    qCDebug(logImageViewer) << "ProviderCache instance destroyed";
+}
 
 /**
    @brief 对缓存的 \a imagePath 图片执行旋转 \a angle 的操作。
@@ -149,6 +155,7 @@ ProviderCache::~ProviderCache() { }
  */
 void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int frameIndex)
 {
+    qCDebug(logImageViewer) << "ProviderCache::rotateImageCached called for:" << imagePath << "frame:" << frameIndex;
     // 旋转角度为0时，清除旋转状态缓存，防止外部文件变更后仍使用上一次的旋转状态。
     QMutexLocker _locker(&mutex);
     if (0 == angle) {
@@ -188,6 +195,7 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
     } else {
         qCWarning(logImageViewer) << "Failed to rotate image - image is null:" << imagePath;
     }
+    qCDebug(logImageViewer) << "ProviderCache::rotateImageCached finished";
 }
 
 /**
@@ -203,6 +211,7 @@ void ProviderCache::removeImageCache(const QString &imagePath)
             imageCache.remove(key.first, key.second);
         }
     }
+    qCDebug(logImageViewer) << "ProviderCache::removeImageCache finished";
 }
 
 void ProviderCache::renameImageCache(const QString &oldPath, const QString &newPath)
@@ -216,6 +225,7 @@ void ProviderCache::renameImageCache(const QString &oldPath, const QString &newP
             imageCache.add(newPath, key.second, image);
         }
     }
+    qCDebug(logImageViewer) << "ProviderCache::renameImageCache finished";
 }
 
 /**
@@ -223,10 +233,12 @@ void ProviderCache::renameImageCache(const QString &oldPath, const QString &newP
  */
 void ProviderCache::clearCache()
 {
+    qCDebug(logImageViewer) << "ProviderCache::clearCache called";
     QMutexLocker _locker(&mutex);
     imageCache.clear();
     lastRotatePath.clear();
     lastRotateImage = QImage();
+    qCDebug(logImageViewer) << "ProviderCache::clearCache finished";
 }
 
 /**
@@ -234,6 +246,7 @@ void ProviderCache::clearCache()
  */
 void ProviderCache::preloadImage(const QString &)
 {
+    qCDebug(logImageViewer) << "ProviderCache::preloadImage called";
     // Nothing
 }
 
@@ -244,11 +257,15 @@ void ProviderCache::preloadImage(const QString &)
  */
 AsyncImageProvider::AsyncImageProvider()
 {
+    qCDebug(logImageViewer) << "AsyncImageProvider constructor called.";
     // 缓存最近 3 张图片 + 1 张切换之前的图片
     imageCache.setMaxCost(4);
 }
 
-AsyncImageProvider::~AsyncImageProvider() { }
+AsyncImageProvider::~AsyncImageProvider()
+{
+    qCDebug(logImageViewer) << "AsyncImageProvider destructor called.";
+}
 
 /**
    @brief 请求图像加载并返回应答，当图像加载成功时，通过接收信号进行实际图像的加载
@@ -258,6 +275,7 @@ AsyncImageProvider::~AsyncImageProvider() { }
  */
 QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id, const QSize &requestedSize)
 {
+    qCDebug(logImageViewer) << "requestImageResponse called for id:" << id << "requested size:" << requestedSize;
     AsyncImageResponse *response = new AsyncImageResponse(this, id, requestedSize);
     QThreadPool::globalInstance()->start(response, QThread::HighPriority);
     return response;
@@ -268,9 +286,11 @@ QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id,
  */
 void AsyncImageProvider::preloadImage(const QString &filePath)
 {
+    qCDebug(logImageViewer) << "AsyncImageProvider::preloadImage called for:" << filePath;
     AsyncImageResponse *response = new AsyncImageResponse(this, filePath, QSize());
     response->setAutoDelete(true);
     QThreadPool::globalInstance()->start(response, QThread::TimeCriticalPriority);
+    qCDebug(logImageViewer) << "AsyncImageProvider::preloadImage finished";
 }
 
 /**
@@ -281,9 +301,13 @@ void AsyncImageProvider::preloadImage(const QString &filePath)
 ImageProvider::ImageProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image)
 {
+    qCDebug(logImageViewer) << "ImageProvider constructor called.";
 }
 
-ImageProvider::~ImageProvider() { }
+ImageProvider::~ImageProvider()
+{
+    qCDebug(logImageViewer) << "ImageProvider destructor called.";
+}
 
 /**
    @brief 外部请求图像文件中指定帧的图像，指定帧号通过传入的 \a id 进行区分。
@@ -296,33 +320,44 @@ ImageProvider::~ImageProvider() { }
  */
 QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
+    qCDebug(logImageViewer) << "ImageProvider::requestImage called for id:" << id << "requested size:" << requestedSize;
     // 解析id，获取当前读取的文件和图片索引
     QString tempPath;
     int frameIndex;
     parseProviderID(id, tempPath, frameIndex);
+    qCDebug(logImageViewer) << "Parsing provider ID: tempPath =" << tempPath << ", frameIndex =" << frameIndex;
 
     // 判断缓存中是否存在图片
     QImage image = imageCache.get(tempPath, frameIndex);
     if (image.isNull()) {
+        qCDebug(logImageViewer) << "Image not found in cache, loading image for:" << tempPath << "frame:" << frameIndex;
         if (frameIndex) {
             image = readMultiImage(tempPath, frameIndex);
+            qCDebug(logImageViewer) << "Read multi image for:" << tempPath << "frame:" << frameIndex;
         } else {
             image = readNormalImage(tempPath);
+            qCDebug(logImageViewer) << "Read normal image for:" << tempPath;
         }
 
         if (size) {
             *size = image.size();
+            qCDebug(logImageViewer) << "Set image size to:" << image.size();
         }
 
         // 缓存图片信息，即使是异常图片
         imageCache.add(tempPath, frameIndex, image);
+        qCDebug(logImageViewer) << "Added image to cache for:" << tempPath << "frame:" << frameIndex;
+    } else {
+        qCDebug(logImageViewer) << "Using cached image for:" << tempPath << "frame:" << frameIndex;
     }
 
     // 调整图像大小
     if (!image.isNull() && image.size() != requestedSize && requestedSize.isValid()) {
         image = image.scaled(requestedSize);
+        qCDebug(logImageViewer) << "Scaled image to:" << requestedSize;
     }
 
+    qCDebug(logImageViewer) << "ImageProvider::requestImage finished for id:" << id;
     return image;
 }
 
@@ -338,9 +373,13 @@ QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &
 ThumbnailProvider::ThumbnailProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image)
 {
+    qCDebug(logImageViewer) << "ThumbnailProvider constructor called.";
 }
 
-ThumbnailProvider::~ThumbnailProvider() { }
+ThumbnailProvider::~ThumbnailProvider()
+{
+    qCDebug(logImageViewer) << "ThumbnailProvider destructor called.";
+}
 
 /**
    @brief 外部请求图像文件中指定帧的图像，指定帧号通过传入的 \a id 进行区分。
@@ -356,6 +395,7 @@ ThumbnailProvider::~ThumbnailProvider() { }
  */
 QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
+    qCDebug(logImageViewer) << "ThumbnailProvider::requestImage called for id:" << id << "requested size:" << requestedSize;
     // 解析id，获取当前读取的文件和图片索引
     QString tempPath;
     int frameIndex;
@@ -388,6 +428,7 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
         image = image.scaled(requestedSize);
         qCDebug(logImageViewer) << "Scaled thumbnail to:" << requestedSize;
     }
+    qCDebug(logImageViewer) << "ThumbnailProvider::requestImage finished for id:" << id;
     return image;
 }
 
@@ -396,5 +437,6 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
  */
 QPixmap ThumbnailProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
+    qCDebug(logImageViewer) << "ThumbnailProvider::requestPixmap called for id:" << id << "requested size:" << requestedSize;
     return QPixmap::fromImage(requestImage(id, size, requestedSize));
 }

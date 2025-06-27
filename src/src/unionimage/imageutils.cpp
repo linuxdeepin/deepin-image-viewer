@@ -32,6 +32,7 @@ namespace image {
 
 const QImage scaleImage(const QString &path, const QSize &size)
 {
+    qCDebug(logImageViewer) << "Attempting to scale image:" << path << "to size:" << size;
     if (!imageSupportRead(path)) {
         qCWarning(logImageViewer) << "Image format not supported for scaling:" << path;
         return QImage();
@@ -39,17 +40,20 @@ const QImage scaleImage(const QString &path, const QSize &size)
     QImageReader reader(path);
     reader.setAutoTransform(true);
     if (!reader.canRead()) {
-        qCWarning(logImageViewer) << "Can't read image for scaling:" << path;
+        qCWarning(logImageViewer) << "Can\'t read image for scaling:" << path;
         return QImage();
     }
 
     QSize tSize = reader.size();
     if (!tSize.isValid()) {
-        qCDebug(logImageViewer) << "Image size not valid, trying to get from metadata:" << path;
+        qCDebug(logImageViewer) << "Image size not valid from reader, trying to get from metadata:" << path;
         QStringList rl = getAllMetaData(path).value("Dimension").split("x");
         if (rl.length() == 2) {
             tSize = QSize(QString(rl.first()).toInt(),
                           QString(rl.last()).toInt());
+            qCDebug(logImageViewer) << "Image size extracted from metadata:" << tSize;
+        } else {
+            qCWarning(logImageViewer) << "Failed to get image size from metadata for:" << path;
         }
     }
     tSize.scale(size, Qt::KeepAspectRatio);
@@ -58,9 +62,10 @@ const QImage scaleImage(const QString &path, const QSize &size)
     // Some format does not support scaling
     if (tImg.width() > size.width() || tImg.height() > size.height()) {
         if (tImg.isNull()) {
-            qCWarning(logImageViewer) << "Failed to read scaled image:" << path;
+            qCWarning(logImageViewer) << "Failed to read scaled image after setting scaled size:" << path;
             return QImage();
         } else {
+            qCDebug(logImageViewer) << "Image still too large after initial scaling, attempting save and rescale.";
             // Save as supported format and scale it again
             const QString tmp = QDir::tempPath() + "/scale_tmp_image.png";
             QFile::remove(tmp);
@@ -88,9 +93,11 @@ const QDateTime getCreateDateTime(const QString &path)
         QString s;
         s = getAllMetaData(path).value("DateTimeOriginal");
         if (s.isEmpty()) {
+            qCDebug(logImageViewer) << "DateTimeOriginal metadata is empty, trying DateTimeDigitized.";
             s = getAllMetaData(path).value("DateTimeDigitized");
         }
         if (s.isEmpty()) {
+            qCDebug(logImageViewer) << "DateTimeDigitized metadata is empty, falling back to current time string.";
             s = QDateTime::currentDateTime().toString();
         }
         dt = QDateTime::fromString(s, "yyyy.MM.dd HH:mm:ss");
@@ -99,6 +106,7 @@ const QDateTime getCreateDateTime(const QString &path)
 
     // fallback to file create time.
     if (!dt.isValid()) {
+        qCDebug(logImageViewer) << "Metadata date is invalid, falling back to file birth time.";
         QFileInfo finfo(path);
         dt = finfo.birthTime();
         qCDebug(logImageViewer) << "Using file birth time:" << dt;
@@ -106,6 +114,7 @@ const QDateTime getCreateDateTime(const QString &path)
 
     // fallback to today.
     if (!dt.isValid()) {
+        qCDebug(logImageViewer) << "File birth time is invalid, falling back to current time.";
         dt = QDateTime::currentDateTime();
         qCDebug(logImageViewer) << "Using current time as fallback:" << dt;
     }
@@ -115,6 +124,7 @@ const QDateTime getCreateDateTime(const QString &path)
 
 bool imageSupportRead(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking if image format is supported for reading:" << path;
     const QString suffix = QFileInfo(path).suffix();
     if (suffix == "icns") {
         qCDebug(logImageViewer) << "ICNS format supported:" << path;
@@ -128,11 +138,13 @@ bool imageSupportRead(const QString &path)
         qCWarning(logImageViewer) << "Unsupported image format:" << suffix;
         return false;
     }
+    qCDebug(logImageViewer) << "Image format supported:" << suffix;
     return true;
 }
 
 bool imageSupportSave(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking if image format is supported for saving:" << path;
     /*lmh0724使用USE_UNIONIMAGE*/
     return LibUnionImage_NameSpace::canSave(path);
 }
@@ -157,6 +169,7 @@ bool rotate(const QString &path, int degree)
  */
 const QPixmap cutSquareImage(const QPixmap &pixmap)
 {
+    qCDebug(logImageViewer) << "Cutting square image from pixmap (overload 1).";
     return Libutils::image::cutSquareImage(pixmap, pixmap.size());
 }
 
@@ -179,6 +192,7 @@ const QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size)
 
     img = img.copy(QRect(img.rect().center() - r.center(), s));
     img.setDevicePixelRatio(ratio);
+    qCDebug(logImageViewer) << "Image scaled and copied, new size:" << img.size();
 
     return QPixmap::fromImage(img);
 }
@@ -215,10 +229,12 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     QFileInfoList infos;
 
     if (!recursive) {
+        qCDebug(logImageViewer) << "Getting image info for directory without recursion:" << dir;
         auto nsl = QDir(dir).entryInfoList(QDir::Files);
         for (QFileInfo info : nsl) {
             if (imageSupportRead(info.absoluteFilePath())) {
                 infos << info;
+                qCDebug(logImageViewer) << "Added supported image:" << info.absoluteFilePath();
             }
         }
         qCDebug(logImageViewer) << "Found" << infos.size() << "images in directory";
@@ -228,10 +244,12 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     QDirIterator dirIterator(dir,
                              QDir::Files,
                              QDirIterator::Subdirectories);
+    qCDebug(logImageViewer) << "Getting image info for directory with recursion:" << dir;
     while (dirIterator.hasNext()) {
         dirIterator.next();
         if (imageSupportRead(dirIterator.fileInfo().absoluteFilePath())) {
             infos << dirIterator.fileInfo();
+            qCDebug(logImageViewer) << "Added supported image recursively:" << dirIterator.fileInfo().absoluteFilePath();
         }
     }
 
@@ -241,6 +259,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
 
 int getOrientation(const QString &path)
 {
+    qCDebug(logImageViewer) << "Getting orientation for image:" << path;
     return LibUnionImage_NameSpace::getOrientation(path);
 }
 
@@ -256,6 +275,7 @@ const QImage getRotatedImage(const QString &path)
     QImage tImg;
     QString format = LibUnionImage_NameSpace::detectImageFormat(path);
     if (format.isEmpty()) {
+        qCDebug(logImageViewer) << "Detected format is empty, using default image reader.";
         QImageReader reader(path);
         reader.setAutoTransform(true);
         if (reader.canRead()) {
@@ -263,6 +283,7 @@ const QImage getRotatedImage(const QString &path)
             qCDebug(logImageViewer) << "Read image with auto transform";
         }
     } else {
+        qCDebug(logImageViewer) << "Detected format:" << format << ", using format-specific image reader.";
         QImageReader readerF(path, format.toLatin1());
         readerF.setAutoTransform(true);
         if (readerF.canRead()) {
@@ -273,34 +294,46 @@ const QImage getRotatedImage(const QString &path)
             tImg = QImage(path);
         }
     }
+    qCDebug(logImageViewer) << "Exiting getRotatedImage. Image null:" << tImg.isNull();
     return tImg;
 }
 
 QString size2HumanT(const qlonglong bytes)
 {
+    qCDebug(logImageViewer) << "Converting bytes to human readable size:" << bytes << "bytes";
     qlonglong kb = 1024;
     if (bytes < kb) {
+        qCDebug(logImageViewer) << "Size is less than 1KB, returning in B.";
         return QString::number(bytes) + " B";
     } else if (bytes < kb * kb) {
+        qCDebug(logImageViewer) << "Size is less than 1MB, returning in KB.";
         QString vs = QString::number(static_cast<double>(bytes) / kb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            qCDebug(logImageViewer) << "KB value is integer.";
             return QString::number(static_cast<int>(vs.toDouble())) + " KB";
         } else {
+            qCDebug(logImageViewer) << "KB value is float.";
             return vs + " KB";
         }
     } else if (bytes < kb * kb * kb) {
+        qCDebug(logImageViewer) << "Size is less than 1GB, returning in MB.";
         QString vs = QString::number(static_cast<double>(bytes) / kb / kb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            qCDebug(logImageViewer) << "MB value is integer.";
             return QString::number(static_cast<int>(vs.toDouble())) + " MB";
         } else {
+            qCDebug(logImageViewer) << "MB value is float.";
             return vs + " MB";
         }
     } else {
         // 修改了当超过一个G的图片,应该用G返回,不应该返回一堆数字,bug68094
+        qCDebug(logImageViewer) << "Size is greater than or equal to 1GB, returning in GB.";
         QString vs = QString::number(static_cast<double>(bytes) / kb / kb / kb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            qCDebug(logImageViewer) << "GB value is integer.";
             return QString::number(static_cast<int>(vs.toDouble())) + " GB";
         } else {
+            qCDebug(logImageViewer) << "GB value is float.";
             return vs + " GB";
         }
     }
@@ -314,12 +347,15 @@ const QMap<QString, QString> getAllMetaData(const QString &path)
     // 需要转义才能读出：或者/　　2020/8/21 DJH
     QFileInfo info(path);
     if (admMap.contains("DateTime")) {
+        qCDebug(logImageViewer) << "DateTime already in map, converting format.";
         QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
         admMap["DateTimeOriginal"] = time.toString("yyyy/MM/dd hh:mm");
     } else {
+        qCDebug(logImageViewer) << "DateTime not in map, using last modified time for DateTimeOriginal.";
         admMap.insert("DateTimeOriginal", info.lastModified().toString("yyyy/MM/dd HH:mm"));
     }
     admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
+    qCDebug(logImageViewer) << "DateTimeDigitized set to last modified time.";
     //    // The value of width and height might incorrect
     QImageReader reader(path);
     int w = reader.size().width();
@@ -340,6 +376,7 @@ const QPixmap cachePixmap(const QString &path)
     qCDebug(logImageViewer) << "Caching pixmap:" << path;
     QPixmap pp;
     if (!QPixmapCache::find(path, &pp)) {
+        qCDebug(logImageViewer) << "Pixmap not found in cache, loading from file.";
         pp = QPixmap(path);
         QPixmapCache::insert(path, pp);
         qCDebug(logImageViewer) << "Added pixmap to cache, size:" << pp.size();
@@ -351,6 +388,7 @@ const QPixmap cachePixmap(const QString &path)
 
 const QString toMd5(const QByteArray &data)
 {
+    qCDebug(logImageViewer) << "Calculating MD5 hash for QByteArray, data size:" << data.size();
     return QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
 }
 
@@ -362,9 +400,11 @@ const QString toMd5(const QByteArray &data)
  */
 QMap<QString, QString> thumbnailAttribute(const QUrl &url)
 {
+    qCDebug(logImageViewer) << "Getting thumbnail attributes for URL:" << url.toString();
     QMap<QString, QString> set;
 
     if (url.isLocalFile()) {
+        qCDebug(logImageViewer) << "URL is a local file, extracting attributes.";
         const QString path = url.path();
         QFileInfo info(path);
         set.insert("Thumb::Mimetype", QMimeDatabase().mimeTypeForFile(path).name());
@@ -375,18 +415,21 @@ QMap<QString, QString> thumbnailAttribute(const QUrl &url)
 
         QImageReader reader(path);
         if (reader.canRead()) {
+            qCDebug(logImageViewer) << "Image reader can read file, extracting dimensions.";
             set.insert("Thumb::Image::Width", QString::number(reader.size().width()));
             set.insert("Thumb::Image::Height", QString::number(reader.size().height()));
         }
     } else {
+        qCDebug(logImageViewer) << "URL is not a local file, skipping attribute extraction.";
         // TODO for other's scheme
     }
-
+    qCDebug(logImageViewer) << "Thumbnail attributes collected.";
     return set;
 }
 
 const QString thumbnailCachePath()
 {
+    qCDebug(logImageViewer) << "Determining thumbnail cache path.";
     QString cacheP;
 
     QStringList systemEnvs = QProcess::systemEnvironment();
@@ -394,16 +437,20 @@ const QString thumbnailCachePath()
         QStringList el = it.split("=");
         if (el.length() == 2 && el.first() == "XDG_CACHE_HOME") {
             cacheP = el.last();
+            qCDebug(logImageViewer) << "XDG_CACHE_HOME environment variable found:" << cacheP;
             break;
         }
     }
     cacheP = cacheP.isEmpty() ? (QDir::homePath() + "/.cache") : cacheP;
+    qCDebug(logImageViewer) << "Base cache path:" << cacheP;
 
     // Check specific size dir
     const QString thumbCacheP = cacheP + "/thumbnails";
+    qCDebug(logImageViewer) << "Thumbnail cache base path:" << thumbCacheP;
     QDir().mkpath(thumbCacheP + "/normal");
     QDir().mkpath(thumbCacheP + "/large");
     QDir().mkpath(thumbCacheP + "/fail");
+    qCDebug(logImageViewer) << "Created thumbnail subdirectories: normal, large, fail.";
 
     return thumbCacheP;
 }
@@ -411,6 +458,7 @@ const QString thumbnailCachePath()
 QMutex mutex;
 const QPixmap getThumbnail(const QString &path, bool cacheOnly)
 {
+    qCDebug(logImageViewer) << "Attempting to get thumbnail for:" << path << ", cacheOnly:" << cacheOnly;
     QMutexLocker locker(&mutex);
     // 优先读取自身缓存的图片
     //    if (dApp->m_imagemap.value(path).isNull()) {
@@ -422,17 +470,22 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
     const QString encodePath = cacheP + "/large/" + md5s + ".png";
     const QString failEncodePath = cacheP + "/fail/" + md5s + ".png";
     if (QFileInfo(encodePath).exists()) {
+        qCDebug(logImageViewer) << "Large thumbnail found in cache:" << encodePath;
         return QPixmap(encodePath);
     }
     /*lmh0724使用USE_UNIONIMAGE*/
     else if (QFileInfo(failEncodePath).exists()) {
+        qCWarning(logImageViewer) << "Fail-thumbnail exists, won't regenerate for:" << path;
         qDebug() << "Fail-thumbnail exist, won't regenerate: ";
         return QPixmap();
     } else {
+        qCDebug(logImageViewer) << "Thumbnail not found, attempting to generate (if not cacheOnly).";
         // Try to generate thumbnail and load it later
         if (!cacheOnly && generateThumbnail(path)) {
+            qCDebug(logImageViewer) << "Thumbnail generated successfully, loading from:" << encodePath;
             return QPixmap(encodePath);
         } else {
+            qCDebug(logImageViewer) << "Thumbnail not generated (either cacheOnly or generation failed).";
             return QPixmap();
         }
     }
@@ -454,13 +507,16 @@ bool generateThumbnail(const QString &path)
     // Large thumbnail
     QImage lImg = scaleImage(path,
                              QSize(THUMBNAIL_MAX_SIZE, THUMBNAIL_MAX_SIZE));
+    qCDebug(logImageViewer) << "Large thumbnail image scaled. Is null:" << lImg.isNull();
 
     // Normal thumbnail
     QImage nImg = lImg.scaled(
             QSize(THUMBNAIL_NORMAL_SIZE, THUMBNAIL_NORMAL_SIZE), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    qCDebug(logImageViewer) << "Normal thumbnail image scaled. Is null:" << nImg.isNull();
 
     // Create filed thumbnail
     if (lImg.isNull() || nImg.isNull()) {
+        qCWarning(logImageViewer) << "Failed to generate large or normal thumbnail, creating failure marker.";
         const QString failedP = cacheP + "/fail/" + md5 + ".png";
         QImage img(1, 1, QImage::Format_ARGB32_Premultiplied);
         const auto keys = attributes.keys();
@@ -472,6 +528,7 @@ bool generateThumbnail(const QString &path)
         img.save(failedP, "png");
         return false;
     } else {
+        qCDebug(logImageViewer) << "Thumbnails generated successfully, saving attributes.";
         for (QString key : attributes.keys()) {
             lImg.setText(key, attributes[key]);
             nImg.setText(key, attributes[key]);
@@ -490,6 +547,7 @@ bool generateThumbnail(const QString &path)
 
 const QString thumbnailPath(const QString &path, ThumbnailType type)
 {
+    qCDebug(logImageViewer) << "Getting thumbnail path for:" << path << "type:" << type;
     const QString cacheP = thumbnailCachePath();
     const QUrl url = QUrl::fromLocalFile(path);
     const QString md5s = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());
@@ -497,16 +555,20 @@ const QString thumbnailPath(const QString &path, ThumbnailType type)
     switch (type) {
     case ThumbNormal:
         tp = cacheP + "/normal/" + md5s + ".png";
+        qCDebug(logImageViewer) << "Normal thumbnail path:" << tp;
         break;
     case ThumbLarge:
         tp = cacheP + "/large/" + md5s + ".png";
+        qCDebug(logImageViewer) << "Large thumbnail path:" << tp;
         break;
     case ThumbFail:
         tp = cacheP + "/fail/" + md5s + ".png";
+        qCDebug(logImageViewer) << "Fail thumbnail path:" << tp;
         break;
     default:
         break;
     }
+    qCDebug(logImageViewer) << "Thumbnail path:" << tp;
     return tp;
 }
 
@@ -516,16 +578,20 @@ void removeThumbnail(const QString &path)
     QFile(thumbnailPath(path, ThumbLarge)).remove();
     QFile(thumbnailPath(path, ThumbNormal)).remove();
     QFile(thumbnailPath(path, ThumbFail)).remove();
+    qCDebug(logImageViewer) << "Thumbnails removed successfully";
 }
 
 bool thumbnailExist(const QString &path, ThumbnailType type)
 {
+    qCDebug(logImageViewer) << "Checking if thumbnail exists for:" << path << "type:" << type;
     if (QFileInfo(thumbnailPath(path, type)).exists()
         //            || QFileInfo(thumbnailPath(path, ThumbNormal)).exists()
         //            || QFileInfo(thumbnailPath(path, ThumbFail)).exists()
     ) {
+        qCDebug(logImageViewer) << "Thumbnail exists for:" << path << "type:" << type;
         return true;
     } else {
+        qCDebug(logImageViewer) << "Thumbnail does not exist for:" << path << "type:" << type;
         return false;
     }
 }
@@ -554,12 +620,14 @@ static QStringList fromByteArrayList(const QByteArrayList &list)
 */
 QStringList supportedImageFormats()
 {
+    qCDebug(logImageViewer) << "Getting supported image formats";
     /*lmh0724使用USE_UNIONIMAGE*/
     QStringList list;
     for (auto str : LibUnionImage_NameSpace::unionImageSupportFormat()) {
         str = "*." + str;
         list += str;
     }
+    qCDebug(logImageViewer) << "Supported image formats:" << list;
     return list;
 }
 
@@ -603,7 +671,7 @@ bool imageSupportWallPaper(const QString &path)
             qCDebug(logImageViewer) << "Image format not supported for wallpaper:" << reader.format();
         }
     }
-
+    qCDebug(logImageViewer) << "Wallpaper support check result:" << iRet;
     return iRet;
 }
 
@@ -629,35 +697,45 @@ bool imageSupportWallPaper(const QString &path)
 
 QString makeVaultLocalPath(const QString &path, const QString &base)
 {
+    qCDebug(logImageViewer) << "Making vault local path for:" << path << "base:" << base;
     QString basePath = base;
     if (basePath.isEmpty()) {
         basePath = VAULT_DECRYPT_DIR_NAME;
     }
-    return VAULT_BASE_PATH + QDir::separator() + basePath + (path.startsWith('/') ? "" : "/") + path;
+    QString result = VAULT_BASE_PATH + QDir::separator() + basePath + (path.startsWith('/') ? "" : "/") + path;
+    qCDebug(logImageViewer) << "Vault local path:" << result;
+    return result;
 }
 
 bool isVaultFile(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking if file is in vault:" << path;
     bool bVaultFile = false;
     QString rootPath = makeVaultLocalPath("", "");
     if (rootPath.back() == QChar('/')) {
+        qCDebug(logImageViewer) << "Removing trailing slash from root path";
         rootPath.chop(1);
     }
 
     if (path.contains(rootPath) && path.left(6) != "search") {
+        qCDebug(logImageViewer) << "File is in vault:" << path;
         bVaultFile = true;
     }
 
+    qCDebug(logImageViewer) << "Vault file check result:" << bVaultFile;
     return bVaultFile;
 }
 bool isCanRemove(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking if file can be removed:" << path;
     bool bRet = true;
     QString trashPath = QDir::homePath() + "/.local/share/Trash";
     // 新增保险箱的判断,回收站判断
     if (isVaultFile(path) || path.contains(trashPath)) {
+        qCDebug(logImageViewer) << "File is in vault or trash path, cannot be removed";
         bRet = false;
     }
+    qCDebug(logImageViewer) << "File can be removed check result:" << bRet;
     return bRet;
 }
 }   // namespace image

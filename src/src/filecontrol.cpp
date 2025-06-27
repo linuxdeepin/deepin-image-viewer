@@ -86,17 +86,21 @@ QUrl UrlInfo(QString path)
 FileControl::FileControl(QObject *parent)
     : QObject(parent)
 {
+    qCDebug(logImageViewer) << "FileControl constructor entered.";
     m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
     m_shortcutViewProcess = new QProcess(this);
     m_config = LibConfigSetter::instance();
     imageFileWatcher = ImageFileWatcher::instance();
+    qCDebug(logImageViewer) << "OCR interface, shortcut view process, config, and image file watcher initialized.";
 
     QObject::connect(imageFileWatcher, &ImageFileWatcher::imageFileChanged, this, &FileControl::imageFileChanged);
+    qCDebug(logImageViewer) << "Connected imageFileWatcher::imageFileChanged signal.";
 
     // 在1000ms以内只保存一次配置信息
     if (!m_tSaveSetting) {
         m_tSaveSetting = new QTimer(this);
         connect(m_tSaveSetting, &QTimer::timeout, this, [=]() { saveSetting(); });
+        qCDebug(logImageViewer) << "Save setting timer initialized and connected.";
     }
 
     listsupportWallPaper << "bmp"
@@ -110,11 +114,14 @@ FileControl::FileControl(QObject *parent)
                          << "jfif"
                          << "tif"
                          << "tiff";
+    qCDebug(logImageViewer) << "Supported wallpaper formats initialized.";
 }
 
 FileControl::~FileControl()
 {
+    qCDebug(logImageViewer) << "FileControl destructor entered.";
     saveSetting();
+    qCDebug(logImageViewer) << "Settings saved on destruction.";
 }
 
 QString FileControl::standardPicturesPath() const
@@ -136,17 +143,23 @@ QStringList FileControl::getDirImagePath(const QString &path)
 
     QDir _dirinit(DirPath);
     QFileInfoList m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
+    qCDebug(logImageViewer) << "Found" << m_AllPath.size() << "entries in directory.";
 
     // 修复Ｑt带后缀排序错误的问题
     std::sort(m_AllPath.begin(), m_AllPath.end(), compareByFileInfo);
+    qCDebug(logImageViewer) << "Sorted file info list.";
     for (int i = 0; i < m_AllPath.size(); i++) {
         QString tmpPath = m_AllPath.at(i).filePath();
         if (tmpPath.isEmpty()) {
+            qCDebug(logImageViewer) << "Skipping empty file path at index" << i;
             continue;
         }
         // 判断是否图片格式
         if (isImage(tmpPath)) {
             image_list << QUrl::fromLocalFile(tmpPath).toString();
+            qCDebug(logImageViewer) << "Added image to list:" << tmpPath;
+        } else {
+            qCDebug(logImageViewer) << "Skipping non-image file:" << tmpPath;
         }
     }
     qCDebug(logImageViewer) << "Found" << image_list.size() << "images in directory";
@@ -158,37 +171,46 @@ QStringList FileControl::getDirImagePath(const QString &path)
  */
 bool FileControl::isCurrentWatcherDir(const QUrl &path)
 {
+    qCDebug(logImageViewer) << "Checking if" << path.toLocalFile() << "is current watcher directory.";
     return imageFileWatcher->isCurrentDir(path.toLocalFile());
 }
 
 QString FileControl::getNamePath(const QString &oldPath, const QString &newName)
 {
+    qCDebug(logImageViewer) << "Getting new name path for old path:" << oldPath << "and new name:" << newName;
     QString old = oldPath;
     QString now = newName;
 
     if (old.startsWith("file://")) {
         old = QUrl(old).toLocalFile();
+        qCDebug(logImageViewer) << "Converted old path to local file:" << old;
     }
     if (now.startsWith("file://")) {
         now = QUrl(now).toLocalFile();
+        qCDebug(logImageViewer) << "Converted new name to local file:" << now;
     }
 
     QFileInfo info(old);
     QString path = info.path();
     QString suffix = info.suffix();
     QString newPath = path + "/" + newName + "." + suffix;
+    qCDebug(logImageViewer) << "Constructed new path:" << newPath;
     return QUrl::fromLocalFile(newPath).toString();
 }
 
 bool FileControl::isImage(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking if path is an image:" << path;
     bool bRet = false;
     QMimeDatabase db;
     QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
     QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
+    qCDebug(logImageViewer) << "Mime type by content:" << mt.name() << ", by extension:" << mt1.name();
     if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
         bRet = true;
+        qCDebug(logImageViewer) << "Path identified as image.";
     }
+    qCDebug(logImageViewer) << "isImage returning:" << bRet;
     return bRet;
 }
 
@@ -221,31 +243,37 @@ void FileControl::setWallpaper(const QString &imgPath)
                         bool isWayland = false;
                         if (XDG_SESSION_TYPE != QLatin1String("wayland") && !WAYLAND_DISPLAY.contains(QLatin1String("wayland"), Qt::CaseInsensitive)) {
                             isWayland = false;
+                            qCDebug(logImageViewer) << "Detected X11 session.";
                         } else {
                             isWayland = true;
+                            qCDebug(logImageViewer) << "Detected Wayland session.";
                         }
                         qCDebug(logImageViewer) << "Display environment:" << (isWayland ? "Wayland" : "X11");
 
                         // wayland下设置壁纸使用，2020/09/21
                         if (isWayland) {
+                            qCDebug(logImageViewer) << "Attempting to get primary screen for Wayland.";
                             QDBusInterface interfaceWaylandV23(
                                     "org.deepin.dde.Display1", "/org/deepin/dde/Display1", "org.deepin.dde.Display1");
                             if (interfaceWaylandV23.isValid()) {
                                 screenname = qvariant_cast<QString>(interfaceWaylandV23.property("Primary"));
                                 qCDebug(logImageViewer) << "Got primary screen from v23 Wayland interface:" << screenname;
                             } else {
+                                qCDebug(logImageViewer) << "v23 Wayland interface not valid, trying v20.";
                                 QDBusInterface interfaceWaylandV20(
                                         "com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
                                 screenname = qvariant_cast<QString>(interfaceWaylandV20.property("Primary"));
                                 qCDebug(logImageViewer) << "Got primary screen from v20 Wayland interface:" << screenname;
                             }
                         } else {
+                            qCDebug(logImageViewer) << "Attempting to get primary screen for X11.";
                             screenname = QGuiApplication::primaryScreen()->name();
                             qCDebug(logImageViewer) << "Got primary screen from X11:" << screenname;
                         }
 
                         bool settingSucc = false;
                         if (interfaceV23.isValid()) {
+                            qCDebug(logImageViewer) << "Attempting to set wallpaper via v23 interface: SetMonitorBackground(" << screenname << ", " << path << ")";
                             QDBusMessage reply = interfaceV23.call(QStringLiteral("SetMonitorBackground"), screenname, path);
                             settingSucc = reply.errorMessage().isEmpty();
 
@@ -272,6 +300,7 @@ void FileControl::setWallpaper(const QString &imgPath)
     });
     connect(th1, &QThread::finished, th1, &QObject::deleteLater);
     th1->start();
+    qCDebug(logImageViewer) << "Wallpaper setting thread started.";
 }
 
 bool FileControl::deleteImagePath(const QString &path)
@@ -280,16 +309,21 @@ bool FileControl::deleteImagePath(const QString &path)
     QUrl displayUrl = QUrl(path);
 
     if (displayUrl.isValid()) {
+        qCDebug(logImageViewer) << "URL is valid:" << displayUrl.toString();
         QStringList list;
         list << displayUrl.toString();
         QDBusInterface interface(QStringLiteral("org.freedesktop.FileManager1"),
                                  QStringLiteral("/org/freedesktop/FileManager1"),
                                  QStringLiteral("org.freedesktop.FileManager1"));
+        qCDebug(logImageViewer) << "DBus interface for FileManager1 created.";
         // 默认超时时间大约25s, 修改为最大限制
         interface.setTimeout(INT_MAX);
+        qCDebug(logImageViewer) << "DBus interface timeout set to INT_MAX.";
         auto pendingCall = interface.asyncCall("Trash", list);
+        qCDebug(logImageViewer) << "Async call to Trash initiated.";
         while (!pendingCall.isFinished()) {
             qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
+            qCDebug(logImageViewer) << "Waiting for DBus Trash call to finish...";
         }
 
         if (pendingCall.isError()) {
@@ -313,14 +347,17 @@ bool FileControl::deleteImagePath(const QString &path)
 
 bool FileControl::displayinFileManager(const QString &path)
 {
+    qCDebug(logImageViewer) << "Attempting to display in file manager:" << path;
     bool bRet = false;
     QUrl displayUrl = QUrl(path);
 
     QDBusInterface interface(QStringLiteral("org.freedesktop.FileManager1"),
                              QStringLiteral("/org/freedesktop/FileManager1"),
                              QStringLiteral("org.freedesktop.FileManager1"));
+    qCDebug(logImageViewer) << "DBus interface for FileManager1 created.";
 
     if (interface.isValid()) {
+        qCDebug(logImageViewer) << "DBus interface is valid.";
         QStringList list;
         list << displayUrl.toString();
         bRet = interface.call("ShowItems", list, "").type() != QDBusMessage::ErrorMessage;
@@ -359,32 +396,40 @@ void FileControl::copyImage(const QString &path)
 
 void FileControl::copyText(const QString &str)
 {
+    qCDebug(logImageViewer) << "Copying text to clipboard:" << str;
     qApp->clipboard()->setText(str);
+    qCDebug(logImageViewer) << "Text copied to clipboard.";
 }
 
 bool FileControl::isRotatable(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking if image is rotatable:" << path;
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
     if (!info.isFile() || !info.exists() || !info.isWritable()) {
+        qCDebug(logImageViewer) << "Image is not rotatable: Not a file, does not exist, or not writable.";
         bRet = false;
     } else {
         bRet = LibUnionImage_NameSpace::isImageSupportRotate(localPath);
+        qCDebug(logImageViewer) << "Image support rotate check result: " << bRet;
     }
     return bRet;
 }
 
 bool FileControl::isCanWrite(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking if path is writable:" << path;
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
     bool bRet = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();   // 是否可写
+    qCDebug(logImageViewer) << "Path writable check result: " << bRet;
     return bRet;
 }
 
 bool FileControl::isCanDelete(const QString &path)
 {
+    qCDebug(logImageViewer) << "Checking if path is deletable:" << path;
     bool bRet = false;
     bool isAlbum = false;
     QString localPath = QUrl(path).toLocalFile();
@@ -392,9 +437,12 @@ bool FileControl::isCanDelete(const QString &path)
     bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();   // 是否可写
     bool isReadable = info.isReadable();   // 是否可读
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);
+    qCDebug(logImageViewer) << "Path type: " << pathType << ", isWritable: " << isWritable << ", isReadable: " << isReadable;
     if ((imageViewerSpace::PathTypeAPPLE != pathType && imageViewerSpace::PathTypeSAFEBOX != pathType && imageViewerSpace::PathTypeRECYCLEBIN != pathType && imageViewerSpace::PathTypeMTP != pathType && imageViewerSpace::PathTypePTP != pathType && isWritable && isReadable) || (isAlbum && isWritable)) {
+        qCDebug(logImageViewer) << "Path is deletable based on conditions.";
         bRet = true;
     } else {
+        qCDebug(logImageViewer) << "Path is not deletable based on conditions.";
         bRet = false;
     }
     return bRet;
@@ -410,14 +458,20 @@ void FileControl::ocrImage(const QString &path, int index)
     if (Types::MultiImage != info.type()) {   // 非多页图使用路径直接进行识别
         qCDebug(logImageViewer) << "Processing single page image for OCR";
         m_ocrInterface->openFile(localPath);
+        qCDebug(logImageViewer) << "Called OCR interface openFile for single image.";
     } else {   // 多页图需要确定识别哪一页
         qCDebug(logImageViewer) << "Processing multi-page image for OCR, page:" << index;
         QImageReader imageReader(localPath);
+        qCDebug(logImageViewer) << "ImageReader created for: " << localPath;
         imageReader.jumpToImage(index);
+        qCDebug(logImageViewer) << "Jumped to image index: " << index;
         auto image = imageReader.read();
+        qCDebug(logImageViewer) << "Image read from reader.";
         auto tempDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+        qCDebug(logImageViewer) << "Cache location: " << tempDir;
         QDir dir(tempDir);
         if (!dir.exists()) {
+            qCDebug(logImageViewer) << "Cache directory does not exist, creating it.";
             dir.mkpath(".");
         }
         auto tempFileName = tempDir + QDir::separator() + "rec.png";
@@ -425,11 +479,13 @@ void FileControl::ocrImage(const QString &path, int index)
         image.save(tempFileName);
         qCDebug(logImageViewer) << "Saved temporary image for OCR:" << tempFileName;
         m_ocrInterface->openFile(tempFileName);
+        qCDebug(logImageViewer) << "Called OCR interface openFile for temporary image.";
     }
 }
 
 QString FileControl::parseCommandlineGetPath()
 {
+    qCDebug(logImageViewer) << "Parsing commandline to get path.";
     QString filepath = "";
     QStringList arguments = QCoreApplication::arguments();
     for (QString path : arguments) {
@@ -437,292 +493,381 @@ QString FileControl::parseCommandlineGetPath()
         if (QFileInfo(path).isFile()) {
             bool bRet = isImage(path);
             if (bRet) {
+                qCDebug(logImageViewer) << "Found image file in commandline arguments:" << path;
                 return QUrl::fromLocalFile(path).toString();
             }
         }
     }
 
+    qCDebug(logImageViewer) << "No image file found in commandline arguments.";
     return filepath;
 }
 
 QString FileControl::slotGetFileName(const QString &path)
 {
+    qCDebug(logImageViewer) << "Getting file name for path: " << path;
     QString tmppath = path;
 
     if (path.startsWith("file://")) {
+        qCDebug(logImageViewer) << "Path starts with file://, converting to local file.";
         tmppath = QUrl(tmppath).toLocalFile();
     }
 
     QFileInfo info(tmppath);
+    qCDebug(logImageViewer) << "Returning complete base name: " << info.completeBaseName();
     return info.completeBaseName();
 }
 
 QString FileControl::slotGetFileNameSuffix(const QString &path)
 {
+    qCDebug(logImageViewer) << "Getting file name with suffix for path: " << path;
     QString tmppath = path;
 
     if (path.startsWith("file://")) {
+        qCDebug(logImageViewer) << "Path starts with file://, converting to local file.";
         tmppath = QUrl(tmppath).toLocalFile();
     }
 
     QFileInfo info(tmppath);
+    qCDebug(logImageViewer) << "Returning file name with suffix: " << info.fileName();
     return info.fileName();
 }
 
 QString FileControl::slotGetInfo(const QString &key, const QString &path)
 {
+    qCDebug(logImageViewer) << "Getting info for key: " << key << ", path: " << path;
     QString localPath = QUrl(path).toLocalFile();
     if (localPath != m_currentPath) {
+        qCDebug(logImageViewer) << "Local path changed, updating current path and metadata.";
         m_currentPath = localPath;
         m_currentAllInfo = LibUnionImage_NameSpace::getAllMetaData(localPath);
     }
 
     QString returnString = m_currentAllInfo.value(key);
     if (returnString.isEmpty()) {
+        qCDebug(logImageViewer) << "Retrieved info is empty for key: " << key << ", setting to '-'.";
         returnString = "-";
     }
 
+    qCDebug(logImageViewer) << "Returning info: " << returnString;
     return returnString;
 }
 
 bool FileControl::slotFileReName(const QString &name, const QString &filepath, bool isSuffix)
 {
+    qCDebug(logImageViewer) << "Attempting to rename file. New name: " << name << ", filepath: " << filepath << ", isSuffix: " << isSuffix;
     QString localPath = QUrl(filepath).toLocalFile();
     QFile file(localPath);
     if (file.exists()) {
+        qCDebug(logImageViewer) << "File exists, proceeding with rename.";
         QFileInfo info(localPath);
         QString path = info.path();
         QString suffix = info.suffix();
         QString _newName;
         if (isSuffix) {
             _newName = path + "/" + name;
+            qCDebug(logImageViewer) << "Rename with suffix, new name: " << _newName;
         } else {
             _newName = path + "/" + name + "." + suffix;
+            qCDebug(logImageViewer) << "Rename without suffix, new name: " << _newName;
         }
 
         if (file.rename(_newName)) {
+            qCDebug(logImageViewer) << "File renamed successfully to: " << _newName;
             imageFileWatcher->fileRename(localPath, _newName);
+            qCDebug(logImageViewer) << "Image file watcher notified about rename.";
 
             Q_EMIT imageRenamed(QUrl::fromLocalFile(localPath), QUrl::fromLocalFile(_newName));
+            qCDebug(logImageViewer) << "Emitted imageRenamed signal.";
             return true;
         }
 
+        qCWarning(logImageViewer) << "Failed to rename file from " << localPath << " to " << _newName;
         return false;
     }
+    qCWarning(logImageViewer) << "File does not exist: " << localPath;
     return false;
 }
 
 QString FileControl::slotFileSuffix(const QString &path, bool ret)
 {
+    qCDebug(logImageViewer) << "FileControl::slotFileSuffix() called for path: " << path << ", ret: " << ret;
     QString returnSuffix = "";
 
     QString localPath = QUrl(path).toLocalFile();
     if (!path.isEmpty() && QFile::exists(localPath)) {
+        qCDebug(logImageViewer) << "Path is not empty and file exists: " << localPath;
         QString tmppath = path;
         QFileInfo info(tmppath);
         if (ret) {
+            qCDebug(logImageViewer) << "Returning complete suffix with dot.";
             returnSuffix = "." + info.completeSuffix();
         } else {
+            qCDebug(logImageViewer) << "Returning complete suffix without dot.";
             returnSuffix = info.completeSuffix();
         }
+    } else {
+        qCDebug(logImageViewer) << "Path is empty or file does not exist: " << localPath;
     }
 
+    qCDebug(logImageViewer) << "Returning suffix: " << returnSuffix;
     return returnSuffix;
 }
 
 bool FileControl::isShowToolTip(const QString &oldPath, const QString &name)
 {
+    qCDebug(logImageViewer) << "FileControl::isShowToolTip() called for oldPath: " << oldPath << ", name: " << name;
     bool bRet = false;
     QString path = QUrl(oldPath).toLocalFile();
     QFileInfo fileinfo(path);
     QString DirPath = fileinfo.path();
     QString filename = fileinfo.completeBaseName();
-    if (filename == name)
+    if (filename == name) {
+        qCDebug(logImageViewer) << "Filename is the same, no tooltip needed.";
         return false;
+    }
 
     QString format = fileinfo.suffix();
 
     QString fileabname = DirPath + "/" + name + "." + format;
     QFile file(fileabname);
     if (file.exists() && fileabname != path) {
+        qCDebug(logImageViewer) << "File exists and is different from old path, tooltip will be shown.";
         bRet = true;
     } else {
+        qCDebug(logImageViewer) << "File does not exist or is the same as old path, no tooltip needed.";
         bRet = false;
     }
+    qCDebug(logImageViewer) << "Returning isShowToolTip: " << bRet;
     return bRet;
 }
 
 void FileControl::showPrintDialog(const QString &path)
 {
+    qCDebug(logImageViewer) << "FileControl::showPrintDialog() called for path: " << path;
     QString oldPath = QUrl(path).toLocalFile();
     PrintHelper::getIntance()->showPrintDialog(QStringList(oldPath));
+    qCDebug(logImageViewer) << "Print dialog shown for file: " << oldPath;
 }
 
 QVariant FileControl::getConfigValue(const QString &group, const QString &key, const QVariant &defaultValue)
 {
-    return m_config->value(group, key, defaultValue);
+    qCDebug(logImageViewer) << "FileControl::getConfigValue() called for group: " << group << ", key: " << key << ", defaultValue: " << defaultValue;
+    QVariant value = m_config->value(group, key, defaultValue);
+    qCDebug(logImageViewer) << "Config value retrieved: " << value;
+    return value;
 }
 
 void FileControl::setConfigValue(const QString &group, const QString &key, const QVariant &value)
 {
+    qCDebug(logImageViewer) << "FileControl::setConfigValue() called for group: " << group << ", key: " << key << ", value: " << value;
     m_config->setValue(group, key, value);
+    qCDebug(logImageViewer) << "Config value set.";
 }
 
 int FileControl::getlastWidth()
 {
+    qCDebug(logImageViewer) << "FileControl::getlastWidth() called.";
     int reWidth = 0;
     int defaultW = 0;
 
     // 多屏下仅采用单个屏幕处理， 使用主屏的参考宽度计算
     QScreen *screen = QGuiApplication::primaryScreen();
     if (!screen) {
+        qCWarning(logImageViewer) << "Primary screen not found, returning minimum width.";
         return MAINWIDGET_MINIMUN_WIDTH;
     }
 
     if (QGuiApplication::screens().size() > 1 && screen) {
+        qCDebug(logImageViewer) << "Multiple screens detected, calculating default width based on primary screen size.";
         defaultW = int(double(screen->size().width()) * 0.60);
     } else {
+        qCDebug(logImageViewer) << "Single screen or no valid screen, calculating default width based on primary screen geometry.";
         defaultW = int(double(screen->geometry().width()) * 0.60);
     }
+    qCDebug(logImageViewer) << "Default width calculated: " << defaultW;
 
     const int ww = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
+    qCDebug(logImageViewer) << "Retrieved window width from config: " << ww;
 
     reWidth = ww >= MAINWIDGET_MINIMUN_WIDTH ? ww : MAINWIDGET_MINIMUN_WIDTH;
     m_windowWidth = reWidth;
+    qCDebug(logImageViewer) << "Final window width: " << reWidth;
     return reWidth;
 }
 
 int FileControl::getlastHeight()
 {
+    qCDebug(logImageViewer) << "FileControl::getlastHeight() called.";
     int reHeight = 0;
     int defaultH = 0;
 
     // 多屏下仅采用单个屏幕处理， 使用主屏的参考高度计算
     QScreen *screen = QGuiApplication::primaryScreen();
     if (!screen) {
+        qCWarning(logImageViewer) << "Primary screen not found, returning minimum height.";
         return MAINWIDGET_MINIMUN_HEIGHT;
     }
 
     if (QGuiApplication::screens().size() > 1 && screen) {
+        qCDebug(logImageViewer) << "Multiple screens detected, calculating default height based on primary screen size.";
         defaultH = int(double(screen->size().height()) * 0.60);
     } else {
+        qCDebug(logImageViewer) << "Single screen or no valid screen, calculating default height based on primary screen geometry.";
         defaultH = int(double(screen->geometry().height()) * 0.60);
     }
+    qCDebug(logImageViewer) << "Default height calculated: " << defaultH;
 
     const int wh = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
+    qCDebug(logImageViewer) << "Retrieved window height from config: " << wh;
 
     reHeight = wh >= MAINWIDGET_MINIMUN_HEIGHT ? wh : MAINWIDGET_MINIMUN_HEIGHT;
     m_windowHeight = reHeight;
+    qCDebug(logImageViewer) << "Final window height: " << reHeight;
     return reHeight;
 }
 
 void FileControl::setSettingWidth(int width)
 {
+    qCDebug(logImageViewer) << "FileControl::setSettingWidth() called with width: " << width;
     m_windowWidth = width;
     m_tSaveSetting->setSingleShot(true);
     m_tSaveSetting->start(1000);
+    qCDebug(logImageViewer) << "Setting width and starting save setting timer.";
 }
 
 void FileControl::setSettingHeight(int height)
 {
+    qCDebug(logImageViewer) << "FileControl::setSettingHeight() called with height: " << height;
     m_windowHeight = height;
     m_tSaveSetting->setSingleShot(true);
     m_tSaveSetting->start(1000);
+    qCDebug(logImageViewer) << "Setting height and starting save setting timer.";
 }
 
 void FileControl::setEnableNavigation(bool b)
 {
+    qCDebug(logImageViewer) << "FileControl::setEnableNavigation() called with value: " << b;
     setConfigValue(SETTINGS_GROUP, SETTINGS_ENABLE_NAVIGATION, b);
+    qCDebug(logImageViewer) << "Navigation enabled setting saved.";
 }
 
 bool FileControl::isEnableNavigation()
 {
-    return getConfigValue(SETTINGS_GROUP, SETTINGS_ENABLE_NAVIGATION, true).toBool();
+    qCDebug(logImageViewer) << "FileControl::isEnableNavigation() called.";
+    bool enabled = getConfigValue(SETTINGS_GROUP, SETTINGS_ENABLE_NAVIGATION, true).toBool();
+    qCDebug(logImageViewer) << "Returning enable navigation status: " << enabled;
+    return enabled;
 }
 
 void FileControl::saveSetting()
 {
+    qCDebug(logImageViewer) << "FileControl::saveSetting() called.";
     if (m_lastSaveWidth != m_windowWidth) {
+        qCDebug(logImageViewer) << "Saving window width: " << m_windowWidth;
         setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, m_windowWidth);
         m_lastSaveWidth = m_windowWidth;
     }
     if (m_lastSaveHeight != m_windowHeight) {
+        qCDebug(logImageViewer) << "Saving window height: " << m_windowHeight;
         setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, m_windowHeight);
         m_lastSaveHeight = m_windowHeight;
     }
+    qCDebug(logImageViewer) << "Settings saved.";
 }
 
 bool FileControl::isSupportSetWallpaper(const QString &path)
 {
+    qCDebug(logImageViewer) << "FileControl::isSupportSetWallpaper() called for path: " << path;
     QString path1 = QUrl(path).toLocalFile();
     QFileInfo fileinfo(path1);
     QString format = fileinfo.suffix().toLower();
     // 设置为壁纸需要判断是否有读取权限
     if (listsupportWallPaper.contains(format) && fileinfo.isReadable()) {
+        qCDebug(logImageViewer) << "Image format " << format << " is supported and readable for wallpaper. Returning true.";
         return true;
     }
+    qCDebug(logImageViewer) << "Image format " << format << " not supported or not readable for wallpaper. Returning false.";
     return false;
 }
 
 bool FileControl::isCheckOnly()
 {
+    qCDebug(logImageViewer) << "FileControl::isCheckOnly() called.";
     // single
     QString userName = QDir::homePath().section("/", -1, -1);
     std::string path = ("/home/" + userName + "/.cache/deepin/deepin-image-viewer/").toStdString();
     QDir tdir(path.c_str());
+    qCDebug(logImageViewer) << "Cache directory path: " << QString::fromStdString(path);
     if (!tdir.exists()) {
+        qCDebug(logImageViewer) << "Cache directory does not exist, attempting to create.";
         bool ret = tdir.mkpath(path.c_str());
-        qDebug() << ret;
+        qCDebug(logImageViewer) << "Cache directory creation result: " << ret;
     }
 
     path += "single";
+    qCDebug(logImageViewer) << "Attempting to open lockfile: " << QString::fromStdString(path);
     int fd = open(path.c_str(), O_WRONLY | O_CREAT, 0644);
     int flock = lockf(fd, F_TLOCK, 0);
 
     if (fd == -1) {
         perror("open lockfile/n");
+        qCWarning(logImageViewer) << "Failed to open lockfile.";
         return false;
     }
     if (flock == -1) {
         perror("lock file error/n");
+        qCWarning(logImageViewer) << "Failed to lock file.";
         return false;
     }
+    qCDebug(logImageViewer) << "Lock file opened and locked successfully.";
     return true;
 }
 
 bool FileControl::isCanSupportOcr(const QString &path)
 {
+    qCDebug(logImageViewer) << "FileControl::isCanSupportOcr() called for path: " << path;
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
+    qCDebug(logImageViewer) << "Image type: " << type << ", isReadable: " << info.isReadable();
     if (imageViewerSpace::ImageTypeDynamic != type && info.isReadable()) {
+        qCDebug(logImageViewer) << "Image supports OCR. Returning true.";
         bRet = true;
     }
+    qCDebug(logImageViewer) << "Image does not support OCR. Returning false.";
     return bRet;
 }
 
 bool FileControl::isCanRename(const QString &path)
 {
+    qCDebug(logImageViewer) << "FileControl::isCanRename() called for path: " << path;
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);   // 路径类型
     QFileInfo info(localPath);
     bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();   // 是否可写
+    qCDebug(logImageViewer) << "Path type: " << pathType << ", isWritable: " << isWritable << ", isReadable: " << info.isReadable();
     if (info.isReadable() && isWritable && imageViewerSpace::PathTypeMTP != pathType && imageViewerSpace::PathTypePTP != pathType && imageViewerSpace::PathTypeAPPLE != pathType) {
+        qCDebug(logImageViewer) << "Path is renameable. Returning true.";
         bRet = true;
     }
+    qCDebug(logImageViewer) << "Path is not renameable. Returning false.";
     return bRet;
 }
 
 bool FileControl::isCanReadable(const QString &path)
 {
+    qCDebug(logImageViewer) << "FileControl::isCanReadable() called for path: " << path;
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
     if (info.isReadable()) {
+        qCDebug(logImageViewer) << "Path is readable. Returning true.";
         bRet = true;
     }
+    qCDebug(logImageViewer) << "Path is not readable. Returning false.";
     return bRet;
 }
 
@@ -732,12 +877,14 @@ bool FileControl::isCanReadable(const QString &path)
  */
 void FileControl::resetImageFiles(const QStringList &filePaths)
 {
-    qCDebug(logImageViewer) << "Resetting image files, count:" << filePaths.size();
+    qCDebug(logImageViewer) << "FileControl::resetImageFiles() called, count:" << filePaths.size();
     // 变更监控的文件
     imageFileWatcher->resetImageFiles(filePaths);
+    qCDebug(logImageViewer) << "Image file watcher reset complete.";
     // 清理缩略图缓存记录
     ImageInfo::clearCache();
-    qCDebug(logImageViewer) << "Image files reset complete";
+    qCDebug(logImageViewer) << "ImageInfo cache cleared.";
+    qCDebug(logImageViewer) << "Image files reset complete.";
 }
 
 /**
@@ -745,77 +892,96 @@ void FileControl::resetImageFiles(const QStringList &filePaths)
  */
 QUrl FileControl::getCompanyLogo()
 {
+    qCDebug(logImageViewer) << "FileControl::getCompanyLogo() called.";
     QString logoPath = DSysInfo::distributionOrgLogo(DSysInfo::Distribution, DSysInfo::Light, ":/assets/images/deepin-logo.svg");
+    qCDebug(logImageViewer) << "Company logo path: " << logoPath;
     return QUrl::fromLocalFile(logoPath);
 }
 
 void FileControl::terminateShortcutPanelProcess()
 {
+    qCDebug(logImageViewer) << "FileControl::terminateShortcutPanelProcess() called.";
     m_shortcutViewProcess->terminate();
+    qCDebug(logImageViewer) << "Shortcut panel process terminated.";
     m_shortcutViewProcess->waitForFinished(2000);
+    qCDebug(logImageViewer) << "Shortcut panel process waited for finish.";
 }
 
 void FileControl::showShortcutPanel(int windowCenterX, int windowCenterY)
 {
-    qCDebug(logImageViewer) << "Showing shortcut panel at position:" << windowCenterX << "," << windowCenterY;
+    qCDebug(logImageViewer) << "FileControl::showShortcutPanel() called at position:" << windowCenterX << "," << windowCenterY;
     QPoint pos(windowCenterX, windowCenterY);
     QStringList shortcutString;
     auto json = createShortcutString();
+    qCDebug(logImageViewer) << "Shortcut string created.";
 
     QString param1 = "-j=" + json;
     QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
     shortcutString << param1 << param2;
+    qCDebug(logImageViewer) << "Shortcut parameters: " << shortcutString;
 
     terminateShortcutPanelProcess();
     m_shortcutViewProcess->start("deepin-shortcut-viewer", shortcutString);
-    qCDebug(logImageViewer) << "Shortcut panel process started";
+    qCDebug(logImageViewer) << "Shortcut panel process started.";
 }
 
 QString FileControl::createShortcutString()
 {
+    qCDebug(logImageViewer) << "FileControl::createShortcutString() called.";
     if (!m_shortcutString.isEmpty()) {
+        qCDebug(logImageViewer) << "Returning cached shortcut string.";
         return m_shortcutString;
     }
 
     QJsonObject shortcut1;
     shortcut1.insert("name", tr("Fullscreen"));
     shortcut1.insert("value", "F11");
+    qCDebug(logImageViewer) << "Added Fullscreen shortcut.";
 
     QJsonObject shortcut2;
     shortcut2.insert("name", tr("Exit fullscreen"));
     shortcut2.insert("value", "Esc");
+    qCDebug(logImageViewer) << "Added Exit fullscreen shortcut.";
 
     QJsonObject shortcut3;
     shortcut3.insert("name", tr("Extract text"));
     shortcut3.insert("value", "Alt + O");
+    qCDebug(logImageViewer) << "Added Extract text shortcut.";
 
     QJsonObject shortcut4;
     shortcut4.insert("name", tr("Slide show"));
     shortcut4.insert("value", "F5");
+    qCDebug(logImageViewer) << "Added Slide show shortcut.";
 
     QJsonObject shortcut5;
     shortcut5.insert("name", tr("Rename"));
     shortcut5.insert("value", "F2");
+    qCDebug(logImageViewer) << "Added Rename shortcut.";
 
     QJsonObject shortcut6;
     shortcut6.insert("name", tr("Copy"));
     shortcut6.insert("value", "Ctrl + C");
+    qCDebug(logImageViewer) << "Added Copy shortcut.";
 
     QJsonObject shortcut7;
     shortcut7.insert("name", tr("Delete"));
     shortcut7.insert("value", "Delete");
+    qCDebug(logImageViewer) << "Added Delete shortcut.";
 
     QJsonObject shortcut8;
     shortcut8.insert("name", tr("Rotate clockwise"));
     shortcut8.insert("value", "Ctrl + R");
+    qCDebug(logImageViewer) << "Added Rotate clockwise shortcut.";
 
     QJsonObject shortcut9;
     shortcut9.insert("name", tr("Rotate counterclockwise"));
     shortcut9.insert("value", "Ctrl + Shift + R");
+    qCDebug(logImageViewer) << "Added Rotate counterclockwise shortcut.";
 
     QJsonObject shortcut10;
     shortcut10.insert("name", tr("Set as wallpaper"));
     shortcut10.insert("value", "Ctrl + F9");
+    qCDebug(logImageViewer) << "Added Set as wallpaper shortcut.";
 
     QJsonObject shortcut11;
     shortcut11.insert("name", tr("Display in file manager"));
@@ -915,5 +1081,6 @@ QString FileControl::createShortcutString()
 
     m_shortcutString = QJsonDocument(main_shortcut).toJson();
 
+    qCDebug(logImageViewer) << "Shortcut string created: " << m_shortcutString;
     return m_shortcutString;
 }

@@ -3,6 +3,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "imagesourcemodel.h"
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 /**
    @class ImageSourceModel
@@ -15,15 +18,20 @@
 ImageSourceModel::ImageSourceModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+    qCDebug(logImageViewer) << "ImageSourceModel constructor called.";
 }
 
-ImageSourceModel::~ImageSourceModel() {}
+ImageSourceModel::~ImageSourceModel()
+{
+    qCDebug(logImageViewer) << "ImageSourceModel destructor called.";
+}
 
 /**
    @return 返回当前数据模型的数据类型及在QML中使用的别名
  */
 QHash<int, QByteArray> ImageSourceModel::roleNames() const
 {
+    qCDebug(logImageViewer) << "ImageSourceModel::roleNames() called.";
     return {{Types::ImageUrlRole, "imageUrl"}};
 }
 
@@ -32,14 +40,18 @@ QHash<int, QByteArray> ImageSourceModel::roleNames() const
  */
 QVariant ImageSourceModel::data(const QModelIndex &index, int role) const
 {
+    qCDebug(logImageViewer) << "ImageSourceModel::data() called for index:" << index << "role:" << role;
     if (!checkIndex(index, CheckIndexOption::ParentIsInvalid | CheckIndexOption::IndexIsValid)) {
+        qCWarning(logImageViewer) << "Invalid index in ImageSourceModel::data():" << index;
         return {};
     }
 
     switch (role) {
         case Types::ImageUrlRole:
+            qCDebug(logImageViewer) << "Returning ImageUrlRole for row:" << index.row() << "value:" << imageUrlList.at(index.row());
             return imageUrlList.at(index.row());
         default:
+            qCDebug(logImageViewer) << "Unknown role:" << role;
             break;
     }
 
@@ -52,17 +64,20 @@ QVariant ImageSourceModel::data(const QModelIndex &index, int role) const
  */
 bool ImageSourceModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    qCDebug(logImageViewer) << "ImageSourceModel::setData() called for index:" << index << "value:" << value << "role:" << role;
     if (!checkIndex(index, CheckIndexOption::ParentIsInvalid | CheckIndexOption::IndexIsValid)) {
+        qCWarning(logImageViewer) << "Invalid index in ImageSourceModel::setData():" << index;
         return false;
     }
 
     switch (role) {
         case Types::ImageUrlRole:
             imageUrlList.replace(index.row(), value.toUrl());
-
+            qCDebug(logImageViewer) << "ImageUrlRole changed for row:" << index.row() << "new value:" << value.toUrl();
             Q_EMIT dataChanged(index, index);
             return true;
         default:
+            qCDebug(logImageViewer) << "Unknown role:" << role;
             break;
     }
 
@@ -75,6 +90,7 @@ bool ImageSourceModel::setData(const QModelIndex &index, const QVariant &value, 
 int ImageSourceModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
+    qCDebug(logImageViewer) << "ImageSourceModel::rowCount() called. Count:" << imageUrlList.count();
     return imageUrlList.count();
 }
 
@@ -83,11 +99,15 @@ int ImageSourceModel::rowCount(const QModelIndex &parent) const
  */
 int ImageSourceModel::indexForImagePath(const QUrl &file)
 {
+    qCDebug(logImageViewer) << "ImageSourceModel::indexForImagePath() called for file:" << file;
     if (file.isEmpty()) {
+        qCDebug(logImageViewer) << "File path is empty, returning -1.";
         return -1;
     }
 
-    return imageUrlList.indexOf(file);
+    int index = imageUrlList.indexOf(file);
+    qCDebug(logImageViewer) << "Index for file:" << file << "is:" << index;
+    return index;
 }
 
 /**
@@ -95,9 +115,11 @@ int ImageSourceModel::indexForImagePath(const QUrl &file)
  */
 void ImageSourceModel::setImageFiles(const QList<QUrl> &files)
 {
+    qCDebug(logImageViewer) << "ImageSourceModel::setImageFiles() called with" << files.count() << "files.";
     beginResetModel();
     imageUrlList = files;
     endResetModel();
+    qCDebug(logImageViewer) << "Model reset complete.";
 }
 
 /**
@@ -105,10 +127,15 @@ void ImageSourceModel::setImageFiles(const QList<QUrl> &files)
  */
 void ImageSourceModel::removeImage(const QUrl &fileName)
 {
+    qCDebug(logImageViewer) << "ImageSourceModel::removeImage() called for file:" << fileName;
     int index = imageUrlList.indexOf(fileName);
     if (-1 != index) {
+        qCDebug(logImageViewer) << "Removing image at index:" << index;
         beginRemoveRows(QModelIndex(), index, index);
         imageUrlList.removeAt(index);
         endRemoveRows();
+        qCDebug(logImageViewer) << "Image removed successfully.";
+    } else {
+        qCDebug(logImageViewer) << "Image not found in model, no removal needed.";
     }
 }

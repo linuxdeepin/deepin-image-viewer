@@ -26,6 +26,7 @@ public:
 
     ImageInfoData::Ptr cloneWithoutFrame()
     {
+        qCDebug(logImageViewer) << "ImageInfoData::cloneWithoutFrame called";
         ImageInfoData::Ptr other(new ImageInfoData);
         other->path = this->path;
         other->type = this->type;
@@ -36,11 +37,17 @@ public:
         other->scale = this->scale;
         other->x = this->x;
         other->y = this->y;
-
+        qCDebug(logImageViewer) << "ImageInfoData::cloneWithoutFrame finished";
         return other;
     }
 
-    inline bool isError() const { return !exist || (Types::DamagedImage == type); }
+    inline bool isError() const
+    {
+        qCDebug(logImageViewer) << "ImageInfoData::isError called";
+        bool ret = !exist || (Types::DamagedImage == type);
+        qCDebug(logImageViewer) << "ImageInfoData::isError finished:" << ret;
+        return ret;
+    }
 
     QString path;   ///< 图片路径
     Types::ImageType type;   ///< 图片类型
@@ -101,18 +108,25 @@ LoadImageInfoRunnable::LoadImageInfoRunnable(const QString &path, int index)
 
 Types::ImageType imageTypeAdapator(imageViewerSpace::ImageType type)
 {
+    qCDebug(logImageViewer) << "Adapting image type:" << type;
     switch (type) {
     case imageViewerSpace::ImageTypeBlank:
+        qCDebug(logImageViewer) << "Mapped ImageTypeBlank to NullImage.";
         return Types::NullImage;
     case imageViewerSpace::ImageTypeSvg:
+        qCDebug(logImageViewer) << "Mapped ImageTypeSvg to SvgImage.";
         return Types::SvgImage;
     case imageViewerSpace::ImageTypeStatic:
+        qCDebug(logImageViewer) << "Mapped ImageTypeStatic to NormalImage.";
         return Types::NormalImage;
     case imageViewerSpace::ImageTypeDynamic:
+        qCDebug(logImageViewer) << "Mapped ImageTypeDynamic to DynamicImage.";
         return Types::DynamicImage;
     case imageViewerSpace::ImageTypeMulti:
+        qCDebug(logImageViewer) << "Mapped ImageTypeMulti to MultiImage.";
         return Types::MultiImage;
     default:
+        qCWarning(logImageViewer) << "Unknown image type:" << type << ", mapping to DamagedImage.";
         return Types::DamagedImage;
     }
 }
@@ -122,65 +136,80 @@ Types::ImageType imageTypeAdapator(imageViewerSpace::ImageType type)
  */
 void LoadImageInfoRunnable::run()
 {
+    qCDebug(logImageViewer) << "LoadImageInfoRunnable::run() entered for path:" << loadPath << ", frameIndex:" << frameIndex;
     if (qApp->closingDown()) {
+        qCDebug(logImageViewer) << "Application is closing down, LoadImageInfoRunnable exiting.";
         return;
     }
 
     ImageInfoData::Ptr data(new ImageInfoData);
     data->path = loadPath;
     data->exist = QFileInfo::exists(loadPath);
+    qCDebug(logImageViewer) << "Image file existence check:" << data->exist;
 
     if (!data->exist) {
         // 缓存中存在数据，则图片为加载后删除
         data->type = (ThumbnailCache::instance()->contains(data->path)) ? Types::NonexistImage : Types::NullImage;
+        qCDebug(logImageViewer) << "Image file does not exist. Type set to:" << data->type;
         notifyFinished(data->path, frameIndex, data);
         return;
     }
 
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(loadPath);
     data->type = imageTypeAdapator(type);
+    qCDebug(logImageViewer) << "Image type adapted to:" << data->type;
 
     if (Types::NullImage == data->type) {
+        qCWarning(logImageViewer) << "Image type is NullImage, skipping further processing.";
         notifyFinished(data->path, frameIndex, data);
         return;
     }
 
     QImageReader reader(loadPath);
     if (Types::MultiImage == data->type) {
+        qCDebug(logImageViewer) << "Image is multi-image type. Jumping to image frame:" << frameIndex;
         reader.jumpToImage(frameIndex);
         QImage image = reader.read();
         if (image.isNull()) {
             // 数据获取异常
             data->type = Types::DamagedImage;
+            qCWarning(logImageViewer) << "Failed to read multi-image frame" << frameIndex << ", setting type to DamagedImage.";
             notifyFinished(data->path, frameIndex, data);
             return;
         }
 
         data->size = image.size();
         data->frameCount = reader.imageCount();
+        qCDebug(logImageViewer) << "Multi-image size:" << data->size << ", frame count:" << data->frameCount;
         // 保存图片比例缩放
         image = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
         // 缓存缩略图信息
         ThumbnailCache::instance()->add(data->path, frameIndex, image);
+        qCDebug(logImageViewer) << "Thumbnail added to cache for multi-image.";
 
     } else if (0 != frameIndex) {
         // 非多页图类型，但指定了索引，存在异常
         data->type = Types::DamagedImage;
+        qCWarning(logImageViewer) << "Non-multi-image type with non-zero frame index, setting type to DamagedImage.";
         notifyFinished(data->path, frameIndex, data);
         return;
 
     } else {
         QImage image;
         if (loadImage(image, data->size)) {
+            qCDebug(logImageViewer) << "Image loaded successfully. Size:" << data->size;
             // 缓存缩略图信息
             ThumbnailCache::instance()->add(data->path, frameIndex, image);
+            qCDebug(logImageViewer) << "Thumbnail added to cache.";
         } else {
             // 读取图片数据存在异常，调整图片类型
             data->type = Types::DamagedImage;
+            qCWarning(logImageViewer) << "Failed to load image data, setting type to DamagedImage.";
         }
     }
 
     notifyFinished(data->path, frameIndex, data);
+    qCDebug(logImageViewer) << "LoadImageInfoRunnable::run() finished for path:" << loadPath;
 }
 
 /**
@@ -191,16 +220,19 @@ void LoadImageInfoRunnable::run()
  */
 bool LoadImageInfoRunnable::loadImage(QImage &image, QSize &sourceSize) const
 {
+    qCDebug(logImageViewer) << "LoadImageInfoRunnable::loadImage() entered for path:" << loadPath;
     QString error;
     bool ret = LibUnionImage_NameSpace::loadStaticImageFromFile(loadPath, image, error);
     if (ret) {
         sourceSize = image.size();
         // 保存图片比例缩放
         image = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        qCDebug(logImageViewer) << "Static image loaded successfully. Source size:" << sourceSize;
     } else {
         qCWarning(logImageViewer) << "Failed to load image:" << loadPath << "Error:" << error;
     }
 
+    qCDebug(logImageViewer) << "LoadImageInfoRunnable::loadImage() returning:" << ret;
     return ret;
 }
 
@@ -212,32 +244,42 @@ bool LoadImageInfoRunnable::loadImage(QImage &image, QSize &sourceSize) const
  */
 void LoadImageInfoRunnable::notifyFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data) const
 {
+    qCDebug(logImageViewer) << "LoadImageInfoRunnable::notifyFinished() entered for path:" << path << ", frameIndex:" << frameIndex;
     QMetaObject::invokeMethod(
             CacheInstance(), [=]() { CacheInstance()->loadFinished(path, frameIndex, data); }, Qt::QueuedConnection);
+    qCDebug(logImageViewer) << "Invoked CacheInstance()->loadFinished in queued connection.";
 }
 
 ImageInfoCache::ImageInfoCache()
     : localPoolPtr(new QThreadPool)
 {
+    qCDebug(logImageViewer) << "ImageInfoCache constructor entered.";
     // 调整后台线程，由于imageprovider部分也存在子线程调用
     localPoolPtr->setMaxThreadCount(qMax(2, QThread::idealThreadCount() / 2));
+    qCDebug(logImageViewer) << "ImageInfoCache thread pool max count set to:" << localPoolPtr->maxThreadCount();
 
     // 退出时清理线程状态
     connect(qApp, &QCoreApplication::aboutToQuit, this, [this]() {
+        qCDebug(logImageViewer) << "QCoreApplication::aboutToQuit signal received. Clearing cache and waiting for thread pool.";
         aboutToQuit = true;
         clearCache();
 
         localPoolPtr->waitForDone();
+        qCDebug(logImageViewer) << "ImageInfoCache thread pool finished.";
     });
+    qCDebug(logImageViewer) << "Connected QCoreApplication::aboutToQuit signal.";
 }
 
-ImageInfoCache::~ImageInfoCache() { }
+ImageInfoCache::~ImageInfoCache() {
+    qCDebug(logImageViewer) << "ImageInfoCache destructor entered.";
+}
 
 /**
    @return 返回缓存中文件路径为 \a path 和帧索引为 \a frameIndex 的缓存数据
  */
 ImageInfoData::Ptr ImageInfoCache::find(const QString &path, int frameIndex)
 {
+    qCDebug(logImageViewer) << "ImageInfoCache::find() called for path:" << path << ", frameIndex:" << frameIndex;
     ThumbnailCache::Key key = ThumbnailCache::toFindKey(path, frameIndex);
     return cache.value(key);
 }
@@ -248,6 +290,7 @@ ImageInfoData::Ptr ImageInfoCache::find(const QString &path, int frameIndex)
  */
 void ImageInfoCache::load(const QString &path, int frameIndex, bool reload)
 {
+    qCDebug(logImageViewer) << "ImageInfoCache::load() called for path:" << path << ", frameIndex:" << frameIndex << ", reload:" << reload;
     if (aboutToQuit) {
         qCDebug(logImageViewer) << "Skipping image load during application shutdown:" << path;
         return;
@@ -283,6 +326,7 @@ void ImageInfoCache::load(const QString &path, int frameIndex, bool reload)
  */
 void ImageInfoCache::loadFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data)
 {
+    qCDebug(logImageViewer) << "ImageInfoCache::loadFinished called for path:" << path << "frameIndex:" << frameIndex;
     if (aboutToQuit) {
         qCDebug(logImageViewer) << "Skipping load finished during application shutdown:" << path;
         return;
@@ -300,6 +344,7 @@ void ImageInfoCache::loadFinished(const QString &path, int frameIndex, ImageInfo
     waitSet.remove(key);
 
     Q_EMIT imageDataChanged(path, frameIndex);
+    qCDebug(logImageViewer) << "Emitted imageDataChanged signal.";
 }
 
 /**
@@ -338,23 +383,30 @@ void ImageInfoCache::clearCache()
 ImageInfo::ImageInfo(QObject *parent)
     : QObject(parent)
 {
+    qCDebug(logImageViewer) << "ImageInfo constructor called";
     // TODO(renbin): 这种方式效率不佳，应调整为记录文件对应的 ImageInfo 对象进行直接调用(均在同一线程)
     connect(CacheInstance(), &ImageInfoCache::imageDataChanged, this, &ImageInfo::onLoadFinished);
     connect(CacheInstance(), &ImageInfoCache::imageSizeChanged, this, &ImageInfo::onSizeChanged);
+    qCDebug(logImageViewer) << "Connected ImageInfoCache signals to onLoadFinished and onSizeChanged.";
 }
 
 ImageInfo::ImageInfo(const QUrl &source, QObject *parent)
     : QObject(parent)
 {
+    qCDebug(logImageViewer) << "ImageInfo constructor called with source:" << source;
     connect(CacheInstance(), &ImageInfoCache::imageDataChanged, this, &ImageInfo::onLoadFinished);
     connect(CacheInstance(), &ImageInfoCache::imageSizeChanged, this, &ImageInfo::onSizeChanged);
     setSource(source);
 }
 
-ImageInfo::~ImageInfo() { }
+ImageInfo::~ImageInfo()
+{
+    qCDebug(logImageViewer) << "ImageInfo destructor called";
+}
 
 ImageInfo::Status ImageInfo::status() const
 {
+    qCDebug(logImageViewer) << "ImageInfo::status called, returning:" << imageStatus;
     return imageStatus;
 }
 
@@ -364,7 +416,9 @@ ImageInfo::Status ImageInfo::status() const
  */
 void ImageInfo::setSource(const QUrl &source)
 {
+    qCDebug(logImageViewer) << "ImageInfo::setSource called with source:" << source;
     if (imageUrl != source) {
+        qCDebug(logImageViewer) << "ImageInfo::setSource changed source from:" << imageUrl << "to:" << source;
         imageUrl = source;
         Q_EMIT sourceChanged();
 
@@ -378,6 +432,7 @@ void ImageInfo::setSource(const QUrl &source)
  */
 QUrl ImageInfo::source() const
 {
+    qCDebug(logImageViewer) << "ImageInfo::source called, returning:" << imageUrl;
     return imageUrl;
 }
 
@@ -386,7 +441,9 @@ QUrl ImageInfo::source() const
  */
 int ImageInfo::type() const
 {
-    return data ? data->type : Types::NullImage;
+    int ret = data ? data->type : Types::NullImage;
+    qCDebug(logImageViewer) << "ImageInfo::type called, returning:" << ret;
+    return ret;
 }
 
 /**
@@ -394,7 +451,9 @@ int ImageInfo::type() const
  */
 int ImageInfo::width() const
 {
-    return data ? data->size.width() : -1;
+    int ret = data ? data->size.width() : -1;
+    qCDebug(logImageViewer) << "ImageInfo::width called, returning:" << ret;
+    return ret;
 }
 
 /**
@@ -402,7 +461,9 @@ int ImageInfo::width() const
  */
 int ImageInfo::height() const
 {
-    return data ? data->size.height() : -1;
+    int ret = data ? data->size.height() : -1;
+    qCDebug(logImageViewer) << "ImageInfo::height called, returning:" << ret;
+    return ret;
 }
 
 /**
@@ -411,7 +472,9 @@ int ImageInfo::height() const
  */
 void ImageInfo::swapWidthAndHeight()
 {
+    qCDebug(logImageViewer) << "ImageInfo::swapWidthAndHeight called";
     if (data) {
+        qCDebug(logImageViewer) << "ImageInfo::swapWidthAndHeight swapping width and height";
         data->size = QSize(data->size.height(), data->size.width());
         // 广播大小变更信号
         Q_EMIT CacheInstance()->imageSizeChanged(imageUrl.toLocalFile(), currentIndex);
@@ -424,7 +487,9 @@ void ImageInfo::swapWidthAndHeight()
  */
 void ImageInfo::setFrameIndex(int index)
 {
+    qCDebug(logImageViewer) << "ImageInfo::setFrameIndex called with index:" << index;
     if (currentIndex != index) {
+        qCDebug(logImageViewer) << "ImageInfo::setFrameIndex changing currentIndex from:" << currentIndex << "to:" << index;
         currentIndex = index;
         Q_EMIT frameIndexChanged();
 
@@ -438,6 +503,7 @@ void ImageInfo::setFrameIndex(int index)
  */
 int ImageInfo::frameIndex() const
 {
+    qCDebug(logImageViewer) << "ImageInfo::frameIndex called, returning:" << currentIndex;
     return currentIndex;
 }
 
@@ -446,7 +512,9 @@ int ImageInfo::frameIndex() const
  */
 int ImageInfo::frameCount() const
 {
-    return data ? data->frameCount : 1;
+    int ret = data ? data->frameCount : 1;
+    qCDebug(logImageViewer) << "ImageInfo::frameCount called, returning:" << ret;
+    return ret;
 }
 
 /**
@@ -455,38 +523,50 @@ int ImageInfo::frameCount() const
  */
 void ImageInfo::setScale(qreal s)
 {
+    qCDebug(logImageViewer) << "ImageInfo::setScale called with scale:" << s;
     if (data && data->scale != s) {
+        qCDebug(logImageViewer) << "ImageInfo::setScale changing scale from:" << data->scale << "to:" << s;
         data->scale = s;
     }
 }
 
 qreal ImageInfo::scale() const
 {
-    return data ? data->scale : -1;
+    qreal ret = data ? data->scale : -1;
+    qCDebug(logImageViewer) << "ImageInfo::scale called, returning:" << ret;
+    return ret;
 }
 
 void ImageInfo::setX(qreal x)
 {
+    qCDebug(logImageViewer) << "ImageInfo::setX called with x:" << x;
     if (data) {
+        qCDebug(logImageViewer) << "ImageInfo::setX changing x from:" << data->x << "to:" << x;
         data->x = x;
     }
 }
 
 qreal ImageInfo::x() const
 {
-    return data ? data->x : 0;
+    qreal ret = data ? data->x : 0;
+    qCDebug(logImageViewer) << "ImageInfo::x called, returning:" << ret;
+    return ret;
 }
 
 void ImageInfo::setY(qreal y)
 {
+    qCDebug(logImageViewer) << "ImageInfo::setY called with y:" << y;
     if (data) {
+        qCDebug(logImageViewer) << "ImageInfo::setY changing y from:" << data->y << "to:" << y;
         data->y = y;
     }
 }
 
 qreal ImageInfo::y() const
 {
-    return data ? data->y : 0;
+    qreal ret = data ? data->y : 0;
+    qCDebug(logImageViewer) << "ImageInfo::y called, returning:" << ret;
+    return ret;
 }
 
 /**
@@ -494,7 +574,9 @@ qreal ImageInfo::y() const
  */
 bool ImageInfo::exists() const
 {
-    return data ? data->exist : false;
+    bool ret = data ? data->exist : false;
+    qCDebug(logImageViewer) << "ImageInfo::exists() called, returning: " << ret;
+    return ret;
 }
 
 /**
@@ -503,18 +585,22 @@ bool ImageInfo::exists() const
  */
 bool ImageInfo::hasCachedThumbnail() const
 {
+    qCDebug(logImageViewer) << "ImageInfo::hasCachedThumbnail called";
     if (imageUrl.isEmpty()) {
         return false;
     } else {
         switch (type()) {
         case Types::NullImage:
         case Types::DamagedImage:
+            qCDebug(logImageViewer) << "ImageInfo::hasCachedThumbnail returning false for damaged image";
             return false;
         default:
             break;
         }
 
-        return ThumbnailCache::instance()->contains(imageUrl.toLocalFile(), frameIndex());
+        bool ret = ThumbnailCache::instance()->contains(imageUrl.toLocalFile(), frameIndex());
+        qCDebug(logImageViewer) << "ImageInfo::hasCachedThumbnail returning:" << ret;
+        return ret;
     }
 }
 
@@ -533,6 +619,7 @@ void ImageInfo::reloadData()
  */
 void ImageInfo::clearCurrentCache()
 {
+    qCDebug(logImageViewer) << "ImageInfo::clearCurrentCache called";
     if (data) {
         qCDebug(logImageViewer) << "Clearing current image cache:" << imageUrl.toLocalFile()
                                 << "frames:" << data->frameCount;
@@ -558,7 +645,9 @@ void ImageInfo::clearCache()
  */
 void ImageInfo::setStatus(ImageInfo::Status status)
 {
+    qCDebug(logImageViewer) << "ImageInfo::setStatus called with status:" << status;
     if (imageStatus != status) {
+        qCDebug(logImageViewer) << "ImageInfo::setStatus changing status from:" << imageStatus << "to:" << status;
         imageStatus = status;
         Q_EMIT statusChanged();
     }
@@ -571,7 +660,9 @@ void ImageInfo::setStatus(ImageInfo::Status status)
  */
 bool ImageInfo::updateData(const QSharedPointer<ImageInfoData> &newData)
 {
+    qCDebug(logImageViewer) << "ImageInfo::updateData called with newData:" << newData;
     if (newData == data) {
+        qCDebug(logImageViewer) << "ImageInfo::updateData returning false because newData is the same as data";
         return false;
     }
     ImageInfoData::Ptr oldData = data;
@@ -579,27 +670,33 @@ bool ImageInfo::updateData(const QSharedPointer<ImageInfoData> &newData)
 
     bool change = false;
     if (oldData->type != newData->type) {
+        qCDebug(logImageViewer) << "ImageInfo::updateData changing type from:" << oldData->type << "to:" << newData->type;
         Q_EMIT typeChanged();
         change = true;
     }
     if (oldData->size != newData->size) {
+        qCDebug(logImageViewer) << "ImageInfo::updateData changing size from:" << oldData->size << "to:" << newData->size;
         Q_EMIT widthChanged();
         Q_EMIT heightChanged();
         change = true;
     }
     if (oldData->frameIndex != newData->frameIndex) {
+        qCDebug(logImageViewer) << "ImageInfo::updateData changing frameIndex from:" << oldData->frameIndex << "to:" << newData->frameIndex;
         Q_EMIT frameIndexChanged();
         change = true;
     }
     if (oldData->frameCount != newData->frameCount) {
+        qCDebug(logImageViewer) << "ImageInfo::updateData changing frameCount from:" << oldData->frameCount << "to:" << newData->frameCount;
         Q_EMIT frameCountChanged();
         change = true;
     }
     if (oldData->exist != newData->exist) {
+        qCDebug(logImageViewer) << "ImageInfo::updateData changing exist from:" << oldData->exist << "to:" << newData->exist;
         Q_EMIT existsChanged();
         change = true;
     }
 
+    qCDebug(logImageViewer) << "ImageInfo::updateData returning:" << change;
     return change;
 }
 
@@ -609,19 +706,23 @@ bool ImageInfo::updateData(const QSharedPointer<ImageInfoData> &newData)
  */
 void ImageInfo::refreshDataFromCache(bool reload)
 {
+    qCDebug(logImageViewer) << "ImageInfo::refreshDataFromCache called with reload:" << reload;
     QString localPath = imageUrl.toLocalFile();
     if (localPath.isEmpty()) {
         qCWarning(logImageViewer) << "Empty image path";
+        qCDebug(logImageViewer) << "ImageInfo::refreshDataFromCache setting status to Error";
         setStatus(Error);
         return;
     }
 
     ImageInfoData::Ptr newData = CacheInstance()->find(localPath, currentIndex);
+    qCDebug(logImageViewer) << "ImageInfo::refreshDataFromCache newData:" << newData;
     if (newData) {
         if (data) {
             // 刷新旧数据，需发送部分更新信号，确有数据变更再发送 infoChanged()
             if (updateData(newData)) {
                 qCDebug(logImageViewer) << "Image data updated:" << localPath << "frame:" << currentIndex;
+                qCDebug(logImageViewer) << "ImageInfo::refreshDataFromCache emitting infoChanged";
                 Q_EMIT infoChanged();
             }
         } else {
@@ -632,6 +733,7 @@ void ImageInfo::refreshDataFromCache(bool reload)
 
         setStatus(data->isError() ? Error : Ready);
     } else {
+        qCDebug(logImageViewer) << "ImageInfo::refreshDataFromCache no newData found";
         if (reload) {
             qCDebug(logImageViewer) << "Requesting image reload:" << localPath << "frame:" << currentIndex;
             setStatus(Loading);
@@ -641,6 +743,7 @@ void ImageInfo::refreshDataFromCache(bool reload)
             setStatus(Error);
         }
     }
+    qCDebug(logImageViewer) << "ImageInfo::refreshDataFromCache finished";
 }
 
 /**
@@ -649,10 +752,14 @@ void ImageInfo::refreshDataFromCache(bool reload)
  */
 void ImageInfo::onLoadFinished(const QString &path, int frameIndex)
 {
+    qCDebug(logImageViewer) << "ImageInfo::onLoadFinished called with path:" << path << "frameIndex:" << frameIndex;
     if (imageUrl.toLocalFile() == path && currentIndex == frameIndex) {
         // 从缓存刷新数据，不重新加载
         refreshDataFromCache(false);
+    } else {
+        qCDebug(logImageViewer) << "Loaded image does not match current image, skipping update.";
     }
+    qCDebug(logImageViewer) << "ImageInfo::onLoadFinished finished";
 }
 
 /**
@@ -660,12 +767,16 @@ void ImageInfo::onLoadFinished(const QString &path, int frameIndex)
  */
 void ImageInfo::onSizeChanged(const QString &path, int frameIndex)
 {
+    qCDebug(logImageViewer) << "ImageInfo::onSizeChanged called with path:" << path << "frameIndex:" << frameIndex;
     if (imageUrl.toLocalFile() == path && currentIndex == frameIndex) {
+        qCDebug(logImageViewer) << "ImageInfo::onSizeChanged updating width and height";
         if (data) {
+            qCDebug(logImageViewer) << "ImageInfo::onSizeChanged emitting widthChanged and heightChanged";
             Q_EMIT widthChanged();
             Q_EMIT heightChanged();
         }
     }
+    qCDebug(logImageViewer) << "ImageInfo::onSizeChanged finished";
 }
 
 #include "imageinfo.moc"
