@@ -4,122 +4,122 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Fullscreen</source>
         <translation>Ecran complet</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
-        <source>Exit fullscreen</source>
-        <translation>Ieșire din ecran complet</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
-        <source>Extract text</source>
-        <translation>Extraudă textul</translation>
+        <source>Exit fullscreen</source>
+        <translation>Ieși din ecran complet</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
+        <source>Extract text</source>
+        <translation>Extraudă text</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Slide show</source>
         <translation>Show de diapozitive</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Rename</source>
         <translation>Redenumește</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Copy</source>
         <translation>Copiază</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Delete</source>
         <translation>Șterge</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
-        <source>Rotate clockwise</source>
-        <translation>Rotire în sensul acelor de ceasornic</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="813"/>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotire în sens invers acelor de ceasornic</translation>
+        <source>Rotate clockwise</source>
+        <translation>Rotire în sens orar</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="817"/>
-        <source>Set as wallpaper</source>
-        <translation>Setează ca fundal de ecran</translation>
+        <source>Rotate counterclockwise</source>
+        <translation>Rotire în sens antiorar</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="821"/>
-        <source>Display in file manager</source>
-        <translation>Afișează în gestorul de fișiere</translation>
+        <source>Set as wallpaper</source>
+        <translation>Setează ca fundal</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="825"/>
+        <source>Display in file manager</source>
+        <translation>Afisează în managerul de fișiere</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Image info</source>
         <translation>Informații imagine</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
-        <translation>Precedent</translation>
+        <translation>Anterior</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
         <translation>Următor</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
-        <source>Zoom in</source>
-        <translation>Mărește</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
-        <source>Zoom out</source>
-        <translation>Micșorează</translation>
+        <source>Zoom in</source>
+        <translation>Zoom in</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
+        <source>Zoom out</source>
+        <translation>Zoom out</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Open</source>
         <translation>Deschide</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
-        <translation>Printează</translation>
+        <translation>Imprima</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Image Viewing</source>
         <translation>Vizualizare imagine</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>Ajutor</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
-        <translation>Afișează scurtături</translation>
+        <translation>Afisează scurtături</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
         <translation>Setări</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
         <translation>Selectează tot</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
         <translation>Text viu</translation>
     </message>
@@ -159,12 +159,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Exposure program</source>
-        <translation>Program de expunere</translation>
+        <translation>Programa de expunere</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="169"/>
         <source>Focal length</source>
-        <translation>Lungimea focului</translation>
+        <translation>Lungimea focală</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="175"/>
@@ -194,7 +194,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
         <source>Colorspace</source>
-        <translation>Spațiul de culori</translation>
+        <translation>Spațiul de culoare</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
@@ -253,9 +253,9 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Select pictures</translation>
+        <translation>Selectați imagini</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Image file not found</translation>
+        <translation>Fișierul de imagine nu a fost găsit</translation>
     </message>
 </context>
 <context>
@@ -271,7 +271,7 @@
     <message>
         <location filename="../qml/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>Deschide Imagine</translation>
+        <translation>Deschide imagine</translation>
     </message>
 </context>
 <context>
@@ -279,7 +279,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>Fișierul există deja, vă rugăm să utilizați un alt nume</translation>
+        <translation>Fișierul există deja, vă rugăm să folosiți un alt nume</translation>
     </message>
 </context>
 <context>
@@ -287,7 +287,7 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>Vizualizator de imagini</translation>
+        <translation>Vizorul de imagini</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
@@ -297,7 +297,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Vizualizatorul de imagini este un instrument de vizualizare a imaginilor cu interfață modernă și performanță fluidă.</translation>
+        <translation>Vizorul de imagini este un instrument de vizualizare a imaginilor cu interfață modernă și performanță fluidă.</translation>
     </message>
 </context>
 <context>
@@ -305,30 +305,30 @@
     <message>
         <location filename="../qml/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation>Introduceți un nume nou</translation>
+        <translation>Introduceți un nou nume</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>Anulare</translation>
+        <translation>Fișierul există deja, vă rugăm să folosiți un alt nume</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
         <source>Cancel</source>
-        <translation>Confirmare</translation>
+        <translation>Anulare</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>Confirma</translation>
+        <translation>Confirmați</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>Această acțiune nu poate fi anulată</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>Nu puteți muta &quot;%1&quot; în coșul de unde. Doriți să ștergeți definitiv fișierul?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
@@ -338,12 +338,12 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation>Anulează</translation>
+        <translation>Anulare</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation>Confirma</translation>
+        <translation>Confirmați</translation>
     </message>
 </context>
 <context>
@@ -351,7 +351,7 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="155"/>
         <source>Previous</source>
-        <translation>Precedent</translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
@@ -361,7 +361,7 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Play</source>
-        <translation>Joc</translation>
+        <translation>Redare</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
@@ -371,7 +371,7 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
         <source>Exit</source>
-        <translation>Ieși</translation>
+        <translation>Ieșire</translation>
     </message>
 </context>
 <context>
@@ -384,30 +384,30 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="148"/>
         <source>Previous</source>
-        <translation>Precedent</translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation>Mărimea originală</translation>
+        <translation>Dimensiune originală</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
         <translation>Adaptează la fereastră</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
         <translation>Rotire</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation>Extraudă textul</translation>
+        <translation>Extraudă text</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
         <translation>Șterge</translation>
     </message>
@@ -422,17 +422,17 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Exit fullscreen</source>
-        <translation>Ieși din ecran complet</translation>
+        <translation>Ieșire din ecran complet</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="57"/>
         <source>Print</source>
-        <translation>Printează</translation>
+        <translation>Imprimare</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation>Extraudă textul</translation>
+        <translation>Extraudă text</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
@@ -442,7 +442,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="117"/>
         <source>Copy</source>
-        <translation>Copiază</translation>
+        <translation>Copiere</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="137"/>
@@ -457,12 +457,12 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="183"/>
         <source>Rotate clockwise</source>
-        <translation>Rotire în sens orar</translation>
+        <translation>Rotire în sensul acelor de ceasornic</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>Rotire în sens antiorar</translation>
+        <translation>Rotire în sens invers acelor de ceasornic</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
@@ -482,7 +482,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>Afisează în administratorul fișierelor</translation>
+        <translation>Afisează în gestorul de fișiere</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
@@ -493,17 +493,25 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer este un instrument de vizualizare a imaginilor cu interfață modernă și performanță fluidă.</translation>
+        <translation>Vizorul de imagini este un instrument de vizualizare a imaginilor cu interfață modernă și performanță fluidă.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation>Image Viewer</translation>
+        <translation>Vizorul de imagini</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>Versiune</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 este lansată sub %2&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
         <translation>Deschide imaginea</translation>
     </message>

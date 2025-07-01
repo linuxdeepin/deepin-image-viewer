@@ -1,125 +1,123 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sr">
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Fullscreen</source>
         <translation>Цео екран</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
+        <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Exit fullscreen</source>
         <translation>Напусти цео екран</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="789"/>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Extract text</source>
         <translation>Издвоји текст</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Slide show</source>
         <translation>Покретни приказ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Rename</source>
         <translation>Преименуј</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Copy</source>
         <translation>Копирај</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Delete</source>
         <translation>Обриши</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate clockwise</source>
         <translation>Ротирај удесно</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Rotate counterclockwise</source>
         <translation>Ротирај улево</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Set as wallpaper</source>
         <translation>Постави као позадину</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Display in file manager</source>
         <translation>Прикажи у управнику података</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Image info</source>
         <translation>Својства слике</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
         <translation>Претходно</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
         <translation>Следеће</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom in</source>
         <translation>Повећај</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Zoom out</source>
         <translation>Смањи</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Open</source>
         <translation>Отвори</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
         <translation>Штампај</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Image Viewing</source>
         <translation>Преглед слика</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>Помоћ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
         <translation>Прикажи пречице</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
         <translation>Подешавања</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
         <translation>Изабери све</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
         <translation>Жив текст</translation>
     </message>
@@ -253,7 +251,7 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
         <translation>Изабери слике</translation>
     </message>
@@ -310,7 +308,7 @@
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>Датотека већ постоји, молим користите друго име</translation>
+        <translation>Фајл већ постоји, молим користите други назив</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
@@ -327,13 +325,13 @@
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>Не може се премести "%1" у кошицу. Да ли желите да је окончано обришете?</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>Не може се преселити &quot;%1&quot; у кошицу. Желите ли да једнократно обришете?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>Ова радња не може бити поништена</translation>
+        <translation>Ова акција не може да се поништи</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -392,22 +390,22 @@
         <translation>Оригинална величина</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
         <translation>Уклопи у прозор</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation>Обртај</translation>
+        <translation>Поврћи</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
         <translation>Издвоји текст</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
         <translation>Обриши</translation>
     </message>
@@ -493,17 +491,25 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation>Прегледач Слика је алат за приказ слика са савременим сучељем и добрим учинком.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
         <translation>Прегледач Слика</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>Верзија</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 је објављен под %2&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
         <translation>Отвори слику</translation>
     </message>

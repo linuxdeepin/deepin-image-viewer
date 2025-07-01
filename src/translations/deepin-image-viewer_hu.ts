@@ -1,126 +1,124 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu">
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Fullscreen</source>
         <translation>Teljes képernyő</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
+        <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Exit fullscreen</source>
         <translation>Kilépés a teljes képernyős módból</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="789"/>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Extract text</source>
         <translation>Szöveg kivonat</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Slide show</source>
         <translation>Diavetítés</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Rename</source>
         <translation>Átnevezés</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
-        <location filename="../src/filecontrol.cpp" line="893"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
+        <location filename="../src/filecontrol.cpp" line="897"/>
         <source>Copy</source>
         <translation>Másolás</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Delete</source>
         <translation>Törlés</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate clockwise</source>
         <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Rotate counterclockwise</source>
         <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Set as wallpaper</source>
         <translation>Beállítás háttérképként</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Display in file manager</source>
         <translation>Megtekintés a fájlkezelőben</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Image info</source>
         <translation>Kép információ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
         <translation>Előző</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
         <translation>Következő</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom in</source>
         <translation>Nagyítás</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Zoom out</source>
         <translation>Kicsinyítés</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Open</source>
         <translation>Megnyitás</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
         <translation>Nyomtatás</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Image Viewing</source>
         <translation>Kép megtekintése</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>Segítség</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
         <translation>Gyorsbillentyűk megjelenítése</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
         <translation>Beállítások</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
         <translation>Összes kiválasztása</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
         <translation>Élő szöveg</translation>
     </message>
@@ -254,7 +252,7 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
         <translation>Képek kiválasztása</translation>
     </message>
@@ -396,22 +394,22 @@
         <translation>Eredeti méret</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
         <translation>Ablakhoz igazítás</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
         <translation>Elforgatás</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
         <translation>Szöveg kivonat</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
         <translation>Törlés</translation>
     </message>
@@ -497,17 +495,25 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation>A Képnézegető egy képmegtekintő eszköz divatos felülettel és gördülékeny teljesítménnyel.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
         <translation>Képnézegető</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation type="vanished">Verzió</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation type="vanished">%1 kiadásra került %2 alatt</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
         <translation>Kép megnyitása</translation>
     </message>

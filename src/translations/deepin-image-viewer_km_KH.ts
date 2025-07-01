@@ -4,124 +4,124 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
-        <source>Fullscreen</source>
-        <translation>ការបង្ហាញអ៊ីមែលក្នុងទំហំពិត</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
-        <source>Exit fullscreen</source>
-        <translation>ចាកចេញពីការបង្ហាញអ៊ីមែលក្នុងទំហំពិត</translation>
+        <source>Fullscreen</source>
+        <translation>ការបង្ហាញពីរបាយ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
-        <source>Extract text</source>
-        <translation>ដកអត្ថបទ</translation>
+        <source>Exit fullscreen</source>
+        <translation>ចាកចេញពីការបង្ហាញពីរបាយ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
-        <source>Slide show</source>
-        <translation>ស្ទីល ស៊ីវ៉ូ</translation>
+        <source>Extract text</source>
+        <translation>ដកអក្សរ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="797"/>
+        <source>Slide show</source>
+        <translation>បង្ហាញការប្រាសាទ</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Rename</source>
         <translation>ផ្លាស់ប្ដូរឈ្មោះ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Copy</source>
-        <translation>ថត​បន្ទាប់​មក​ចូល​ក្នុង​ទីតាំង​ថ្មី</translation>
+        <translation>ចម្លើយ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Delete</source>
         <translation>លុប</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
-        <source>Rotate clockwise</source>
-        <translation>បង្ុល់​ក្រោយ​ទៅ​ក្រោយ​ដោយ​ក្រោយ​ស្តី​ពី​មុខ</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="813"/>
-        <source>Rotate counterclockwise</source>
-        <translation>បង្ុល់​ក្រោយ​ទៅ​ក្រោយ​ដោយ​ក្រោយ​ស្តី​ពី​ក្រោយ</translation>
+        <source>Rotate clockwise</source>
+        <translation>បង្ុះប្រលោះក្រៅពីក្រោយ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="817"/>
-        <source>Set as wallpaper</source>
-        <translation>កំណត់​ជា​ក្រដាស​ក្រូច</translation>
+        <source>Rotate counterclockwise</source>
+        <translation>បង្ុះប្រលោះក្រៅពីមុន</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="821"/>
-        <source>Display in file manager</source>
-        <translation>បង្ហាញ​នៅ​ក្នុង​កម្មវិធី​គ្រប់គ្រង​ឯកសារ</translation>
+        <source>Set as wallpaper</source>
+        <translation>កំណត់ជាក្រដាសផ្ទះ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="825"/>
-        <source>Image info</source>
-        <translation>ព័ត៌មាន​អ៊ីមែល</translation>
+        <source>Display in file manager</source>
+        <translation>បង្ហាញនៅក្នុងប្រព័ន្ធគ្រប់គ្រងឯកសារ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="829"/>
+        <source>Image info</source>
+        <translation>ព័ត៌មានរូបភាព</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
         <translation>មុន</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
         <translation>បន្ទាប់</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
-        <source>Zoom in</source>
-        <translation>បង្ហាញ​ការ​បន្ទាប់​ចំណុច​ទៅ​ក្រោយ</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
-        <source>Zoom out</source>
-        <translation>បន្ទាប់​ចំណុច​ទៅ​ក្រោយ</translation>
+        <source>Zoom in</source>
+        <translation>ត្រីកោណកើន</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
+        <source>Zoom out</source>
+        <translation>ត្រីកោណថយ</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Open</source>
         <translation>បើក</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
-        <translation>បោះ​ពុត​បោះ​ពុត</translation>
-    </message>
-    <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
-        <source>Image Viewing</source>
-        <translation>ការ​បង្ហាញ​អ៊ីមែល</translation>
+        <translation>បោះពុម្ព</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="877"/>
+        <source>Image Viewing</source>
+        <translation>ការស្គាល់រូបភាព</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>ជំនួយ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
-        <translation>បង្ហាញ​បញ្ជី​ប្រើ​ប្រាស់​ក្រើត</translation>
+        <translation>បង្ហាញការប្រើប្រាស់បន្ទាប់</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
-        <translation>ការ​កំណត់​សំណើរ</translation>
+        <translation>ការកំណត់</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation>ជ្រើស​រើស​ទាំង​អស់</translation>
+        <translation>ជ្រើសរើសទាំងអស់</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation>អត្ថបទ​ស្ថិត​នៅ​ក្នុង​ការ​បង្ហាញ​អ៊ីមែល</translation>
+        <translation>អក្សរស្ថិត</translation>
     </message>
 </context>
 <context>
@@ -129,7 +129,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="74"/>
         <source>Basic info</source>
-        <translation>ព័ត៌មាន​គ្រប់គ្រង​មូលដ្ឋាន</translation>
+        <translation>ព័ត៌មានមូលដ្ឋាន</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
@@ -139,32 +139,32 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>ឯកសារ​ថ្ងៃ​បាន​ថត​រូប</translation>
+        <translation>ថ្ងៃត្រូ (ថ្ងៃដែលបានថត)</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
         <source>Date modified</source>
-        <translation>ថ្ងៃ​ត្រូវ​ការ​កែ​ប្ដូរ</translation>
+        <translation>ថ្ងៃត្រូ (ថ្ងៃដែលបានកែប្ដូរ)</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
         <source>Details</source>
-        <translation>ព័ត៌មាន​បន្ថែម</translation>
+        <translation>ព័ត៌មានបន្ថែម</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="154"/>
         <source>Aperture</source>
-        <translation>ការ​បើក​ប្រមាណ</translation>
+        <translation>ការបើកប្រហួស</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Exposure program</source>
-        <translation>កម្មវិធីការបំពាក់</translation>
+        <translation>កម្មវិធីបង្ហាញ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="169"/>
         <source>Focal length</source>
-        <translation>ប្រវែងកំណត់</translation>
+        <translation>កម្ពស់ប្រភេទ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="175"/>
@@ -174,42 +174,42 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="182"/>
         <source>Exposure mode</source>
-        <translation>ប្រភេទការបំពាក់</translation>
+        <translation>បំណងបង្ហាញ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="188"/>
         <source>Exposure time</source>
-        <translation>ពេលការបំពាក់</translation>
+        <translation>ពេលបង្ហាញ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="194"/>
         <source>Flash</source>
-        <translation>ភ្លើងបំពាក់</translation>
+        <translation>ថ្លើយ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="201"/>
         <source>Flash compensation</source>
-        <translation>ការប្រឈមនឹងភ្លើងបំពាក់</translation>
+        <translation>ការប្រុងប្រយោលថ្លើយ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
         <source>Colorspace</source>
-        <translation>វិស័យពណ៌</translation>
+        <translation>សំណល់ពណ៌</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
         <source>Metering mode</source>
-        <translation>ប្រភេទការវាយតម្លៃ</translation>
+        <translation>ការប្រុងប្រយោលប្រភេទ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
         <source>White balance</source>
-        <translation>សម្រាប់ការសម្រួលពណ៌ខ្មៅ</translation>
+        <translation>ការប្រុងប្រយោលពណ៌ខ្មៅ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="246"/>
         <source>Lens model</source>
-        <translation>មូដែលនៃអំពិល</translation>
+        <translation>មូលដ្ឋានថ្លើយ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
@@ -219,7 +219,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
         <source>Dimensions</source>
-        <translation>វែងទទឹង</translation>
+        <translation>ប្រវែង</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="112"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation>ប្រវែងផ្ទះធំបំផុត</translation>
+        <translation>ប្រវែងការបិទអតិបរមា</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation>មូដែលនៃឧបករណ៍</translation>
+        <translation>មូលដ្ឋានឧបករណ៍</translation>
     </message>
 </context>
 <context>
@@ -242,7 +242,7 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation>ចម្លង (Ctrl+C)</translation>
+        <translation>ថែម (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
@@ -253,9 +253,9 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Select pictures</translation>
+        <translation>ជ្រើសរើសរូបថត</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Image file not found</translation>
+        <translation>ឯកិត្តិយាន់មិនបានរកឃើញ</translation>
     </message>
 </context>
 <context>
@@ -271,7 +271,7 @@
     <message>
         <location filename="../qml/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>បើករូបភាព</translation>
+        <translation>បើករូបថត</translation>
     </message>
 </context>
 <context>
@@ -279,7 +279,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>ឯកសារនេះត្រូវបានប្រើប្រាស់ដែលមានរួចហើយ សូមប្រើឈ្មោះផ្សេងទៀត</translation>
+        <translation>ឯកសារនេះមានហើយ សូមប្រើឈ្មោះផ្សេងទៀត</translation>
     </message>
 </context>
 <context>
@@ -287,7 +287,7 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>កម្មវិធីបញ្ញតិ្តរូបភាព</translation>
+        <translation>កម្មវិធីបើករូបថត</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
@@ -297,7 +297,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>កម្មវិធីបញ្ញតិ្តរូបភាព គឺជាប្រព័ន្ធបញ្ញតិ្តរូបភាពដែលមានបំពាក់ដែលមានទំនុកច្រៀង និងប្រព័ន្ធមានប្រសិទ្ធភាពខ្ពស់។</translation>
+        <translation>កម្មវិធីបើករូបថតគឺជាប្រភេទបើករូបថតដែលមានបំណងប្រើប្រាស់ និងប្រតិបត្តិការដោយប្រសិទៈ</translation>
     </message>
 </context>
 <context>
@@ -310,30 +310,30 @@
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>បោះបង់</translation>
+        <translation>ឯកសារនេះមានហើយ សូមប្រើឈ្មោះផ្សេងទៀត</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
         <source>Cancel</source>
-        <translation>បញ្ជាក់</translation>
+        <translation>បិទ</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>បញ្ជាក់</translation>
+        <translation>បញ្ចាក់</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>សកម្មភាពនេះមិនអាចបញ្ចុះបញ្ចូលបាន</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>មិនអាចផ្ទះ &quot;%1&quot; ទៅកាន់ប្រអប់បំបែកទេ។ តើអ្នកចង់លុបវាទៅកាន់កាន់តែអស់ប៉ុន្មាន?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>បោះបង់</translation>
+        <translation>សកម្មភាពនេះមិនអាចប្រថុយបាន</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -356,7 +356,7 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Pause</source>
-        <translation>ឈប់</translation>
+        <translation>បិទ</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
@@ -371,7 +371,7 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
         <source>Exit</source>
-        <translation>ចេញ</translation>
+        <translation>ចាកចេញ</translation>
     </message>
 </context>
 <context>
@@ -392,22 +392,22 @@
         <translation>ទំហំដើម</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
-        <translation>បម្លែងទៅកាន់ប្រព័ន្ធផ្ទៃ</translation>
+        <translation>បម្រុងទៅនឹងប្រព័ន្ធមើល</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation>បង្វិល</translation>
+        <translation>ប្តួល</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation>ដកអត្ថបទ</translation>
+        <translation>ដកអក្សរ</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
         <translation>លុប</translation>
     </message>
@@ -417,32 +417,32 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Fullscreen</source>
-        <translation>មើលនៅទំហំពេញអេក្រង់</translation>
+        <translation>អ៊ីមែលសំបុក</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Exit fullscreen</source>
-        <translation>ចេញពីទំហំពេញអេក្រង់</translation>
+        <translation>ចាកចេញពីអ៊ីមែលសំបុក</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="57"/>
         <source>Print</source>
-        <translation>ប្រើប្រាស់</translation>
+        <translation>បង្ហាញ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation>ដកអត្ថបទ</translation>
+        <translation>ដកអក្សរ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
         <source>Slide show</source>
-        <translation>ការបង្ហាញតំណរ</translation>
+        <translation>ការបង្ហាញស្នើល</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="117"/>
         <source>Copy</source>
-        <translation>ថតច្បាប់</translation>
+        <translation>ថត</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="137"/>
@@ -457,55 +457,63 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="183"/>
         <source>Rotate clockwise</source>
-        <translation>បង្វិលទៅក្រោយ</translation>
+        <translation>ប្តួលតាមទម្រង់ម៉ូដែល</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>បង្វិលទៅមុន</translation>
+        <translation>ប្តួលតាមទម្រង់ប្រឆាំងម៉ូដែល</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation>បង្ហាញប្រព័ន្ធផ្ទៃនាំដំណើរ</translation>
+        <translation>បង្ហាញប្រព័ន្ធមើល</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Hide navigation window</source>
-        <translation>បិទប្រព័ន្ធផ្ទៃនាំដំណើរ</translation>
+        <translation>លាក់ប្រព័ន្ធមើល</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
         <source>Set as wallpaper</source>
-        <translation>កំណត់ជាមុខរបស់ទំព័រ</translation>
+        <translation>កំណត់ជាបំពង់ការ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>បង្ហាញនៅក្នុងកម្មវិធីគ្រប់គ្រងឯកសារ</translation>
+        <translation>បង្ហាញនៅក្នុងប្រព័ន្ធការបម្លែង</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
         <source>Image info</source>
-        <translation>ពត៌មានរូបថត</translation>
+        <translation>ព័ត៌មានរូបភាព</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>កម្មវិធីមើលរូបថតគឺជាកម្មវិធីមើលរូបថតដែលមានបំណងស្រស់ស្អាត និងប្រតិបត្តិការរលើរលួន។</translation>
+        <translation>កម្មវិធីមើលរូប គឺជាកម្មវិធីមើលរូប ដែលមានបំពេញប្រព័ន្ធមួយ និងប្រតិបត្តិការរលុង។</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation>កម្មវិធីមើលរូបថត</translation>
+        <translation>កម្មវិធីមើលរូប</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>ទំរង់</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 បានបំពាក់នៅក្រោម %2&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>បើករូបថត</translation>
+        <translation>បើករូប</translation>
     </message>
 </context>
 </TS>

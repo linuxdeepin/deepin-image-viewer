@@ -4,124 +4,124 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
-        <source>Fullscreen</source>
-        <translation>पूर्ण पृष्ठ</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
-        <source>Exit fullscreen</source>
-        <translation>पूर्ण पृष्ठ बंद करें</translation>
+        <source>Fullscreen</source>
+        <translation>पूर्ण एक्शन</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
-        <source>Extract text</source>
-        <translation>लेख निकालें</translation>
+        <source>Exit fullscreen</source>
+        <translation>पूर्ण एक्शन छोड़ें</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
+        <source>Extract text</source>
+        <translation>पाठ निकालें</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Slide show</source>
         <translation>स्लाइड शो</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Rename</source>
-        <translation>पुनर्नामकरण</translation>
+        <translation>नाम बदलें</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Copy</source>
         <translation>कॉपी करें</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Delete</source>
         <translation>हटाएं</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate clockwise</source>
         <translation>घड़ी की ओर घुमाएं</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Rotate counterclockwise</source>
         <translation>घड़ी के विपरीत दिशा में घुमाएं</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Set as wallpaper</source>
         <translation>वॉलपेपर के रूप में सेट करें</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Display in file manager</source>
         <translation>फ़ाइल मैनेजर में दिखाएं</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Image info</source>
-        <translation>छवि जानकारी</translation>
+        <translation>चित्र जानकारी</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
         <translation>पिछला</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
         <translation>अगला</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom in</source>
         <translation>ज़ूम इन</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Zoom out</source>
         <translation>ज़ूम आउट</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Open</source>
         <translation>खोलें</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
         <translation>प्रिंट करें</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Image Viewing</source>
-        <translation>छवि देखो</translation>
+        <translation>चित्र देखना</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>सहायता</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
         <translation>शॉर्टकट दिखाएं</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
         <translation>सेटिंग्स</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation>सभी को चुनें</translation>
+        <translation>सभी का चयन करें</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation>जीवित लेख</translation>
+        <translation>जीवित पाठ</translation>
     </message>
 </context>
 <context>
@@ -139,12 +139,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>लेने की तारीख</translation>
+        <translation>लेते की तारीख</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
         <source>Date modified</source>
-        <translation>संपादित की गई तारीख</translation>
+        <translation>संशोधित की तारीख</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
@@ -159,7 +159,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Exposure program</source>
-        <translation>अनुकूलन कार्यक्रम</translation>
+        <translation>अभिव्यक्ति कार्यक्रम</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="169"/>
@@ -174,12 +174,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="182"/>
         <source>Exposure mode</source>
-        <translation>अनुकूलन मोड</translation>
+        <translation>अभिव्यक्ति मोड</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="188"/>
         <source>Exposure time</source>
-        <translation>अनुकूलन समय</translation>
+        <translation>अभिव्यक्ति समय</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="194"/>
@@ -194,17 +194,17 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
         <source>Colorspace</source>
-        <translation>रंग अंतर</translation>
+        <translation>रंग स्पेस</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
         <source>Metering mode</source>
-        <translation>मीट्रिंग मोड</translation>
+        <translation>मीटरिंग मोड</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
         <source>White balance</source>
-        <translation>सफ़ेद संतुलन</translation>
+        <translation>व्हाइट बैलेंस</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="246"/>
@@ -253,9 +253,9 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Select pictures</translation>
+        <translation>चित्र चुनें</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Image file not found</translation>
+        <translation>छवि फ़ाइल नहीं मिली</translation>
     </message>
 </context>
 <context>
@@ -287,7 +287,7 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>छवि देखें</translation>
+        <translation>छवि देखने वाला</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
@@ -297,7 +297,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>छवि देखें एक छवि देखने के उपकरण है, जो आधुनिक इंटरफ़ेस और बुनियादी कार्य के साथ है।</translation>
+        <translation>छवि देखने वाला एक छवि देखने के उपकरण है, जिसमें आधुनिक इंटरफ़ेस और चलाने में आसान प्रदर्शन है।</translation>
     </message>
 </context>
 <context>
@@ -327,13 +327,13 @@
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>इस कार्रवाई को अनुमोदित नहीं किया जा सकता है</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>आप &quot;%1&quot; को घुटे में नहीं ले सकते। आप इसे अनिवार्य रूप से मिटाना चाहते हैं?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>रद्द करें</translation>
+        <translation>इस कार्रवाई को वापस नहीं ले जा सकते</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -392,22 +392,22 @@
         <translation>मूल आकार</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
-        <translation>खिड़की के अनुसार फिट करें</translation>
+        <translation>खिड़की में फिट करें</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation>चुक्रित करें</translation>
+        <translation>चक्कर करें</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
         <translation>पाठ निकालें</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
         <translation>हटाएं</translation>
     </message>
@@ -417,12 +417,12 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Fullscreen</source>
-        <translation>फुलस्क्रीन</translation>
+        <translation>पूर्ण पृष्ठ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Exit fullscreen</source>
-        <translation>फुलस्क्रीन बाहर निकलें</translation>
+        <translation>पूर्ण पृष्ठ से बाहर निकलें</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="57"/>
@@ -457,22 +457,22 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="183"/>
         <source>Rotate clockwise</source>
-        <translation>घड़ी की दिशा में चुक्रित करें</translation>
+        <translation>समय के अनुसार चक्कर करें</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>घड़ी की दिशा के विपरीत चुक्रित करें</translation>
+        <translation>विपरीत दिशा में चक्कर करें</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation>नेविगेशन विंडो दिखाएं</translation>
+        <translation>नेविगेशन खिड़की दिखाएं</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Hide navigation window</source>
-        <translation>नेविगेशन विंडो छुपाएं</translation>
+        <translation>नेविगेशन खिड़की छुपाएं</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
@@ -482,7 +482,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>फ़ाइल मैनेजर में दिखाएं</translation>
+        <translation>फाइल मैनेजर में दिखाएं</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
@@ -493,19 +493,27 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>ईमेज व्यूअर एक छवि देखने के टूल है, जिसमें आधुनिक इंटरफ़ेस और चलाने के लिए चलाने योग्य प्रदर्शन है।</translation>
+        <translation>इमेज व्यूअर एक इमेज देखने का टूल है जिसमें आधुनिक इंटरफेस और स्मूद प्रदर्शन है।</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation>ईमेज व्यूअर</translation>
+        <translation>इमेज व्यूअर</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>संस्करण</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 %2 के तहत जारी किया गया है&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>छवि खोलें</translation>
+        <translation>इमेज खोलें</translation>
     </message>
 </context>
 </TS>

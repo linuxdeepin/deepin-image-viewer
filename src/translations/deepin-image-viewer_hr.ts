@@ -1,125 +1,123 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hr">
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Fullscreen</source>
         <translation>Cijeli zaslon</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
+        <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Exit fullscreen</source>
         <translation>Napusti cijeli zaslon</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="789"/>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Extract text</source>
         <translation>Izvuci tekst</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Slide show</source>
         <translation>Klizni prikaz</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Rename</source>
         <translation>Preimenuj</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Copy</source>
         <translation>Kopiraj</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Delete</source>
         <translation>Izbriši</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate clockwise</source>
         <translation>Zaokreni u smjeru kazaljke na satu</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Rotate counterclockwise</source>
         <translation>Zaokreni u smjeru obrnutom od kazaljke na satu</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Set as wallpaper</source>
         <translation>Postavi kao tapetu</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Display in file manager</source>
         <translation>Prikaži u upravitelju datotekama</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Image info</source>
         <translation>Informacije slike</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
         <translation>Prethodno</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
         <translation>Slijedeće</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom in</source>
         <translation>Povećaj</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Zoom out</source>
         <translation>Smanji</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Open</source>
         <translation>Otvori</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
         <translation>Ispis</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Image Viewing</source>
         <translation>Pregledavanje slika</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>Pomoć</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
         <translation>Prikaži prečace</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
         <translation>Postavke</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
         <translation>Odaberi sve</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
         <translation>Živ tekst</translation>
     </message>
@@ -139,7 +137,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>Datum snimljen</translation>
+        <translation>Datum snimanja</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
@@ -154,7 +152,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="154"/>
         <source>Aperture</source>
-        <translation>Zapremina otvora</translation>
+        <translation>Zraka otvora</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
@@ -189,7 +187,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="201"/>
         <source>Flash compensation</source>
-        <translation>Kompensacija svetla</translation>
+        <translation>Kompensacija reflektora</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
@@ -199,7 +197,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
         <source>Metering mode</source>
-        <translation>Način mjerila</translation>
+        <translation>Način mjerenja</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
@@ -229,7 +227,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation>Maksimalna zapremina otvora</translation>
+        <translation>Maksimalna zraka otvora</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
@@ -253,7 +251,7 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
         <translation>Odaberi slike</translation>
     </message>
@@ -297,7 +295,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Slika Viewer je alat za pregled slika s modernim interfejsom i glatkom performansom.</translation>
+        <translation>Slika pregledač je alat za pregled slika s modernim sučeljem i smotnim performansama.</translation>
     </message>
 </context>
 <context>
@@ -327,13 +325,13 @@
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>Nije moguće premjestiti "%1" u smeće. Želite li trajno izbrisati?</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>Ne možete pomicati &quot;%1&quot; u smeće. Želite li zauvijek izbrisati?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>Ova akcija ne može biti poništena</translation>
+        <translation>Ova akcija ne može biti povučena</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -361,7 +359,7 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Play</source>
-        <translation>Pocni</translation>
+        <translation>Pronađi</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
@@ -392,22 +390,22 @@
         <translation>Izvorna veličina</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
         <translation>Pristaje u prozor</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
         <translation>Rotiraj</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
         <translation>Izvuci tekst</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
         <translation>Izbriši</translation>
     </message>
@@ -493,17 +491,25 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Slika Viewer je alat za pregled slika s modernim interfejsom i glatkom performansom.</translation>
+        <translation>Slika pregledač je alat za pregled slika s modernim sučeljem i smotnim performansama.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
         <translation>Preglednik slika</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation type="vanished">Inačica</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 je objavljen pod %2&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
         <translation>Otvori sliku</translation>
     </message>

@@ -4,124 +4,124 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
-        <source>Fullscreen</source>
-        <translation>ಪೂರ್ಣ ಸ್ಕ್ರೀನ್</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
-        <source>Exit fullscreen</source>
-        <translation>ಪೂರ್ಣ ಸ್ಕ್ರೀನ್ ಬಿಡಿಸಿ</translation>
+        <source>Fullscreen</source>
+        <translation>ಒಂದು ಕ್ರಮದಲ್ಲಿ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
-        <source>Extract text</source>
-        <translation>ಪಠ್ಯವನ್ನು ಪಡೆಯಿರಿ</translation>
+        <source>Exit fullscreen</source>
+        <translation>ಒಂದು ಕ್ರಮದಿಂದ ಹೊರಬರು</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
+        <source>Extract text</source>
+        <translation>ಪಠ್ಯವನ್ನು ತೆಗೆಯು</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Slide show</source>
         <translation>ಸ್ಲೈಡ್ ಶೋ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
-        <source>Rename</source>
-        <translation>ಪುನರ್ನಾಮಕರಣ</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="801"/>
-        <source>Copy</source>
-        <translation>ನಕಲಿಸಿ</translation>
+        <source>Rename</source>
+        <translation>ಮರುನಾಮಕರಣ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="805"/>
-        <source>Delete</source>
-        <translation>ಅಪ್ಪಾಗಿ</translation>
+        <source>Copy</source>
+        <translation>ನಕಲು</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="809"/>
-        <source>Rotate clockwise</source>
-        <translation>ಕ್ರಾಂಟಿಕ್ಲೋಕ್ವೀಸ್ ಮಾಡಿ</translation>
+        <source>Delete</source>
+        <translation>ಅಪ್ಪಾದಿಸು</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="813"/>
-        <source>Rotate counterclockwise</source>
-        <translation>ಕೌಂಟರ್ಕ್ರಾಂಟಿಕ್ಲೋಕ್ವೀಸ್ ಮಾಡಿ</translation>
+        <source>Rotate clockwise</source>
+        <translation>ಸೌಂದರ್ಯದ ದಿಶೆಯಲ್ಲಿ ಸ್ಥಳಾಂತರಿಸು</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="817"/>
-        <source>Set as wallpaper</source>
-        <translation>ವಾಲ್ಪೇಪರ್ ಆಗಿ ನಿಯಮಿಸಿ</translation>
+        <source>Rotate counterclockwise</source>
+        <translation>ಸೌಂದರ್ಯದ ವಿರುದ್ಧ ದಿಶೆಯಲ್ಲಿ ಸ್ಥಳಾಂತರಿಸು</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="821"/>
-        <source>Display in file manager</source>
-        <translation>ಫೈಲ್ ಮ್ಯಾನೇಜರ್ ನಲ್ಲಿ ತೋರಿಸಿ</translation>
+        <source>Set as wallpaper</source>
+        <translation>ವಾಷ್ಪೇಪ್ ಆಗಿ ನಿಯಮಿಸು</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="825"/>
-        <source>Image info</source>
-        <translation>ಚಿತ್ರ ಮಾಹಿತಿ</translation>
+        <source>Display in file manager</source>
+        <translation>ಫೈಲ್ ಮ್ಯಾನಿಜರ್ ನಲ್ಲಿ ತೋರಿಸು</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="829"/>
+        <source>Image info</source>
+        <translation>ಚಿತ್ರ ಮಾಹಿಣಿ</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
         <translation>ಮುಂಚೆ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
         <translation>ಮುಂದೆ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
-        <source>Zoom in</source>
-        <translation>ಅಳವಡಿಸಿ</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
-        <source>Zoom out</source>
-        <translation>ಅಳವಡಿಸಿ</translation>
+        <source>Zoom in</source>
+        <translation>ಪ್ರದರ್ಶನದಲ್ಲಿ ಹೆಚ್ಚಿಸು</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
-        <source>Open</source>
-        <translation>ಪ್ರವೇಶ</translation>
+        <source>Zoom out</source>
+        <translation>ಪ್ರದರ್ಶನದಲ್ಲಿ ಕಡಿಮೆ ಮಾಡು</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="849"/>
-        <source>Print</source>
-        <translation>ಪ್ರಿಂಟ್</translation>
+        <source>Open</source>
+        <translation>ಆರಂಭಿಸು</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
-        <source>Image Viewing</source>
-        <translation>ಚಿತ್ರ ನೋಡುವ</translation>
+        <location filename="../src/filecontrol.cpp" line="853"/>
+        <source>Print</source>
+        <translation>ಪ್ರಿಂಟ್ ಮಾಡು</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="877"/>
+        <source>Image Viewing</source>
+        <translation>ಚಿತ್ರ ಪ್ರದರ್ಶನ</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>ಸಹಾಯ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
-        <translation>ಶರ್ಟ್ಕಟ್‌ಗಳನ್ನು ತೋರಿಸಿ</translation>
+        <translation>ಶೋರ್ಟ್ಕಟ್ಗಳನ್ನು ತೋರಿಸು</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
         <translation>ಸೆಟ್ಟಿಂಗ್ಸ್</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation>ನಿಮ್ಮದು ಎಲ್ಲ</translation>
+        <translation>ಕೆಲಸದಲ್ಲಿ ಎಲ್ಲವನ್ನು ಆಯ್ಕೆ ಮಾಡು</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation>ಲೈವ್ ಪಠ್ಯ</translation>
+        <translation>ಜೀವಂತ ಪಠ್ಯ</translation>
     </message>
 </context>
 <context>
@@ -129,22 +129,22 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="74"/>
         <source>Basic info</source>
-        <translation>ಬೇಸಿಕ್ ಮಾಹಿತಿ</translation>
+        <translation>ಮುಖ್ಯ ಮಾಹಿತಿ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
         <source>Size</source>
-        <translation>ಆಕಾರ</translation>
+        <translation>ಮಟ್ಟಿಗೆ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>ವಿಶೇಷ ದಿನಾಂಕ</translation>
+        <translation>ಪತ್ತಿರಿಸಲ್ಪಟ್ಟ ದಿನಾಂಕ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
         <source>Date modified</source>
-        <translation>ಸುಧಾರಣೆ ದಿನಾಂಕ</translation>
+        <translation>ಸುಧಾರಣೆಗೆ ಗುರುತಿಸಲ್ಪಟ್ಟ ದಿನಾಂಕ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
@@ -159,12 +159,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Exposure program</source>
-        <translation>ಪ್ರೋಗ್ರಾಮ್ ಅನ್ನು ಪ್ರಕಾಶನ</translation>
+        <translation>ಬೆಂಕಿ ಸ್ಥಿತಿ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="169"/>
         <source>Focal length</source>
-        <translation>ಫೋಕಲ್ ಲೆಂತ್</translation>
+        <translation>ಫೋಕಲ್ ಲೆಂಗ್ತ್</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="175"/>
@@ -174,12 +174,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="182"/>
         <source>Exposure mode</source>
-        <translation>ಪ್ರಕಾಶನ ಮೋಡ್</translation>
+        <translation>ಬೆಂಕಿ ಆಂತರಿಕ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="188"/>
         <source>Exposure time</source>
-        <translation>ಪ್ರಕಾಶನ ಸಮಯ</translation>
+        <translation>ಬೆಂಕಿ ಸಮಯ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="194"/>
@@ -189,37 +189,37 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="201"/>
         <source>Flash compensation</source>
-        <translation>ಫ್ಲಾಶ್ ಕಂಪೆನ್ಸೇಶನ್</translation>
+        <translation>ಫ್ಲಾಶ್ ಪೂರ್ವಾಭಿಮಾನ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
         <source>Colorspace</source>
-        <translation>ಕೋಲರ್ಸ್ಪೇಸ್</translation>
+        <translation>ಕಂಪ್ಯಾನ್ ಸ್ಪೇಸ್</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
         <source>Metering mode</source>
-        <translation>ಮೀಟರಿಂಗ್ ಮೋಡ್</translation>
+        <translation>ಮೀಟರಿಂಗ್ ಆಂತರಿಕ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
         <source>White balance</source>
-        <translation>ವೈಟ್ ಬಲೆನ್ಸ್</translation>
+        <translation>ವೈಟ್ ಬ್ಯಾಲೆನ್ಸ್</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="246"/>
         <source>Lens model</source>
-        <translation>ಲೆಂಸ್ ಮಾದರಿ</translation>
+        <translation>ಲೆನ್ಸ್ ಮಾದರಿ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
         <source>File name</source>
-        <translation>ಅಂತರ್ಗತ ಹೆಸರು</translation>
+        <translation>ಫೈಲ್ ಹೆಸರು</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
         <source>Dimensions</source>
-        <translation>ಅಳತೆಗಳು</translation>
+        <translation>ಆವೃತ್ತಿಗಳು</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="112"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation>ಮೇಕ್ಸ್ ಅಪರ್ಚರ್</translation>
+        <translation>ಮ್ಯಾಕ್ ಅಪರ್ಚರ್</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation>ಉಪಕರಣ ಮಾದರಿ</translation>
+        <translation>ದೇವಿಸ್ ಮಾದರಿ</translation>
     </message>
 </context>
 <context>
@@ -242,20 +242,20 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation>ನಕಲಿಸಿ (Ctrl+C)</translation>
+        <translation>ಕಾಪಿ (ಕ್ರೆಲ್ + ಸಿ)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation>ಮೊದಲಿನ ಎಲ್ಲ (Ctrl+A)</translation>
+        <translation>ಮೊದಲಿನದ್ದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ (ಕ್ರೆಲ್ + ಏ)</translation>
     </message>
 </context>
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Select pictures</translation>
+        <translation>ಚಿತ್ರಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Image file not found</translation>
+        <translation>ಚಿತ್ರ ಫೈಲ್ ಕಂಡುಬರಲಿಲ್ಲ</translation>
     </message>
 </context>
 <context>
@@ -279,7 +279,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>ಅಂತರ್ಗತ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ, ಇನ್ನೊಂದು ಹೆಸರನ್ನು ಬಳಸಿ</translation>
+        <translation>ಫೈಲ್ ಇರುವುದು ಇದೆ, ಇನ್ನೊಂದು ಹೆಸರನ್ನು ಬಳಸಿ</translation>
     </message>
 </context>
 <context>
@@ -287,7 +287,7 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>ಚಿತ್ರ ವೀಕ್ಷಣೆ</translation>
+        <translation>ಚಿತ್ರ ನೋಡುವ ಸೋಫ್ಟ್ವೇರ್</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
@@ -297,9 +297,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>&gt;-
- ಚಿತ್ರ ವೀಕ್ಷಣೆ ಚಿತ್ರಗಳನ್ನು ನೋಡಲು ಬಳಸುವ ಸಾಧನವಾಗಿದೆ, ಸೌಂದರ್ಯದ ಇಂಟರ್ಫೇಸ್ ಮತ್ತು ಸುಗಮ ಪ್ರದರ್ಶನ.
- </translation>
+        <translation>ಚಿತ್ರ ನೋಡುವ ಸೋಫ್ಟ್ವೇರ್ ಒಂದು ಚಿತ್ರ ನೋಡುವ ಸಾಧನವಾಗಿದೆ, ಅದು ಸೌಂದರ್ಯದ ಇಂಟರ್ಫೇಸ್ ಮತ್ತು ಸುಖದ ಪ್ರದರ್ಶನದೊಂದಿಗೆ ಬರುತ್ತದೆ.</translation>
     </message>
 </context>
 <context>
@@ -307,45 +305,45 @@
     <message>
         <location filename="../qml/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation>ಒಂದು ಹೊಸ ಹೆಸರನ್ನು ನಮೂದಿಸಿ</translation>
+        <translation>ನೂತನ ಹೆಸರನ್ನು ಪ್ರವೇಶಿಸಿ</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>ವಾಪಸು</translation>
+        <translation>ಫೈಲ್ ಇರುವುದು ಇದೆ, ಇನ್ನೊಂದು ಹೆಸರನ್ನು ಬಳಸಿ</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
         <source>Cancel</source>
-        <translation>ನಿರ್ಧರಿಸಿ</translation>
+        <translation>ವಾಪಾಸ್</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>ನಿಶ್ಚಯಿಸಿ</translation>
+        <translation>ಅನುಮತಿಸಿ</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>ಈ ಕ್ರಮವನ್ನು ತೆಗೆದುಹಾಕಲಾಗದು</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>ಮೀ.%1% ಅನ್ನು ಕೂಡುಗೆರೆಗೆ ಸರಿಯಾಗಿ ಸ್ಥಳಾಂತರಿಸಲಾಗಿಲ್ಲ. ಅದನ್ನು ಅನಿವಾರ್ಯವಾಗಿ ಅಪಹರಿಸಲು ಬಯಸುತ್ತೀರಾ?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>ವಾಪಸು</translation>
+        <translation>ఈ చర్య అనుసరించబడలేదు</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation>ವಾಪಸ್ ಮಾಡಿ</translation>
+        <translation>రద్దించు</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation>ಅನುಮೋದನೆ</translation>
+        <translation>స్థిరం చేయండి</translation>
     </message>
 </context>
 <context>
@@ -353,27 +351,27 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="155"/>
         <source>Previous</source>
-        <translation>ಮುಂಚಿನ</translation>
+        <translation>ముందు</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Pause</source>
-        <translation>ಆರ್ಥ್</translation>
+        <translation>అప్పుడు</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Play</source>
-        <translation>ಆಡಿಸಿ</translation>
+        <translation>ప్లే</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
         <source>Next</source>
-        <translation>ಕೆಳಗಿನ</translation>
+        <translation>కొనసాగించు</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
         <source>Exit</source>
-        <translation>ಬಿಟ್ಟು</translation>
+        <translation>వెళ్ళండి</translation>
     </message>
 </context>
 <context>
@@ -381,37 +379,37 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="173"/>
         <source>Next</source>
-        <translation>ಕೆಳಗಿನ</translation>
+        <translation>అసలు పరిమాణం</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="148"/>
         <source>Previous</source>
-        <translation>ಮುಂಚಿನ</translation>
+        <translation>విండోకు అనుగుణంగా</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation>ಮೂಲ ಗುರುತಿನ ಆಕಾರ</translation>
+        <translation>చుట్టుకొని</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
-        <translation>ನೋಟಿಸ್ ಗೆ ಅನುಗುಣವಾಗಿ</translation>
+        <translation>ವಿಂಡೋ ಅನ್ನು ತಕ್ಕಮಟ್ಟಿಗೆ ತಯಾರಿಸಿ</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
         <translation>ತಿರುಗಿಸಿ</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation>ಪಠ್ಯವನ್ನು ಹೊರತೆಗೆಯಿರಿ</translation>
+        <translation>ಪಠ್ಯವನ್ನು ಪಡೆಯಿರಿ</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
-        <translation>ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ತೆಗೆದುಹಾಕಿ</translation>
+        <translation>ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</translation>
     </message>
 </context>
 <context>
@@ -419,12 +417,12 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Fullscreen</source>
-        <translation>ಪೂರ್ಣ ವಿಂಡೋ</translation>
+        <translation>ಪೂರ್ಣ ಪರದೆ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Exit fullscreen</source>
-        <translation>ಪೂರ್ಣ ವಿಂಡೋಯಿಂದ ಬಿಡು</translation>
+        <translation>ಪೂರ್ಣ ಪರದೆಯಿಂದ ಬರು</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="57"/>
@@ -434,7 +432,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation>ಪಠ್ಯವನ್ನು ಹೊರತೆಗೆಯಿರಿ</translation>
+        <translation>ಪಠ್ಯವನ್ನು ಪಡೆಯಿರಿ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
@@ -444,17 +442,17 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="117"/>
         <source>Copy</source>
-        <translation>ಕಾಪಿ ಮಾಡಿ</translation>
+        <translation>ನಕಲಿಸಿ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="137"/>
         <source>Rename</source>
-        <translation>ಪುನರ್ನಾಮಕರಣ</translation>
+        <translation>ನಾಮಕರಣ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="156"/>
         <source>Delete</source>
-        <translation>ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ತೆಗೆದುಹಾಕಿ</translation>
+        <translation>ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="183"/>
@@ -464,27 +462,27 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>ಕಾಂಟರ್ ಕ್ಲಾಕ್‌ವೈಸ್ ತಿರುಗಿಸಿ</translation>
+        <translation>ಕೌಂಟರ್‌ಕ್ಲಾಕ್‌ವೈಸ್ ತಿರುಗಿಸಿ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation>ನೇವಿಗೇಶನ್ ವಿಂಡೋ ತೋರಿಸಿ</translation>
+        <translation>ನಾವಿಗೇಶನ್ ವಿಂಡೋ ತೋರಿಸಿ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Hide navigation window</source>
-        <translation>ನೇವಿಗೇಶನ್ ವಿಂಡೋ ಕ್ಯಾನ್ ಮಾಡಿ</translation>
+        <translation>ನಾವಿಗೇಶನ್ ವಿಂಡೋ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
         <source>Set as wallpaper</source>
-        <translation>ವಾಲ್ಪೇಪರ್ ಆಗಿ ನಿರ್ದೇಶಿಸಿ</translation>
+        <translation>ವಾಲ್ಪೇಪರ್ ಆಗಿ ನಿಯೋಜಿಸಿ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>ಫೈಲ್ ಮ್ಯಾನಿಜರ್ ನಲ್ಲಿ ತೋರಿಸಿ</translation>
+        <translation>ಫೈಲ್ ಮ್ಯಾನೇಜರ್‌ನಲ್ಲಿ ತೋರಿಸಿ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
@@ -495,17 +493,25 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>ಚಿತ್ರ ನೋಟಕ್ಕಾಗಿ ಚಿತ್ರ ನೋಟ ಸಾಧನ ಮತ್ತು ಸೌಂದರ್ಯದ ಇಂಟರ್‌ಫೇಸ್ ಮತ್ತು ಸುಧೀರ್ಘ ಪ್ರದರ್ಶನದೊಂದಿಗೆ ಚಿತ್ರ ನೋಟ ಸಾಧನ.</translation>
+        <translation>ಚಿತ್ರ ಪ್ರದರ್ಶಕ ಚಿತ್ರಗಳನ್ನು ನೋಡಲು ಸಾಧನ, ಆಕರ್ಷಕ ಇಂಟರ್ಫೇಸ್ ಮತ್ತು ಸುಗಮ ಪ್ರದರ್ಶನ ಹೊಂದಿದೆ.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation>ಚಿತ್ರ ನೋಟ</translation>
+        <translation>ಚಿತ್ರ ಪ್ರದರ್ಶಕ</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>ವರ್ಷನ್</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 %2 ಅಡಿಯಲ್ಲಿ ಪ್ರಕಟಿಸಲಾಗಿದೆ&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
         <translation>ಚಿತ್ರವನ್ನು ತೆರೆಯಿರಿ</translation>
     </message>

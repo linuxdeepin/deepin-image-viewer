@@ -4,122 +4,122 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
-        <source>Fullscreen</source>
-        <translation>โหมดเต็มหน้าจอ</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
-        <source>Exit fullscreen</source>
-        <translation>ออกจากโหมดเต็มหน้าจอ</translation>
+        <source>Fullscreen</source>
+        <translation>โหมดเต็มหน้า</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
+        <source>Exit fullscreen</source>
+        <translation>ออกจากโหมดเต็มหน้า</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Extract text</source>
         <translation>ดึงข้อความ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Slide show</source>
-        <translation>แสดงเป็นภาพลื่น</translation>
+        <translation>แสดงภาพแบบสไลด์</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Rename</source>
         <translation>เปลี่ยนชื่อ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Copy</source>
         <translation>คัดลอก</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Delete</source>
         <translation>ลบ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate clockwise</source>
         <translation>หมุนตามเข็มนาฬิกา</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Rotate counterclockwise</source>
         <translation>หมุนต่อต้านเข็มนาฬิกา</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Set as wallpaper</source>
         <translation>ตั้งเป็นพื้นหลัง</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Display in file manager</source>
-        <translation>แสดงในโปรแกรมจัดการไฟล์</translation>
+        <translation>แสดงในตัวจัดการไฟล์</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Image info</source>
         <translation>ข้อมูลภาพ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
         <translation>ก่อนหน้า</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
-        <translation>ถัดไป</translation>
+        <translation>ต่อไป</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom in</source>
         <translation>ขยาย</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Zoom out</source>
         <translation>ย่อ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Open</source>
         <translation>เปิด</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
         <translation>พิมพ์</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Image Viewing</source>
         <translation>การดูภาพ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>ช่วยเหลือ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
         <translation>แสดงคำสั่งลัด</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
-        <translation>ตั้งค่า</translation>
+        <translation>การตั้งค่า</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
         <translation>เลือกทั้งหมด</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
         <translation>ข้อความแบบเรียลไทม์</translation>
     </message>
@@ -189,7 +189,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="201"/>
         <source>Flash compensation</source>
-        <translation>การปรับความสว่างของแฟลช</translation>
+        <translation>การปรับค่าแฟลช</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
@@ -204,12 +204,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
         <source>White balance</source>
-        <translation>สมดุลสีขาว</translation>
+        <translation>การปรับสีขาว</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="246"/>
         <source>Lens model</source>
-        <translation>รุ่นเลนส์</translation>
+        <translation>แบบเลนส์</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation>ขนาดรูรับแสงสูงสุด</translation>
+        <translation>รูรับแสงสูงสุด</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation>รุ่นอุปกรณ์</translation>
+        <translation>แบบอุปกรณ์</translation>
     </message>
 </context>
 <context>
@@ -253,9 +253,9 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Select pictures</translation>
+        <translation>เลือกภาพ</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Image file not found</translation>
+        <translation>ไม่พบไฟล์ภาพ</translation>
     </message>
 </context>
 <context>
@@ -310,30 +310,30 @@
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>ยกเลิก</translation>
+        <translation>ไฟล์นี้มีอยู่แล้ว กรุณาใช้ชื่ออื่น</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
         <source>Cancel</source>
-        <translation>ยืนยัน</translation>
+        <translation>ยกเลิก</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>ไม่สามารถย้าย "%1" ไปถังขยะได้ คุณต้องการลบไฟล์นี้ไปตลอดกาลหรือไม่?</translation>
+        <translation>ยืนยัน</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>การกระทำนี้ไม่สามารถถอยกลับได้</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>ไม่สามารถย้าย &quot;%1&quot; ไปยังถังขยะได้ คุณต้องการลบไฟล์นี้อย่างถาวรหรือไม่?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>การกระทำนี้ไม่สามารถถอยกลับได้</translation>
+        <translation>การกระทำนี้ไม่สามารถยกเลิกได้</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -371,7 +371,7 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
         <source>Exit</source>
-        <translation>ออก</translation>
+        <translation>ออกจาก</translation>
     </message>
 </context>
 <context>
@@ -389,25 +389,25 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation>ขนาดเดิม</translation>
+        <translation>ขนาดต้นฉบับ</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
-        <translation>ปรับขนาดให้เหมาะกับหน้าต่าง</translation>
+        <translation>เต็มหน้าต่าง</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
         <translation>หมุน</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
         <translation>ดึงข้อความ</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
         <translation>ลบ</translation>
     </message>
@@ -417,7 +417,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Fullscreen</source>
-        <translation>แสดงแบบเต็มหน้าจอ</translation>
+        <translation>แบบเต็มหน้าจอ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
@@ -437,7 +437,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
         <source>Slide show</source>
-        <translation>แสดงภาพแบบสไลด์</translation>
+        <translation>แสดงเป็น slideshow</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="117"/>
@@ -462,7 +462,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>หมุนต่อสู้เข็มนาฬิกา</translation>
+        <translation>หมุนต่อทาง</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
@@ -482,7 +482,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>แสดงในโปรแกรมจัดการไฟล์</translation>
+        <translation>แสดงในผู้จัดการไฟล์</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
@@ -493,19 +493,27 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer เป็นเครื่องมือดูภาพที่มีอินเทอร์เฟซทันสมัยและประสิทธิภาพที่ลื่นไหล</translation>
+        <translation>Image Viewer เป็นเครื่องมือดูภาพที่มีอินเทอร์เฟซสวยงามและประสิทธิภาพที่ลื่นไหล</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
         <translation>Image Viewer</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>เวอร์ชัน</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 ได้รับการเผยแพร่ภายใต้ %2&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>เปิดรูปภาพ</translation>
+        <translation>เปิดภาพ</translation>
     </message>
 </context>
 </TS>
