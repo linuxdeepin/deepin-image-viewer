@@ -1,127 +1,125 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ne">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ne">
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Fullscreen</source>
         <translation>पूर्णस्क्रीन</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
+        <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Exit fullscreen</source>
         <translation>पूर्णस्क्रीनबाट बाहिर निस्कनुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="789"/>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Extract text</source>
-        <translation>पाठ खुलाउनु</translation>
+        <translation>खुलावट गर्नुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Slide show</source>
         <translation>स्लाइड शो</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Rename</source>
         <translation>नाम बदल्नुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Copy</source>
         <translation>कपि </translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Delete</source>
         <translation>हटाउनु होस् </translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate clockwise</source>
         <translation>घडीको दिशामा घुमाउनुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Rotate counterclockwise</source>
         <translation>घडिको उल्टो दिशामा घुमाउनुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Set as wallpaper</source>
         <translation>वालपेपरको रूपमा सेट गर्नुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Display in file manager</source>
         <translation>फाइल प्रबन्धकमा प्रदर्शन गर्नुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Image info</source>
         <translation>छवि जानकारी</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
         <translation>अघिल्लो</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
         <translation>अर्को</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom in</source>
         <translation>जुम इन गर्नुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Zoom out</source>
         <translation>जुम आउट गर्नुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Open</source>
         <translation>खोल्नुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
         <translation>प्रिन्ट गर्नुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Image Viewing</source>
         <translation>छवि अवलोकन</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>मद्दत</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
         <translation>सर्टकट प्रदर्शन गर्नुहोस्</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
         <translation>सेटिंग्स</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation>सबै चयन गर्नु</translation>
+        <translation>सर्व निवडा</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation>जीवित पाठ</translation>
+        <translation>जीवित अक्षर</translation>
     </message>
 </context>
 <context>
@@ -134,7 +132,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
         <source>Size</source>
-        <translation>कुल आकार</translation>
+        <translation>आकार</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
@@ -234,7 +232,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation>उपकरण मॉडल</translation>
+        <translation>यन्त्र मॉडल</translation>
     </message>
 </context>
 <context>
@@ -242,20 +240,20 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation>काट (Ctrl+C)</translation>
+        <translation>कॉपी (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation>सबै चयन गर्नु (Ctrl+A)</translation>
+        <translation>सर्व निवडा (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation>छवि चयन गर्नु</translation>
+        <translation>छायाचित्र निवडा</translation>
     </message>
 </context>
 <context>
@@ -279,7 +277,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>फाइल पहिले बाट उपलब्ध छ, कृपया अर्को नाम प्रयोग गर्नुहोला</translation>
+        <translation>फाइल पहिले बर्बाद छ, कृपया अर्क नाम प्रयोग गर्नुहोस्</translation>
     </message>
 </context>
 <context>
@@ -305,12 +303,12 @@
     <message>
         <location filename="../qml/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation>नयाँ नाम प्रविष्ट गर्नु</translation>
+        <translation>एउटा नयाँ नाम प्रविष्ट गर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>फाइल पहिले बाट उपलब्ध छ, कृपया अर्को नाम प्रयोग गर्नुहोला</translation>
+        <translation>फाइल अहिले छैन, अलि नाम प्रयोग गर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
@@ -320,20 +318,20 @@
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>संग्रह</translation>
+        <translation>पुष्टि गर्नुहोस्</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>"%1" लाई खाली गर्न सकिनदैछ। तपाईं यसलाई अनिवार्य रूप देखि हटाउन चाहानु छ?</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>तपाईं &quot;%1&quot; को बर्बाद गर्न सक्दैन। तपाईं यो अनिवार्य रूप देखि हटाउन चाहानु छु?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>यो कार्य अनुवार्ध गरिन सक्दैन</translation>
+        <translation>यो कार्य अनुकूलित गर्न सकिन्छ</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -343,7 +341,7 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation>संग्रह</translation>
+        <translation>पुष्टि गर्नुहोस्</translation>
     </message>
 </context>
 <context>
@@ -361,7 +359,7 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Play</source>
-        <translation>सञ्चालन</translation>
+        <translation>खेल</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
@@ -371,7 +369,7 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
         <source>Exit</source>
-        <translation>बाहिर निस्कनु</translation>
+        <translation>निकास</translation>
     </message>
 </context>
 <context>
@@ -392,22 +390,22 @@
         <translation>मूल आकार</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
         <translation>विन्डोमा फिट</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation>स्थान परिवर्तन</translation>
+        <translation>फेर्नु</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation>पाठ खुलाउनु</translation>
+        <translation>खुलावट गर्नुहोस्</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
         <translation>हटाउनु होस् </translation>
     </message>
@@ -432,7 +430,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation>पाठ खुलाउनु</translation>
+        <translation>खुलावट गर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
@@ -493,19 +491,27 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation>छवि दर्शक फेशन इन्टरफेस र चिल्लो प्रदर्शनको साथ छवि दृश्य उपकरण हो।</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
         <translation>इमेज विएवेर</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>संस्करण</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 %2 अन्तर्गत स्थापित छ&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>छवि खुलाउनु</translation>
+        <translation>छायाचित्र खोल्नु</translation>
     </message>
 </context>
 </TS>

@@ -4,124 +4,124 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
-        <source>Fullscreen</source>
-        <translation>تام إشارة</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
-        <source>Exit fullscreen</source>
-        <translation>تاريك تام إشارة</translation>
+        <source>Fullscreen</source>
+        <translation> fullscreen</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
-        <source>Extract text</source>
-        <translation>تخرج نص</translation>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
-        <source>Slide show</source>
-        <translation>تعرض تحويم</translation>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="797"/>
-        <source>Rename</source>
-        <translation>تغيل إسم</translation>
+        <source>Slide show</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="801"/>
-        <source>Copy</source>
-        <translation>كوب</translation>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="805"/>
-        <source>Delete</source>
-        <translation>تاريك</translation>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="809"/>
-        <source>Rotate clockwise</source>
-        <translation>تاريك تحويم تام دير</translation>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="813"/>
-        <source>Rotate counterclockwise</source>
-        <translation>تاريك تحويم تام دير كاين</translation>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="817"/>
-        <source>Set as wallpaper</source>
-        <translation>تغيل كا ورر</translation>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="821"/>
-        <source>Display in file manager</source>
-        <translation>تعرض دا فايل مانجر</translation>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="825"/>
-        <source>Image info</source>
-        <translation>معلوماوات إشارة</translation>
+        <source>Display in file manager</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="829"/>
-        <source>Previous</source>
-        <translation>تامن</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="833"/>
-        <source>Next</source>
-        <translation>تامن كاين</translation>
+        <source>Previous</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="837"/>
-        <source>Zoom in</source>
-        <translation>أنزوم</translation>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
-        <source>Zoom out</source>
-        <translation>أوتزوم</translation>
+        <source>Zoom in</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
-        <source>Open</source>
-        <translation>أون</translation>
+        <source>Zoom out</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="849"/>
-        <source>Print</source>
-        <translation>برين</translation>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
-        <source>Image Viewing</source>
-        <translation>تعرض إشارة</translation>
+        <location filename="../src/filecontrol.cpp" line="853"/>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="877"/>
-        <source>Help</source>
-        <translation>هيلب</translation>
+        <source>Image Viewing</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="881"/>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
-        <translation>تعرض كرتيه</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
-        <translation>ستينجس</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation>تغيل كا</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation>توكس كاين</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -129,37 +129,37 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="74"/>
         <source>Basic info</source>
-        <translation>معلوماوات أساسي</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
         <source>Size</source>
-        <translation>حجم</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>تاريغ كا تاريك</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
         <source>Date modified</source>
-        <translation>تاريغ كا تغيير</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
         <source>Details</source>
-        <translation>تفاصيل</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="154"/>
         <source>Aperture</source>
-        <translation>فتحة</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Exposure program</source>
-        <translation>بروغرام التعرض</translation>
+        <translation>برنامه تشعير</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="169"/>
@@ -174,32 +174,32 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="182"/>
         <source>Exposure mode</source>
-        <translation>وضع التعرض</translation>
+        <translation>وضع التشعير</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="188"/>
         <source>Exposure time</source>
-        <translation>وقت التعرض</translation>
+        <translation>زمن التشعير</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="194"/>
         <source>Flash</source>
-        <translation>مصدر الضوء</translation>
+        <translation>الضوء الساطع</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="201"/>
         <source>Flash compensation</source>
-        <translation>تعويض مصدر الضوء</translation>
+        <translation>تعويض الضوء الساطع</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
         <source>Colorspace</source>
-        <translation>مساحة الألوان</translation>
+        <translation>فضاء الألوان</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
         <source>Metering mode</source>
-        <translation>وضع القياس</translation>
+        <translation>وضع قياس الضوء</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
@@ -219,7 +219,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
         <source>Dimensions</source>
-        <translation>الأبعاد</translation>
+        <translation>الحجم</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="112"/>
@@ -229,7 +229,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation>الفتحة العظمى</translation>
+        <translation>الفتحة الأكبر</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
@@ -253,9 +253,9 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Select pictures</translation>
+        <translation>اختر الصور</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Image file not found</translation>
+        <translation>لم يتم العثور على ملف الصورة</translation>
     </message>
 </context>
 <context>
@@ -271,7 +271,7 @@
     <message>
         <location filename="../qml/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>افتح الصورة</translation>
+        <translation>فتح الصورة</translation>
     </message>
 </context>
 <context>
@@ -279,7 +279,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>الملف موجود بالفعل، من فضلك استخدم اسمًا آخر</translation>
+        <translation>الملف موجود بالفعل، يرجى استخدام اسم مختلف</translation>
     </message>
 </context>
 <context>
@@ -287,7 +287,7 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>مُعاينة الصور</translation>
+        <translation>مشاهد الصور</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
@@ -297,7 +297,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>مُعاينة الصور هي أداة عرض الصور تضم واجهة أنيقة وأداء سلس.</translation>
+        <translation>مشاهد الصور هو أداة عرض الصور بواجهة أنيقة وعمل سلس</translation>
     </message>
 </context>
 <context>
@@ -320,30 +320,30 @@
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>لا يمكن نقل "%1" إلى سلة المهملات. هل تريد حذفه بشكل دائم؟</translation>
+        <translation>لا يمكن نقل &quot;%1&quot; إلى سلة المهملات. هل ترغب في حذفه بشكل دائم؟</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>هذا الإجراء لا يمكن إلغاؤه</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>Ɣi ɣiḍ ɣi harran ttagħer</translation>
+        <translation>العملية لا يمكن إلغاؤها</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation>Ɣiṭar</translation>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation>تاكيد</translation>
+        <translation>تأكيد</translation>
     </message>
 </context>
 <context>
@@ -356,12 +356,12 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Pause</source>
-        <translation>الإيقاف المؤقت</translation>
+        <translation>إيقاف</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Play</source>
-        <translation>التشغيل</translation>
+        <translation>تشغيل</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
@@ -379,7 +379,7 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="173"/>
         <source>Next</source>
-        <translation>الالتقاط</translation>
+        <translation>التالي</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="148"/>
@@ -392,24 +392,24 @@
         <translation>الحجم الأصلي</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
-        <translation>لملء النافذة</translation>
+        <translation>ملائم للنافذة</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
         <translation>الدوران</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
         <translation>استخراج النص</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
-        <translation>الحذف</translation>
+        <translation>حذف</translation>
     </message>
 </context>
 <context>
@@ -417,17 +417,17 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Fullscreen</source>
-        <translation> полноэкран</translation>
+        <translation>الشاشة الكاملة</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Exit fullscreen</source>
-        <translation> الخروج من полноэкран</translation>
+        <translation>الخروج من الشاشة الكاملة</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="57"/>
         <source>Print</source>
-        <translation>الطباعة</translation>
+        <translation>طباعة</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
@@ -437,7 +437,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
         <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
+        <translation>عرض العرض</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="117"/>
@@ -452,7 +452,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="156"/>
         <source>Delete</source>
-        <translation>الحذف</translation>
+        <translation>حذف</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="183"/>
@@ -462,27 +462,27 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>الدوران عكس عقارب الساعة</translation>
+        <translation>الدوران عكس عقارب الساعات</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation>عرض نافذة التنقل</translation>
+        <translation>عرض نافذتكم التفاعلية</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Hide navigation window</source>
-        <translation>إخفاء نافذة التنقل</translation>
+        <translation>إخفاء نافذتكم التفاعلية</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
         <source>Set as wallpaper</source>
-        <translation>وضعه كخلفية</translation>
+        <translation>وضعها كخلفية</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>عرضه في مدير الملفات</translation>
+        <translation>عرضها في مدير الملفات</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
@@ -493,19 +493,27 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer هو أداة عرض الصور تمتلك واجهة أنيقة و أداء سلس.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation>Image Viewer</translation>
+        <translation>Ɣaɣa Ɣaɣa</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>Ɣaɣa</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 ɣaɣa Ɣaɣa %2&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>تَكْرَتْ إِمَاجِن</translation>
+        <translation>Ɣaɣa Ɣaɣa</translation>
     </message>
 </context>
 </TS>

@@ -4,124 +4,124 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
-        <source>Fullscreen</source>
-        <translation>بەڕێکەوت</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
-        <source>Exit fullscreen</source>
-        <translation>توانی بەڕێکەوت</translation>
+        <source>Fullscreen</source>
+        <translation>بە وەزەن</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
-        <source>Extract text</source>
-        <translation>تەکستی بەرەو ئەوە بەکارهێنەر</translation>
+        <source>Exit fullscreen</source>
+        <translation>چاپ كەوە وەزەن</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
-        <source>Slide show</source>
-        <translation>شۆوی شۆو</translation>
+        <source>Extract text</source>
+        <translation>تېكست ئەچىك بىلەن</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="797"/>
-        <source>Rename</source>
-        <translation>نومەرکردن</translation>
+        <source>Slide show</source>
+        <translation>سلايد شو</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="801"/>
-        <source>Copy</source>
-        <translation>کۆپی کردن</translation>
+        <source>Rename</source>
+        <translation>ئىسمى ئەۋەز</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="805"/>
-        <source>Delete</source>
-        <translation>تۆمار کردن</translation>
+        <source>Copy</source>
+        <translation>كۆپى</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="809"/>
-        <source>Rotate clockwise</source>
-        <translation>دەرەوە بچوون</translation>
+        <source>Delete</source>
+        <translation>تەكىدە</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="813"/>
-        <source>Rotate counterclockwise</source>
-        <translation>دەرەوە بچوون</translation>
+        <source>Rotate clockwise</source>
+        <translation>چوڭلىقى ئەۋەز</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="817"/>
-        <source>Set as wallpaper</source>
-        <translation>بەڕێکەوتی بەکارهێنەر</translation>
+        <source>Rotate counterclockwise</source>
+        <translation>چوڭلىقى چوڭلىقى ئەۋەز</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="821"/>
-        <source>Display in file manager</source>
-        <translation>بەکارهێنەری فایل بەکارهێنر</translation>
+        <source>Set as wallpaper</source>
+        <translation>ئەرەپ كىرەك بىلەن</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="825"/>
-        <source>Image info</source>
-        <translation>مەلەمەتی سەرچوو</translation>
+        <source>Display in file manager</source>
+        <translation>فەيل مەنېجەردا كۆرۈن</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="829"/>
-        <source>Previous</source>
-        <translation>پێش</translation>
+        <source>Image info</source>
+        <translation>ئىمەجە ئىنىمى</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="833"/>
-        <source>Next</source>
-        <translation>بەتەن</translation>
+        <source>Previous</source>
+        <translation>ئۆتكىن</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="837"/>
-        <source>Zoom in</source>
-        <translation>بەتەن چەک کردن</translation>
+        <source>Next</source>
+        <translation>ئاستىن</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
-        <source>Zoom out</source>
-        <translation>چەک کردن</translation>
+        <source>Zoom in</source>
+        <translation>ئەڭىش</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
-        <source>Open</source>
-        <translation>بەکارهێنر</translation>
+        <source>Zoom out</source>
+        <translation>كەلەش</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="849"/>
-        <source>Print</source>
-        <translation>چاپ کردن</translation>
+        <source>Open</source>
+        <translation>بېتىن</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
-        <source>Image Viewing</source>
-        <translation>بەکارهێنری سەرچوو</translation>
+        <location filename="../src/filecontrol.cpp" line="853"/>
+        <source>Print</source>
+        <translation>نىشانلاش</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="877"/>
-        <source>Help</source>
-        <translation>کاری دەستکاری</translation>
+        <source>Image Viewing</source>
+        <translation>ئىمەجە كۆرۈن</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="881"/>
+        <source>Help</source>
+        <translation>كۆمەك</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
-        <translation>کاری کوتاکەر</translation>
+        <translation>تەكىدە كۆرۈن</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
-        <translation>کۆنفیگ</translation>
+        <translation>تەڭىش</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation>ھەموو بەکارهێنر</translation>
+        <translation>ھەممىنى ئەپەز</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation>تەکستی زیاد</translation>
+        <translation>ھەممىنى ئەپەز</translation>
     </message>
 </context>
 <context>
@@ -129,42 +129,42 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="74"/>
         <source>Basic info</source>
-        <translation>مەلەمەتی پایه</translation>
+        <translation>ئاساسىي مەلۇمات</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
         <source>Size</source>
-        <translation>بەش</translation>
+        <translation>ھەجىمەت</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>تاریخی ھەڵچاوی</translation>
+        <translation>كۆپىلىنىش چۈشىنىشى</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
         <source>Date modified</source>
-        <translation>تاریخی تەمەمی</translation>
+        <translation>تەكىدەلىنىش چۈشىنىشى</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
         <source>Details</source>
-        <translation>دەتەیل</translation>
+        <translation>تەسىرلى</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="154"/>
         <source>Aperture</source>
-        <translation>پەرەکەوتن</translation>
+        <translation>ئەپېرچۇر</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Exposure program</source>
-        <translation>ئەمەسەن پروگرام</translation>
+        <translation>ئەمەکەن ڤروگرام</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="169"/>
         <source>Focal length</source>
-        <translation>ئەمەسەن چەک</translation>
+        <translation>فوكال لەنگت</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="175"/>
@@ -174,12 +174,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="182"/>
         <source>Exposure mode</source>
-        <translation>ئەمەسێن چەک</translation>
+        <translation>ئەمەکەن مود</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="188"/>
         <source>Exposure time</source>
-        <translation>ئەمەسێن زمان</translation>
+        <translation>ئەمەکەن زمان</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="194"/>
@@ -189,37 +189,37 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="201"/>
         <source>Flash compensation</source>
-        <translation>فلاش ئەمەسەن</translation>
+        <translation>فلاش كومپېنساسي</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
         <source>Colorspace</source>
-        <translation>ئەرەنگەسپەس</translation>
+        <translation>كۆرلەسپەس</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
         <source>Metering mode</source>
-        <translation>مېتىرەنگ چەك</translation>
+        <translation>مېتىرینگ مود</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
         <source>White balance</source>
-        <translation>بەلەنسى ھەيتى</translation>
+        <translation>وايت بالينس</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="246"/>
         <source>Lens model</source>
-        <translation>لەنس مۆدل</translation>
+        <translation>لەنس مودىل</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
         <source>File name</source>
-        <translation>فەيل نامە</translation>
+        <translation>فەيل نامى</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
         <source>Dimensions</source>
-        <translation>دىمەنسىيەن</translation>
+        <translation>دېمانسيون</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="112"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation>مەكس چەک</translation>
+        <translation>ماکس ڤەرپېر</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation>دېۋىس مۆدل</translation>
+        <translation>دېڤىس مودىل</translation>
     </message>
 </context>
 <context>
@@ -242,20 +242,20 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation>توانە (Ctrl+C)</translation>
+        <translation>كۆپى (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation>هەممى چاک بکە (Ctrl+A)</translation>
+        <translation>هەر چىزى ئەنگىلە (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Select pictures</translation>
+        <translation>چۈنەكلىك ئەسلىك</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Image file not found</translation>
+        <translation>ئەسلىك فەيل ياخشى تاپыلمىدى</translation>
     </message>
 </context>
 <context>
@@ -271,7 +271,7 @@
     <message>
         <location filename="../qml/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>ئەمەسەن ئەفتە</translation>
+        <translation>ئەسلىك ئېچى</translation>
     </message>
 </context>
 <context>
@@ -279,7 +279,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>فەيل ئەوە چەکە ھەوى، نامەکردنە چەکە ناو دەرەوە</translation>
+        <translation>بۇ فەيل ئەمەسلىك دېگەن ئىسمى بار، تەكىنە ئىسمىنى كۆرسىتىڭ</translation>
     </message>
 </context>
 <context>
@@ -287,17 +287,17 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>ئەمەسەن ئەفتە</translation>
+        <translation>ئەسلىك كۆرۈشچىسى</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
         <source>day</source>
-        <translation>روز</translation>
+        <translation>كۈن</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>ئەمەسەن ئەفتە ھەمەسەن ئەفتە دەرەوە بکەنە تول، چەکە ئەرەنگەسپەس ئەوە و چەکە چاک بکەنە پەرەمەنەسی</translation>
+        <translation>ئەسلىك كۆرۈشچىسى ئەسلىك كۆرۈش ئۈسۈتى، ھەققىي ئىنتەرڧېس و سۈپىت كۆرۈشچىسى بار.</translation>
     </message>
 </context>
 <context>
@@ -305,45 +305,45 @@
     <message>
         <location filename="../qml/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation>ناوی نوو ورەکە</translation>
+        <translation>ئىشلەتكەن نامىنى كىرۈت</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>بەرەو</translation>
+        <translation>بەرەلە</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
         <source>Cancel</source>
-        <translation>تاييد</translation>
+        <translation>تېكىستە</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>ئەوە "%1" چەکە چەكە نەرەوە بکەنە، دەرەوە چەکە چەكە نەرەوە بکەنە؟</translation>
+        <translation>تایید</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>ئەوە چەکە چەكە نەرەوە بکەنە</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>نەرەزە ھەڵبەندی &quot;%1&quot; بۆ چەندەن. دەمان بەرەزە ھەڵبەندی کۆتەیەن بەرەز کردنە؟</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>ئەمە ھەقیقەتە بەرەوە بەکەن</translation>
+        <translation>ئەمە نەرە قىلما</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation>بەکەن</translation>
+        <translation>بەرە</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation>تایید</translation>
+        <translation>تايىن كىنى</translation>
     </message>
 </context>
 <context>
@@ -351,27 +351,27 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="155"/>
         <source>Previous</source>
-        <translation>ئەوە</translation>
+        <translation>پەرە</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Pause</source>
-        <translation>دەقە</translation>
+        <translation>بەرە</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Play</source>
-        <translation>بەڕاستی</translation>
+        <translation>پىلە</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
         <source>Next</source>
-        <translation>بەتەرە</translation>
+        <translation>ئەگە</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
         <source>Exit</source>
-        <translation>تۆر</translation>
+        <translation>تىرە</translation>
     </message>
 </context>
 <context>
@@ -379,37 +379,37 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="173"/>
         <source>Next</source>
-        <translation>بەتەرە</translation>
+        <translation>ئەگە</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="148"/>
         <source>Previous</source>
-        <translation>ئەوە</translation>
+        <translation>پەرە</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation>بەشێوەیەتی</translation>
+        <translation>ئەرە قىلىش چەمە</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
-        <translation>بەشێوەی نووتە</translation>
+        <translation>پەنەلى بەرە</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation>چەکە</translation>
+        <translation>تەۋرە</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation>متن بەرە</translation>
+        <translation>مەتنى ئەچىك كىنى</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
-        <translation>سڕین</translation>
+        <translation>سىل</translation>
     </message>
 </context>
 <context>
@@ -417,95 +417,103 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Fullscreen</source>
-        <translation>بەشێوەی چەکە</translation>
+        <translation>ئەرە قىلىش</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Exit fullscreen</source>
-        <translation>تۆر بەشێوەی چەکە</translation>
+        <translation>ئەرە قىلىشى بەرە</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="57"/>
         <source>Print</source>
-        <translation>چاپ کردن</translation>
+        <translation>نىشاندا</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation>متن بەرە</translation>
+        <translation>مەتنى ئەچىك كىنى</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
         <source>Slide show</source>
-        <translation>شۆوی چەکە</translation>
+        <translation>سىلىش ئەچىك كىنى</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="117"/>
         <source>Copy</source>
-        <translation>کۆپی کردن</translation>
+        <translation>كۆپى</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="137"/>
         <source>Rename</source>
-        <translation>نام دەدەن</translation>
+        <translation>ئىسمى بەرە</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="156"/>
         <source>Delete</source>
-        <translation>سڕین</translation>
+        <translation>سىل</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="183"/>
         <source>Rotate clockwise</source>
-        <translation>چەکە بە چەکە</translation>
+        <translation>سەۋرە چەپى</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>چەکە بە چەکە</translation>
+        <translation>سەۋرە چەپى</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation>ناوەکردن نووتە</translation>
+        <translation>نەۋىگەسى بەرە</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Hide navigation window</source>
-        <translation>ناوەکردن نووتە بەرە</translation>
+        <translation>نەۋىگەسى با</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
         <source>Set as wallpaper</source>
-        <translation>بەشێوەی چەکە بەرە</translation>
+        <translation>ئەرە قىلىشى بەرە</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>بەشێوەی چەکە لە نووتەکردنەوە</translation>
+        <translation>فەيل ھەرزەمىدە ئەچىك كىنى</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
         <source>Image info</source>
-        <translation>مەلەمەتی چەکە</translation>
+        <translation>ئىمەجى چەمە</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer چەکەکردنەوەیەکە بەشێوەیەتی چەکە و بەرە پەرەپەرەکردنەوەیەکە</translation>
+        <translation>Pîrêkîna belgeyan e wisa belgeya bîrêkînê, pîrêkîna belgeyan, bi pîrêkîna belgeyan bi pîrêkîna belgeyan.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation>Image Viewer</translation>
+        <translation>Pîrêkîna belgeyan</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>Versiyon</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 li %2 pêdivî ye&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>بەکارهێنەوە بە چەمچەم</translation>
+        <translation>Belgeya bîrêkîne</translation>
     </message>
 </context>
 </TS>

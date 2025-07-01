@@ -4,124 +4,124 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
-        <source>Fullscreen</source>
-        <translation>பூர்த் திரை</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
-        <source>Exit fullscreen</source>
-        <translation>பூர்த் திரையை விடுத்து</translation>
+        <source>Fullscreen</source>
+        <translation>தொடர்ந்து முழுமையாக காட்டு</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
-        <source>Extract text</source>
-        <translation>தொகையை பிரிக்கவும்</translation>
+        <source>Exit fullscreen</source>
+        <translation>முழுமையாகக் காட்டுதல் விடு</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
-        <source>Slide show</source>
-        <translation>சிலைட் ஷோ</translation>
+        <source>Extract text</source>
+        <translation>எழுத்தை நீக்கு</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="797"/>
-        <source>Rename</source>
-        <translation>மறுபெயரிடு</translation>
+        <source>Slide show</source>
+        <translation>சிலை காட்சி</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="801"/>
-        <source>Copy</source>
-        <translation>காப்பியை மீட்க</translation>
+        <source>Rename</source>
+        <translation>பெயரிடு</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="805"/>
-        <source>Delete</source>
-        <translation>அழி</translation>
+        <source>Copy</source>
+        <translation>காப்பியெடு</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="809"/>
-        <source>Rotate clockwise</source>
-        <translation>நேர் வழியில் சுழல்</translation>
+        <source>Delete</source>
+        <translation>அகற்று</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="813"/>
-        <source>Rotate counterclockwise</source>
-        <translation>மறு வழியில் சுழல்</translation>
+        <source>Rotate clockwise</source>
+        <translation>மண்டலம் வழியாக சுழல்</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="817"/>
-        <source>Set as wallpaper</source>
-        <translation>வால்பேப்பர் ஆக அமைக்கவும்</translation>
+        <source>Rotate counterclockwise</source>
+        <translation>மண்டலம் எதிரே சுழல்</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="821"/>
-        <source>Display in file manager</source>
-        <translation>பைல் மேனேஜரில் காட்டவும்</translation>
+        <source>Set as wallpaper</source>
+        <translation>வால்பேப்பர் ஆக அமைக்கு</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="825"/>
-        <source>Image info</source>
-        <translation>படம் தகவல்</translation>
+        <source>Display in file manager</source>
+        <translation>பைல் மேனேஜரில் காட்டு</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="829"/>
-        <source>Previous</source>
-        <translation>முந்தைய</translation>
+        <source>Image info</source>
+        <translation>படத்தின் தகவல்</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="833"/>
-        <source>Next</source>
-        <translation>அடுத்த</translation>
+        <source>Previous</source>
+        <translation>முன்னது</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="837"/>
-        <source>Zoom in</source>
-        <translation>செல்லும்</translation>
+        <source>Next</source>
+        <translation>அடுத்தது</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
-        <source>Zoom out</source>
-        <translation>வெளியேறும்</translation>
+        <source>Zoom in</source>
+        <translation>அதிகரிக்கு</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
+        <source>Zoom out</source>
+        <translation>குறைக்கு</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Open</source>
         <translation>திறந்து</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
-        <translation>அச்சு வெளியிடு</translation>
-    </message>
-    <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
-        <source>Image Viewing</source>
-        <translation>படம் பார்வை</translation>
+        <translation>அச்சிடு</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="877"/>
+        <source>Image Viewing</source>
+        <translation>பட பார்வை</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>துணை</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
-        <translation>விரைவு குறியீடுகளை காட்டவும்</translation>
+        <translation>குறுக்கியமாக காட்டு</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
         <translation>அமைப்புகள்</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
         <translation>அனைத்தையும் தேர்ந்தெடு</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation>லைவ் டெக்ஸ்ட்</translation>
+        <translation>வாழ்க்கை எழுத்து</translation>
     </message>
 </context>
 <context>
@@ -129,7 +129,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="74"/>
         <source>Basic info</source>
-        <translation>முக்கிய தகவல்</translation>
+        <translation>தொடர்புடைய தகவல்</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
@@ -139,12 +139,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>படம் பிடிக்கப்பட்ட தேதி</translation>
+        <translation>படம் எடுக்கப்பட்ட தேதி</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
         <source>Date modified</source>
-        <translation>தேதி மாற்றப்பட்ட</translation>
+        <translation>திருத்தப்பட்ட தேதி</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
@@ -154,62 +154,62 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="154"/>
         <source>Aperture</source>
-        <translation>அபர்சர்</translation>
+        <translation>புறநோக்கி</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Exposure program</source>
-        <translation>தொடர்புடைய திரைச்செயல்</translation>
+        <translation>பொருட்காட்டி நிலை</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="169"/>
         <source>Focal length</source>
-        <translation>குறிப்பிட்ட தூரம்</translation>
+        <translation>குறுக்கு தூரம்</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="175"/>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation>ஐஎஸ் ஒ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="182"/>
         <source>Exposure mode</source>
-        <translation>தொடர்புடைய திரைச்செயல் திட்டம்</translation>
+        <translation>பொருட்காட்டி திட்டம்</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="188"/>
         <source>Exposure time</source>
-        <translation>தொடர்புடைய திரைச்செயல் நேரம்</translation>
+        <translation>பொருட்காட்டி நேரம்</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="194"/>
         <source>Flash</source>
-        <translation>பிரிம்பிள்</translation>
+        <translation>ஃப்ளாஷ்</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="201"/>
         <source>Flash compensation</source>
-        <translation>பிரிம்பிள் திருத்தம்</translation>
+        <translation>ஃப்ளாஷ் மீட்டரிங்</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
         <source>Colorspace</source>
-        <translation>தொடர்புடைய நிற விரிவு</translation>
+        <translation>தாராச்செல்</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
         <source>Metering mode</source>
-        <translation>மெட்டரிங் திட்டம்</translation>
+        <translation>மீட்டரிங் திட்டம்</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
         <source>White balance</source>
-        <translation>வெள்ளை சமநிலை</translation>
+        <translation>வெள்ளிக் குழம்பு</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="246"/>
         <source>Lens model</source>
-        <translation>லென்ஸ் மாடல்</translation>
+        <translation>கண்ணாடி மாடல்</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation>மெக்ஸ் அப்பர்சூர்</translation>
+        <translation>மீக்ஸ் திறன்</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation>டிவைஸ் மாடல்</translation>
+        <translation>உங்கள் மாடல்</translation>
     </message>
 </context>
 <context>
@@ -242,20 +242,20 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation>கொடியெடு (Ctrl+C)</translation>
+        <translation>காபிக்க (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation>அனைத்தையும் தேர்வு (Ctrl+A)</translation>
+        <translation>அனைத்தை தேர்ந்தெடுக்க (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Select pictures</translation>
+        <translation>படங்களை தேர்ந்தெடுக்க</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Image file not found</translation>
+        <translation>பட கோப்பு கண்டுபிடிக்க முடியவில்லை</translation>
     </message>
 </context>
 <context>
@@ -271,7 +271,7 @@
     <message>
         <location filename="../qml/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>தொடர்புடைய திரைச்செயல் திறந்து</translation>
+        <translation>படத்தை திறக்க</translation>
     </message>
 </context>
 <context>
@@ -279,7 +279,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>நீங்கள் பயன்படுத்தும் பெயர் இங்கே இருக்கிறது, வேறு ஒரு பெயரை பயன்படுத்தவும்</translation>
+        <translation>இந்த கோப்பு இப்போது உள்ளது, மேலும் ஒரு பெயரை பயன்படுத்தவும்</translation>
     </message>
 </context>
 <context>
@@ -287,7 +287,7 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>தொடர்புடைய திரைச்செயல் காணிக்கை</translation>
+        <translation>பட பார்வையின்</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
@@ -297,7 +297,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>தொடர்புடைய திரைச்செயல் காணிக்கை ஒரு திரைச்செயல் காணிக்கை உபகரணங்களின் பார்வை கொண்டது, முறையான பொருட்களை தரும் பொருட்கள் மற்றும் செரிமானம் செய்யும் திறன் கொண்டது</translation>
+        <translation>பட பார்வையின் ஒரு பட பார்வை கருவி ஆகும், அழகான பொருட்காட்டி மற்றும் சுலபமான செயல்பாடுகளைக் கொண்டது.</translation>
     </message>
 </context>
 <context>
@@ -310,40 +310,40 @@
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>தள்ளவும்</translation>
+        <translation>அந்த கோப்பை இதுவரை இருக்கிறது, இன்னொரு பெயரை பயன்படுத்தவும்</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
         <source>Cancel</source>
-        <translation>உன்மானிக்கவும்</translation>
+        <translation>தடை செய்ய</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>உறுதியாக்கு</translation>
+        <translation>உறுதிப்படுத்து</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>இந்த செயல் திரும்பி செய்ய முடியாது</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>&quot;%1&quot; ஐ அரங்கை நீங்கள் அனுப்ப முடியவில்லை. அதனை தொடர்ச்சியாக நீக்க விரும்புகிறீர்களா?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>தள்ளவும்</translation>
+        <translation>இந்த செயல் திரும்பி செய்ய முடியாது</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation>ரத்து செய்</translation>
+        <translation>தவறு</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation>உறுதிமை</translation>
+        <translation>உறுதிப்படுத்து</translation>
     </message>
 </context>
 <context>
@@ -351,7 +351,7 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="155"/>
         <source>Previous</source>
-        <translation>முன்னது</translation>
+        <translation>முன்னேறு</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
@@ -361,12 +361,12 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Play</source>
-        <translation>தொடரு</translation>
+        <translation>துவக்கு</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
         <source>Next</source>
-        <translation>அடுத்தது</translation>
+        <translation>அடுத்து</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
@@ -379,12 +379,12 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="173"/>
         <source>Next</source>
-        <translation>அடுத்தது</translation>
+        <translation>அடுத்து</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="148"/>
         <source>Previous</source>
-        <translation>முன்னது</translation>
+        <translation>முன்னேறு</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
@@ -392,22 +392,22 @@
         <translation>மூல அளவு</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
-        <translation>திசைவிற்கு ஏற்ப</translation>
+        <translation>தியர்க்கு பொருத்து</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation>ஓர்வது</translation>
+        <translation>திருக்கு</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation>மெய்ப்பாட்டை எடு</translation>
+        <translation>மெய்ப்பார்க்கு</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
         <translation>அகற்று</translation>
     </message>
@@ -422,7 +422,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Exit fullscreen</source>
-        <translation>நிறுத்து முழு திரை</translation>
+        <translation>முழு திரையை விடு</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="57"/>
@@ -432,22 +432,22 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation>மெய்ப்பாட்டை எடு</translation>
+        <translation>மெய்ப்பார்க்கு</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
         <source>Slide show</source>
-        <translation>சில்லு காட்டு</translation>
+        <translation>படத்தின் தொடர் காட்சி</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="117"/>
         <source>Copy</source>
-        <translation>காப்பி</translation>
+        <translation>கொண்டு செல்லு</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="137"/>
         <source>Rename</source>
-        <translation>புதிய பெயர்</translation>
+        <translation>பெயர் மாற்று</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="156"/>
@@ -457,55 +457,63 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="183"/>
         <source>Rotate clockwise</source>
-        <translation>நேர் வழியில் ஓர்வது</translation>
+        <translation>முற்று மாற்று</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>எதிர் வழியில் ஓர்வது</translation>
+        <translation>முற்று மாற்று (முதலில்)</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation>திரையை தேர்வு செய்யும் பணி காட்டு</translation>
+        <translation>திரையின் தேர்வு படி காட்டு</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Hide navigation window</source>
-        <translation>திரையை தேர்வு செய்யும் பணி மறை</translation>
+        <translation>திரையின் தேர்வு படி அகற்று</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
         <source>Set as wallpaper</source>
-        <translation>வலைப்பேஜாக அமை</translation>
+        <translation>வலைபேர் ஆக்கு</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>பைல் மேனேஜரில் காட்டு</translation>
+        <translation>அட்டை மேலாளரின் தேர்வு படி காட்டு</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
         <source>Image info</source>
-        <translation>காட்டு தகவல்</translation>
+        <translation>படத்தின் தகவல்</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>படம் பார்க்கும் பொருள் மாடலின் உடன் கூட்டிய முறை மற்றும் செல்வாக்குடைய செயல்திறன் கொண்டது.</translation>
+        <translation>Image Viewer ஒரு முறையான படங்களை பார்க்கும் கருவி மற்றும் சுவரூபம் கொண்ட நெட்டின் செயல்பாட்டு திறன் கொண்டது.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
         <translation>Image Viewer</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>பதிப்பு</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 பதிப்பு %2 க்கு கீழ் வெளியிடப்பட்டுள்ளது.&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>படத்தை திறந்து விடு</translation>
+        <translation>படத்தை திறக்கவும்</translation>
     </message>
 </context>
 </TS>

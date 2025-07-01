@@ -4,124 +4,124 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
-        <source>Fullscreen</source>
-        <translation>โหมดเต็มหน้าจอ</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
-        <source>Exit fullscreen</source>
-        <translation>ออกโหมดเต็มหน้าจอ</translation>
+        <source>Fullscreen</source>
+        <translation>အမှီအခိုင်း</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
-        <source>Extract text</source>
-        <translation>ดึงข้อความ</translation>
+        <source>Exit fullscreen</source>
+        <translation>ပြီးချိန်ရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
-        <source>Slide show</source>
-        <translation>แสดงภาพแบบสไลด์</translation>
+        <source>Extract text</source>
+        <translation>စာပိုဒ်ကို ထုတ်ယူရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="797"/>
-        <source>Rename</source>
-        <translation>เปลี่ยนชื่อ</translation>
+        <source>Slide show</source>
+        <translation>စာပြုလုပ်ရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="801"/>
-        <source>Copy</source>
-        <translation>คัดลอก</translation>
+        <source>Rename</source>
+        <translation>အမည်ပြောင်းရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="805"/>
-        <source>Delete</source>
-        <translation>ลบ</translation>
+        <source>Copy</source>
+        <translation>မှတ်ပုံတင်ရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="809"/>
-        <source>Rotate clockwise</source>
-        <translation>หมุนตามเข็มนาฬิกา</translation>
+        <source>Delete</source>
+        <translation>ဖျက်ရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="813"/>
-        <source>Rotate counterclockwise</source>
-        <translation>หมุนต่อต้านเข็มนาฬิกา</translation>
+        <source>Rotate clockwise</source>
+        <translation>အိုင်းလ်ပြောင်းရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="817"/>
-        <source>Set as wallpaper</source>
-        <translation>ตั้งเป็นพื้นหลัง</translation>
+        <source>Rotate counterclockwise</source>
+        <translation>အိုင်းလ်နောက်ကျပြောင်းရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="821"/>
-        <source>Display in file manager</source>
-        <translation>แสดงในโปรแกรมจัดการไฟล์</translation>
+        <source>Set as wallpaper</source>
+        <translation>ဝါလိုင်းအဖြစ် ထားရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="825"/>
-        <source>Image info</source>
-        <translation>ข้อมูลภาพ</translation>
+        <source>Display in file manager</source>
+        <translation>ဖိုင်မန်းအတွင်း ပြသရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="829"/>
-        <source>Previous</source>
-        <translation>ก่อนหน้า</translation>
+        <source>Image info</source>
+        <translation>ပုံသဏ္ဍာန်အချက်အလက်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="833"/>
-        <source>Next</source>
-        <translation>ต่อไป</translation>
+        <source>Previous</source>
+        <translation>မှီငြမ်း</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="837"/>
-        <source>Zoom in</source>
-        <translation>ขยาย</translation>
+        <source>Next</source>
+        <translation>နောက်ထပ်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
-        <source>Zoom out</source>
-        <translation>ย่อ</translation>
+        <source>Zoom in</source>
+        <translation>ချိန်ပိုးကြီးစေရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
-        <source>Open</source>
-        <translation>เปิด</translation>
+        <source>Zoom out</source>
+        <translation>ချိန်ပိုးငယ်စေရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="849"/>
-        <source>Print</source>
-        <translation>พิมพ์</translation>
+        <source>Open</source>
+        <translation>ဖွင့်ရန်</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
-        <source>Image Viewing</source>
-        <translation>การดูภาพ</translation>
+        <location filename="../src/filecontrol.cpp" line="853"/>
+        <source>Print</source>
+        <translation>ပုံနှိပ်ရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="877"/>
-        <source>Help</source>
-        <translation>ความช่วยเหลือ</translation>
+        <source>Image Viewing</source>
+        <translation>ပုံသေတ္တိကြည့်ရန်</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="881"/>
+        <source>Help</source>
+        <translation>ကူညီရန်</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
-        <translation>แสดงคำสั่งย่อ</translation>
+        <translation>တစ်နေရာတည်း သို့မဟုတ် အကြမ်းအကျိုးကို ပြသရန်</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
-        <translation>การตั้งค่า</translation>
+        <translation>ပြုပြင်ချက်များ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation>เลือกทั้งหมด</translation>
+        <translation>အားလုံးကို ရွေးချယ်ရန်</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation>ข้อความแบบเรียลไทม์</translation>
+        <translation>အသက်ရှုန်းစာပိုဒ်</translation>
     </message>
 </context>
 <context>
@@ -129,42 +129,42 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="74"/>
         <source>Basic info</source>
-        <translation>ข้อมูลพื้นฐาน</translation>
+        <translation>အခြေခံအချက်အလက်</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
         <source>Size</source>
-        <translation>ขนาด</translation>
+        <translation>အရွယ်အစား</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>วันที่ถ่าย</translation>
+        <translation>ရိုက်ကူးခဲ့သည့် နေ့စွဲ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
         <source>Date modified</source>
-        <translation>วันที่แก้ไข</translation>
+        <translation>ပြင်ပြောင်းခဲ့သည့် နေ့စွဲ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
         <source>Details</source>
-        <translation>รายละเอียด</translation>
+        <translation>အချက်အလက်များ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="154"/>
         <source>Aperture</source>
-        <translation>รูรับแสง</translation>
+        <translation>အိမ်</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Exposure program</source>
-        <translation>အမှုအရာများ</translation>
+        <translation>ပြုပြင်ရေး အစီအစဉ်</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="169"/>
         <source>Focal length</source>
-        <translation>အကြောင်းအရာအရွယ်အစား</translation>
+        <translation>မှီးအကြားအကွာအဝေး</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="175"/>
@@ -174,42 +174,42 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="182"/>
         <source>Exposure mode</source>
-        <translation>အမှုအရာပုံစံ</translation>
+        <translation>ပို့ထုတ်များကို အမျိုးအစား</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="188"/>
         <source>Exposure time</source>
-        <translation>အမှုအရာအချိန်</translation>
+        <translation>ပို့ထုတ်မှီး အချိန်</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="194"/>
         <source>Flash</source>
-        <translation>ပူးတွဲ</translation>
+        <translation>ပို့ထုတ်မှီး</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="201"/>
         <source>Flash compensation</source>
-        <translation>ပူးတွဲ အထောက်အပံ့</translation>
+        <translation>ပို့ထုတ်မှီး ပြန်လည်ပေးအပ်မှု</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
         <source>Colorspace</source>
-        <translation>အရောင်နှင့် အကြောင်းအရာ</translation>
+        <translation>အရောင် အခြေအနေ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
         <source>Metering mode</source>
-        <translation>အမှုအရာမှန်ကန်မှုပုံစံ</translation>
+        <translation>မှန်ခြောက်မှု အမျိုးအစား</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
         <source>White balance</source>
-        <translation>အဖြူအချိန်</translation>
+        <translation>အဖြူကို ချိန်ခြောက်မှု</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="246"/>
         <source>Lens model</source>
-        <translation>မိတ္တူပုံစံ</translation>
+        <translation>မှီးအကြား အမျိုးအစား</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation>အများအပြား အကြောင်းအရာ</translation>
+        <translation>အကြီးဆုံး မှီးအကြား</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation>အကြောင်းအရာပုံစံ</translation>
+        <translation>အထုတ်အပြုက် အမျိုးအစား</translation>
     </message>
 </context>
 <context>
@@ -242,20 +242,20 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation>အမှုအရာကို ကူး (Ctrl+C)</translation>
+        <translation>အမှတ်ပြု (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation>အားလုံးကို ရွေး (Ctrl+A)</translation>
+        <translation>အားလုံးကို ရွေးချယ် (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Select pictures</translation>
+        <translation>မှီးပုံများကို ရွေးချယ်ပါ</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Image file not found</translation>
+        <translation>မှီးပုံဖိုင်ကို မတွေ့ပါ</translation>
     </message>
 </context>
 <context>
@@ -271,7 +271,7 @@
     <message>
         <location filename="../qml/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>ဖိုင်ကို ဖွင့်ပါ</translation>
+        <translation>ဖိုင်သည် ပိုင်ဆိုင်နေပြီးဖြစ်သည်၊ အခြားအမည်ကို သုံးပါ</translation>
     </message>
 </context>
 <context>
@@ -279,7 +279,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>ဖိုင်သည် တော်တော်လေးပြုလုပ်ထားပြီးဖြစ်ပါသည်။ အခြားအမည်ကို အသုံးပြုပါ</translation>
+        <translation>မှီးပုံကြည့်ရှုသည့် အက်ပ်</translation>
     </message>
 </context>
 <context>
@@ -287,7 +287,7 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>ပုံကြောင်းကြည့်ရှုသူ</translation>
+        <translation>နေ့</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
@@ -297,7 +297,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>အမှုအရာကြည့်ရှုသူသည် ပုံကြောင်းကြည့်ရှုရန် အသုံးပြုနိုင်သည့် အကြောင်းအရာကို ပြသသည့် အကြောင်းအရာများပါ အကြောင်းအရာကို ဖြည့်စွက်ပါ။</translation>
+        <translation>အသစ်အမည်ကို ထည့်ပါ</translation>
     </message>
 </context>
 <context>
@@ -305,45 +305,45 @@
     <message>
         <location filename="../qml/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation>အသစ်အမည်ကို ထည့်ပါ</translation>
+        <translation>ပယ်ပါ</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>ရပ်ပါ</translation>
+        <translation>အသိအမှတ်ပြုပါ</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
         <source>Cancel</source>
-        <translation>အတည်ပြုပါ</translation>
+        <translation>ဖျက်ပစ်</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>ยืนยัน</translation>
+        <translation>အတည်ပြု</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>အကြောင်းအရာကို ပြန်လည်ပြုလုပ်ရန် မလိုအပ်ပါ။</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation> &quot;%1&quot; ကို အိမ်ထဲသို့ ရွှေ့နိုင်မည်မဟုတ်ပါ။ အမှန်တကယ် ဖျက်ပစ်ရေးကို ကျွန်းသို့ သင် လိုလားပါသလား။</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>การกระทำนี้ไม่สามารถยกเลิกได้</translation>
+        <translation>အဆိုပါအကျုံးအား ပြန်လည်ပြုလုပ်ရန် မဖြစ်နိုင်ပါ</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation>ยกเลิก</translation>
+        <translation>ရပ်ပြီး</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation>ยืนยัน</translation>
+        <translation>အတည်ပြု</translation>
     </message>
 </context>
 <context>
@@ -351,27 +351,27 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="155"/>
         <source>Previous</source>
-        <translation>ก่อนหน้า</translation>
+        <translation>မှီခို</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Pause</source>
-        <translation>หยุด</translation>
+        <translation>ရပ်တန့်</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Play</source>
-        <translation>เล่น</translation>
+        <translation>ပိတ်ပင်</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
         <source>Next</source>
-        <translation>ต่อไป</translation>
+        <translation>နောက်ထပ်</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
         <source>Exit</source>
-        <translation>ออก</translation>
+        <translation>ထွက်ပါ</translation>
     </message>
 </context>
 <context>
@@ -379,37 +379,37 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="173"/>
         <source>Next</source>
-        <translation>ต่อไป</translation>
+        <translation>နောက်ထပ်</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="148"/>
         <source>Previous</source>
-        <translation>ก่อนหน้า</translation>
+        <translation>မှီခို</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation>ขนาดเดิม</translation>
+        <translation>စိတ်ကြိုက်အရွယ်အစား</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
-        <translation>ปรับให้เหมาะกับหน้าต่าง</translation>
+        <translation>ပိုင်းတွင် အရွယ်အစားကို ချိန်ညှိ</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation>หมุน</translation>
+        <translation>ပြန်လည်ပြောင်းရွှေ့</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation>ดึงข้อความ</translation>
+        <translation>စာသားကို ထုတ်ယူ</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
-        <translation>ลบ</translation>
+        <translation>ဖျက်ပါ</translation>
     </message>
 </context>
 <context>
@@ -417,95 +417,103 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Fullscreen</source>
-        <translation>แสดงแบบเต็มหน้าจอ</translation>
+        <translation>ပြည့်စုံသော မျက်နှာပြင်</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Exit fullscreen</source>
-        <translation>ออกจากรежีมเต็มหน้าจอ</translation>
+        <translation>ပြည့်စုံသော မျက်နှာပြင် ထွက်ပါ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="57"/>
         <source>Print</source>
-        <translation>พิมพ์</translation>
+        <translation>ထုတ်ဝေ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation>ดึงข้อความ</translation>
+        <translation>စာသားကို ထုတ်ယူ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
         <source>Slide show</source>
-        <translation>แสดงภาพแบบสไลด์เชื่อมต่อ</translation>
+        <translation>ပြင်ပြင်ပြောင်းရွှေ့</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="117"/>
         <source>Copy</source>
-        <translation>คัดลอก</translation>
+        <translation>အမှတ်ပြု</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="137"/>
         <source>Rename</source>
-        <translation>เปลี่ยนชื่อ</translation>
+        <translation>အမည်ပြောင်း</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="156"/>
         <source>Delete</source>
-        <translation>ลบ</translation>
+        <translation>ဖျက်ပါ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="183"/>
         <source>Rotate clockwise</source>
-        <translation>หมุนตามเข็มนาฬิกา</translation>
+        <translation>လျှောက်ပြောင်းရွှေ့</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>หมุนต่อทาง</translation>
+        <translation>လျှောက်ပြောင်းရွှေ့</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation>แสดงหน้าต่างนำทาง</translation>
+        <translation>နောက်ထပ် မျက်နှာပြင်ကို ပြပါ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Hide navigation window</source>
-        <translation>ซ่อนหน้าต่างนำทาง</translation>
+        <translation>နောက်ထပ် မျက်နှာပြင်ကို ကြိုးပေး</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
         <source>Set as wallpaper</source>
-        <translation>ตั้งเป็นพื้นหลัง</translation>
+        <translation>ဝေလှည့်အောင် ထားပါ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>แสดงในตัวจัดการไฟล์</translation>
+        <translation>အမှတ်ပြု မျက်နှာပြင်ကို ပြပါ</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
         <source>Image info</source>
-        <translation>ข้อมูลภาพ</translation>
+        <translation>ဓာတ်ပုံ အချက်အလက်</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer เป็นเครื่องมือดูภาพที่มีอินเทอร์เฟซทันสมัยและประสิทธิภาพที่ราบรื่น</translation>
+        <translation>သီးခြားကြည့်ရှုသည့် အက်ပလီကေးရှိုးဖြင့် အဆင်ပြေသော အက်ပလီကေးရှိုးဖြစ်သည်။</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation>Image Viewer</translation>
+        <translation>သီးခြားကြည့်ရှုသည့် အက်ပလီကေးရှိုး</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>ဗားရျှေ့</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 သည် %2 အောက်တွင် ထုတ်ပြန်ခဲ့သည်။&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>ဖွင့်ပေးရန်</translation>
+        <translation>သီးခြားကြည့်၍ ဗားရျှေ့</translation>
     </message>
 </context>
 </TS>
