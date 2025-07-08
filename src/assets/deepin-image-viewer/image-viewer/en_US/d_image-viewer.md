@@ -107,21 +107,15 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 1. Right-click the image on the Image Viewer interface and select **Copy**.
 2. On the desktop or in the target place, right-click the blank area and select **Paste** to copy the image to that location.
 
-![0|copy](fig/copy.png)
-
 
 ### Rotate Images
 
 1. Right-click the image on the Image Viewer interface and select **Rotate clockwise** or **Rotate counterclockwise**.
 2. The image will be rotated clockwise or counterclockwise for 90 degrees.
 
-![0|rotate](fig/rotate.png)
-
 ### Set as Wallpaper
 
 You can set an image as desktop wallpaper. Right-click the image on the Image Viewer interface and select **Set as wallpaper**.
-
-![0|wallpaper](fig/wallpaper.png)
 
 ### Display in File Manager
 
