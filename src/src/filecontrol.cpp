@@ -827,17 +827,18 @@ bool FileControl::isCheckOnly()
 bool FileControl::isCanSupportOcr(const QString &path)
 {
     qCDebug(logImageViewer) << "FileControl::isCanSupportOcr() called for path: " << path;
-    bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
     qCDebug(logImageViewer) << "Image type: " << type << ", isReadable: " << info.isReadable();
     if (imageViewerSpace::ImageTypeDynamic != type && info.isReadable()) {
         qCDebug(logImageViewer) << "Image supports OCR. Returning true.";
-        bRet = true;
+        return true;
     }
-    qCDebug(logImageViewer) << "Image does not support OCR. Returning false.";
-    return bRet;
+    else {
+        qCDebug(logImageViewer) << "Image does not support OCR. Returning false.";
+        return false;
+    }
 }
 
 bool FileControl::isCanRename(const QString &path)
