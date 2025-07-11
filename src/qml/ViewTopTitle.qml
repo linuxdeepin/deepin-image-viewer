@@ -190,8 +190,8 @@ Rectangle {
                         productIcon: "deepin-image-viewer"
                         productName: qsTr("Image Viewer")
                         version: Qt.application.version
-                        websiteLink: "www.chinauos.com"
-                        websiteName: "www.chinauos.com"
+                        websiteLink: DTK.deepinWebsiteLink
+                        websiteName: DTK.deepinWebsiteName
                     }
                 }
 
