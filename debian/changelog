@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.28) unstable; urgency=medium
+
+  * fix: About interface application homepage display abnormality
+
+ -- Liu Zhangjian <liuzhangjian@uniontech.com>  Fri, 11 Jul 2025 10:17:40 +0800
+
 deepin-image-viewer (6.0.27) unstable; urgency=medium
 
   * chore: Update deepin-manual resources (#252)
