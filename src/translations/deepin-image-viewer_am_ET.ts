@@ -1,127 +1,125 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="am_ET">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="am_ET">
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
+        <location filename="../src/filecontrol.cpp" line="785"/>
         <source>Fullscreen</source>
         <translation>በ ሙሉ መመልከቻ ዘዴ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="785"/>
+        <location filename="../src/filecontrol.cpp" line="789"/>
         <source>Exit fullscreen</source>
         <translation>ከ ሙሉ መመልከቻ ዘዴ መውጫ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="789"/>
+        <location filename="../src/filecontrol.cpp" line="793"/>
         <source>Extract text</source>
-        <translation>טקסט አስገር</translation>
+        <translation>טקסט አገኝ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="793"/>
+        <location filename="../src/filecontrol.cpp" line="797"/>
         <source>Slide show</source>
         <translation>ተንሸራታች ማሳያ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="797"/>
+        <location filename="../src/filecontrol.cpp" line="801"/>
         <source>Rename</source>
         <translation>እንደገና መሰየሚያ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Copy</source>
         <translation>ኮፒ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Delete</source>
         <translation>ማጥፊያ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
+        <location filename="../src/filecontrol.cpp" line="813"/>
         <source>Rotate clockwise</source>
         <translation>ማዞሪያ ከ ግራ ወደ ቀኝ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="813"/>
+        <location filename="../src/filecontrol.cpp" line="817"/>
         <source>Rotate counterclockwise</source>
         <translation>ማዞሪያ ከ ቀኝ ወደ ግራ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="817"/>
+        <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Set as wallpaper</source>
         <translation>እንደ ግድግዳ ወረቀት ማሰናጃ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="821"/>
+        <location filename="../src/filecontrol.cpp" line="825"/>
         <source>Display in file manager</source>
         <translation>በ ፋይል አስተዳዳሪ ውስጥ ማሳያ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="825"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Image info</source>
         <translation>የ ምስል መረጃ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
         <translation>ያለፈው</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
         <translation>ይቀጥሉ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
-        <source>Zoom in</source>
-        <translation>መጋ一點</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
-        <source>Zoom out</source>
-        <translation>መጋ一點</translation>
+        <source>Zoom in</source>
+        <translation>ማስታወቂያ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
-        <source>Open</source>
-        <translation>ክፈት</translation>
+        <source>Zoom out</source>
+        <translation>ማስወገጃ</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="849"/>
+        <source>Open</source>
+        <translation>ክፈል</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
         <translation>ማተሚያ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Image Viewing</source>
         <translation>ምስል በ መመልከት ላይ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>እርዳታ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
         <translation>አቋራጭ ማሳያ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
         <translation>ማሰናጃ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation>ሁሉንም ያም ማም</translation>
+        <translation>ሁሉንም ይምረጡ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation>የሚያዘም ታክስት</translation>
+        <translation>የክፈል ታክስት</translation>
     </message>
 </context>
 <context>
@@ -129,17 +127,17 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="74"/>
         <source>Basic info</source>
-        <translation>መሰረት መረጃ</translation>
+        <translation>መሰረት ስም</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
         <source>Size</source>
-        <translation>መጠን</translation>
+        <translation>ውስጥ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>የተገበረ ቀን</translation>
+        <translation>የማስታወቂያ ቅን barrel</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
@@ -149,7 +147,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
         <source>Details</source>
-        <translation>ስምም</translation>
+        <translation>መረጃ</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="154"/>
@@ -214,7 +212,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
         <source>File name</source>
-        <translation>መ档 ስም</translation>
+        <translation>የไฟል ስም</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
@@ -234,7 +232,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation>መሳሪያ ስም</translation>
+        <translation>የስራ ምስክ</translation>
     </message>
 </context>
 <context>
@@ -247,15 +245,15 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation>ሁሉንም ያም (Ctrl+A)</translation>
+        <translation>ሁሉንም ይምረጡ (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation>ምስክር ስም</translation>
+        <translation>ምስክ ስም አገኝ</translation>
     </message>
 </context>
 <context>
@@ -263,7 +261,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation>ምስክር መ档 ማግኘት አልተቻለ</translation>
+        <translation>የምስክር ባህሪ ምስክር የለም</translation>
     </message>
 </context>
 <context>
@@ -271,7 +269,7 @@
     <message>
         <location filename="../qml/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>ምስክር አክሲ</translation>
+        <translation>ምስክ አገኝ</translation>
     </message>
 </context>
 <context>
@@ -279,7 +277,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>መ档 ማግኘት አለው፣ እርስ ምስክር ስም እንደገና እንደገና ያም</translation>
+        <translation>የไฟል የሚገኝ አገኝ አዲስ ስም አውቃ</translation>
     </message>
 </context>
 <context>
@@ -287,7 +285,7 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>ምስክር ድር</translation>
+        <translation>ምስክ አገኝ</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
@@ -297,7 +295,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>ምስክር ድር የምስክር ድር መረጃ ስም አለው፣ ምስክር ድር የሚያዘም መሳሪያ እና ምስክር ድር የሚያዘም የሚያዘም መሳሪያ ነው።</translation>
+        <translation>የመስመር የመጋለ የድህረ ምስክር አገልግሎት ነው፣ ጥሩ አውtor ያለው እና ጥሩ የምስክር ዓይነት ምስክር ነው።</translation>
     </message>
 </context>
 <context>
@@ -305,12 +303,12 @@
     <message>
         <location filename="../qml/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation>አዲስ ስም ማግኘት</translation>
+        <translation>የአዲስ ይምረጡ ይምረጡ</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>ትክክለኛ</translation>
+        <translation>የไฟል የሚገኝ ነው፣ ይምረጡ የተለያዩ ይምረጡ</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
@@ -320,20 +318,20 @@
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation> "%1" ማግኘት ማግኘት አይቻለም። እርስ ስም ማግኘት እድገ እንደገና ያም?</translation>
+        <translation>ማረጡ</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>እርስ ስም ማግኘት አይቻለም</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation> &quot;%1&quot; ብቻ ተገኝ ይገኛል፣ ይምረጡ የሚያስፈልገው የማስወገድ ይምረጡ?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>መዝግብ</translation>
+        <translation>ይህ የምስክር ምርጫ የማሰረፍ ይገኛል</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -343,7 +341,7 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation>መዝግብ</translation>
+        <translation>ማረጡ</translation>
     </message>
 </context>
 <context>
@@ -356,12 +354,12 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Pause</source>
-        <translation>ፍርድ</translation>
+        <translation>ቅስ ይገኛል</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Play</source>
-        <translation>ይዝ እንዳ ተስፋ</translation>
+        <translation>ይዝ ይገኛል</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
@@ -389,25 +387,25 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation>ზომის საწყისი</translation>
+        <translation>መነሻ የመጋለ ቅን barrel</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
         <translation>በ መስኮቱ ልክ</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation>ბრუნვა</translation>
+        <translation>ማዞር</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation>ტექსტის გამომწერა</translation>
+        <translation>ጽ ስም ለማስገባት</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
         <translation>ማጥፊያ</translation>
     </message>
@@ -432,7 +430,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation>ტექსტის გამომწერა</translation>
+        <translation>ጽ ስም ለማስገባት</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
@@ -493,19 +491,27 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>სურათის ხილვა სურათის ხილვის ინსტრუმენტია, რომელიც მოთამაშე ინტერფეისით და მარტივი საკმარისი საშუალებით მუშაობს.</translation>
+        <translation>የመስመር የመጋለ ገጽ አገልግሎት አስፈላጊ ቅን barrel እና ምስክ ተግባር አለው።</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation>სურათის ხილვა</translation>
+        <translation>የመስመር የመጋለ ገጽ</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>ውersi</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 በ%2 ውስጥ ተሰጠች ደግሞ&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>სურათის გახსნა</translation>
+        <translation>መጋለ ገጽ ለመክፈት</translation>
     </message>
 </context>
 </TS>

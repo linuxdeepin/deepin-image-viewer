@@ -4,124 +4,124 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
-        <source>Fullscreen</source>
-        <translation>ფულსკრეენი</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
-        <source>Exit fullscreen</source>
-        <translation>გამოსვლა ფულსკრეენიდან</translation>
+        <source>Fullscreen</source>
+        <translation>სამართალი</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
-        <source>Extract text</source>
-        <translation>ტექსტის გამოყოფა</translation>
+        <source>Exit fullscreen</source>
+        <translation>გამართალის გასასვლელი</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
-        <source>Slide show</source>
-        <translation>სლაიდის ნაჩვენება</translation>
+        <source>Extract text</source>
+        <translation>ტექსტის გამომოყოფა</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="797"/>
-        <source>Rename</source>
-        <translation>გადასახვა</translation>
+        <source>Slide show</source>
+        <translation>სლაიდის გამოჩვენება</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="801"/>
+        <source>Rename</source>
+        <translation>გადასარიდებელი</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="805"/>
         <source>Copy</source>
         <translation>კოპირება</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="805"/>
+        <location filename="../src/filecontrol.cpp" line="809"/>
         <source>Delete</source>
         <translation>წაშლა</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="809"/>
-        <source>Rotate clockwise</source>
-        <translation>გაბმული საათის მიმართულებით</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="813"/>
-        <source>Rotate counterclockwise</source>
-        <translation>გაბმული საათის მიმართულებით საპირისპირო</translation>
+        <source>Rotate clockwise</source>
+        <translation>გაბრტყალება საათის მიმართულებით</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="817"/>
-        <source>Set as wallpaper</source>
-        <translation>დასახელება ფონად</translation>
+        <source>Rotate counterclockwise</source>
+        <translation>გაბრტყალება საათის პირიქით მიმართულებით</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="821"/>
-        <source>Display in file manager</source>
-        <translation>ნაჩვენება ფაილის მართვის პროგრამაში</translation>
+        <source>Set as wallpaper</source>
+        <translation>დასაყოფად არის გადასაყოფი</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="825"/>
+        <source>Display in file manager</source>
+        <translation>ფაილის მართვის სისტემაში გამოჩნდეს</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Image info</source>
         <translation>სურათის ინფორმაცია</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
         <translation>წინა</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Next</source>
         <translation>შემდეგი</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
-        <source>Zoom in</source>
-        <translation>მატება</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
-        <source>Zoom out</source>
-        <translation>შემცირება</translation>
+        <source>Zoom in</source>
+        <translation>გადიდება</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
+        <source>Zoom out</source>
+        <translation>მცირება</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="849"/>
         <source>Open</source>
         <translation>გახსნა</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Print</source>
-        <translation>დასაბეჭდი</translation>
+        <translation>პრინტი</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Image Viewing</source>
         <translation>სურათის ნახვა</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>დახმარება</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
-        <translation>სასწრაფო აქსესურების ნაჩვენება</translation>
+        <translation>სამართალის მართვა</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
         <translation>პარამეტრები</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
         <translation>ყველას არჩევა</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
-        <translation>ცოტა ტექსტი</translation>
+        <translation>გადამოყოფილი ტექსტი</translation>
     </message>
 </context>
 <context>
@@ -129,7 +129,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="74"/>
         <source>Basic info</source>
-        <translation>საფუძველო ინფორმაცია</translation>
+        <translation>საბაზისში ინფორმაცია</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
@@ -139,12 +139,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>სურათის ამოღების თარიღი</translation>
+        <translation>ჩამოთვლის თარიღი</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
         <source>Date modified</source>
-        <translation>რედაქტირების თარიღი</translation>
+        <translation>შეცვლის თარიღი</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
@@ -154,7 +154,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="154"/>
         <source>Aperture</source>
-        <translation>აპერტურა</translation>
+        <translation>სარკის სიგანე</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
@@ -194,7 +194,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
         <source>Colorspace</source>
-        <translation>ფერის სივრცე</translation>
+        <translation>ფარბის სივრცე</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
@@ -204,7 +204,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
         <source>White balance</source>
-        <translation>თეთრი ბალსები</translation>
+        <translation>თეთრი ბალსანსი</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="246"/>
@@ -253,9 +253,9 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Select pictures</translation>
+        <translation>ფოტოების არჩევა</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Image file not found</translation>
+        <translation>სურათის ფაილი ვერ მოიძებნა</translation>
     </message>
 </context>
 <context>
@@ -297,7 +297,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>სურათის ხილვა არის სურათის ხილვის ინსტრუმენტი, რომელიც შედგენილია სივრცედ და სუსტი საკმარის საკმარისით.</translation>
+        <translation>სურათის ხილვა არის სურათის ხილვის ინსტრუმენტი, რომელიც მოიცავს სახელმწიფო ინტერფეისსა და სუსტ შესრულებას</translation>
     </message>
 </context>
 <context>
@@ -310,30 +310,30 @@
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>გაუქმება</translation>
+        <translation>ფაილი უკვე არსებობს, გთხოვთ გამოიყენოთ სხვა სახელი</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
         <source>Cancel</source>
-        <translation>დადასტურება</translation>
+        <translation>გაუქმება</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>არ შეიძლება გადაასახლოს "%1" საფუთლეში. გსურთ უარყოფითად წაშალოთ ის?</translation>
+        <translation>დადასტურება</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>ამ მოქმედების არ შეიძლება დაუბრუნდეს</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>ვერ შეგიძლია გადაადგილოთ &quot;%1&quot; საკარგეში. გამოი want სასურველად მოიშალოს საგულისხად?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>გაუქმება</translation>
+        <translation>ამ მოქმედების შესახებ არ არსებობს დაბრუნების საშუალება</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -371,7 +371,7 @@
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
         <source>Exit</source>
-        <translation>გამართვა</translation>
+        <translation>გასვლა</translation>
     </message>
 </context>
 <context>
@@ -389,25 +389,25 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation>ისე რაც არის</translation>
+        <translation>ორიგინალური ზომა</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
-        <translation>ფიტი საკმარისი სათავეში</translation>
+        <translation>ჩასატარებლად ფანტომის ზომა</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation>გაბრუნება</translation>
+        <translation>გატოლება</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation>ტექსტის გამომავალი</translation>
+        <translation>ტექსტის გამომუშავება</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
         <translation>წაშლა</translation>
     </message>
@@ -422,17 +422,17 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Exit fullscreen</source>
-        <translation>გამართვა სრული ეკრანიდან</translation>
+        <translation>გასვლა სრული ეკრანიდან</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="57"/>
         <source>Print</source>
-        <translation>პრინტი</translation>
+        <translation>დასაბეჭდი</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation>ტექსტის გამომავალი</translation>
+        <translation>ტექსტის გამომუშავება</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
@@ -447,7 +447,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="137"/>
         <source>Rename</source>
-        <translation>გასათანასადის სახელი</translation>
+        <translation>გასასახლებელი სახელის შეცვლა</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="156"/>
@@ -457,17 +457,17 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="183"/>
         <source>Rotate clockwise</source>
-        <translation>საათის სასადის მიმართულებით გაბრუნება</translation>
+        <translation>საათის სამუშაო მიმართულებით გატოლება</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>საათის სასადის სიმართულით გაბრუნება</translation>
+        <translation>გაბრუნება საათის მიმდებარე მიმართულებით</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation>ნავიგაციის ფანჯრის ნაჩვენება</translation>
+        <translation>ნავიგაციის ფანჯრის ჩვენება</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
@@ -477,12 +477,12 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
         <source>Set as wallpaper</source>
-        <translation>სადამო სადამოს სახელის დაყენება</translation>
+        <translation>უკანასადგენად დასახელება</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>ფაილის მართვაში ნაჩვენება</translation>
+        <translation>ფაილის მართვის პროგრამაში ჩვენება</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
@@ -493,19 +493,27 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>სურათის ნახვას ასაკმარისი ინსტრუმენტია, რომელსაც აქვს მოდერნული ინტეρფეისი და სუსთი საკმარისი სამუშაო ჩატვირთვა.</translation>
+        <translation>იმაჟინების აპლიკაცია არის იმაგინების ინსტრუმენტი სინამდვილეს ინტერფეისით და მარტივი სამუშაო პროცესით.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
-        <translation>სურათის ნახვა</translation>
+        <translation>იმაჟინების აპლიკაცია</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>ვერსია</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 გამოყოფილია პროგრამული უზრუნველყოფის მიხედვით %2&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>სურათის გახსნა</translation>
+        <translation>იმაგის გახსნა</translation>
     </message>
 </context>
 </TS>

@@ -4,122 +4,122 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="781"/>
-        <source>Fullscreen</source>
-        <translation>Pangungusap</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
-        <source>Exit fullscreen</source>
-        <translation>I-exit ang pangungusap</translation>
+        <source>Fullscreen</source>
+        <translation>Panlakip</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="789"/>
-        <source>Extract text</source>
-        <translation>Extract text</translation>
+        <source>Exit fullscreen</source>
+        <translation>Tumikang panlakip</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="793"/>
-        <source>Slide show</source>
-        <translation>Slide show</translation>
+        <source>Extract text</source>
+        <translation>Takda an text</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="797"/>
-        <source>Rename</source>
-        <translation>I-rename</translation>
+        <source>Slide show</source>
+        <translation>Pamalakip</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="801"/>
-        <source>Copy</source>
-        <translation>I-copy</translation>
+        <source>Rename</source>
+        <translation>Baliwala</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="805"/>
-        <source>Delete</source>
-        <translation>I-delete</translation>
+        <source>Copy</source>
+        <translation>Kopya</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="809"/>
-        <source>Rotate clockwise</source>
-        <translation>I-rotate ang clockwise</translation>
+        <source>Delete</source>
+        <translation>Tangtang</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="813"/>
-        <source>Rotate counterclockwise</source>
-        <translation>I-rotate ang counterclockwise</translation>
+        <source>Rotate clockwise</source>
+        <translation>Tumikang pahalay</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="817"/>
-        <source>Set as wallpaper</source>
-        <translation>I-set ang wallpaper</translation>
+        <source>Rotate counterclockwise</source>
+        <translation>Tumikang palay</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="821"/>
-        <source>Display in file manager</source>
-        <translation>I-display ang file manager</translation>
+        <source>Set as wallpaper</source>
+        <translation>Takda ini bilang panlalaki</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="825"/>
-        <source>Image info</source>
-        <translation>Impormasyon ng imahe</translation>
+        <source>Display in file manager</source>
+        <translation>Ipakita ini ha file manager</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="829"/>
+        <source>Image info</source>
+        <translation>Impormasyon ha imahe</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Previous</source>
         <translation>Nangunguna</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
-        <source>Next</source>
-        <translation>Susunod</translation>
-    </message>
-    <message>
         <location filename="../src/filecontrol.cpp" line="837"/>
-        <source>Zoom in</source>
-        <translation>Zoom in</translation>
+        <source>Next</source>
+        <translation>Suna</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
-        <source>Zoom out</source>
-        <translation>Zoom out</translation>
+        <source>Zoom in</source>
+        <translation>Pangunguna</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
-        <source>Open</source>
-        <translation>I-open</translation>
+        <source>Zoom out</source>
+        <translation>Pangunguna</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="849"/>
-        <source>Print</source>
-        <translation>I-print</translation>
+        <source>Open</source>
+        <translation>Bukas</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
-        <source>Image Viewing</source>
-        <translation>Pangungusap ng imahe</translation>
+        <location filename="../src/filecontrol.cpp" line="853"/>
+        <source>Print</source>
+        <translation>Print</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="877"/>
+        <source>Image Viewing</source>
+        <translation>Pangunguna</translation>
+    </message>
+    <message>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Help</source>
         <translation>Tulong</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Display shortcuts</source>
-        <translation>I-display ang mga shortcut</translation>
+        <translation>Ipakita an mga shortcut</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Settings</source>
         <translation>Mga setting</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="901"/>
         <source>Select all</source>
-        <translation>Piliin lahat</translation>
+        <translation>Pili an lahat</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="905"/>
+        <location filename="../src/filecontrol.cpp" line="909"/>
         <source>Live Text</source>
         <translation>Live Text</translation>
     </message>
@@ -129,7 +129,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="74"/>
         <source>Basic info</source>
-        <translation>Basic info</translation>
+        <translation>Pangunahing impormasyon</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="98"/>
@@ -139,12 +139,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="124"/>
         <source>Date captured</source>
-        <translation>Petsa ng pagkakaptar</translation>
+        <translation>Petsa han pagkakaptur</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="131"/>
         <source>Date modified</source>
-        <translation>Petsa ng pagbabago</translation>
+        <translation>Petsa han pagkakabag-o</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="141"/>
@@ -159,12 +159,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Exposure program</source>
-        <translation>Program na pagbukas</translation>
+        <translation>Programa han exposure</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="169"/>
         <source>Focal length</source>
-        <translation>Pangungusap na haba</translation>
+        <translation>Panungod nga panloob</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="175"/>
@@ -174,12 +174,12 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="182"/>
         <source>Exposure mode</source>
-        <translation>Mga paraan na pagbukas</translation>
+        <translation>Modo han exposure</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="188"/>
         <source>Exposure time</source>
-        <translation>Panahon na pagbukas</translation>
+        <translation>Panahon han exposure</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="194"/>
@@ -189,52 +189,52 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="201"/>
         <source>Flash compensation</source>
-        <translation>Pangalap na flash</translation>
+        <translation>Kompansasyon han flash</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="214"/>
         <source>Colorspace</source>
-        <translation>Espasyo na kulay</translation>
+        <translation>Kolor nga espasyo</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="221"/>
         <source>Metering mode</source>
-        <translation>Mga paraan na pagsusuring ilaw</translation>
+        <translation>Modo han metering</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="228"/>
         <source>White balance</source>
-        <translation>Balanseng puti</translation>
+        <translation>Balanso han blanco</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="246"/>
         <source>Lens model</source>
-        <translation>Mga modelo na lensa</translation>
+        <translation>Modelo han lens</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="87"/>
         <source>File name</source>
-        <translation>Pangalan ng file</translation>
+        <translation>Pangalan han file</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
         <source>Dimensions</source>
-        <translation>Mga sukat</translation>
+        <translation>Mga dimension</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="112"/>
         <source>Type</source>
-        <translation>Uri</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation>Mga pinakamataas na aperture</translation>
+        <translation>Mga pinakamataas nga aperture</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
         <source>Device model</source>
-        <translation>Mga modelo ng aparato</translation>
+        <translation>Modelo han device</translation>
     </message>
 </context>
 <context>
@@ -242,20 +242,20 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation>Kopyahin (Ctrl+C)</translation>
+        <translation>Kopya (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation>Piliin lahat (Ctrl+A)</translation>
+        <translation>Piliya la (Ctrl+A)</translation>
     </message>
 </context>
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/MainStack.qml" line="129"/>
+        <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Select pictures</translation>
+        <translation>Piliya an mga imahe</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Image file not found</translation>
+        <translation>Wala nakit-an an file han imahe</translation>
     </message>
 </context>
 <context>
@@ -271,7 +271,7 @@
     <message>
         <location filename="../qml/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>Bumukas ng imahe</translation>
+        <translation>Abri an imahe</translation>
     </message>
 </context>
 <context>
@@ -279,7 +279,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>Ang file ay nangunguna, mangalap ng iba pang pangalan</translation>
+        <translation>An file ini na nakuha, palihug gamita an iba nga pangalan</translation>
     </message>
 </context>
 <context>
@@ -287,19 +287,18 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>Mga nangunguna ng imahe</translation>
+        <translation>Image Viewer</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
         <source>day</source>
-        <translation>araw</translation>
+        <translation>adlaw</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation>&gt;-
-Mga nangunguna ng imahe ay isang tool na pagsusuring imahe na may fashion interface at smooth
-performance.</translation>
+Image Viewer amo an usa nga tool han pagbubuksan han imahe nga may fashion nga interface ngan smooth nga performance.</translation>
     </message>
 </context>
 <context>
@@ -307,35 +306,35 @@ performance.</translation>
     <message>
         <location filename="../qml/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation>Mga input na bagong pangalan</translation>
+        <translation>Input an bag-o nga pangalan</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>Bumoto</translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
         <source>Cancel</source>
-        <translation>Sukat</translation>
+        <translation>Confirm</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>Pangatag</translation>
+        <translation>Panginatag</translation>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>Ang aksyon na ito ay hindi maaaring i-backtrack</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>Wala makapanginatag &quot;%1&quot; sa basurahan. Gusto mo bang mapalagay ito sa pangmamalagay?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>Bumoto</translation>
+        <translation>Dakdak na ngayon nga pangangasiwa ay di maaaring i-undo</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -345,7 +344,7 @@ performance.</translation>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation>Sugod</translation>
+        <translation>I-verify</translation>
     </message>
 </context>
 <context>
@@ -353,27 +352,27 @@ performance.</translation>
     <message>
         <location filename="../qml/SliderShow.qml" line="155"/>
         <source>Previous</source>
-        <translation>Nangalang</translation>
+        <translation>Mga nakaraang</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Pause</source>
-        <translation>Paus</translation>
+        <translation>I-pause</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
         <source>Play</source>
-        <translation>Palya</translation>
+        <translation>I-play</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
         <source>Next</source>
-        <translation>Sugod</translation>
+        <translation>Mga susunod</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
         <source>Exit</source>
-        <translation>Tumutok</translation>
+        <translation>I-exit</translation>
     </message>
 </context>
 <context>
@@ -381,37 +380,37 @@ performance.</translation>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="173"/>
         <source>Next</source>
-        <translation>Sugod</translation>
+        <translation>Mga susunod</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="148"/>
         <source>Previous</source>
-        <translation>Nangalang</translation>
+        <translation>Mga nakaraang</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation>Sugod nga size</translation>
+        <translation>Mga orihinal na sukat</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/ThumbnailListView.qml" line="228"/>
         <source>Fit to window</source>
-        <translation>Pangapil sa window</translation>
+        <translation>Mga sumusunod sa window</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="244"/>
+        <location filename="../qml/ThumbnailListView.qml" line="246"/>
         <source>Rotate</source>
-        <translation>Tumutok</translation>
+        <translation>Mga pabilog</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="517"/>
+        <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
-        <translation>Eksaktar text</translation>
+        <translation>Mga extra text</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailListView.qml" line="536"/>
+        <location filename="../qml/ThumbnailListView.qml" line="538"/>
         <source>Delete</source>
-        <translation>Tumutok</translation>
+        <translation>I-delete</translation>
     </message>
 </context>
 <context>
@@ -419,95 +418,103 @@ performance.</translation>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Fullscreen</source>
-        <translation>Full-screen</translation>
+        <translation>I-fullscreen</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Exit fullscreen</source>
-        <translation>Tumutok full-screen</translation>
+        <translation>I-exit fullscreen</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="57"/>
         <source>Print</source>
-        <translation>Print</translation>
+        <translation>I-print</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="76"/>
         <source>Extract text</source>
-        <translation>Eksaktar text</translation>
+        <translation>Mga extra text</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="96"/>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>I-slide show</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="117"/>
         <source>Copy</source>
-        <translation>Kopya</translation>
+        <translation>I-copy</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="137"/>
         <source>Rename</source>
-        <translation>Pangalang</translation>
+        <translation>I-rename</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="156"/>
         <source>Delete</source>
-        <translation>Tumutok</translation>
+        <translation>I-delete</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="183"/>
         <source>Rotate clockwise</source>
-        <translation>Tumutok ng clockwise</translation>
+        <translation>Mga pabilog sa clockwise</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="203"/>
         <source>Rotate counterclockwise</source>
-        <translation>Tumutok ng counterclockwise</translation>
+        <translation>Mga pabilog sa counterclockwise</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Show navigation window</source>
-        <translation>Ipakita ang navigation window</translation>
+        <translation>I-show navigation window</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="231"/>
         <source>Hide navigation window</source>
-        <translation>Ibalik ang navigation window</translation>
+        <translation>I-hide navigation window</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="243"/>
         <source>Set as wallpaper</source>
-        <translation>Iset nga wallpaper</translation>
+        <translation>I-set bilang wallpaper</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>Ipakita sa file manager</translation>
+        <translation>I-display sa file manager</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
         <source>Image info</source>
-        <translation>Impormasyon sa imahe</translation>
+        <translation>Mga impormasyon sa imahe</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="189"/>
+        <location filename="../qml/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer amo an tool para makita imahe nga may fashion interface ngan smooth performance.</translation>
+        <translation>An Image Viewer amo an tool para magbasa hin imahe nga may fashion interface ngan smooth performance.</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="191"/>
+        <location filename="../qml/ViewTopTitle.qml" line="186"/>
         <source>Image Viewer</source>
         <translation>Image Viewer</translation>
     </message>
     <message>
-        <location filename="../qml/ViewTopTitle.qml" line="167"/>
+        <source>Version</source>
+        <translation>Sersyon</translation>
+    </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>&apos;%1 amo an ginpapalubong ha %2&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>Panapton image</translation>
+        <translation>Buksan an imahe</translation>
     </message>
 </context>
 </TS>
