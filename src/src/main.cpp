@@ -29,6 +29,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QProcessEnvironment>
+#include <QCursor>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -253,9 +254,28 @@ int main(int argc, char *argv[])
             }
         }
 
-        int ww = w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
-        int wh = w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
-        mainwindow->resize(ww, wh);
+        int windowWidth  = w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
+        int windowHeight = w->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
+
+        // 限制最大尺寸，不能超过当前屏幕
+        bool screenFound = false;
+        for (QScreen *item : QGuiApplication::screens()) {
+            if (item->geometry().contains(QCursor::pos())) {
+                qDebug() << "Current screen:" << item->geometry() << "current cursor:" << QCursor::pos() << "windowWidth:" << windowWidth << "windowHeight:" << windowHeight;
+                screenFound = true;
+                windowWidth  = qMin(windowWidth, item->size().width());
+                windowHeight = qMin(windowHeight, item->size().height());
+                qDebug() << "After size check, windowWidth:" << windowWidth << "windowHeight:" << windowHeight;
+                break;
+            }
+        }
+        if (!screenFound && dw != nullptr) {
+            qDebug() << "Could not find current screen, windowWidth:" << windowWidth << "windowHeight:" << windowHeight;
+            windowWidth  = qMin(windowWidth, dw->geometry().width());
+            windowHeight = qMin(windowHeight, dw->geometry().height());
+            qDebug() << "After size check, windowWidth:" << windowWidth << "windowHeight:" << windowHeight;
+        }
+        mainwindow->resize(windowWidth, windowHeight);
         mainwindow->setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     }
     QString filepath = "";
