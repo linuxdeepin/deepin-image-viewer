@@ -39,7 +39,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
     libqt6sql6-sqlite,
     qt6-image-formats-plugins,
     libdeepin-ocr-plugin-manager(>= 1.0.0)
-Recommends: qt6-gtk-platformtheme, deepin-ocr
+Recommends: qt6-gtk-platformtheme, deepin-ocr, kimageformat6-plugins
 Description: Image Viewer is an image viewing tool with fashion interface and smooth performance.
  Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.
 
