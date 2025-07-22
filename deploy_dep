@@ -40,7 +40,7 @@ for LDFILE in "$@"; do
         # 添加依赖库到 install 文件
         for SOFILE in "${PREFIX}/lib/${TRIPLET}"/${LDFILE}*; do
             if [[ -f "$SOFILE" ]]; then
-                echo "$SOFILE" >> "${ID_VALUE}.install"
+                echo `realpath -s $SOFILE` >> "${ID_VALUE}.install"
             fi
         done
     else
