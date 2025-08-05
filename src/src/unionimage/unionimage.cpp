@@ -21,6 +21,10 @@
 #include <QDir>
 #include <QDebug>
 #include <QLoggingCategory>
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QColorSpace>
+#endif
 
 #include "unionimage/imageutils.h"
 
@@ -29,6 +33,92 @@
 #define SAVE_QUAITY_VALUE 100
 
 Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+/**
+   @brief 转换图片颜色空间到sRGB，解决CMYK等颜色空间图片显示颜色不正确的问题
+   @param image 原始图片
+   @return 转换后的图片，如果不需要转换或转换失败则返回原图
+   @note 此功能仅在Qt6中可用
+ */
+static QImage convertToSRgbColorSpace(const QImage &image)
+{
+    if (image.isNull()) {
+        return image;
+    }
+
+    QColorSpace srgbColorSpace = QColorSpace::SRgb;
+    
+    bool needsConversion = false;
+    if (image.colorSpace().isValid()) {
+        qCDebug(logImageViewer) << "Image has color space:" << image.colorSpace().description();
+        
+        if (image.colorSpace() != srgbColorSpace) {
+            needsConversion = true;
+            qCDebug(logImageViewer) << "Converting color space from" << image.colorSpace().description() 
+                     << "to sRGB";
+        }
+    } else {
+        qCDebug(logImageViewer) << "Image has no valid color space, checking format for potential CMYK";
+        if (image.format() == QImage::Format_CMYK8888) {
+            needsConversion = true;
+            qCDebug(logImageViewer) << "CMYK format detected, attempting conversion";
+        }
+    }
+    
+    if (!needsConversion) {
+        qCDebug(logImageViewer) << "No color space conversion needed";
+        return image;
+    }
+
+    QImage convertedImage = QImage();
+    
+    try {
+        convertedImage = image.convertedToColorSpace(srgbColorSpace);
+        if (!convertedImage.isNull()) {
+            qCDebug(logImageViewer) << "Color space conversion method 1 (convertedToColorSpace) succeeded";
+        } else {
+            qCDebug(logImageViewer) << "Color space conversion method 1 failed";
+        }
+    } catch (...) {
+        qCDebug(logImageViewer) << "Color space conversion method 1 threw exception";
+    }
+    
+    if (convertedImage.isNull()) {
+        qCDebug(logImageViewer) << "Trying color space conversion method 2: manual color space setting";
+        
+        convertedImage = image.copy();
+        convertedImage.setColorSpace(srgbColorSpace);
+        
+        if (convertedImage.format() != QImage::Format_RGB888 && 
+            convertedImage.format() != QImage::Format_ARGB32 &&
+            convertedImage.format() != QImage::Format_ARGB32_Premultiplied) {
+            convertedImage = convertedImage.convertToFormat(QImage::Format_RGB888);
+        }
+        
+        if (!convertedImage.isNull()) {
+            qCDebug(logImageViewer) << "Color space conversion method 2 succeeded";
+        }
+    }
+    
+    if (convertedImage.isNull()) {
+        qCDebug(logImageViewer) << "Trying color space conversion method 3: basic format conversion";
+        convertedImage = image.convertToFormat(QImage::Format_RGB888);
+        convertedImage.setColorSpace(srgbColorSpace);
+        
+        if (!convertedImage.isNull()) {
+            qCDebug(logImageViewer) << "Color space conversion method 3 succeeded";
+        }
+    }
+    
+    if (convertedImage.isNull()) {
+        qCWarning(logImageViewer) << "All color space conversion methods failed, returning original image";
+        return image;
+    }
+    
+    return convertedImage;
+}
+#endif
 const QString DATETIME_FORMAT_NORMAL = "yyyy.MM.dd";
 const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm";
 
@@ -404,12 +494,22 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
                 }
                 errorMsg = "use old method to load QImage";
                 qCDebug(logImageViewer) << "Successfully loaded image using old method";
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                // 应用颜色空间转换，解决CMYK等格式的颜色显示问题 (仅Qt6)
+                res = convertToSRgbColorSpace(try_res);
+#else
                 res = try_res;
+#endif
                 return true;
             }
             errorMsg = "use QImage";
             qCDebug(logImageViewer) << "Successfully loaded image using QImageReader";
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            // 应用颜色空间转换，解决CMYK等格式的颜色显示问题 (仅Qt6)
+            res = convertToSRgbColorSpace(res_qt);
+#else
             res = res_qt;
+#endif
         } else {
             qCWarning(logImageViewer) << "No images found in file:" << path;
             res = QImage();
