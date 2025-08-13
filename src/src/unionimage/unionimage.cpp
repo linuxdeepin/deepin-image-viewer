@@ -30,6 +30,9 @@
 
 #include <cstring>
 
+#include <libheif/heif.h>
+
+
 #define SAVE_QUAITY_VALUE 100
 
 Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
@@ -228,6 +231,33 @@ static UnionImage_Private union_image_private;
  * @return QImage
  * 返回空图片
  */
+
+QImage loadHEIFImage(const QString& filePath) {
+    heif_context* ctx = heif_context_alloc();
+    heif_context_read_from_file(ctx, filePath.toUtf8().constData(), nullptr);
+
+    heif_image_handle* handle;
+    heif_context_get_primary_image_handle(ctx, &handle);
+
+    heif_image* img;
+    heif_decode_image(handle, &img, heif_colorspace_RGB, heif_chroma_interleaved_RGB, nullptr);
+
+    int width = heif_image_get_width(img, heif_channel_interleaved);
+    int height = heif_image_get_height(img, heif_channel_interleaved);
+    int stride;
+    const uint8_t* data = heif_image_get_plane_readonly(img, heif_channel_interleaved, &stride);
+
+
+    QImage result(data, width, height, QImage::Format_RGB888);
+    result = result.copy();  // Make a deep copy because `data` will be freed
+
+    heif_image_release(img);
+    heif_image_handle_release(handle);
+    heif_context_free(ctx);
+
+    return result;
+}
+
 UNIONIMAGESHARED_EXPORT QImage noneQImage()
 {
     qCDebug(logImageViewer) << "Returning an empty QImage.";
@@ -453,7 +483,16 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
     QByteArray temp_path;
     temp_path.append(path.toUtf8());
     QString file_suffix_lower = file_suffix_upper.toLower();
+    if (file_mimeType == "HEIF" || file_mimeType == "HEIC") {
 
+    	res = loadHEIFImage(path);
+    	if (!res.isNull()) {
+        	return true;
+    	} else {
+	        errorMsg = "Failed to decode HEIF image";
+        	return false;
+    	}
+	}
     if (union_image_private.m_qtSupported.contains(file_suffix_upper) || union_image_private.m_qtSupported.contains(file_mimeType)) {
         qCDebug(logImageViewer) << "File format or MIME type is supported by Qt.";
         QImageReader reader;
