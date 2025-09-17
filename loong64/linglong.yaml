@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.image.viewer
   name: deepin-image-viewer
-  version: 6.0.31.1
+  version: 6.0.32.1
   kind: app
   description: |
     view images for deepin os.
@@ -15,8 +15,8 @@ package:
 command:
   - deepin-image-viewer
 
-base: org.deepin.base/25.2.0/loong64
-runtime: org.deepin.runtime.dtk/25.2.0/loong64
+base: org.deepin.base/25.2.1/loong64
+runtime: org.deepin.runtime.dtk/25.2.1/loong64
 
 build: |
   bash ./install_dep linglong/sources "$PREFIX"
