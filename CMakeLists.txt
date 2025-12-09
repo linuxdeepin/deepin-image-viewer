@@ -12,7 +12,7 @@ include_directories(${PROJECT_BINARY_DIR})
 configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
 
 # Find the Qt library
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core)
 message("Using Qt version: ${QT_VERSION_MAJOR}")
 
 # Select major DTK version.

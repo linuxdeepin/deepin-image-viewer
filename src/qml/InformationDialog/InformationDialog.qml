@@ -101,7 +101,14 @@ DialogWindow {
                     PropertyItemDelegate {
                         Layout.fillWidth: true
                         contrlImplicitWidth: propMidWidth
-                        description: imageInfo.width + "x" + imageInfo.height
+                        description: {
+                            var originalDim = IV.FileControl.slotGetInfo("OriginalDimension", filePath);
+                            if (originalDim && originalDim !== "-") {
+                                return originalDim;
+                            } else {
+                                return imageInfo.width + "x" + imageInfo.height;
+                            }
+                        }
                         title: qsTr("Dimensions")
                     }
 
