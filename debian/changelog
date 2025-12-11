@@ -1,3 +1,14 @@
+deepin-image-viewer (6.0.33) unstable; urgency=medium
+
+  * chore: Update version to 6.0.33
+  * feat: Support mips64 linglong build (#264)
+  * build(cmake): improve Qt version detection logic
+  * fix(ui): scale large images and preserve original dimensions
+  * feat: add Lao and Japanese translations for print menu
+  * feat: Add linglong.yaml for deepin-image-viewer (#263)
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Thu, 11 Dec 2025 18:44:33 +0800
+
 deepin-image-viewer (6.0.32) unstable; urgency=medium
 
   * chore: Update linglong base and runtime
