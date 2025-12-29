@@ -30,7 +30,7 @@ Item {
         anchors.centerIn: thumbnailImage
         asynchronous: true
         cache: false
-        fillMode: Image.PreserveAspectCrop
+        fillMode: Image.PreserveAspectFit
         height: thumbnailImage.height
         // 用于在旋转过程中不显示白边，图片大小比例 1 -> sqrt(2) -> 1
         scale: {
