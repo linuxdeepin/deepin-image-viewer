@@ -727,6 +727,26 @@ int FileControl::getlastHeight()
     return reHeight;
 }
 
+int FileControl::getPrimaryScreenCenterX(int windowWidth)
+{
+    QScreen *screen = QGuiApplication::primaryScreen();
+    if (!screen) {
+        return 0;
+    }
+    QRect geometry = screen->geometry();
+    return geometry.x() + geometry.width() / 2 - windowWidth / 2;
+}
+
+int FileControl::getPrimaryScreenCenterY(int windowHeight)
+{
+    QScreen *screen = QGuiApplication::primaryScreen();
+    if (!screen) {
+        return 0;
+    }
+    QRect geometry = screen->geometry();
+    return geometry.y() + geometry.height() / 2 - windowHeight / 2;
+}
+
 void FileControl::setSettingWidth(int width)
 {
     qCDebug(logImageViewer) << "FileControl::setSettingWidth() called with width: " << width;
