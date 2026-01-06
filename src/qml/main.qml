@@ -34,8 +34,8 @@ ApplicationWindow {
 
     Component.onCompleted: {
         if (IV.FileControl.isCheckOnly()) {
-            setX(screen.width / 2 - width / 2);
-            setY(screen.height / 2 - height / 2);
+            setX(IV.FileControl.getPrimaryScreenCenterX(width));
+            setY(IV.FileControl.getPrimaryScreenCenterY(height));
         }
     }
     onClosing: {
@@ -61,6 +61,10 @@ ApplicationWindow {
     Connections {
         function onCurrentSourceChanged() {
             window.title = IV.FileControl.slotGetFileName(IV.GControl.currentSource) + IV.FileControl.slotFileSuffix(IV.GControl.currentSource);
+            if (window.visibility !== Window.FullScreen && window.visibility !== Window.Maximized) {
+                setX(IV.FileControl.getPrimaryScreenCenterX(width));
+                setY(IV.FileControl.getPrimaryScreenCenterY(height));
+            }
         }
 
         target: IV.GControl

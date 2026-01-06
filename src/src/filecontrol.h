@@ -68,6 +68,9 @@ public:
     Q_INVOKABLE int getlastHeight();
     Q_INVOKABLE void setSettingWidth(int width);
     Q_INVOKABLE void setSettingHeight(int height);
+    // 获取主屏幕中心坐标
+    Q_INVOKABLE int getPrimaryScreenCenterX(int windowWidth);
+    Q_INVOKABLE int getPrimaryScreenCenterY(int windowHeight);
     Q_INVOKABLE void setEnableNavigation(bool b);  // 设置是否允许展示导航窗口
     Q_INVOKABLE bool isEnableNavigation();
 
