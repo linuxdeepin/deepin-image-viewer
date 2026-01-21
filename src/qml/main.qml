@@ -37,6 +37,10 @@ ApplicationWindow {
             setX(IV.FileControl.getPrimaryScreenCenterX(width));
             setY(IV.FileControl.getPrimaryScreenCenterY(height));
         }
+        // 如果当前有图片源，手动设置窗口标题
+        if (IV.GControl.currentSource.toString() !== "") {
+            window.title = IV.FileControl.slotGetFileName(IV.GControl.currentSource) + IV.FileControl.slotFileSuffix(IV.GControl.currentSource);
+        }
     }
     onClosing: {
         IV.FileControl.saveSetting(); //保存信息
