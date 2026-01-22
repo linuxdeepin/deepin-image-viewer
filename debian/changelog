@@ -1,3 +1,10 @@
+deepin-image-viewer (6.0.37) unstable; urgency=medium
+
+  * chore: Update version to 6.0.37
+  * fix(ui): show image filename in window title
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Thu, 22 Jan 2026 18:30:50 +0800
+
 deepin-image-viewer (6.0.36) unstable; urgency=medium
 
   * Update version to 6.0.36. 
