@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.38) unstable; urgency=medium
+
+  * chore: Update compiler flags for security enhancements
+
+ -- wangrong <wangrong@uniontech.com>  Wed, 04 Feb 2026 10:55:35 +0800
+
 deepin-image-viewer (6.0.37) unstable; urgency=medium
 
   * chore: Update version to 6.0.37
