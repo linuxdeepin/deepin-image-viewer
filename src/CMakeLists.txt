@@ -25,6 +25,7 @@ find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS
 # OCR
 find_package(PkgConfig REQUIRED)
 pkg_search_module(OCR_PLUGIN REQUIRED deepin-ocr-plugin-manager)
+pkg_check_modules(HEIF REQUIRED libheif)
 pkg_check_modules(InferenceEngine REQUIRED ncnn opencv_mobile)
 include_directories(${OCR_PLUGIN_INCLUDE_DIRS})
 
@@ -150,11 +151,16 @@ target_link_libraries(${BIN_NAME} PRIVATE
     pthread
     ${InferenceEngine_LIBRARIES}
     ${OCR_PLUGIN_LIBRARIES}
+    ${HEIF_LIBRARIES}
 )
 
 if(${CMAKE_BUILD_TYPE} MATCHES "Debug")
     TARGET_COMPILE_DEFINITIONS(${BIN_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 endif()
+
+include_directories(${HEIF_INCLUDE_DIRS})
+link_directories(${HEIF_LIBRARY_DIRS})
+
 
 set(APPSHAREDIR ${CMAKE_INSTALL_PREFIX}/share/deepin-image-viewer)
 
