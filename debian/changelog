@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.39) unstable; urgency=medium
+
+  * chore: Unify linglong.yaml
+
+ -- wangrong <wangrong@uniontech.com>  Thu, 05 Mar 2026 19:26:22 +0800
+
 deepin-image-viewer (6.0.38) unstable; urgency=medium
 
   * chore: Update compiler flags for security enhancements
