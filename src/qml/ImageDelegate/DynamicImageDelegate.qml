@@ -25,6 +25,8 @@ BaseImageDelegate {
         scale: 1.0
         smooth: true
         source: delegate.source
+        // 限制每帧解码分辨率为显示区域大小，动图帧数多时可显著降低内存峰值
+        sourceSize: Qt.size(delegate.width, delegate.height)
         width: delegate.width
     }
 

@@ -11,6 +11,8 @@
 #include <QRunnable>
 #include <QDebug>
 #include <QLoggingCategory>
+#include <QGuiApplication>
+#include <QScreen>
 
 Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
@@ -48,6 +50,40 @@ static QImage readNormalImage(const QString &imagePath)
         qCDebug(logImageViewer) << "Successfully loaded image:" << imagePath << "Size:" << image.size();
     }
     return image;
+}
+
+/**
+   @brief 读取 \a imagePath 的图像数据，若 \a targetSize 有效且小于原图，
+          则通过 QImageReader::setScaledSize() 让解码器直接输出目标尺寸，
+          避免先将完整大图解码到内存再缩放（可节省数十 MB 的临时内存分配）。
+          若 QImageReader 不支持该格式，则回退到全图加载路径。
+   @return 读取（并按需缩放）后的图像数据
+ */
+static QImage readNormalImageScaled(const QString &imagePath, const QSize &targetSize)
+{
+    if (!targetSize.isValid()) {
+        return readNormalImage(imagePath);
+    }
+
+    QImageReader reader(imagePath);
+    reader.setAutoTransform(true);
+    const QSize orig = reader.size();
+
+    // 只有目标尺寸小于原图才使用 setScaledSize，放大则直接走普通路径保证画质
+    if (orig.isValid() && (targetSize.width() < orig.width() || targetSize.height() < orig.height())) {
+        QSize scaledSize = orig;
+        scaledSize.scale(targetSize, Qt::KeepAspectRatio);
+        reader.setScaledSize(scaledSize);
+        QImage image = reader.read();
+        if (!image.isNull()) {
+            qCDebug(logImageViewer) << "Loaded image with setScaledSize:" << imagePath
+                                    << "orig:" << orig << "loaded:" << image.size();
+            return image;
+        }
+        qCDebug(logImageViewer) << "QImageReader scaled read failed, falling back:" << imagePath;
+    }
+
+    return readNormalImage(imagePath);
 }
 
 /**
@@ -113,23 +149,34 @@ void AsyncImageResponse::run()
     // 判断缓存中是否存在图片
     image = provider->imageCache.get(tempPath, frameIndex);
 
+    if (!image.isNull()) {
+        qCDebug(logImageViewer) << "Using cached image:" << tempPath << "frame:" << frameIndex;
+    }
+
     if (image.isNull()) {
         if (frameIndex) {
             image = readMultiImage(tempPath, frameIndex);
         } else {
-            image = readNormalImage(tempPath);
+            // 优先以目标尺寸直接解码，避免先分配全尺寸大图再缩放造成内存峰值
+            image = readNormalImageScaled(tempPath, requestedSize);
+        }
+
+        // 若解码结果超出请求尺寸（如回退到全图路径），在入缓存前缩小，避免缓存过大图片
+        if (!image.isNull() && requestedSize.isValid()
+            && (image.width() > requestedSize.width() || image.height() > requestedSize.height())) {
+            image = image.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            qCDebug(logImageViewer) << "Scaled image to:" << image.size() << "before caching";
         }
 
         // 缓存图片信息，即使是异常图片
         provider->imageCache.add(tempPath, frameIndex, image);
     } else {
-        qCDebug(logImageViewer) << "Using cached image:" << tempPath << "frame:" << frameIndex;
-    }
-
-    // 调整图像大小
-    if (!image.isNull() && image.size() != requestedSize && requestedSize.isValid()) {
-        image = image.scaled(requestedSize);
-        qCDebug(logImageViewer) << "Scaled image to:" << requestedSize;
+        // 缓存命中但超出请求尺寸时（如从放大状态缩小），缩放至合适大小后返回
+        if (!image.isNull() && requestedSize.isValid()
+            && (image.width() > requestedSize.width() || image.height() > requestedSize.height())) {
+            image = image.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            qCDebug(logImageViewer) << "Scaled cached image to:" << image.size();
+        }
     }
 
     emit finished();
@@ -287,7 +334,13 @@ QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id,
 void AsyncImageProvider::preloadImage(const QString &filePath)
 {
     qCDebug(logImageViewer) << "AsyncImageProvider::preloadImage called for:" << filePath;
-    AsyncImageResponse *response = new AsyncImageResponse(this, filePath, QSize());
+    // 使用主屏幕分辨率作为预加载尺寸上限，避免将全尺寸大图（可能 35MB）写入缓存。
+    // QML 侧 sourceSize 也绑定了 delegate 显示尺寸，两者保持量级一致，缓存命中后无需再缩放。
+    QSize displaySize;
+    if (QScreen *screen = QGuiApplication::primaryScreen()) {
+        displaySize = screen->size();
+    }
+    AsyncImageResponse *response = new AsyncImageResponse(this, filePath, displaySize);
     response->setAutoDelete(true);
     QThreadPool::globalInstance()->start(response, QThread::TimeCriticalPriority);
     qCDebug(logImageViewer) << "AsyncImageProvider::preloadImage finished";
@@ -302,6 +355,8 @@ ImageProvider::ImageProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image)
 {
     qCDebug(logImageViewer) << "ImageProvider constructor called.";
+    // 与 AsyncImageProvider 保持一致，只缓存少量全尺寸图，避免大量高分辨率图常驻内存
+    imageCache.setMaxCost(2);
 }
 
 ImageProvider::~ImageProvider()
@@ -414,18 +469,38 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
     if (frameIndex) {
         image = readMultiImage(tempPath, frameIndex);
     } else {
-        image = readNormalImage(tempPath);
+        // 使用 setScaledSize() 让解码器直接输出接近缩略图的尺寸，
+        // 避免将全尺寸大图（可能数十 MB）加载进内存后再缩放
+        QImageReader thumbReader(tempPath);
+        thumbReader.setAutoTransform(true);
+        const QSize orig = thumbReader.size();
+        if (orig.isValid()) {
+            if (size) {
+                *size = orig;
+            }
+            QSize thumbSize = orig;
+            thumbSize.scale(100, 100, Qt::KeepAspectRatioByExpanding);
+            thumbReader.setScaledSize(thumbSize);
+            image = thumbReader.read();
+        }
+        if (image.isNull()) {
+            // 部分格式 QImageReader 不支持，回退全图加载
+            image = readNormalImage(tempPath);
+            if (size && image.isNull() == false) {
+                *size = image.size();
+            }
+        }
     }
-    // 不存在缩略图信息，缓存图片
+    // 缓存 100×100 缩略图
     QImage tmpImage = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
     ThumbnailCache::instance()->add(tempPath, frameIndex, tmpImage);
 
-    if (size) {
+    if (size && size->isEmpty()) {
         *size = image.size();
     }
     // 调整图像大小
     if (!image.isNull() && image.size() != requestedSize && requestedSize.isValid()) {
-        image = image.scaled(requestedSize);
+        image = image.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         qCDebug(logImageViewer) << "Scaled thumbnail to:" << requestedSize;
     }
     qCDebug(logImageViewer) << "ThumbnailProvider::requestImage finished for id:" << id;

@@ -1,4 +1,4 @@
-﻿// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -16,6 +16,10 @@
 #include <QRunnable>
 #include <QDebug>
 #include <QLoggingCategory>
+
+#ifdef Q_OS_LINUX
+#include <malloc.h>
+#endif
 
 Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
@@ -221,11 +225,30 @@ void LoadImageInfoRunnable::run()
 bool LoadImageInfoRunnable::loadImage(QImage &image, QSize &sourceSize) const
 {
     qCDebug(logImageViewer) << "LoadImageInfoRunnable::loadImage() entered for path:" << loadPath;
+
+    // 优先通过 QImageReader::setScaledSize() 让解码器直接输出缩略图尺寸，
+    // 避免先将完整大图（可能 30~67 MB）解码到内存再缩放，大幅降低并发加载时的内存峰值。
+    QImageReader reader(loadPath);
+    reader.setAutoTransform(true);
+    const QSize orig = reader.size();
+    if (orig.isValid()) {
+        sourceSize = orig;
+        QSize thumbSize = orig;
+        thumbSize.scale(100, 100, Qt::KeepAspectRatioByExpanding);
+        reader.setScaledSize(thumbSize);
+        image = reader.read();
+        if (!image.isNull()) {
+            qCDebug(logImageViewer) << "Thumbnail loaded via QImageReader. Source size:" << sourceSize;
+            return true;
+        }
+        // QImageReader 不支持该格式时回退到 LibUnionImage 全图加载路径
+        qCDebug(logImageViewer) << "QImageReader failed, falling back to loadStaticImageFromFile:" << loadPath;
+    }
+
     QString error;
     bool ret = LibUnionImage_NameSpace::loadStaticImageFromFile(loadPath, image, error);
     if (ret) {
         sourceSize = image.size();
-        // 保存图片比例缩放
         image = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
         qCDebug(logImageViewer) << "Static image loaded successfully. Source size:" << sourceSize;
     } else {
@@ -342,6 +365,16 @@ void ImageInfoCache::loadFinished(const QString &path, int frameIndex, ImageInfo
         qCWarning(logImageViewer) << "Failed to load image data:" << path << "frame:" << frameIndex;
     }
     waitSet.remove(key);
+
+#ifdef Q_OS_LINUX
+    // PNG 无原生缩放，每张约 32-35MB 临时 heap 分配，4 线程并发时最多积累 ~132MB。
+    // 每完成 8 张缩略图 trim 一次，实现在加载过程中逐步归还 OS，
+    // 而非等到全部 42 张完成后再清理——消除因测量时间点不同导致的 RSS 大幅波动。
+    // waitSet.size() 为 0（全部完成）时也会命中 % 8 == 0，无需单独再判断。
+    if (waitSet.size() % 8 == 0) {
+        ::malloc_trim(0);
+    }
+#endif
 
     Q_EMIT imageDataChanged(path, frameIndex);
     qCDebug(logImageViewer) << "Emitted imageDataChanged signal.";

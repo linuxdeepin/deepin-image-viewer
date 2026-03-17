@@ -50,6 +50,8 @@ BaseImageDelegate {
         scale: 1.0
         smooth: true
         source: "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex
+        // 限制加载分辨率为当前显示区域大小，避免将全尺寸大图上传为 GPU 纹理
+        sourceSize: Qt.size(delegate.width, delegate.height)
         width: delegate.width
         // TODO: wait for Qt6.8 avoid flickering when image source change
         // retainWhileLoading: true
