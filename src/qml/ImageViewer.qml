@@ -32,7 +32,7 @@ Item {
     property bool targetImageReady: (null !== view.currentImage) && (Image.Ready === view.currentImage.status)
 
     function delayInit() {
-        ltwLoader.active = true;
+        // ltwLoader.active = true;  // 实况文本 OCR 已屏蔽，测试缓存优化基准数据
         naviLoader.active = true;
         rightMenuLoader.active = true;
 
