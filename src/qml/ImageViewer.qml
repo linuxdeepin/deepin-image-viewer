@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023-2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -140,9 +140,13 @@ Item {
 
     // 图片状态变更时触发
     onTargetImageReadyChanged: {
-        if (IV.Types.DynamicImage !== currentImageInfo.type) {
-            // 适配窗口
-            ltwLoader.recalculateLiveText();
+        if (targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
+            if (!ltwLoader.active) {
+                // 图片就绪后再激活 ltwLoader，保证 onStatusChanged 触发时 targetImageReady 已为 true
+                ltwLoader.active = true;
+            } else {
+                ltwLoader.recalculateLiveText();
+            }
         }
         showScaleFloatLabel();
 
@@ -516,6 +520,14 @@ Item {
 
     Loader {
         id: ltwLoader
+
+        // ltwLoader 由 onTargetImageReadyChanged 在图片就绪后激活；
+        // 异步加载完成时补触发一次，此时 targetImageReady 已必然为 true。
+        onStatusChanged: {
+            if (Loader.Ready === status) {
+                recalculateLiveText();
+            }
+        }
 
         function recalculateLiveText() {
             if (Loader.Ready === status && (targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type)) {
