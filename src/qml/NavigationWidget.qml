@@ -262,6 +262,8 @@ Item {
             cache: false
             fillMode: Image.PreserveAspectFit
             source: "image://ImageLoad/" + IV.GControl.currentSource + "#frame_" + IV.GControl.currentFrameIndex
+            // 导航窗口尺寸很小，无需加载全尺寸图片，按显示容器大小限制 GPU 纹理
+            sourceSize: Qt.size(imageRect.width, imageRect.height)
 
             // QML6 Image Ready 时 paintedGeometry 不一定更新，调整 onStatusChanged 为 onPaintedGeometryChanged
             onPaintedGeometryChanged: updateMask()
