@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pt_BR">
 <context>
     <name>FileControl</name>
     <message>
@@ -288,7 +286,7 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>Imagem</translation>
+        <translation>Visualizador de Imagens</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
@@ -298,7 +296,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>O Imagem é uma ferramenta de visualização de imagens com uma interface elegante e desempenho suave.</translation>
+        <translation>O Visualizador de Imagens é uma ferramenta de visualização de imagens com uma interface elegante e desempenho suave.</translation>
     </message>
 </context>
 <context>
