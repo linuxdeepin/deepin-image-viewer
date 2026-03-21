@@ -497,12 +497,12 @@
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="189"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>O Imagem é uma ferramenta de visualização de imagens com uma interface elegante e desempenho suave.</translation>
+        <translation>O Visualizador de Imagens é uma ferramenta de visualização de imagens com uma interface elegante e desempenho suave.</translation>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="191"/>
         <source>Image Viewer</source>
-        <translation>Imagem</translation>
+        <translation>Visualizador de Imagens</translation>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="167"/>
