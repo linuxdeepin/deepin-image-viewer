@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -23,7 +23,7 @@ DialogWindow {
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowStaysOnTopHint
     maximumWidth: 280
     minimumWidth: 280
-    visible: true
+    visible: false
     width: 280
 
     header: DialogTitleBar {
@@ -45,8 +45,9 @@ DialogWindow {
     }
 
     Component.onCompleted: {
-        x = window.x + window.width - width - leftX;
-        y = window.y + topY;
+        setX(window.x + window.width - width - leftX);
+        setY(window.y + topY);
+        show();
     }
 
     // 窗口关闭时复位组件状态
