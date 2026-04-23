@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -65,10 +65,6 @@ ApplicationWindow {
     Connections {
         function onCurrentSourceChanged() {
             window.title = IV.FileControl.slotGetFileName(IV.GControl.currentSource) + IV.FileControl.slotFileSuffix(IV.GControl.currentSource);
-            if (window.visibility !== Window.FullScreen && window.visibility !== Window.Maximized) {
-                setX(IV.FileControl.getPrimaryScreenCenterX(width));
-                setY(IV.FileControl.getPrimaryScreenCenterY(height));
-            }
         }
 
         target: IV.GControl
