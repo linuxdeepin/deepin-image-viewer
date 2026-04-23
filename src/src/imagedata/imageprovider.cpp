@@ -114,6 +114,9 @@ public:
     QQuickTextureFactory *textureFactory() const override;
     void run() override;
 
+private:
+    QImage loadScaleAndCache(const QString &path, int frame, const QSize &targetSize);
+
     AsyncImageProvider *provider = nullptr;
     QString providerId;
     QSize requestedSize;
@@ -133,12 +136,31 @@ QQuickTextureFactory *AsyncImageResponse::textureFactory() const
     return QQuickTextureFactory::textureFactoryForImage(image);
 }
 
+QImage AsyncImageResponse::loadScaleAndCache(const QString &path, int frame, const QSize &targetSize)
+{
+    QImage img;
+    if (frame) {
+        img = readMultiImage(path, frame);
+    } else {
+        img = readNormalImageScaled(path, targetSize);
+    }
+
+    if (!img.isNull() && targetSize.isValid()
+        && (img.width() > targetSize.width() || img.height() > targetSize.height())) {
+        img = img.scaled(targetSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    }
+
+    if (!img.isNull()) {
+        provider->imageCache.add(path, frame, img);
+    }
+    return img;
+}
+
 /**
    @brief 线程中执行加载图像
  */
 void AsyncImageResponse::run()
 {
-    // 解析id，获取当前读取的文件和图片索引
     QString tempPath;
     int frameIndex;
     parseProviderID(providerId, tempPath, frameIndex);
@@ -146,7 +168,6 @@ void AsyncImageResponse::run()
     qCDebug(logImageViewer) << "Loading image:" << tempPath << "frame:" << frameIndex
                             << "requested size:" << requestedSize;
 
-    // 判断缓存中是否存在图片
     image = provider->imageCache.get(tempPath, frameIndex);
 
     if (!image.isNull()) {
@@ -154,28 +175,16 @@ void AsyncImageResponse::run()
     }
 
     if (image.isNull()) {
-        if (frameIndex) {
-            image = readMultiImage(tempPath, frameIndex);
-        } else {
-            // 优先以目标尺寸直接解码，避免先分配全尺寸大图再缩放造成内存峰值
-            image = readNormalImageScaled(tempPath, requestedSize);
-        }
-
-        // 若解码结果超出请求尺寸（如回退到全图路径），在入缓存前缩小，避免缓存过大图片
-        if (!image.isNull() && requestedSize.isValid()
-            && (image.width() > requestedSize.width() || image.height() > requestedSize.height())) {
-            image = image.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            qCDebug(logImageViewer) << "Scaled image to:" << image.size() << "before caching";
-        }
-
-        // 缓存图片信息，即使是异常图片
-        provider->imageCache.add(tempPath, frameIndex, image);
-    } else {
-        // 缓存命中但超出请求尺寸时（如从放大状态缩小），缩放至合适大小后返回
-        if (!image.isNull() && requestedSize.isValid()
-            && (image.width() > requestedSize.width() || image.height() > requestedSize.height())) {
+        image = loadScaleAndCache(tempPath, frameIndex, requestedSize);
+    } else if (requestedSize.isValid()) {
+        if (image.width() > requestedSize.width() || image.height() > requestedSize.height()) {
             image = image.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
             qCDebug(logImageViewer) << "Scaled cached image to:" << image.size();
+        } else if (image.width() < requestedSize.width() && image.height() < requestedSize.height()) {
+            qCDebug(logImageViewer) << "Cached image too small:" << image.size()
+                                    << "requested:" << requestedSize << ", re-reading from disk";
+            provider->imageCache.remove(tempPath, frameIndex);
+            image = loadScaleAndCache(tempPath, frameIndex, requestedSize);
         }
     }
 

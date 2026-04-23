@@ -26,8 +26,22 @@ BaseImageDelegate {
         smooth: true
         source: delegate.source
         // 限制每帧解码分辨率为显示区域大小，动图帧数多时可显著降低内存峰值
-        sourceSize: Qt.size(delegate.width, delegate.height)
+        sourceSize: sourceSizeOptimizer.optimizedSourceSize
         width: delegate.width
+
+        onScaleChanged: {
+            sourceSizeOptimizer.requestUpdate()
+        }
+    }
+
+    SourceSizeOptimizer {
+        id: sourceSizeOptimizer
+        targetImage: image
+        imageInfo: targetImageInfo
+        delegateWidth: delegate.width
+        delegateHeight: delegate.height
+        maxDimension: 4096
+        maxTotalPixels: 0
     }
 
     ImageInputHandler {

@@ -50,16 +50,50 @@ BaseImageDelegate {
         scale: 1.0
         smooth: true
         source: "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex
-        // 限制加载分辨率为当前显示区域大小，避免将全尺寸大图上传为 GPU 纹理
-        sourceSize: Qt.size(delegate.width, delegate.height)
+        sourceSize: sourceSizeOptimizer.optimizedSourceSize
         width: delegate.width
-        // TODO: wait for Qt6.8 avoid flickering when image source change
-        // retainWhileLoading: true
+        // debounced (scroll wheel): retain old texture for smooth transition
+        // immediate (large jump): no retain, use snapshot instead
+        retainWhileLoading: !sourceSizeOptimizer.immediateUpgrade
+
+        onScaleChanged: {
+            sourceSizeOptimizer.requestUpdate()
+        }
 
         onStatusChanged: {
             if (Image.Ready === image.status && !rotationRunning) {
                 rotateAnimationLoader.active = false;
+                if (upgradeSnapshotLoader.active) {
+                    upgradeSnapshotLoader.active = false
+                }
             }
+        }
+    }
+
+    SourceSizeOptimizer {
+        id: sourceSizeOptimizer
+        targetImage: image
+        imageInfo: targetImageInfo
+        delegateWidth: delegate.width
+        delegateHeight: delegate.height
+    }
+
+    // Snapshot for immediate mode: shows old texture while new texture loads
+    Loader {
+        id: upgradeSnapshotLoader
+        active: sourceSizeOptimizer.showUpgradeSnapshot
+        anchors.fill: parent
+
+        sourceComponent: ShaderEffectSource {
+            anchors.centerIn: parent
+            width: image.width
+            height: image.height
+            sourceItem: image
+            live: false
+            hideSource: true
+            scale: image.scale
+            mipmap: true
+            smooth: true
         }
     }
 

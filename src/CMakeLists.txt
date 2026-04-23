@@ -100,6 +100,7 @@ else()
             qml/ImageDelegate/MultiImageDelegate.qml
             qml/ImageDelegate/NonexistImageDelegate.qml
             qml/ImageDelegate/NormalImageDelegate.qml
+            qml/ImageDelegate/SourceSizeOptimizer.qml
             qml/ImageDelegate/SvgImageDelegate.qml
             qml/ImageDelegate/ViewDelegateLoader.qml
             qml/InformationDialog/ElideLabel.qml
