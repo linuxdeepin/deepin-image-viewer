@@ -1,3 +1,14 @@
+deepin-image-viewer (6.0.40) unstable; urgency=medium
+
+  * fix(window): prevent window re-centering on image switch
+  * fix: add dynamic sourceSize optimization for zoom clarity
+  * fix(dialog): fix InformationDialog appearing at top-left corner
+  * fix(image): Improve ltwLoader activation logic for image readiness
+  * fix(image): Comment out ltwLoader activation for OCR testing
+  * fix(image): Optimize image loading and caching for better performance
+
+ -- Wang Yu <wangyu@uniontech.com>  Wed, 23 Apr 2026 20:50:00 +0800
+
 deepin-image-viewer (6.0.39) unstable; urgency=medium
 
   * chore: Unify linglong.yaml
