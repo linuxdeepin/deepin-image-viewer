@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -39,6 +39,9 @@ Control {
     }
     property string title
 
+    // 允许组件接收焦点（用于转移焦点）
+    focus: true
+
     signal clicked
 
     function dealShowPicLabelClick() {
@@ -56,9 +59,25 @@ Control {
         }
     }
 
-    // 复位当前属性编辑组件，关闭编辑框
+    // 复位当前属性编辑组件，关闭编辑框（不保存）
     function reset() {
         showPicLabel.visible = true;
+    }
+
+    // 提交更改并关闭编辑框（保存文件名）
+    function commitAndClose() {
+        if (!showPicLabel.visible) {
+            var name = nameedit.text;
+            if (!IV.FileControl.isShowToolTip(IV.GControl.currentSource, name) && name.length > 0) {
+                IV.FileControl.slotFileReName(name, IV.GControl.currentSource);
+            }
+            showPicLabel.visible = true;
+        }
+    }
+
+    // 检查是否处于编辑状态
+    function isEditing() {
+        return !showPicLabel.visible;
     }
 
     bottomPadding: 4
@@ -113,6 +132,33 @@ Control {
                     }
                     if (event.key === Qt.Key_Escape) {
                         reset();
+                    }
+                }
+
+                // 焦点变化时处理 - 失去焦点时保存文件名
+                onActiveFocusChanged: {
+                    // 失去焦点且输入框可见时，保存文件名
+                    if (!activeFocus && visible && !showPicLabel.visible) {
+                        // 延迟执行，避免与其他焦点事件冲突
+                        commitAndCloseTimer.restart();
+                    }
+                }
+
+                // 失去焦点时保存文件名（备用方案）
+                onEditingFinished: {
+                    // 只有当输入框可见时才处理（避免在 reset 时触发）
+                    if (visible && !showPicLabel.visible) {
+                        dealShowPicLabelClick();
+                    }
+                }
+
+                Timer {
+                    id: commitAndCloseTimer
+                    interval: 10
+                    onTriggered: {
+                        if (!nameedit.activeFocus && nameedit.visible && !showPicLabel.visible) {
+                            dealShowPicLabelClick();
+                        }
                     }
                 }
 

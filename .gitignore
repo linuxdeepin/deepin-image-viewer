@@ -13,6 +13,7 @@
 *.a
 
 build*/
+obj-x86_64-linux-gnu/
 include*/
 
 *.txt.user*
