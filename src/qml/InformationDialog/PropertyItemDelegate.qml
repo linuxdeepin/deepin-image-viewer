@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -41,6 +41,18 @@ Control {
     property string title
 
     signal clicked
+
+    // 允许接收焦点，点击时可以转移其他元素的焦点
+    focus: true
+
+    // 点击时获取焦点，使用 forceActiveFocus 确保能跨焦点作用域抢走焦点
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            control.forceActiveFocus();
+        }
+        cursorShape: Qt.ArrowCursor
+    }
 
     bottomPadding: 4
     implicitWidth: contrlImplicitWidth
