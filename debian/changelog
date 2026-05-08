@@ -1,3 +1,12 @@
+deepin-image-viewer (6.0.41) unstable; urgency=medium
+
+  * chore: Update version to 6.0.41
+  * fix(info-dialog): remove window stays on top hint
+  * [skip CI] Translate deepin-image-viewer.ts in ja
+  * fix(info-dialog): auto-save filename on focus loss
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Fri, 08 May 2026 16:47:55 +0800
+
 deepin-image-viewer (6.0.40) unstable; urgency=medium
 
   * fix(window): prevent window re-centering on image switch
