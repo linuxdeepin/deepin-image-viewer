@@ -20,7 +20,7 @@ DialogWindow {
     property int propRightWidth: 86
     property int topY: 70
 
-    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowStaysOnTopHint
+    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint
     maximumWidth: 280
     minimumWidth: 280
     visible: false
