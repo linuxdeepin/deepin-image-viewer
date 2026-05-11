@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ru">
 <context>
     <name>FileControl</name>
     <message>
         <location filename="../src/filecontrol.cpp" line="781"/>
         <source>Fullscreen</source>
-        <translation>Полный Экран</translation>
+        <translation>Полный экран</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="785"/>
@@ -421,7 +419,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
         <source>Fullscreen</source>
-        <translation>Полный Экран</translation>
+        <translation>Полный экран</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="38"/>
