@@ -497,7 +497,7 @@
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="189"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Просмотр Изображений - это инструмент для просмотра изображений с современным интерфейсом и плавной работой.</translation>
+        <translation>Просмотр изображений — это инструмент для просмотра изображений с современным интерфейсом и плавной работой.</translation>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="191"/>
