@@ -296,7 +296,7 @@
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Просмотр Изображений - это инструмент для просмотра изображений с современным интерфейсом и плавной работой.</translation>
+        <translation>Просмотр изображений — это инструмент для просмотра изображений с современным интерфейсом и плавной работой.</translation>
     </message>
 </context>
 <context>
@@ -327,7 +327,7 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation>Не удается переместить «%1» в корзину. Вы хотите удалить его навсегда?</translation>
+        <translation>Не удаётся переместить «%1» в корзину. Хотите удалить его навсегда?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
