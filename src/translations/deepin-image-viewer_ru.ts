@@ -55,7 +55,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="821"/>
         <source>Display in file manager</source>
-        <translation>Отобразить в  файловом менеджере </translation>
+        <translation>Отобразить в файловом менеджере </translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="825"/>
@@ -484,7 +484,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>Отобразить в  файловом менеджере </translation>
+        <translation>Отобразить в файловом менеджере </translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
