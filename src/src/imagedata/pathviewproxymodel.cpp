@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -594,6 +594,13 @@ void PathViewProxyModel::asyncUpdateLoadInfo(const QUrl &url, int sourceIndex, i
         ImageInfo *delayInfo = new ImageInfo(url, this);
         connect(delayInfo, &ImageInfo::statusChanged, this, [this, delayInfo, sourceIndex]() {
             qCDebug(logImageViewer) << "AsyncUpdateLoadInfo: ImageInfo status changed for:" << delayInfo->source().toString();
+            // Loading is a transient state; wait for a terminal state (Ready/Error).
+            // Requires loadFinished() to cache data unconditionally so that
+            // the subsequent Ready status change is guaranteed to fire.
+            if (ImageInfo::Loading == delayInfo->status()) {
+                return;
+            }
+
             // 仅更新加载成功的多页图数据，其它类型的数据无需关注，默认的 frameIndex 都是 0
             if (ImageInfo::Ready == delayInfo->status() && Types::MultiImage == delayInfo->type()) {
                 qCDebug(logImageViewer) << "Async update completed for multi-image:" << delayInfo->source().toString()

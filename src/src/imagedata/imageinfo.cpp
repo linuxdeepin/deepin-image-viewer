@@ -357,7 +357,7 @@ void ImageInfoCache::loadFinished(const QString &path, int frameIndex, ImageInfo
 
     ThumbnailCache::Key key = ThumbnailCache::toFindKey(path, frameIndex);
 
-    if (data && waitSet.contains(key)) {
+    if (data) {
         cache.insert(key, data);
         qCDebug(logImageViewer) << "Image loaded successfully:" << path << "frame:" << frameIndex
                                 << "type:" << data->type << "size:" << data->size;
