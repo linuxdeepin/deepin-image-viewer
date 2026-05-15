@@ -291,7 +291,7 @@
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
         <source>day</source>
-        <translation>д</translation>
+        <translation>дн.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="51"/>
