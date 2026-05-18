@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -133,7 +133,7 @@ Control {
         leftPadding: 10
         rightPadding: 20
         spacing: 10
-        visible: IV.GControl.imageCount > 1
+        visible: IV.GControl.hasPreviousImage || IV.GControl.hasNextImage
         width: visible ? implicitWidth : 0
 
         anchors {

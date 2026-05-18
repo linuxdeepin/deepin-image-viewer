@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -29,6 +29,11 @@ GlobalControl::GlobalControl(QObject *parent)
     sourceModel = new ImageSourceModel(this);
     viewSourceModel = new PathViewProxyModel(sourceModel, this);
     qCDebug(logImageViewer) << "ImageSourceModel and PathViewProxyModel initialized.";
+
+    // 图片信息异步加载完成后重新评估切换按钮状态
+    connect(&currentImage, &ImageInfo::infoChanged, this, [this]() {
+        checkSwitchEnable();
+    });
 
     // 图片旋转完成后触发信息变更
     connect(RotateImageHelper::instance(), &RotateImageHelper::rotateImageFinished, this, [this](const QString &path, bool ret) {

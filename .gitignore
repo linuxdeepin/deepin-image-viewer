@@ -29,6 +29,9 @@ vendor/lib/*
 .cursor
 .cursorindexingignore
 .specstory/
+.claude/
+.trellis/
+AGENTS.md
 
 *.log
 
