@@ -30,9 +30,9 @@ GlobalControl::GlobalControl(QObject *parent)
     viewSourceModel = new PathViewProxyModel(sourceModel, this);
     qCDebug(logImageViewer) << "ImageSourceModel and PathViewProxyModel initialized.";
 
-    // 图片信息异步加载完成后重新评估切换按钮状态
+    // 图片信息异步加载完成后重新评估切换按钮状态（防抖，避免频繁触发）
     connect(&currentImage, &ImageInfo::infoChanged, this, [this]() {
-        checkSwitchEnable();
+        switchCheckTimer.start(50, this);
     });
 
     // 图片旋转完成后触发信息变更
@@ -510,6 +510,9 @@ void GlobalControl::timerEvent(QTimerEvent *event)
         submitTimer.stop();
         submitImageChangeImmediately();
         qCDebug(logImageViewer) << "Submit timer stopped and image changes submitted.";
+    } else if (switchCheckTimer.timerId() == event->timerId()) {
+        switchCheckTimer.stop();
+        checkSwitchEnable();
     }
 }
 
@@ -519,9 +522,16 @@ void GlobalControl::timerEvent(QTimerEvent *event)
 void GlobalControl::checkSwitchEnable()
 {
     qCDebug(logImageViewer) << "GlobalControl::checkSwitchEnable() called.";
-    Q_ASSERT(sourceModel);
+    if (!sourceModel || sourceModel->rowCount() <= 0) {
+        if (hasPrevious) { hasPrevious = false; Q_EMIT hasPreviousImageChanged(); }
+        if (hasNext) { hasNext = false; Q_EMIT hasNextImageChanged(); }
+        return;
+    }
+
     bool previous = (curIndex > 0 || curFrameIndex > 0);
-    bool next = (curIndex < (sourceModel->rowCount() - 1) || curFrameIndex < (currentImage.frameCount() - 1));
+    const int frameCount = currentImage.frameCount();
+    bool next = (curIndex < (sourceModel->rowCount() - 1)
+                 || (frameCount > 1 && curFrameIndex < (frameCount - 1)));
     qCDebug(logImageViewer) << "Can go previous: " << previous << ", Can go next: " << next;
 
     if (previous != hasPrevious) {
