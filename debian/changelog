@@ -1,3 +1,13 @@
+deepin-image-viewer (6.0.42) unstable; urgency=medium
+
+  * fix: add defensive checks in checkSwitchEnable for async callback safety
+  * fix: show prev/next buttons for single multi-page TIF file
+  * fix(multi-image): fix blank page when switching multi-page TIFF frames
+  * [skip CI] Translate deepin-image-viewer.ts in ru
+  * [skip CI] Translate desktop.ts in ru
+
+ -- Wang Yu <wangyu@uniontech.com>  Tue, 19 May 2026 19:09:48 +0800
+
 deepin-image-viewer (6.0.41) unstable; urgency=medium
 
   * chore: Update version to 6.0.41
