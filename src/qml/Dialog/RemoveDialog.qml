@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -26,7 +26,7 @@ DialogWindow {
     width: 400
 
     header: DialogTitleBar {
-        enableInWindowBlendBlur: true
+        enableInWindowBlendBlur: false
 
         // 仅保留默认状态，否则 hover 上会有变化效果
         icon {
