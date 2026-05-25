@@ -29,7 +29,7 @@ DialogWindow {
     header: DialogTitleBar {
         property string title: fileName
 
-        enableInWindowBlendBlur: true
+        enableInWindowBlendBlur: false
 
         content: Loader {
             sourceComponent: Label {
