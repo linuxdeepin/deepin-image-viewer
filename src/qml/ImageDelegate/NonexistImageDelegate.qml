@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -30,6 +30,19 @@ BaseImageDelegate {
         mipmap: true
         smooth: true
         width: 100
+    }
+
+    // 文件不存在时仍需支持 Ctrl+滚轮切换图片
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.NoButton
+
+        onWheel: wheel => {
+            if (Qt.ControlModifier & wheel.modifiers) {
+                var detla = wheel.angleDelta.y / 120;
+                detla > 0 ? IV.GControl.previousImage() : IV.GControl.nextImage();
+            }
+        }
     }
 
     Label {
