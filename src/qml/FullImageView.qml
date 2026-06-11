@@ -306,12 +306,9 @@ Item {
         hoverEnabled: true
 
         onPositionChanged: {
-            if (imageViewer.liveTextActive) {
-                var pos = mapToItem(imageViewer, mouseX, mouseY);
-                cursorShape = imageViewer.isMouseOverLiveBlock(pos.x, pos.y) ? Qt.IBeamCursor : Qt.ArrowCursor;
-            } else {
-                cursorShape = Qt.ArrowCursor;
-            }
+            if (!imageViewer.liveTextActive) return;
+            var pos = mapToItem(imageViewer, mouseX, mouseY);
+            cursorShape = imageViewer.isMouseOverLiveBlock(pos.x, pos.y) ? Qt.IBeamCursor : Qt.ArrowCursor;
         }
 
         onEntered: {
