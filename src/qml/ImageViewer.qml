@@ -22,6 +22,14 @@ Item {
     property real lastDisplayScaleWidth: 0
     // current LiveText select text
     property bool liveTextSelected: false
+    // LiveText overlay 是否可见（识别完成并显示文字块）
+    property bool liveTextActive: false
+
+    function isMouseOverLiveBlock(x, y) {
+        if (!liveTextActive || !ltwLoader.item) return false;
+        var pos = ltwLoader.item.mapFromItem(imageViewer, x, y);
+        return ltwLoader.item.isOverBlock(pos.x, pos.y);
+    }
     // Image 类型的对象，空图片、错误图片、消失图片等异常为 null
     property alias targetImage: view.currentImage
 
@@ -562,6 +570,7 @@ Item {
                 liveTextAnalyzer.breakAnalyze();
                 ltw.clearLive();
                 liveTextTimer.stop();
+                imageViewer.liveTextActive = false;
             }
 
             //live text分析函数
@@ -582,6 +591,7 @@ Item {
                     console.debug("run live start");
                     ltw.drawRect(liveTextAnalyzer.liveBlock());
                     ltw.visible = true;
+                    imageViewer.liveTextActive = true;
                 }
             }
 
