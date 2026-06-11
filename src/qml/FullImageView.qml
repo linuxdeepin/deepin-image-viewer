@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -304,6 +304,15 @@ Item {
         acceptedButtons: Qt.LeftButton
         enabled: !IV.GStatus.delayInit
         hoverEnabled: true
+
+        onPositionChanged: {
+            if (imageViewer.liveTextActive) {
+                var pos = mapToItem(imageViewer, mouseX, mouseY);
+                cursorShape = imageViewer.isMouseOverLiveBlock(pos.x, pos.y) ? Qt.IBeamCursor : Qt.ArrowCursor;
+            } else {
+                cursorShape = Qt.ArrowCursor;
+            }
+        }
 
         onEntered: {
             isEnterCurrentView = true;
