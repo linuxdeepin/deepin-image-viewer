@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -435,7 +435,7 @@ UNIONIMAGESHARED_EXPORT QString unionImageVersion()
     return ver;
 }
 
-UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage &res, QString &errorMsg, const QString &format_bar)
+UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage &res, QString &errorMsg, const QString &format_bar, int maxDimension)
 {
     qCDebug(logImageViewer) << "Loading static image from file:" << path;
     QFileInfo file_info(path);
@@ -473,7 +473,6 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
         qCDebug(logImageViewer) << "Set QImageReader allocation limit to 2048MB";
         
         QSize originalSize = reader.size();
-        const int maxDimension = 4096;
         if (originalSize.width() > maxDimension || originalSize.height() > maxDimension) {
             qCDebug(logImageViewer) << "Large image detected (" << originalSize.width() << "x" << originalSize.height()
                                   << "), scaling down to max dimension:" << maxDimension;

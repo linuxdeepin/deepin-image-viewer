@@ -17,6 +17,10 @@
 Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 static const QString s_tagFrame = "#frame_";
+// 默认解码上限（保护内存）；与 QML SourceSizeOptimizer.maxDimension(15000) 对齐，
+// 放大场景下允许解码到原图全分辨率
+static const int s_defaultMaxDimension = 4096;
+static const int s_maxUpgradeDimension = 15000;
 
 /**
    @brief 解析图像处理器 \a id , 取得请求的文件路径 \a filePath 和 \a frameIndex
@@ -39,12 +43,13 @@ static void parseProviderID(const QString &id, QString &filePath, int &frameInde
 
 /**
    @return 读取 \a imagePath 的图像数据并返回
+   @param maxDimension 原图任一边超过该值时按比例缩放到该上限
  */
-static QImage readNormalImage(const QString &imagePath)
+static QImage readNormalImage(const QString &imagePath, int maxDimension = s_defaultMaxDimension)
 {
     QImage image;
     QString error;
-    if (!LibUnionImage_NameSpace::loadStaticImageFromFile(imagePath, image, error)) {
+    if (!LibUnionImage_NameSpace::loadStaticImageFromFile(imagePath, image, error, "", maxDimension)) {
         qCWarning(logImageViewer) << "Failed to load image:" << imagePath << "Error:" << error;
     } else {
         qCDebug(logImageViewer) << "Successfully loaded image:" << imagePath << "Size:" << image.size();
@@ -83,7 +88,8 @@ static QImage readNormalImageScaled(const QString &imagePath, const QSize &targe
         qCDebug(logImageViewer) << "QImageReader scaled read failed, falling back:" << imagePath;
     }
 
-    return readNormalImage(imagePath);
+    // targetSize >= 原图（放大升级）或按需缩放失败，用升级上限避免 4096 截断
+    return readNormalImage(imagePath, s_maxUpgradeDimension);
 }
 
 /**
@@ -399,7 +405,11 @@ QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &
             image = readMultiImage(tempPath, frameIndex);
             qCDebug(logImageViewer) << "Read multi image for:" << tempPath << "frame:" << frameIndex;
         } else {
-            image = readNormalImage(tempPath);
+            // 按请求尺寸钳制解码上限：小请求用默认值保护内存，大请求随请求增长但不超过升级上限
+            int maxDim = qBound(s_defaultMaxDimension,
+                                qMax(requestedSize.width(), requestedSize.height()),
+                                s_maxUpgradeDimension);
+            image = readNormalImage(tempPath, maxDim);
             qCDebug(logImageViewer) << "Read normal image for:" << tempPath;
         }
 
