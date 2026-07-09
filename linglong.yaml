@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.image.viewer
   name: deepin-image-viewer
-  version: 6.0.45.1
+  version: 6.0.46.1
   kind: app
   description: |
     view images for deepin os.
@@ -16,7 +16,7 @@ command:
   - deepin-image-viewer
 
 base: org.deepin.base/25.2.2
-runtime: org.deepin.runtime.dtk/25.2.2
+runtime: org.deepin.runtime.dtk/6.7.0
 
 build: |
   # 下载和安装依赖
