@@ -59,8 +59,7 @@
 | ![adaptimage](../common/adaptimage.svg)               | 1:1视图    | 图片按照实际尺寸显示。 |
 | ![adaptscreen](../common/adaptscreen.svg)             | 适应窗口   | 图片适应窗口尺寸显示。 |
 | ![ocr](../common/ocr.svg)             | 识别文字 | 识别图片中的文字。 |
-| ![clockwiserotation](../common/clockwiserotation.svg) | 顺时针旋转 | 图片顺时针旋转90度。   |
-| ![contrarotate](../common/contrarotate.svg)           | 逆时针旋转 | 图片逆时针旋转90度。   |
+| ![contrarotate](../common/contrarotate.svg)           | 旋转 | 图片逆时针旋转90度。   |
 | ![delete](../common/delete.svg)                       | 删除       | 删除当前图片。         |
 
 

@@ -56,8 +56,7 @@
 | ![adapt_image](../common/adaptimage.svg)               | 1:1檢視    | 圖片按照實際尺寸顯示。 |
 | ![adapt_screen](../common/adaptscreen.svg)             | 適應視窗   | 圖片適應視窗尺寸顯示。 |
 | ![ocr](../common/ocr.svg)             | 識別文字 | 識別圖片中的文字。 |
-| ![clockwise_rotation](../common/clockwiserotation.svg) | 順時針旋轉 | 圖片順時針旋轉90度。   |
-| ![contrarotate](../common/contrarotate.svg)            | 逆時針旋轉 | 圖片逆時針旋轉90度。   |
+| ![contrarotate](../common/contrarotate.svg)            | 旋轉 | 圖片逆時針旋轉90度。   |
 | ![delete](../common/delete.svg)                        | 刪除       | 刪除目前圖片。         |
 
 

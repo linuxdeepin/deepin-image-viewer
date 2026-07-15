@@ -57,8 +57,7 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 | ![adapt_image](../common/adaptimage.svg)               | 1:1 Size                | The image will show in 1:1 size.                          |
 | ![fit_hover](../common/adaptscreen.svg)                | Fit to window           | The image will be resized to adapt to the current window. |
 | ![ocr](../common/ocr.svg)                | Extract text          | Texts on the image will be recognized. |
-| ![clockwise_rotation](../common/clockwiserotation.svg) | Rotate clockwise        | Rotate the image 90 degrees clockwise.                    |
-| ![contrarotate](../common/contrarotate.svg)            | Rotate counterclockwise | Rotate the image 90 degrees counterclockwise.             |
+| ![contrarotate](../common/contrarotate.svg)            | Rotate | Rotate the image 90 degrees counterclockwise.             |
 | ![delete](../common/delete.svg)                        | Delete                  | Delete the current image.                                 |
 
 > ![notes](../common/notes.svg) Notes: You are unavailable to rename, rotate and delete system images.
