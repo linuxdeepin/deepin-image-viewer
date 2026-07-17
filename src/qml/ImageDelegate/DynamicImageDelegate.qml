@@ -3,12 +3,31 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
+import org.deepin.image.viewer 1.0 as IV
 import "../Utils"
 
 BaseImageDelegate {
     id: delegate
 
     property bool needInit: true
+    readonly property bool imageInfoReady: targetImageInfo.status === IV.ImageInfo.Ready
+
+    function scaledSourceSize() {
+        var sourceWidth = targetImageInfo.width
+        var sourceHeight = targetImageInfo.height
+        var requestedSize = sourceSizeOptimizer.optimizedSourceSize
+
+        if (sourceWidth <= 0 || sourceHeight <= 0
+                || requestedSize.width <= 0 || requestedSize.height <= 0) {
+            return Qt.size(0, 0)
+        }
+
+        var scale = Math.min(1,
+                             requestedSize.width / sourceWidth,
+                             requestedSize.height / sourceHeight)
+        return Qt.size(Math.max(1, Math.round(sourceWidth * scale)),
+                       Math.max(1, Math.round(sourceHeight * scale)))
+    }
 
     inputHandler: imageInput
     status: image.status
@@ -24,14 +43,20 @@ BaseImageDelegate {
         height: delegate.height
         scale: 1.0
         smooth: true
-        source: delegate.source
-        // 限制每帧解码分辨率为显示区域大小，动图帧数多时可显著降低内存峰值
-        sourceSize: sourceSizeOptimizer.optimizedSourceSize
+        // 等待原始尺寸就绪，避免将显示区域的宽高直接传给动图解码器而拉伸帧内容。
+        source: delegate.imageInfoReady ? delegate.source : ""
+        // 限制每帧解码分辨率，同时保持原图比例且不在解码阶段放大。
+        sourceSize: delegate.imageInfoReady ? delegate.scaledSourceSize() : Qt.size(0, 0)
         width: delegate.width
 
         onScaleChanged: {
             sourceSizeOptimizer.requestUpdate()
         }
+    }
+
+    onSourceChanged: {
+        needInit = true
+        sourceSizeOptimizer.resetSourceSize()
     }
 
     SourceSizeOptimizer {

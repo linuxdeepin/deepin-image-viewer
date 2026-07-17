@@ -37,6 +37,13 @@ Item {
 
     property size optimizedSourceSize: zoomedWidth > 0 ? Qt.size(zoomedWidth, zoomedHeight) : Qt.size(delegateWidth, delegateHeight)
 
+    function resetSourceSize() {
+        sourceSizeUpdateTimer.stop()
+        zoomedWidth = 0
+        zoomedHeight = 0
+        immediateUpgradeFlag = false
+    }
+
     function requestUpdate() {
         if (!optimizer.targetImage || optimizer.targetImage.scale <= 1.0) {
             sourceSizeUpdateTimer.stop()
