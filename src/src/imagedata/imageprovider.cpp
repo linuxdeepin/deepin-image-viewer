@@ -427,8 +427,8 @@ QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &
 
     // 调整图像大小
     if (!image.isNull() && image.size() != requestedSize && requestedSize.isValid()) {
-        image = image.scaled(requestedSize);
-        qCDebug(logImageViewer) << "Scaled image to:" << requestedSize;
+        image = image.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        qCDebug(logImageViewer) << "Scaled image to:" << image.size();
     }
 
     qCDebug(logImageViewer) << "ImageProvider::requestImage finished for id:" << id;
