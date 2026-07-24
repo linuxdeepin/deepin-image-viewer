@@ -40,4 +40,6 @@ add_subdirectory(src)
 add_subdirectory(qimage-plugins)
 
 # Unit Tests
-#add_subdirectory(tests)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_subdirectory(tests)
+endif()
