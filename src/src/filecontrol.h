@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -30,6 +30,7 @@ public:
     Q_INVOKABLE QString standardPicturesPath() const;
 
     Q_INVOKABLE void resetImageFiles(const QStringList &filePaths = {});       // 重设当前展示图片列表
+    Q_INVOKABLE void addImageFile(const QString &filePath);                    // 追加监控当前目录中的图片文件
     Q_INVOKABLE QStringList getDirImagePath(const QString &path);              // 获得路径下的所有图片路径
     Q_INVOKABLE bool isCurrentWatcherDir(const QUrl &path);                    // 判断是否为当前正在监控的文件路径
     Q_INVOKABLE QString slotGetInfo(const QString &key, const QString &path);  // 获取某项info

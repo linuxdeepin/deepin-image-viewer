@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -17,6 +17,7 @@ public:
     static ImageFileWatcher *instance();
 
     void resetImageFiles(const QStringList &filePaths);
+    void addImageFile(const QString &filePath);
     void fileRename(const QString &oldPath, const QString &newPath);
     bool isCurrentDir(const QString &filePath);
 

@@ -1,9 +1,11 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "imagesourcemodel.h"
 #include <QLoggingCategory>
+#include <QCollator>
+#include <QFileInfo>
 
 Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
@@ -108,6 +110,40 @@ int ImageSourceModel::indexForImagePath(const QUrl &file)
     int index = imageUrlList.indexOf(file);
     qCDebug(logImageViewer) << "Index for file:" << file << "is:" << index;
     return index;
+}
+
+/**
+   @brief 将图片路径按当前文件名排序规则插入模型，返回插入后的索引。
+ */
+int ImageSourceModel::insertImage(const QUrl &file)
+{
+    qCDebug(logImageViewer) << "ImageSourceModel::insertImage() called for file:" << file;
+    if (file.isEmpty()) {
+        return -1;
+    }
+
+    const int existingIndex = imageUrlList.indexOf(file);
+    if (-1 != existingIndex) {
+        return existingIndex;
+    }
+
+    static QCollator sortCollator;
+    sortCollator.setNumericMode(true);
+    const QString baseName = QFileInfo(file.toLocalFile()).baseName();
+    int insertIndex = imageUrlList.size();
+    for (int i = 0; i < imageUrlList.size(); ++i) {
+        const QString currentBaseName = QFileInfo(imageUrlList.at(i).toLocalFile()).baseName();
+        if (sortCollator.compare(baseName, currentBaseName) < 0) {
+            insertIndex = i;
+            break;
+        }
+    }
+
+    beginInsertRows(QModelIndex(), insertIndex, insertIndex);
+    imageUrlList.insert(insertIndex, file);
+    endInsertRows();
+    qCDebug(logImageViewer) << "Image inserted at index:" << insertIndex;
+    return insertIndex;
 }
 
 /**
