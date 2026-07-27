@@ -12,6 +12,7 @@
 #include <QDebug>
 #include <QApplication>
 #include <QLoggingCategory>
+#include <QFileInfo>
 
 Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
@@ -376,6 +377,45 @@ bool GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
     // 更新视图展示模型
     viewSourceModel->resetModel(index, 0);
     qCDebug(logImageViewer) << "Image files set complete";
+    return true;
+}
+
+/**
+   @brief 将当前目录新增图片插入列表并切换至该图片。
+ */
+bool GlobalControl::addImageAndSetCurrentSource(const QUrl &image)
+{
+    qCDebug(logImageViewer) << "Adding image and setting current source:" << image;
+    if (!sourceModel || image.isEmpty() || !QFileInfo(image.toLocalFile()).isFile()) {
+        return false;
+    }
+
+    const int existingIndex = sourceModel->indexForImagePath(image);
+    if (-1 != existingIndex) {
+        setIndexAndFrameIndex(existingIndex, 0);
+        return true;
+    }
+
+    submitImageChangeImmediately();
+    const int index = sourceModel->insertImage(image);
+    if (-1 == index) {
+        return false;
+    }
+
+    currentImage.setSource(image);
+    curIndex = index;
+    const bool frameIndexChanged = (0 != curFrameIndex);
+    curFrameIndex = 0;
+    Q_EMIT currentSourceChanged();
+    Q_EMIT currentIndexChanged();
+    if (frameIndexChanged) {
+        Q_EMIT currentFrameIndexChanged();
+    }
+    checkSwitchEnable();
+    Q_EMIT imageCountChanged();
+
+    // PathViewProxyModel 缓存源模型索引，插入数据后仅重置该代理模型。
+    viewSourceModel->resetModel(index, 0);
     return true;
 }
 

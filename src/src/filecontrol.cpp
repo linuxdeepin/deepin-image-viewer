@@ -910,6 +910,11 @@ void FileControl::resetImageFiles(const QStringList &filePaths)
     qCDebug(logImageViewer) << "Image files reset complete.";
 }
 
+void FileControl::addImageFile(const QString &filePath)
+{
+    imageFileWatcher->addImageFile(filePath);
+}
+
 /**
  * @return 返回公司Logo图标地址
  */

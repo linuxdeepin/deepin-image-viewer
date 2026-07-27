@@ -23,8 +23,14 @@ Item {
     // 设置当前使用的图片源
     function setSourcePath(path) {
         if (IV.FileControl.isCurrentWatcherDir(path)) {
-            // 更新当前文件路径
-            IV.GControl.currentSource = path;
+            if (IV.GControl.globalModel.indexForImagePath(path) === -1) {
+                if (IV.GControl.addImageAndSetCurrentSource(path)) {
+                    IV.FileControl.addImageFile(path.toString());
+                }
+            } else {
+                // 更新当前文件路径
+                IV.GControl.currentSource = path;
+            }
         } else {
             var sourcePaths = IV.FileControl.getDirImagePath(path);
             if (sourcePaths.length > 0) {

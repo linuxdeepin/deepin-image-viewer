@@ -73,6 +73,7 @@ public:
 
     // 图像文件变更操作
     Q_SLOT bool setImageFiles(const QStringList &imageFiles, const QString &openFile);
+    Q_INVOKABLE bool addImageAndSetCurrentSource(const QUrl &image);
     Q_SLOT void removeImage(const QUrl &removeImage);
     Q_SLOT void renameImage(const QUrl &oldName, const QUrl &newName);
 
