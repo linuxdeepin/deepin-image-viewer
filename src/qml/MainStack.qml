@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -28,7 +28,10 @@ Item {
         } else {
             var sourcePaths = IV.FileControl.getDirImagePath(path);
             if (sourcePaths.length > 0) {
-                IV.GControl.setImageFiles(sourcePaths, path);
+                if (!IV.GControl.setImageFiles(sourcePaths, path)) {
+                    console.warn("Rejected image path not in image list", path);
+                    return;
+                }
                 // 记录当前读取的图片信息
                 IV.FileControl.resetImageFiles(sourcePaths);
                 console.log("Load image info", path);
@@ -100,7 +103,8 @@ Item {
         anchors.fill: parent
 
         onDropped: {
-            if (drop.hasUrls && drop.urls.length !== 0) {
+            if (drop.hasUrls && drop.urls.length !== 0
+                    && IV.FileControl.isImage(drop.urls[0].toString())) {
                 setSourcePath(drop.urls[0]);
             }
         }
