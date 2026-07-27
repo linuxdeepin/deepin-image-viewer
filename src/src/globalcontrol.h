@@ -72,7 +72,7 @@ public:
     Q_INVOKABLE void forceExit();
 
     // 图像文件变更操作
-    Q_SLOT void setImageFiles(const QStringList &imageFiles, const QString &openFile);
+    Q_SLOT bool setImageFiles(const QStringList &imageFiles, const QString &openFile);
     Q_SLOT void removeImage(const QUrl &removeImage);
     Q_SLOT void renameImage(const QUrl &oldName, const QUrl &newName);
 

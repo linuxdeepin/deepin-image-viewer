@@ -339,26 +339,32 @@ void GlobalControl::forceExit()
    @brief 设置打开图片列表 \a filePaths ， 其中 \a openFile 是首个展示的图片路径，
     将更新全局数据源并发送状态变更信号
  */
-void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &openFile)
+bool GlobalControl::setImageFiles(const QStringList &filePaths, const QString &openFile)
 {
     qCDebug(logImageViewer) << "Setting image files, count:" << filePaths.size() << "initial file:" << openFile;
+    if (filePaths.isEmpty()) {
+        qCWarning(logImageViewer) << "Cannot set empty image files.";
+        return false;
+    }
+
+    const int index = filePaths.indexOf(openFile);
+    if (-1 == index) {
+        qCWarning(logImageViewer) << "Open file is not in image files:" << openFile;
+        return false;
+    }
+
     Q_ASSERT(sourceModel);
     // 优先更新数据源
     sourceModel->setImageFiles(QUrl::fromStringList(filePaths));
     qCDebug(logImageViewer) << "Source model image files set.";
 
-    int index = filePaths.indexOf(openFile);
-    if (-1 == index || filePaths.isEmpty()) {
-        index = 0;
-        qCDebug(logImageViewer) << "Using default index 0";
-    }
-
     setIndexAndFrameIndex(index, 0);
 
-    // 更新图像信息，无论变更均更新
-    if (currentImage.source() != openFile) {
-        qCDebug(logImageViewer) << "Updating current image source to:" << openFile;
-        currentImage.setSource(openFile);
+    // 当前图片源必须来自已设置的数据模型，避免传入路径不在列表时状态失配。
+    const QUrl currentSource = sourceModel->data(sourceModel->index(index), Types::ImageUrlRole).toUrl();
+    if (currentImage.source() != currentSource) {
+        qCDebug(logImageViewer) << "Updating current image source to:" << currentSource;
+        currentImage.setSource(currentSource);
     }
     Q_EMIT currentSourceChanged();
     qCDebug(logImageViewer) << "Emitted currentSourceChanged signal.";
@@ -370,6 +376,7 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
     // 更新视图展示模型
     viewSourceModel->resetModel(index, 0);
     qCDebug(logImageViewer) << "Image files set complete";
+    return true;
 }
 
 /**

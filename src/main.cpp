@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 ~ 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -184,9 +184,8 @@ int main(int argc, char *argv[])
     if (!cliParam.isEmpty()) {
         qCDebug(logImageViewer) << "Commandline parameter is not empty, processing initial image.";
         QStringList filePaths = fileControl.getDirImagePath(cliParam);
-        if (!filePaths.isEmpty()) {
+        if (!filePaths.isEmpty() && control.setImageFiles(filePaths, cliParam)) {
             qCDebug(logImageViewer) << "Found image files: " << filePaths.count();
-            control.setImageFiles(filePaths, cliParam);
             fileControl.resetImageFiles(filePaths);
 
             status.setStackPage(Types::ImageViewPage);

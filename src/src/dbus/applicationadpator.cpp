@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -20,8 +20,10 @@ ApplicationAdaptor::ApplicationAdaptor(FileControl *controller)
 bool ApplicationAdaptor::openImageFile(const QString &fileName)
 {
     if (fileControl) {
-        QString urlPath = QUrl::fromLocalFile(fileName).toString();
-        if (fileControl->isCanReadable(urlPath)) {
+        const QUrl inputUrl(fileName);
+        const QString localPath = inputUrl.isLocalFile() ? inputUrl.toLocalFile() : fileName;
+        const QString urlPath = QUrl::fromLocalFile(localPath).toString();
+        if (fileControl->isCanReadable(urlPath) && fileControl->isImage(urlPath)) {
             Q_EMIT fileControl->openImageFile(urlPath);
             return true;
         }

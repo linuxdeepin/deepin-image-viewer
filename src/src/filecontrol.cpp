@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -201,10 +201,12 @@ QString FileControl::getNamePath(const QString &oldPath, const QString &newName)
 bool FileControl::isImage(const QString &path)
 {
     qCDebug(logImageViewer) << "Checking if path is an image:" << path;
+    const QUrl url(path);
+    const QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
     bool bRet = false;
     QMimeDatabase db;
-    QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
-    QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
+    QMimeType mt = db.mimeTypeForFile(localPath, QMimeDatabase::MatchContent);
+    QMimeType mt1 = db.mimeTypeForFile(localPath, QMimeDatabase::MatchExtension);
     qCDebug(logImageViewer) << "Mime type by content:" << mt.name() << ", by extension:" << mt1.name();
     if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
         bRet = true;
