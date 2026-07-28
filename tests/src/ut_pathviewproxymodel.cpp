@@ -420,3 +420,22 @@ TEST_F(ut_pathviewproxymodel, PrivateAsyncUpdateLoadInfo)
     model.asyncUpdateLoadInfo(g_pathviewTmpUrls.first(), 0, 1);  // frameIndex != 0 直接跳过
     SUCCEED();
 }
+
+// IndexInfo 拷贝构造函数
+TEST_F(ut_pathviewproxymodel, IndexInfoCopyConstructor)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(2, 0);
+
+    auto info = model.infoFromIndex(0, 0);
+    ASSERT_TRUE(!info.isNull());
+
+    // 显式调用拷贝构造函数
+    PathViewProxyModel::IndexInfo copy(*info);
+    EXPECT_EQ(copy.url, info->url);
+    EXPECT_EQ(copy.index, info->index);
+    EXPECT_EQ(copy.frameCount, info->frameCount);
+    EXPECT_EQ(copy.frameIndex, info->frameIndex);
+}

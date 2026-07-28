@@ -446,3 +446,13 @@ TEST_F(ut_livetextanalyzer, RequestImage_NullSizePointer_NoCrash)
     QImage result = analyzer.requestImage("x_0", nullptr, QSize(0, 0));
     EXPECT_FALSE(result.isNull());
 }
+
+// 析构函数: 触发 D0 deleting destructor (new + delete)
+TEST_F(ut_livetextanalyzer, Destructor_DeletingDestructor)
+{
+    Stub stub;
+    ut_lt_installCtorStubs(stub);
+    auto *obj = new LiveTextAnalyzer();
+    delete obj;
+    SUCCEED();
+}
