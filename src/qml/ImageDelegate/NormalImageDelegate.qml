@@ -10,6 +10,31 @@ BaseImageDelegate {
     id: delegate
 
     property bool rotationRunning: false
+    property bool sourceUpdatePending: false
+    readonly property int neighborPreviewMaxDimension: 960
+    readonly property int rapidSwitchPreviewMaxDimension: 512
+
+    function previewSize(maxDimension) {
+        if (delegate.width <= 0 || delegate.height <= 0) {
+            return Qt.size(maxDimension, maxDimension)
+        }
+
+        var longestEdge = Math.max(delegate.width, delegate.height)
+        if (longestEdge <= maxDimension) {
+            return Qt.size(delegate.width, delegate.height)
+        }
+
+        var scale = maxDimension / longestEdge
+        return Qt.size(Math.round(delegate.width * scale), Math.round(delegate.height * scale))
+    }
+
+    function neighborPreviewSize() {
+        return previewSize(neighborPreviewMaxDimension)
+    }
+
+    function rapidSwitchPreviewSize() {
+        return previewSize(rapidSwitchPreviewMaxDimension)
+    }
 
     function resetSource() {
         // check if source rename
@@ -24,10 +49,14 @@ BaseImageDelegate {
     }
 
     function updateSource() {
+        sourceSizeOptimizer.resetSourceSize()
         if (delegate.source != "") {
+            // Do not retain the old texture while changing images; retain it only for same-image scale upgrades.
+            sourceUpdatePending = true
             // 由于会 resetSource() 破坏绑定，因此重新设置源数据
             image.source = "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex;
         } else {
+            sourceUpdatePending = false
             image.source = "";
         }
     }
@@ -50,17 +79,23 @@ BaseImageDelegate {
         scale: 1.0
         smooth: true
         source: "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex
-        sourceSize: sourceSizeOptimizer.optimizedSourceSize
+        sourceSize: delegate.isCurrentImage ? (delegate.rapidSwitching
+                                                 ? delegate.rapidSwitchPreviewSize()
+                                                 : sourceSizeOptimizer.optimizedSourceSize)
+                                             : delegate.neighborPreviewSize()
         width: delegate.width
         // debounced (scroll wheel): retain old texture for smooth transition
         // immediate (large jump): no retain, use snapshot instead
-        retainWhileLoading: !sourceSizeOptimizer.immediateUpgrade
+        retainWhileLoading: !delegate.sourceUpdatePending && !sourceSizeOptimizer.immediateUpgrade
 
         onScaleChanged: {
             sourceSizeOptimizer.requestUpdate()
         }
 
         onStatusChanged: {
+            if (Image.Ready === image.status || Image.Error === image.status) {
+                sourceUpdatePending = false
+            }
             if (Image.Ready === image.status && !rotationRunning) {
                 rotateAnimationLoader.active = false;
                 if (upgradeSnapshotLoader.active) {

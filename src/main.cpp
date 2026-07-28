@@ -27,12 +27,24 @@
 #include <QQmlContext>
 #include <QIcon>
 
+#ifdef Q_OS_LINUX
+#include <malloc.h>
+#endif
+
 Q_LOGGING_CATEGORY(logImageViewer, "org.deepin.dde.imageviewer")
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_LINUX
+    // Keep large image buffers mmap-backed instead of retaining them in the heap after repeated decoding.
+    constexpr int imageBufferMmapThreshold = 128 * 1024;
+    if (!mallopt(M_MMAP_THRESHOLD, imageBufferMmapThreshold)) {
+        qCWarning(logImageViewer) << "Failed to set image buffer mmap threshold";
+    }
+#endif
+
     qCDebug(logImageViewer) << "Application starting...";
     qputenv("D_POPUP_MODE", "embed");
     if (qEnvironmentVariableIsEmpty("XDG_CURRENT_DESKTOP")) {
@@ -135,10 +147,6 @@ int main(int argc, char *argv[])
 
         providerCache = static_cast<ProviderCache *>(asyncImageProvider);
 
-        if (!cliParam.isEmpty()) {
-            qCDebug(logImageViewer) << "Preloading image from commandline parameter.";
-            asyncImageProvider->preloadImage(cliParam);
-        }
     }
 
     ThumbnailProvider *multiImageLoad = new ThumbnailProvider;

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -28,7 +28,7 @@ Loader {
         if (PathView.isCurrentItem) {
             return true;
         }
-        return PathView.onPath;
+        return PathView.onPath && PathView.view.preloadNeighbors;
     }
     asynchronous: true
     enabled: PathView.isCurrentItem

@@ -17,6 +17,7 @@
 Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 static const int sc_SubmitInterval = 200;   // 图片变更提交定时间隔 200ms
+static const int sc_ViewModelSyncInterval = 200;  // Main image view-model synchronization debounce interval.
 
 /**
    @class GlobalControl
@@ -560,6 +561,9 @@ void GlobalControl::timerEvent(QTimerEvent *event)
     } else if (switchCheckTimer.timerId() == event->timerId()) {
         switchCheckTimer.stop();
         checkSwitchEnable();
+    } else if (viewModelSyncTimer.timerId() == event->timerId()) {
+        viewModelSyncTimer.stop();
+        viewSourceModel->setCurrentSourceIndex(curIndex, curFrameIndex);
     }
 }
 
@@ -629,7 +633,7 @@ void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
 
     checkSwitchEnable();
 
-    // 更新视图模型
-    viewSourceModel->setCurrentSourceIndex(curIndex, curFrameIndex);
+    // During rapid navigation, synchronize only the final index to avoid decoding intermediate images.
+    viewModelSyncTimer.start(sc_ViewModelSyncInterval, this);
     qCDebug(logImageViewer) << "Index and frame index update complete";
 }
