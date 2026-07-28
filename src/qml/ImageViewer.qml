@@ -322,6 +322,17 @@ Item {
         }
         // 用于限制拖拽方向(处于头尾时)
         property real previousOffset: 0
+        property bool preloadNeighbors: false
+        property bool rapidSwitching: false
+        property bool viewInitialized: false
+
+        function scheduleNeighborPreload() {
+            if (viewInitialized && neighborPreloadTimer.running) {
+                rapidSwitching = true;
+            }
+            preloadNeighbors = false;
+            neighborPreloadTimer.restart();
+        }
 
         // WARNING: 目前 ListView 组件屏蔽输入处理，窗口拖拽依赖底层的 ApplicationWindow
         // 因此不允许 ListView 的区域超过标题栏，图片缩放超过显示区域无妨。
@@ -425,13 +436,29 @@ Item {
             }
         }
 
+        Timer {
+            id: neighborPreloadTimer
+
+            interval: 300
+            repeat: false
+
+            onTriggered: {
+                view.rapidSwitching = false;
+                view.preloadNeighbors = true;
+            }
+        }
+
         Component.onCompleted: {
             // 首次进入(退出缩略图后创建)重置当前显示的索引
             IV.GStatus.viewFlicking = true;
             currentIndex = IV.GControl.viewModel.currentIndex;
             IV.GStatus.viewFlicking = false;
+            viewInitialized = true;
+            neighborPreloadTimer.start();
         }
         onCurrentIndexChanged: {
+            scheduleNeighborPreload();
+
             var curIndex = view.currentIndex;
             var previousIndex = IV.GControl.viewModel.currentIndex;
             var lastIndex = view.count - 1;

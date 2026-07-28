@@ -102,6 +102,7 @@ private:
     int imageRotation = 0;    // 当前图片旋转角度
     QBasicTimer submitTimer;  // 图片变更提交定时器
     QBasicTimer switchCheckTimer;  // 切换按钮状态检查防抖定时器
+    QBasicTimer viewModelSyncTimer;  // Main image view-model synchronization debounce timer.
 };
 
 #endif  // GLOBALCONTROL_H
