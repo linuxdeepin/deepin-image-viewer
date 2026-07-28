@@ -38,3 +38,20 @@ TEST_F(ut_types, ItemRoleEnumValues)
     EXPECT_EQ(static_cast<int>(Types::FrameIndexRole), Qt::UserRole + 2);
     EXPECT_EQ(static_cast<int>(Types::ImageAngleRole), Qt::UserRole + 3);
 }
+
+// 验证构造函数(无父对象)与析构函数正常执行
+TEST_F(ut_types, ConstructorDefault_NoParent_HoldsNoParent)
+{
+    Types types;
+    EXPECT_EQ(types.parent(), nullptr);
+}
+
+// 验证带父对象的构造函数正确建立父子关系
+TEST_F(ut_types, ConstructorWithParent_ParentGiven_HoldsParent)
+{
+    QObject parent;
+    Types *child = new Types(&parent);
+    ASSERT_TRUE(child != nullptr);
+    EXPECT_EQ(child->parent(), &parent);
+    delete child;
+}
