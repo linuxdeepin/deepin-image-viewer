@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -47,7 +47,9 @@ QImage ThumbnailCache::take(const QString &path, int frameIndex)
     QMutexLocker _locker(&mutex);
     QImage *image = cache.take(toFindKey(path, frameIndex));
     if (image) {
-        return *image;
+        QImage ret = *image;
+        delete image;
+        return ret;
     } else {
         return QImage();
     }

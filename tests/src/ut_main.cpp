@@ -7,7 +7,10 @@
 #include <QApplication>
 #include <QCoreApplication>
 #include <QLoggingCategory>
+#include <QThreadPool>
 #include <DLog>
+
+#include "thumbnailcache.h"
 
 // 定义日志分类，与 src/main.cpp 中的定义保持一致
 // 由于测试不编译 main.cpp，需要在此处定义
@@ -29,5 +32,14 @@ int main(int argc, char *argv[])
 
     testing::InitGoogleTest(&argc, argv);
 
-    return RUN_ALL_TESTS();
+    int result = RUN_ALL_TESTS();
+
+    // 显式清理 ThumbnailCache 单例：imageprovider/imageinfo 的后台加载流程
+    // (QtConcurrent::run) 会往单例缓存中 add QImage。
+    // 必须先等待全局线程池完成所有后台任务，否则后台线程可能在 clear()
+    // 之后再次 add，导致 LSan 在进程退出时报告 ThumbnailCache 泄漏。
+    QThreadPool::globalInstance()->waitForDone();
+    ThumbnailCache::instance()->clear();
+
+    return result;
 }

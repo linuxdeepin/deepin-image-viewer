@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -17,6 +17,7 @@ class LiveTextAnalyzer : public QQuickImageProvider
     Q_OBJECT
 public:
     explicit LiveTextAnalyzer(QObject *parent = nullptr);
+    ~LiveTextAnalyzer();
     Q_INVOKABLE void setImage(const QImage &image);
 
     Q_INVOKABLE QVariant liveBlock() const;

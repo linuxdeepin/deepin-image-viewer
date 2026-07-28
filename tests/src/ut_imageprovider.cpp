@@ -10,11 +10,9 @@
 #include <QDir>
 #include <QSize>
 #include <QPixmap>
-#include <QEventLoop>
-#include <QTimer>
 #include <QCoreApplication>
 #include <QQuickImageResponse>
-#include <QSignalSpy>
+#include <QThreadPool>
 
 // 生成临时 PNG 文件，返回绝对路径
 static QString makeProviderTempImage(const QString &name, int side = 64)
@@ -248,14 +246,8 @@ TEST_F(ut_imageprovider, AsyncImageProviderRequestImageResponse)
     QQuickImageResponse *response = provider.requestImageResponse(id, QSize(50, 50));
     ASSERT_NE(response, nullptr);
 
-    QSignalSpy spy(response, &QQuickImageResponse::finished);
-    // 等待加载完成（线程池异步）
-    QEventLoop loop;
-    QObject::connect(response, &QQuickImageResponse::finished, &loop, &QEventLoop::quit);
-    QTimer::singleShot(3000, &loop, &QEventLoop::quit);
-    loop.exec();
-
-    EXPECT_GE(spy.count(), 1);
+    // waitForDone 是线程 join，不处理事件循环，避免 ASAN 下 DBus 残留事件 SEGV
+    QThreadPool::globalInstance()->waitForDone();
     delete response;
 }
 
@@ -266,9 +258,7 @@ TEST_F(ut_imageprovider, AsyncImageProviderPreloadImage)
     QString path = makeProviderTempImage("preload.png", 100);
     provider.preloadImage(QUrl::fromLocalFile(path).toString());
 
-    // 等待后台线程完成，避免访问已释放资源
-    QEventLoop loop;
-    QTimer::singleShot(1000, &loop, &QEventLoop::quit);
-    loop.exec();
+    // 等待后台线程完成，避免 provider 析构后线程访问已释放资源
+    QThreadPool::globalInstance()->waitForDone();
     SUCCEED();
 }
