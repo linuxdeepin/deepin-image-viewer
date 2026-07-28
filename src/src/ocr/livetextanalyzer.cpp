@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023-2025 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -39,6 +39,11 @@ LiveTextAnalyzer::LiveTextAnalyzer(QObject *parent)
         pixelRatio = screen->devicePixelRatio();
         qCDebug(logImageViewer) << "Screen pixel ratio:" << pixelRatio;
     }
+}
+
+LiveTextAnalyzer::~LiveTextAnalyzer()
+{
+    delete ocrDriver;
 }
 
 void LiveTextAnalyzer::setImage(const QImage &image)

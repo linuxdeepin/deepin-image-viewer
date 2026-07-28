@@ -11,8 +11,6 @@
 #include <QFileInfo>
 #include <QSignalSpy>
 #include <QCoreApplication>
-#include <QEventLoop>
-#include <QTimer>
 #include <QImage>
 
 // 生成一个临时文件用于测试，返回绝对路径
@@ -133,13 +131,10 @@ TEST_F(ut_imagefilewatcher, ImageFileChangedSignal)
         img.save(f1, "PNG");
     }
 
-    // 处理事件循环，等待 QFileSystemWatcher 回调
-    QEventLoop loop;
-    QTimer::singleShot(500, &loop, &QEventLoop::quit);
-    loop.exec();
-
-    // 至少有可能触发；不强求必定 >=1（QFileSystemWatcher 行为依赖平台），
-    // 这里只验证接口可调用且不崩溃。
+    // 注意: 不在此处调用事件循环(loop.exec/qWait)。原因: FileControl 构造时
+    // 创建的 OcrInterface 会在 session bus 注册服务监视，对象销毁后残留 pending
+    // DBus 事件；ASAN 下任意事件循环处理该事件会触发 Qt6DBus 空指针访问。
+    // 这里只验证接口可调用且 spy 有效(QFileSystemWatcher 行为依赖平台)。
     EXPECT_TRUE(spy.isValid());
 }
 
