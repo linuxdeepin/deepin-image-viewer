@@ -240,3 +240,11 @@ TEST_F(ut_pathviewrangehandler, EventFilter_OtherEventType_DefaultBranch)
     QEvent event(QEvent::Resize);
     EXPECT_FALSE(handler.eventFilter(&item, &event));
 }
+
+// 析构函数: 触发 D0 deleting destructor (new + delete)
+TEST_F(ut_pathviewrangehandler, Destructor_DeletingDestructor)
+{
+    auto *obj = new PathViewRangeHandler();
+    delete obj;
+    SUCCEED();
+}

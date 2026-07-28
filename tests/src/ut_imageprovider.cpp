@@ -12,6 +12,7 @@
 #include <QPixmap>
 #include <QCoreApplication>
 #include <QQuickImageResponse>
+#include <QQuickTextureFactory>
 #include <QThreadPool>
 
 // 生成临时 PNG 文件，返回绝对路径
@@ -261,4 +262,56 @@ TEST_F(ut_imageprovider, AsyncImageProviderPreloadImage)
     // 等待后台线程完成，避免 provider 析构后线程访问已释放资源
     QThreadPool::globalInstance()->waitForDone();
     SUCCEED();
+}
+
+// ==================== Deleting Destructor (new + delete) ====================
+
+// ImageProvider 析构函数: 触发 D0 deleting destructor
+TEST_F(ut_imageprovider, ImageProviderDeletingDestructor)
+{
+    auto *obj = new ImageProvider();
+    delete obj;
+    SUCCEED();
+}
+
+// ThumbnailProvider 析构函数: 触发 D0 deleting destructor
+TEST_F(ut_imageprovider, ThumbnailProviderDeletingDestructor)
+{
+    auto *obj = new ThumbnailProvider();
+    delete obj;
+    SUCCEED();
+}
+
+// AsyncImageProvider 析构函数: 触发 D0 deleting destructor
+TEST_F(ut_imageprovider, AsyncImageProviderDeletingDestructor)
+{
+    auto *obj = new AsyncImageProvider();
+    delete obj;
+    SUCCEED();
+}
+
+// ProviderCache 析构函数: 触发 D0 deleting destructor
+TEST_F(ut_imageprovider, ProviderCacheDeletingDestructor)
+{
+    auto *obj = new ProviderCache();
+    delete obj;
+    SUCCEED();
+}
+
+// AsyncImageResponse::textureFactory(): 通过基类虚函数调用
+TEST_F(ut_imageprovider, AsyncImageResponseTextureFactory)
+{
+    AsyncImageProvider provider;
+    QString path = makeProviderTempImage("texture.png", 64);
+    QString id = QUrl::fromLocalFile(path).toString();
+
+    QQuickImageResponse *response = provider.requestImageResponse(id, QSize(32, 32));
+    ASSERT_NE(response, nullptr);
+    // 等待后台加载完成，避免数据竞争
+    QThreadPool::globalInstance()->waitForDone();
+    // textureFactory() 是 QQuickImageResponse 的虚函数，实际调用 AsyncImageResponse::textureFactory
+    QQuickTextureFactory *factory = response->textureFactory();
+    EXPECT_NE(factory, nullptr);
+    delete factory;
+    delete response;
 }

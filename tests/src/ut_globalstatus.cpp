@@ -193,3 +193,11 @@ TEST_F(ut_globalstatus, FullScreenAnimatingProperty)
     status.setFullScreenAnimating(true);
     EXPECT_EQ(spy.count(), 1);
 }
+
+// 析构函数: 触发 D0 deleting destructor (new + delete)
+TEST_F(ut_globalstatus, Destructor_DeletingDestructor)
+{
+    auto *obj = new GlobalStatus();
+    delete obj;
+    SUCCEED();
+}

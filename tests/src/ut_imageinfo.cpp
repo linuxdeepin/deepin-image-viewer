@@ -11,6 +11,10 @@
 #include <QDir>
 #include <QSignalSpy>
 #include <QSharedPointer>
+#include <QHash>
+#include <QSet>
+#include <QScopedPointer>
+#include <QThreadPool>
 
 void ut_imageinfo::SetUp()
 {
@@ -440,4 +444,112 @@ TEST_F(ut_imageinfo, OnSizeChanged)
         EXPECT_EQ(wSpy2.count(), 1);
         EXPECT_EQ(hSpy2.count(), 1);
     }
+}
+
+// ---------- 私有类测试（imageinfo.cpp 内定义，依赖 -fno-access-control） ----------
+
+// ImageInfoData 声明（imageinfo.cpp 内私有类，仅声明数据成员以正确构造）
+class ImageInfoData
+{
+public:
+    typedef QSharedPointer<ImageInfoData> Ptr;
+
+    inline bool isError() const
+    {
+        bool ret = !exist || (Types::DamagedImage == type);
+        return ret;
+    }
+
+    QString path;
+    Types::ImageType type;
+    QSize size;
+    int frameIndex = 0;
+    int frameCount = 0;
+    bool exist = false;
+    qreal scale = -1;
+    qreal x = 0;
+    qreal y = 0;
+};
+
+// ImageInfoCache 声明（imageinfo.cpp 内私有类，继承 QObject）
+class ImageInfoCache : public QObject
+{
+public:
+    typedef QPair<QString, int> KeyType;
+
+    ImageInfoCache();
+    ~ImageInfoCache() override;
+    void loadFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data);
+    void removeCache(const QString &path, int frameIndex);
+
+private:
+    bool aboutToQuit { false };
+    QHash<KeyType, ImageInfoData::Ptr> cache;
+    QSet<KeyType> waitSet;
+    QScopedPointer<QThreadPool> localPoolPtr;
+};
+
+// ImageInfoCache 析构函数: 触发 D0 deleting destructor (new + delete)
+TEST_F(ut_imageinfo, ImageInfoCacheDeletingDestructor)
+{
+    auto *obj = new ImageInfoCache();
+    delete obj;
+    SUCCEED();
+}
+
+// ImageInfoData::isError(): DamagedImage 返回 true
+TEST_F(ut_imageinfo, ImageInfoDataIsError_DamagedImage)
+{
+    ImageInfoData data;
+    data.type = Types::DamagedImage;
+    data.exist = true;
+    EXPECT_TRUE(data.isError());
+
+    // exist=false 时也返回 true
+    data.exist = false;
+    EXPECT_TRUE(data.isError());
+}
+
+// ImageInfoData::isError(): NormalImage 且 exist=true 返回 false
+TEST_F(ut_imageinfo, ImageInfoDataIsError_NormalImage)
+{
+    ImageInfoData data;
+    data.type = Types::NormalImage;
+    data.exist = true;
+    EXPECT_FALSE(data.isError());
+}
+
+// ImageInfoCache::removeCache()
+TEST_F(ut_imageinfo, ImageInfoCacheRemoveCache)
+{
+    ImageInfoCache cache;
+
+    // 先插入数据
+    ImageInfoData::Ptr data(new ImageInfoData);
+    data->type = Types::NormalImage;
+    data->exist = true;
+    cache.loadFinished("/tmp/ut_removecache_test.png", 0, data);
+
+    // 移除已缓存的项
+    cache.removeCache("/tmp/ut_removecache_test.png", 0);
+    // 移除不存在的项不崩溃
+    cache.removeCache("/tmp/ut_removecache_nonexist.png", 0);
+    SUCCEED();
+}
+
+// ImageInfoCache::loadFinished()
+TEST_F(ut_imageinfo, ImageInfoCacheLoadFinished)
+{
+    ImageInfoCache cache;
+
+    // 插入有效数据
+    ImageInfoData::Ptr data(new ImageInfoData);
+    data->type = Types::NormalImage;
+    data->exist = true;
+    cache.loadFinished("/tmp/ut_loadfinished_valid.png", 0, data);
+
+    // 插入空数据（nullptr）走警告分支
+    ImageInfoData::Ptr nullData;
+    cache.loadFinished("/tmp/ut_loadfinished_null.png", 0, nullData);
+    SUCCEED();
 }

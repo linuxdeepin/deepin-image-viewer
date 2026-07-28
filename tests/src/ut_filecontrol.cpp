@@ -15,6 +15,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QApplication>
+#include <QThread>
 #include <QStandardPaths>
 #include <QSignalSpy>
 #include <QClipboard>
@@ -477,4 +478,16 @@ TEST_F(ut_filecontrol, CreateShortcutString_BuildsAndCaches)
     // 不为空时直接返回缓存值
     QString s2 = control.createShortcutString();
     EXPECT_EQ(s1, s2);
+}
+
+// setWallpaper(): null 路径，线程启动后立即返回，覆盖函数入口
+TEST_F(ut_filecontrol, SetWallpaper_NullPath_NoCrash)
+{
+    FileControl control;
+    // null 路径时线程 lambda 直接跳过 DBus 逻辑
+    control.setWallpaper(QString());
+    // 等待线程结束并清理 QThread 对象（deleteLater 需事件处理）
+    QThread::usleep(50000);  // 50ms 等线程退出
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+    SUCCEED();
 }
