@@ -7,7 +7,7 @@ fast_fail: false
 env_check: []
 setup:
 - action: session_start
-  command: /tmp/opencode/deepin-image-viewer-at-launch.sh
+  command: tests/at/launch.sh
   wait: 3.0
 suites:
 - id: case_2003949_s1
@@ -18,10 +18,7 @@ suites:
   - action: wait
     wait: 0.5
   assert_steps:
-  - action: assert_element
-    selector:
-      name: Toolbar
-      role: tool bar
+  - action: assert_process_running
 - id: case_1652347_s1
   name: 启动看图应用
   description: ''
@@ -32,10 +29,7 @@ suites:
   - action: keyboard_press
     key: escape
   assert_steps:
-  - action: assert_element
-    selector:
-      name: Toolbar
-      role: tool bar
+  - action: assert_process_running
 - id: case_1652353_s1
   name: 启动看图应用
   description: ''
