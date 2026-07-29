@@ -10,6 +10,8 @@ import org.deepin.image.viewer 1.0 as IV
 
 Item {
     id: stackView
+    Accessible.name: IV.GStatus.stackPage === Number(IV.Types.ImageViewPage) ? qsTr("Image view") : qsTr("Open image")
+    Accessible.role: Accessible.Pane
 
     // 打开图片对话框
     function openImageDialog() {

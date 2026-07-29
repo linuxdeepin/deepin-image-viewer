@@ -1,0 +1,128 @@
+version: '1.0'
+app: deepin-image-viewer
+type: runtime
+tree:
+- role: frame
+  name: ''
+  object_name: ''
+  accessible_id: ''
+  description: ''
+  actions: []
+  index_in_parent: 0
+  states:
+  - enabled
+  - sensitive
+  - showing
+  - visible
+  source: runtime
+  children:
+  - role: label
+    name: ''
+    object_name: ''
+    accessible_id: ''
+    description: ''
+    actions:
+    - SetFocus
+    index_in_parent: 1
+    states:
+    - enabled
+    - focusable
+    - read_only
+    - sensitive
+    - showing
+    - visible
+    source: runtime
+  - role: button
+    name: ''
+    object_name: ''
+    accessible_id: ''
+    description: ''
+    actions:
+    - Press
+    - SetFocus
+    index_in_parent: 2
+    states:
+    - enabled
+    - focusable
+    - sensitive
+    - showing
+    - visible
+    source: runtime
+  - role: button
+    name: ''
+    object_name: ''
+    accessible_id: ''
+    description: ''
+    actions:
+    - Press
+    - SetFocus
+    index_in_parent: 3
+    states:
+    - enabled
+    - focusable
+    - sensitive
+    - showing
+    - visible
+    source: runtime
+  - role: button
+    name: ''
+    object_name: ''
+    accessible_id: ''
+    description: ''
+    actions:
+    - Press
+    - SetFocus
+    index_in_parent: 4
+    states:
+    - enabled
+    - focusable
+    - sensitive
+    source: runtime
+  - role: button
+    name: ''
+    object_name: ''
+    accessible_id: ''
+    description: ''
+    actions:
+    - Press
+    - SetFocus
+    index_in_parent: 5
+    states:
+    - enabled
+    - focusable
+    - sensitive
+    - showing
+    - visible
+    source: runtime
+  - role: button
+    name: ''
+    object_name: ''
+    accessible_id: ''
+    description: ''
+    actions:
+    - Press
+    - SetFocus
+    index_in_parent: 6
+    states:
+    - enabled
+    - focusable
+    - sensitive
+    - showing
+    - visible
+    source: runtime
+  - role: button
+    name: 打开图片
+    object_name: ''
+    accessible_id: ''
+    description: ''
+    actions:
+    - Press
+    - SetFocus
+    index_in_parent: 7
+    states:
+    - enabled
+    - focusable
+    - sensitive
+    - showing
+    - visible
+    source: runtime

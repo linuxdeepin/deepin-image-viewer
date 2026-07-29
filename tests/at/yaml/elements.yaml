@@ -1,0 +1,46 @@
+elements:
+  n0:
+    name: wechat.jpg
+    role: frame
+  n1:
+    name: Image view
+    role: panel
+  n2:
+    name: Title bar
+    role: tool bar
+  n9:
+    name: Image view
+    role: panel
+  n10:
+    name: Close navigation window
+    role: button
+  n11:
+    name: Previous
+    role: button
+  n12:
+    name: Next
+    role: button
+  n14:
+    name: Toolbar
+    role: tool bar
+  n15:
+    name: 上一张
+    role: button
+  n16:
+    name: 下一张
+    role: button
+  n17:
+    name: 原始大小
+    role: button
+  n18:
+    name: 适应窗口
+    role: button
+  n19:
+    name: 旋转
+    role: button
+  n21:
+    name: 识别文字
+    role: button
+  n22:
+    name: 删除
+    role: button

@@ -1,0 +1,27 @@
+name: OCR_suite
+app: deepin-image-viewer
+description: ''
+module: OCR
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: /tmp/opencode/deepin-image-viewer-at-launch.sh
+  wait: 3.0
+suites:
+- id: case_1651809_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_click
+  - action: wait
+    wait: 1.0
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+teardown:
+- action: session_stop

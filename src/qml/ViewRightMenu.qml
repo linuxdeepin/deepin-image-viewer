@@ -30,6 +30,7 @@ Menu {
 
     RightMenuItem {
         id: rightFullscreen
+        Accessible.name: text
 
         function switchFullScreen() {
             IV.GStatus.showFullScreen = !IV.GStatus.showFullScreen;
@@ -54,6 +55,7 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: qsTr("Print")
         text: qsTr("Print")
         visible: !isNullImage
 
@@ -73,6 +75,7 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: qsTr("Extract text")
         text: qsTr("Extract text")
         visible: supportOcr
 
@@ -93,6 +96,7 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: qsTr("Slide show")
         text: qsTr("Slide show")
 
         onTriggered: {
@@ -114,6 +118,7 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: qsTr("Copy")
         text: qsTr("Copy")
         visible: readable
 
@@ -134,6 +139,7 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: qsTr("Rename")
         text: qsTr("Rename")
         visible: renamable
 
@@ -152,6 +158,7 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: qsTr("Delete")
         enabled: !thumbnailViewBackGround.imageDeleting
         text: qsTr("Delete")
         visible: deletable
@@ -179,6 +186,7 @@ Menu {
 
     RightMenuItem {
         id: rotateClockItem
+        Accessible.name: qsTr("Rotate clockwise")
 
         text: qsTr("Rotate clockwise")
         visible: rotatable
@@ -199,6 +207,7 @@ Menu {
 
     RightMenuItem {
         id: rotateCounterClockItem
+        Accessible.name: qsTr("Rotate counterclockwise")
 
         text: qsTr("Rotate counterclockwise")
         visible: rotatable
@@ -226,6 +235,7 @@ Menu {
 
     RightMenuItem {
         id: enableNavigation
+        Accessible.name: text
 
         enabled: visible && window.height > IV.GStatus.minHideHeight && window.width > IV.GStatus.minWidth
         text: !IV.GStatus.enableNavigation ? qsTr("Show navigation window") : qsTr("Hide navigation window")
@@ -240,6 +250,7 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: qsTr("Set as wallpaper")
         text: qsTr("Set as wallpaper")
         visible: supportWallpaper
 
@@ -260,6 +271,7 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: qsTr("Display in file manager")
         text: qsTr("Display in file manager")
 
         onTriggered: {
@@ -277,6 +289,7 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: qsTr("Image info")
         text: qsTr("Image info")
 
         onTriggered: {

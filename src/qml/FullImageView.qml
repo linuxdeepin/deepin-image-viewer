@@ -13,6 +13,8 @@ import "./Utils"
 
 Item {
     id: fullThumbnail
+    Accessible.name: qsTr("Image view")
+    Accessible.role: Accessible.Pane
 
     // 是否启用动画效果，用于强制更新组件位置而不使用动画效果
     property bool enableAnimation: false
@@ -227,6 +229,8 @@ Item {
 
     FloatingButton {
         id: floatLeftButton
+        Accessible.name: qsTr("Previous")
+        Accessible.role: Accessible.Button
 
         property bool animationShow: false
 
@@ -261,6 +265,8 @@ Item {
 
     FloatingButton {
         id: floatRightButton
+        Accessible.name: qsTr("Next")
+        Accessible.role: Accessible.Button
 
         property bool animationShow: false
 
@@ -358,6 +364,8 @@ Item {
 
     ThumbnailListView {
         id: thumbnailViewBackGround
+        Accessible.name: qsTr("Toolbar")
+        Accessible.role: Accessible.ToolBar
 
         property bool animationShow: true
 

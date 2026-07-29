@@ -1,0 +1,3213 @@
+---
+class_name: StubExt
+source_file: .claude/skills/generating-qt-unit-tests/resources/stub/stubext.h
+base_classes:
+- Stub
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LoadImageInfoRunnable
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfoCache
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageResponse
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FreeimageQt5Plugin
+source_file: qimage-plugins/libraw/main.cpp
+base_classes:
+- QImageIOPlugin
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.cpp
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.h
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.cpp
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.h
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.cpp
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.h
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: StubExt
+source_file: .claude/skills/generating-qt-unit-tests/resources/stub/stubext.h
+base_classes:
+- Stub
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LoadImageInfoRunnable
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfoCache
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageResponse
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FreeimageQt5Plugin
+source_file: qimage-plugins/libraw/main.cpp
+base_classes:
+- QImageIOPlugin
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.cpp
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.h
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.cpp
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.h
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.cpp
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.h
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: StubExt
+source_file: .claude/skills/generating-qt-unit-tests/resources/stub/stubext.h
+base_classes:
+- Stub
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LoadImageInfoRunnable
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfoCache
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageResponse
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FreeimageQt5Plugin
+source_file: qimage-plugins/libraw/main.cpp
+base_classes:
+- QImageIOPlugin
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.cpp
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.h
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.cpp
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.h
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.cpp
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.h
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: StubExt
+source_file: .claude/skills/generating-qt-unit-tests/resources/stub/stubext.h
+base_classes:
+- Stub
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LoadImageInfoRunnable
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfoCache
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageResponse
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FreeimageQt5Plugin
+source_file: qimage-plugins/libraw/main.cpp
+base_classes:
+- QImageIOPlugin
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.cpp
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.h
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.cpp
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.h
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.cpp
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.h
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: StubExt
+source_file: .claude/skills/generating-qt-unit-tests/resources/stub/stubext.h
+base_classes:
+- Stub
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LoadImageInfoRunnable
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfoCache
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageResponse
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FreeimageQt5Plugin
+source_file: qimage-plugins/libraw/main.cpp
+base_classes:
+- QImageIOPlugin
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.cpp
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.h
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.cpp
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.h
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.cpp
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.h
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: StubExt
+source_file: .claude/skills/generating-qt-unit-tests/resources/stub/stubext.h
+base_classes:
+- Stub
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LoadImageInfoRunnable
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfoCache
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageResponse
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FreeimageQt5Plugin
+source_file: qimage-plugins/libraw/main.cpp
+base_classes:
+- QImageIOPlugin
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.cpp
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.h
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.cpp
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.h
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.cpp
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.h
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: StubExt
+source_file: .claude/skills/generating-qt-unit-tests/resources/stub/stubext.h
+base_classes:
+- Stub
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileTrashHelper
+source_file: src/src/utils/filetrashhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RotateImageHelper
+source_file: src/src/utils/rotateimagehelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalControl
+source_file: src/src/globalcontrol.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: GlobalStatus
+source_file: src/src/globalstatus.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageFileWatcher
+source_file: src/src/imagedata/imagefilewatcher.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LoadImageInfoRunnable
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfoCache
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: src/src/imagedata/imageinfo.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageInfo
+source_file: src/src/imagedata/imageinfo.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageResponse
+source_file: src/src/imagedata/imageprovider.cpp
+base_classes:
+- QRunnable
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: AsyncImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageProvider
+source_file: src/src/imagedata/imageprovider.h
+base_classes:
+- ProviderCache
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ImageSourceModel
+source_file: src/src/imagedata/imagesourcemodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.cpp
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Holder
+source_file: obj-x86_64-linux-gnu/src/.rcc/qmlcache/deepin-image-viewer_qmlcache_loader.cpp
+base_classes:
+- HolderBase
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FreeimageQt5Plugin
+source_file: qimage-plugins/libraw/main.cpp
+base_classes:
+- QImageIOPlugin
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.cpp
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RawIOHandler
+source_file: qimage-plugins/libraw/rawiohandler.h
+base_classes:
+- QImageIOHandler
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewProxyModel
+source_file: src/src/imagedata/pathviewproxymodel.h
+base_classes:
+- QAbstractListModel
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.cpp
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: OcrInterface
+source_file: src/src/ocr/ocrinterface.h
+base_classes:
+- QDBusAbstractInterface
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: RequestedSlot
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PrintHelper
+source_file: src/src/printdialog/printhelper.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: Types
+source_file: src/src/types.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CommandParser
+source_file: src/src/commandparser.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: LibConfigSetter
+source_file: src/src/configsetter.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: CursorTool
+source_file: src/src/cursortool.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.cpp
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: ApplicationAdaptor
+source_file: src/src/dbus/applicationadpator.h
+base_classes:
+- QDBusAbstractAdaptor
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: PathViewRangeHandler
+source_file: src/src/declarative/pathviewrangehandler.h
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []
+---
+class_name: FileControl
+source_file: src/src/filecontrol.cpp
+base_classes:
+- QObject
+is_ui_widget: false
+object_names: []
+accessible_names: []
+dtk_instantiations: []

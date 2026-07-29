@@ -1,0 +1,126 @@
+version: '1.0'
+tree:
+- id: n0
+  role: frame
+  name: wechat.jpg
+  object_name: ''
+  accessible_id: ''
+  classification: container
+  comment: 'GUI位置: 图片查看器主窗口 | 功能: 显示当前图片文件'
+  annotation_status: draft
+  children:
+  - id: n1
+    role: panel
+    name: Image view
+    object_name: ''
+    accessible_id: ''
+    classification: container
+    comment: 'GUI位置: 图片查看页面 | 功能: 承载标题栏、图片区域和底部工具栏'
+    annotation_status: draft
+    children:
+    - id: n2
+      role: tool bar
+      name: Title bar
+      object_name: ''
+      accessible_id: ''
+      classification: container
+      comment: 'GUI位置: 主窗口顶部标题栏 | 功能: 显示文件名和窗口控制入口'
+      annotation_status: draft
+    - id: n9
+      role: panel
+      name: Image view
+      object_name: ''
+      accessible_id: ''
+      classification: container
+      comment: 'GUI位置: 图片显示区域 | 功能: 显示当前图片和浮动控制按钮'
+      annotation_status: draft
+      children:
+      - id: n10
+        role: button
+        name: Close navigation window
+        object_name: ''
+        accessible_id: ''
+        classification: interactive
+        comment: 'GUI位置: 图片显示区域-导航窗口 | 功能: 关闭导航窗口'
+        annotation_status: draft
+      - id: n11
+        role: button
+        name: Previous
+        object_name: ''
+        accessible_id: ''
+        classification: interactive
+        comment: 'GUI位置: 图片显示区域左侧浮动按钮 | 功能: 切换到上一张图片'
+        annotation_status: draft
+      - id: n12
+        role: button
+        name: Next
+        object_name: ''
+        accessible_id: ''
+        classification: interactive
+        comment: 'GUI位置: 图片显示区域右侧浮动按钮 | 功能: 切换到下一张图片'
+        annotation_status: draft
+      - id: n14
+        role: tool bar
+        name: Toolbar
+        object_name: ''
+        accessible_id: ''
+        classification: container
+        comment: 'GUI位置: 图片查看页面底部工具栏 | 功能: 图片操作工具栏'
+        annotation_status: draft
+        children:
+        - id: n15
+          role: button
+          name: 上一张
+          object_name: ''
+          accessible_id: ''
+          classification: interactive
+          comment: 'GUI位置: 底部工具栏 | 功能: 切换到上一张图片'
+          annotation_status: draft
+        - id: n16
+          role: button
+          name: 下一张
+          object_name: ''
+          accessible_id: ''
+          classification: interactive
+          comment: 'GUI位置: 底部工具栏 | 功能: 切换到下一张图片'
+          annotation_status: draft
+        - id: n17
+          role: button
+          name: 原始大小
+          object_name: ''
+          accessible_id: ''
+          classification: interactive
+          comment: 'GUI位置: 底部工具栏 | 功能: 按图片原始大小显示'
+          annotation_status: draft
+        - id: n18
+          role: button
+          name: 适应窗口
+          object_name: ''
+          accessible_id: ''
+          classification: interactive
+          comment: 'GUI位置: 底部工具栏 | 功能: 将图片适应窗口显示'
+          annotation_status: draft
+        - id: n19
+          role: button
+          name: 旋转
+          object_name: ''
+          accessible_id: ''
+          classification: interactive
+          comment: 'GUI位置: 底部工具栏 | 功能: 旋转当前图片'
+          annotation_status: draft
+        - id: n21
+          role: button
+          name: 识别文字
+          object_name: ''
+          accessible_id: ''
+          classification: interactive
+          comment: 'GUI位置: 底部工具栏 | 功能: 对当前图片执行文字识别'
+          annotation_status: draft
+        - id: n22
+          role: button
+          name: 删除
+          object_name: ''
+          accessible_id: ''
+          classification: interactive
+          comment: 'GUI位置: 底部工具栏 | 功能: 删除当前图片'
+          annotation_status: draft

@@ -150,6 +150,7 @@ Item {
 
                 IconButton {
                     id: sliderPrevious
+                    Accessible.name: qsTr("Previous")
 
                     ToolTip.delay: 500
                     ToolTip.text: qsTr("Previous")
@@ -167,6 +168,7 @@ Item {
 
                 IconButton {
                     id: sliderPause
+                    Accessible.name: autoRun ? qsTr("Pause") : qsTr("Play")
 
                     ToolTip.delay: 500
                     ToolTip.text: autoRun ? qsTr("Pause") : qsTr("Play")
@@ -183,6 +185,7 @@ Item {
 
                 IconButton {
                     id: sliderNext
+                    Accessible.name: qsTr("Next")
 
                     ToolTip.delay: 500
                     ToolTip.text: qsTr("Next")
@@ -199,6 +202,7 @@ Item {
                 }
 
                 ActionButton {
+                    Accessible.name: qsTr("Exit")
                     ToolTip.delay: 500
                     ToolTip.text: qsTr("Exit")
                     ToolTip.timeout: 5000

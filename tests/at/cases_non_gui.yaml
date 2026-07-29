@@ -1,0 +1,57 @@
+metadata:
+  generated_at: '2026-07-28T12:00:00'
+  source: 'cases_raw.yaml'
+cases:
+  - id: case_1705109
+    name: 玲珑卸载
+    module: 玲珑
+    status: non_gui
+    steps:
+      - step_type: action
+        description: 在终端执行 ll-cli uninstall org.deepin.image.viewer
+      - step_type: action
+        description: 在终端执行 ll-cli info org.deepin.image.viewer
+      - step_type: assert
+        description: 卸载成功
+      - step_type: assert
+        description: 没有应用信息
+  - id: case_1705097
+    name: 玲珑更新
+    module: 玲珑
+    status: non_gui
+    steps:
+      - step_type: action
+        description: 在终端执行 ll-cli upgrade deepin-image-viewer
+      - step_type: action
+        description: 在终端执行 ll-cli run deepin-image-viewer
+      - step_type: assert
+        description: 升级成功
+      - step_type: assert
+        description: 打开运行成功
+  - id: case_1705091
+    name: 玲珑运行
+    module: 玲珑
+    status: non_gui
+    steps:
+      - step_type: action
+        description: 在终端执行 ll-cli run deepin-image-viewer
+      - step_type: assert
+        description: 打开运行看图应用
+  - id: case_1705087
+    name: 玲珑安装
+    module: 玲珑
+    status: non_gui
+    steps:
+      - step_type: action
+        description: 在终端执行 ll-cli install deepin-image-viewer
+      - step_type: assert
+        description: 安装完成
+  - id: case_1705083
+    name: 玲珑查看信息
+    module: 玲珑
+    status: non_gui
+    steps:
+      - step_type: action
+        description: 在终端执行 ll-cli info deepin-image-viewer
+      - step_type: assert
+        description: 展示应用信息

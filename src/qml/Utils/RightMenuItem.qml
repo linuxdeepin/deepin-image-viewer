@@ -9,5 +9,8 @@ import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
 
 MenuItem {
+    Accessible.name: text
+    Accessible.role: Accessible.MenuItem
+
     height: visible ? IV.GStatus.rightMenuItemHeight : 0
 }

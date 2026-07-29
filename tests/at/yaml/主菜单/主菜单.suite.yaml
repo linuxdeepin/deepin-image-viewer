@@ -1,0 +1,65 @@
+name: 主菜单_suite
+app: deepin-image-viewer
+description: ''
+module: 主菜单
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: /tmp/opencode/deepin-image-viewer-at-launch.sh
+  wait: 3.0
+suites:
+- id: case_2003949_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: wait
+    wait: 0.5
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652347_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: f1
+  - action: keyboard_press
+    key: escape
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652353_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: wait
+    wait: 0.5
+  assert_steps:
+  - action: assert_process_running
+- id: case_1652359_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: wait
+    wait: 0.5
+  assert_steps:
+  - action: assert_process_running
+- id: case_1652359_s2
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_process_running
+teardown:
+- action: session_stop

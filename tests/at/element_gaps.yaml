@@ -1,0 +1,57 @@
+version: '1.0'
+app: deepin-image-viewer
+summary:
+  total_interactive: 10
+  with_accessible_id: 0
+  missing_accessible_id: 10
+gaps:
+- id: n10
+  name: Close navigation window
+  role: button
+  class_name: ''
+  suggestion: Add setAccessibleName("Close navigation window") in source code
+- id: n11
+  name: Previous
+  role: button
+  class_name: ''
+  suggestion: Add setAccessibleName("Previous") in source code
+- id: n12
+  name: Next
+  role: button
+  class_name: ''
+  suggestion: Add setAccessibleName("Next") in source code
+- id: n15
+  name: 上一张
+  role: button
+  class_name: ''
+  suggestion: Add setAccessibleName("上一张") in source code
+- id: n16
+  name: 下一张
+  role: button
+  class_name: ''
+  suggestion: Add setAccessibleName("下一张") in source code
+- id: n17
+  name: 原始大小
+  role: button
+  class_name: ''
+  suggestion: Add setAccessibleName("原始大小") in source code
+- id: n18
+  name: 适应窗口
+  role: button
+  class_name: ''
+  suggestion: Add setAccessibleName("适应窗口") in source code
+- id: n19
+  name: 旋转
+  role: button
+  class_name: ''
+  suggestion: Add setAccessibleName("旋转") in source code
+- id: n21
+  name: 识别文字
+  role: button
+  class_name: ''
+  suggestion: Add setAccessibleName("识别文字") in source code
+- id: n22
+  name: 删除
+  role: button
+  class_name: ''
+  suggestion: Add setAccessibleName("删除") in source code

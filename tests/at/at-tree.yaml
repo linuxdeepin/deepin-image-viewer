@@ -1,0 +1,310 @@
+version: '1.0'
+app: deepin-image-viewer
+tree:
+- role: frame
+  name: wechat.jpg
+  object_name: ''
+  accessible_id: ''
+  description: wechat.jpg
+  actions: []
+  index_in_parent: 0
+  states:
+  - active
+  - enabled
+  - sensitive
+  - showing
+  - visible
+  source: runtime
+  children:
+  - role: panel
+    name: Image view
+    object_name: ''
+    accessible_id: ''
+    description: ''
+    actions: []
+    index_in_parent: 0
+    states:
+    - enabled
+    - sensitive
+    - showing
+    - visible
+    source: runtime
+    children:
+    - role: tool bar
+      name: Title bar
+      object_name: ''
+      accessible_id: ''
+      description: ''
+      actions: []
+      index_in_parent: 0
+      states:
+      - enabled
+      - sensitive
+      - showing
+      - visible
+      source: runtime
+      children: []
+      id: n2
+      classification: container
+      state_labels: &id001 []
+      class_name: ''
+      comment: ''
+      annotation_status: draft
+    - role: panel
+      name: Image view
+      object_name: ''
+      accessible_id: ''
+      description: ''
+      actions: []
+      index_in_parent: 1
+      states:
+      - enabled
+      - sensitive
+      - showing
+      - visible
+      source: runtime
+      children:
+      - role: button
+        name: Close navigation window
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        - SetFocus
+        index_in_parent: 0
+        states:
+        - enabled
+        - focusable
+        - sensitive
+        source: runtime
+        id: n10
+        classification: interactive
+        state_labels: *id001
+        class_name: ''
+        comment: ''
+        annotation_status: draft
+      - role: button
+        name: Previous
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        - SetFocus
+        index_in_parent: 1
+        states:
+        - enabled
+        - focusable
+        - sensitive
+        source: runtime
+        id: n11
+        classification: interactive
+        state_labels: *id001
+        class_name: ''
+        comment: ''
+        annotation_status: draft
+      - role: button
+        name: Next
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        index_in_parent: 2
+        states: []
+        source: runtime
+        id: n12
+        classification: interactive
+        state_labels: *id001
+        class_name: ''
+        comment: ''
+        annotation_status: draft
+      - role: tool bar
+        name: Toolbar
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions: []
+        index_in_parent: 4
+        states:
+        - enabled
+        - sensitive
+        - showing
+        - visible
+        source: runtime
+        children:
+        - role: button
+          name: 上一张
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 0
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime
+          id: n15
+          classification: interactive
+          state_labels: *id001
+          class_name: ''
+          comment: ''
+          annotation_status: draft
+        - role: button
+          name: 下一张
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          index_in_parent: 1
+          states:
+          - showing
+          - visible
+          source: runtime
+          id: n16
+          classification: interactive
+          state_labels: *id001
+          class_name: ''
+          comment: ''
+          annotation_status: draft
+        - role: button
+          name: 原始大小
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 2
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime
+          id: n17
+          classification: interactive
+          state_labels: *id001
+          class_name: ''
+          comment: ''
+          annotation_status: draft
+        - role: button
+          name: 适应窗口
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 3
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime
+          id: n18
+          classification: interactive
+          state_labels: *id001
+          class_name: ''
+          comment: ''
+          annotation_status: draft
+        - role: button
+          name: 旋转
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 4
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime
+          id: n19
+          classification: interactive
+          state_labels: *id001
+          class_name: ''
+          comment: ''
+          annotation_status: draft
+        - role: button
+          name: 识别文字
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 10
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime
+          id: n21
+          classification: interactive
+          state_labels: *id001
+          class_name: ''
+          comment: ''
+          annotation_status: draft
+        - role: button
+          name: 删除
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 11
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime
+          id: n22
+          classification: interactive
+          state_labels: *id001
+          class_name: ''
+          comment: ''
+          annotation_status: draft
+        id: n14
+        classification: container
+        state_labels: *id001
+        class_name: ''
+        comment: ''
+        annotation_status: draft
+      id: n9
+      classification: container
+      state_labels: *id001
+      class_name: ''
+      comment: ''
+      annotation_status: draft
+    id: n1
+    classification: container
+    state_labels: *id001
+    class_name: ''
+    comment: ''
+    annotation_status: draft
+  id: n0
+  classification: container
+  state_labels: *id001
+  class_name: ''
+  comment: ''
+  annotation_status: draft
