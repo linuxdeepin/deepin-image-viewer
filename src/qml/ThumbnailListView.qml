@@ -12,6 +12,8 @@ import "./Dialog"
 
 Control {
     id: thumbnailView
+    Accessible.name: qsTr("Toolbar")
+    Accessible.role: Accessible.ToolBar
 
     // 除ListView外其它按键的占用宽度
     property int btnContentWidth: switchArrowLayout.width + leftRowLayout.width + rightRowLayout.width + deleteButton.width
@@ -143,6 +145,8 @@ Control {
 
         IconButton {
             id: previousButton
+            Accessible.name: qsTr("Previous")
+            Accessible.role: Accessible.Button
 
             ToolTip.delay: 500
             ToolTip.text: qsTr("Previous")
@@ -168,6 +172,8 @@ Control {
 
         IconButton {
             id: nextButton
+            Accessible.name: qsTr("Next")
+            Accessible.role: Accessible.Button
 
             ToolTip.delay: 500
             ToolTip.text: qsTr("Next")
@@ -204,6 +210,8 @@ Control {
 
         IconButton {
             id: fitImageButton
+            Accessible.name: qsTr("Original size")
+            Accessible.role: Accessible.Button
 
             ToolTip.delay: 500
             ToolTip.text: qsTr("Original size")
@@ -222,6 +230,8 @@ Control {
 
         IconButton {
             id: fitWindowButton
+            Accessible.name: qsTr("Fit to window")
+            Accessible.role: Accessible.Button
 
             ToolTip.delay: 500
             ToolTip.text: qsTr("Fit to window")
@@ -239,6 +249,8 @@ Control {
 
         IconButton {
             id: rotateButton
+            Accessible.name: ToolTip.text
+            Accessible.role: Accessible.Button
 
             ToolTip.delay: 500
             ToolTip.text: qsTr("Rotate")
@@ -512,6 +524,8 @@ Control {
 
         IconButton {
             id: ocrButton
+            Accessible.name: qsTr("Extract text")
+            Accessible.role: Accessible.Button
 
             ToolTip.delay: 500
             ToolTip.text: qsTr("Extract text")
@@ -531,6 +545,8 @@ Control {
 
     IconButton {
         id: deleteButton
+        Accessible.name: qsTr("Delete")
+        Accessible.role: Accessible.Button
 
         ToolTip.delay: 500
         ToolTip.text: qsTr("Delete")

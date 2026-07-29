@@ -1,0 +1,36 @@
+name: 图片信息_suite
+app: deepin-image-viewer
+description: ''
+module: 图片信息
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: /tmp/opencode/deepin-image-viewer-at-launch.sh
+  wait: 3.0
+suites:
+- id: case_1652225_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+i
+  - action: keyboard_press
+    key: right
+  - action: wait
+    wait: 1.0
+  - action: keyboard_press
+    key: escape
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+teardown:
+- action: session_stop

@@ -81,6 +81,7 @@ DialogWindow {
 
     LineEdit {
         id: nameedit
+        Accessible.name: qsTr("New file name")
 
         alertText: qsTr("The file already exists, please use another name")
         focus: true
@@ -117,6 +118,7 @@ DialogWindow {
 
     RecommandButton {
         id: enterbtn
+        Accessible.name: qsTr("Confirm")
 
         enabled: !IV.FileControl.isShowToolTip(IV.GControl.currentSource, nameedit.text) && nameedit.text.length > 0
         height: 36
@@ -136,6 +138,7 @@ DialogWindow {
 
     Button {
         id: cancelbtn
+        Accessible.name: qsTr("Cancel")
 
         height: 36
         text: qsTr("Cancel")

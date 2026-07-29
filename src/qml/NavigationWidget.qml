@@ -293,6 +293,7 @@ Item {
 
     // 退出按钮
     ToolButton {
+        Accessible.name: qsTr("Close navigation window")
         height: 22
         width: 22
         z: 100

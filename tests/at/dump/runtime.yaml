@@ -1,0 +1,344 @@
+version: '1.0'
+app: deepin-image-viewer
+type: runtime
+tree:
+- role: frame
+  name: wechat.jpg
+  object_name: ''
+  accessible_id: ''
+  description: wechat.jpg
+  actions: []
+  index_in_parent: 0
+  states:
+  - active
+  - enabled
+  - sensitive
+  - showing
+  - visible
+  source: runtime
+  children:
+  - role: panel
+    name: Image view
+    object_name: ''
+    accessible_id: ''
+    description: ''
+    actions: []
+    index_in_parent: 0
+    states:
+    - enabled
+    - sensitive
+    - showing
+    - visible
+    source: runtime
+    children:
+    - role: tool bar
+      name: Title bar
+      object_name: ''
+      accessible_id: ''
+      description: ''
+      actions: []
+      index_in_parent: 0
+      states:
+      - enabled
+      - sensitive
+      - showing
+      - visible
+      source: runtime
+      children:
+      - role: label
+        name: wechat.jpg
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - SetFocus
+        index_in_parent: 1
+        states:
+        - enabled
+        - focusable
+        - read_only
+        - sensitive
+        - showing
+        - visible
+        source: runtime
+      - role: button
+        name: ''
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        - SetFocus
+        index_in_parent: 2
+        states:
+        - enabled
+        - focusable
+        - sensitive
+        - showing
+        - visible
+        source: runtime
+      - role: button
+        name: ''
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        - SetFocus
+        index_in_parent: 3
+        states:
+        - enabled
+        - focusable
+        - sensitive
+        - showing
+        - visible
+        source: runtime
+      - role: button
+        name: ''
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        - SetFocus
+        index_in_parent: 4
+        states:
+        - enabled
+        - focusable
+        - sensitive
+        source: runtime
+      - role: button
+        name: ''
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        - SetFocus
+        index_in_parent: 5
+        states:
+        - enabled
+        - focusable
+        - sensitive
+        - showing
+        - visible
+        source: runtime
+      - role: button
+        name: ''
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        - SetFocus
+        index_in_parent: 6
+        states:
+        - enabled
+        - focusable
+        - sensitive
+        - showing
+        - visible
+        source: runtime
+    - role: panel
+      name: Image view
+      object_name: ''
+      accessible_id: ''
+      description: ''
+      actions: []
+      index_in_parent: 1
+      states:
+      - enabled
+      - sensitive
+      - showing
+      - visible
+      source: runtime
+      children:
+      - role: button
+        name: Close navigation window
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        - SetFocus
+        index_in_parent: 0
+        states:
+        - enabled
+        - focusable
+        - sensitive
+        source: runtime
+      - role: button
+        name: Previous
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        - SetFocus
+        index_in_parent: 1
+        states:
+        - enabled
+        - focusable
+        - sensitive
+        source: runtime
+      - role: button
+        name: Next
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        index_in_parent: 2
+        states: []
+        source: runtime
+      - role: button
+        name: ''
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions:
+        - Press
+        - SetFocus
+        index_in_parent: 3
+        states:
+        - enabled
+        - focusable
+        - sensitive
+        source: runtime
+      - role: tool bar
+        name: Toolbar
+        object_name: ''
+        accessible_id: ''
+        description: ''
+        actions: []
+        index_in_parent: 4
+        states:
+        - enabled
+        - sensitive
+        - showing
+        - visible
+        source: runtime
+        children:
+        - role: button
+          name: 上一张
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 0
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime
+        - role: button
+          name: 下一张
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          index_in_parent: 1
+          states:
+          - showing
+          - visible
+          source: runtime
+        - role: button
+          name: 原始大小
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 2
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime
+        - role: button
+          name: 适应窗口
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 3
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime
+        - role: button
+          name: 旋转
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 4
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime
+        - role: button
+          name: ''
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 9
+          states:
+          - checked
+          - enabled
+          - focusable
+          - sensitive
+          source: runtime
+        - role: button
+          name: 识别文字
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 10
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime
+        - role: button
+          name: 删除
+          object_name: ''
+          accessible_id: ''
+          description: ''
+          actions:
+          - Press
+          - SetFocus
+          index_in_parent: 11
+          states:
+          - enabled
+          - focusable
+          - sensitive
+          - showing
+          - visible
+          source: runtime

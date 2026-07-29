@@ -11,6 +11,9 @@ import org.deepin.dtk.style 1.0 as DS
 import org.deepin.image.viewer 1.0 as IV
 
 Rectangle {
+    Accessible.name: qsTr("Title bar")
+    Accessible.role: Accessible.ToolBar
+
     property bool animationShow: true
     property string iconName: "deepin-image-viewer"
     // 当前图片是否缩放到需要隐藏标题栏
@@ -163,6 +166,8 @@ Rectangle {
                 // 打开图片动作项
                 Action {
                     id: openImageAction
+                    Accessible.name: qsTr("Open image")
+                    Accessible.role: Accessible.MenuItem
 
                     text: qsTr("Open image")
 

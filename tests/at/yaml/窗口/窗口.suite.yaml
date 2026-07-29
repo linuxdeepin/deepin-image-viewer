@@ -1,0 +1,21 @@
+name: 窗口_suite
+app: deepin-image-viewer
+description: ''
+module: 窗口
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: /tmp/opencode/deepin-image-viewer-at-launch.sh
+  wait: 3.0
+suites:
+- id: case_1652437_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_process_running
+teardown:
+- action: session_stop

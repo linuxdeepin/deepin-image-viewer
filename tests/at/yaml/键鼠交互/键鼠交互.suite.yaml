@@ -1,0 +1,233 @@
+name: 键鼠交互_suite
+app: deepin-image-viewer
+description: ''
+module: 键鼠交互
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: /tmp/opencode/deepin-image-viewer-at-launch.sh
+  wait: 3.0
+suites:
+- id: case_1652667_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: f11
+  - action: keyboard_press
+    key: f11
+  - action: wait
+    wait: 0.5
+  assert_steps:
+  - action: assert_process_running
+- id: case_1652645_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: f5
+  - action: keyboard_press
+    key: escape
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652643_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+shift+/
+  - action: keyboard_press
+    key: escape
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652657_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: f1
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652671_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: right
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652669_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: left
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652673_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+f9
+  - action: wait
+    wait: 1.0
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652677_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: down
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652653_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: up
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652675_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+-
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652651_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl++
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652663_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_scroll
+    value: -3
+  - action: mouse_scroll
+    value: -3
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652661_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: f2
+  - action: keyboard_press
+    key: escape
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652659_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+i
+  - action: keyboard_press
+    key: escape
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+- id: case_1652655_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+c
+  assert_steps:
+  - action: assert_process_running
+- id: case_1652649_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: alt+d
+  - action: wait
+    wait: 1.0
+  assert_steps:
+  - action: assert_process_running
+- id: case_1652647_s1
+  name: 启动看图应用
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+o
+  - action: keyboard_press
+    key: escape
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Toolbar
+      role: tool bar
+teardown:
+- action: session_stop
