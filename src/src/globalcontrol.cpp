@@ -12,10 +12,12 @@
 #include <QDebug>
 #include <QApplication>
 #include <QLoggingCategory>
+#include <QFileInfo>
 
 Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 static const int sc_SubmitInterval = 200;   // 图片变更提交定时间隔 200ms
+static const int sc_ViewModelSyncInterval = 200;  // Main image view-model synchronization debounce interval.
 
 /**
    @class GlobalControl
@@ -339,26 +341,32 @@ void GlobalControl::forceExit()
    @brief 设置打开图片列表 \a filePaths ， 其中 \a openFile 是首个展示的图片路径，
     将更新全局数据源并发送状态变更信号
  */
-void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &openFile)
+bool GlobalControl::setImageFiles(const QStringList &filePaths, const QString &openFile)
 {
     qCDebug(logImageViewer) << "Setting image files, count:" << filePaths.size() << "initial file:" << openFile;
+    if (filePaths.isEmpty()) {
+        qCWarning(logImageViewer) << "Cannot set empty image files.";
+        return false;
+    }
+
+    const int index = filePaths.indexOf(openFile);
+    if (-1 == index) {
+        qCWarning(logImageViewer) << "Open file is not in image files:" << openFile;
+        return false;
+    }
+
     Q_ASSERT(sourceModel);
     // 优先更新数据源
     sourceModel->setImageFiles(QUrl::fromStringList(filePaths));
     qCDebug(logImageViewer) << "Source model image files set.";
 
-    int index = filePaths.indexOf(openFile);
-    if (-1 == index || filePaths.isEmpty()) {
-        index = 0;
-        qCDebug(logImageViewer) << "Using default index 0";
-    }
-
     setIndexAndFrameIndex(index, 0);
 
-    // 更新图像信息，无论变更均更新
-    if (currentImage.source() != openFile) {
-        qCDebug(logImageViewer) << "Updating current image source to:" << openFile;
-        currentImage.setSource(openFile);
+    // 当前图片源必须来自已设置的数据模型，避免传入路径不在列表时状态失配。
+    const QUrl currentSource = sourceModel->data(sourceModel->index(index), Types::ImageUrlRole).toUrl();
+    if (currentImage.source() != currentSource) {
+        qCDebug(logImageViewer) << "Updating current image source to:" << currentSource;
+        currentImage.setSource(currentSource);
     }
     Q_EMIT currentSourceChanged();
     qCDebug(logImageViewer) << "Emitted currentSourceChanged signal.";
@@ -370,6 +378,46 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
     // 更新视图展示模型
     viewSourceModel->resetModel(index, 0);
     qCDebug(logImageViewer) << "Image files set complete";
+    return true;
+}
+
+/**
+   @brief 将当前目录新增图片插入列表并切换至该图片。
+ */
+bool GlobalControl::addImageAndSetCurrentSource(const QUrl &image)
+{
+    qCDebug(logImageViewer) << "Adding image and setting current source:" << image;
+    if (!sourceModel || image.isEmpty() || !QFileInfo(image.toLocalFile()).isFile()) {
+        return false;
+    }
+
+    const int existingIndex = sourceModel->indexForImagePath(image);
+    if (-1 != existingIndex) {
+        setIndexAndFrameIndex(existingIndex, 0);
+        return true;
+    }
+
+    submitImageChangeImmediately();
+    const int index = sourceModel->insertImage(image);
+    if (-1 == index) {
+        return false;
+    }
+
+    currentImage.setSource(image);
+    curIndex = index;
+    const bool frameIndexChanged = (0 != curFrameIndex);
+    curFrameIndex = 0;
+    Q_EMIT currentSourceChanged();
+    Q_EMIT currentIndexChanged();
+    if (frameIndexChanged) {
+        Q_EMIT currentFrameIndexChanged();
+    }
+    checkSwitchEnable();
+    Q_EMIT imageCountChanged();
+
+    // PathViewProxyModel 缓存源模型索引，插入数据后仅重置该代理模型。
+    viewSourceModel->resetModel(index, 0);
+    return true;
 }
 
 /**
@@ -513,6 +561,9 @@ void GlobalControl::timerEvent(QTimerEvent *event)
     } else if (switchCheckTimer.timerId() == event->timerId()) {
         switchCheckTimer.stop();
         checkSwitchEnable();
+    } else if (viewModelSyncTimer.timerId() == event->timerId()) {
+        viewModelSyncTimer.stop();
+        viewSourceModel->setCurrentSourceIndex(curIndex, curFrameIndex);
     }
 }
 
@@ -582,7 +633,7 @@ void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
 
     checkSwitchEnable();
 
-    // 更新视图模型
-    viewSourceModel->setCurrentSourceIndex(curIndex, curFrameIndex);
+    // During rapid navigation, synchronize only the final index to avoid decoding intermediate images.
+    viewModelSyncTimer.start(sc_ViewModelSyncInterval, this);
     qCDebug(logImageViewer) << "Index and frame index update complete";
 }

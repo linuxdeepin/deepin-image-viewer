@@ -7,7 +7,6 @@
 
 #include <QCursor>
 #include <QPoint>
-#include <QSignalSpy>
 
 void ut_cursortool::SetUp()
 {
@@ -49,4 +48,29 @@ TEST_F(ut_cursortool, ActiveColor)
     CursorTool tool;
     QColor color = tool.activeColor();
     EXPECT_TRUE(color.isValid());
+}
+
+// 测试重复启停采样定时器不崩溃(覆盖 if/else 两个分支多次进入)
+TEST_F(ut_cursortool, SetCaptureCursor_RepeatedToggle_NoCrash)
+{
+    CursorTool tool;
+    // 停止状态下再次停止(走 stop 分支)
+    tool.setCaptureCursor(false);
+    // 连续启动(走 start 分支)
+    tool.setCaptureCursor(true);
+    tool.setCaptureCursor(true);
+    // 再次停止
+    tool.setCaptureCursor(false);
+    tool.setCaptureCursor(false);
+    SUCCEED();
+}
+
+// 测试构造函数传入父对象时建立正确的父子关系
+TEST_F(ut_cursortool, Constructor_WithParent_HoldsParent)
+{
+    QObject parent;
+    CursorTool *tool = new CursorTool(&parent);
+    ASSERT_TRUE(tool != nullptr);
+    EXPECT_EQ(tool->parent(), &parent);
+    delete tool;
 }

@@ -72,7 +72,8 @@ public:
     Q_INVOKABLE void forceExit();
 
     // 图像文件变更操作
-    Q_SLOT void setImageFiles(const QStringList &imageFiles, const QString &openFile);
+    Q_SLOT bool setImageFiles(const QStringList &imageFiles, const QString &openFile);
+    Q_INVOKABLE bool addImageAndSetCurrentSource(const QUrl &image);
     Q_SLOT void removeImage(const QUrl &removeImage);
     Q_SLOT void renameImage(const QUrl &oldName, const QUrl &newName);
 
@@ -101,6 +102,7 @@ private:
     int imageRotation = 0;    // 当前图片旋转角度
     QBasicTimer submitTimer;  // 图片变更提交定时器
     QBasicTimer switchCheckTimer;  // 切换按钮状态检查防抖定时器
+    QBasicTimer viewModelSyncTimer;  // Main image view-model synchronization debounce timer.
 };
 
 #endif  // GLOBALCONTROL_H

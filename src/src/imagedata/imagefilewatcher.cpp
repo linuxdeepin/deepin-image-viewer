@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -97,6 +97,23 @@ void ImageFileWatcher::resetImageFiles(const QStringList &filePaths)
         qCDebug(logImageViewer) << "Added directory to watch:" << dirPath;
     } else {
         qCDebug(logImageViewer) << "No files in watcher, skipping directory watch.";
+    }
+}
+
+/**
+   @brief 将图片文件追加到当前监控列表。
+ */
+void ImageFileWatcher::addImageFile(const QString &filePath)
+{
+    const QString localPath = QUrl(filePath).toLocalFile();
+    const QFileInfo info(localPath);
+    if (!info.isFile() || cacheFileInfo.contains(localPath)) {
+        return;
+    }
+
+    cacheFileInfo.insert(localPath, filePath);
+    if (!fileWatcher->files().contains(localPath)) {
+        fileWatcher->addPath(localPath);
     }
 }
 

@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2026 UnionTech Software Technology Co., Ltd.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# LeakSanitizer 抑制清单。
+#
+# 以下泄漏均为 Qt6 DBus / 平台服务插件在进程内的静态或线程局部缓存，
+# 由 QDBusAbstractInterface / QDBusAbstractAdaptor / QDBusConnection 在首次
+# 访问 session bus 时建立，进程退出时由系统回收，不属于本项目的真实泄漏。
+# 在 ASAN 测试构建下 LSan 会报告这些框架级残留，此处统一抑制。
+
+leak:QDBusAbstractAdaptor
+leak:QDBusAbstractInterface
+leak:QDBusConnection
+leak:QDBusMessage
+leak:QDBusPendingCallWatcher
+leak:QGenericUnixServices

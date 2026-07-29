@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -27,6 +27,7 @@ Item {
     property ImageInputHandler inputHandler: null
     // PathView not provides index === IV.GControl.currentIndex, use ViewDelegateLoader.enabled
     property bool isCurrentImage: parent.enabled
+    property bool rapidSwitching: parent && parent.rapidSwitching
     // 坐标偏移，用于动画效果时调整显示位置
     property real offset: 0
     // 图片绘制区域到边框的位置

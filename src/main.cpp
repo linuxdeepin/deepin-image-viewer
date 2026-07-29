@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 ~ 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -27,12 +27,24 @@
 #include <QQmlContext>
 #include <QIcon>
 
+#ifdef Q_OS_LINUX
+#include <malloc.h>
+#endif
+
 Q_LOGGING_CATEGORY(logImageViewer, "org.deepin.dde.imageviewer")
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_LINUX
+    // Keep large image buffers mmap-backed instead of retaining them in the heap after repeated decoding.
+    constexpr int imageBufferMmapThreshold = 128 * 1024;
+    if (!mallopt(M_MMAP_THRESHOLD, imageBufferMmapThreshold)) {
+        qCWarning(logImageViewer) << "Failed to set image buffer mmap threshold";
+    }
+#endif
+
     qCDebug(logImageViewer) << "Application starting...";
     qputenv("D_POPUP_MODE", "embed");
     if (qEnvironmentVariableIsEmpty("XDG_CURRENT_DESKTOP")) {
@@ -135,10 +147,6 @@ int main(int argc, char *argv[])
 
         providerCache = static_cast<ProviderCache *>(asyncImageProvider);
 
-        if (!cliParam.isEmpty()) {
-            qCDebug(logImageViewer) << "Preloading image from commandline parameter.";
-            asyncImageProvider->preloadImage(cliParam);
-        }
     }
 
     ThumbnailProvider *multiImageLoad = new ThumbnailProvider;
@@ -184,9 +192,8 @@ int main(int argc, char *argv[])
     if (!cliParam.isEmpty()) {
         qCDebug(logImageViewer) << "Commandline parameter is not empty, processing initial image.";
         QStringList filePaths = fileControl.getDirImagePath(cliParam);
-        if (!filePaths.isEmpty()) {
+        if (!filePaths.isEmpty() && control.setImageFiles(filePaths, cliParam)) {
             qCDebug(logImageViewer) << "Found image files: " << filePaths.count();
-            control.setImageFiles(filePaths, cliParam);
             fileControl.resetImageFiles(filePaths);
 
             status.setStackPage(Types::ImageViewPage);

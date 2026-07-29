@@ -97,4 +97,107 @@ TEST_F(ut_globalstatus, DelayInitProperty)
     status.setDelayInit(false);
     EXPECT_FALSE(status.delayInit());
     EXPECT_EQ(spy.count(), 1);
+
+    // 设置相同值不应触发信号
+    status.setDelayInit(false);
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// 测试 showRightMenu 属性设置与信号
+TEST_F(ut_globalstatus, ShowRightMenuProperty)
+{
+    GlobalStatus status;
+    EXPECT_FALSE(status.showRightMenu());
+
+    QSignalSpy spy(&status, &GlobalStatus::showRightMenuChanged);
+    status.setShowRightMenu(true);
+    EXPECT_TRUE(status.showRightMenu());
+    EXPECT_EQ(spy.count(), 1);
+
+    // 设置相同值不应触发信号
+    status.setShowRightMenu(true);
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// 测试 showImageInfo 属性设置与信号
+TEST_F(ut_globalstatus, ShowImageInfoProperty)
+{
+    GlobalStatus status;
+    EXPECT_FALSE(status.showImageInfo());
+
+    QSignalSpy spy(&status, &GlobalStatus::showImageInfoChanged);
+    status.setShowImageInfo(true);
+    EXPECT_TRUE(status.showImageInfo());
+    EXPECT_EQ(spy.count(), 1);
+
+    status.setShowImageInfo(true);
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// 测试 viewInteractive 属性（默认 true）设置与信号
+TEST_F(ut_globalstatus, ViewInteractiveProperty)
+{
+    GlobalStatus status;
+    EXPECT_TRUE(status.viewInteractive());
+
+    QSignalSpy spy(&status, &GlobalStatus::viewInteractiveChanged);
+    status.setViewInteractive(false);
+    EXPECT_FALSE(status.viewInteractive());
+    EXPECT_EQ(spy.count(), 1);
+
+    status.setViewInteractive(false);
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// 测试 viewFlicking 属性设置与信号
+TEST_F(ut_globalstatus, ViewFlickingProperty)
+{
+    GlobalStatus status;
+    EXPECT_FALSE(status.viewFlicking());
+
+    QSignalSpy spy(&status, &GlobalStatus::viewFlickingChanged);
+    status.setViewFlicking(true);
+    EXPECT_TRUE(status.viewFlicking());
+    EXPECT_EQ(spy.count(), 1);
+
+    status.setViewFlicking(true);
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// 测试 animationBlock 属性设置与信号
+TEST_F(ut_globalstatus, AnimationBlockProperty)
+{
+    GlobalStatus status;
+    EXPECT_FALSE(status.animationBlock());
+
+    QSignalSpy spy(&status, &GlobalStatus::animationBlockChanged);
+    status.setAnimationBlock(true);
+    EXPECT_TRUE(status.animationBlock());
+    EXPECT_EQ(spy.count(), 1);
+
+    status.setAnimationBlock(true);
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// 测试 fullScreenAnimating 属性设置与信号
+TEST_F(ut_globalstatus, FullScreenAnimatingProperty)
+{
+    GlobalStatus status;
+    EXPECT_FALSE(status.fullScreenAnimating());
+
+    QSignalSpy spy(&status, &GlobalStatus::fullScreenAnimatingChanged);
+    status.setFullScreenAnimating(true);
+    EXPECT_TRUE(status.fullScreenAnimating());
+    EXPECT_EQ(spy.count(), 1);
+
+    status.setFullScreenAnimating(true);
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// 析构函数: 触发 D0 deleting destructor (new + delete)
+TEST_F(ut_globalstatus, Destructor_DeletingDestructor)
+{
+    auto *obj = new GlobalStatus();
+    delete obj;
+    SUCCEED();
 }
