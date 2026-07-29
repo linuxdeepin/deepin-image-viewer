@@ -7,7 +7,7 @@ fast_fail: false
 env_check: []
 setup:
 - action: session_start
-  command: /tmp/opencode/deepin-image-viewer-at-launch.sh
+  command: tests/at/launch.sh
   wait: 3.0
 suites:
 - id: case_1652437_s1
