@@ -1,3 +1,30 @@
+deepin-image-viewer (6.0.47) unstable; urgency=medium
+
+  * chore: Update version to 6.0.47
+  * chore(license): add reuse copyright for AT report and lint output
+  * fix(at): add AT-SPI suites, accessibility labels and portable launch script
+  * test(at): add AT-SPI suites and accessibility labels
+  * test(coverage): boost function coverage to 97.7%
+  * test(imageinfo): augment unit tests for core QML classes
+  * fix(image): reduce memory retention during image navigation
+  * test(types): augment unit tests for types and related modules
+  * test(ocr): add unit tests for printdialog and ocr modules
+  * test(declarative): add unit tests for declarative and dbus modules
+  * fix(open): add new images to the current directory model
+  * test(utils): add unit tests for utils module
+  * test(unionimage): add unit tests for unionimage module
+  * fix(open): validate image paths and keep open state consistent
+  * test(imagedata): add unit tests for imagedata module
+  * test: add unit test framework with coverage report
+  * fix(image): preserve aspect ratio when scaling requested images
+  * ci(cppcheck): update checkout action for pull request scans
+  * fix(image): wait for image info before setting dynamic source size
+  * fix: remove deepin prefix from Chinese translations in desktop file
+  * docs(image-viewer): merge rotation buttons into single Rotate entry
+  * [skip CI] Translate deepin-image-viewer.ts in it
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Thu, 30 Jul 2026 15:14:01 +0800
+
 deepin-image-viewer (6.0.46) unstable; urgency=medium
 
   * chore: Update version to 6.0.46
