@@ -150,6 +150,16 @@ BaseImageDelegate {
                 imageProxy.scale = image.scale;
                 imageScaleBehavior.enabled = true;
 
+                // 代理从图片当前拖拽位置启动，使动画起始帧与真实图片重合，
+                // 避免旋转开始/结束时代理（居中）与真实图片（拖拽偏移）位置不一致导致的抖动
+                imageProxy.x = image.x;
+                imageProxy.y = image.y;
+
+                // 重置缓存位置为中心，确保图片重载后 resetCache() 恢复到 (0,0)，
+                // 与代理动画终点 (0,0) 一致，消除动画结束时位置跳变
+                delegate.targetImageInfo.x = 0;
+                delegate.targetImageInfo.y = 0;
+
                 // 记录之前的绘制宽度，用于计算缩放比例
                 previousRealWidth = image.paintedWidth;
 
@@ -172,7 +182,7 @@ BaseImageDelegate {
             ShaderEffectSource {
                 id: imageProxy
 
-                anchors.centerIn: parent
+                // 不使用 anchors.centerIn，位置由 calcAnimation() 根据图片当前位置设置
                 height: image.height
                 live: false
                 sourceItem: image
