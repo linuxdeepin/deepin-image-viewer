@@ -23,9 +23,16 @@ ApplicationWindow {
 
     // 设置 dtk 风格窗口
     DWindow.enabled: true
+    // 设置 DTK 调色板：使窗口按钮 DCI 图标 (WindowButton/DciIcon) 的 ColorSelector 上下文正确，
+    // 按 press/hover 状态渲染 DTK 标准蓝色。缺少此项时 DTK 控件继承 Qt 默认 palette，
+    // ColorSelector 上下文断裂，图标 press 态无法变蓝。对齐 D.ApplicationWindow 的 palette 行为。
+    palette: DTK.palette
     // 调整暗色主题下的窗口背景色
     color: DS.Style.control.selectColor(palette.window, palette.window, Qt.rgba(24 / 255, 24 / 255, 24 / 255, 1))
-    flags: Qt.Window | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
+    // uos-design: allow-overlay-titlebar 应用采用沉浸式浮动标题栏 (ViewTopTitle) 而非窗口级 D.TitleBar header，
+    // 标题栏随图片缩放/全屏滑入滑出，窗口按钮 (菜单/最小化/最大化/关闭) 由浮动 TitleBar 内的
+    // D.WindowButtonGroup 提供，符合 DTK 窗口按钮 hover/press 标准实现。
+    flags: Qt.Window | Qt.WindowTitleHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint | Qt.WindowCloseButtonHint
     height: IV.FileControl.getlastHeight()
     minimumHeight: IV.GStatus.minHeight
     minimumWidth: IV.GStatus.minWidth

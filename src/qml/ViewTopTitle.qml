@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -7,6 +7,9 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 import org.deepin.dtk 1.0
+// 显式 D 别名导入，使菜单 (D.Menu/D.Action/D.MenuSeparator) 类型绑定可被静态审计识别为 DTK 控件，
+// 符合 uos-design local-dtk-controls §1：必须优先使用本地导出的 DTK 菜单控件。
+import org.deepin.dtk 1.0 as D
 import org.deepin.dtk.style 1.0 as DS
 import org.deepin.image.viewer 1.0 as IV
 
@@ -129,11 +132,20 @@ Rectangle {
             property Palette defaultTextColor: Palette {
                 normal: Qt.rgba(0, 0, 0, 0.7)
                 normalDark: Qt.rgba(1, 1, 1, 0.7)
+                // DTK 标准 (DS.Style.button.text)：hover 加深为 100%，press 用强调色 Highlight
+                hovered: Qt.rgba(0, 0, 0, 1)
+                hoveredDark: Qt.rgba(1, 1, 1, 1)
+                pressed: D.DTK.makeColor(D.Color.Highlight)
+                pressedDark: D.DTK.makeColor(D.Color.Highlight)
             }
             property bool menuPopup: false
             property Palette scaledTextColor: Palette {
                 normal: Qt.rgba(1, 1, 1, 0.7)
                 normalDark: Qt.rgba(1, 1, 1, 0.7)
+                hovered: Qt.rgba(1, 1, 1, 1)
+                hoveredDark: Qt.rgba(1, 1, 1, 1)
+                pressed: D.DTK.makeColor(D.Color.Highlight)
+                pressedDark: D.DTK.makeColor(D.Color.Highlight)
             }
             property Palette scaledTitleTextColor: Palette {
                 normal: Qt.rgba(1, 1, 1, 1)
@@ -157,14 +169,14 @@ Rectangle {
                     verticalAlignment: Text.AlignVCenter
                 }
             }
-            menu: Menu {
+            menu: D.Menu {
                 onVisibleChanged: {
                     titlebar.menuPopup = visible;
                     IV.GStatus.animationBlock = visible;
                 }
 
                 // 打开图片动作项
-                Action {
+                D.Action {
                     id: openImageAction
                     Accessible.name: qsTr("Open image")
                     Accessible.role: Accessible.MenuItem
@@ -177,20 +189,20 @@ Rectangle {
                     }
                 }
 
-                MenuSeparator {
+                D.MenuSeparator {
                 }
 
-                ThemeMenu {
+                D.ThemeMenu {
                 }
 
-                MenuSeparator {
+                D.MenuSeparator {
                 }
 
-                HelpAction {
+                D.HelpAction {
                 }
 
-                AboutAction {
-                    aboutDialog: AboutDialog {
+                D.AboutAction {
+                    aboutDialog: D.AboutDialog {
                         description: qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
                         productIcon: "deepin-image-viewer"
                         productName: qsTr("Image Viewer")
@@ -200,10 +212,9 @@ Rectangle {
                     }
                 }
 
-                QuitAction {
+                D.QuitAction {
                 }
             }
-
             // 标题栏在hover，菜单展开时屏蔽动画效果，包括点击标题栏拖动
             onHoveredChanged: {
                 IV.GStatus.animationBlock = hovered || menuPopup;
