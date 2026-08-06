@@ -7,6 +7,7 @@ import QtQuick.Controls
 import QtQuick.Window
 import Qt5Compat.GraphicalEffects
 import org.deepin.dtk 1.0
+import org.deepin.dtk 1.0 as DTK
 import org.deepin.dtk.style 1.0 as DS
 import org.deepin.image.viewer 1.0 as IV
 import "./Utils"
@@ -233,17 +234,39 @@ Item {
         Accessible.role: Accessible.Button
 
         property bool animationShow: false
+        property bool containsMouse: animationShow && imageViewerArea.containsMouse
+            && imageViewerArea.mouseX >= floatLeftButton.x
+            && imageViewerArea.mouseX <= floatLeftButton.x + floatLeftButton.width
+            && imageViewerArea.mouseY + IV.GStatus.titleHeight >= floatLeftButton.y
+            && imageViewerArea.mouseY + IV.GStatus.titleHeight <= floatLeftButton.y + floatLeftButton.height
 
         function updatePosition() {
             floatLeftButton.x = animationShow ? 20 : -50;
         }
 
         checked: false
+        hoverEnabled: true
         enabled: IV.GControl.hasPreviousImage
         height: 50
         icon.name: "icon_previous"
         visible: enabled
         width: 50
+
+        contentItem: DTK.DciIcon {
+            name: floatLeftButton.icon.name
+            palette: DTK.DTK.makeIconPalette(floatLeftButton.palette)
+            mode: floatLeftButton.containsMouse ? DTK.DTK.HoveredState : DTK.DTK.NormalState
+            theme: floatLeftButton.ColorSelector.controlTheme
+            sourceSize: Qt.size(floatLeftButton.icon.width, floatLeftButton.icon.height)
+        }
+
+        background: Rectangle {
+            anchors.fill: parent
+            radius: floatLeftButton.width / 2
+            color: floatLeftButton.palette.window.hslLightness < 0.5
+                   ? (floatLeftButton.containsMouse ? Qt.rgba(1, 1, 1, 0.2) : Qt.rgba(1, 1, 1, 0.1))
+                   : (floatLeftButton.containsMouse ? "#e1e1e1" : "#f7f7f7")
+        }
 
         Behavior on x {
             enabled: fullThumbnail.enableAnimation
@@ -269,17 +292,39 @@ Item {
         Accessible.role: Accessible.Button
 
         property bool animationShow: false
+        property bool containsMouse: animationShow && imageViewerArea.containsMouse
+            && imageViewerArea.mouseX >= floatRightButton.x
+            && imageViewerArea.mouseX <= floatRightButton.x + floatRightButton.width
+            && imageViewerArea.mouseY + IV.GStatus.titleHeight >= floatRightButton.y
+            && imageViewerArea.mouseY + IV.GStatus.titleHeight <= floatRightButton.y + floatRightButton.height
 
         function updatePosition() {
             floatRightButton.x = animationShow ? Window.width - 70 : Window.width;
         }
 
         checked: false
+        hoverEnabled: true
         enabled: IV.GControl.hasNextImage
         height: 50
         icon.name: "icon_next"
         visible: enabled
         width: 50
+
+        contentItem: DTK.DciIcon {
+            name: floatRightButton.icon.name
+            palette: DTK.DTK.makeIconPalette(floatRightButton.palette)
+            mode: floatRightButton.containsMouse ? DTK.DTK.HoveredState : DTK.DTK.NormalState
+            theme: floatRightButton.ColorSelector.controlTheme
+            sourceSize: Qt.size(floatRightButton.icon.width, floatRightButton.icon.height)
+        }
+
+        background: Rectangle {
+            anchors.fill: parent
+            radius: floatRightButton.width / 2
+            color: floatRightButton.palette.window.hslLightness < 0.5
+                   ? (floatRightButton.containsMouse ? Qt.rgba(1, 1, 1, 0.2) : Qt.rgba(1, 1, 1, 0.1))
+                   : (floatRightButton.containsMouse ? "#e1e1e1" : "#f7f7f7")
+        }
 
         Behavior on x {
             enabled: fullThumbnail.enableAnimation
