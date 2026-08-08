@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pt">
 <context>
     <name>FileControl</name>
     <message>
@@ -30,6 +28,7 @@
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
@@ -327,13 +326,13 @@
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>Não é possível mover "%1" para a lixeira. Deseja excluir permanentemente?</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>Não pode mover &quot;%1&quot; para a reciclagem. Quer apagá-lo permanentemente?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>Esta ação não pode ser desfeita</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -355,11 +354,13 @@
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
+        <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Pause</source>
         <translation>Pausa</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
+        <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Play</source>
         <translation>Reproduzir</translation>
     </message>
@@ -370,6 +371,7 @@
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
+        <location filename="../qml/SliderShow.qml" line="244"/>
         <source>Exit</source>
         <translation>Sair</translation>
     </message>
