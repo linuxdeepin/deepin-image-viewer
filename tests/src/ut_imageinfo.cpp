@@ -598,12 +598,15 @@ private:
 // LoadImageInfoRunnable::notifyFinished lambda: notifyFinished 通过 Qt::QueuedConnection
 // 投递 lambda 到 CacheInstance()。使用 postEvent 桩捕获 CacheInstance() 指针，
 // 然后仅处理该对象的事件，避免处理 DBus 残留事件导致崩溃
-static QObject *g_ut_capturedCacheInstance = nullptr;
+//
+// Stub 机制仅支持原始函数指针，因此使用文件作用域指针间接传递捕获结果。
+// 指针仅在测试作用域内有效，测试结束后置空。
+static QObject *s_capturedCacheInstance = nullptr;
 static void ut_ii_stub_capturePostEvent(QObject *receiver, QEvent *event, int priority)
 {
     Q_UNUSED(priority)
     if (receiver) {
-        g_ut_capturedCacheInstance = receiver;
+        s_capturedCacheInstance = receiver;
     }
     delete event;  // 清理未投递的事件
 }
@@ -624,8 +627,10 @@ TEST_F(ut_imageinfo, NotifyFinished_QueuedLambda_Executed)
         // notifyFinished 内部调用 CacheInstance() 并 postEvent，桩捕获 receiver
         runnable.notifyFinished(path, 0, data);
     }
-    // g_ut_capturedCacheInstance 现在持有 CacheInstance() 指针
-    ASSERT_NE(g_ut_capturedCacheInstance, nullptr);
+    // s_capturedCacheInstance 现在持有 CacheInstance() 指针
+    QObject *capturedInstance = s_capturedCacheInstance;
+    s_capturedCacheInstance = nullptr;  // 清除，避免跨测试残留
+    ASSERT_NE(capturedInstance, nullptr);
 
     // 步骤2: 不桩 postEvent，再次调用 notifyFinished 实际投递 lambda
     LoadImageInfoRunnable runnable2(path, 0);
@@ -636,7 +641,7 @@ TEST_F(ut_imageinfo, NotifyFinished_QueuedLambda_Executed)
     runnable2.notifyFinished(path, 0, data2);
 
     // 步骤3: 仅处理 CacheInstance() 的事件，执行排队 lambda
-    QCoreApplication::sendPostedEvents(g_ut_capturedCacheInstance, 0);
+    QCoreApplication::sendPostedEvents(capturedInstance, 0);
 
     SUCCEED();
 }
