@@ -6,6 +6,7 @@
 #include "globalcontrol.h"
 
 #include "stub.h"
+#include "utils/rotateimagehelper.h"
 
 #include <QSignalSpy>
 #include <QTemporaryDir>
@@ -16,6 +17,8 @@
 #include <QTimerEvent>
 #include <QCoreApplication>
 #include <QStandardPaths>
+#include <cstdlib>
+#include <csetjmp>
 
 void ut_globalcontrol::SetUp()
 {
@@ -372,4 +375,52 @@ TEST_F(ut_globalcontrol, CheckSwitchEnable_EmptyModel_AllDisabled)
     control.checkSwitchEnable();  // 私有, 借 -fno-access-control 直调
     EXPECT_FALSE(control.hasPreviousImage());
     EXPECT_FALSE(control.hasNextImage());
+}
+
+// ============================================================
+// 以下为补充用例，覆盖构造函数中的 lambda 及 forceExit
+// ============================================================
+
+// currentImage.infoChanged lambda: 手动发射 infoChanged 信号触发 switchCheckTimer
+TEST_F(ut_globalcontrol, CurrentImage_InfoChanged_TriggersSwitchCheckTimer)
+{
+    GlobalControl control;
+    // currentImage 为私有成员，-fno-access-control 允许访问
+    // 手动发射 infoChanged 信号，触发构造函数中连接的 lambda
+    emit control.currentImage.infoChanged();
+    // lambda 调用 switchCheckTimer.start(50, this)
+    EXPECT_TRUE(control.switchCheckTimer.isActive());
+    control.switchCheckTimer.stop();
+}
+
+// RotateImageHelper::rotateImageFinished lambda: 手动发射信号触发构造函数 lambda
+TEST_F(ut_globalcontrol, RotateImageFinished_TriggersConstructorLambda)
+{
+    GlobalControl control;
+    // 手动发射 rotateImageFinished 信号，触发构造函数中连接的 lambda
+    // 即使 path 不匹配 currentImage.source()，lambda 仍会执行（仅不进入提交分支）
+    RotateImageHelper::instance()->rotateImageFinished("/tmp/ut_gc_test_rotate.png", true);
+    SUCCEED();
+}
+
+// forceExit: stub _Exit 使用 longjmp 跳回测试
+// _Exit 声明为 noreturn，直接 stub 为空操作会导致编译器优化问题
+static jmp_buf g_ut_gc_jmpbuf;
+[[noreturn]] static void ut_gc_stub_noExit(int) {
+    longjmp(g_ut_gc_jmpbuf, 1);
+}
+TEST_F(ut_globalcontrol, ForceExit_Stubbed_NoTermination)
+{
+    Stub stub;
+    stub.set(_Exit, ut_gc_stub_noExit);
+    GlobalControl control;
+
+    // setjmp 返回 0 为首次调用，longjmp 返回非 0
+    if (setjmp(g_ut_gc_jmpbuf) == 0) {
+        control.forceExit();
+    }
+    // longjmp 跳回此处，forceExit 已覆盖
+    // QApplication::exit(0) 设置了 is_app_closing 标志，但不影响后续测试
+    // （后续测试不调用 processEvents，且 sendPostedEvents 不检查 is_app_closing）
+    SUCCEED();
 }

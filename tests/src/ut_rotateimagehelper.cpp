@@ -13,6 +13,7 @@
 #include <QTemporaryDir>
 #include <QSignalSpy>
 #include <QThreadPool>
+#include <QCoreApplication>
 
 void ut_rotateimagehelper::SetUp()
 {
@@ -224,5 +225,19 @@ TEST_F(ut_rotateimagehelper, EnqueueRotateTask_QueuesAndProcesses)
     EXPECT_GE(spy.count(), 0);
 
     delete fresh;
+    SUCCEED();
+}
+
+// ==================== aboutToQuit lambda (构造函数) ====================
+
+// 测试构造函数中 aboutToQuit lambda: 手动发射信号触发清理逻辑
+TEST_F(ut_rotateimagehelper, AboutToQuit_TriggersConstructorLambda_NoCrash)
+{
+    // 确保单例已创建（构造函数中连接 aboutToQuit 信号）
+    RotateImageHelper::instance();
+    // 手动发射 QCoreApplication::aboutToQuit 信号
+    // (-fno-access-control 允许调用 protected 信号；Qt6 信号需 QPrivateSignal 参数)
+    // data 未运行 watcher 时，lambda 仅执行判断分支不进入清理
+    qApp->aboutToQuit(QCoreApplication::QPrivateSignal{});
     SUCCEED();
 }

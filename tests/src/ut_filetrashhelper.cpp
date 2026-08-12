@@ -5,12 +5,19 @@
 #include "ut_filetrashhelper.h"
 #include "filetrashhelper.h"
 #include "unionimage/baseutils.h"
+#include "imagedata/imagefilewatcher.h"
 
 #include <QUrl>
 #include <QFile>
 #include <QDir>
 #include <QFileInfo>
 #include <QTemporaryFile>
+#include <QDBusPendingCall>
+#include <QTimer>
+#include <QCoreApplication>
+#include <QEventLoop>
+#include <QElapsedTimer>
+#include <QThread>
 
 #include "stub.h"
 
@@ -285,4 +292,60 @@ TEST_F(ut_filetrashhelper, MoveFileToTrash_DBusInvalidUrl_ReturnsFalse)
 
     QUrl url = QUrl::fromLocalFile("/tmp/ut_filetrashhelper_invalidurl_test.png");
     EXPECT_FALSE(helper.moveFileToTrash(url));
+}
+
+// ============================================================
+// 以下为补充用例，覆盖 moveFileToTrashWithDBus 内部 lambda
+// ============================================================
+
+// 桩：QDBusPendingCall::isError 返回 false（DBus 调用未出错）
+static bool ut_fth_stub_isError(const QDBusPendingCall *)
+{
+    return false;
+}
+
+// 桩：QDBusPendingCall::waitForFinished 空操作
+static void ut_fth_stub_waitForFinished(QDBusPendingCall *)
+{
+}
+
+// 桩：QEventLoop::exec 直接发射 imageFileChanged 信号触发 lambda
+// 不处理任何事件，避免 DBus 残留事件导致崩溃
+static QString g_ut_fth_filePath;
+
+static int ut_fth_stub_loopExec(QEventLoop *self, QEventLoop::ProcessEventsFlags flags)
+{
+    Q_UNUSED(self)
+    Q_UNUSED(flags)
+    // 直接发射信号，触发 moveFileToTrashWithDBus 内部的 lambda
+    // lambda 在连接后通过信号同步调用，无需事件循环
+    ImageFileWatcher::instance()->imageFileChanged(g_ut_fth_filePath);
+    return 0;
+}
+
+// moveFileToTrashWithDBus 内部 lambda: stub DBus 调用使其不报错，
+// stub QEventLoop::exec 避免 DBus 崩溃，
+// 然后通过定时器发射 imageFileChanged 信号触发 lambda
+TEST_F(ut_filetrashhelper, MoveFileToTrashWithDBus_Lambda_TriggersOnFileChanged)
+{
+    FileTrashHelper helper;
+    Stub stub;
+    stub.set(ADDR(QDBusPendingCall, isError), ut_fth_stub_isError);
+    stub.set(ADDR(QDBusPendingCall, waitForFinished), ut_fth_stub_waitForFinished);
+    stub.set(ADDR(QEventLoop, exec), ut_fth_stub_loopExec);
+
+    // 使用不存在的文件路径（lambda 条件: !QFile::exists(filePath)）
+    QString filePath = "/tmp/ut_fth_lambda_nonexistent_"
+                       + QString::number(QCoreApplication::applicationPid()) + ".png";
+    ASSERT_FALSE(QFile::exists(filePath));
+    QUrl url = QUrl::fromLocalFile(filePath);
+    ASSERT_TRUE(url.isValid());
+
+    // 设置全局文件路径供 stub 使用
+    g_ut_fth_filePath = filePath;
+
+    // 调用 moveFileToTrashWithDBus，stub 在 loop.exec() 中直接发射信号触发 lambda
+    int ret = helper.moveFileToTrashWithDBus(url);
+    // lambda 设置 waitRet = kTrashSuccess，函数应返回 kTrashSuccess
+    EXPECT_EQ(ret, kUtTrashSuccess);
 }

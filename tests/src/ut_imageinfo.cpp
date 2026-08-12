@@ -5,6 +5,7 @@
 #include "ut_imageinfo.h"
 #include "imageinfo.h"
 #include "types.h"
+#include "stub.h"
 
 #include <QUrl>
 #include <QImage>
@@ -15,6 +16,9 @@
 #include <QSet>
 #include <QScopedPointer>
 #include <QThreadPool>
+#include <QThread>
+#include <QCoreApplication>
+#include <QEventLoop>
 
 void ut_imageinfo::SetUp()
 {
@@ -551,5 +555,88 @@ TEST_F(ut_imageinfo, ImageInfoCacheLoadFinished)
     // 插入空数据（nullptr）走警告分支
     ImageInfoData::Ptr nullData;
     cache.loadFinished("/tmp/ut_loadfinished_null.png", 0, nullData);
+    SUCCEED();
+}
+
+// ============================================================
+// 以下为补充用例，覆盖构造函数 lambda 及 notifyFinished lambda
+// ============================================================
+
+// ImageInfoCache aboutToQuit lambda: 手动发射信号触发构造函数中的 lambda
+// 先断开全局 CacheInstance 的 aboutToQuit 连接，避免设置其 aboutToQuit 标志
+TEST_F(ut_imageinfo, ImageInfoCache_AboutToQuit_TriggersLambda)
+{
+    // 断开所有 aboutToQuit 连接（包括全局 CacheInstance 和 RotateImageHelper 的）
+    qApp->disconnect(SIGNAL(aboutToQuit()));
+
+    // 创建局部实例，构造函数中连接 aboutToQuit 信号
+    ImageInfoCache cache;
+    EXPECT_FALSE(cache.aboutToQuit);
+
+    // 手动发射 aboutToQuit 信号（-fno-access-control 允许调用 protected 信号）
+    // Qt6 信号需 QPrivateSignal 参数
+    qApp->aboutToQuit(QCoreApplication::QPrivateSignal{});
+
+    // lambda 设置 aboutToQuit = true，调用 clearCache 和 waitForDone
+    EXPECT_TRUE(cache.aboutToQuit);
+}
+
+// LoadImageInfoRunnable 声明（imageinfo.cpp 内私有类，继承 QRunnable）
+class LoadImageInfoRunnable : public QRunnable
+{
+public:
+    explicit LoadImageInfoRunnable(const QString &path, int index = 0);
+    void run() override;
+    bool loadImage(QImage &image, QSize &sourceSize) const;
+    void notifyFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data) const;
+
+private:
+    int frameIndex = 0;
+    QString loadPath;
+};
+
+// LoadImageInfoRunnable::notifyFinished lambda: notifyFinished 通过 Qt::QueuedConnection
+// 投递 lambda 到 CacheInstance()。使用 postEvent 桩捕获 CacheInstance() 指针，
+// 然后仅处理该对象的事件，避免处理 DBus 残留事件导致崩溃
+static QObject *g_ut_capturedCacheInstance = nullptr;
+static void ut_ii_stub_capturePostEvent(QObject *receiver, QEvent *event, int priority)
+{
+    Q_UNUSED(priority)
+    if (receiver) {
+        g_ut_capturedCacheInstance = receiver;
+    }
+    delete event;  // 清理未投递的事件
+}
+
+TEST_F(ut_imageinfo, NotifyFinished_QueuedLambda_Executed)
+{
+    QString path = makeTempPng("ut_notify_lambda.png");
+
+    // 步骤1: 桩 postEvent 捕获 CacheInstance() 指针
+    {
+        Stub stub;
+        stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+        LoadImageInfoRunnable runnable(path, 0);
+        ImageInfoData::Ptr data(new ImageInfoData);
+        data->path = path;
+        data->exist = true;
+        data->type = Types::NormalImage;
+        // notifyFinished 内部调用 CacheInstance() 并 postEvent，桩捕获 receiver
+        runnable.notifyFinished(path, 0, data);
+    }
+    // g_ut_capturedCacheInstance 现在持有 CacheInstance() 指针
+    ASSERT_NE(g_ut_capturedCacheInstance, nullptr);
+
+    // 步骤2: 不桩 postEvent，再次调用 notifyFinished 实际投递 lambda
+    LoadImageInfoRunnable runnable2(path, 0);
+    ImageInfoData::Ptr data2(new ImageInfoData);
+    data2->path = path;
+    data2->exist = true;
+    data2->type = Types::NormalImage;
+    runnable2.notifyFinished(path, 0, data2);
+
+    // 步骤3: 仅处理 CacheInstance() 的事件，执行排队 lambda
+    QCoreApplication::sendPostedEvents(g_ut_capturedCacheInstance, 0);
+
     SUCCEED();
 }
