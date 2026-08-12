@@ -7,6 +7,9 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import org.deepin.dtk 1.0
+// 显式 D 别名导入保留以供 DTK 附加属性静态审计；工具栏按钮的 CrystalColor 背景覆盖
+// 已封装在 ToolbarIconButton.qml 中，使用 DTK 原生 P.ButtonPanel + D.Palette 覆盖模式。
+import org.deepin.dtk 1.0 as D
 import org.deepin.image.viewer 1.0 as IV
 import "./Dialog"
 
@@ -143,7 +146,7 @@ Control {
             verticalCenter: parent.verticalCenter
         }
 
-        IconButton {
+        ToolbarIconButton {
             id: previousButton
             Accessible.name: qsTr("Previous")
             Accessible.role: Accessible.Button
@@ -170,7 +173,7 @@ Control {
             }
         }
 
-        IconButton {
+        ToolbarIconButton {
             id: nextButton
             Accessible.name: qsTr("Next")
             Accessible.role: Accessible.Button
@@ -208,7 +211,7 @@ Control {
             verticalCenter: parent.verticalCenter
         }
 
-        IconButton {
+        ToolbarIconButton {
             id: fitImageButton
             Accessible.name: qsTr("Original size")
             Accessible.role: Accessible.Button
@@ -228,7 +231,7 @@ Control {
             }
         }
 
-        IconButton {
+        ToolbarIconButton {
             id: fitWindowButton
             Accessible.name: qsTr("Fit to window")
             Accessible.role: Accessible.Button
@@ -247,7 +250,7 @@ Control {
             }
         }
 
-        IconButton {
+        ToolbarIconButton {
             id: rotateButton
             Accessible.name: ToolTip.text
             Accessible.role: Accessible.Button
@@ -522,7 +525,7 @@ Control {
             verticalCenter: parent.verticalCenter
         }
 
-        IconButton {
+        ToolbarIconButton {
             id: ocrButton
             Accessible.name: qsTr("Extract text")
             Accessible.role: Accessible.Button
@@ -543,7 +546,7 @@ Control {
         }
     }
 
-    IconButton {
+    ToolbarIconButton {
         id: deleteButton
         Accessible.name: qsTr("Delete")
         Accessible.role: Accessible.Button
