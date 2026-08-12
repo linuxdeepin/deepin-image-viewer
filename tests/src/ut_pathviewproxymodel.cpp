@@ -5,6 +5,7 @@
 #include "ut_pathviewproxymodel.h"
 #include "pathviewproxymodel.h"
 #include "imagesourcemodel.h"
+#include "imageinfo.h"
 
 #include <QUrl>
 #include <QList>
@@ -13,6 +14,8 @@
 #include <QImage>
 #include <QDir>
 #include <QCoreApplication>
+#include <QThread>
+#include <QEventLoop>
 #include "types.h"
 
 // 创建若干临时 PNG 文件供 ImageSourceModel 使用，确保 ImageInfo 能同步加载。
@@ -438,4 +441,38 @@ TEST_F(ut_pathviewproxymodel, IndexInfoCopyConstructor)
     EXPECT_EQ(copy.index, info->index);
     EXPECT_EQ(copy.frameCount, info->frameCount);
     EXPECT_EQ(copy.frameIndex, info->frameIndex);
+}
+
+// ============================================================
+// 以下为补充用例，覆盖 asyncUpdateLoadInfo 构造函数 lambda
+// ============================================================
+
+// asyncUpdateLoadInfo lambda: 直接调用私有函数创建 delayInfo，
+// 然后直接发射 delayInfo 的 statusChanged 信号触发 lambda
+// 避免使用 processEvents 处理 DBus 残留事件
+TEST_F(ut_pathviewproxymodel, AsyncUpdateLoadInfo_Lambda_TriggersOnStatusChanged)
+{
+    ImageSourceModel src;
+    PathViewProxyModel model(&src);
+
+    // 使用已创建的临时图片
+    QUrl url = g_pathviewTmpUrls.value(0);
+    ASSERT_FALSE(url.isEmpty());
+
+    // 直接调用私有函数 asyncUpdateLoadInfo（-fno-access-control 允许访问）
+    // 该函数创建 delayInfo = new ImageInfo(url, this)，连接 statusChanged lambda
+    model.asyncUpdateLoadInfo(url, 0, 0);
+
+    // delayInfo 是 model 的子对象，通过 findChild 获取
+    ImageInfo *delayInfo = model.findChild<ImageInfo *>();
+    ASSERT_NE(delayInfo, nullptr);
+
+    // 直接发射 statusChanged 信号触发 lambda（-fno-access-control 允许调用信号）
+    // lambda 检查 status，若为 Loading 则提前返回（仍然覆盖 lambda 函数）
+    delayInfo->statusChanged();
+
+    // 处理 deleteLater 事件（安全，不涉及 DBus）
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+
+    SUCCEED();
 }

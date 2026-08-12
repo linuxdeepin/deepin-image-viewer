@@ -167,3 +167,15 @@ TEST_F(ut_imagefilewatcher, PrivateOnImageDirChanged)
     ImageFileWatcher::instance()->onImageDirChanged(dir);
     SUCCEED();
 }
+
+// 测试 D0 析构函数: 通过 new/delete 覆盖 deleting destructor
+// (单例使用静态局部变量，其析构由 C++ 运行时在进程退出后调用，
+//  coverage 统计在进程退出前完成，故需手动构造/析构以覆盖 D0)
+TEST_F(ut_imagefilewatcher, DeletingDestructor_NewDelete_NoCrash)
+{
+    ImageFileWatcher *watcher = new ImageFileWatcher();
+    ASSERT_NE(watcher, nullptr);
+    // 析构函数中仅输出日志，删除不崩溃
+    delete watcher;
+    SUCCEED();
+}
