@@ -311,7 +311,11 @@ static void ut_fth_stub_waitForFinished(QDBusPendingCall *)
 
 // 桩：QEventLoop::exec 直接发射 imageFileChanged 信号触发 lambda
 // 不处理任何事件，避免 DBus 残留事件导致崩溃
-static QString g_ut_fth_filePath;
+//
+// Stub 机制仅支持原始函数指针（不支持 std::function 或带捕获的 lambda），
+// 因此使用文件作用域指针间接传递测试局部状态，避免污染全局命名空间。
+// 指针仅在测试作用域内有效（指向栈变量），测试结束后置空。
+static QString *s_filePathPtr = nullptr;
 
 static int ut_fth_stub_loopExec(QEventLoop *self, QEventLoop::ProcessEventsFlags flags)
 {
@@ -319,7 +323,9 @@ static int ut_fth_stub_loopExec(QEventLoop *self, QEventLoop::ProcessEventsFlags
     Q_UNUSED(flags)
     // 直接发射信号，触发 moveFileToTrashWithDBus 内部的 lambda
     // lambda 在连接后通过信号同步调用，无需事件循环
-    ImageFileWatcher::instance()->imageFileChanged(g_ut_fth_filePath);
+    if (s_filePathPtr) {
+        ImageFileWatcher::instance()->imageFileChanged(*s_filePathPtr);
+    }
     return 0;
 }
 
@@ -341,11 +347,15 @@ TEST_F(ut_filetrashhelper, MoveFileToTrashWithDBus_Lambda_TriggersOnFileChanged)
     QUrl url = QUrl::fromLocalFile(filePath);
     ASSERT_TRUE(url.isValid());
 
-    // 设置全局文件路径供 stub 使用
-    g_ut_fth_filePath = filePath;
+    // 设置文件路径指针供 stub 使用（指向局部变量，RAII 保证作用域安全）
+    QString *prevPtr = s_filePathPtr;
+    s_filePathPtr = &filePath;
 
     // 调用 moveFileToTrashWithDBus，stub 在 loop.exec() 中直接发射信号触发 lambda
     int ret = helper.moveFileToTrashWithDBus(url);
+
+    // 恢复指针，避免悬垂引用
+    s_filePathPtr = prevPtr;
     // lambda 设置 waitRet = kTrashSuccess，函数应返回 kTrashSuccess
     EXPECT_EQ(ret, kUtTrashSuccess);
 }
