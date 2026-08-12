@@ -18,7 +18,7 @@
 #include <QCoreApplication>
 #include <QStandardPaths>
 #include <cstdlib>
-#include <stdexcept>
+#include <csetjmp>
 
 void ut_globalcontrol::SetUp()
 {
@@ -403,34 +403,32 @@ TEST_F(ut_globalcontrol, RotateImageFinished_TriggersConstructorLambda)
     SUCCEED();
 }
 
-// forceExit: stub _Exit 使用异常机制安全地中断 noreturn 函数
-// _Exit 声明为 noreturn，直接 stub 为空操作会导致编译器优化问题。
-// 使用异常可以触发正常的 C++ 栈展开，确保 Stub 和 GlobalControl 析构函数被调用。
-namespace {
-class ForceExitTestException : public std::exception {};
-}  // namespace
+// forceExit: stub _Exit 使用 setjmp/longjmp 安全地中断 noreturn 函数。
+// _Exit 在 <cstdlib> 中声明为 noexcept(true) 且 __noreturn__：
+//   - 直接 stub 为空操作并返回会违反 noreturn（UB）。
+//   - 通过抛异常中断会穿越 noexcept 边界，触发 std::terminate（UB）。
+// longjmp 不经过 C++ 异常机制，故 noexcept 边界不影响；
+// forceExit() / _Exit() 栈帧均无非平凡析构对象，longjmp 跨越它们是安全的。
+static jmp_buf ut_gc_exit_jmpbuf;
 
-[[noreturn]] static void ut_gc_stub_throwOnExit(int)
+[[noreturn]] static void ut_gc_stub_exit_longjmp(int)
 {
-    throw ForceExitTestException();
+    longjmp(ut_gc_exit_jmpbuf, 1);
 }
 
 TEST_F(ut_globalcontrol, ForceExit_Stubbed_NoTermination)
 {
     Stub stub;
-    stub.set(_Exit, ut_gc_stub_throwOnExit);
+    stub.set(_Exit, ut_gc_stub_exit_longjmp);
 
     GlobalControl control;
 
     // forceExit() 内部先调用 QApplication::exit(0)，再调用 _Exit(0)。
-    // _Exit 被 stub 替换为抛出异常，异常正常传播并触发栈展开。
-    try {
+    // _Exit 被 stub 替换为 longjmp，跳回 setjmp 调用点（返回值 1），避免进程终止。
+    if (setjmp(ut_gc_exit_jmpbuf) == 0) {
         control.forceExit();
-        FAIL() << "Expected ForceExitTestException but no exception was thrown";
-    } catch (const ForceExitTestException &) {
-        // 成功捕获异常，此时 control 和 stub 的析构函数将被正常调用
+        FAIL() << "Expected longjmp from _Exit stub but forceExit returned normally";
+    } else {
         SUCCEED();
-    } catch (...) {
-        FAIL() << "Caught unexpected exception";
     }
 }
