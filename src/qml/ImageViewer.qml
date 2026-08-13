@@ -674,7 +674,7 @@ Item {
                 }
             }
 
-            FloatingButton {
+            FloatingIconButton {
                 id: highlightTextButton
 
                 property bool isHighlight: false
@@ -706,13 +706,7 @@ Item {
                     rightMargin: 100
                 }
 
-                DciIcon {
-                    anchors.centerIn: parent
-                    height: 45
-                    name: "icon_recognition_highlight"
-                    palette: DTK.makeIconPalette(parent.palette)
-                    width: 45
-                }
+                iconName: "icon_recognition_highlight"
             }
         }
     }
