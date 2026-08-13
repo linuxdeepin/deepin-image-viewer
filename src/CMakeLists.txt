@@ -91,6 +91,7 @@ else()
             qml/SFadeInOut.qml
             qml/SliderShow.qml
             qml/ThumbnailListView.qml
+            qml/FloatingIconButton.qml
             qml/ViewRightMenu.qml
             qml/ViewTopTitle.qml
             qml/Dialog/RemoveDialog.qml
