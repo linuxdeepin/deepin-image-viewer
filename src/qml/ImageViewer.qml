@@ -677,6 +677,9 @@ Item {
             FloatingButton {
                 id: highlightTextButton
 
+                Accessible.name: "HighlightText"
+                Accessible.role: Accessible.Button
+
                 property bool isHighlight: false
 
                 checked: isHighlight

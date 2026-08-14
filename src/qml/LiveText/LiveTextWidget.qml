@@ -163,6 +163,9 @@ Item {
         MenuItem {
             id: copyItem
 
+            Accessible.name: text
+            Accessible.role: Accessible.MenuItem
+
             text: qsTr("Copy (Ctrl+C)")
 
             onTriggered: {
@@ -180,6 +183,9 @@ Item {
         }
 
         MenuItem {
+            Accessible.name: text
+            Accessible.role: Accessible.MenuItem
+
             text: qsTr("Select all (Ctrl+A)")
 
             onTriggered: {

@@ -110,6 +110,9 @@ Control {
             LineEdit {
                 id: nameedit
 
+                Accessible.name: "FileNameEdit"
+                Accessible.role: Accessible.EditableText
+
                 Layout.fillWidth: true
                 alertText: qsTr("The file already exists, please use another name")
                 color: control.ColorSelector.infoTextColor

@@ -11,6 +11,9 @@ import org.deepin.image.viewer 1.0 as IV
 DialogWindow {
     id: dialog
 
+    Accessible.name: fileName
+    Accessible.role: Accessible.Dialog
+
     property string fileName: IV.FileControl.slotGetFileNameSuffix(filePath)
     property url filePath: IV.GControl.currentSource
     property int leftX: 20

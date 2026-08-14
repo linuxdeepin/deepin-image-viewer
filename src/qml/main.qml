@@ -13,6 +13,9 @@ import org.deepin.image.viewer 1.0 as IV
 ApplicationWindow {
     id: window
 
+    Accessible.name: "ImageViewer"
+    Accessible.role: Accessible.Application
+
     property bool isFullScreen: window.visibility === Window.FullScreen
 
     signal sigTitlePress
