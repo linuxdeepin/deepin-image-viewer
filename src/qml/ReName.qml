@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -11,6 +11,9 @@ import org.deepin.image.viewer 1.0 as IV
 
 DialogWindow {
     id: renamedialog
+
+    Accessible.name: "RenameDlg"
+    Accessible.role: Accessible.Dialog
 
     property string filesuffix: ".jpg"
 

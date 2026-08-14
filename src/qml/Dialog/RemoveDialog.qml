@@ -9,6 +9,9 @@ import org.deepin.dtk 1.0
 DialogWindow {
     id: dialog
 
+    Accessible.name: "PermanentlyDelete"
+    Accessible.role: Accessible.Dialog
+
     property alias fileName: textMetics.text
     property int nameMaxWidth: 200
 
@@ -98,6 +101,8 @@ DialogWindow {
 
             Button {
                 height: 36
+                Accessible.name: text
+                Accessible.role: Accessible.Button
                 text: qsTr("Cancel")
                 width: 185
 
@@ -108,6 +113,8 @@ DialogWindow {
 
             RecommandButton {
                 height: 36
+                Accessible.name: text
+                Accessible.role: Accessible.Button
                 text: qsTr("Confirm")
                 width: 185
 

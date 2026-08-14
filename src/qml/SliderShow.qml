@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -224,6 +224,8 @@ Item {
         y: 600
 
         MenuItem {
+            Accessible.name: text
+            Accessible.role: Accessible.MenuItem
             text: autoRun ? qsTr("Pause") : qsTr("Play")
 
             onTriggered: {
@@ -245,6 +247,8 @@ Item {
         }
 
         MenuItem {
+            Accessible.name: text
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Exit")
 
             onTriggered: outSliderShow()

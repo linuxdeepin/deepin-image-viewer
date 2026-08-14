@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -28,6 +28,9 @@ Item {
 
         RecommandButton {
             id: openFileBtn
+
+            Accessible.name: text
+            Accessible.role: Accessible.Button
 
             Layout.preferredHeight: 35
             Layout.preferredWidth: 300
