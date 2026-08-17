@@ -80,7 +80,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom out</source>
-        <translation>Loitonna</translation>
+        <translation>Kauemmaksi</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
