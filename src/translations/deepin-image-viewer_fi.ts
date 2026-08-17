@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="fi">
 <context>
     <name>FileControl</name>
     <message>
@@ -77,7 +75,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Zoom in</source>
-        <translation>Lähennä</translation>
+        <translation>Lähemmäksi</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
