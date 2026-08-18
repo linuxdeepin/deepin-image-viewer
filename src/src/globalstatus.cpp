@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -168,6 +168,34 @@ void GlobalStatus::setViewFlicking(bool value)
         storeviewFlicking = value;
         Q_EMIT viewFlickingChanged();
         qCDebug(logImageViewer) << "viewFlicking changed to: " << storeviewFlicking << ", emitting viewFlickingChanged.";
+    }
+}
+
+bool GlobalStatus::editMode() const
+{
+    return storeEditMode;
+}
+
+void GlobalStatus::setEditMode(bool value)
+{
+    if (value != storeEditMode) {
+        storeEditMode = value;
+        Q_EMIT editModeChanged();
+        qCDebug(logImageViewer) << "editMode changed to:" << storeEditMode;
+    }
+}
+
+bool GlobalStatus::editModified() const
+{
+    return storeEditModified;
+}
+
+void GlobalStatus::setEditModified(bool value)
+{
+    if (value != storeEditModified) {
+        storeEditModified = value;
+        Q_EMIT editModifiedChanged();
+        qCDebug(logImageViewer) << "editModified changed to:" << storeEditModified;
     }
 }
 
