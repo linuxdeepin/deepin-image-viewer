@@ -13,22 +13,29 @@ DTK.Control {
     property string currentTool: "pen"
     property string blurMode: "gaussian"
     property color currentColor: "#f82a2a"
+    property int effectStrength: 15
     property string textMode: "plain"
     property int thickness: 2
     readonly property color themeTextColor: Qt.rgba(0, 0, 0, 0.7)
 
     signal blurModeSelected(string mode)
     signal colorSelected(color value)
+    signal effectStrengthSelected(int value)
     signal textModeSelected(string mode)
     signal thicknessSelected(int value)
 
     readonly property bool isTextTool: currentTool === "text"
     readonly property bool isEffectTool: currentTool === "blur"
 
+    onBlurModeChanged: {
+        effectStrength = blurMode === "gaussian" ? 15 : 16;
+        effectStrengthSelected(effectStrength);
+    }
+
     Accessible.name: qsTr("Tool properties")
     Accessible.role: Accessible.Pane
     implicitHeight: 56
-    implicitWidth: isEffectTool ? 349 : isTextTool ? 229 : 311
+    implicitWidth: isEffectTool ? 367 : isTextTool ? 265 : 333
     padding: 0
 
     background: Rectangle {
@@ -66,6 +73,34 @@ DTK.Control {
         }
     }
 
+    component ThicknessDot: Item {
+        height: 36
+        width: 36
+
+        Rectangle {
+            anchors.centerIn: parent
+            color: propertyPanel.currentColor
+            height: 2 + (propertyPanel.thickness - 1) * 12 / 49
+            radius: height / 2
+            width: height
+        }
+    }
+
+    component EffectIcon: DTK.ToolButton {
+        required property int iconSize
+
+        display: AbstractButton.IconOnly
+        height: 36
+        icon.color: propertyPanel.themeTextColor
+        icon.height: iconSize
+        icon.name: propertyPanel.blurMode === "mosaic" ? "edit_mosaic"
+                  : propertyPanel.blurMode === "graffiti" ? "edit_graffiti"
+                  : "edit_blur"
+        icon.width: iconSize
+        padding: 0
+        width: iconSize
+    }
+
     component Separator: Item {
         height: 36
         width: 13
@@ -82,18 +117,18 @@ DTK.Control {
 
     component ColorPalette: Item {
         height: 36
-        width: 114
+        width: 136
 
         Grid {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            columns: 5
+            columns: 6
             columnSpacing: 6
             rowSpacing: 6
 
             Repeater {
-                model: ["#000000", "#7d7d7d", "#ffffff", "#f82a2a", "#ff8100",
-                        "#fff100", "#1ee9a8", "#006d06", "#0089f7", "#7600ac"]
+                model: ["#000000", "#7d7d7d", "#ffffff", "#f82a2a", "#ff8100", "#fff100",
+                        "#99e338", "#006d06", "#00b7c3", "#0089f7", "#7600ac", "#003781"]
 
                 delegate: Rectangle {
                     id: swatch
@@ -126,19 +161,6 @@ DTK.Control {
                 }
             }
         }
-
-        Rectangle {
-            anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
-            border.color: "white"
-            border.width: 2
-            color: propertyPanel.currentColor
-            height: 18
-            radius: 9
-            width: 18
-
-            TapHandler { onTapped: colorDialog.open() }
-        }
     }
 
     contentItem: Item {
@@ -148,6 +170,7 @@ DTK.Control {
             anchors.leftMargin: 10
             anchors.top: parent.top
             anchors.topMargin: 10
+            spacing: 8
             visible: propertyPanel.isTextTool
 
             ModeButton {
@@ -178,28 +201,22 @@ DTK.Control {
             anchors.leftMargin: 10
             anchors.top: parent.top
             anchors.topMargin: 10
+            spacing: 8
             visible: propertyPanel.isEffectTool
 
             ModeButton { iconPath: "edit_blur"; selected: propertyPanel.blurMode === "gaussian"; DTK.ToolTip.text: qsTr("Gaussian Blur"); onClicked: { propertyPanel.blurMode = "gaussian"; propertyPanel.blurModeSelected("gaussian"); } }
             ModeButton { iconPath: "edit_mosaic"; selected: propertyPanel.blurMode === "mosaic"; DTK.ToolTip.text: qsTr("Mosaic"); onClicked: { propertyPanel.blurMode = "mosaic"; propertyPanel.blurModeSelected("mosaic"); } }
             ModeButton { iconPath: "edit_graffiti"; selected: propertyPanel.blurMode === "graffiti"; DTK.ToolTip.text: qsTr("Graffiti"); onClicked: { propertyPanel.blurMode = "graffiti"; propertyPanel.blurModeSelected("graffiti"); } }
             Separator { }
-            DTK.Label {
-                color: propertyPanel.themeTextColor
-                height: 36
-                horizontalAlignment: Text.AlignHCenter
-                text: "Aa"
-                verticalAlignment: Text.AlignVCenter
-                width: 36
-            }
+            EffectIcon { iconSize: 12 }
             DTK.Slider {
                 id: effectSlider
 
-                from: 1
+                from: propertyPanel.blurMode === "gaussian" ? 5 : 8
                 height: 36
                 stepSize: 1
-                to: 50
-                value: propertyPanel.thickness
+                to: propertyPanel.blurMode === "gaussian" ? 30 : 32
+                value: propertyPanel.effectStrength
                 width: 120
                 background: Rectangle {
                     color: Qt.rgba(propertyPanel.themeTextColor.r,
@@ -229,10 +246,11 @@ DTK.Control {
                     y: effectSlider.topPadding + effectSlider.availableHeight / 2 - height / 2
                 }
                 onMoved: {
-                    propertyPanel.thickness = Math.round(value);
-                    propertyPanel.thicknessSelected(propertyPanel.thickness);
+                    propertyPanel.effectStrength = Math.round(value);
+                    propertyPanel.effectStrengthSelected(propertyPanel.effectStrength);
                 }
             }
+            EffectIcon { iconSize: 24 }
         }
 
         Row {
@@ -241,16 +259,10 @@ DTK.Control {
             anchors.leftMargin: 10
             anchors.top: parent.top
             anchors.topMargin: 10
+            spacing: 8
             visible: !propertyPanel.isTextTool && !propertyPanel.isEffectTool
 
-            DTK.Label {
-                color: propertyPanel.themeTextColor
-                height: 36
-                horizontalAlignment: Text.AlignHCenter
-                text: "Aa"
-                verticalAlignment: Text.AlignVCenter
-                width: 36
-            }
+            ThicknessDot { }
             DTK.Slider {
                 id: strokeSlider
 
