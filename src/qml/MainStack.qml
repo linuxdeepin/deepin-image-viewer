@@ -13,6 +13,24 @@ Item {
     Accessible.name: IV.GStatus.stackPage === Number(IV.Types.ImageViewPage) ? qsTr("Image view") : qsTr("Open image")
     Accessible.role: Accessible.Pane
 
+    signal saveEditCopyRequested
+
+    function requestExitEditMode() {
+        if (!IV.GStatus.editMode) {
+            return;
+        }
+        if (IV.GStatus.editModified) {
+            unsavedEditDialog.open();
+        } else {
+            IV.GStatus.editMode = false;
+        }
+    }
+
+    function saveEditCopyAndExit() {
+        if (contentLoader.item && contentLoader.item.openSaveDialog)
+            contentLoader.item.openSaveDialog(true);
+    }
+
     // 打开图片对话框
     function openImageDialog() {
         if (Loader.Ready === fileDialogLoader.status) {
@@ -168,6 +186,72 @@ Item {
             // 不在动画展示状态
             if (Number(IV.Types.SliderShowPage) !== IV.GStatus.stackPage) {
                 openImageDialog();
+            }
+        }
+    }
+
+    // 进入图片编辑模式
+    Shortcut {
+        autoRepeat: false
+        enabled: IV.GStatus.stackPage === Number(IV.Types.ImageViewPage)
+                  && IV.GControl.currentSource.toString() !== ""
+                  && IV.ImageEditor.canEdit(IV.GControl.currentSource)
+                  && !IV.GStatus.editMode
+        sequence: "Ctrl+Shift+E"
+
+        onActivated: IV.GStatus.editMode = true
+    }
+
+    // 退出图片编辑模式；未保存状态确认由编辑会话接入后统一处理。
+    Shortcut {
+        autoRepeat: false
+        enabled: IV.GStatus.editMode
+        sequence: "Esc"
+
+        onActivated: requestExitEditMode()
+    }
+
+    Dialog {
+        id: unsavedEditDialog
+
+        modal: true
+        standardButtons: Dialog.NoButton
+        title: qsTr("Image Modified")
+
+        anchors.centerIn: parent
+
+        contentItem: Column {
+            spacing: 16
+
+            Label {
+                text: qsTr("The current image has unsaved changes. Save?")
+                wrapMode: Text.WordWrap
+            }
+
+            Row {
+                spacing: 8
+
+                Button {
+                    text: qsTr("Cancel")
+                    onClicked: unsavedEditDialog.close()
+                }
+
+                Button {
+                    text: qsTr("Don't Save")
+                    onClicked: {
+                        IV.GStatus.editModified = false;
+                        IV.GStatus.editMode = false;
+                        unsavedEditDialog.close();
+                    }
+                }
+
+                Button {
+                    text: qsTr("Save Copy")
+                    onClicked: {
+                        stackView.saveEditCopyAndExit();
+                        unsavedEditDialog.close();
+                    }
+                }
             }
         }
     }

@@ -54,11 +54,19 @@ BaseImageDelegate {
             // Do not retain the old texture while changing images; retain it only for same-image scale upgrades.
             sourceUpdatePending = true
             // 由于会 resetSource() 破坏绑定，因此重新设置源数据
-            image.source = "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex;
+            image.source = delegate.editSource();
         } else {
             sourceUpdatePending = false
             image.source = "";
         }
+    }
+
+    function editSource() {
+        if (delegate.isCurrentImage && IV.GStatus.editMode
+                && IV.ImageEditor.isEditing(delegate.source, delegate.frameIndex)) {
+            return "image://EditedImage/current?revision=" + IV.ImageEditor.revision;
+        }
+        return "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex;
     }
 
     inputHandler: imageInput
@@ -78,7 +86,7 @@ BaseImageDelegate {
         mipmap: true
         scale: 1.0
         smooth: true
-        source: "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex
+        source: delegate.editSource()
         sourceSize: delegate.isCurrentImage ? (delegate.rapidSwitching
                                                  ? delegate.rapidSwitchPreviewSize()
                                                  : sourceSizeOptimizer.optimizedSourceSize)
@@ -103,6 +111,20 @@ BaseImageDelegate {
                 }
             }
         }
+    }
+
+
+    Connections {
+        function onActiveChanged() { delegate.updateSource() }
+        function onRevisionChanged() { delegate.updateSource() }
+
+        target: IV.ImageEditor
+    }
+
+    Connections {
+        function onEditModeChanged() { delegate.updateSource() }
+
+        target: IV.GStatus
     }
 
     SourceSizeOptimizer {
