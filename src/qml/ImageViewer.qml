@@ -344,7 +344,7 @@ Item {
         focus: true
         height: window.isFullScreen ? parent.height : (parent.height - (IV.GStatus.titleHeight * 2))
         // 动画过程中不允许拖拽
-        interactive: !IV.GStatus.fullScreenAnimating && IV.GStatus.viewInteractive && !offsetAnimation.running
+        interactive: !IV.GStatus.editMode && !IV.GStatus.fullScreenAnimating && IV.GStatus.viewInteractive && !offsetAnimation.running
         model: IV.GControl.viewModel
         // 设置滑动视图的父组件以获取完整的OCR图片信息
         parent: viewBackground
@@ -461,6 +461,10 @@ Item {
 
             var curIndex = view.currentIndex;
             var previousIndex = IV.GControl.viewModel.currentIndex;
+            // Reloading the edited image provider can briefly move PathView's
+            // index. Editing must never turn that layout change into navigation.
+            if (IV.GStatus.editMode)
+                return;
             var lastIndex = view.count - 1;
 
             // 若索引变更通过model触发，则没有必要更新

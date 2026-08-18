@@ -66,7 +66,7 @@ Control {
     }
 
     function next() {
-        if (repeatTimer.running) {
+        if (IV.GStatus.editMode || repeatTimer.running) {
             return;
         }
         repeatTimer.start();
@@ -78,7 +78,7 @@ Control {
     }
 
     function previous() {
-        if (repeatTimer.running) {
+        if (IV.GStatus.editMode || repeatTimer.running) {
             return;
         }
         repeatTimer.start();
@@ -165,6 +165,7 @@ Control {
             }
 
             Shortcut {
+                enabled: !IV.GStatus.editMode
                 sequence: "Left"
 
                 onActivated: {
@@ -190,6 +191,7 @@ Control {
             onClicked: next()
 
             Shortcut {
+                enabled: !IV.GStatus.editMode
                 sequence: "Right"
 
                 onActivated: {

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -47,7 +47,7 @@ Menu {
         }
 
         Shortcut {
-            enabled: window.isFullScreen
+            enabled: window.isFullScreen && !IV.GStatus.editMode
             sequence: "Esc"
 
             onActivated: rightFullscreen.switchFullScreen()
@@ -168,7 +168,7 @@ Menu {
         }
 
         Shortcut {
-            enabled: deletable && parent.enabled
+            enabled: !IV.GStatus.editMode && deletable && parent.enabled
             sequence: "Delete"
 
             onActivated: {

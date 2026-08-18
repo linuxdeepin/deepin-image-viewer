@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -75,10 +75,12 @@ Item {
             }
         }
 
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        // Editing owns the left button for drawing; this layer only keeps
+        // right-button panning and wheel zoom active in that mode.
+        acceptedButtons: IV.GStatus.editMode ? Qt.RightButton : Qt.LeftButton | Qt.RightButton
         anchors.fill: parent
         drag.axis: Drag.XAndYAxis
-        drag.target: targetImage ? targetImage : undefined
+        drag.target: targetImage && (!IV.GStatus.editMode || (pressedButtons & Qt.RightButton)) ? targetImage : undefined
         propagateComposedEvents: true
 
         onDoubleClicked: {
@@ -90,7 +92,7 @@ Item {
         onPressAndHold: {
         }
         onPressed: mouse => {
-            if (Qt.RightButton === mouse.button) {
+            if (Qt.RightButton === mouse.button && !IV.GStatus.editMode) {
                 IV.GStatus.showRightMenu = true;
             }
         }
@@ -101,7 +103,7 @@ Item {
             var detla = wheel.angleDelta.y / 120;
             // 通过Keys缓存的状态可能不准确，在焦点移出时release事件没有正确捕获，
             // 修改为通过当前事件传入的按键按下信息判断
-            if (Qt.ControlModifier & wheel.modifiers) {
+            if (!IV.GStatus.editMode && (Qt.ControlModifier & wheel.modifiers)) {
                 detla > 0 ? IV.GControl.previousImage() : IV.GControl.nextImage();
             } else {
                 if (undefined === imageInput.targetImage) {
@@ -143,7 +145,7 @@ Item {
         property double oldScale: 0
 
         anchors.fill: parent
-        enabled: null !== targetImage
+        enabled: null !== targetImage && !IV.GStatus.editMode
 
         onPinchFinished: {
             // 更新界面缩放大小
