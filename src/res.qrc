@@ -42,5 +42,22 @@
         <file>dsg/icons/photo_breach-thumbnail-little.dci</file>
         <file>dsg/icons/photo_breach.dci</file>
         <file>dsg/icons/icon_recognition_highlight.dci</file>
+        <file>dsg/icons/edit_pen.dci</file>
+        <file>dsg/icons/edit_line.dci</file>
+        <file>dsg/icons/edit_arrow.dci</file>
+        <file>dsg/icons/edit_rect.dci</file>
+        <file>dsg/icons/edit_ellipse.dci</file>
+        <file>dsg/icons/edit_text.dci</file>
+        <file>dsg/icons/edit_number.dci</file>
+        <file>dsg/icons/edit_blur.dci</file>
+        <file>dsg/icons/edit_mosaic.dci</file>
+        <file>dsg/icons/edit_graffiti.dci</file>
+        <file>dsg/icons/edit_crop.dci</file>
+        <file>dsg/icons/edit_undo.dci</file>
+        <file>dsg/icons/edit_redo.dci</file>
+        <file>dsg/icons/edit_close.dci</file>
+        <file>dsg/icons/edit_entry.dci</file>
+        <file>dsg/icons/edit_rotate.dci</file>
+        <file>dsg/icons/edit_save.dci</file>
     </qresource>
 </RCC>

@@ -4,6 +4,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
 import QtQuick.Window
 import Qt5Compat.GraphicalEffects
 import org.deepin.dtk 1.0
@@ -18,6 +19,23 @@ Item {
 
     // 是否启用动画效果，用于强制更新组件位置而不使用动画效果
     property bool enableAnimation: false
+    property bool exitAfterSave: false
+    property url pendingSaveUrl: ""
+
+    function openSaveDialog(shouldExit) {
+        exitAfterSave = shouldExit;
+        saveDialog.currentFile = IV.ImageEditor.defaultSaveUrl();
+        saveDialog.open();
+    }
+
+    function saveTo(destination) {
+        if (!IV.ImageEditor.saveComposite(destination, editCanvas.collectAnnotations()))
+            return;
+        IV.ImageEditor.markSaved();
+        IV.GStatus.editModified = false;
+        if (exitAfterSave)
+            IV.GStatus.editMode = false;
+    }
 
     // 鼠标是否进入当前的视图
     property bool isEnterCurrentView: false
@@ -178,6 +196,9 @@ Item {
 
     Component.onCompleted: {
         changeSizeMoveAll();
+        if (IV.GStatus.editMode)
+            IV.ImageEditor.beginEdit(IV.GControl.currentSource, IV.GControl.currentFrameIndex);
+        editCanvas.initializeHistory();
     }
     onHeightChanged: {
         changeSizeMoveAll();
@@ -197,6 +218,83 @@ Item {
         onTargetImageReadyChanged: {
             delayAnimationTimer.start();
         }
+    }
+
+    EditCanvas {
+        id: editCanvas
+
+        blurMode: editToolbar.blurMode
+        currentColor: editPropertyPanel.currentColor
+        currentTool: editToolbar.currentTool
+        height: imageViewer.targetImageReady
+                ? imageViewer.targetImage.paintedHeight * imageViewer.targetImage.scale : 0
+        textMode: editToolbar.textMode
+        thickness: editPropertyPanel.thickness
+        visible: IV.GStatus.editMode && imageViewer.targetImageReady
+        width: imageViewer.targetImageReady
+               ? imageViewer.targetImage.paintedWidth * imageViewer.targetImage.scale : 0
+        x: {
+            if (!imageViewer.targetImageReady) return 0;
+            // Keep the binding sensitive to image transforms used by mapToItem().
+            imageViewer.targetImage.x;
+            imageViewer.targetImage.y;
+            imageViewer.targetImage.scale;
+            var origin = imageViewer.targetImage.mapToItem(fullThumbnail,
+                                                           (imageViewer.targetImage.width
+                                                            - imageViewer.targetImage.paintedWidth) / 2,
+                                                           (imageViewer.targetImage.height
+                                                            - imageViewer.targetImage.paintedHeight) / 2);
+            return origin.x;
+        }
+        y: {
+            if (!imageViewer.targetImageReady) return 0;
+            imageViewer.targetImage.x;
+            imageViewer.targetImage.y;
+            imageViewer.targetImage.scale;
+            var origin = imageViewer.targetImage.mapToItem(fullThumbnail,
+                                                           (imageViewer.targetImage.width
+                                                            - imageViewer.targetImage.paintedWidth) / 2,
+                                                           (imageViewer.targetImage.height
+                                                            - imageViewer.targetImage.paintedHeight) / 2);
+            return origin.y;
+        }
+        z: 100
+
+        onStrokeCommitted: {
+            editCanvas.commitHistory();
+            IV.ImageEditor.commitHistory();
+            IV.GStatus.editModified = true;
+        }
+        onEffectRequested: (effect, normalizedRect, strength) => {
+            if (IV.ImageEditor.applyEffect(effect, normalizedRect, strength))
+                editCanvas.strokeCommitted();
+        }
+        onCropRequested: normalizedRect => {
+            if (IV.ImageEditor.crop(normalizedRect))
+                editCanvas.finishCrop();
+        }
+    }
+
+    Shortcut {
+        enabled: IV.GStatus.editMode && editCanvas.selectedIndex >= 0
+        sequence: "Delete"
+        onActivated: editCanvas.removeSelected()
+    }
+
+    Connections {
+        function onEditModeChanged() {
+            if (IV.GStatus.editMode) {
+                IV.ImageEditor.beginEdit(IV.GControl.currentSource, IV.GControl.currentFrameIndex);
+                editCanvas.clear();
+                editCanvas.initializeHistory();
+            } else {
+                IV.ImageEditor.discard();
+                editCanvas.clear();
+                editCanvas.initializeHistory();
+            }
+        }
+
+        target: IV.GStatus
     }
 
     // 缩放变更时触发显示/隐藏标题栏/底部栏
@@ -242,7 +340,7 @@ Item {
         enabled: IV.GControl.hasPreviousImage
         height: 50
         icon.name: "icon_previous"
-        visible: enabled
+        visible: enabled && !IV.GStatus.editMode
         width: 50
 
         Behavior on x {
@@ -278,7 +376,7 @@ Item {
         enabled: IV.GControl.hasNextImage
         height: 50
         icon.name: "icon_next"
-        visible: enabled
+        visible: enabled && !IV.GStatus.editMode
         width: 50
 
         Behavior on x {
@@ -308,7 +406,7 @@ Item {
         property bool usingCapture: false // 是否使用定时捕获光标位置
 
         acceptedButtons: Qt.LeftButton
-        enabled: !IV.GStatus.delayInit
+        enabled: !IV.GStatus.delayInit && !IV.GStatus.editMode
         hoverEnabled: true
 
         onPositionChanged: {
@@ -378,6 +476,7 @@ Item {
         targetImage: imageViewer.targetImage
         // 根据拓展的列表宽度计算, 20px为工具栏和主窗口间的间距 2x10px
         width: parent.width - 20 < btnContentWidth + listContentWidth ? parent.width - 20 : btnContentWidth + listContentWidth
+        visible: !IV.GStatus.editMode
         y: Window.height - IV.GStatus.showBottomY
 
         background: FloatingPanel {
@@ -409,6 +508,113 @@ Item {
 
             onTriggered: thumbnailViewBackGround.updatePosition()
         }
+    }
+
+    EditToolbar {
+        id: editToolbar
+
+        canRedo: IV.ImageEditor.canRedo
+        canUndo: IV.ImageEditor.canUndo
+        visible: IV.GStatus.editMode
+        z: editCanvas.z + 1
+
+        anchors {
+            bottom: parent.bottom
+            bottomMargin: 10
+            horizontalCenter: parent.horizontalCenter
+        }
+
+        onCloseRequested: stackView.requestExitEditMode()
+        onRedoRequested: {
+            if (IV.ImageEditor.redo() && editCanvas.redoHistory())
+                IV.GStatus.editModified = IV.ImageEditor.modified;
+        }
+        onSaveRequested: fullThumbnail.openSaveDialog(false)
+        onUndoRequested: {
+            if (IV.ImageEditor.undo() && editCanvas.undoHistory())
+                IV.GStatus.editModified = IV.ImageEditor.modified;
+        }
+    }
+
+    FileDialog {
+        id: saveDialog
+
+        acceptLabel: qsTr("Save")
+        fileMode: FileDialog.SaveFile
+        nameFilters: {
+            var suffix = IV.GControl.currentSource.toString().split(".").pop().toUpperCase();
+            return [suffix + " (*." + suffix.toLowerCase() + ")"];
+        }
+        title: qsTr("Save Copy")
+
+        onAccepted: {
+            fullThumbnail.pendingSaveUrl = selectedFile;
+            if (IV.ImageEditor.isOriginalUrl(selectedFile))
+                overwriteDialog.open();
+            else
+                fullThumbnail.saveTo(selectedFile);
+        }
+    }
+
+    Dialog {
+        id: overwriteDialog
+
+        anchors.centerIn: parent
+        modal: true
+        standardButtons: Dialog.Yes | Dialog.No
+        title: qsTr("Overwrite Original Image")
+
+        contentItem: Label {
+            text: qsTr("This operation will overwrite the original image and cannot be undone. Continue?")
+            wrapMode: Text.WordWrap
+        }
+
+        onAccepted: fullThumbnail.saveTo(fullThumbnail.pendingSaveUrl)
+    }
+
+    Dialog {
+        id: saveErrorDialog
+
+        property string message: ""
+
+        anchors.centerIn: parent
+        modal: true
+        standardButtons: Dialog.Ok
+        title: qsTr("Save Failed")
+
+        contentItem: Label { text: saveErrorDialog.message; wrapMode: Text.WordWrap }
+    }
+
+    Connections {
+        function onSaveFailed(message) {
+            saveErrorDialog.message = message;
+            saveErrorDialog.open();
+        }
+
+        target: IV.ImageEditor
+    }
+
+    EditPropertyPanel {
+        id: editPropertyPanel
+
+        visible: IV.GStatus.editMode && editToolbar.currentTool !== "crop"
+        z: editToolbar.z
+        blurMode: editToolbar.blurMode
+        currentTool: editToolbar.currentTool
+        textMode: editToolbar.textMode
+
+        anchors {
+            bottom: editToolbar.top
+            bottomMargin: 10
+            left: editToolbar.left
+        }
+
+        onBlurModeSelected: mode => editToolbar.blurMode = mode
+        onColorSelected: editCanvas.updateSelectedStyle(editPropertyPanel.currentColor,
+                                                        editPropertyPanel.thickness)
+        onTextModeSelected: mode => editToolbar.textMode = mode
+        onThicknessSelected: editCanvas.updateSelectedStyle(editPropertyPanel.currentColor,
+                                                            editPropertyPanel.thickness)
     }
 
     //浮动提示框

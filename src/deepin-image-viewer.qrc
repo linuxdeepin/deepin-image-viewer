@@ -6,6 +6,9 @@
         <file>qml/ImageViewer.qml</file>
         <file>qml/ThumbnailListView.qml</file>
         <file>qml/FullImageView.qml</file>
+        <file>qml/EditToolbar.qml</file>
+        <file>qml/EditPropertyPanel.qml</file>
+        <file>qml/EditCanvas.qml</file>
         <file>qml/ReName.qml</file>
         <file>qml/NavigationWidget.qml</file>
         <file>qml/SliderShow.qml</file>
