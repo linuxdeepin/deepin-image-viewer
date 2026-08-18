@@ -19,6 +19,7 @@ DTK.Control {
 
     signal closeRequested
     signal redoRequested
+    signal rotateRequested
     signal saveRequested
     signal toolSelected(string tool)
     signal undoRequested
@@ -118,6 +119,7 @@ DTK.Control {
         }
 
         Separator { }
+        ToolbarButton { iconPath: "edit_rotate"; DTK.ToolTip.text: qsTr("Rotate"); onClicked: editToolbar.rotateRequested() }
         ToolSelectButton { tool: "crop"; iconPath: "edit_crop"; DTK.ToolTip.text: qsTr("Crop") + " (X)" }
         ToolbarButton { enabled: editToolbar.canUndo; iconPath: "edit_undo"; DTK.ToolTip.text: qsTr("Undo") + " (Ctrl+Z)"; onClicked: editToolbar.undoRequested() }
         ToolbarButton { enabled: editToolbar.canRedo; iconPath: "edit_redo"; DTK.ToolTip.text: qsTr("Redo") + " (Ctrl+Y)"; onClicked: editToolbar.redoRequested() }

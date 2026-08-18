@@ -226,6 +226,7 @@ Item {
         blurMode: editToolbar.blurMode
         currentColor: editPropertyPanel.currentColor
         currentTool: editToolbar.currentTool
+        effectStrength: editPropertyPanel.effectStrength
         height: imageViewer.targetImageReady
                 ? imageViewer.targetImage.paintedHeight * imageViewer.targetImage.scale : 0
         textMode: editToolbar.textMode
@@ -529,6 +530,7 @@ Item {
             if (IV.ImageEditor.redo() && editCanvas.redoHistory())
                 IV.GStatus.editModified = IV.ImageEditor.modified;
         }
+        onRotateRequested: editCanvas.rotateSelected()
         onSaveRequested: fullThumbnail.openSaveDialog(false)
         onUndoRequested: {
             if (IV.ImageEditor.undo() && editCanvas.undoHistory())

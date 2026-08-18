@@ -13,6 +13,7 @@ Item {
 
     property color currentColor: "#e53935"
     property string currentTool: "pen"
+    property int effectStrength: 15
     property int selectedIndex: -1
     property var strokes: []
     property string blurMode: "gaussian"
@@ -106,7 +107,11 @@ Item {
             { name: "top", x: (bounds.left + bounds.right) / 2, y: bounds.top },
             { name: "right", x: bounds.right, y: (bounds.top + bounds.bottom) / 2 },
             { name: "bottom", x: (bounds.left + bounds.right) / 2, y: bounds.bottom },
-            { name: "left", x: bounds.left, y: (bounds.top + bounds.bottom) / 2 }
+            { name: "left", x: bounds.left, y: (bounds.top + bounds.bottom) / 2 },
+            { name: "topLeft", x: bounds.left, y: bounds.top },
+            { name: "topRight", x: bounds.right, y: bounds.top },
+            { name: "bottomLeft", x: bounds.left, y: bounds.bottom },
+            { name: "bottomRight", x: bounds.right, y: bounds.bottom }
         ];
         for (var i = 0; i < handles.length; ++i) {
             if (Math.abs(x - handles[i].x) <= 7 && Math.abs(y - handles[i].y) <= 7)
@@ -180,6 +185,22 @@ Item {
         selectedIndex = -1;
         strokeCommitted();
         drawingCanvas.requestPaint();
+    }
+
+    function rotateSelected() {
+        if (selectedIndex < 0 || selectedIndex >= strokes.length) return;
+        var stroke = strokes[selectedIndex];
+        var bounds = boundsFor(stroke);
+        var centerX = (bounds.left + bounds.right) / 2;
+        var centerY = (bounds.top + bounds.bottom) / 2;
+        var rotated = [];
+        for (var i = 0; i < stroke.points.length; ++i) {
+            var dx = stroke.points[i].x - centerX;
+            var dy = stroke.points[i].y - centerY;
+            rotated.push(Qt.point(centerX - dy, centerY + dx));
+        }
+        replaceStroke(selectedIndex, Object.assign({}, stroke, { points: rotated }));
+        strokeCommitted();
     }
 
     function updateSelectedStyle(color, width) {
@@ -476,7 +497,11 @@ Item {
                     [(bounds.left + bounds.right) / 2, bounds.top],
                     [bounds.right, (bounds.top + bounds.bottom) / 2],
                     [(bounds.left + bounds.right) / 2, bounds.bottom],
-                    [bounds.left, (bounds.top + bounds.bottom) / 2]
+                    [bounds.left, (bounds.top + bounds.bottom) / 2],
+                    [bounds.left, bounds.top],
+                    [bounds.right, bounds.top],
+                    [bounds.left, bounds.bottom],
+                    [bounds.right, bounds.bottom]
                 ];
                 for (var h = 0; h < handles.length; ++h) {
                     context.beginPath();
@@ -607,37 +632,51 @@ Item {
                     var right = originalBounds.right;
                     var top = originalBounds.top;
                     var bottom = originalBounds.bottom;
+                    var handle = drawingCanvas.resizeHandle;
                     var resizedPoints = [];
                     if (selected.type === "rect" || selected.type === "ellipse") {
-                        if (drawingCanvas.resizeHandle === "left") left = mouse.x;
-                        else if (drawingCanvas.resizeHandle === "right") right = mouse.x;
-                        else if (drawingCanvas.resizeHandle === "top") top = mouse.y;
-                        else if (drawingCanvas.resizeHandle === "bottom") bottom = mouse.y;
+                        if (handle.indexOf("Left") >= 0) left = mouse.x;
+                        if (handle.indexOf("Right") >= 0) right = mouse.x;
+                        if (handle.indexOf("top") === 0) top = mouse.y;
+                        if (handle.indexOf("bottom") === 0) bottom = mouse.y;
+                        if (handle === "left") left = mouse.x;
+                        else if (handle === "right") right = mouse.x;
+                        else if (handle === "top") top = mouse.y;
+                        else if (handle === "bottom") bottom = mouse.y;
                         resizedPoints = [Qt.point(left, top), Qt.point(right, bottom)];
                     } else {
-                        var centerX = (left + right) / 2;
-                        var centerY = (top + bottom) / 2;
-                        var anchorX = centerX;
-                        var anchorY = centerY;
-                        var scale = 1;
-                        if (drawingCanvas.resizeHandle === "left" && originalBounds.width > 0) {
-                            anchorX = right;
-                            scale = (right - mouse.x) / originalBounds.width;
-                        } else if (drawingCanvas.resizeHandle === "right" && originalBounds.width > 0) {
-                            anchorX = left;
-                            scale = (mouse.x - left) / originalBounds.width;
-                        } else if (drawingCanvas.resizeHandle === "top" && originalBounds.height > 0) {
-                            anchorY = bottom;
-                            scale = (bottom - mouse.y) / originalBounds.height;
-                        } else if (drawingCanvas.resizeHandle === "bottom" && originalBounds.height > 0) {
-                            anchorY = top;
-                            scale = (mouse.y - top) / originalBounds.height;
+                        var anchorX = (left + right) / 2;
+                        var anchorY = (top + bottom) / 2;
+                        var scaleX = 1;
+                        var scaleY = 1;
+                        if (handle === "left" || handle === "topLeft" || handle === "bottomLeft") {
+                            if (originalBounds.width > 0) {
+                                anchorX = right;
+                                scaleX = (right - mouse.x) / originalBounds.width;
+                            }
+                        } else if (handle === "right" || handle === "topRight" || handle === "bottomRight") {
+                            if (originalBounds.width > 0) {
+                                anchorX = left;
+                                scaleX = (mouse.x - left) / originalBounds.width;
+                            }
                         }
-                        scale = Math.max(0.05, scale);
+                        if (handle === "top" || handle === "topLeft" || handle === "topRight") {
+                            if (originalBounds.height > 0) {
+                                anchorY = bottom;
+                                scaleY = (bottom - mouse.y) / originalBounds.height;
+                            }
+                        } else if (handle === "bottom" || handle === "bottomLeft" || handle === "bottomRight") {
+                            if (originalBounds.height > 0) {
+                                anchorY = top;
+                                scaleY = (mouse.y - top) / originalBounds.height;
+                            }
+                        }
+                        scaleX = Math.max(0.05, scaleX);
+                        scaleY = Math.max(0.05, scaleY);
                         for (var p = 0; p < drawingCanvas.originalPoints.length; ++p) {
                             var original = drawingCanvas.originalPoints[p];
-                            resizedPoints.push(Qt.point(anchorX + (original.x - anchorX) * scale,
-                                                        anchorY + (original.y - anchorY) * scale));
+                            resizedPoints.push(Qt.point(anchorX + (original.x - anchorX) * scaleX,
+                                                        anchorY + (original.y - anchorY) * scaleY));
                         }
                     }
                     var resized = Object.assign({}, selected, { points: resizedPoints });
@@ -721,7 +760,7 @@ Item {
                         editCanvas.effectRequested(editCanvas.blurMode,
                                                    Qt.rect(left / editCanvas.width, top / editCanvas.height,
                                                            effectWidth / editCanvas.width, effectHeight / editCanvas.height),
-                                                   editCanvas.thickness);
+                                                   editCanvas.effectStrength);
                     }
                     drawingCanvas.interaction = "";
                     drawingCanvas.activePoints = [];
