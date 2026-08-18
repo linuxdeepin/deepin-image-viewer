@@ -81,7 +81,10 @@ else()
         VERSION 1.0
         QML_FILES
             qml/main.qml
-            qml/FullImageView.qml
+        qml/FullImageView.qml
+        qml/EditToolbar.qml
+        qml/EditPropertyPanel.qml
+        qml/EditCanvas.qml
             qml/ImageAnimation.qml
             qml/ImageViewer.qml
             qml/MainStack.qml

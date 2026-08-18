@@ -546,6 +546,25 @@ Control {
                 IV.FileControl.ocrImage(IV.GControl.currentSource, IV.GControl.currentFrameIndex);
             }
         }
+
+        ToolbarIconButton {
+            id: editButton
+            Accessible.name: qsTr("Edit")
+            Accessible.role: Accessible.Button
+
+            ToolTip.delay: 500
+            ToolTip.text: IV.ImageEditor.canEdit(IV.GControl.currentSource)
+                          ? qsTr("Edit") : qsTr("This image format cannot be edited")
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            enabled: !imageIsNull && !IV.GStatus.editMode
+                     && IV.ImageEditor.canEdit(IV.GControl.currentSource)
+            height: 50
+            icon.name: "edit_entry"
+            width: 50
+
+            onClicked: IV.GStatus.editMode = true
+        }
     }
 
     ToolbarIconButton {
