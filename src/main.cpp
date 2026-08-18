@@ -10,6 +10,7 @@
 #include "src/declarative/pathviewrangehandler.h"
 #include "src/globalcontrol.h"
 #include "src/globalstatus.h"
+#include "src/imageeditcontroller.h"
 #include "src/types.h"
 #include "src/imagedata/imageinfo.h"
 #include "src/imagedata/imagesourcemodel.h"
@@ -119,6 +120,10 @@ int main(int argc, char *argv[])
     GlobalStatus status;
     qmlRegisterSingletonInstance<GlobalStatus>(uri.toUtf8().data(), 1, 0, "GStatus", &status);
     qCDebug(logImageViewer) << "GlobalStatus singleton registered.";
+    ImageEditController imageEditor;
+    qmlRegisterSingletonInstance<ImageEditController>(uri.toUtf8().data(), 1, 0, "ImageEditor", &imageEditor);
+    engine.addImageProvider(QLatin1String("EditedImage"), new EditedImageProvider(&imageEditor));
+    qCDebug(logImageViewer) << "ImageEditController singleton registered.";
     FileControl fileControl;
     qmlRegisterSingletonInstance<FileControl>(uri.toUtf8().data(), 1, 0, "FileControl", &fileControl);
     qCDebug(logImageViewer) << "FileControl singleton registered.";
