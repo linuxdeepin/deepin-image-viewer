@@ -32,7 +32,7 @@ DTK.Control {
     Accessible.name: qsTr("Edit toolbar")
     Accessible.role: Accessible.ToolBar
     implicitHeight: 56
-    implicitWidth: 478
+    implicitWidth: 514
     padding: 0
 
     background: Rectangle {
