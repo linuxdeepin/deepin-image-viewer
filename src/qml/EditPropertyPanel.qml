@@ -79,7 +79,7 @@ DTK.Control {
 
         Rectangle {
             anchors.centerIn: parent
-            color: propertyPanel.currentColor
+            color: propertyPanel.themeTextColor
             height: 2 + (propertyPanel.thickness - 1) * 12 / 49
             radius: height / 2
             width: height
