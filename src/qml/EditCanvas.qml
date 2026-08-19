@@ -525,6 +525,20 @@ Item {
                 context.strokeStyle = "#ffffff";
                 context.lineWidth = 1;
                 context.strokeRect(crop.x, crop.y, crop.width, crop.height);
+                context.strokeStyle = Qt.rgba(palette.light.r,
+                                              palette.light.g,
+                                              palette.light.b, 0.5);
+                context.lineWidth = 1;
+                context.beginPath();
+                context.moveTo(crop.x, crop.y + crop.height / 3);
+                context.lineTo(crop.x + crop.width, crop.y + crop.height / 3);
+                context.moveTo(crop.x, crop.y + crop.height / 3 * 2);
+                context.lineTo(crop.x + crop.width, crop.y + crop.height / 3 * 2);
+                context.moveTo(crop.x + crop.width / 3, crop.y);
+                context.lineTo(crop.x + crop.width / 3, crop.y + crop.height);
+                context.moveTo(crop.x + crop.width / 3 * 2, crop.y);
+                context.lineTo(crop.x + crop.width / 3 * 2, crop.y + crop.height);
+                context.stroke();
                 var cropHandles = [
                     [crop.x, crop.y], [crop.x + crop.width, crop.y],
                     [crop.x + crop.width, crop.y + crop.height], [crop.x, crop.y + crop.height]
