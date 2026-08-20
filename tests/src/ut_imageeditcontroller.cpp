@@ -6,6 +6,8 @@
 
 #include <QSignalSpy>
 #include <QElapsedTimer>
+#include <QFont>
+#include <QGuiApplication>
 #include <QImageWriter>
 #include <QTemporaryDir>
 #include <gtest/gtest.h>
@@ -382,8 +384,10 @@ TEST(ut_imageeditcontroller, SaveComposite_AllAnnotationTypes_Rasterized)
     };
     QVariantMap text = annotation("text", QPointF(0.05, 0.65), QPointF(0.4, 0.9));
     text.insert("text", "Edit");
+    text.insert("fontFamily", QGuiApplication::font().family());
     QVariantMap number = annotation("number", QPointF(0.65, 0.65), QPointF(0.9, 0.95));
     number.insert("number", 2);
+    number.insert("fontFamily", QGuiApplication::font().family());
     const QVariantList annotations {
         annotation("rect", QPointF(0.05, 0.05), QPointF(0.3, 0.35)),
         annotation("ellipse", QPointF(0.35, 0.05), QPointF(0.6, 0.35)),
