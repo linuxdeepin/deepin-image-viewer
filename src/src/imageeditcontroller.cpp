@@ -4,14 +4,20 @@
 
 #include "imageeditcontroller.h"
 
+#include <algorithm>
+
 #include <QImageReader>
 #include <QImageWriter>
 #include <QDir>
 #include <QFileInfo>
 #include <QPainter>
 #include <QPainterPath>
+#include <QRandomGenerator>
 #include <QSaveFile>
+#include <QTransform>
 #include <QtMath>
+
+#include <opencv2/imgproc.hpp>
 
 ImageEditController::ImageEditController(QObject *parent)
     : QObject(parent)
@@ -260,11 +266,12 @@ bool ImageEditController::isEditing(const QUrl &source, int frameIndex) const
 
 QRect ImageEditController::pixelRect(const QRectF &normalizedRect) const
 {
-    QRectF normalized = normalizedRect.normalized().intersected(QRectF(0, 0, 1, 1));
-    return QRect(qFloor(normalized.left() * m_image.width()),
-                 qFloor(normalized.top() * m_image.height()),
-                 qCeil(normalized.width() * m_image.width()),
-                 qCeil(normalized.height() * m_image.height())).intersected(m_image.rect());
+    const QRectF normalized = normalizedRect.normalized().intersected(QRectF(0, 0, 1, 1));
+    const int left = qFloor(normalized.left() * m_image.width());
+    const int top = qFloor(normalized.top() * m_image.height());
+    const int right = qCeil(normalized.right() * m_image.width());
+    const int bottom = qCeil(normalized.bottom() * m_image.height());
+    return QRect(left, top, right - left, bottom - top).intersected(m_image.rect());
 }
 
 bool ImageEditController::applyEffect(const QString &effect, const QRectF &normalizedRect, int strength)
@@ -276,15 +283,21 @@ bool ImageEditController::applyEffect(const QString &effect, const QRectF &norma
     if (rect.width() < 2 || rect.height() < 2)
         return false;
 
-    strength = qBound(1, strength, 50);
-    if (effect == QLatin1String("gaussian"))
-        applyBoxBlur(rect, qMax(1, strength / 2));
-    else if (effect == QLatin1String("mosaic"))
-        applyMosaic(rect, qMax(2, strength));
-    else if (effect == QLatin1String("graffiti"))
-        applyGraffiti(rect, qMax(4, strength));
-    else
+    if (effect == QLatin1String("gaussian")) {
+        if (strength != 5 && strength != 15 && strength != 30)
+            return false;
+        applyGaussianBlur(rect, strength);
+    } else if (effect == QLatin1String("mosaic")) {
+        if (strength != 8 && strength != 16 && strength != 32)
+            return false;
+        applyMosaic(rect, strength);
+    } else if (effect == QLatin1String("graffiti")) {
+        if (strength != 8 && strength != 16 && strength != 32)
+            return false;
+        applyGraffiti(rect, strength);
+    } else {
         return false;
+    }
 
     ++m_revision;
     locker.unlock();
@@ -367,40 +380,157 @@ bool ImageEditController::redo()
     return true;
 }
 
-void ImageEditController::applyBoxBlur(const QRect &rect, int radius)
+void ImageEditController::applyGaussianBlur(const QRect &rect, int radius)
 {
-    const QRect sampleRect = rect.adjusted(-radius * 3, -radius * 3,
-                                           radius * 3, radius * 3).intersected(m_image.rect());
-    QImage blurred = m_image.copy(sampleRect);
-    const int scaleFactor = qBound(2, radius + 1, 16);
-    const QSize reduced(qMax(1, blurred.width() / scaleFactor),
-                        qMax(1, blurred.height() / scaleFactor));
-    blurred = blurred.scaled(reduced, Qt::IgnoreAspectRatio, Qt::SmoothTransformation)
-                     .scaled(blurred.size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    const QRect sampleRect = rect.adjusted(-radius, -radius, radius, radius).intersected(m_image.rect());
+    QImage source = m_image.copy(sampleRect).convertToFormat(QImage::Format_ARGB32);
+    QImage blurred(source.size(), QImage::Format_ARGB32);
+    const cv::Mat sourceMat(source.height(), source.width(), CV_8UC4,
+                            source.bits(), source.bytesPerLine());
+    cv::Mat blurredMat(blurred.height(), blurred.width(), CV_8UC4,
+                        blurred.bits(), blurred.bytesPerLine());
+    const int kernelSize = radius * 2 + 1;
+    cv::GaussianBlur(sourceMat, blurredMat, cv::Size(kernelSize, kernelSize),
+                     0, 0, cv::BORDER_REPLICATE);
     QPainter painter(&m_image);
     painter.drawImage(rect.topLeft(), blurred, rect.translated(-sampleRect.topLeft()));
 }
 
 void ImageEditController::applyMosaic(const QRect &rect, int blockSize)
 {
-    QImage region = m_image.copy(rect);
-    const QSize reduced(qMax(1, region.width() / blockSize), qMax(1, region.height() / blockSize));
-    region = region.scaled(reduced, Qt::IgnoreAspectRatio, Qt::FastTransformation)
-                   .scaled(region.size(), Qt::IgnoreAspectRatio, Qt::FastTransformation);
-    QPainter(&m_image).drawImage(rect.topLeft(), region);
+    QImage region = m_image.copy(rect).convertToFormat(QImage::Format_ARGB32);
+    for (int y = 0; y < region.height(); y += blockSize) {
+        for (int x = 0; x < region.width(); x += blockSize) {
+            const int blockWidth = qMin(blockSize, region.width() - x);
+            const int blockHeight = qMin(blockSize, region.height() - y);
+            quint64 red = 0;
+            quint64 green = 0;
+            quint64 blue = 0;
+            quint64 alpha = 0;
+            for (int row = y; row < y + blockHeight; ++row) {
+                const QRgb *pixels = reinterpret_cast<const QRgb *>(region.constScanLine(row));
+                for (int column = x; column < x + blockWidth; ++column) {
+                    const QRgb pixel = pixels[column];
+                    red += qRed(pixel);
+                    green += qGreen(pixel);
+                    blue += qBlue(pixel);
+                    alpha += qAlpha(pixel);
+                }
+            }
+            const quint64 count = static_cast<quint64>(blockWidth) * blockHeight;
+            const QRgb average = qRgba(red / count, green / count, blue / count, alpha / count);
+            for (int row = y; row < y + blockHeight; ++row) {
+                QRgb *pixels = reinterpret_cast<QRgb *>(region.scanLine(row));
+                std::fill(pixels + x, pixels + x + blockWidth, average);
+            }
+        }
+    }
+    QPainter painter(&m_image);
+    painter.drawImage(rect.topLeft(), region);
 }
 
-void ImageEditController::applyGraffiti(const QRect &rect, int spacing)
+void ImageEditController::applyGraffiti(const QRect &rect, int strength)
 {
-    QPainter painter(&m_image);
-    painter.setClipRect(rect);
-    painter.fillRect(rect, QColor(0, 110, 190, 210));
-    QPen pen(QColor(255, 255, 255, 90), qMax(2, spacing / 4), Qt::SolidLine, Qt::RoundCap);
-    painter.setPen(pen);
-    for (int offset = -rect.height(); offset < rect.width(); offset += spacing) {
-        painter.drawLine(rect.left() + offset, rect.top(), rect.left() + offset + rect.height(), rect.bottom());
-        painter.drawLine(rect.left() + offset, rect.bottom(), rect.left() + offset + rect.height(), rect.top());
+    const QImage source = m_image.copy(rect).convertToFormat(QImage::Format_ARGB32);
+    QImage result = source;
+    QImage brush(QStringLiteral(":/res/graffiti_mixer_tip.png"));
+    if (brush.isNull())
+        return;
+    brush = brush.convertToFormat(QImage::Format_ARGB32);
+
+    const int diameter = strength == 8 ? 96 : (strength == 16 ? 174 : 256);
+    const qreal stampStep = qMax(1.0, diameter * 0.12);
+    const qreal rowStep = qMax(stampStep, diameter * 0.45);
+    QRandomGenerator random(static_cast<quint32>(rect.x() * 73856093U)
+                            ^ static_cast<quint32>(rect.y() * 19349663U)
+                            ^ static_cast<quint32>(rect.width() * 83492791U)
+                            ^ static_cast<quint32>(rect.height()));
+
+    QImage baseMask(brush.size(), QImage::Format_Alpha8);
+    for (int brushY = 0; brushY < brush.height(); ++brushY) {
+        const QRgb *maskPixels = reinterpret_cast<const QRgb *>(brush.constScanLine(brushY));
+        uchar *alpha = baseMask.scanLine(brushY);
+        for (int brushX = 0; brushX < brush.width(); ++brushX) {
+            const QRgb mask = maskPixels[brushX];
+            alpha[brushX] = qAlpha(mask) * (255 - qGray(mask)) / 255;
+        }
     }
+
+    QVector<QImage> stampMasks;
+    const qreal scales[] { 0.85, 1.0, 1.15 };
+    const qreal angles[] { -20.0, -10.0, 0.0, 10.0, 20.0 };
+    for (const qreal scale : scales) {
+        const int targetWidth = qMax(1, qRound(diameter * scale));
+        const int targetHeight = qMax(1, qRound(static_cast<qreal>(targetWidth)
+                                                * brush.height() / brush.width()));
+        const QImage scaled = baseMask.scaled(targetWidth, targetHeight,
+                                              Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        for (const qreal angle : angles) {
+            QTransform transform;
+            transform.rotate(angle);
+            stampMasks.push_back(scaled.transformed(transform, Qt::SmoothTransformation));
+        }
+    }
+
+    QColor reservoir;
+    bool hasReservoir = false;
+
+    int rowIndex = 0;
+    for (qreal y = 0; y < result.height() + rowStep; y += rowStep, ++rowIndex) {
+        const bool reverse = rowIndex % 2;
+        for (qreal distance = 0; distance < result.width() + diameter; distance += stampStep) {
+            const qreal baseX = reverse ? result.width() - distance : distance;
+            const qreal scatter = (random.generateDouble() * 2.0 - 1.0) * diameter * 0.08;
+            const QPointF center(baseX, y + scatter);
+            const int sampleX = qBound(0, qRound(center.x()), source.width() - 1);
+            const int sampleY = qBound(0, qRound(center.y()), source.height() - 1);
+            const QColor sampled(source.pixel(sampleX, sampleY));
+            if (!hasReservoir) {
+                reservoir = sampled;
+                hasReservoir = true;
+            } else {
+                reservoir.setRed(qRound(reservoir.red() * 0.7 + sampled.red() * 0.3));
+                reservoir.setGreen(qRound(reservoir.green() * 0.7 + sampled.green() * 0.3));
+                reservoir.setBlue(qRound(reservoir.blue() * 0.7 + sampled.blue() * 0.3));
+                reservoir.setAlpha(255);
+            }
+
+            const QImage &mask = stampMasks.at(random.bounded(static_cast<int>(stampMasks.size())));
+            const int stampLeft = qRound(center.x() - mask.width() / 2.0);
+            const int stampTop = qRound(center.y() - mask.height() / 2.0);
+            const QRect target = QRect(stampLeft, stampTop, mask.width(), mask.height())
+                                     .intersected(result.rect());
+            for (int targetY = target.top(); targetY <= target.bottom(); ++targetY) {
+                const uchar *alpha = mask.constScanLine(targetY - stampTop);
+                QRgb *pixels = reinterpret_cast<QRgb *>(result.scanLine(targetY));
+                for (int targetX = target.left(); targetX <= target.right(); ++targetX) {
+                    const int coverage = alpha[targetX - stampLeft];
+                    if (coverage == 0)
+                        continue;
+                    const QRgb destination = pixels[targetX];
+                    const int inverse = 255 - coverage;
+                    const int destinationAlpha = qAlpha(destination);
+                    if (destinationAlpha == 255) {
+                        pixels[targetX] = qRgb((qRed(destination) * inverse + reservoir.red() * coverage) / 255,
+                                               (qGreen(destination) * inverse + reservoir.green() * coverage) / 255,
+                                               (qBlue(destination) * inverse + reservoir.blue() * coverage) / 255);
+                        continue;
+                    }
+
+                    const int alphaNumerator = coverage * 255 + destinationAlpha * inverse;
+                    pixels[targetX] = qRgba((reservoir.red() * coverage * 255
+                                             + qRed(destination) * destinationAlpha * inverse) / alphaNumerator,
+                                            (reservoir.green() * coverage * 255
+                                             + qGreen(destination) * destinationAlpha * inverse) / alphaNumerator,
+                                            (reservoir.blue() * coverage * 255
+                                             + qBlue(destination) * destinationAlpha * inverse) / alphaNumerator,
+                                            alphaNumerator / 255);
+                }
+            }
+        }
+    }
+    QPainter imagePainter(&m_image);
+    imagePainter.drawImage(rect.topLeft(), result);
 }
 
 EditedImageProvider::EditedImageProvider(ImageEditController *controller)

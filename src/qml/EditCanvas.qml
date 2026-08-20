@@ -581,6 +581,13 @@ Item {
                                                              editCanvas.cropRect.y + editCanvas.cropRect.height)];
                     return;
                 }
+                if (editCanvas.currentTool === "blur") {
+                    editCanvas.selectedIndex = -1;
+                    drawingCanvas.interaction = "effect";
+                    drawingCanvas.activePoints = [Qt.point(mouse.x, mouse.y), Qt.point(mouse.x, mouse.y)];
+                    drawingCanvas.requestPaint();
+                    return;
+                }
                 drawingCanvas.resizeHandle = editCanvas.handleAt(mouse.x, mouse.y);
                 if (drawingCanvas.resizeHandle !== "") {
                     drawingCanvas.interaction = "resize";
@@ -596,12 +603,6 @@ Item {
                     return;
                 }
                 editCanvas.selectedIndex = -1;
-                if (editCanvas.currentTool === "blur") {
-                    drawingCanvas.interaction = "effect";
-                    drawingCanvas.activePoints = [Qt.point(mouse.x, mouse.y), Qt.point(mouse.x, mouse.y)];
-                    drawingCanvas.requestPaint();
-                    return;
-                }
                 if (editCanvas.currentTool === "text") {
                     drawingCanvas.interaction = "";
                     if (editCanvas.textMode === "number") {

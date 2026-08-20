@@ -50,6 +50,7 @@ find_package(PkgConfig REQUIRED)
 pkg_search_module(OCR_PLUGIN REQUIRED deepin-ocr-plugin-manager)
 pkg_check_modules(InferenceEngine REQUIRED ncnn opencv_mobile)
 include_directories(${OCR_PLUGIN_INCLUDE_DIRS})
+include_directories(${InferenceEngine_INCLUDE_DIRS})
 
 include_directories(${GTEST_INCLUDE_DIRS})
 
@@ -79,11 +80,13 @@ list(REMOVE_ITEM IMAGEVIEWER_SRC_TEST
 
 # 收集测试源文件
 file(GLOB_RECURSE IMAGEVIEWER_UT_SRC ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
+qt_add_resources(IMAGEVIEWER_TEST_RESOURCES ${CMAKE_SOURCE_DIR}/src/res.qrc)
 
 # 生成测试可执行程序
 add_executable(${PROJECT_NAME_TEST}
     ${IMAGEVIEWER_SRC_TEST}
     ${IMAGEVIEWER_UT_SRC}
+    ${IMAGEVIEWER_TEST_RESOURCES}
     )
 
 # 生成测试可执行程序的依赖库

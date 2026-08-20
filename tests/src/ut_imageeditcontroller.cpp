@@ -118,11 +118,13 @@ TEST(ut_imageeditcontroller, Effects_AllTypes_PixelsChanged)
     ImageEditController controller;
     ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory))));
 
-    const QStringList effects { "gaussian", "mosaic", "graffiti" };
-    for (const QString &effect : effects) {
+    const QList<QPair<QString, int>> effects {
+        { "gaussian", 15 }, { "mosaic", 16 }, { "graffiti", 16 }
+    };
+    for (const auto &[effect, strength] : effects) {
         const QImage before = controller.image();
         const int revision = controller.revision();
-        EXPECT_TRUE(controller.applyEffect(effect, QRectF(0.2, 0.2, 0.5, 0.5), 10));
+        EXPECT_TRUE(controller.applyEffect(effect, QRectF(0.2, 0.2, 0.5, 0.5), strength));
         EXPECT_EQ(controller.revision(), revision + 1);
         EXPECT_NE(controller.image(), before);
     }
@@ -139,6 +141,84 @@ TEST(ut_imageeditcontroller, Effects_StrengthBounds_AcceptsFullRange)
     EXPECT_TRUE(controller.applyEffect("gaussian", QRectF(0, 0, 1, 1), 30));
     EXPECT_TRUE(controller.applyEffect("mosaic", QRectF(0, 0, 1, 1), 8));
     EXPECT_TRUE(controller.applyEffect("mosaic", QRectF(0, 0, 1, 1), 32));
+    EXPECT_TRUE(controller.applyEffect("graffiti", QRectF(0, 0, 1, 1), 8));
+    EXPECT_TRUE(controller.applyEffect("graffiti", QRectF(0, 0, 1, 1), 32));
+}
+
+TEST(ut_imageeditcontroller, Effects_InvalidStrength_ReturnsFalse)
+{
+    QTemporaryDir directory;
+    ASSERT_TRUE(directory.isValid());
+    ImageEditController controller;
+    ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory))));
+    const int revision = controller.revision();
+
+    EXPECT_FALSE(controller.applyEffect("gaussian", QRectF(0, 0, 1, 1), 10));
+    EXPECT_FALSE(controller.applyEffect("mosaic", QRectF(0, 0, 1, 1), 10));
+    EXPECT_FALSE(controller.applyEffect("graffiti", QRectF(0, 0, 1, 1), 10));
+    EXPECT_EQ(controller.revision(), revision);
+}
+
+TEST(ut_imageeditcontroller, Mosaic_BlockUsesAverageColor)
+{
+    QTemporaryDir directory;
+    ASSERT_TRUE(directory.isValid());
+    ImageEditController controller;
+    ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory))));
+    const QImage before = controller.image().convertToFormat(QImage::Format_ARGB32);
+
+    quint64 red = 0;
+    quint64 green = 0;
+    quint64 blue = 0;
+    quint64 alpha = 0;
+    for (int y = 0; y < 8; ++y) {
+        for (int x = 0; x < 8; ++x) {
+            const QColor color = before.pixelColor(x, y);
+            red += color.red();
+            green += color.green();
+            blue += color.blue();
+            alpha += color.alpha();
+        }
+    }
+    const QColor expected(red / 64, green / 64, blue / 64, alpha / 64);
+
+    ASSERT_TRUE(controller.applyEffect("mosaic", QRectF(0, 0, 1, 1), 8));
+    const QImage after = controller.image();
+    for (int y = 0; y < 8; ++y) {
+        for (int x = 0; x < 8; ++x)
+            EXPECT_EQ(after.pixelColor(x, y), expected);
+    }
+}
+
+TEST(ut_imageeditcontroller, Gaussian_OnlyChangesSelection)
+{
+    QTemporaryDir directory;
+    ASSERT_TRUE(directory.isValid());
+    ImageEditController controller;
+    ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory))));
+    const QImage before = controller.image();
+    const QRect selection(20, 15, 40, 30);
+
+    ASSERT_TRUE(controller.applyEffect("gaussian", QRectF(0.25, 0.25, 0.5, 0.5), 15));
+    const QImage after = controller.image();
+    EXPECT_EQ(after.pixelColor(0, 0), before.pixelColor(0, 0));
+    EXPECT_EQ(after.pixelColor(79, 59), before.pixelColor(79, 59));
+    EXPECT_NE(after.copy(selection), before.copy(selection));
+}
+
+TEST(ut_imageeditcontroller, Graffiti_SameInputIsDeterministic)
+{
+    QTemporaryDir directory;
+    ASSERT_TRUE(directory.isValid());
+    const QUrl source = QUrl::fromLocalFile(createTestImage(directory));
+    ImageEditController first;
+    ImageEditController second;
+    ASSERT_TRUE(first.beginEdit(source));
+    ASSERT_TRUE(second.beginEdit(source));
+
+    ASSERT_TRUE(first.applyEffect("graffiti", QRectF(0.1, 0.1, 0.7, 0.7), 16));
+    ASSERT_TRUE(second.applyEffect("graffiti", QRectF(0.1, 0.1, 0.7, 0.7), 16));
+    EXPECT_EQ(first.image(), second.image());
 }
 
 TEST(ut_imageeditcontroller, ApplyEffect_UnknownEffect_ReturnsFalse)
@@ -198,7 +278,7 @@ TEST(ut_imageeditcontroller, UndoRedo_PixelHistory_RestoresAndReapplies)
     ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory))));
     const QImage original = controller.image();
 
-    ASSERT_TRUE(controller.applyEffect("graffiti", QRectF(0.1, 0.1, 0.4, 0.4), 10));
+    ASSERT_TRUE(controller.applyEffect("graffiti", QRectF(0.1, 0.1, 0.4, 0.4), 16));
     controller.commitHistory();
     const QImage changed = controller.image();
     EXPECT_TRUE(controller.canUndo());
@@ -219,7 +299,7 @@ TEST(ut_imageeditcontroller, UndoRedo_NewAction_ClearsRedoBranch)
     ImageEditController controller;
     ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory))));
 
-    ASSERT_TRUE(controller.applyEffect("graffiti", QRectF(0.1, 0.1, 0.4, 0.4), 10));
+    ASSERT_TRUE(controller.applyEffect("graffiti", QRectF(0.1, 0.1, 0.4, 0.4), 16));
     controller.commitHistory();
 
     ASSERT_TRUE(controller.undo());
@@ -502,11 +582,11 @@ TEST(ut_imageeditcontroller, Performance_4KOperations)
     QElapsedTimer timer;
 
     timer.start();
-    ASSERT_TRUE(controller.applyEffect("gaussian", QRectF(0.25, 0.25, 0.5, 0.5), 10));
+    ASSERT_TRUE(controller.applyEffect("gaussian", QRectF(0.25, 0.25, 0.5, 0.5), 15));
     controller.commitHistory();
 
     timer.restart();
-    ASSERT_TRUE(controller.applyEffect("mosaic", QRectF(0.25, 0.25, 0.5, 0.5), 10));
+    ASSERT_TRUE(controller.applyEffect("mosaic", QRectF(0.25, 0.25, 0.5, 0.5), 16));
     controller.commitHistory();
 
     timer.restart();
@@ -518,6 +598,20 @@ TEST(ut_imageeditcontroller, Performance_4KOperations)
 
     timer.restart();
     ASSERT_TRUE(controller.saveComposite(QUrl::fromLocalFile(directory.filePath("perf-edit.png")), {}));
+}
+
+TEST(ut_imageeditcontroller, Graffiti_4KSelection_CompletesWithinOneSecond)
+{
+    QTemporaryDir directory;
+    ASSERT_TRUE(directory.isValid());
+    ImageEditController controller;
+    ASSERT_TRUE(controller.beginEdit(
+        QUrl::fromLocalFile(createTestImage(directory, 3840, 2160))));
+
+    QElapsedTimer timer;
+    timer.start();
+    ASSERT_TRUE(controller.applyEffect("graffiti", QRectF(0.25, 0.25, 0.5, 0.5), 16));
+    EXPECT_LT(timer.elapsed(), 1000);
 }
 
 TEST(ut_imageeditcontroller, Image_NoSession_NullImage)
@@ -534,7 +628,7 @@ TEST(ut_imageeditcontroller, Revision_IncrementedOnEachOperation)
     ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory))));
     const int initial = controller.revision();
 
-    controller.applyEffect("gaussian", QRectF(0, 0, 0.5, 0.5), 10);
+    controller.applyEffect("gaussian", QRectF(0, 0, 0.5, 0.5), 15);
     EXPECT_GT(controller.revision(), initial);
 
     controller.crop(QRectF(0, 0, 0.5, 0.5));

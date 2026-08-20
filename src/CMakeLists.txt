@@ -27,6 +27,7 @@ find_package(PkgConfig REQUIRED)
 pkg_search_module(OCR_PLUGIN REQUIRED deepin-ocr-plugin-manager)
 pkg_check_modules(InferenceEngine REQUIRED ncnn opencv_mobile)
 include_directories(${OCR_PLUGIN_INCLUDE_DIRS})
+include_directories(${InferenceEngine_INCLUDE_DIRS})
 
 # 保证 src 目录下头文件全局可见
 include_directories(src)
