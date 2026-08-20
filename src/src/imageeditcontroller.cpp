@@ -155,6 +155,7 @@ bool ImageEditController::saveComposite(const QUrl &destination, const QVariantL
 
     QPainter painter(&result);
     painter.setRenderHint(QPainter::Antialiasing);
+    const QFont defaultFont = painter.font();
     for (const QVariant &annotationValue : annotations) {
         const QVariantMap annotation = annotationValue.toMap();
         const QString type = annotation.value(QStringLiteral("type")).toString();
@@ -180,7 +181,10 @@ bool ImageEditController::saveComposite(const QUrl &destination, const QVariantL
             painter.drawEllipse(bounds.normalized());
         } else if (type == QLatin1String("text") || type == QLatin1String("number")) {
             const QRectF textBounds = bounds.normalized();
-            QFont font = painter.font();
+            QFont font = defaultFont;
+            const QString fontFamily = annotation.value(QStringLiteral("fontFamily")).toString();
+            if (!fontFamily.isEmpty())
+                font.setFamily(fontFamily);
             font.setPixelSize(qMax(8, qRound(textBounds.height() * 0.8)));
             painter.setFont(font);
             if (type == QLatin1String("number")) {

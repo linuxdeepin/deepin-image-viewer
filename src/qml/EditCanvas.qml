@@ -214,7 +214,9 @@ Item {
     function nextNumber() {
         var used = {};
         for (var i = 0; i < strokes.length; ++i) {
-            if (strokes[i].type === "number") used[strokes[i].number] = true;
+            if (strokes[i].type !== "number") continue;
+            var value = Number(strokes[i].number);
+            if (Number.isInteger(value) && value > 0) used[value] = true;
         }
         var number = 1;
         while (used[number]) ++number;
@@ -230,6 +232,7 @@ Item {
             points: [Qt.point(x - diameter / 2, y - diameter / 2),
                      Qt.point(x + diameter / 2, y + diameter / 2)],
             color: currentColor.toString(),
+            fontFamily: textEditor.font.family,
             width: thickness,
             baseWidth: diameter,
             baseHeight: diameter
@@ -253,6 +256,7 @@ Item {
                 points: [Qt.point(textEditor.x, textEditor.y),
                          Qt.point(textEditor.x + textWidth, textEditor.y + textHeight)],
                 color: currentColor.toString(),
+                fontFamily: textEditor.font.family,
                 width: thickness,
                 baseWidth: textWidth,
                 baseHeight: textHeight
@@ -408,7 +412,8 @@ Item {
                     context.strokeStyle = stroke.color;
                     context.textAlign = stroke.type === "number" ? "center" : "left";
                     context.textBaseline = "middle";
-                    context.font = "20px sans-serif";
+                    var fontFamily = stroke.fontFamily || textEditor.font.family;
+                    context.font = "20px \"" + fontFamily.replace(/"/g, "\\\"") + "\"";
                     if (stroke.type === "number") {
                         var radius = stroke.baseWidth / 2 - Math.max(1, stroke.width / 2);
                         context.lineWidth = stroke.width;
