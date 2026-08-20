@@ -55,7 +55,7 @@ Q_SIGNALS:
 
 private:
     QRect pixelRect(const QRectF &normalizedRect) const;
-    void applyBoxBlur(const QRect &rect, int radius);
+    void applyGaussianBlur(const QRect &rect, int radius);
     void applyMosaic(const QRect &rect, int blockSize);
     void applyGraffiti(const QRect &rect, int spacing);
 

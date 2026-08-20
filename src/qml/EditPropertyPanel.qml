@@ -14,6 +14,7 @@ DTK.Control {
     property string blurMode: "gaussian"
     property color currentColor: "#f82a2a"
     property int effectStrength: 15
+    readonly property var effectSteps: blurMode === "gaussian" ? [5, 15, 30] : [8, 16, 32]
     property string textMode: "plain"
     property int thickness: 2
     readonly property color themeTextColor: palette.windowText
@@ -212,11 +213,11 @@ DTK.Control {
             DTK.Slider {
                 id: effectSlider
 
-                from: propertyPanel.blurMode === "gaussian" ? 5 : 8
+                from: 0
                 height: 36
                 stepSize: 1
-                to: propertyPanel.blurMode === "gaussian" ? 30 : 32
-                value: propertyPanel.effectStrength
+                to: 2
+                value: Math.max(0, propertyPanel.effectSteps.indexOf(propertyPanel.effectStrength))
                 width: 120
                 background: Rectangle {
                     color: Qt.rgba(propertyPanel.themeTextColor.r,
@@ -246,7 +247,7 @@ DTK.Control {
                     y: effectSlider.topPadding + effectSlider.availableHeight / 2 - height / 2
                 }
                 onMoved: {
-                    propertyPanel.effectStrength = Math.round(value);
+                    propertyPanel.effectStrength = propertyPanel.effectSteps[Math.round(value)];
                     propertyPanel.effectStrengthSelected(propertyPanel.effectStrength);
                 }
             }
