@@ -296,8 +296,8 @@
     </message>
     <message>
         <location filename="../qml/FullImageView.qml" line="537"/>
-        <source>This operation will overwrite the original image and cannot be undone. Continue?</source>
-        <translation>此操作将覆盖原图且无法撤销，是否继续？</translation>
+        <source>This will overwrite the original image. This action cannot be undone. Continue?</source>
+        <translation>此操作将覆盖原图，不可恢复，是否继续？</translation>
     </message>
     <message>
         <location filename="../qml/FullImageView.qml" line="552"/>
@@ -470,7 +470,7 @@
     <message>
         <location filename="../qml/MainStack.qml" line="227"/>
         <source>The current image has unsaved changes. Save?</source>
-        <translation>当前图片有未保存的更改，是否保存？</translation>
+        <translation>当前图片有未保存的修改，是否保存？</translation>
     </message>
     <message>
         <location filename="../qml/MainStack.qml" line="235"/>

@@ -97,6 +97,7 @@ else()
             qml/ToolbarIconButton.qml
             qml/ViewRightMenu.qml
             qml/ViewTopTitle.qml
+            qml/Dialog/EditConfirmDialog.qml
             qml/Dialog/RemoveDialog.qml
             qml/ImageDelegate/BaseImageDelegate.qml
             qml/ImageDelegate/DamagedImageDelegate.qml

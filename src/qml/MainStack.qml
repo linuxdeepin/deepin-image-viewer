@@ -5,8 +5,10 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
+import QtQuick.Window
 import org.deepin.dtk 1.0 as DTK
 import org.deepin.image.viewer 1.0 as IV
+import "./Dialog"
 
 Item {
     id: stackView
@@ -211,47 +213,25 @@ Item {
         onActivated: requestExitEditMode()
     }
 
-    Dialog {
+    EditConfirmDialog {
         id: unsavedEditDialog
 
-        modal: true
-        standardButtons: Dialog.NoButton
-        title: qsTr("Image Modified")
+        title: ""
+        message: qsTr("The current image has unsaved changes. Save?")
+        parentWindow: Window.window
+        secondaryMessage: qsTr("Image Modified")
+        actions: [
+            { "text": qsTr("Cancel"), "action": "cancel" },
+            { "text": qsTr("Don't Save"), "action": "discard" },
+            { "text": qsTr("Save Copy"), "action": "save", "recommended": true }
+        ]
 
-        anchors.centerIn: parent
-
-        contentItem: Column {
-            spacing: 16
-
-            Label {
-                text: qsTr("The current image has unsaved changes. Save?")
-                wrapMode: Text.WordWrap
-            }
-
-            Row {
-                spacing: 8
-
-                Button {
-                    text: qsTr("Cancel")
-                    onClicked: unsavedEditDialog.close()
-                }
-
-                Button {
-                    text: qsTr("Don't Save")
-                    onClicked: {
-                        IV.GStatus.editModified = false;
-                        IV.GStatus.editMode = false;
-                        unsavedEditDialog.close();
-                    }
-                }
-
-                Button {
-                    text: qsTr("Save Copy")
-                    onClicked: {
-                        stackView.saveEditCopyAndExit();
-                        unsavedEditDialog.close();
-                    }
-                }
+        onActionTriggered: function(action) {
+            if (action === "discard") {
+                IV.GStatus.editModified = false;
+                IV.GStatus.editMode = false;
+            } else if (action === "save") {
+                stackView.saveEditCopyAndExit();
             }
         }
     }

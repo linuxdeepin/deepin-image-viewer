@@ -10,6 +10,7 @@ import Qt5Compat.GraphicalEffects
 import org.deepin.dtk 1.0
 import org.deepin.dtk.style 1.0 as DS
 import org.deepin.image.viewer 1.0 as IV
+import "./Dialog"
 import "./Utils"
 
 Item {
@@ -558,20 +559,21 @@ Item {
         }
     }
 
-    Dialog {
+    EditConfirmDialog {
         id: overwriteDialog
 
-        anchors.centerIn: parent
-        modal: true
-        standardButtons: Dialog.Yes | Dialog.No
-        title: qsTr("Overwrite Original Image")
+        title: ""
+        message: qsTr("This will overwrite the original image. This action cannot be undone. Continue?")
+        parentWindow: Window.window
+        actions: [
+            { "text": qsTr("Cancel"), "action": "cancel" },
+            { "text": qsTr("Confirm"), "action": "confirm", "recommended": true }
+        ]
 
-        contentItem: Label {
-            text: qsTr("This operation will overwrite the original image and cannot be undone. Continue?")
-            wrapMode: Text.WordWrap
+        onActionTriggered: function(action) {
+            if (action === "confirm")
+                fullThumbnail.saveTo(fullThumbnail.pendingSaveUrl);
         }
-
-        onAccepted: fullThumbnail.saveTo(fullThumbnail.pendingSaveUrl)
     }
 
     Dialog {
