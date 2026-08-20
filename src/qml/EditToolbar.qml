@@ -115,7 +115,7 @@ DTK.Control {
             iconPath: editToolbar.blurMode === "mosaic" ? "edit_mosaic"
                     : editToolbar.blurMode === "graffiti" ? "edit_graffiti"
                     : "edit_blur"
-            DTK.ToolTip.text: qsTr("Effects") + " (B)"
+            DTK.ToolTip.text: qsTr("Blur") + " (B)"
         }
 
         Separator { }

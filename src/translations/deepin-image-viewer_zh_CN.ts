@@ -16,13 +16,38 @@
     </message>
     <message>
         <location filename="../qml/EditPropertyPanel.qml" line="63"/>
-        <source>More Colors...</source>
-        <translation>更多颜色...</translation>
+        <source>More Colors…</source>
+        <translation>更多颜色…</translation>
     </message>
     <message>
         <location filename="../qml/EditPropertyPanel.qml" line="68"/>
         <source>Thickness</source>
         <translation>粗细</translation>
+    </message>
+    <message>
+        <location filename="../qml/EditPropertyPanel.qml" line="180"/>
+        <source>Plain Text</source>
+        <translation>普通文字</translation>
+    </message>
+    <message>
+        <location filename="../qml/EditPropertyPanel.qml" line="189"/>
+        <source>Numbered Step</source>
+        <translation>序号标注</translation>
+    </message>
+    <message>
+        <location filename="../qml/EditPropertyPanel.qml" line="208"/>
+        <source>Gaussian Blur</source>
+        <translation>高斯模糊</translation>
+    </message>
+    <message>
+        <location filename="../qml/EditPropertyPanel.qml" line="209"/>
+        <source>Mosaic</source>
+        <translation>马赛克</translation>
+    </message>
+    <message>
+        <location filename="../qml/EditPropertyPanel.qml" line="210"/>
+        <source>Graffiti</source>
+        <translation>涂鸦</translation>
     </message>
 </context>
 <context>
@@ -88,6 +113,11 @@
         <location filename="../qml/EditToolbar.qml" line="141"/>
         <source>Effects</source>
         <translation>特效</translation>
+    </message>
+    <message>
+        <location filename="../qml/EditToolbar.qml" line="118"/>
+        <source>Blur</source>
+        <translation>模糊</translation>
     </message>
     <message>
         <location filename="../qml/EditToolbar.qml" line="155"/>
@@ -666,8 +696,8 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="529"/>
         <location filename="../qml/ThumbnailListView.qml" line="534"/>
-        <source>Edit</source>
-        <translation>编辑</translation>
+        <source>Edit Mode</source>
+        <translation>编辑模式</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="534"/>
