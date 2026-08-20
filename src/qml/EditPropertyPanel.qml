@@ -36,7 +36,7 @@ DTK.Control {
     Accessible.name: qsTr("Tool properties")
     Accessible.role: Accessible.Pane
     implicitHeight: 56
-    implicitWidth: isEffectTool ? 367 : isTextTool ? 265 : 333
+    implicitWidth: isEffectTool ? 367 : isTextTool ? 299 : 383
     padding: 0
 
     background: Rectangle {
@@ -52,6 +52,8 @@ DTK.Control {
         required property string iconPath
         property bool selected: false
 
+        Accessible.name: DTK.ToolTip.text
+        Accessible.role: Accessible.Button
         display: AbstractButton.IconOnly
         checked: selected
         height: 36
@@ -72,11 +74,18 @@ DTK.Control {
                   : "transparent"
             radius: 8
         }
+
+        DTK.ToolTip.delay: 500
+        DTK.ToolTip.timeout: 5000
+        DTK.ToolTip.visible: hovered
     }
 
     component ThicknessDot: Item {
         height: 36
         width: 36
+
+        Accessible.name: qsTr("Thickness")
+        Accessible.role: Accessible.Indicator
 
         Rectangle {
             anchors.centerIn: parent
@@ -119,6 +128,9 @@ DTK.Control {
     component ColorPalette: Item {
         height: 36
         width: 136
+
+        Accessible.name: qsTr("Color")
+        Accessible.role: Accessible.Grouping
 
         Grid {
             anchors.left: parent.left
@@ -164,6 +176,21 @@ DTK.Control {
         }
     }
 
+    component MoreColorsButton: DTK.ToolButton {
+        Accessible.name: DTK.ToolTip.text
+        Accessible.role: Accessible.Button
+        display: AbstractButton.TextOnly
+        height: 36
+        text: "..."
+        width: 36
+
+        DTK.ToolTip.delay: 500
+        DTK.ToolTip.text: qsTr("More Colors…")
+        DTK.ToolTip.timeout: 5000
+        DTK.ToolTip.visible: hovered
+        onClicked: colorDialog.open()
+    }
+
     contentItem: Item {
         Row {
             id: textControls
@@ -194,6 +221,7 @@ DTK.Control {
             }
             Separator { }
             ColorPalette { }
+            MoreColorsButton { }
         }
 
         Row {
@@ -307,6 +335,7 @@ DTK.Control {
             }
             Separator { }
             ColorPalette { }
+            MoreColorsButton { }
         }
     }
 
