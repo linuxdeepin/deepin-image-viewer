@@ -453,8 +453,7 @@ Item {
                     if (stroke.type === "rect") {
                         context.rect(left, top, shapeWidth, shapeHeight);
                     } else {
-                        context.ellipse(left + shapeWidth / 2, top + shapeHeight / 2,
-                                        shapeWidth / 2, shapeHeight / 2, 0, 0, Math.PI * 2);
+                        context.ellipse(left, top, shapeWidth, shapeHeight);
                     }
                     context.stroke();
                     return;
@@ -746,7 +745,7 @@ Item {
                     drawingCanvas.requestPaint();
                     return;
                 }
-                if (editCanvas.currentTool === "rect" || editCanvas.currentTool === "ellipse") {
+                if (editCanvas.currentTool === "rect") {
                     var start = points[0];
                     var deltaX = mouse.x - start.x;
                     var deltaY = mouse.y - start.y;
@@ -754,6 +753,13 @@ Item {
                     var endX = start.x + (deltaX < 0 ? -side : side);
                     var endY = start.y + (deltaY < 0 ? -side : side);
                     drawingCanvas.activePoints = [start, Qt.point(endX, endY)];
+                    drawingCanvas.requestPaint();
+                    return;
+                }
+                if (editCanvas.currentTool === "ellipse") {
+                    var ellipseStart = points[0];
+                    drawingCanvas.activePoints = [ellipseStart,
+                                                  Qt.point(mouse.x, mouse.y)];
                     drawingCanvas.requestPaint();
                     return;
                 }
