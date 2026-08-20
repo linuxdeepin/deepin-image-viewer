@@ -16,7 +16,7 @@ DTK.Control {
     property int effectStrength: 15
     property string textMode: "plain"
     property int thickness: 2
-    readonly property color themeTextColor: Qt.rgba(0, 0, 0, 0.7)
+    readonly property color themeTextColor: palette.windowText
 
     signal blurModeSelected(string mode)
     signal colorSelected(color value)
@@ -52,8 +52,8 @@ DTK.Control {
         property bool selected: false
 
         display: AbstractButton.IconOnly
+        checked: selected
         height: 36
-        icon.color: selected ? "white" : propertyPanel.themeTextColor
         icon.height: 20
         icon.name: iconPath
         icon.width: 20

@@ -15,7 +15,7 @@ DTK.Control {
     property string textMode: "plain"
     property bool canRedo: false
     property bool canUndo: false
-    readonly property color themeTextColor: Qt.rgba(0, 0, 0, 0.7)
+    readonly property color themeTextColor: palette.windowText
 
     signal closeRequested
     signal redoRequested
@@ -50,9 +50,9 @@ DTK.Control {
 
         Accessible.name: DTK.ToolTip.text
         Accessible.role: Accessible.Button
+        checked: selected
         display: AbstractButton.IconOnly
         height: 36
-        icon.color: selected ? "white" : editToolbar.themeTextColor
         icon.height: 20
         icon.name: iconPath
         icon.width: 20
