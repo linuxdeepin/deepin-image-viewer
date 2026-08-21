@@ -251,11 +251,172 @@
     </message>
 </context>
 <context>
+    <name>EditPropertyPanel</name>
+    <message>
+        <source>Tool properties</source>
+        <translation>ຄຸນສົມບັດເຄື່ອງມື</translation>
+    </message>
+    <message>
+        <source>Color</source>
+        <translation>ສີ</translation>
+    </message>
+    <message>
+        <source>More Colors…</source>
+        <translation>ສີເພີ່ມເຕີມ…</translation>
+    </message>
+    <message>
+        <source>Thickness</source>
+        <translation>ຄວາມໜາ</translation>
+    </message>
+    <message>
+        <source>Plain Text</source>
+        <translation>ຂໍ້ຄວາມທຳມະດາ</translation>
+    </message>
+    <message>
+        <source>Numbered Step</source>
+        <translation>ປ້າຍໝາຍເລກຂັ້ນຕອນ</translation>
+    </message>
+    <message>
+        <source>Gaussian Blur</source>
+        <translation>ເບລີ Gaussian</translation>
+    </message>
+    <message>
+        <source>Mosaic</source>
+        <translation>ໂມເຊອິກ</translation>
+    </message>
+    <message>
+        <source>Graffiti</source>
+        <translation>ຂີດຂຽນ</translation>
+    </message>
+</context>
+<context>
+    <name>EditToolbar</name>
+    <message>
+        <source>Edit toolbar</source>
+        <translation>ແຖບເຄື່ອງມືແກ້ໄຂ</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>ແຕ້ມ</translation>
+    </message>
+    <message>
+        <source>Pen</source>
+        <translation>ປາກກາ</translation>
+    </message>
+    <message>
+        <source>Line</source>
+        <translation>ເສັ້ນຊື່</translation>
+    </message>
+    <message>
+        <source>Arrow</source>
+        <translation>ລູກສອນ</translation>
+    </message>
+    <message>
+        <source>Shape</source>
+        <translation>ຮູບຊົງ</translation>
+    </message>
+    <message>
+        <source>Rect</source>
+        <translation>ສີ່ຫຼ່ຽມ</translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation>ວົງມົນ</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>ຂໍ້ຄວາມ</translation>
+    </message>
+    <message>
+        <source>Effects</source>
+        <translation>ເອັບເຟັກ</translation>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation>ເບລີ</translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation>ການກະທຳ</translation>
+    </message>
+    <message>
+        <source>Crop</source>
+        <translation>ຕັດຮູບ</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>ຍ້ອນກັບ</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>ເຮັດຊ້ຳ</translation>
+    </message>
+    <message>
+        <source>Save Copy</source>
+        <translation>ບັນທຶກສຳເນົາ</translation>
+    </message>
+    <message>
+        <source>Close Edit</source>
+        <translation>ປິດການແກ້ໄຂ</translation>
+    </message>
+</context>
+<context>
+    <name>FullImageView</name>
+    <message>
+        <source>Save</source>
+        <translation>ບັນທຶກ</translation>
+    </message>
+    <message>
+        <source>Save Copy</source>
+        <translation>ບັນທຶກສຳເນົາ</translation>
+    </message>
+    <message>
+        <source>This will overwrite the original image. This action cannot be undone. Continue?</source>
+        <translation>ການດຳເນີນການນີ້ຈະຂຽນທັບຮູບຕົ້ນສະບັບ ແລະບໍ່ສາມາດຍ້ອນກັບໄດ້. ຕ້ອງການດຳເນີນຕໍ່ບໍ?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>ຍົກເລີກ</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>ຢືນຢັນ</translation>
+    </message>
+    <message>
+        <source>Save Failed</source>
+        <translation>ບັນທຶກບໍ່ສຳເລັດ</translation>
+    </message>
+    <message>
+        <source>Close Edit</source>
+        <translation>ປິດການແກ້ໄຂ</translation>
+    </message>
+</context>
+<context>
     <name>MainStack</name>
     <message>
         <location filename="../qml/MainStack.qml" line="127"/>
         <source>Select pictures</source>
-        <translation>ເລືອກຮູປື່</translation>
+        <translation>ເລືອກຮູບພາບ</translation>
+    </message>
+    <message>
+        <source>Image Modified</source>
+        <translation>ຮູບພາບຖືກແກ້ໄຂແລ້ວ</translation>
+    </message>
+    <message>
+        <source>The current image has unsaved changes. Save?</source>
+        <translation>ຮູບພາບປັດຈຸບັນມີການແກ້ໄຂທີ່ຍັງບໍ່ໄດ້ບັນທຶກ. ຕ້ອງການບັນທຶກບໍ?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>ຍົກເລີກ</translation>
+    </message>
+    <message>
+        <source>Don&apos;t Save</source>
+        <translation>ບໍ່ບັນທຶກ</translation>
+    </message>
+    <message>
+        <source>Save Copy</source>
+        <translation>ບັນທຶກສຳເນົາ</translation>
     </message>
 </context>
 <context>
@@ -405,6 +566,14 @@
         <location filename="../qml/ThumbnailListView.qml" line="519"/>
         <source>Extract text</source>
         <translation>ດົນງານຂແ້ນເອົາຂໍ້alm</translation>
+    </message>
+    <message>
+        <source>Edit Mode</source>
+        <translation>ໂໝດແກ້ໄຂ</translation>
+    </message>
+    <message>
+        <source>This image format cannot be edited</source>
+        <translation>ຮູບແບບຮູບພາບນີ້ບໍ່ສາມາດແກ້ໄຂໄດ້</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="538"/>

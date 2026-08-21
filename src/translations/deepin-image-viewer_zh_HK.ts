@@ -252,11 +252,172 @@
     </message>
 </context>
 <context>
+    <name>EditPropertyPanel</name>
+    <message>
+        <source>Tool properties</source>
+        <translation>工具屬性</translation>
+    </message>
+    <message>
+        <source>Color</source>
+        <translation>顏色</translation>
+    </message>
+    <message>
+        <source>More Colors…</source>
+        <translation>更多顏色…</translation>
+    </message>
+    <message>
+        <source>Thickness</source>
+        <translation>粗細</translation>
+    </message>
+    <message>
+        <source>Plain Text</source>
+        <translation>普通文字</translation>
+    </message>
+    <message>
+        <source>Numbered Step</source>
+        <translation>序號標註</translation>
+    </message>
+    <message>
+        <source>Gaussian Blur</source>
+        <translation>高斯模糊</translation>
+    </message>
+    <message>
+        <source>Mosaic</source>
+        <translation>馬賽克</translation>
+    </message>
+    <message>
+        <source>Graffiti</source>
+        <translation>塗鴉</translation>
+    </message>
+</context>
+<context>
+    <name>EditToolbar</name>
+    <message>
+        <source>Edit toolbar</source>
+        <translation>編輯工具列</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>繪製</translation>
+    </message>
+    <message>
+        <source>Pen</source>
+        <translation>畫筆</translation>
+    </message>
+    <message>
+        <source>Line</source>
+        <translation>直線</translation>
+    </message>
+    <message>
+        <source>Arrow</source>
+        <translation>箭頭</translation>
+    </message>
+    <message>
+        <source>Shape</source>
+        <translation>形狀</translation>
+    </message>
+    <message>
+        <source>Rect</source>
+        <translation>矩形</translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation>圓形</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>文字</translation>
+    </message>
+    <message>
+        <source>Effects</source>
+        <translation>特效</translation>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation>模糊</translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation>操作</translation>
+    </message>
+    <message>
+        <source>Crop</source>
+        <translation>裁剪</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>撤銷</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>重做</translation>
+    </message>
+    <message>
+        <source>Save Copy</source>
+        <translation>儲存副本</translation>
+    </message>
+    <message>
+        <source>Close Edit</source>
+        <translation>關閉編輯</translation>
+    </message>
+</context>
+<context>
+    <name>FullImageView</name>
+    <message>
+        <source>Save</source>
+        <translation>儲存</translation>
+    </message>
+    <message>
+        <source>Save Copy</source>
+        <translation>儲存副本</translation>
+    </message>
+    <message>
+        <source>This will overwrite the original image. This action cannot be undone. Continue?</source>
+        <translation>此操作將覆蓋原圖，不可復原，是否繼續？</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>確定</translation>
+    </message>
+    <message>
+        <source>Save Failed</source>
+        <translation>儲存失敗</translation>
+    </message>
+    <message>
+        <source>Close Edit</source>
+        <translation>關閉編輯</translation>
+    </message>
+</context>
+<context>
     <name>MainStack</name>
     <message>
         <location filename="../qml/MainStack.qml" line="129"/>
         <source>Select pictures</source>
         <translation>選擇圖片</translation>
+    </message>
+    <message>
+        <source>Image Modified</source>
+        <translation>圖片已修改</translation>
+    </message>
+    <message>
+        <source>The current image has unsaved changes. Save?</source>
+        <translation>目前圖片有未儲存的修改，是否儲存？</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Don&apos;t Save</source>
+        <translation>不儲存</translation>
+    </message>
+    <message>
+        <source>Save Copy</source>
+        <translation>儲存副本</translation>
     </message>
 </context>
 <context>
@@ -409,6 +570,14 @@
         <location filename="../qml/ThumbnailListView.qml" line="517"/>
         <source>Extract text</source>
         <translation>識別文字</translation>
+    </message>
+    <message>
+        <source>Edit Mode</source>
+        <translation>編輯模式</translation>
+    </message>
+    <message>
+        <source>This image format cannot be edited</source>
+        <translation>此圖片格式無法編輯</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="536"/>

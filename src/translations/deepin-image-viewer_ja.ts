@@ -250,11 +250,172 @@
     </message>
 </context>
 <context>
+    <name>EditPropertyPanel</name>
+    <message>
+        <source>Tool properties</source>
+        <translation>ツールのプロパティ</translation>
+    </message>
+    <message>
+        <source>Color</source>
+        <translation>色</translation>
+    </message>
+    <message>
+        <source>More Colors…</source>
+        <translation>その他の色…</translation>
+    </message>
+    <message>
+        <source>Thickness</source>
+        <translation>太さ</translation>
+    </message>
+    <message>
+        <source>Plain Text</source>
+        <translation>通常テキスト</translation>
+    </message>
+    <message>
+        <source>Numbered Step</source>
+        <translation>番号付きステップ</translation>
+    </message>
+    <message>
+        <source>Gaussian Blur</source>
+        <translation>ガウスぼかし</translation>
+    </message>
+    <message>
+        <source>Mosaic</source>
+        <translation>モザイク</translation>
+    </message>
+    <message>
+        <source>Graffiti</source>
+        <translation>手描き</translation>
+    </message>
+</context>
+<context>
+    <name>EditToolbar</name>
+    <message>
+        <source>Edit toolbar</source>
+        <translation>編集ツールバー</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>描画</translation>
+    </message>
+    <message>
+        <source>Pen</source>
+        <translation>ペン</translation>
+    </message>
+    <message>
+        <source>Line</source>
+        <translation>直線</translation>
+    </message>
+    <message>
+        <source>Arrow</source>
+        <translation>矢印</translation>
+    </message>
+    <message>
+        <source>Shape</source>
+        <translation>図形</translation>
+    </message>
+    <message>
+        <source>Rect</source>
+        <translation>四角形</translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation>楕円</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>テキスト</translation>
+    </message>
+    <message>
+        <source>Effects</source>
+        <translation>効果</translation>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation>ぼかし</translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation>操作</translation>
+    </message>
+    <message>
+        <source>Crop</source>
+        <translation>トリミング</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>元に戻す</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>やり直す</translation>
+    </message>
+    <message>
+        <source>Save Copy</source>
+        <translation>コピーを保存</translation>
+    </message>
+    <message>
+        <source>Close Edit</source>
+        <translation>編集を閉じる</translation>
+    </message>
+</context>
+<context>
+    <name>FullImageView</name>
+    <message>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <source>Save Copy</source>
+        <translation>コピーを保存</translation>
+    </message>
+    <message>
+        <source>This will overwrite the original image. This action cannot be undone. Continue?</source>
+        <translation>元の画像を上書きします。この操作は元に戻せません。続行しますか？</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>キャンセル</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>確認</translation>
+    </message>
+    <message>
+        <source>Save Failed</source>
+        <translation>保存に失敗しました</translation>
+    </message>
+    <message>
+        <source>Close Edit</source>
+        <translation>編集を閉じる</translation>
+    </message>
+</context>
+<context>
     <name>MainStack</name>
     <message>
         <location filename="../qml/MainStack.qml" line="129"/>
         <source>Select pictures</source>
         <translation>画像を選択</translation>
+    </message>
+    <message>
+        <source>Image Modified</source>
+        <translation>画像が変更されています</translation>
+    </message>
+    <message>
+        <source>The current image has unsaved changes. Save?</source>
+        <translation>現在の画像には未保存の変更があります。保存しますか？</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>キャンセル</translation>
+    </message>
+    <message>
+        <source>Don&apos;t Save</source>
+        <translation>保存しない</translation>
+    </message>
+    <message>
+        <source>Save Copy</source>
+        <translation>コピーを保存</translation>
     </message>
 </context>
 <context>
@@ -407,6 +568,14 @@
         <location filename="../qml/ThumbnailListView.qml" line="517"/>
         <source>Extract text</source>
         <translation>文字を認識</translation>
+    </message>
+    <message>
+        <source>Edit Mode</source>
+        <translation>編集モード</translation>
+    </message>
+    <message>
+        <source>This image format cannot be edited</source>
+        <translation>この画像形式は編集できません</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="536"/>
