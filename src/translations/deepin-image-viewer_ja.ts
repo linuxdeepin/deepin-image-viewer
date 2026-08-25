@@ -570,7 +570,7 @@
         <translation>文字を認識</translation>
     </message>
     <message>
-        <source>Edit Mode</source>
+        <source>Edit</source>
         <translation>編集モード</translation>
     </message>
     <message>

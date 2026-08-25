@@ -114,6 +114,10 @@ Item {
     }
 
     function showScaleFloatLabel() {
+        if (IV.GStatus.editMode) {
+            floatLabel.visible = false;
+            return;
+        }
         // 不存在的图片不弹出缩放提示框
         if (!targetImageReady) {
             return;

@@ -568,7 +568,7 @@
         <translation>ດົນງານຂແ້ນເອົາຂໍ້alm</translation>
     </message>
     <message>
-        <source>Edit Mode</source>
+        <source>Edit</source>
         <translation>ໂໝດແກ້ໄຂ</translation>
     </message>
     <message>

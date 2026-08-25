@@ -10,7 +10,7 @@ import org.deepin.image.viewer 1.0 as IV
 DTK.Control {
     id: editToolbar
 
-    property string currentTool: "pen"
+    property string currentTool: ""
     property string blurMode: "gaussian"
     property string textMode: "plain"
     property bool canRedo: false
@@ -119,7 +119,7 @@ DTK.Control {
         }
 
         Separator { }
-        ToolbarButton { iconPath: "edit_rotate"; DTK.ToolTip.text: qsTr("Rotate"); onClicked: editToolbar.rotateRequested() }
+        ToolbarButton { icon.height: 18; iconPath: "edit_rotate"; icon.width: 18; DTK.ToolTip.text: qsTr("Rotate"); onClicked: editToolbar.rotateRequested() }
         ToolSelectButton { tool: "crop"; iconPath: "edit_crop"; DTK.ToolTip.text: qsTr("Crop") + " (X)" }
         ToolbarButton { enabled: editToolbar.canUndo; iconPath: "edit_undo"; DTK.ToolTip.text: qsTr("Undo") + " (Ctrl+Z)"; onClicked: editToolbar.undoRequested() }
         ToolbarButton { enabled: editToolbar.canRedo; iconPath: "edit_redo"; DTK.ToolTip.text: qsTr("Redo") + " (Ctrl+Y)"; onClicked: editToolbar.redoRequested() }

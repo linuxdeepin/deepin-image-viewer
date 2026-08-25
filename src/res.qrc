@@ -53,6 +53,7 @@
         <file>dsg/icons/edit_blur.dci</file>
         <file>dsg/icons/edit_mosaic.dci</file>
         <file>dsg/icons/edit_graffiti.dci</file>
+        <file>dsg/icons/edit_blur_weak_endpoint.dci</file>
         <file>dsg/icons/edit_crop.dci</file>
         <file>dsg/icons/edit_undo.dci</file>
         <file>dsg/icons/edit_redo.dci</file>

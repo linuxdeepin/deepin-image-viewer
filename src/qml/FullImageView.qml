@@ -287,6 +287,8 @@ Item {
         function onEditModeChanged() {
             if (IV.GStatus.editMode) {
                 IV.ImageEditor.beginEdit(IV.GControl.currentSource, IV.GControl.currentFrameIndex);
+                editToolbar.currentTool = "";
+                floatLabel.visible = false;
                 editCanvas.clear();
                 editCanvas.initializeHistory();
             } else {
@@ -601,7 +603,8 @@ Item {
     EditPropertyPanel {
         id: editPropertyPanel
 
-        visible: IV.GStatus.editMode && editToolbar.currentTool !== "crop"
+        visible: IV.GStatus.editMode && editToolbar.currentTool !== ""
+                 && editToolbar.currentTool !== "crop"
         z: editToolbar.z
         blurMode: editToolbar.blurMode
         currentTool: editToolbar.currentTool
