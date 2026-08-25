@@ -35,10 +35,7 @@ DTK.Control {
     implicitWidth: 514
     padding: 0
 
-    background: Rectangle {
-        border.color: Qt.rgba(0, 0, 0, 0.04)
-        border.width: 1
-        color: Qt.rgba(0.969, 0.969, 0.969, 0.92)
+    background: DTK.FloatingPanel {
         radius: 18
     }
 
@@ -59,18 +56,6 @@ DTK.Control {
         padding: 8
         width: 36
 
-        background: Rectangle {
-            color: toolbarButton.selected ? toolbarButton.palette.highlight
-                  : toolbarButton.down ? Qt.rgba(editToolbar.themeTextColor.r,
-                                                 editToolbar.themeTextColor.g,
-                                                 editToolbar.themeTextColor.b, 0.18)
-                  : toolbarButton.hovered ? Qt.rgba(editToolbar.themeTextColor.r,
-                                                    editToolbar.themeTextColor.g,
-                                                    editToolbar.themeTextColor.b, 0.1)
-                  : "transparent"
-            radius: 8
-        }
-
         DTK.ToolTip.delay: 500
         DTK.ToolTip.timeout: 5000
         DTK.ToolTip.visible: hovered
@@ -79,6 +64,7 @@ DTK.Control {
     component ToolSelectButton: ToolbarButton {
         required property string tool
 
+        checkable: true
         selected: editToolbar.currentTool === tool
         onClicked: editToolbar.selectTool(tool)
     }
@@ -119,7 +105,7 @@ DTK.Control {
         }
 
         Separator { }
-        ToolbarButton { icon.height: 18; iconPath: "edit_rotate"; icon.width: 18; DTK.ToolTip.text: qsTr("Rotate"); onClicked: editToolbar.rotateRequested() }
+        ToolbarButton { iconPath: "edit_rotate"; DTK.ToolTip.text: qsTr("Rotate"); onClicked: editToolbar.rotateRequested() }
         ToolSelectButton { tool: "crop"; iconPath: "edit_crop"; DTK.ToolTip.text: qsTr("Crop") + " (X)" }
         ToolbarButton { enabled: editToolbar.canUndo; iconPath: "edit_undo"; DTK.ToolTip.text: qsTr("Undo") + " (Ctrl+Z)"; onClicked: editToolbar.undoRequested() }
         ToolbarButton { enabled: editToolbar.canRedo; iconPath: "edit_redo"; DTK.ToolTip.text: qsTr("Redo") + " (Ctrl+Y)"; onClicked: editToolbar.redoRequested() }

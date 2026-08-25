@@ -167,6 +167,17 @@ Item {
     }
     onWidthChanged: keepImageDisplayScale()
 
+    Connections {
+        function onEditModeChanged() {
+            if (IV.GStatus.editMode)
+                ltwLoader.stopLiveText();
+            else
+                ltwLoader.recalculateLiveText();
+        }
+
+        target: IV.GStatus
+    }
+
     // 图像动画：缩放
     ImageAnimation {
         id: imageAnimation
@@ -573,14 +584,15 @@ Item {
         }
 
         function recalculateLiveText() {
-            if (Loader.Ready === status && (targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type)) {
+            if (Loader.Ready === status && !IV.GStatus.editMode
+                    && targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
                 item.exitLiveText();
                 item.startLiveTextAnalyze();
             }
         }
 
         function startLiveText() {
-            if (Loader.Ready === status) {
+            if (Loader.Ready === status && !IV.GStatus.editMode) {
                 item.startLiveTextAnalyze();
             }
         }
@@ -621,7 +633,7 @@ Item {
 
             //live text执行函数
             function runLiveText(resultCanUse, token) {
-                if (resultCanUse && token == view.currentIndex) {
+                if (resultCanUse && token == view.currentIndex && !IV.GStatus.editMode) {
                     //这里无视警告，就是需要js的==来进行自动类型转换
                     console.debug("run live start");
                     ltw.drawRect(liveTextAnalyzer.liveBlock());
@@ -632,7 +644,8 @@ Item {
 
             //live text分析启动控制
             function startLiveTextAnalyze() {
-                if (targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
+                if (!IV.GStatus.editMode && targetImageReady
+                        && IV.Types.DynamicImage !== currentImageInfo.type) {
                     liveTextTimer.restart();
                 }
             }
@@ -674,7 +687,8 @@ Item {
 
                 onTriggered: {
                     var supportOcr = IV.FileControl.isCanSupportOcr(IV.GControl.currentSource);
-                    if (supportOcr && targetImageReady && IV.Types.DynamicImage !== currentImageInfo.type) {
+                    if (!IV.GStatus.editMode && supportOcr && targetImageReady
+                            && IV.Types.DynamicImage !== currentImageInfo.type) {
                         // 执行条件和OCR按钮使能条件一致
                         ltw.liveTextAnalyze();
                         running = false;
@@ -693,7 +707,7 @@ Item {
                 checked: isHighlight
                 height: 50
                 parent: imageViewerArea
-                visible: false
+                visible: ltw.hasBlocks && !IV.GStatus.editMode
                 width: 50
                 z: ltw.z + 100
 

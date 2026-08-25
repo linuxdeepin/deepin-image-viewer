@@ -603,6 +603,15 @@ Item {
     EditPropertyPanel {
         id: editPropertyPanel
 
+        readonly property int toolbarOffset: {
+            const toolIndex = ["pen", "line", "arrow", "rect", "ellipse"].indexOf(currentTool);
+            if (toolIndex >= 0)
+                return 10 + toolIndex * 36;
+            if (currentTool === "text" || currentTool === "blur")
+                return Math.round((editToolbar.width - width) / 2);
+            return 0;
+        }
+
         visible: IV.GStatus.editMode && editToolbar.currentTool !== ""
                  && editToolbar.currentTool !== "crop"
         z: editToolbar.z
@@ -614,6 +623,7 @@ Item {
             bottom: editToolbar.top
             bottomMargin: 10
             left: editToolbar.left
+            leftMargin: toolbarOffset
         }
 
         onBlurModeSelected: mode => editToolbar.blurMode = mode
