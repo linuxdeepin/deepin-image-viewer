@@ -16,6 +16,7 @@ Item {
     //block汇总
     property var blockArray: new Array
     property bool currentHasSelect: false
+    property bool hasBlocks: false
 
     //清除选择效果，参数为发出此信号的index，-1表示全部清除且只有root可以发出
     signal clearSelect(int pressesIndex)
@@ -57,7 +58,7 @@ Item {
             rectDetail.destroy();
         }
         blockArray = [];
-        highlightTextButton.visible = false;
+        hasBlocks = false;
 
         // 清除选中标记
         currentHasSelect = false;
@@ -119,7 +120,7 @@ Item {
             //保存
             blockArray.push(rectDetail);
         }
-        highlightTextButton.visible = blockArray.length > 0;
+        hasBlocks = blockArray.length > 0;
         highlightTextButton.isHighlight = false;
     }
 

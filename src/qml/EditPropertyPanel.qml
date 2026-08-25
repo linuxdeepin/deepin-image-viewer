@@ -10,6 +10,7 @@ import org.deepin.image.viewer 1.0 as IV
 DTK.Control {
     id: propertyPanel
 
+    // uos-design: allow-literal-color Annotation colors are image content values, not UI theme colors.
     property string currentTool: ""
     property string blurMode: "gaussian"
     property color currentColor: "#f82a2a"
@@ -40,10 +41,7 @@ DTK.Control {
     implicitWidth: isEffectTool ? 381 : isTextTool ? 255 : 339
     padding: 0
 
-    background: Rectangle {
-        border.color: Qt.rgba(0, 0, 0, 0.04)
-        border.width: 1
-        color: Qt.rgba(0.969, 0.969, 0.969, 0.92)
+    background: DTK.FloatingPanel {
         radius: 18
     }
 
@@ -55,6 +53,7 @@ DTK.Control {
 
         Accessible.name: DTK.ToolTip.text
         Accessible.role: Accessible.Button
+        checkable: true
         display: AbstractButton.IconOnly
         checked: selected
         height: 36
@@ -63,18 +62,6 @@ DTK.Control {
         icon.width: 20
         padding: 8
         width: 36
-
-        background: Rectangle {
-            color: modeButton.selected ? modeButton.palette.highlight
-                  : modeButton.down ? Qt.rgba(propertyPanel.themeTextColor.r,
-                                              propertyPanel.themeTextColor.g,
-                                              propertyPanel.themeTextColor.b, 0.18)
-                  : modeButton.hovered ? Qt.rgba(propertyPanel.themeTextColor.r,
-                                                 propertyPanel.themeTextColor.g,
-                                                 propertyPanel.themeTextColor.b, 0.1)
-                  : "transparent"
-            radius: 8
-        }
 
         DTK.ToolTip.delay: 500
         DTK.ToolTip.timeout: 5000
@@ -103,7 +90,6 @@ DTK.Control {
 
         display: AbstractButton.IconOnly
         height: 36
-        icon.color: propertyPanel.themeTextColor
         icon.height: iconSize
         icon.name: iconName
         icon.width: iconSize
