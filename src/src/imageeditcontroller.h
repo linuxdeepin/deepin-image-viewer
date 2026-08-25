@@ -39,6 +39,7 @@ public:
     Q_INVOKABLE bool isEditing(const QUrl &source, int frameIndex) const;
     Q_INVOKABLE bool applyEffect(const QString &effect, const QRectF &normalizedRect, int strength);
     Q_INVOKABLE bool crop(const QRectF &normalizedRect);
+    Q_INVOKABLE bool rotateClockwise();
     Q_INVOKABLE void commitHistory();
     Q_INVOKABLE bool redo();
     Q_INVOKABLE bool undo();
