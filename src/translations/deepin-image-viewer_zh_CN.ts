@@ -696,7 +696,7 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="529"/>
         <location filename="../qml/ThumbnailListView.qml" line="534"/>
-        <source>Edit Mode</source>
+        <source>Edit</source>
         <translation>编辑模式</translation>
     </message>
     <message>

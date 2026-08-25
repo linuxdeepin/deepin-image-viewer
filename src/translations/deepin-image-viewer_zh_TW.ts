@@ -572,7 +572,7 @@
         <translation>識別文字</translation>
     </message>
     <message>
-        <source>Edit Mode</source>
+        <source>Edit</source>
         <translation>編輯模式</translation>
     </message>
     <message>

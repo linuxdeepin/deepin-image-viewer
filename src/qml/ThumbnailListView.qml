@@ -549,18 +549,20 @@ Control {
 
         ToolbarIconButton {
             id: editButton
-            Accessible.name: qsTr("Edit Mode")
+            Accessible.name: qsTr("Edit")
             Accessible.role: Accessible.Button
 
             ToolTip.delay: 500
             ToolTip.text: IV.ImageEditor.canEdit(IV.GControl.currentSource)
-                          ? qsTr("Edit Mode") : qsTr("This image format cannot be edited")
+                          ? qsTr("Edit") : qsTr("This image format cannot be edited")
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
             enabled: !imageIsNull && !IV.GStatus.editMode
                      && IV.ImageEditor.canEdit(IV.GControl.currentSource)
             height: 50
+            icon.height: 28
             icon.name: "edit_entry"
+            icon.width: 28
             width: 50
 
             onClicked: IV.GStatus.editMode = true

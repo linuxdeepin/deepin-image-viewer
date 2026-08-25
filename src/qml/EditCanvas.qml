@@ -12,7 +12,7 @@ Item {
     Accessible.role: Accessible.Pane
 
     property color currentColor: "#e53935"
-    property string currentTool: "pen"
+    property string currentTool: ""
     property int effectStrength: 15
     property int selectedIndex: -1
     property var strokes: []
@@ -21,7 +21,7 @@ Item {
     property real previousCanvasHeight: 0
     property real previousCanvasWidth: 0
     property string textMode: "plain"
-    property int thickness: 2
+    property int thickness: 5
     property var vectorHistory: []
     property int vectorHistoryIndex: -1
 
@@ -316,6 +316,15 @@ Item {
         return "";
     }
 
+    function cursorForHandle(handle) {
+        if (handle === "left" || handle === "right") return Qt.SizeHorCursor;
+        if (handle === "top" || handle === "bottom") return Qt.SizeVerCursor;
+        if (handle === "topLeft" || handle === "bottomRight") return Qt.SizeFDiagCursor;
+        if (handle === "topRight" || handle === "bottomLeft") return Qt.SizeBDiagCursor;
+        if (handle === "move") return Qt.SizeAllCursor;
+        return Qt.ArrowCursor;
+    }
+
     function confirmCrop() {
         if (currentTool !== "crop" || cropRect.width < 2 || cropRect.height < 2) return;
         cropRequested(Qt.rect(cropRect.x / width, cropRect.y / height,
@@ -557,6 +566,13 @@ Item {
         MouseArea {
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton
+            cursorShape: {
+                if (editCanvas.currentTool === "crop")
+                    return editCanvas.cursorForHandle(editCanvas.cropHandleAt(mouseX, mouseY));
+                var handle = editCanvas.handleAt(mouseX, mouseY);
+                if (handle !== "") return editCanvas.cursorForHandle(handle);
+                return editCanvas.strokeAt(mouseX, mouseY) >= 0 ? Qt.SizeAllCursor : Qt.ArrowCursor;
+            }
             enabled: IV.GStatus.editMode && (editCanvas.currentTool === "pen"
                                              || editCanvas.currentTool === "line"
                                              || editCanvas.currentTool === "arrow"
@@ -565,6 +581,7 @@ Item {
                                              || editCanvas.currentTool === "text"
                                              || editCanvas.currentTool === "blur"
                                              || editCanvas.currentTool === "crop")
+            hoverEnabled: true
             preventStealing: true
 
             onPressed: mouse => {

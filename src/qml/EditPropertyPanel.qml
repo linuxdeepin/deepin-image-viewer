@@ -4,19 +4,20 @@
 
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Dialogs
 import org.deepin.dtk 1.0 as DTK
+import org.deepin.image.viewer 1.0 as IV
 
 DTK.Control {
     id: propertyPanel
 
-    property string currentTool: "pen"
+    property string currentTool: ""
     property string blurMode: "gaussian"
     property color currentColor: "#f82a2a"
     property int effectStrength: 15
     readonly property var effectSteps: blurMode === "gaussian" ? [5, 15, 30] : [8, 16, 32]
     property string textMode: "plain"
-    property int thickness: 2
+    property int thickness: 5
+    readonly property int effectEndpointIconSize: 20
     readonly property color themeTextColor: palette.windowText
 
     signal blurModeSelected(string mode)
@@ -36,7 +37,7 @@ DTK.Control {
     Accessible.name: qsTr("Tool properties")
     Accessible.role: Accessible.Pane
     implicitHeight: 56
-    implicitWidth: isEffectTool ? 367 : isTextTool ? 299 : 383
+    implicitWidth: isEffectTool ? 381 : isTextTool ? 255 : 339
     padding: 0
 
     background: Rectangle {
@@ -90,7 +91,7 @@ DTK.Control {
         Rectangle {
             anchors.centerIn: parent
             color: propertyPanel.themeTextColor
-            height: 2 + (propertyPanel.thickness - 1) * 12 / 49
+            height: 2 + (propertyPanel.thickness - 1) * 12 / 9
             radius: height / 2
             width: height
         }
@@ -98,17 +99,36 @@ DTK.Control {
 
     component EffectIcon: DTK.ToolButton {
         required property int iconSize
+        required property string iconName
 
         display: AbstractButton.IconOnly
         height: 36
         icon.color: propertyPanel.themeTextColor
         icon.height: iconSize
-        icon.name: propertyPanel.blurMode === "mosaic" ? "edit_mosaic"
-                  : propertyPanel.blurMode === "graffiti" ? "edit_graffiti"
-                  : "edit_blur"
+        icon.name: iconName
         icon.width: iconSize
         padding: 0
-        width: iconSize
+        width: 36
+    }
+
+    component SliderTrack: Rectangle {
+        required property var slider
+
+        color: Qt.rgba(propertyPanel.themeTextColor.r,
+                       propertyPanel.themeTextColor.g,
+                       propertyPanel.themeTextColor.b, 0.2)
+        height: 4
+        radius: 2
+        width: slider.availableWidth
+        x: slider.leftPadding
+        y: slider.topPadding + slider.availableHeight / 2 - height / 2
+
+        Rectangle {
+            color: propertyPanel.palette.highlight
+            height: parent.height
+            radius: parent.radius
+            width: parent.slider.visualPosition * parent.width
+        }
     }
 
     component Separator: Item {
@@ -146,6 +166,7 @@ DTK.Control {
                 delegate: Rectangle {
                     id: swatch
                     required property string modelData
+                    readonly property bool selected: propertyPanel.currentColor.toString().toLowerCase() === modelData
 
                     border.color: modelData === "#ffffff" ? Qt.rgba(0, 0, 0, 0.18) : "transparent"
                     border.width: 1
@@ -156,14 +177,20 @@ DTK.Control {
 
                     Rectangle {
                         anchors.centerIn: parent
-                        border.color: "white"
-                        border.width: 1
+                        border.color: propertyPanel.palette.highlight
+                        border.width: 2
                         color: "transparent"
                         height: 18
+                        opacity: swatch.selected ? 1 : swatchHover.hovered ? 0.55 : 0
                         radius: 9
-                        visible: propertyPanel.currentColor.toString().toLowerCase() === swatch.modelData
                         width: 18
+
+                        Behavior on opacity {
+                            NumberAnimation { duration: IV.GStatus.animationDefaultDuration }
+                        }
                     }
+
+                    HoverHandler { id: swatchHover }
 
                     TapHandler {
                         onTapped: {
@@ -174,21 +201,6 @@ DTK.Control {
                 }
             }
         }
-    }
-
-    component MoreColorsButton: DTK.ToolButton {
-        Accessible.name: DTK.ToolTip.text
-        Accessible.role: Accessible.Button
-        display: AbstractButton.TextOnly
-        height: 36
-        text: "..."
-        width: 36
-
-        DTK.ToolTip.delay: 500
-        DTK.ToolTip.text: qsTr("More Colors…")
-        DTK.ToolTip.timeout: 5000
-        DTK.ToolTip.visible: hovered
-        onClicked: colorDialog.open()
     }
 
     contentItem: Item {
@@ -221,7 +233,6 @@ DTK.Control {
             }
             Separator { }
             ColorPalette { }
-            MoreColorsButton { }
         }
 
         Row {
@@ -237,7 +248,12 @@ DTK.Control {
             ModeButton { iconPath: "edit_mosaic"; selected: propertyPanel.blurMode === "mosaic"; DTK.ToolTip.text: qsTr("Mosaic"); onClicked: { propertyPanel.blurMode = "mosaic"; propertyPanel.blurModeSelected("mosaic"); } }
             ModeButton { iconPath: "edit_graffiti"; selected: propertyPanel.blurMode === "graffiti"; DTK.ToolTip.text: qsTr("Graffiti"); onClicked: { propertyPanel.blurMode = "graffiti"; propertyPanel.blurModeSelected("graffiti"); } }
             Separator { }
-            EffectIcon { iconSize: 12 }
+            EffectIcon {
+                iconName: propertyPanel.blurMode === "gaussian" ? "edit_blur_weak_endpoint"
+                        : propertyPanel.blurMode === "mosaic" ? "edit_mosaic"
+                        : "edit_graffiti"
+                iconSize: propertyPanel.effectEndpointIconSize / 2
+            }
             DTK.Slider {
                 id: effectSlider
 
@@ -247,39 +263,22 @@ DTK.Control {
                 to: 2
                 value: Math.max(0, propertyPanel.effectSteps.indexOf(propertyPanel.effectStrength))
                 width: 120
-                background: Rectangle {
-                    color: Qt.rgba(propertyPanel.themeTextColor.r,
-                                   propertyPanel.themeTextColor.g,
-                                   propertyPanel.themeTextColor.b, 0.2)
-                    height: 4
-                    radius: 2
-                    width: effectSlider.availableWidth
-                    x: effectSlider.leftPadding
-                    y: effectSlider.topPadding + effectSlider.availableHeight / 2 - height / 2
-
-                    Rectangle {
-                        color: propertyPanel.palette.highlight
-                        height: parent.height
-                        radius: parent.radius
-                        width: effectSlider.visualPosition * parent.width
-                    }
-                }
-                handle: Rectangle {
-                    border.color: Qt.rgba(0, 0, 0, 0.08)
-                    border.width: 1
-                    color: propertyPanel.palette.highlight
-                    height: 16
-                    radius: 8
-                    width: 16
-                    x: effectSlider.leftPadding + effectSlider.visualPosition * (effectSlider.availableWidth - width)
-                    y: effectSlider.topPadding + effectSlider.availableHeight / 2 - height / 2
-                }
+                background: SliderTrack { slider: effectSlider }
+                Binding { target: effectSlider.handle; property: "width"; value: 16 }
+                Binding { target: effectSlider.handle; property: "height"; value: 16 }
+                Binding { target: effectSlider.handle; property: "x"; value: effectSlider.leftPadding + effectSlider.visualPosition * (effectSlider.availableWidth - effectSlider.handle.width) }
+                Binding { target: effectSlider.handle; property: "y"; value: effectSlider.topPadding + effectSlider.availableHeight / 2 - effectSlider.handle.height / 2 }
                 onMoved: {
                     propertyPanel.effectStrength = propertyPanel.effectSteps[Math.round(value)];
                     propertyPanel.effectStrengthSelected(propertyPanel.effectStrength);
                 }
             }
-            EffectIcon { iconSize: 24 }
+            EffectIcon {
+                iconName: propertyPanel.blurMode === "mosaic" ? "edit_mosaic"
+                        : propertyPanel.blurMode === "graffiti" ? "edit_graffiti"
+                        : "edit_blur"
+                iconSize: propertyPanel.effectEndpointIconSize
+            }
         }
 
         Row {
@@ -298,36 +297,14 @@ DTK.Control {
                 from: 1
                 height: 36
                 stepSize: 1
-                to: 50
+                to: 10
                 value: propertyPanel.thickness
                 width: 120
-                background: Rectangle {
-                    color: Qt.rgba(propertyPanel.themeTextColor.r,
-                                   propertyPanel.themeTextColor.g,
-                                   propertyPanel.themeTextColor.b, 0.2)
-                    height: 4
-                    radius: 2
-                    width: strokeSlider.availableWidth
-                    x: strokeSlider.leftPadding
-                    y: strokeSlider.topPadding + strokeSlider.availableHeight / 2 - height / 2
-
-                    Rectangle {
-                        color: propertyPanel.palette.highlight
-                        height: parent.height
-                        radius: parent.radius
-                        width: strokeSlider.visualPosition * parent.width
-                    }
-                }
-                handle: Rectangle {
-                    border.color: Qt.rgba(0, 0, 0, 0.08)
-                    border.width: 1
-                    color: propertyPanel.palette.highlight
-                    height: 16
-                    radius: 8
-                    width: 16
-                    x: strokeSlider.leftPadding + strokeSlider.visualPosition * (strokeSlider.availableWidth - width)
-                    y: strokeSlider.topPadding + strokeSlider.availableHeight / 2 - height / 2
-                }
+                background: SliderTrack { slider: strokeSlider }
+                Binding { target: strokeSlider.handle; property: "width"; value: 16 }
+                Binding { target: strokeSlider.handle; property: "height"; value: 16 }
+                Binding { target: strokeSlider.handle; property: "x"; value: strokeSlider.leftPadding + strokeSlider.visualPosition * (strokeSlider.availableWidth - strokeSlider.handle.width) }
+                Binding { target: strokeSlider.handle; property: "y"; value: strokeSlider.topPadding + strokeSlider.availableHeight / 2 - strokeSlider.handle.height / 2 }
                 onMoved: {
                     propertyPanel.thickness = Math.round(value);
                     propertyPanel.thicknessSelected(propertyPanel.thickness);
@@ -335,19 +312,6 @@ DTK.Control {
             }
             Separator { }
             ColorPalette { }
-            MoreColorsButton { }
-        }
-    }
-
-    ColorDialog {
-        id: colorDialog
-
-        selectedColor: propertyPanel.currentColor
-        title: qsTr("Color")
-
-        onAccepted: {
-            propertyPanel.currentColor = selectedColor;
-            propertyPanel.colorSelected(selectedColor);
         }
     }
 }
