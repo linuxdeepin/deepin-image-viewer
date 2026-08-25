@@ -270,6 +270,31 @@ TEST(ut_imageeditcontroller, Crop_FullImage_ReturnsFalse)
     EXPECT_FALSE(controller.crop(QRectF(0, 0, 1, 1)));
 }
 
+TEST(ut_imageeditcontroller, RotateClockwise_SwapsDimensionsAndSupportsHistory)
+{
+    QTemporaryDir directory;
+    ASSERT_TRUE(directory.isValid());
+    ImageEditController controller;
+    ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory))));
+    const QImage original = controller.image();
+
+    ASSERT_TRUE(controller.rotateClockwise());
+    EXPECT_EQ(controller.image().size(), QSize(60, 80));
+    controller.commitHistory();
+    const QImage rotated = controller.image();
+
+    ASSERT_TRUE(controller.undo());
+    EXPECT_EQ(controller.image(), original);
+    ASSERT_TRUE(controller.redo());
+    EXPECT_EQ(controller.image(), rotated);
+}
+
+TEST(ut_imageeditcontroller, RotateClockwise_NoActiveSession_ReturnsFalse)
+{
+    ImageEditController controller;
+    EXPECT_FALSE(controller.rotateClockwise());
+}
+
 TEST(ut_imageeditcontroller, UndoRedo_PixelHistory_RestoresAndReapplies)
 {
     QTemporaryDir directory;
@@ -321,6 +346,23 @@ TEST(ut_imageeditcontroller, Redo_NoRedoAvailable_ReturnsFalse)
     ImageEditController controller;
     ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory))));
     EXPECT_FALSE(controller.redo());
+}
+
+TEST(ut_imageeditcontroller, UndoRedo_IdenticalSnapshotDoesNotReloadImage)
+{
+    QTemporaryDir directory;
+    ASSERT_TRUE(directory.isValid());
+    ImageEditController controller;
+    ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory))));
+    QSignalSpy revisionSpy(&controller, &ImageEditController::revisionChanged);
+
+    controller.commitHistory();
+    const int revision = controller.revision();
+    ASSERT_TRUE(controller.undo());
+    ASSERT_TRUE(controller.redo());
+
+    EXPECT_EQ(controller.revision(), revision);
+    EXPECT_EQ(revisionSpy.count(), 0);
 }
 
 TEST(ut_imageeditcontroller, History_KeepsAtMost50Steps)

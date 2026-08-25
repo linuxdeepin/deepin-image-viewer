@@ -30,12 +30,19 @@ Item {
     }
 
     function saveTo(destination) {
-        if (!IV.ImageEditor.saveComposite(destination, editCanvas.collectAnnotations()))
+        if (!IV.ImageEditor.saveComposite(destination, editCanvas.collectAnnotations())) {
+            if (exitAfterSave)
+                stackView.cancelPendingSourceChange();
+            exitAfterSave = false;
             return;
+        }
         IV.ImageEditor.markSaved();
         IV.GStatus.editModified = false;
-        if (exitAfterSave)
+        if (exitAfterSave) {
+            exitAfterSave = false;
             IV.GStatus.editMode = false;
+            stackView.completePendingSourceChange();
+        }
     }
 
     // 鼠标是否进入当前的视图
@@ -533,7 +540,10 @@ Item {
             if (IV.ImageEditor.redo() && editCanvas.redoHistory())
                 IV.GStatus.editModified = IV.ImageEditor.modified;
         }
-        onRotateRequested: editCanvas.rotateSelected()
+        onRotateRequested: {
+            if (IV.ImageEditor.rotateClockwise())
+                editCanvas.rotateClockwise();
+        }
         onSaveRequested: fullThumbnail.openSaveDialog(false)
         onUndoRequested: {
             if (IV.ImageEditor.undo() && editCanvas.undoHistory())
@@ -559,6 +569,11 @@ Item {
             else
                 fullThumbnail.saveTo(selectedFile);
         }
+        onRejected: {
+            if (fullThumbnail.exitAfterSave)
+                stackView.cancelPendingSourceChange();
+            fullThumbnail.exitAfterSave = false;
+        }
     }
 
     EditConfirmDialog {
@@ -575,6 +590,16 @@ Item {
         onActionTriggered: function(action) {
             if (action === "confirm")
                 fullThumbnail.saveTo(fullThumbnail.pendingSaveUrl);
+            else if (fullThumbnail.exitAfterSave) {
+                stackView.cancelPendingSourceChange();
+                fullThumbnail.exitAfterSave = false;
+            }
+        }
+        onClosing: function(close) {
+            if (fullThumbnail.exitAfterSave) {
+                stackView.cancelPendingSourceChange();
+                fullThumbnail.exitAfterSave = false;
+            }
         }
     }
 

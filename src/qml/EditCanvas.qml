@@ -20,6 +20,8 @@ Item {
     property rect cropRect: Qt.rect(0, 0, 0, 0)
     property real previousCanvasHeight: 0
     property real previousCanvasWidth: 0
+    readonly property real stableCanvasHeight: height > 0 ? height : previousCanvasHeight
+    readonly property real stableCanvasWidth: width > 0 ? width : previousCanvasWidth
     property string textMode: "plain"
     property int thickness: 5
     property var vectorHistory: []
@@ -47,8 +49,10 @@ Item {
             for (var p = 0; p < source[i].points.length; ++p) {
                 var pointX = source[i].points[p].x;
                 var pointY = source[i].points[p].y;
-                points.push(normalize ? Qt.point(pointX / Math.max(1, width), pointY / Math.max(1, height))
-                                      : Qt.point(pointX * width, pointY * height));
+                points.push(normalize ? Qt.point(pointX / Math.max(1, stableCanvasWidth),
+                                                 pointY / Math.max(1, stableCanvasHeight))
+                                      : Qt.point(pointX * stableCanvasWidth,
+                                                 pointY * stableCanvasHeight));
             }
             result.push(Object.assign({}, source[i], { points: points }));
         }
@@ -187,20 +191,27 @@ Item {
         drawingCanvas.requestPaint();
     }
 
-    function rotateSelected() {
-        if (selectedIndex < 0 || selectedIndex >= strokes.length) return;
-        var stroke = strokes[selectedIndex];
-        var bounds = boundsFor(stroke);
-        var centerX = (bounds.left + bounds.right) / 2;
-        var centerY = (bounds.top + bounds.bottom) / 2;
-        var rotated = [];
-        for (var i = 0; i < stroke.points.length; ++i) {
-            var dx = stroke.points[i].x - centerX;
-            var dy = stroke.points[i].y - centerY;
-            rotated.push(Qt.point(centerX - dy, centerY + dx));
+    function rotateClockwise() {
+        // Rotate normalized coordinates here; the canvas resize handlers scale them
+        // into the image's swapped dimensions after the rotated image is reloaded.
+        var canvasWidth = stableCanvasWidth;
+        var canvasHeight = stableCanvasHeight;
+        if (canvasWidth <= 0 || canvasHeight <= 0) return;
+        var updated = [];
+        for (var i = 0; i < strokes.length; ++i) {
+            var points = [];
+            for (var p = 0; p < strokes[i].points.length; ++p) {
+                var normalizedX = strokes[i].points[p].x / canvasWidth;
+                var normalizedY = strokes[i].points[p].y / canvasHeight;
+                points.push(Qt.point((1 - normalizedY) * canvasWidth,
+                                     normalizedX * canvasHeight));
+            }
+            updated.push(Object.assign({}, strokes[i], { points: points }));
         }
-        replaceStroke(selectedIndex, Object.assign({}, stroke, { points: rotated }));
+        strokes = updated;
+        selectedIndex = -1;
         strokeCommitted();
+        drawingCanvas.requestPaint();
     }
 
     function updateSelectedStyle(color, width) {
@@ -280,12 +291,12 @@ Item {
         for (var i = 0; i < strokes.length; ++i) {
             var points = [];
             for (var p = 0; p < strokes[i].points.length; ++p) {
-                points.push(Qt.point(strokes[i].points[p].x / Math.max(1, width),
-                                     strokes[i].points[p].y / Math.max(1, height)));
+                points.push(Qt.point(strokes[i].points[p].x / Math.max(1, stableCanvasWidth),
+                                     strokes[i].points[p].y / Math.max(1, stableCanvasHeight)));
             }
             annotations.push(Object.assign({}, strokes[i], {
                 points: points,
-                width: strokes[i].width / Math.max(1, width)
+                width: strokes[i].width / Math.max(1, stableCanvasWidth)
             }));
         }
         return annotations;
@@ -370,12 +381,14 @@ Item {
         if (currentTool === "crop") resetCrop();
     }
     onWidthChanged: {
+        if (width <= 0) return;
         if (previousCanvasWidth > 0) scaleStrokes(width / previousCanvasWidth, 1);
         previousCanvasWidth = width;
         if (currentTool === "crop") resetCrop();
         drawingCanvas.requestPaint();
     }
     onHeightChanged: {
+        if (height <= 0) return;
         if (previousCanvasHeight > 0) scaleStrokes(1, height / previousCanvasHeight);
         previousCanvasHeight = height;
         if (currentTool === "crop") resetCrop();

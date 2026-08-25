@@ -17,6 +17,40 @@ Item {
 
     signal saveEditCopyRequested
 
+    property url pendingSourcePath: ""
+
+    function cancelPendingSourceChange() {
+        pendingSourcePath = "";
+    }
+
+    function completePendingSourceChange() {
+        if (pendingSourcePath.toString() === "") return;
+        var path = pendingSourcePath;
+        pendingSourcePath = "";
+        setSourcePath(path);
+    }
+
+    function requestSourcePath(path) {
+        if (path.toString() === IV.GControl.currentSource.toString()) return;
+        if (!IV.GStatus.editMode) {
+            setSourcePath(path);
+            return;
+        }
+
+        if (pendingSourcePath.toString() !== "") {
+            pendingSourcePath = path;
+            return;
+        }
+
+        pendingSourcePath = path;
+        if (IV.GStatus.editModified) {
+            unsavedEditDialog.open();
+        } else {
+            IV.GStatus.editMode = false;
+            completePendingSourceChange();
+        }
+    }
+
     function requestExitEditMode() {
         if (!IV.GStatus.editMode) {
             return;
@@ -102,7 +136,7 @@ Item {
     Connections {
         // 关联外部通过 DBus 等方式触发调用看图
         function onOpenImageFile(fileName) {
-            setSourcePath(fileName);
+            requestSourcePath(fileName);
         }
 
         target: IV.FileControl
@@ -133,7 +167,7 @@ Item {
         onDropped: {
             if (drop.hasUrls && drop.urls.length !== 0
                     && IV.FileControl.isImage(drop.urls[0].toString())) {
-                setSourcePath(drop.urls[0]);
+                requestSourcePath(drop.urls[0]);
             }
         }
         onEntered: {
@@ -164,7 +198,7 @@ Item {
                 fileDialog.open();
             }
             onAccepted: {
-                stackView.setSourcePath(fileDialog.selectedFiles[0]);
+                stackView.requestSourcePath(fileDialog.selectedFiles[0]);
             }
         }
     }
@@ -216,6 +250,8 @@ Item {
     EditConfirmDialog {
         id: unsavedEditDialog
 
+        property bool preservePendingSource: false
+
         title: ""
         message: qsTr("The current image has unsaved changes. Save?")
         parentWindow: Window.window
@@ -230,9 +266,18 @@ Item {
             if (action === "discard") {
                 IV.GStatus.editModified = false;
                 IV.GStatus.editMode = false;
+                stackView.completePendingSourceChange();
             } else if (action === "save") {
+                preservePendingSource = true;
                 stackView.saveEditCopyAndExit();
+            } else {
+                stackView.cancelPendingSourceChange();
             }
+        }
+        onClosing: function(close) {
+            if (!preservePendingSource)
+                stackView.cancelPendingSourceChange();
+            preservePendingSource = false;
         }
     }
 

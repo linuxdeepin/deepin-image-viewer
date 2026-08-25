@@ -321,6 +321,21 @@ bool ImageEditController::crop(const QRectF &normalizedRect)
     return true;
 }
 
+bool ImageEditController::rotateClockwise()
+{
+    QWriteLocker locker(&m_lock);
+    if (m_image.isNull())
+        return false;
+
+    QTransform transform;
+    transform.rotate(90);
+    m_image = m_image.transformed(transform);
+    ++m_revision;
+    locker.unlock();
+    Q_EMIT revisionChanged();
+    return true;
+}
+
 void ImageEditController::commitHistory()
 {
     QWriteLocker locker(&m_lock);
@@ -358,10 +373,15 @@ bool ImageEditController::undo()
     if (m_historyIndex <= 0)
         return false;
     --m_historyIndex;
-    m_image = m_history[m_historyIndex];
-    ++m_revision;
+    const QImage &target = m_history[m_historyIndex];
+    const bool imageChanged = target.cacheKey() != m_image.cacheKey();
+    if (imageChanged) {
+        m_image = target;
+        ++m_revision;
+    }
     locker.unlock();
-    Q_EMIT revisionChanged();
+    if (imageChanged)
+        Q_EMIT revisionChanged();
     Q_EMIT historyChanged();
     return true;
 }
@@ -372,10 +392,15 @@ bool ImageEditController::redo()
     if (m_historyIndex < 0 || m_historyIndex + 1 >= m_history.size())
         return false;
     ++m_historyIndex;
-    m_image = m_history[m_historyIndex];
-    ++m_revision;
+    const QImage &target = m_history[m_historyIndex];
+    const bool imageChanged = target.cacheKey() != m_image.cacheKey();
+    if (imageChanged) {
+        m_image = target;
+        ++m_revision;
+    }
     locker.unlock();
-    Q_EMIT revisionChanged();
+    if (imageChanged)
+        Q_EMIT revisionChanged();
     Q_EMIT historyChanged();
     return true;
 }
