@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.49) unstable; urgency=medium
+
+  * feat(editor): add image editing support
+
+ -- Tian Shilin <tianshilin@uniontech.com>  Wed, 26 Aug 2026 17:07:43 +0800
+
 deepin-image-viewer (6.0.48) unstable; urgency=medium
 
   * fix: eliminate position jitter at end of rotation animation
