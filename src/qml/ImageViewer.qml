@@ -831,7 +831,8 @@ Item {
         id: naviLoader
 
         // 导航窗口是否显示
-        property bool expectShow: IV.GStatus.enableNavigation && (null !== targetImage) && (targetImage.scale > 1)
+        property bool expectShow: !IV.GStatus.editMode && IV.GStatus.enableNavigation
+                                  && (null !== targetImage) && (targetImage.scale > 1)
 
         active: false
         asynchronous: true

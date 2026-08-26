@@ -525,6 +525,49 @@ TEST(ut_imageeditcontroller, SaveComposite_AllAnnotationTypes_Rasterized)
     EXPECT_NE(saved, original);
 }
 
+TEST(ut_imageeditcontroller, SaveComposite_RotatedRectangle_RasterizedAtRotatedPosition)
+{
+    QTemporaryDir directory;
+    ASSERT_TRUE(directory.isValid());
+    ImageEditController controller;
+    ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory, 100, 100))));
+    const QString targetPath = directory.filePath("rotated-rectangle.png");
+
+    QVariantMap rectangle;
+    rectangle.insert("type", "rect");
+    rectangle.insert("color", "#ff0000");
+    rectangle.insert("width", 0.02);
+    rectangle.insert("rotation", 90.0);
+    rectangle.insert("points", QVariantList { QPointF(0.2, 0.4), QPointF(0.8, 0.6) });
+
+    ASSERT_TRUE(controller.saveComposite(QUrl::fromLocalFile(targetPath), { rectangle }));
+    const QImage saved(targetPath);
+    ASSERT_FALSE(saved.isNull());
+    EXPECT_EQ(saved.pixelColor(60, 50), QColor("#ff0000"));
+}
+
+TEST(ut_imageeditcontroller, SaveComposite_Number_UsesFilledCircle)
+{
+    QTemporaryDir directory;
+    ASSERT_TRUE(directory.isValid());
+    ImageEditController controller;
+    ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory, 100, 100))));
+    const QString targetPath = directory.filePath("filled-number.png");
+
+    QVariantMap number;
+    number.insert("type", "number");
+    number.insert("number", 1);
+    number.insert("color", "#ff0000");
+    number.insert("width", 0.0);
+    number.insert("fontFamily", QGuiApplication::font().family());
+    number.insert("points", QVariantList { QPointF(0.4, 0.4), QPointF(0.6, 0.6) });
+
+    ASSERT_TRUE(controller.saveComposite(QUrl::fromLocalFile(targetPath), { number }));
+    const QImage saved(targetPath);
+    ASSERT_FALSE(saved.isNull());
+    EXPECT_EQ(saved.pixelColor(50, 42), QColor("#ff0000"));
+}
+
 TEST(ut_imageeditcontroller, SaveComposite_FormatMismatch_SaveFailedSignal)
 {
     QTemporaryDir directory;

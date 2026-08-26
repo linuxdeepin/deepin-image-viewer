@@ -19,6 +19,11 @@
 
 #include <opencv2/imgproc.hpp>
 
+namespace {
+// Keep synchronized with EditCanvas.numberTextContrastThreshold.
+constexpr qreal kNumberTextContrastThreshold = 170.0;
+}
+
 ImageEditController::ImageEditController(QObject *parent)
     : QObject(parent)
 {
@@ -180,24 +185,42 @@ bool ImageEditController::saveComposite(const QUrl &destination, const QVariantL
         painter.setPen(pen);
         painter.setBrush(Qt::NoBrush);
 
-        const QRectF bounds(points.first(), points.last());
+        const QRectF bounds = QRectF(points.first(), points.last()).normalized();
         if (type == QLatin1String("rect")) {
-            painter.drawRect(bounds.normalized());
+            painter.save();
+            painter.translate(bounds.center());
+            painter.rotate(annotation.value(QStringLiteral("rotation")).toDouble());
+            painter.drawRect(QRectF(-bounds.width() / 2, -bounds.height() / 2,
+                                    bounds.width(), bounds.height()));
+            painter.restore();
         } else if (type == QLatin1String("ellipse")) {
-            painter.drawEllipse(bounds.normalized());
+            painter.save();
+            painter.translate(bounds.center());
+            painter.rotate(annotation.value(QStringLiteral("rotation")).toDouble());
+            painter.drawEllipse(QRectF(-bounds.width() / 2, -bounds.height() / 2,
+                                       bounds.width(), bounds.height()));
+            painter.restore();
         } else if (type == QLatin1String("text") || type == QLatin1String("number")) {
-            const QRectF textBounds = bounds.normalized();
+            const QRectF textBounds = bounds;
             QFont font = defaultFont;
             const QString fontFamily = annotation.value(QStringLiteral("fontFamily")).toString();
             if (!fontFamily.isEmpty())
                 font.setFamily(fontFamily);
-            font.setPixelSize(qMax(8, qRound(textBounds.height() * 0.8)));
-            painter.setFont(font);
             if (type == QLatin1String("number")) {
+                font.setWeight(QFont::Medium);
+                font.setPixelSize(qMax(1, qRound(textBounds.height() * 0.6)));
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(color);
                 painter.drawEllipse(textBounds);
+                const qreal luminance = color.red() * 0.299 + color.green() * 0.587
+                        + color.blue() * 0.114;
+                painter.setPen(luminance > kNumberTextContrastThreshold ? Qt::black : Qt::white);
+                painter.setFont(font);
                 painter.drawText(textBounds, Qt::AlignCenter,
                                  QString::number(annotation.value(QStringLiteral("number")).toInt()));
             } else {
+                font.setPixelSize(qMax(1, qRound(textBounds.height() * 0.8)));
+                painter.setFont(font);
                 painter.drawText(textBounds, Qt::AlignLeft | Qt::AlignVCenter,
                                  annotation.value(QStringLiteral("text")).toString());
             }
