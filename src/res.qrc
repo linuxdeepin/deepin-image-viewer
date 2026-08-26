@@ -60,6 +60,7 @@
         <file>dsg/icons/edit_close.dci</file>
         <file>dsg/icons/edit_entry.dci</file>
         <file>dsg/icons/edit_rotate.dci</file>
+        <file>dsg/icons/edit_rotate_cursor.dci</file>
         <file>dsg/icons/edit_save.dci</file>
     </qresource>
 </RCC>

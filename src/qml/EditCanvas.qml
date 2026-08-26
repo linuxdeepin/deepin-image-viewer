@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
+import org.deepin.dtk 1.0 as DTK
 import org.deepin.image.viewer 1.0 as IV
 
 Item {
@@ -14,6 +15,7 @@ Item {
     property color currentColor: "#e53935"
     property string currentTool: ""
     property int effectStrength: 15
+    property color selectionActiveColor: "#2f80ed"
     property int selectedIndex: -1
     property var strokes: []
     property string blurMode: "gaussian"
@@ -26,6 +28,9 @@ Item {
     property int thickness: 5
     property var vectorHistory: []
     property int vectorHistoryIndex: -1
+    readonly property real numberTextContrastThreshold: 170
+    readonly property string numberFontFamily: Qt.fontFamilies().indexOf("Source Han Sans SC") >= 0
+                                               ? "Source Han Sans SC" : textEditor.font.family
 
     signal strokeCommitted
     signal effectRequested(string effect, rect normalizedRect, int strength)
@@ -104,19 +109,65 @@ Item {
                  width: right - left, height: bottom - top };
     }
 
-    function handleAt(x, y) {
-        if (selectedIndex < 0 || selectedIndex >= strokes.length) return "";
-        var bounds = boundsFor(strokes[selectedIndex]);
-        var handles = [
-            { name: "top", x: (bounds.left + bounds.right) / 2, y: bounds.top },
-            { name: "right", x: bounds.right, y: (bounds.top + bounds.bottom) / 2 },
-            { name: "bottom", x: (bounds.left + bounds.right) / 2, y: bounds.bottom },
-            { name: "left", x: bounds.left, y: (bounds.top + bounds.bottom) / 2 },
+    function rotatePoint(point, centerX, centerY, degrees) {
+        var radians = degrees * Math.PI / 180;
+        var cosine = Math.cos(radians);
+        var sine = Math.sin(radians);
+        var deltaX = point.x - centerX;
+        var deltaY = point.y - centerY;
+        return Qt.point(centerX + deltaX * cosine - deltaY * sine,
+                        centerY + deltaX * sine + deltaY * cosine);
+    }
+
+    function handlesForStroke(stroke) {
+        if (!stroke || stroke.points.length < 2) return [];
+        if (stroke.type === "line" || stroke.type === "arrow") {
+            return [
+                { name: "start", x: stroke.points[0].x, y: stroke.points[0].y },
+                { name: "end", x: stroke.points[stroke.points.length - 1].x,
+                  y: stroke.points[stroke.points.length - 1].y }
+            ];
+        }
+
+        var bounds = boundsFor(stroke);
+        var centerX = (bounds.left + bounds.right) / 2;
+        var centerY = (bounds.top + bounds.bottom) / 2;
+        var handles = stroke.type === "text" || stroke.type === "number" ? [
+            { name: "topLeft", x: bounds.left, y: bounds.top },
+            { name: "topRight", x: bounds.right, y: bounds.top },
+            { name: "bottomLeft", x: bounds.left, y: bounds.bottom },
+            { name: "bottomRight", x: bounds.right, y: bounds.bottom }
+        ] : [
+            { name: "top", x: centerX, y: bounds.top },
+            { name: "right", x: bounds.right, y: centerY },
+            { name: "bottom", x: centerX, y: bounds.bottom },
+            { name: "left", x: bounds.left, y: centerY },
             { name: "topLeft", x: bounds.left, y: bounds.top },
             { name: "topRight", x: bounds.right, y: bounds.top },
             { name: "bottomLeft", x: bounds.left, y: bounds.bottom },
             { name: "bottomRight", x: bounds.right, y: bounds.bottom }
         ];
+
+        var rotation = Number(stroke.rotation || 0);
+        if ((stroke.type === "rect" || stroke.type === "ellipse") && rotation !== 0) {
+            for (var i = 0; i < handles.length; ++i) {
+                var rotated = rotatePoint(Qt.point(handles[i].x, handles[i].y),
+                                          centerX, centerY, rotation);
+                handles[i].x = rotated.x;
+                handles[i].y = rotated.y;
+            }
+        }
+        if (stroke.type === "pen" || stroke.type === "rect" || stroke.type === "ellipse") {
+            var rotationHandle = rotatePoint(Qt.point(centerX, bounds.top - 24),
+                                             centerX, centerY, rotation);
+            handles.push({ name: "rotate", x: rotationHandle.x, y: rotationHandle.y });
+        }
+        return handles;
+    }
+
+    function handleAt(x, y) {
+        if (selectedIndex < 0 || selectedIndex >= strokes.length) return "";
+        var handles = handlesForStroke(strokes[selectedIndex]);
         for (var i = 0; i < handles.length; ++i) {
             if (Math.abs(x - handles[i].x) <= 7 && Math.abs(y - handles[i].y) <= 7)
                 return handles[i].name;
@@ -136,20 +187,30 @@ Item {
                 continue;
             }
             if (stroke.type === "rect") {
-                var insideX = x >= bounds.left - tolerance && x <= bounds.right + tolerance;
-                var insideY = y >= bounds.top - tolerance && y <= bounds.bottom + tolerance;
-                var nearVertical = Math.abs(x - bounds.left) <= tolerance
-                        || Math.abs(x - bounds.right) <= tolerance;
-                var nearHorizontal = Math.abs(y - bounds.top) <= tolerance
-                        || Math.abs(y - bounds.bottom) <= tolerance;
+                var rectPoint = rotatePoint(Qt.point(x, y),
+                                            (bounds.left + bounds.right) / 2,
+                                            (bounds.top + bounds.bottom) / 2,
+                                            -Number(stroke.rotation || 0));
+                var insideX = rectPoint.x >= bounds.left - tolerance
+                        && rectPoint.x <= bounds.right + tolerance;
+                var insideY = rectPoint.y >= bounds.top - tolerance
+                        && rectPoint.y <= bounds.bottom + tolerance;
+                var nearVertical = Math.abs(rectPoint.x - bounds.left) <= tolerance
+                        || Math.abs(rectPoint.x - bounds.right) <= tolerance;
+                var nearHorizontal = Math.abs(rectPoint.y - bounds.top) <= tolerance
+                        || Math.abs(rectPoint.y - bounds.bottom) <= tolerance;
                 if ((insideY && nearVertical) || (insideX && nearHorizontal)) return i;
                 continue;
             }
             if (stroke.type === "ellipse") {
+                var ellipsePoint = rotatePoint(Qt.point(x, y),
+                                               (bounds.left + bounds.right) / 2,
+                                               (bounds.top + bounds.bottom) / 2,
+                                               -Number(stroke.rotation || 0));
                 var radiusX = Math.max(bounds.width / 2, 0.5);
                 var radiusY = Math.max(bounds.height / 2, 0.5);
-                var normalizedX = (x - (bounds.left + bounds.right) / 2) / radiusX;
-                var normalizedY = (y - (bounds.top + bounds.bottom) / 2) / radiusY;
+                var normalizedX = (ellipsePoint.x - (bounds.left + bounds.right) / 2) / radiusX;
+                var normalizedY = (ellipsePoint.y - (bounds.top + bounds.bottom) / 2) / radiusY;
                 var distance = Math.sqrt(normalizedX * normalizedX + normalizedY * normalizedY);
                 var ellipseTolerance = tolerance / Math.max(radiusX, radiusY);
                 if (Math.abs(distance - 1) <= ellipseTolerance) return i;
@@ -194,6 +255,8 @@ Item {
     function rotateClockwise() {
         // Rotate normalized coordinates here; the canvas resize handlers scale them
         // into the image's swapped dimensions after the rotated image is reloaded.
+        // Rectangles and ellipses retain their angle because swapping their bounds
+        // already represents the additional 90-degree rotation.
         var canvasWidth = stableCanvasWidth;
         var canvasHeight = stableCanvasHeight;
         if (canvasWidth <= 0 || canvasHeight <= 0) return;
@@ -216,8 +279,9 @@ Item {
 
     function updateSelectedStyle(color, width) {
         if (selectedIndex < 0 || selectedIndex >= strokes.length) return;
-        var stroke = Object.assign({}, strokes[selectedIndex],
-                                   { color: color.toString(), width: width });
+        var changes = { color: color.toString() };
+        if (strokes[selectedIndex].type !== "number") changes.width = width;
+        var stroke = Object.assign({}, strokes[selectedIndex], changes);
         replaceStroke(selectedIndex, stroke);
         strokeCommitted();
     }
@@ -234,8 +298,19 @@ Item {
         return number;
     }
 
+    function numberTextColor(colorValue) {
+        // Stroke colors are normalized through the QML color type before storage.
+        var hex = colorValue.toString().toLowerCase();
+        if (hex.length !== 7 || hex.charAt(0) !== "#") return "#ffffff";
+        var red = parseInt(hex.substr(1, 2), 16);
+        var green = parseInt(hex.substr(3, 2), 16);
+        var blue = parseInt(hex.substr(5, 2), 16);
+        return red * 0.299 + green * 0.587 + blue * 0.114 > numberTextContrastThreshold
+                ? "#000000" : "#ffffff";
+    }
+
     function addNumber(x, y) {
-        var diameter = 30;
+        var diameter = 20;
         var updated = strokes.slice();
         updated.push({
             type: "number",
@@ -243,8 +318,8 @@ Item {
             points: [Qt.point(x - diameter / 2, y - diameter / 2),
                      Qt.point(x + diameter / 2, y + diameter / 2)],
             color: currentColor.toString(),
-            fontFamily: textEditor.font.family,
-            width: thickness,
+            fontFamily: numberFontFamily,
+            width: 0,
             baseWidth: diameter,
             baseHeight: diameter
         });
@@ -303,10 +378,7 @@ Item {
     }
 
     function resetCrop() {
-        var marginX = width * 0.1;
-        var marginY = height * 0.1;
-        cropRect = Qt.rect(marginX, marginY, Math.max(2, width - marginX * 2),
-                          Math.max(2, height - marginY * 2));
+        cropRect = Qt.rect(0, 0, width, height);
         drawingCanvas.requestPaint();
     }
 
@@ -328,12 +400,84 @@ Item {
     }
 
     function cursorForHandle(handle) {
+        if (handle === "rotate") return Qt.BlankCursor;
+        if (handle === "start" || handle === "end") {
+            if (selectedIndex < 0 || selectedIndex >= strokes.length) return Qt.ArrowCursor;
+            var selected = strokes[selectedIndex];
+            var first = selected.points[0];
+            var last = selected.points[selected.points.length - 1];
+            var angle = Math.abs(Math.atan2(last.y - first.y, last.x - first.x) * 180 / Math.PI);
+            if (angle <= 22.5 || angle >= 157.5) return Qt.SizeHorCursor;
+            if (angle >= 67.5 && angle <= 112.5) return Qt.SizeVerCursor;
+            return angle < 67.5 ? Qt.SizeFDiagCursor : Qt.SizeBDiagCursor;
+        }
         if (handle === "left" || handle === "right") return Qt.SizeHorCursor;
         if (handle === "top" || handle === "bottom") return Qt.SizeVerCursor;
         if (handle === "topLeft" || handle === "bottomRight") return Qt.SizeFDiagCursor;
         if (handle === "topRight" || handle === "bottomLeft") return Qt.SizeBDiagCursor;
         if (handle === "move") return Qt.SizeAllCursor;
         return Qt.ArrowCursor;
+    }
+
+    function resizedBounds(bounds, handle, mouseX, mouseY, proportional) {
+        var left = bounds.left;
+        var right = bounds.right;
+        var top = bounds.top;
+        var bottom = bounds.bottom;
+        var changesLeft = handle === "left" || handle === "topLeft" || handle === "bottomLeft";
+        var changesRight = handle === "right" || handle === "topRight" || handle === "bottomRight";
+        var changesTop = handle === "top" || handle === "topLeft" || handle === "topRight";
+        var changesBottom = handle === "bottom" || handle === "bottomLeft" || handle === "bottomRight";
+
+        if (!proportional) {
+            if (changesLeft) left = Math.min(right - 1, mouseX);
+            if (changesRight) right = Math.max(left + 1, mouseX);
+            if (changesTop) top = Math.min(bottom - 1, mouseY);
+            if (changesBottom) bottom = Math.max(top + 1, mouseY);
+            return { left: left, right: right, top: top, bottom: bottom,
+                     width: right - left, height: bottom - top };
+        }
+
+        var originalWidth = Math.max(1, bounds.width);
+        var originalHeight = Math.max(1, bounds.height);
+        var centerX = (bounds.left + bounds.right) / 2;
+        var centerY = (bounds.top + bounds.bottom) / 2;
+        var scale = 1;
+        if (changesLeft && !changesTop && !changesBottom) {
+            scale = Math.max(0.05, (bounds.right - mouseX) / originalWidth);
+            left = bounds.right - originalWidth * scale;
+            top = centerY - originalHeight * scale / 2;
+            bottom = centerY + originalHeight * scale / 2;
+        } else if (changesRight && !changesTop && !changesBottom) {
+            scale = Math.max(0.05, (mouseX - bounds.left) / originalWidth);
+            right = bounds.left + originalWidth * scale;
+            top = centerY - originalHeight * scale / 2;
+            bottom = centerY + originalHeight * scale / 2;
+        } else if (changesTop && !changesLeft && !changesRight) {
+            scale = Math.max(0.05, (bounds.bottom - mouseY) / originalHeight);
+            top = bounds.bottom - originalHeight * scale;
+            left = centerX - originalWidth * scale / 2;
+            right = centerX + originalWidth * scale / 2;
+        } else if (changesBottom && !changesLeft && !changesRight) {
+            scale = Math.max(0.05, (mouseY - bounds.top) / originalHeight);
+            bottom = bounds.top + originalHeight * scale;
+            left = centerX - originalWidth * scale / 2;
+            right = centerX + originalWidth * scale / 2;
+        } else {
+            var anchorX = changesLeft ? bounds.right : bounds.left;
+            var anchorY = changesTop ? bounds.bottom : bounds.top;
+            scale = Math.max(0.05,
+                             Math.max(Math.abs(mouseX - anchorX) / originalWidth,
+                                      Math.abs(mouseY - anchorY) / originalHeight));
+            var newWidth = originalWidth * scale;
+            var newHeight = originalHeight * scale;
+            left = changesLeft ? anchorX - newWidth : anchorX;
+            right = changesLeft ? anchorX : anchorX + newWidth;
+            top = changesTop ? anchorY - newHeight : anchorY;
+            bottom = changesTop ? anchorY : anchorY + newHeight;
+        }
+        return { left: left, right: right, top: top, bottom: bottom,
+                 width: right - left, height: bottom - top };
     }
 
     function confirmCrop() {
@@ -403,9 +547,13 @@ Item {
         property var activePoints: []
         property string interaction: ""
         property bool interactionChanged: false
+        property string hoveredHandle: ""
         property string resizeHandle: ""
         property point pressPoint: Qt.point(0, 0)
         property var originalPoints: []
+        property real originalRotation: 0
+        property point rotationCenter: Qt.point(0, 0)
+        property real rotationStartAngle: 0
 
         anchors.fill: parent
         renderStrategy: Canvas.Cooperative
@@ -430,22 +578,22 @@ Item {
                     context.translate(textLeft, textTop);
                     context.scale(textWidth / Math.max(1, stroke.baseWidth),
                                   textHeight / Math.max(1, stroke.baseHeight));
-                    context.fillStyle = stroke.color;
-                    context.strokeStyle = stroke.color;
                     context.textAlign = stroke.type === "number" ? "center" : "left";
                     context.textBaseline = "middle";
                     var fontFamily = stroke.fontFamily || textEditor.font.family;
-                    context.font = "20px \"" + fontFamily.replace(/"/g, "\\\"") + "\"";
                     if (stroke.type === "number") {
-                        var radius = stroke.baseWidth / 2 - Math.max(1, stroke.width / 2);
-                        context.lineWidth = stroke.width;
+                        context.fillStyle = stroke.color;
                         context.beginPath();
                         context.arc(stroke.baseWidth / 2, stroke.baseHeight / 2,
-                                    Math.max(1, radius), 0, Math.PI * 2);
-                        context.stroke();
+                                    stroke.baseWidth / 2, 0, Math.PI * 2);
+                        context.fill();
+                        context.fillStyle = editCanvas.numberTextColor(stroke.color);
+                        context.font = "500 12px \"" + fontFamily.replace(/"/g, "\\\"") + "\"";
                         context.fillText(stroke.number.toString(), stroke.baseWidth / 2,
                                          stroke.baseHeight / 2);
                     } else {
+                        context.fillStyle = stroke.color;
+                        context.font = "20px \"" + fontFamily.replace(/"/g, "\\\"") + "\"";
                         context.fillText(stroke.text, 0, stroke.baseHeight / 2);
                     }
                     context.restore();
@@ -469,15 +617,21 @@ Item {
                     var top = Math.min(start.y, end.y);
                     var shapeWidth = Math.abs(end.x - start.x);
                     var shapeHeight = Math.abs(end.y - start.y);
+                    var centerX = left + shapeWidth / 2;
+                    var centerY = top + shapeHeight / 2;
+                    context.save();
+                    context.translate(centerX, centerY);
+                    context.rotate(Number(stroke.rotation || 0) * Math.PI / 180);
                     context.beginPath();
                     context.strokeStyle = stroke.color;
                     context.lineWidth = stroke.width;
                     if (stroke.type === "rect") {
-                        context.rect(left, top, shapeWidth, shapeHeight);
+                        context.rect(-shapeWidth / 2, -shapeHeight / 2, shapeWidth, shapeHeight);
                     } else {
-                        context.ellipse(left, top, shapeWidth, shapeHeight);
+                        context.ellipse(-shapeWidth / 2, -shapeHeight / 2, shapeWidth, shapeHeight);
                     }
                     context.stroke();
+                    context.restore();
                     return;
                 }
                 context.beginPath();
@@ -511,29 +665,41 @@ Item {
                          points: activePoints, color: editCanvas.currentColor.toString(), width: editCanvas.thickness });
 
             if (editCanvas.selectedIndex >= 0 && editCanvas.selectedIndex < editCanvas.strokes.length) {
-                var bounds = editCanvas.boundsFor(editCanvas.strokes[editCanvas.selectedIndex]);
+                var selectedStroke = editCanvas.strokes[editCanvas.selectedIndex];
+                var bounds = editCanvas.boundsFor(selectedStroke);
+                var selectionHandles = editCanvas.handlesForStroke(selectedStroke);
+                var selectionColor = drawingCanvas.hoveredHandle !== ""
+                        ? editCanvas.selectionActiveColor : "#ffffff";
                 context.save();
-                context.strokeStyle = "#2f80ed";
+                context.strokeStyle = selectionColor;
                 context.fillStyle = "#ffffff";
                 context.lineWidth = 1;
-                context.setLineDash([4, 3]);
-                context.strokeRect(bounds.left, bounds.top, Math.max(1, bounds.width), Math.max(1, bounds.height));
-                context.setLineDash([]);
-                var handles = [
-                    [(bounds.left + bounds.right) / 2, bounds.top],
-                    [bounds.right, (bounds.top + bounds.bottom) / 2],
-                    [(bounds.left + bounds.right) / 2, bounds.bottom],
-                    [bounds.left, (bounds.top + bounds.bottom) / 2],
-                    [bounds.left, bounds.top],
-                    [bounds.right, bounds.top],
-                    [bounds.left, bounds.bottom],
-                    [bounds.right, bounds.bottom]
-                ];
-                for (var h = 0; h < handles.length; ++h) {
-                    context.beginPath();
-                    context.arc(handles[h][0], handles[h][1], 4, 0, Math.PI * 2);
-                    context.fill();
-                    context.stroke();
+                if (selectedStroke.type !== "line" && selectedStroke.type !== "arrow") {
+                    if (selectedStroke.type === "rect" || selectedStroke.type === "ellipse") {
+                        var selectionCenterX = (bounds.left + bounds.right) / 2;
+                        var selectionCenterY = (bounds.top + bounds.bottom) / 2;
+                        context.translate(selectionCenterX, selectionCenterY);
+                        context.rotate(Number(selectedStroke.rotation || 0) * Math.PI / 180);
+                        context.strokeRect(-Math.max(1, bounds.width) / 2,
+                                           -Math.max(1, bounds.height) / 2,
+                                           Math.max(1, bounds.width), Math.max(1, bounds.height));
+                        context.restore();
+                        context.save();
+                        context.strokeStyle = selectionColor;
+                        context.fillStyle = "#ffffff";
+                        context.lineWidth = 1;
+                    } else {
+                        context.strokeRect(bounds.left, bounds.top,
+                                           Math.max(1, bounds.width), Math.max(1, bounds.height));
+                    }
+                }
+                for (var handleIndex = 0; handleIndex < selectionHandles.length; ++handleIndex) {
+                    var selectionHandle = selectionHandles[handleIndex];
+                    if (selectionHandle.name === "rotate") continue;
+                    context.fillStyle = selectionHandle.name === drawingCanvas.hoveredHandle
+                            ? editCanvas.selectionActiveColor : "#ffffff";
+                    context.fillRect(selectionHandle.x - 4, selectionHandle.y - 4, 8, 8);
+                    context.strokeRect(selectionHandle.x - 4, selectionHandle.y - 4, 8, 8);
                 }
                 context.restore();
             }
@@ -577,9 +743,12 @@ Item {
         }
 
         MouseArea {
+            id: canvasMouseArea
+
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton
             cursorShape: {
+                if (drawingCanvas.interaction === "rotate") return Qt.BlankCursor;
                 if (editCanvas.currentTool === "crop")
                     return editCanvas.cursorForHandle(editCanvas.cropHandleAt(mouseX, mouseY));
                 var handle = editCanvas.handleAt(mouseX, mouseY);
@@ -601,6 +770,7 @@ Item {
                 editCanvas.forceActiveFocus();
                 drawingCanvas.pressPoint = Qt.point(mouse.x, mouse.y);
                 drawingCanvas.interactionChanged = false;
+                drawingCanvas.hoveredHandle = "";
                 if (editCanvas.currentTool === "crop") {
                     drawingCanvas.resizeHandle = editCanvas.cropHandleAt(mouse.x, mouse.y);
                     if (drawingCanvas.resizeHandle === "") return;
@@ -619,8 +789,21 @@ Item {
                 }
                 drawingCanvas.resizeHandle = editCanvas.handleAt(mouse.x, mouse.y);
                 if (drawingCanvas.resizeHandle !== "") {
-                    drawingCanvas.interaction = "resize";
-                    drawingCanvas.originalPoints = editCanvas.strokes[editCanvas.selectedIndex].points.slice();
+                    var selectedStroke = editCanvas.strokes[editCanvas.selectedIndex];
+                    drawingCanvas.originalPoints = selectedStroke.points.slice();
+                    drawingCanvas.originalRotation = Number(selectedStroke.rotation || 0);
+                    if (drawingCanvas.resizeHandle === "rotate") {
+                        var rotationBounds = editCanvas.boundsFor(selectedStroke);
+                        drawingCanvas.rotationCenter = Qt.point(
+                                    (rotationBounds.left + rotationBounds.right) / 2,
+                                    (rotationBounds.top + rotationBounds.bottom) / 2);
+                        drawingCanvas.rotationStartAngle = Math.atan2(
+                                    mouse.y - drawingCanvas.rotationCenter.y,
+                                    mouse.x - drawingCanvas.rotationCenter.x);
+                        drawingCanvas.interaction = "rotate";
+                    } else {
+                        drawingCanvas.interaction = "resize";
+                    }
                     return;
                 }
                 var hitIndex = editCanvas.strokeAt(mouse.x, mouse.y);
@@ -628,6 +811,7 @@ Item {
                     editCanvas.selectedIndex = hitIndex;
                     drawingCanvas.interaction = "move";
                     drawingCanvas.originalPoints = editCanvas.strokes[hitIndex].points.slice();
+                    drawingCanvas.originalRotation = Number(editCanvas.strokes[hitIndex].rotation || 0);
                     drawingCanvas.requestPaint();
                     return;
                 }
@@ -660,7 +844,14 @@ Item {
             }
 
             onPositionChanged: mouse => {
-                if (!pressed) return;
+                if (!pressed) {
+                    var hovered = editCanvas.handleAt(mouse.x, mouse.y);
+                    if (hovered !== drawingCanvas.hoveredHandle) {
+                        drawingCanvas.hoveredHandle = hovered;
+                        drawingCanvas.requestPaint();
+                    }
+                    return;
+                }
                 if (drawingCanvas.interaction === "move") {
                     drawingCanvas.interactionChanged = true;
                     var moved = [];
@@ -673,59 +864,90 @@ Item {
                     editCanvas.replaceStroke(editCanvas.selectedIndex, movedStroke);
                     return;
                 }
+                if (drawingCanvas.interaction === "rotate") {
+                    drawingCanvas.interactionChanged = true;
+                    var rotatingStroke = editCanvas.strokes[editCanvas.selectedIndex];
+                    var currentAngle = Math.atan2(mouse.y - drawingCanvas.rotationCenter.y,
+                                                  mouse.x - drawingCanvas.rotationCenter.x);
+                    var angleDelta = (currentAngle - drawingCanvas.rotationStartAngle) * 180 / Math.PI;
+                    if (rotatingStroke.type === "pen") {
+                        var rotatedPoints = [];
+                        for (var rotationIndex = 0;
+                             rotationIndex < drawingCanvas.originalPoints.length; ++rotationIndex) {
+                            rotatedPoints.push(editCanvas.rotatePoint(
+                                                   drawingCanvas.originalPoints[rotationIndex],
+                                                   drawingCanvas.rotationCenter.x,
+                                                   drawingCanvas.rotationCenter.y,
+                                                   angleDelta));
+                        }
+                        editCanvas.replaceStroke(editCanvas.selectedIndex,
+                                                 Object.assign({}, rotatingStroke,
+                                                               { points: rotatedPoints }));
+                    } else {
+                        editCanvas.replaceStroke(editCanvas.selectedIndex,
+                                                 Object.assign({}, rotatingStroke,
+                                                               { rotation: drawingCanvas.originalRotation
+                                                                           + angleDelta }));
+                    }
+                    return;
+                }
                 if (drawingCanvas.interaction === "resize") {
                     drawingCanvas.interactionChanged = true;
                     var selected = editCanvas.strokes[editCanvas.selectedIndex];
                     var originalBounds = editCanvas.boundsFor({ points: drawingCanvas.originalPoints });
-                    var left = originalBounds.left;
-                    var right = originalBounds.right;
-                    var top = originalBounds.top;
-                    var bottom = originalBounds.bottom;
                     var handle = drawingCanvas.resizeHandle;
                     var resizedPoints = [];
-                    if (selected.type === "rect" || selected.type === "ellipse") {
-                        if (handle.indexOf("Left") >= 0) left = mouse.x;
-                        if (handle.indexOf("Right") >= 0) right = mouse.x;
-                        if (handle.indexOf("top") === 0) top = mouse.y;
-                        if (handle.indexOf("bottom") === 0) bottom = mouse.y;
-                        if (handle === "left") left = mouse.x;
-                        else if (handle === "right") right = mouse.x;
-                        else if (handle === "top") top = mouse.y;
-                        else if (handle === "bottom") bottom = mouse.y;
-                        resizedPoints = [Qt.point(left, top), Qt.point(right, bottom)];
+                    var shiftPressed = (mouse.modifiers & Qt.ShiftModifier) !== 0;
+                    if (selected.type === "line" || selected.type === "arrow") {
+                        resizedPoints = drawingCanvas.originalPoints.slice();
+                        var endpoint = Qt.point(mouse.x, mouse.y);
+                        var fixedPoint = handle === "start"
+                                ? resizedPoints[resizedPoints.length - 1] : resizedPoints[0];
+                        if (shiftPressed) {
+                            if (Math.abs(endpoint.x - fixedPoint.x) >= Math.abs(endpoint.y - fixedPoint.y))
+                                endpoint.y = fixedPoint.y;
+                            else
+                                endpoint.x = fixedPoint.x;
+                        }
+                        if (handle === "start") resizedPoints[0] = endpoint;
+                        else resizedPoints[resizedPoints.length - 1] = endpoint;
                     } else {
-                        var anchorX = (left + right) / 2;
-                        var anchorY = (top + bottom) / 2;
-                        var scaleX = 1;
-                        var scaleY = 1;
-                        if (handle === "left" || handle === "topLeft" || handle === "bottomLeft") {
-                            if (originalBounds.width > 0) {
-                                anchorX = right;
-                                scaleX = (right - mouse.x) / originalBounds.width;
+                        var proportional = selected.type === "text" || selected.type === "number"
+                                || ((selected.type === "pen" || selected.type === "rect"
+                                     || selected.type === "ellipse") && shiftPressed);
+                        var mousePoint = Qt.point(mouse.x, mouse.y);
+                        var rotation = Number(selected.rotation || 0);
+                        var originalCenterX = (originalBounds.left + originalBounds.right) / 2;
+                        var originalCenterY = (originalBounds.top + originalBounds.bottom) / 2;
+                        if ((selected.type === "rect" || selected.type === "ellipse") && rotation !== 0)
+                            mousePoint = editCanvas.rotatePoint(mousePoint, originalCenterX,
+                                                               originalCenterY, -rotation);
+                        var targetBounds = editCanvas.resizedBounds(originalBounds, handle,
+                                                                   mousePoint.x, mousePoint.y,
+                                                                   proportional);
+                        if (selected.type === "rect" || selected.type === "ellipse") {
+                            var localCenter = Qt.point((targetBounds.left + targetBounds.right) / 2,
+                                                       (targetBounds.top + targetBounds.bottom) / 2);
+                            var worldCenter = editCanvas.rotatePoint(localCenter, originalCenterX,
+                                                                     originalCenterY, rotation);
+                            resizedPoints = [
+                                Qt.point(worldCenter.x - targetBounds.width / 2,
+                                         worldCenter.y - targetBounds.height / 2),
+                                Qt.point(worldCenter.x + targetBounds.width / 2,
+                                         worldCenter.y + targetBounds.height / 2)
+                            ];
+                        } else {
+                            for (var p = 0; p < drawingCanvas.originalPoints.length; ++p) {
+                                var original = drawingCanvas.originalPoints[p];
+                                var normalizedX = originalBounds.width > 0
+                                        ? (original.x - originalBounds.left) / originalBounds.width : 0.5;
+                                var normalizedY = originalBounds.height > 0
+                                        ? (original.y - originalBounds.top) / originalBounds.height : 0.5;
+                                resizedPoints.push(Qt.point(targetBounds.left
+                                                            + normalizedX * targetBounds.width,
+                                                            targetBounds.top
+                                                            + normalizedY * targetBounds.height));
                             }
-                        } else if (handle === "right" || handle === "topRight" || handle === "bottomRight") {
-                            if (originalBounds.width > 0) {
-                                anchorX = left;
-                                scaleX = (mouse.x - left) / originalBounds.width;
-                            }
-                        }
-                        if (handle === "top" || handle === "topLeft" || handle === "topRight") {
-                            if (originalBounds.height > 0) {
-                                anchorY = bottom;
-                                scaleY = (bottom - mouse.y) / originalBounds.height;
-                            }
-                        } else if (handle === "bottom" || handle === "bottomLeft" || handle === "bottomRight") {
-                            if (originalBounds.height > 0) {
-                                anchorY = top;
-                                scaleY = (mouse.y - top) / originalBounds.height;
-                            }
-                        }
-                        scaleX = Math.max(0.05, scaleX);
-                        scaleY = Math.max(0.05, scaleY);
-                        for (var p = 0; p < drawingCanvas.originalPoints.length; ++p) {
-                            var original = drawingCanvas.originalPoints[p];
-                            resizedPoints.push(Qt.point(anchorX + (original.x - anchorX) * scaleX,
-                                                        anchorY + (original.y - anchorY) * scaleY));
                         }
                     }
                     var resized = Object.assign({}, selected, { points: resizedPoints });
@@ -771,25 +993,28 @@ Item {
                 }
                 var points = drawingCanvas.activePoints.slice();
                 if (editCanvas.currentTool === "line" || editCanvas.currentTool === "arrow") {
-                    drawingCanvas.activePoints = [points[0], Qt.point(mouse.x, mouse.y)];
+                    var lineEnd = Qt.point(mouse.x, mouse.y);
+                    if ((mouse.modifiers & Qt.ShiftModifier) !== 0) {
+                        if (Math.abs(lineEnd.x - points[0].x) >= Math.abs(lineEnd.y - points[0].y))
+                            lineEnd.y = points[0].y;
+                        else
+                            lineEnd.x = points[0].x;
+                    }
+                    drawingCanvas.activePoints = [points[0], lineEnd];
                     drawingCanvas.requestPaint();
                     return;
                 }
-                if (editCanvas.currentTool === "rect") {
+                if (editCanvas.currentTool === "rect" || editCanvas.currentTool === "ellipse") {
                     var start = points[0];
-                    var deltaX = mouse.x - start.x;
-                    var deltaY = mouse.y - start.y;
-                    var side = Math.min(Math.abs(deltaX), Math.abs(deltaY));
-                    var endX = start.x + (deltaX < 0 ? -side : side);
-                    var endY = start.y + (deltaY < 0 ? -side : side);
-                    drawingCanvas.activePoints = [start, Qt.point(endX, endY)];
-                    drawingCanvas.requestPaint();
-                    return;
-                }
-                if (editCanvas.currentTool === "ellipse") {
-                    var ellipseStart = points[0];
-                    drawingCanvas.activePoints = [ellipseStart,
-                                                  Qt.point(mouse.x, mouse.y)];
+                    var shapeEnd = Qt.point(mouse.x, mouse.y);
+                    if ((mouse.modifiers & Qt.ShiftModifier) !== 0) {
+                        var deltaX = mouse.x - start.x;
+                        var deltaY = mouse.y - start.y;
+                        var side = Math.max(Math.abs(deltaX), Math.abs(deltaY));
+                        shapeEnd = Qt.point(start.x + (deltaX < 0 ? -side : side),
+                                           start.y + (deltaY < 0 ? -side : side));
+                    }
+                    drawingCanvas.activePoints = [start, shapeEnd];
                     drawingCanvas.requestPaint();
                     return;
                 }
@@ -823,7 +1048,8 @@ Item {
                     drawingCanvas.requestPaint();
                     return;
                 }
-                if (drawingCanvas.interaction === "move" || drawingCanvas.interaction === "resize") {
+                if (drawingCanvas.interaction === "move" || drawingCanvas.interaction === "resize"
+                        || drawingCanvas.interaction === "rotate") {
                     drawingCanvas.interaction = "";
                     if (drawingCanvas.interactionChanged) editCanvas.strokeCommitted();
                     return;
@@ -841,7 +1067,8 @@ Item {
                         type: editCanvas.currentTool,
                         points: drawingCanvas.activePoints.slice(),
                         color: editCanvas.currentColor.toString(),
-                        width: editCanvas.thickness
+                        width: editCanvas.thickness,
+                        rotation: 0
                     });
                     editCanvas.strokes = updated;
                     editCanvas.selectedIndex = updated.length - 1;
@@ -859,17 +1086,63 @@ Item {
                                                   drawingCanvas.originalPoints[1].x - drawingCanvas.originalPoints[0].x,
                                                   drawingCanvas.originalPoints[1].y - drawingCanvas.originalPoints[0].y);
                 }
-                if ((drawingCanvas.interaction === "move" || drawingCanvas.interaction === "resize")
+                if ((drawingCanvas.interaction === "move" || drawingCanvas.interaction === "resize"
+                     || drawingCanvas.interaction === "rotate")
                         && editCanvas.selectedIndex >= 0) {
                     var restored = Object.assign({}, editCanvas.strokes[editCanvas.selectedIndex],
-                                                 { points: drawingCanvas.originalPoints.slice() });
+                                                 { points: drawingCanvas.originalPoints.slice(),
+                                                   rotation: drawingCanvas.originalRotation });
                     editCanvas.replaceStroke(editCanvas.selectedIndex, restored);
                 }
                 drawingCanvas.interaction = "";
                 drawingCanvas.activePoints = [];
                 drawingCanvas.requestPaint();
             }
+            onExited: {
+                if (!pressed && drawingCanvas.hoveredHandle !== "") {
+                    drawingCanvas.hoveredHandle = "";
+                    drawingCanvas.requestPaint();
+                }
+            }
         }
+    }
+
+    DTK.DciIcon {
+        readonly property point handlePosition: {
+            if (editCanvas.selectedIndex < 0
+                    || editCanvas.selectedIndex >= editCanvas.strokes.length)
+                return Qt.point(-100, -100);
+            var handles = editCanvas.handlesForStroke(
+                        editCanvas.strokes[editCanvas.selectedIndex]);
+            for (var i = 0; i < handles.length; ++i) {
+                if (handles[i].name === "rotate")
+                    return Qt.point(handles[i].x, handles[i].y);
+            }
+            return Qt.point(-100, -100);
+        }
+
+        height: 20
+        name: "edit_rotate"
+        sourceSize.height: 20
+        sourceSize.width: 20
+        visible: handlePosition.x >= 0 && handlePosition.y >= 0
+        width: 20
+        x: handlePosition.x - width / 2
+        y: handlePosition.y - height / 2
+        z: 3
+    }
+
+    DTK.DciIcon {
+        height: 24
+        name: "edit_rotate_cursor"
+        sourceSize.height: 24
+        sourceSize.width: 24
+        visible: drawingCanvas.hoveredHandle === "rotate"
+                 || drawingCanvas.interaction === "rotate"
+        width: 24
+        x: canvasMouseArea.mouseX - width / 2
+        y: canvasMouseArea.mouseY - height / 2
+        z: 4
     }
 
     TextInput {

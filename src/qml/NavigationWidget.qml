@@ -21,7 +21,7 @@ Item {
     // 用于动画控制，预期的隐藏动作(用于触发缩放动效时同步导航窗口的处理)
     property real prefferHide: 0
     // 期望是否显示，同时控制动画效果
-    property bool prefferVisible: IV.GStatus.enableNavigation && imageNeedNavi
+    property bool prefferVisible: !IV.GStatus.editMode && IV.GStatus.enableNavigation && imageNeedNavi
     // 指向的图片对象
     property Image targetImage
 
