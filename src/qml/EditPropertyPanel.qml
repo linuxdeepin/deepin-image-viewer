@@ -13,12 +13,16 @@ DTK.Control {
     // uos-design: allow-literal-color Annotation colors are image content values, not UI theme colors.
     property string currentTool: ""
     property string blurMode: "gaussian"
+    required property Item blurSource
     property color currentColor: "#f82a2a"
     property int effectStrength: 15
     readonly property var effectSteps: blurMode === "gaussian" ? [5, 15, 30] : [8, 16, 32]
     property string textMode: "plain"
     property int thickness: 5
     readonly property int effectEndpointIconSize: 20
+    readonly property bool darkTheme: palette.window.r * 0.299
+                                              + palette.window.g * 0.587
+                                              + palette.window.b * 0.114 < 0.5
     readonly property color themeTextColor: palette.windowText
 
     signal blurModeSelected(string mode)
@@ -41,33 +45,18 @@ DTK.Control {
     implicitWidth: isEffectTool ? 381 : isTextTool ? 255 : 339
     padding: 0
 
-    // uos-design: allow-manual-blur-overlay See EditToolbar.qml. Keep both edit
-    // surfaces on the same live, theme-aware translucent treatment.
-    background: Item {
-        DTK.BoxShadow {
-            anchors.fill: panelBackground
-            cornerRadius: panelBackground.radius
-            hollow: true
-            shadowBlur: 20
-            shadowColor: Qt.rgba(propertyPanel.palette.shadow.r,
-                                 propertyPanel.palette.shadow.g,
-                                 propertyPanel.palette.shadow.b, 0.24)
-            shadowOffsetY: 6
-        }
-
-        Rectangle {
-            id: panelBackground
-
-            anchors.fill: parent
-            border.color: Qt.rgba(propertyPanel.themeTextColor.r,
-                                  propertyPanel.themeTextColor.g,
-                                  propertyPanel.themeTextColor.b, 0.12)
-            border.width: 1
-            color: Qt.rgba(propertyPanel.palette.window.r,
+    background: EditPanelBackground {
+        blurSource: propertyPanel.blurSource
+        borderColor: Qt.rgba(propertyPanel.themeTextColor.r,
+                             propertyPanel.themeTextColor.g,
+                             propertyPanel.themeTextColor.b, 0.12)
+        shadowColor: Qt.rgba(propertyPanel.palette.shadow.r,
+                             propertyPanel.palette.shadow.g,
+                             propertyPanel.palette.shadow.b, 0.24)
+        target: propertyPanel
+        tintColor: Qt.rgba(propertyPanel.palette.window.r,
                            propertyPanel.palette.window.g,
-                           propertyPanel.palette.window.b, 0.72)
-            radius: 18
-        }
+                           propertyPanel.palette.window.b, 0.62)
     }
 
     component ModeButton: DTK.ToolButton {
@@ -110,14 +99,15 @@ DTK.Control {
     }
 
     component EffectIcon: DTK.ToolButton {
-        required property int iconSize
+        required property int iconHeight
         required property string iconName
+        required property int iconWidth
 
         display: AbstractButton.IconOnly
         height: 36
-        icon.height: iconSize
+        icon.height: iconHeight
         icon.name: iconName
-        icon.width: iconSize
+        icon.width: iconWidth
         padding: 0
         width: 36
         Accessible.name: "EditPropertyPanel_ToolButton"
@@ -189,11 +179,14 @@ DTK.Control {
 
                     Rectangle {
                         anchors.centerIn: parent
-                        border.color: propertyPanel.palette.highlight
+                        border.color: swatch.selected ? propertyPanel.palette.highlight
+                                                     : propertyPanel.darkTheme
+                                                       ? Qt.rgba(1, 1, 1, 0.15)
+                                                       : Qt.rgba(0, 0, 0, 0.15)
                         border.width: 2
                         color: "transparent"
                         height: 18
-                        opacity: swatch.selected ? 1 : swatchHover.hovered ? 0.55 : 0
+                        opacity: swatch.selected || swatchHover.hovered ? 1 : 0
                         radius: 9
                         width: 18
 
@@ -262,9 +255,12 @@ DTK.Control {
             Separator { }
             EffectIcon {
                 iconName: propertyPanel.blurMode === "gaussian" ? "edit_blur_weak_endpoint"
-                        : propertyPanel.blurMode === "mosaic" ? "edit_mosaic"
-                        : "edit_graffiti"
-                iconSize: propertyPanel.effectEndpointIconSize / 2
+                        : propertyPanel.blurMode === "mosaic" ? "edit_mosaic_weak_endpoint"
+                        : "edit_graffiti_weak_endpoint"
+                iconHeight: propertyPanel.blurMode === "mosaic" ? 12
+                                                                 : propertyPanel.effectEndpointIconSize
+                iconWidth: propertyPanel.blurMode === "mosaic" ? 9
+                                                                : propertyPanel.effectEndpointIconSize
             }
             DTK.Slider {
                 id: effectSlider
@@ -289,7 +285,8 @@ DTK.Control {
                 iconName: propertyPanel.blurMode === "mosaic" ? "edit_mosaic"
                         : propertyPanel.blurMode === "graffiti" ? "edit_graffiti"
                         : "edit_blur"
-                iconSize: propertyPanel.effectEndpointIconSize
+                iconHeight: propertyPanel.effectEndpointIconSize
+                iconWidth: propertyPanel.effectEndpointIconSize
             }
         }
 

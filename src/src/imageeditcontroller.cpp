@@ -5,6 +5,7 @@
 #include "imageeditcontroller.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QImageReader>
 #include <QImageWriter>
@@ -187,7 +188,17 @@ bool ImageEditController::saveComposite(const QUrl &destination, const QVariantL
         painter.setPen(pen);
         painter.setBrush(Qt::NoBrush);
 
-        const QRectF bounds = QRectF(points.first(), points.last()).normalized();
+        qreal left = points.first().x();
+        qreal right = left;
+        qreal top = points.first().y();
+        qreal bottom = top;
+        for (const QPointF &point : std::as_const(points)) {
+            left = qMin(left, point.x());
+            right = qMax(right, point.x());
+            top = qMin(top, point.y());
+            bottom = qMax(bottom, point.y());
+        }
+        const QRectF bounds(QPointF(left, top), QPointF(right, bottom));
         if (type == QLatin1String("rect")) {
             painter.save();
             painter.translate(bounds.center());
@@ -232,7 +243,16 @@ bool ImageEditController::saveComposite(const QUrl &destination, const QVariantL
             QPainterPath path(points.first());
             for (int i = 1; i < points.size(); ++i)
                 path.lineTo(points[i]);
-            painter.drawPath(path);
+            if (type == QLatin1String("pen")) {
+                painter.save();
+                painter.translate(bounds.center());
+                painter.rotate(annotation.value(QStringLiteral("rotation")).toDouble());
+                painter.translate(-bounds.center());
+                painter.drawPath(path);
+                painter.restore();
+            } else {
+                painter.drawPath(path);
+            }
             if (type == QLatin1String("arrow")) {
                 const QPointF start = points.at(points.size() - 2);
                 const QPointF end = points.last();

@@ -23,6 +23,10 @@ Item {
     property bool exitAfterSave: false
     property url pendingSaveUrl: ""
 
+    function prepareForClose() {
+        editCanvas.commitTextInput();
+    }
+
     function openSaveDialog(shouldExit) {
         exitAfterSave = shouldExit;
         saveDialog.currentFile = IV.ImageEditor.defaultSaveUrl();
@@ -41,7 +45,7 @@ Item {
         if (exitAfterSave) {
             exitAfterSave = false;
             IV.GStatus.editMode = false;
-            stackView.completePendingSourceChange();
+            stackView.completePendingEditAction();
         }
     }
 
@@ -528,6 +532,7 @@ Item {
     EditToolbar {
         id: editToolbar
 
+        blurSource: imageViewer
         canRedo: IV.ImageEditor.canRedo
         canUndo: IV.ImageEditor.canUndo
         visible: IV.GStatus.editMode
@@ -647,6 +652,7 @@ Item {
             return 0;
         }
 
+        blurSource: imageViewer
         visible: IV.GStatus.editMode && editToolbar.currentTool !== ""
                  && editToolbar.currentTool !== "crop"
         z: editToolbar.z

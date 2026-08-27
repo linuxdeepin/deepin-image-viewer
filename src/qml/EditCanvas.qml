@@ -150,7 +150,8 @@ Item {
         ];
 
         var rotation = Number(stroke.rotation || 0);
-        if ((stroke.type === "rect" || stroke.type === "ellipse") && rotation !== 0) {
+        if ((stroke.type === "pen" || stroke.type === "rect" || stroke.type === "ellipse")
+                && rotation !== 0) {
             for (var i = 0; i < handles.length; ++i) {
                 var rotated = rotatePoint(Qt.point(handles[i].x, handles[i].y),
                                           centerX, centerY, rotation);
@@ -217,6 +218,13 @@ Item {
                 if (Math.abs(distance - 1) <= ellipseTolerance) return i;
                 continue;
             }
+            var hitPoint = Qt.point(x, y);
+            if (stroke.type === "pen" && Number(stroke.rotation || 0) !== 0) {
+                hitPoint = rotatePoint(hitPoint,
+                                       (bounds.left + bounds.right) / 2,
+                                       (bounds.top + bounds.bottom) / 2,
+                                       -Number(stroke.rotation || 0));
+            }
             for (var p = 1; p < stroke.points.length; ++p) {
                 var start = stroke.points[p - 1];
                 var end = stroke.points[p];
@@ -224,12 +232,13 @@ Item {
                 var deltaY = end.y - start.y;
                 var lengthSquared = deltaX * deltaX + deltaY * deltaY;
                 var ratio = lengthSquared === 0 ? 0
-                                               : ((x - start.x) * deltaX + (y - start.y) * deltaY) / lengthSquared;
+                                               : ((hitPoint.x - start.x) * deltaX
+                                                  + (hitPoint.y - start.y) * deltaY) / lengthSquared;
                 ratio = Math.max(0, Math.min(1, ratio));
                 var nearestX = start.x + ratio * deltaX;
                 var nearestY = start.y + ratio * deltaY;
-                var offsetX = x - nearestX;
-                var offsetY = y - nearestY;
+                var offsetX = hitPoint.x - nearestX;
+                var offsetY = hitPoint.y - nearestY;
                 if (offsetX * offsetX + offsetY * offsetY <= tolerance * tolerance) return i;
             }
         }
@@ -379,10 +388,7 @@ Item {
     }
 
     function resetCrop() {
-        var marginX = width * 0.1;
-        var marginY = height * 0.1;
-        cropRect = Qt.rect(marginX, marginY, Math.max(2, width - marginX * 2),
-                          Math.max(2, height - marginY * 2));
+        cropRect = Qt.rect(0, 0, width, height);
         drawingCanvas.requestPaint();
     }
 
@@ -403,22 +409,46 @@ Item {
         return "";
     }
 
-    function cursorForHandle(handle) {
+    function cursorForAngle(angle) {
+        var normalized = ((angle % 180) + 180) % 180;
+        if (normalized < 22.5 || normalized >= 157.5) return Qt.SizeHorCursor;
+        if (normalized < 67.5) return Qt.SizeFDiagCursor;
+        if (normalized < 112.5) return Qt.SizeVerCursor;
+        return Qt.SizeBDiagCursor;
+    }
+
+    function isResizeHandle(handle) {
+        return handle === "left" || handle === "right" || handle === "top"
+                || handle === "bottom" || handle === "topLeft" || handle === "topRight"
+                || handle === "bottomLeft" || handle === "bottomRight";
+    }
+
+    function resizeCursorAngle(handle, rotation) {
+        var baseAngle = 0;
+        if (handle === "top" || handle === "bottom") baseAngle = 90;
+        else if (handle === "topLeft" || handle === "bottomRight") baseAngle = 45;
+        else if (handle === "topRight" || handle === "bottomLeft") baseAngle = -45;
+        return baseAngle + Number(rotation || 0);
+    }
+
+    function cursorForHandle(handle, rotation) {
         if (handle === "rotate") return Qt.BlankCursor;
         if (handle === "start" || handle === "end") {
             if (selectedIndex < 0 || selectedIndex >= strokes.length) return Qt.ArrowCursor;
             var selected = strokes[selectedIndex];
             var first = selected.points[0];
             var last = selected.points[selected.points.length - 1];
-            var angle = Math.abs(Math.atan2(last.y - first.y, last.x - first.x) * 180 / Math.PI);
-            if (angle <= 22.5 || angle >= 157.5) return Qt.SizeHorCursor;
-            if (angle >= 67.5 && angle <= 112.5) return Qt.SizeVerCursor;
-            return angle < 67.5 ? Qt.SizeFDiagCursor : Qt.SizeBDiagCursor;
+            return cursorForAngle(Math.atan2(last.y - first.y, last.x - first.x)
+                                  * 180 / Math.PI);
         }
-        if (handle === "left" || handle === "right") return Qt.SizeHorCursor;
-        if (handle === "top" || handle === "bottom") return Qt.SizeVerCursor;
-        if (handle === "topLeft" || handle === "bottomRight") return Qt.SizeFDiagCursor;
-        if (handle === "topRight" || handle === "bottomLeft") return Qt.SizeBDiagCursor;
+        var baseAngle = 0;
+        if (handle === "top" || handle === "bottom") baseAngle = 90;
+        else if (handle === "topLeft" || handle === "bottomRight") baseAngle = 45;
+        else if (handle === "topRight" || handle === "bottomLeft") baseAngle = 135;
+        if (handle === "left" || handle === "right" || handle === "top" || handle === "bottom"
+                || handle === "topLeft" || handle === "topRight"
+                || handle === "bottomLeft" || handle === "bottomRight")
+            return cursorForAngle(baseAngle + Number(rotation || 0));
         if (handle === "move") return Qt.SizeAllCursor;
         return Qt.ArrowCursor;
     }
@@ -525,8 +555,36 @@ Item {
         strokes = updated;
     }
 
+    function cancelInteraction() {
+        if (drawingCanvas.interaction === "crop" && drawingCanvas.originalPoints.length >= 2) {
+            cropRect = Qt.rect(drawingCanvas.originalPoints[0].x,
+                               drawingCanvas.originalPoints[0].y,
+                               drawingCanvas.originalPoints[1].x - drawingCanvas.originalPoints[0].x,
+                               drawingCanvas.originalPoints[1].y - drawingCanvas.originalPoints[0].y);
+        }
+        if ((drawingCanvas.interaction === "move" || drawingCanvas.interaction === "resize"
+             || drawingCanvas.interaction === "rotate")
+                && selectedIndex >= 0 && selectedIndex < strokes.length) {
+            var restored = Object.assign({}, strokes[selectedIndex],
+                                         { points: drawingCanvas.originalPoints.slice(),
+                                           rotation: drawingCanvas.originalRotation });
+            replaceStroke(selectedIndex, restored);
+        }
+        drawingCanvas.interaction = "";
+        drawingCanvas.interactionChanged = false;
+        drawingCanvas.activePoints = [];
+        drawingCanvas.resizeHandle = "";
+        drawingCanvas.requestPaint();
+    }
+
     onCurrentToolChanged: {
-        if (currentTool === "crop") resetCrop();
+        cancelInteraction();
+        if (currentTool === "crop") {
+            resetCrop();
+        } else {
+            cropRect = Qt.rect(0, 0, 0, 0);
+            drawingCanvas.requestPaint();
+        }
     }
     onWidthChanged: {
         if (width <= 0) return;
@@ -639,6 +697,16 @@ Item {
                     context.restore();
                     return;
                 }
+                var penRotation = stroke.type === "pen" ? Number(stroke.rotation || 0) : 0;
+                if (penRotation !== 0) {
+                    var penBounds = editCanvas.boundsFor(stroke);
+                    var penCenterX = (penBounds.left + penBounds.right) / 2;
+                    var penCenterY = (penBounds.top + penBounds.bottom) / 2;
+                    context.save();
+                    context.translate(penCenterX, penCenterY);
+                    context.rotate(penRotation * Math.PI / 180);
+                    context.translate(-penCenterX, -penCenterY);
+                }
                 context.beginPath();
                 context.strokeStyle = stroke.color;
                 context.lineWidth = stroke.width;
@@ -661,6 +729,7 @@ Item {
                                    end.y - arrowLength * Math.sin(angle + spread));
                     context.stroke();
                 }
+                if (penRotation !== 0) context.restore();
             }
 
             for (var i = 0; i < editCanvas.strokes.length; ++i) {
@@ -680,7 +749,8 @@ Item {
                 context.fillStyle = "#ffffff";
                 context.lineWidth = 1;
                 if (selectedStroke.type !== "line" && selectedStroke.type !== "arrow") {
-                    if (selectedStroke.type === "rect" || selectedStroke.type === "ellipse") {
+                    if (selectedStroke.type === "pen" || selectedStroke.type === "rect"
+                            || selectedStroke.type === "ellipse") {
                         var selectionCenterX = (bounds.left + bounds.right) / 2;
                         var selectionCenterY = (bounds.top + bounds.bottom) / 2;
                         context.translate(selectionCenterX, selectionCenterY);
@@ -753,11 +823,17 @@ Item {
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton
             cursorShape: {
-                if (drawingCanvas.interaction === "rotate") return Qt.BlankCursor;
+                if (drawingCanvas.interaction === "rotate"
+                        || drawingCanvas.interaction === "resize") return Qt.BlankCursor;
                 if (editCanvas.currentTool === "crop")
-                    return editCanvas.cursorForHandle(editCanvas.cropHandleAt(mouseX, mouseY));
+                    return editCanvas.cursorForHandle(editCanvas.cropHandleAt(mouseX, mouseY), 0);
                 var handle = editCanvas.handleAt(mouseX, mouseY);
-                if (handle !== "") return editCanvas.cursorForHandle(handle);
+                if (handle !== "") {
+                    if (editCanvas.isResizeHandle(handle)) return Qt.BlankCursor;
+                    var rotation = editCanvas.selectedIndex >= 0
+                            ? editCanvas.strokes[editCanvas.selectedIndex].rotation : 0;
+                    return editCanvas.cursorForHandle(handle, rotation);
+                }
                 return editCanvas.strokeAt(mouseX, mouseY) >= 0 ? Qt.SizeAllCursor : Qt.ArrowCursor;
             }
             enabled: IV.GStatus.editMode && (editCanvas.currentTool === "pen"
@@ -875,25 +951,10 @@ Item {
                     var currentAngle = Math.atan2(mouse.y - drawingCanvas.rotationCenter.y,
                                                   mouse.x - drawingCanvas.rotationCenter.x);
                     var angleDelta = (currentAngle - drawingCanvas.rotationStartAngle) * 180 / Math.PI;
-                    if (rotatingStroke.type === "pen") {
-                        var rotatedPoints = [];
-                        for (var rotationIndex = 0;
-                             rotationIndex < drawingCanvas.originalPoints.length; ++rotationIndex) {
-                            rotatedPoints.push(editCanvas.rotatePoint(
-                                                   drawingCanvas.originalPoints[rotationIndex],
-                                                   drawingCanvas.rotationCenter.x,
-                                                   drawingCanvas.rotationCenter.y,
-                                                   angleDelta));
-                        }
-                        editCanvas.replaceStroke(editCanvas.selectedIndex,
-                                                 Object.assign({}, rotatingStroke,
-                                                               { points: rotatedPoints }));
-                    } else {
-                        editCanvas.replaceStroke(editCanvas.selectedIndex,
-                                                 Object.assign({}, rotatingStroke,
-                                                               { rotation: drawingCanvas.originalRotation
-                                                                           + angleDelta }));
-                    }
+                    editCanvas.replaceStroke(editCanvas.selectedIndex,
+                                             Object.assign({}, rotatingStroke,
+                                                           { rotation: drawingCanvas.originalRotation
+                                                                       + angleDelta }));
                     return;
                 }
                 if (drawingCanvas.interaction === "resize") {
@@ -924,7 +985,9 @@ Item {
                         var rotation = Number(selected.rotation || 0);
                         var originalCenterX = (originalBounds.left + originalBounds.right) / 2;
                         var originalCenterY = (originalBounds.top + originalBounds.bottom) / 2;
-                        if ((selected.type === "rect" || selected.type === "ellipse") && rotation !== 0)
+                        var rotatesBounds = selected.type === "pen" || selected.type === "rect"
+                                || selected.type === "ellipse";
+                        if (rotatesBounds && rotation !== 0)
                             mousePoint = editCanvas.rotatePoint(mousePoint, originalCenterX,
                                                                originalCenterY, -rotation);
                         var targetBounds = editCanvas.resizedBounds(originalBounds, handle,
@@ -942,15 +1005,27 @@ Item {
                                          worldCenter.y + targetBounds.height / 2)
                             ];
                         } else {
+                            var centerOffsetX = 0;
+                            var centerOffsetY = 0;
+                            if (selected.type === "pen") {
+                                var targetCenter = Qt.point((targetBounds.left + targetBounds.right) / 2,
+                                                            (targetBounds.top + targetBounds.bottom) / 2);
+                                var targetWorldCenter = editCanvas.rotatePoint(targetCenter,
+                                                                               originalCenterX,
+                                                                               originalCenterY,
+                                                                               rotation);
+                                centerOffsetX = targetWorldCenter.x - targetCenter.x;
+                                centerOffsetY = targetWorldCenter.y - targetCenter.y;
+                            }
                             for (var p = 0; p < drawingCanvas.originalPoints.length; ++p) {
                                 var original = drawingCanvas.originalPoints[p];
                                 var normalizedX = originalBounds.width > 0
                                         ? (original.x - originalBounds.left) / originalBounds.width : 0.5;
                                 var normalizedY = originalBounds.height > 0
                                         ? (original.y - originalBounds.top) / originalBounds.height : 0.5;
-                                resizedPoints.push(Qt.point(targetBounds.left
+                                resizedPoints.push(Qt.point(centerOffsetX + targetBounds.left
                                                             + normalizedX * targetBounds.width,
-                                                            targetBounds.top
+                                                            centerOffsetY + targetBounds.top
                                                             + normalizedY * targetBounds.height));
                             }
                         }
@@ -996,6 +1071,7 @@ Item {
                     drawingCanvas.requestPaint();
                     return;
                 }
+                if (drawingCanvas.interaction !== "draw") return;
                 var points = drawingCanvas.activePoints.slice();
                 if (editCanvas.currentTool === "line" || editCanvas.currentTool === "arrow") {
                     var lineEnd = Qt.point(mouse.x, mouse.y);
@@ -1085,23 +1161,7 @@ Item {
             }
 
             onCanceled: {
-                if (drawingCanvas.interaction === "crop") {
-                    editCanvas.cropRect = Qt.rect(drawingCanvas.originalPoints[0].x,
-                                                  drawingCanvas.originalPoints[0].y,
-                                                  drawingCanvas.originalPoints[1].x - drawingCanvas.originalPoints[0].x,
-                                                  drawingCanvas.originalPoints[1].y - drawingCanvas.originalPoints[0].y);
-                }
-                if ((drawingCanvas.interaction === "move" || drawingCanvas.interaction === "resize"
-                     || drawingCanvas.interaction === "rotate")
-                        && editCanvas.selectedIndex >= 0) {
-                    var restored = Object.assign({}, editCanvas.strokes[editCanvas.selectedIndex],
-                                                 { points: drawingCanvas.originalPoints.slice(),
-                                                   rotation: drawingCanvas.originalRotation });
-                    editCanvas.replaceStroke(editCanvas.selectedIndex, restored);
-                }
-                drawingCanvas.interaction = "";
-                drawingCanvas.activePoints = [];
-                drawingCanvas.requestPaint();
+                editCanvas.cancelInteraction();
             }
             onExited: {
                 if (!pressed && drawingCanvas.hoveredHandle !== "") {
@@ -1138,12 +1198,41 @@ Item {
     }
 
     DTK.DciIcon {
+        readonly property real objectRotation: editCanvas.selectedIndex >= 0
+                                               && editCanvas.selectedIndex < editCanvas.strokes.length
+                                               ? Number(editCanvas.strokes[editCanvas.selectedIndex].rotation || 0)
+                                               : 0
+
         height: 24
         name: "edit_rotate_cursor"
+        rotation: objectRotation
         sourceSize.height: 24
         sourceSize.width: 24
+        transformOrigin: Item.Center
         visible: drawingCanvas.hoveredHandle === "rotate"
                  || drawingCanvas.interaction === "rotate"
+        width: 24
+        x: canvasMouseArea.mouseX - width / 2
+        y: canvasMouseArea.mouseY - height / 2
+        z: 4
+    }
+
+    Image {
+        readonly property string activeHandle: drawingCanvas.interaction === "resize"
+                                               ? drawingCanvas.resizeHandle
+                                               : drawingCanvas.hoveredHandle
+        readonly property real objectRotation: editCanvas.selectedIndex >= 0
+                                               && editCanvas.selectedIndex < editCanvas.strokes.length
+                                               ? Number(editCanvas.strokes[editCanvas.selectedIndex].rotation || 0)
+                                               : 0
+
+        height: 24
+        mipmap: true
+        rotation: editCanvas.resizeCursorAngle(activeHandle, objectRotation)
+        smooth: true
+        source: "qrc:/res/edit_resize_cursor.svg"
+        sourceSize: Qt.size(24, 24)
+        visible: editCanvas.currentTool !== "crop" && editCanvas.isResizeHandle(activeHandle)
         width: 24
         x: canvasMouseArea.mouseX - width / 2
         y: canvasMouseArea.mouseY - height / 2

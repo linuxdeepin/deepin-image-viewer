@@ -16,11 +16,18 @@ Item {
     Accessible.role: Accessible.Pane
 
     signal saveEditCopyRequested
+    signal windowCloseConfirmed
 
+    property string pendingEditAction: ""
     property url pendingSourcePath: ""
 
-    function cancelPendingSourceChange() {
+    function cancelPendingEditAction() {
+        pendingEditAction = "";
         pendingSourcePath = "";
+    }
+
+    function cancelPendingSourceChange() {
+        cancelPendingEditAction();
     }
 
     function completePendingSourceChange() {
@@ -28,6 +35,17 @@ Item {
         var path = pendingSourcePath;
         pendingSourcePath = "";
         setSourcePath(path);
+    }
+
+    function completePendingEditAction() {
+        var action = pendingEditAction;
+        pendingEditAction = "";
+        if (action === "changeSource") {
+            completePendingSourceChange();
+        } else if (action === "closeWindow") {
+            pendingSourcePath = "";
+            windowCloseConfirmed();
+        }
     }
 
     function requestSourcePath(path) {
@@ -44,6 +62,7 @@ Item {
 
         pendingSourcePath = path;
         if (IV.GStatus.editModified) {
+            pendingEditAction = "changeSource";
             unsavedEditDialog.open();
         } else {
             IV.GStatus.editMode = false;
@@ -56,10 +75,22 @@ Item {
             return;
         }
         if (IV.GStatus.editModified) {
+            pendingEditAction = "exitEdit";
             unsavedEditDialog.open();
         } else {
             IV.GStatus.editMode = false;
         }
+    }
+
+    function requestWindowClose() {
+        if (contentLoader.item && contentLoader.item.prepareForClose)
+            contentLoader.item.prepareForClose();
+        if (!IV.GStatus.editMode
+                || (!IV.GStatus.editModified && !IV.ImageEditor.modified))
+            return false;
+        pendingEditAction = "closeWindow";
+        unsavedEditDialog.open();
+        return true;
     }
 
     function saveEditCopyAndExit() {
@@ -268,17 +299,17 @@ Item {
             if (action === "discard") {
                 IV.GStatus.editModified = false;
                 IV.GStatus.editMode = false;
-                stackView.completePendingSourceChange();
+                stackView.completePendingEditAction();
             } else if (action === "save") {
                 preservePendingSource = true;
                 stackView.saveEditCopyAndExit();
             } else {
-                stackView.cancelPendingSourceChange();
+                stackView.cancelPendingEditAction();
             }
         }
         onClosing: function(close) {
             if (!preservePendingSource)
-                stackView.cancelPendingSourceChange();
+                stackView.cancelPendingEditAction();
             preservePendingSource = false;
         }
         Accessible.name: "UnsavedEditDialog"

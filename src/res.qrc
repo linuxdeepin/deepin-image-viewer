@@ -14,6 +14,7 @@
         <file>res/picture_damaged_58.svg</file>
         <file>res/close_hover.svg</file>
         <file>res/icon_import_photo.svg</file>
+        <file>res/edit_resize_cursor.svg</file>
         <file>res/graffiti_mixer_tip.png</file>
         <file>icon/deepin-image-viewer.svg</file>
         <file>res/dcc_suspend_normal_36px.svg</file>
@@ -54,6 +55,8 @@
         <file>dsg/icons/edit_mosaic.dci</file>
         <file>dsg/icons/edit_graffiti.dci</file>
         <file>dsg/icons/edit_blur_weak_endpoint.dci</file>
+        <file>dsg/icons/edit_mosaic_weak_endpoint.dci</file>
+        <file>dsg/icons/edit_graffiti_weak_endpoint.dci</file>
         <file>dsg/icons/edit_crop.dci</file>
         <file>dsg/icons/edit_undo.dci</file>
         <file>dsg/icons/edit_redo.dci</file>

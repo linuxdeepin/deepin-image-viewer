@@ -546,6 +546,28 @@ TEST(ut_imageeditcontroller, SaveComposite_RotatedRectangle_RasterizedAtRotatedP
     EXPECT_EQ(saved.pixelColor(60, 50), QColor("#ff0000"));
 }
 
+TEST(ut_imageeditcontroller, SaveComposite_RotatedPen_RasterizedAtRotatedPosition)
+{
+    QTemporaryDir directory;
+    ASSERT_TRUE(directory.isValid());
+    ImageEditController controller;
+    ASSERT_TRUE(controller.beginEdit(QUrl::fromLocalFile(createTestImage(directory, 100, 100))));
+    const QString targetPath = directory.filePath("rotated-pen.png");
+
+    QVariantMap pen;
+    pen.insert("type", "pen");
+    pen.insert("color", "#ff0000");
+    pen.insert("width", 0.02);
+    pen.insert("rotation", 90.0);
+    pen.insert("points", QVariantList { QPointF(0.4, 0.6), QPointF(0.2, 0.4),
+                                        QPointF(0.8, 0.4), QPointF(0.6, 0.6) });
+
+    ASSERT_TRUE(controller.saveComposite(QUrl::fromLocalFile(targetPath), { pen }));
+    const QImage saved(targetPath);
+    ASSERT_FALSE(saved.isNull());
+    EXPECT_EQ(saved.pixelColor(60, 30), QColor("#ff0000"));
+}
+
 TEST(ut_imageeditcontroller, SaveComposite_Number_UsesFilledCircle)
 {
     QTemporaryDir directory;
