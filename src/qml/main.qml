@@ -17,6 +17,7 @@ ApplicationWindow {
     Accessible.role: Accessible.Application
 
     property bool isFullScreen: window.visibility === Window.FullScreen
+    property bool closeConfirmed: false
 
     signal sigTitlePress
 
@@ -52,7 +53,11 @@ ApplicationWindow {
             window.title = IV.FileControl.slotGetFileName(IV.GControl.currentSource) + IV.FileControl.slotFileSuffix(IV.GControl.currentSource);
         }
     }
-    onClosing: {
+    onClosing: function(close) {
+        if (!closeConfirmed && mainStack.requestWindowClose()) {
+            close.accepted = false;
+            return;
+        }
         IV.FileControl.saveSetting(); //保存信息
         IV.FileControl.terminateShortcutPanelProcess(); //结束快捷键面板进程
         IV.GControl.forceExit();
@@ -69,9 +74,16 @@ ApplicationWindow {
     }
 
     MainStack {
+        id: mainStack
+
         Accessible.name: "MainStack"
         Accessible.role: Accessible.Pane
         anchors.fill: parent
+
+        onWindowCloseConfirmed: {
+            window.closeConfirmed = true;
+            window.close();
+        }
     }
 
     Connections {

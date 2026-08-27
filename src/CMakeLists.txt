@@ -83,6 +83,7 @@ else()
         QML_FILES
             qml/main.qml
         qml/FullImageView.qml
+        qml/EditPanelBackground.qml
         qml/EditToolbar.qml
         qml/EditPropertyPanel.qml
         qml/EditCanvas.qml

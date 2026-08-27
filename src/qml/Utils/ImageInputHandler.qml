@@ -75,12 +75,10 @@ Item {
             }
         }
 
-        // Editing owns the left button for drawing; this layer only keeps
-        // right-button panning and wheel zoom active in that mode.
-        acceptedButtons: IV.GStatus.editMode ? Qt.RightButton : Qt.LeftButton | Qt.RightButton
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.fill: parent
         drag.axis: Drag.XAndYAxis
-        drag.target: targetImage && (!IV.GStatus.editMode || (pressedButtons & Qt.RightButton)) ? targetImage : undefined
+        drag.target: targetImage
         propagateComposedEvents: true
 
         onDoubleClicked: {

@@ -563,9 +563,9 @@ Control {
             enabled: !imageIsNull && !IV.GStatus.editMode
                      && IV.ImageEditor.canEdit(IV.GControl.currentSource)
             height: 50
-            icon.height: 28
+            icon.height: 18
             icon.name: "edit_entry"
-            icon.width: 28
+            icon.width: 18
             width: 50
 
             onClicked: IV.GStatus.editMode = true
