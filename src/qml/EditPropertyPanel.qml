@@ -120,6 +120,7 @@ DTK.Control {
         icon.width: iconSize
         padding: 0
         width: 36
+        Accessible.name: "EditPropertyPanel_ToolButton"
     }
 
     component SliderTrack: Rectangle {

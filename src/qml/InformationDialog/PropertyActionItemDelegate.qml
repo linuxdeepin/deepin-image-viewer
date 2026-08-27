@@ -104,6 +104,8 @@ Control {
             sourceText: control.title
             tipsColor: control.palette.toolTipText
             width: descriptionWidth
+            Accessible.name: "PropertyActionItemDelegate_ElideLabel"
+            Accessible.role: Accessible.Pane
         }
 
         RowLayout {

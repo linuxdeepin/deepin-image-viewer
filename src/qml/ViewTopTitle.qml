@@ -170,6 +170,8 @@ Rectangle {
                 }
             }
             menu: D.Menu {
+                Accessible.name: "ViewTopTitleMenu"
+                Accessible.role: Accessible.Menu
                 onVisibleChanged: {
                     titlebar.menuPopup = visible;
                     IV.GStatus.animationBlock = visible;

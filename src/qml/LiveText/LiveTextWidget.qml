@@ -154,6 +154,8 @@ Item {
 
     Menu {
         id: liveMenu
+        Accessible.name: "LiveMenu"
+        Accessible.role: Accessible.Menu
 
         onVisibleChanged: {
             if (visible == true) {

@@ -1168,6 +1168,7 @@ Item {
         onActiveFocusChanged: {
             if (!activeFocus && visible) editCanvas.commitTextInput();
         }
+        Accessible.name: "TextEditor"
     }
 
     focus: visible

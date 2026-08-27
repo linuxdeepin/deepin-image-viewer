@@ -73,5 +73,6 @@ ColumnLayout {
                 item.width = width;
             }
         }
+        Accessible.name: "PropertyInfoView"
     }
 }

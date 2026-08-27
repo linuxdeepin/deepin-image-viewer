@@ -147,6 +147,8 @@ Item {
         id: titleRect
 
         z: parent.z + 1
+        Accessible.name: "TitleRect"
+        Accessible.role: Accessible.Pane
     }
 
     // 展示内容
@@ -279,6 +281,8 @@ Item {
                 stackView.cancelPendingSourceChange();
             preservePendingSource = false;
         }
+        Accessible.name: "UnsavedEditDialog"
+        Accessible.role: Accessible.Dialog
     }
 
     // show shortcut panel

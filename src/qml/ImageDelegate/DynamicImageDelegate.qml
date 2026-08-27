@@ -8,6 +8,8 @@ import "../Utils"
 
 BaseImageDelegate {
     id: delegate
+    Accessible.name: "DynamicImageDelegate"
+    Accessible.role: Accessible.Pane
 
     property bool needInit: true
     readonly property bool imageInfoReady: targetImageInfo.status === IV.ImageInfo.Ready
@@ -67,6 +69,8 @@ BaseImageDelegate {
         delegateHeight: delegate.height
         maxDimension: 4096
         maxTotalPixels: 0
+        Accessible.name: "ImageDelegateSourceSizeOptimizer"
+        Accessible.role: Accessible.Pane
     }
 
     ImageInputHandler {
@@ -74,6 +78,8 @@ BaseImageDelegate {
 
         anchors.fill: parent
         targetImage: image.status === Image.Ready ? image : null
+        Accessible.name: "ImageDelegateImageInput"
+        Accessible.role: Accessible.Pane
     }
 
     // 动图在首次加载，状态变更为 Ready 时，paintedWidth 可能未更新，为0

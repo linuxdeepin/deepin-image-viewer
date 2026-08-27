@@ -69,6 +69,8 @@ ApplicationWindow {
     }
 
     MainStack {
+        Accessible.name: "MainStack"
+        Accessible.role: Accessible.Pane
         anchors.fill: parent
     }
 

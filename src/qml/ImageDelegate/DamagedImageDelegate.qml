@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -20,4 +20,6 @@ BaseImageDelegate {
         theme: DTK.DTK.themeType
         width: 151
     }
+    Accessible.name: "ImageDelegate"
+    Accessible.role: Accessible.ListItem
 }

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -10,6 +10,8 @@ import org.deepin.image.viewer 1.0 as IV
 
 BaseThumbnailDelegate {
     id: normalThumbnailDelegate
+    Accessible.name: "NormalThumbnailDelegate"
+    Accessible.role: Accessible.ListItem
 
     // 判断是否为多页图
     property bool isMultiImage: IV.Types.MultiImage === img.type
@@ -66,6 +68,8 @@ BaseThumbnailDelegate {
                     width: img.width
                 }
             }
+            Accessible.name: "NormalThumbnailImg"
+            Accessible.role: Accessible.Pane
         }
     }
 

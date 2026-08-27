@@ -8,6 +8,8 @@ import "../Utils"
 
 BaseImageDelegate {
     id: delegate
+    Accessible.name: "NormalImageDelegate"
+    Accessible.role: Accessible.Pane
 
     property bool rotationRunning: false
     property bool sourceUpdatePending: false
@@ -133,6 +135,8 @@ BaseImageDelegate {
         imageInfo: targetImageInfo
         delegateWidth: delegate.width
         delegateHeight: delegate.height
+        Accessible.name: "NormalImageSourceSizeOptimizer"
+        Accessible.role: Accessible.Pane
     }
 
     // Snapshot for immediate mode: shows old texture while new texture loads
@@ -284,6 +288,8 @@ BaseImageDelegate {
         anchors.fill: parent
         isRotatable: IV.FileControl.isRotatable(delegate.source)
         targetImage: image.status === Image.Ready ? image : null
+        Accessible.name: "NormalImageImageInput"
+        Accessible.role: Accessible.Pane
     }
 
     Connections {
