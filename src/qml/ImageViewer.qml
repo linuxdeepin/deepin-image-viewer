@@ -183,6 +183,8 @@ Item {
         id: imageAnimation
 
         targetImage: imageViewer.targetImage
+        Accessible.name: "ImageAnimation"
+        Accessible.role: Accessible.Pane
     }
 
     Timer {
@@ -373,6 +375,8 @@ Item {
 
         // 代理组件加载器
         delegate: ViewDelegateLoader {
+            Accessible.name: "ImageViewer_ViewDelegateLoader"
+            Accessible.role: Accessible.ListItem
         }
         Behavior on offset {
             id: offsetBehavior
@@ -611,6 +615,8 @@ Item {
         sourceComponent: LiveTextWidget {
             //live text主控件
             id: ltw
+            Accessible.name: "LiveTextWidget"
+            Accessible.role: Accessible.Pane
 
             //live text退出函数
             function exitLiveText() {
@@ -763,6 +769,8 @@ Item {
             Component.onCompleted: {
                 renamedialog.show();
             }
+            Accessible.name: "Renamedialog"
+            Accessible.role: Accessible.Pane
         }
     }
 
@@ -801,6 +809,8 @@ Item {
 
                 target: IV.GStatus
             }
+            Accessible.name: "RightMenu"
+            Accessible.role: Accessible.Menu
         }
     }
 
@@ -823,6 +833,8 @@ Item {
 
         // 图片属性信息窗口
         sourceComponent: InformationDialog {
+            Accessible.name: "Loader_InformationDialog"
+            Accessible.role: Accessible.Dialog
         }
     }
 
@@ -855,6 +867,8 @@ Item {
             onRequestRelease: {
                 naviLoader.active = false;
             }
+            Accessible.name: "Loader_NavigationWidget"
+            Accessible.role: Accessible.Pane
         }
 
         // 仅控制弹出显示导航窗口

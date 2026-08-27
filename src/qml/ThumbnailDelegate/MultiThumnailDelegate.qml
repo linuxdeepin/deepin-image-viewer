@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -8,6 +8,8 @@ import org.deepin.image.viewer 1.0 as IV
 // 用于多页图的缩略图代理
 BaseThumbnailDelegate {
     id: multiThumnailDelegate
+    Accessible.name: "MultiThumbnailDelegate"
+    Accessible.role: Accessible.ListItem
 
     // 请求的显示宽度
     property real requestWidth: {
@@ -51,6 +53,8 @@ BaseThumbnailDelegate {
 
     ListView {
         id: listView
+        Accessible.name: "ThumbnailListView"
+        Accessible.role: Accessible.List
 
         // 计算调整的 item 宽度，item 宽度允许范围内处于 10px ~ 30px, count一定 >=2
         property int preferredItemWidth: Math.min(Math.max(10, (width - 30) / (count - 1)), 30)
@@ -100,6 +104,8 @@ BaseThumbnailDelegate {
                 anchors.fill: parent
                 frameIndex: index
                 source: multiThumnailDelegate.source
+                Accessible.name: "MultiThumbnailImg"
+                Accessible.role: Accessible.Pane
             }
 
             // 焦点图片边框

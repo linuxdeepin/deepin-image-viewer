@@ -63,4 +63,6 @@ BaseImageDelegate {
             topMargin: 20
         }
     }
+    Accessible.name: "NonexitImageDelegate"
+    Accessible.role: Accessible.ListItem
 }

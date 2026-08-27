@@ -122,6 +122,8 @@ Control {
                 // 使用后释放对话框
                 removeDialogLoader.active = false;
             }
+            Accessible.name: "Loader_RemoveDialog"
+            Accessible.role: Accessible.Dialog
         }
     }
 
@@ -498,6 +500,7 @@ Control {
                 bottomthumbnaillistView.rePositionView(false);
             }
         }
+        Accessible.name: "BottomthumbnaillistView"
     }
 
     // 捕获列表Item，用于跳变切换图片时淡入淡出效果

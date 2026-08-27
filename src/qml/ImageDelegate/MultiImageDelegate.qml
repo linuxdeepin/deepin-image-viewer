@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -10,9 +10,13 @@ import "../Utils"
 // 使用嵌套的ListView进行浏览
 BaseImageDelegate {
     id: multiImageDelegate
+    Accessible.name: "MultiImageDelegate"
+    Accessible.role: Accessible.Pane
 
     ListView {
         id: multiImageView
+        Accessible.name: "MultiImageView"
+        Accessible.role: Accessible.List
 
         width: multiImageDelegate.width
         height: multiImageDelegate.height
@@ -103,6 +107,8 @@ BaseImageDelegate {
 
                     anchors.fill: parent
                     targetImage: image.status === Image.Ready ? image : null
+                    Accessible.name: "ImageInput"
+                    Accessible.role: Accessible.Pane
                 }
 
                 Component.onCompleted: {

@@ -65,6 +65,8 @@ Item {
         id: fadeInOutImage
 
         anchors.fill: parent
+        Accessible.name: "FadeInOutImage"
+        Accessible.role: Accessible.Pane
     }
 
     MouseArea {
@@ -219,6 +221,8 @@ Item {
 
     Menu {
         id: sliderMenu
+        Accessible.name: "SliderMenu"
+        Accessible.role: Accessible.Menu
 
         x: 250
         y: 600

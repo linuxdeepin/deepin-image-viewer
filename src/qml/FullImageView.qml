@@ -226,6 +226,8 @@ Item {
         onTargetImageReadyChanged: {
             delayAnimationTimer.start();
         }
+        Accessible.name: "FullImageViewer"
+        Accessible.role: Accessible.Pane
     }
 
     EditCanvas {
@@ -282,6 +284,8 @@ Item {
             if (IV.ImageEditor.crop(normalizedRect))
                 editCanvas.finishCrop();
         }
+        Accessible.name: "FullImageEditCanvas"
+        Accessible.role: Accessible.Pane
     }
 
     Shortcut {
@@ -549,6 +553,8 @@ Item {
             if (IV.ImageEditor.undo() && editCanvas.undoHistory())
                 IV.GStatus.editModified = IV.ImageEditor.modified;
         }
+        Accessible.name: "EditToolbar"
+        Accessible.role: Accessible.ToolBar
     }
 
     FileDialog {
@@ -601,6 +607,8 @@ Item {
                 fullThumbnail.exitAfterSave = false;
             }
         }
+        Accessible.name: "OverwriteDialog"
+        Accessible.role: Accessible.Dialog
     }
 
     Dialog {
@@ -627,6 +635,8 @@ Item {
 
     EditPropertyPanel {
         id: editPropertyPanel
+        Accessible.name: "EditPropertyPanel"
+        Accessible.role: Accessible.Pane
 
         readonly property int toolbarOffset: {
             const toolIndex = ["pen", "line", "arrow", "rect", "ellipse"].indexOf(currentTool);
@@ -679,5 +689,7 @@ Item {
                 parent.visible = false;
             }
         }
+        Accessible.name: "FloatLabel"
+        Accessible.role: Accessible.Pane
     }
 }

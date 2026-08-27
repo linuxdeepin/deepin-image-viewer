@@ -9,6 +9,8 @@ import "../Utils"
 
 BaseImageDelegate {
     id: delegate
+    Accessible.name: "SvgImageDelegate"
+    Accessible.role: Accessible.Pane
 
     status: image.status
     targetImage: image
@@ -42,6 +44,8 @@ BaseImageDelegate {
         delegateHeight: delegate.height
         maxDimension: 8000
         maxTotalPixels: 0
+        Accessible.name: "SvgImageSourceSizeOptimizer"
+        Accessible.role: Accessible.Pane
     }
 
     ImageInputHandler {
@@ -49,5 +53,7 @@ BaseImageDelegate {
 
         anchors.fill: parent
         targetImage: image.status === Image.Ready ? image : null
+        Accessible.name: "SvgImageImageInput"
+        Accessible.role: Accessible.Pane
     }
 }

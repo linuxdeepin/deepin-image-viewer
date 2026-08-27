@@ -12,6 +12,8 @@ import "./Utils"
 
 Menu {
     id: optionMenu
+    Accessible.name: "OptionMenu"
+    Accessible.role: Accessible.Menu
 
     // 处理拷贝快捷键冲突
     property bool copyableConfig: true
@@ -52,6 +54,7 @@ Menu {
 
             onActivated: rightFullscreen.switchFullScreen()
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     RightMenuItem {
@@ -72,6 +75,7 @@ Menu {
                 IV.FileControl.showPrintDialog(imageSource);
             }
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     RightMenuItem {
@@ -93,6 +97,7 @@ Menu {
                 IV.FileControl.ocrImage(imageSource, IV.GControl.currentFrameIndex);
             }
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     RightMenuItem {
@@ -110,6 +115,7 @@ Menu {
                 stackView.switchSliderShow();
             }
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     MenuSeparator {
@@ -136,6 +142,7 @@ Menu {
                 IV.FileControl.copyImage(imageSource);
             }
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     RightMenuItem {
@@ -155,6 +162,7 @@ Menu {
                 renameLoader.showDialog();
             }
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     RightMenuItem {
@@ -175,6 +183,7 @@ Menu {
                 thumbnailViewBackGround.deleteCurrentImage();
             }
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     // 不允许无读写权限时上方选项已屏蔽，不展示此分割条
@@ -203,6 +212,7 @@ Menu {
                 imageViewer.rotateImage(90);
             }
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     RightMenuItem {
@@ -224,6 +234,7 @@ Menu {
                 imageViewer.rotateImage(-90);
             }
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     // 不允许无读写权限时上方选项已屏蔽，不展示此分割条
@@ -247,6 +258,7 @@ Menu {
             }
             IV.GStatus.enableNavigation = !IV.GStatus.enableNavigation;
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     RightMenuItem {
@@ -268,6 +280,7 @@ Menu {
                 IV.FileControl.setWallpaper(imageSource);
             }
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     RightMenuItem {
@@ -286,6 +299,7 @@ Menu {
                 IV.FileControl.displayinFileManager(imageSource);
             }
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     RightMenuItem {
@@ -308,6 +322,7 @@ Menu {
                 }
             }
         }
+        Accessible.role: Accessible.MenuItem
     }
 
     IV.ImageInfo {

@@ -78,6 +78,8 @@ Control {
             font: DTK.fontManager.t10
             sourceText: control.title
             tipsColor: control.palette.toolTipText
+            Accessible.name: "PropertyItemDelegate_ElideLabel"
+            Accessible.role: Accessible.Pane
         }
 
         RowLayout {
@@ -89,6 +91,8 @@ Control {
                 sourceText: control.description
                 tipsColor: control.palette.toolTipText
                 width: descriptionWidth
+                Accessible.name: "PropertyItemDelegate_ContentElideLabel"
+                Accessible.role: Accessible.Pane
             }
 
             Loader {
