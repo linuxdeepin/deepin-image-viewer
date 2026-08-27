@@ -41,8 +41,33 @@ DTK.Control {
     implicitWidth: isEffectTool ? 381 : isTextTool ? 255 : 339
     padding: 0
 
-    background: DTK.FloatingPanel {
-        radius: 18
+    // uos-design: allow-manual-blur-overlay See EditToolbar.qml. Keep both edit
+    // surfaces on the same live, theme-aware translucent treatment.
+    background: Item {
+        DTK.BoxShadow {
+            anchors.fill: panelBackground
+            cornerRadius: panelBackground.radius
+            hollow: true
+            shadowBlur: 20
+            shadowColor: Qt.rgba(propertyPanel.palette.shadow.r,
+                                 propertyPanel.palette.shadow.g,
+                                 propertyPanel.palette.shadow.b, 0.24)
+            shadowOffsetY: 6
+        }
+
+        Rectangle {
+            id: panelBackground
+
+            anchors.fill: parent
+            border.color: Qt.rgba(propertyPanel.themeTextColor.r,
+                                  propertyPanel.themeTextColor.g,
+                                  propertyPanel.themeTextColor.b, 0.12)
+            border.width: 1
+            color: Qt.rgba(propertyPanel.palette.window.r,
+                           propertyPanel.palette.window.g,
+                           propertyPanel.palette.window.b, 0.72)
+            radius: 18
+        }
     }
 
     component ModeButton: DTK.ToolButton {

@@ -29,6 +29,7 @@ Item {
     property var vectorHistory: []
     property int vectorHistoryIndex: -1
     readonly property real numberTextContrastThreshold: 170
+    readonly property real numberTextHorizontalOffsetRatio: -0.025
     readonly property string numberFontFamily: Qt.fontFamilies().indexOf("Source Han Sans SC") >= 0
                                                ? "Source Han Sans SC" : textEditor.font.family
 
@@ -378,7 +379,10 @@ Item {
     }
 
     function resetCrop() {
-        cropRect = Qt.rect(0, 0, width, height);
+        var marginX = width * 0.1;
+        var marginY = height * 0.1;
+        cropRect = Qt.rect(marginX, marginY, Math.max(2, width - marginX * 2),
+                          Math.max(2, height - marginY * 2));
         drawingCanvas.requestPaint();
     }
 
@@ -589,7 +593,8 @@ Item {
                         context.fill();
                         context.fillStyle = editCanvas.numberTextColor(stroke.color);
                         context.font = "500 12px \"" + fontFamily.replace(/"/g, "\\\"") + "\"";
-                        context.fillText(stroke.number.toString(), stroke.baseWidth / 2,
+                        context.fillText(stroke.number.toString(),
+                                         stroke.baseWidth * (0.5 + numberTextHorizontalOffsetRatio),
                                          stroke.baseHeight / 2);
                     } else {
                         context.fillStyle = stroke.color;

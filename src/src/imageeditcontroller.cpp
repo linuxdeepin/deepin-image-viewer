@@ -22,6 +22,8 @@
 namespace {
 // Keep synchronized with EditCanvas.numberTextContrastThreshold.
 constexpr qreal kNumberTextContrastThreshold = 170.0;
+// Compensate for the visual right bias of numerals in the annotation font.
+constexpr qreal kNumberTextHorizontalOffsetRatio = -0.025;
 }
 
 ImageEditController::ImageEditController(QObject *parent)
@@ -216,7 +218,9 @@ bool ImageEditController::saveComposite(const QUrl &destination, const QVariantL
                         + color.blue() * 0.114;
                 painter.setPen(luminance > kNumberTextContrastThreshold ? Qt::black : Qt::white);
                 painter.setFont(font);
-                painter.drawText(textBounds, Qt::AlignCenter,
+                painter.drawText(textBounds.translated(textBounds.width()
+                                                       * kNumberTextHorizontalOffsetRatio, 0),
+                                 Qt::AlignCenter,
                                  QString::number(annotation.value(QStringLiteral("number")).toInt()));
             } else {
                 font.setPixelSize(qMax(1, qRound(textBounds.height() * 0.8)));

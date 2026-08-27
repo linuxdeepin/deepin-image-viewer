@@ -35,8 +35,34 @@ DTK.Control {
     implicitWidth: 514
     padding: 0
 
-    background: DTK.FloatingPanel {
-        radius: 18
+    // uos-design: allow-manual-blur-overlay DTK 6.7.44 FloatingPanel retains stale
+    // backdrop textures after the editing canvas is scaled. A themed translucent
+    // surface preserves live image underlay without relying on that cached texture.
+    background: Item {
+        DTK.BoxShadow {
+            anchors.fill: panelBackground
+            cornerRadius: panelBackground.radius
+            hollow: true
+            shadowBlur: 20
+            shadowColor: Qt.rgba(editToolbar.palette.shadow.r,
+                                 editToolbar.palette.shadow.g,
+                                 editToolbar.palette.shadow.b, 0.24)
+            shadowOffsetY: 6
+        }
+
+        Rectangle {
+            id: panelBackground
+
+            anchors.fill: parent
+            border.color: Qt.rgba(editToolbar.themeTextColor.r,
+                                  editToolbar.themeTextColor.g,
+                                  editToolbar.themeTextColor.b, 0.12)
+            border.width: 1
+            color: Qt.rgba(editToolbar.palette.window.r,
+                           editToolbar.palette.window.g,
+                           editToolbar.palette.window.b, 0.72)
+            radius: 18
+        }
     }
 
     component ToolbarButton: DTK.ToolButton {
