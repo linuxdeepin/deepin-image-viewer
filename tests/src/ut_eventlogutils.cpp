@@ -6,6 +6,7 @@
 #include "eventlogutils.h"
 
 #include <QJsonObject>
+#include <QLibrary>
 #include <QJsonDocument>
 #include <string>
 
@@ -79,4 +80,79 @@ TEST_F(ut_eventlogutils, WriteLogs_EmptyJson_NoCrash)
     QJsonObject empty;
     inst->writeLogs(empty);
     SUCCEED();
+}
+
+// 测试 writeLogs 在 writeEventLogFunc 被手动设为 null 时走 L29-30 分支
+TEST_F(ut_eventlogutils, WriteLogs_ManuallyNullFuncPtr_HitsNullBranch)
+{
+    Eventlogutils *inst = Eventlogutils::GetInstance();
+
+    // 保存原值，设为 nullptr 以触发 L29-30 的 qCWarning + return
+    auto orig = inst->writeEventLogFunc;
+    inst->writeEventLogFunc = nullptr;
+
+    QJsonObject data;
+    data["tid"] = QString::number(Eventlogutils::StartUp);
+    inst->writeLogs(data);  // 不应崩溃，走 null 分支
+
+    // 恢复原值
+    inst->writeEventLogFunc = orig;
+    SUCCEED();
+}
+
+// L45-50: 覆盖构造函数中 initFunc / writeEventLogFunc 为 null 的分支
+// 通过桩 QLibrary::resolve 返回 nullptr，强制构造函数走 null 检查分支
+#include "stub.h"  // moved
+
+// First call (Initialize) returns non-null, second call (WriteEventLog) returns null
+static int resolve_call_count = 0;
+static QFunctionPointer stub_QLibrary_resolve_alt(const char *symbol)
+{
+    resolve_call_count++;
+    if (resolve_call_count == 1) {
+        // Return a dummy non-null function pointer for "Initialize"
+        return reinterpret_cast<QFunctionPointer>(0x1);
+    }
+    // Return null for "WriteEventLog" to hit L49-50
+    return nullptr;
+}
+
+// All calls return null — hits L45-46 (initFunc null)
+static QFunctionPointer stub_QLibrary_resolve_null(const char *)
+{
+    return nullptr;
+}
+
+TEST_F(ut_eventlogutils, Constructor_ResolveFails_HitsNullBranches)
+{
+    // Test 1: initFunc null (L45-46)
+    {
+        Stub stub;
+        stub.set(static_cast<QFunctionPointer(QLibrary::*)(const char*)>(&QLibrary::resolve), stub_QLibrary_resolve_null);
+
+        Eventlogutils *saved = Eventlogutils::m_pInstance;
+        Eventlogutils::m_pInstance = nullptr;
+
+        Eventlogutils *inst = Eventlogutils::GetInstance();
+        EXPECT_NE(inst, nullptr);
+
+        delete inst;
+        Eventlogutils::m_pInstance = saved;
+    }
+
+    // Test 2: initFunc non-null but writeEventLogFunc null (L49-50)
+    {
+        resolve_call_count = 0;
+        Stub stub;
+        stub.set(static_cast<QFunctionPointer(QLibrary::*)(const char*)>(&QLibrary::resolve), stub_QLibrary_resolve_alt);
+
+        Eventlogutils *saved = Eventlogutils::m_pInstance;
+        Eventlogutils::m_pInstance = nullptr;
+
+        Eventlogutils *inst = Eventlogutils::GetInstance();
+        EXPECT_NE(inst, nullptr);
+
+        delete inst;
+        Eventlogutils::m_pInstance = saved;
+    }
 }

@@ -9,6 +9,7 @@
 
 #include <QUrl>
 #include <QImage>
+#include <QImageReader>
 #include <QDir>
 #include <QSignalSpy>
 #include <QSharedPointer>
@@ -19,9 +20,107 @@
 #include <QThread>
 #include <QCoreApplication>
 #include <QEventLoop>
+#include <QElapsedTimer>
+#include <QTimer>
+
+// ---------- 私有类声明（从 imageinfo.cpp 复制，用于访问私有成员） ----------
+
+// ImageInfoData 声明（imageinfo.cpp 内私有类，仅声明数据成员以正确构造）
+class ImageInfoData
+{
+public:
+    typedef QSharedPointer<ImageInfoData> Ptr;
+
+    inline bool isError() const
+    {
+        bool ret = !exist || (Types::DamagedImage == type);
+        return ret;
+    }
+
+    QString path;
+    Types::ImageType type;
+    QSize size;
+    int frameIndex = 0;
+    int frameCount = 0;
+    bool exist = false;
+    qreal scale = -1;
+    qreal x = 0;
+    qreal y = 0;
+};
+
+// ImageInfoCache 声明（imageinfo.cpp 内私有类，继承 QObject）
+class ImageInfoCache : public QObject
+{
+public:
+    typedef QPair<QString, int> KeyType;
+
+    ImageInfoCache();
+    ~ImageInfoCache() override;
+    void loadFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data);
+    void removeCache(const QString &path, int frameIndex);
+    void load(const QString &path, int frameIndex, bool reload = false);
+
+private:
+    bool aboutToQuit { false };
+    QHash<KeyType, ImageInfoData::Ptr> cache;
+    QSet<KeyType> waitSet;
+    QScopedPointer<QThreadPool> localPoolPtr;
+};
+
+// LoadImageInfoRunnable 声明（imageinfo.cpp 内私有类，继承 QRunnable）
+class LoadImageInfoRunnable : public QRunnable
+{
+public:
+    explicit LoadImageInfoRunnable(const QString &path, int index = 0);
+    void run() override;
+    bool loadImage(QImage &image, QSize &sourceSize) const;
+    void notifyFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data) const;
+
+private:
+    int frameIndex = 0;
+    QString loadPath;
+};
+
+// postEvent 桩：捕获全局 CacheInstance() 指针
+static QObject *s_capturedCacheInstance = nullptr;
+static void ut_ii_stub_capturePostEvent(QObject *receiver, QEvent *event, int priority)
+{
+    Q_UNUSED(priority)
+    if (receiver) {
+        s_capturedCacheInstance = receiver;
+    }
+    delete event;
+}
+
+// 捕获全局 CacheInstance() 指针（仅首次调用实际捕获，后续直接返回缓存值）
+static QObject *ensureCacheInstanceCaptured()
+{
+    if (s_capturedCacheInstance) {
+        return s_capturedCacheInstance;
+    }
+    Stub stub;
+    stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+    LoadImageInfoRunnable runnable("/tmp/ut_ii_capture_dummy.png", 0);
+    ImageInfoData::Ptr data(new ImageInfoData);
+    data->path = "/tmp/ut_ii_capture_dummy.png";
+    data->exist = true;
+    data->type = Types::NormalImage;
+    runnable.notifyFinished("/tmp/ut_ii_capture_dummy.png", 0, data);
+    return s_capturedCacheInstance;
+}
+
+// 重置全局 CacheInstance 的 aboutToQuit 标志（防止跨测试污染）
+static void resetGlobalCacheAboutToQuit()
+{
+    QObject *inst = ensureCacheInstanceCaptured();
+    if (inst) {
+        reinterpret_cast<ImageInfoCache *>(inst)->aboutToQuit = false;
+    }
+}
 
 void ut_imageinfo::SetUp()
 {
+    resetGlobalCacheAboutToQuit();
 }
 
 void ut_imageinfo::TearDown()
@@ -86,14 +185,26 @@ QString makeTempPng(const QString &name, int w = 10, int h = 10)
     return path;
 }
 
-// 同步检查 ImageInfo 的状态。由于无法使用事件循环等待异步加载完成，
-// 此处不做阻塞等待——仅保留函数签名以维持调用链（函数覆盖）。
-// 状态断言已弱化：调用方用 info.data 是否非空来决定是否验证加载结果。
-bool waitUntilStatus(ImageInfo &info, ImageInfo::Status target, int = 3000)
+// 同步等待 ImageInfo 状态变化。仅处理全局 CacheInstance 的排队事件，
+// 避免处理残留的 DBus 事件导致 SEGV。
+bool waitUntilStatus(ImageInfo &info, ImageInfo::Status target, int timeout = 5000)
 {
-    (void)info;
-    (void)target;
-    return true;
+    if (info.status() == target) {
+        return true;
+    }
+    QObject *cacheInstance = ensureCacheInstanceCaptured();
+    QElapsedTimer timer;
+    timer.start();
+    while (!timer.hasExpired(timeout)) {
+        if (cacheInstance) {
+            QCoreApplication::sendPostedEvents(cacheInstance, 0);
+        }
+        if (info.status() == target) {
+            return true;
+        }
+        QThread::msleep(10);
+    }
+    return info.status() == target;
 }
 }  // namespace
 
@@ -405,6 +516,7 @@ TEST_F(ut_imageinfo, RefreshDataFromCache)
     }
 }
 
+
 // 测试 onLoadFinished() 槽：路径匹配与不匹配
 TEST_F(ut_imageinfo, OnLoadFinished)
 {
@@ -451,47 +563,6 @@ TEST_F(ut_imageinfo, OnSizeChanged)
 }
 
 // ---------- 私有类测试（imageinfo.cpp 内定义，依赖 -fno-access-control） ----------
-
-// ImageInfoData 声明（imageinfo.cpp 内私有类，仅声明数据成员以正确构造）
-class ImageInfoData
-{
-public:
-    typedef QSharedPointer<ImageInfoData> Ptr;
-
-    inline bool isError() const
-    {
-        bool ret = !exist || (Types::DamagedImage == type);
-        return ret;
-    }
-
-    QString path;
-    Types::ImageType type;
-    QSize size;
-    int frameIndex = 0;
-    int frameCount = 0;
-    bool exist = false;
-    qreal scale = -1;
-    qreal x = 0;
-    qreal y = 0;
-};
-
-// ImageInfoCache 声明（imageinfo.cpp 内私有类，继承 QObject）
-class ImageInfoCache : public QObject
-{
-public:
-    typedef QPair<QString, int> KeyType;
-
-    ImageInfoCache();
-    ~ImageInfoCache() override;
-    void loadFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data);
-    void removeCache(const QString &path, int frameIndex);
-
-private:
-    bool aboutToQuit { false };
-    QHash<KeyType, ImageInfoData::Ptr> cache;
-    QSet<KeyType> waitSet;
-    QScopedPointer<QThreadPool> localPoolPtr;
-};
 
 // ImageInfoCache 析构函数: 触发 D0 deleting destructor (new + delete)
 TEST_F(ut_imageinfo, ImageInfoCacheDeletingDestructor)
@@ -579,36 +650,9 @@ TEST_F(ut_imageinfo, ImageInfoCache_AboutToQuit_TriggersLambda)
 
     // lambda 设置 aboutToQuit = true，调用 clearCache 和 waitForDone
     EXPECT_TRUE(cache.aboutToQuit);
-}
 
-// LoadImageInfoRunnable 声明（imageinfo.cpp 内私有类，继承 QRunnable）
-class LoadImageInfoRunnable : public QRunnable
-{
-public:
-    explicit LoadImageInfoRunnable(const QString &path, int index = 0);
-    void run() override;
-    bool loadImage(QImage &image, QSize &sourceSize) const;
-    void notifyFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data) const;
-
-private:
-    int frameIndex = 0;
-    QString loadPath;
-};
-
-// LoadImageInfoRunnable::notifyFinished lambda: notifyFinished 通过 Qt::QueuedConnection
-// 投递 lambda 到 CacheInstance()。使用 postEvent 桩捕获 CacheInstance() 指针，
-// 然后仅处理该对象的事件，避免处理 DBus 残留事件导致崩溃
-//
-// Stub 机制仅支持原始函数指针，因此使用文件作用域指针间接传递捕获结果。
-// 指针仅在测试作用域内有效，测试结束后置空。
-static QObject *s_capturedCacheInstance = nullptr;
-static void ut_ii_stub_capturePostEvent(QObject *receiver, QEvent *event, int priority)
-{
-    Q_UNUSED(priority)
-    if (receiver) {
-        s_capturedCacheInstance = receiver;
-    }
-    delete event;  // 清理未投递的事件
+    // 恢复全局 CacheInstance 的 aboutToQuit 标志，避免影响后续测试
+    resetGlobalCacheAboutToQuit();
 }
 
 TEST_F(ut_imageinfo, NotifyFinished_QueuedLambda_Executed)
@@ -644,4 +688,509 @@ TEST_F(ut_imageinfo, NotifyFinished_QueuedLambda_Executed)
     QCoreApplication::sendPostedEvents(capturedInstance, 0);
 
     SUCCEED();
+}
+// 覆盖源码 imageinfo.cpp:48 的真实 ImageInfoData::isError()。
+// CacheInstance() 是 Q_GLOBAL_STATIC 文件静态（imageinfo.cpp:106），不可直接调用，
+// 使用 postEvent 桩捕获其指针，再通过 reinterpret_cast 调用 loadFinished 直接写缓存。
+TEST_F(ut_imageinfo, RefreshDataFromCache_RealIsError_CoveredByAsyncLoad)
+{
+    QString path = makeTempPng("ut_imageinfo_real_iserror.png");
+
+    // 步骤1: 桩 postEvent 捕获全局 CacheInstance() 指针
+    {
+        Stub stub;
+        stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+        LoadImageInfoRunnable runnable(path, 0);
+        ImageInfoData::Ptr data(new ImageInfoData);
+        data->path = path;
+        data->exist = true;
+        data->type = Types::NormalImage;
+        runnable.notifyFinished(path, 0, data);
+    }
+    QObject *capturedInstance = s_capturedCacheInstance;
+    s_capturedCacheInstance = nullptr;
+    ASSERT_NE(capturedInstance, nullptr);
+
+    // 步骤2: 通过 reinterpret_cast 将 QObject* 转为本地声明的 ImageInfoCache*，
+    // 直接调用 loadFinished 同步写入全局缓存（绕过排队事件机制，避免事件循环依赖）
+    auto *cache = reinterpret_cast<ImageInfoCache *>(capturedInstance);
+    // 确保 aboutToQuit 为 false（之前的 AboutToQuit 测试可能影响全局实例的连接状态）
+    cache->aboutToQuit = false;
+
+    ImageInfoData::Ptr data(new ImageInfoData);
+    data->path = path;
+    data->exist = true;
+    data->type = Types::NormalImage;
+    data->size = QSize(10, 10);
+    cache->loadFinished(path, 0, data);
+
+    // 步骤3: 创建 ImageInfo（构造函数连接 imageDataChanged 信号），
+    // 直接设置路径不走 setSource，调用 refreshDataFromCache(false)。
+    // find() 返回缓存数据，data->isError() 被调用（覆盖源码 imageinfo.cpp:48）
+    ImageInfo info;
+    info.imageUrl = QUrl::fromLocalFile(path);
+    info.refreshDataFromCache(false);
+
+    // NormalImage + exist=true → isError()=false → 状态 Ready
+    ASSERT_FALSE(info.data.isNull());
+    EXPECT_EQ(info.status(), ImageInfo::Ready);
+}
+
+// ===================== Coverage enhancement tests =====================
+
+#include "unionimage_global.h"
+
+// Declare the free function from imageinfo.cpp
+Types::ImageType imageTypeAdapator(imageViewerSpace::ImageType type);
+
+// imageTypeAdapator: all switch branches
+TEST_F(ut_imageinfo, ImageTypeAdapator_AllBranches)
+{
+    EXPECT_EQ(imageTypeAdapator(imageViewerSpace::ImageTypeBlank), Types::NullImage);
+    EXPECT_EQ(imageTypeAdapator(imageViewerSpace::ImageTypeSvg), Types::SvgImage);
+    EXPECT_EQ(imageTypeAdapator(imageViewerSpace::ImageTypeStatic), Types::NormalImage);
+    EXPECT_EQ(imageTypeAdapator(imageViewerSpace::ImageTypeDynamic), Types::DynamicImage);
+    EXPECT_EQ(imageTypeAdapator(imageViewerSpace::ImageTypeMulti), Types::MultiImage);
+    // Damaged maps to default branch
+    EXPECT_EQ(imageTypeAdapator(imageViewerSpace::ImageTypeDamaged), Types::DamagedImage);
+}
+
+// LoadImageInfoRunnable::run() with non-existent file (NullImage path)
+TEST_F(ut_imageinfo, LoadImageInfoRunnable_Run_NonExistentFile)
+{
+    LoadImageInfoRunnable runnable("/tmp/ut_nonexistent_file.png", 0);
+    runnable.run();
+    SUCCEED();
+}
+
+// LoadImageInfoRunnable::run() with non-zero frameIndex on non-multi image -> DamagedImage
+TEST_F(ut_imageinfo, LoadImageInfoRunnable_Run_NonMultiWithFrameIndex)
+{
+    QString path = makeTempPng("ut_run_nonmulti_frame.png");
+    LoadImageInfoRunnable runnable(path, 1);
+    runnable.run();
+    SUCCEED();
+}
+
+// setFrameIndex: actual change (set to 1 when currently 0)
+TEST_F(ut_imageinfo, SetFrameIndex_ActualChange)
+{
+    ImageInfo info;
+    info.currentIndex = 0;
+    QSignalSpy spy(&info, &ImageInfo::frameIndexChanged);
+    info.setFrameIndex(1);
+    EXPECT_EQ(spy.count(), 1);
+    EXPECT_EQ(info.currentIndex, 1);
+}
+
+// setFrameIndex: no change (same value)
+TEST_F(ut_imageinfo, SetFrameIndex_NoChange)
+{
+    ImageInfo info;
+    info.currentIndex = 0;
+    QSignalSpy spy(&info, &ImageInfo::frameIndexChanged);
+    info.setFrameIndex(0);
+    EXPECT_EQ(spy.count(), 0);
+}
+
+// clearCurrentCache: with frameCount > 0
+TEST_F(ut_imageinfo, ClearCurrentCache_WithFrameCount)
+{
+    QString path = makeTempPng("ut_clearcache_frame.png");
+    ImageInfo info;
+    info.imageUrl = QUrl::fromLocalFile(path);
+    info.data = ImageInfoData::Ptr(new ImageInfoData);
+    info.data->frameCount = 3;
+    info.clearCurrentCache();
+    SUCCEED();
+}
+
+// updateData: frame index and frame count change
+TEST_F(ut_imageinfo, UpdateData_FrameIndexAndCountChange)
+{
+    QString path = makeTempPng("ut_updatedata_frame.png");
+    ImageInfo info;
+    info.imageUrl = QUrl::fromLocalFile(path);
+    info.data = ImageInfoData::Ptr(new ImageInfoData);
+    info.data->frameIndex = 0;
+    info.data->frameCount = 1;
+    info.data->size = QSize(10, 10);
+    info.data->type = Types::NormalImage;
+
+    ImageInfoData::Ptr newData(new ImageInfoData);
+    newData->frameIndex = 1;
+    newData->frameCount = 3;
+    newData->size = QSize(10, 10);
+    newData->type = Types::NormalImage;
+    newData->exist = true;
+
+    QSignalSpy frameSpy(&info, &ImageInfo::frameIndexChanged);
+    QSignalSpy countSpy(&info, &ImageInfo::frameCountChanged);
+
+    info.updateData(newData);
+
+    EXPECT_EQ(frameSpy.count(), 1);
+    EXPECT_EQ(countSpy.count(), 1);
+}
+
+// ImageInfoCache::load() with aboutToQuit = true (skip)
+TEST_F(ut_imageinfo, ImageInfoCache_Load_AboutToQuit)
+{
+    // Capture CacheInstance via postEvent stub
+    {
+        Stub stub;
+        stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+        LoadImageInfoRunnable runnable(makeTempPng("ut_load_quit.png"), 0);
+        ImageInfoData::Ptr data(new ImageInfoData);
+        data->path = makeTempPng("ut_load_quit.png");
+        data->exist = true;
+        data->type = Types::NormalImage;
+        runnable.notifyFinished(data->path, 0, data);
+    }
+    QObject *captured = s_capturedCacheInstance;
+    s_capturedCacheInstance = nullptr;
+    ASSERT_NE(captured, nullptr);
+    auto *cache = reinterpret_cast<ImageInfoCache *>(captured);
+    cache->aboutToQuit = true;
+    // Should skip loading
+    cache->load("/tmp/ut_load_quit_test.png", 0, false);
+    SUCCEED();
+}
+
+// ImageInfoCache::load() with reload=true (bypasses cache check)
+TEST_F(ut_imageinfo, ImageInfoCache_Load_Reload)
+{
+    QString path = makeTempPng("ut_load_reload.png");
+    // First capture cache instance
+    {
+        Stub stub;
+        stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+        LoadImageInfoRunnable runnable(path, 0);
+        ImageInfoData::Ptr data(new ImageInfoData);
+        data->path = path;
+        data->exist = true;
+        data->type = Types::NormalImage;
+        runnable.notifyFinished(path, 0, data);
+    }
+    QObject *captured = s_capturedCacheInstance;
+    s_capturedCacheInstance = nullptr;
+    ASSERT_NE(captured, nullptr);
+    auto *cache = reinterpret_cast<ImageInfoCache *>(captured);
+    cache->aboutToQuit = false;
+    // Load with reload=true to bypass cache check
+    cache->load(path, 0, true);
+    SUCCEED();
+}
+
+// ImageInfoCache::loadFinished with aboutToQuit
+TEST_F(ut_imageinfo, ImageInfoCache_LoadFinished_AboutToQuit)
+{
+    {
+        Stub stub;
+        stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+        LoadImageInfoRunnable runnable(makeTempPng("ut_loadfin_quit.png"), 0);
+        ImageInfoData::Ptr data(new ImageInfoData);
+        data->path = makeTempPng("ut_loadfin_quit.png");
+        data->exist = true;
+        data->type = Types::NormalImage;
+        runnable.notifyFinished(data->path, 0, data);
+    }
+    QObject *captured = s_capturedCacheInstance;
+    s_capturedCacheInstance = nullptr;
+    ASSERT_NE(captured, nullptr);
+    auto *cache = reinterpret_cast<ImageInfoCache *>(captured);
+    cache->aboutToQuit = true;
+    ImageInfoData::Ptr data(new ImageInfoData);
+    data->path = "/tmp/ut_loadfin_quit_test.png";
+    data->exist = true;
+    cache->loadFinished(data->path, 0, data);
+    SUCCEED();
+}
+
+// =================== Round 58 coverage improvement tests ===================
+
+#include "globalcontrol.h"
+#include <QProcess>
+
+// Stub for GlobalControl::enableMultiThread to return false (sync path)
+static bool ut_enableMultiThread_false()
+{
+    return false;
+}
+
+// L174-192: LoadImageInfoRunnable::run() with multi-page TIFF
+TEST_F(ut_imageinfo, LoadImageInfoRunnable_Run_MultiPageTiff)
+{
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QString tiffPath = dir.path() + "/multi_page.tif";
+    QString script = QString(
+        "from PIL import Image\n"
+        "img1=Image.new('RGB',(4,4),(255,0,0))\n"
+        "img2=Image.new('RGB',(4,4),(0,255,0))\n"
+        "img1.save('%1', save_all=True, append_images=[img2])\n"
+    ).arg(tiffPath);
+    QProcess proc;
+    proc.start("python3", QStringList() << "-c" << script);
+    proc.waitForFinished(5000);
+
+    if (QFileInfo::exists(tiffPath)) {
+        // Capture cache instance via postEvent stub
+        {
+            Stub stub;
+            stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+            LoadImageInfoRunnable runnable(tiffPath, 0);
+            runnable.run();
+        }
+        s_capturedCacheInstance = nullptr;
+    }
+    SUCCEED();
+}
+
+// L179-182: LoadImageInfoRunnable::run() multi-page TIFF with corrupted frame 1
+// Corrupt IFD1 StripOffsets so reader.read() for frame 1 returns null -> DamagedImage path
+TEST_F(ut_imageinfo, LoadImageInfoRunnable_Run_MultiPageTiff_CorruptedFrame)
+{
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QString tiffPath = dir.path() + "/multi_page_corrupted.tif";
+    QString script = QString(
+        "from PIL import Image\n"
+        "import struct\n"
+        "img1=Image.new('RGB',(4,4),(255,0,0))\n"
+        "img2=Image.new('RGB',(4,4),(0,255,0))\n"
+        "img1.save('%1', save_all=True, append_images=[img2])\n"
+        "with open('%1','rb') as f:\n"
+        "    data=bytearray(f.read())\n"
+        "endian='<' if data[0:2]==b'II' else '>'\n"
+        "ifd0=struct.unpack_from(endian+'I',data,4)[0]\n"
+        "n0=struct.unpack_from(endian+'H',data,ifd0)[0]\n"
+        "ifd1=struct.unpack_from(endian+'I',data,ifd0+2+n0*12)[0]\n"
+        "n1=struct.unpack_from(endian+'H',data,ifd1)[0]\n"
+        "for i in range(n1):\n"
+        "    eo=ifd1+2+i*12\n"
+        "    tag=struct.unpack_from(endian+'H',data,eo)[0]\n"
+        "    if tag==273:\n"
+        "        struct.pack_into(endian+'I',data,eo+8,len(data)+1000)\n"
+        "        break\n"
+        "with open('%1','wb') as f:\n"
+        "    f.write(data)\n"
+    ).arg(tiffPath);
+    QProcess proc;
+    proc.start("python3", QStringList() << "-c" << script);
+    proc.waitForFinished(10000);
+
+    if (QFileInfo::exists(tiffPath)) {
+        {
+            Stub stub;
+            stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+            LoadImageInfoRunnable runnable(tiffPath, 1);
+            runnable.run();
+        }
+        s_capturedCacheInstance = nullptr;
+    }
+    SUCCEED();
+}
+
+// L329-330: ImageInfoCache::load() cache hit (key already in cache)
+TEST_F(ut_imageinfo, ImageInfoCache_Load_CacheHit)
+{
+    QString path = makeTempPng("ut_cache_hit.png");
+    // Capture cache instance
+    {
+        Stub stub;
+        stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+        LoadImageInfoRunnable runnable(path, 0);
+        ImageInfoData::Ptr data(new ImageInfoData);
+        data->path = path;
+        data->exist = true;
+        data->type = Types::NormalImage;
+        runnable.notifyFinished(path, 0, data);
+    }
+    QObject *captured = s_capturedCacheInstance;
+    s_capturedCacheInstance = nullptr;
+    ASSERT_NE(captured, nullptr);
+    auto *cache = reinterpret_cast<ImageInfoCache *>(captured);
+    cache->aboutToQuit = false;
+
+    // Insert a cache entry manually
+    ImageInfoCache::KeyType key(path, 0);
+    ImageInfoData::Ptr cachedData(new ImageInfoData);
+    cachedData->path = path;
+    cachedData->exist = true;
+    cachedData->type = Types::NormalImage;
+    cache->cache.insert(key, cachedData);
+    cache->waitSet.remove(key);
+
+    // Load with reload=false - should hit cache and return early
+    cache->load(path, 0, false);
+    SUCCEED();
+}
+
+// L335-339: ImageInfoCache::load() sync path (enableMultiThread returns false)
+TEST_F(ut_imageinfo, ImageInfoCache_Load_SyncPath)
+{
+    QString path = makeTempPng("ut_sync_load.png");
+    // Capture cache instance
+    {
+        Stub stub;
+        stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+        LoadImageInfoRunnable runnable(path, 0);
+        ImageInfoData::Ptr data(new ImageInfoData);
+        data->path = path;
+        data->exist = true;
+        data->type = Types::NormalImage;
+        runnable.notifyFinished(path, 0, data);
+    }
+    QObject *captured = s_capturedCacheInstance;
+    s_capturedCacheInstance = nullptr;
+    ASSERT_NE(captured, nullptr);
+    auto *cache = reinterpret_cast<ImageInfoCache *>(captured);
+    cache->aboutToQuit = false;
+
+    // Stub enableMultiThread to return false so sync path is taken
+    Stub stub;
+    stub.set(ADDR(GlobalControl, enableMultiThread), ut_enableMultiThread_false);
+
+    cache->load(path, 0, false);
+    SUCCEED();
+}
+
+// L245, L251-253: loadImage fallback path
+// When QImageReader fails (orig not valid) and loadStaticImageFromFile succeeds
+TEST_F(ut_imageinfo, LoadImageInfoRunnable_LoadImage_Fallback)
+{
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    // Create a valid image file with .tga extension
+    // QImageReader may not report size for TGA, causing fallback to loadStaticImageFromFile
+    QString path = dir.path() + "/fallback.tga";
+    // Write minimal TGA data
+    QByteArray tgaData;
+    tgaData.append(static_cast<char>(0));
+    tgaData.append(static_cast<char>(0));
+    tgaData.append(static_cast<char>(2));
+    tgaData.append(static_cast<char>(0)); tgaData.append(static_cast<char>(0));
+    tgaData.append(static_cast<char>(0)); tgaData.append(static_cast<char>(0));
+    tgaData.append(static_cast<char>(0));
+    tgaData.append(static_cast<char>(0)); tgaData.append(static_cast<char>(0));
+    tgaData.append(static_cast<char>(0)); tgaData.append(static_cast<char>(0));
+    tgaData.append(static_cast<char>(4)); tgaData.append(static_cast<char>(0));
+    tgaData.append(static_cast<char>(4)); tgaData.append(static_cast<char>(0));
+    tgaData.append(static_cast<char>(24));
+    tgaData.append(static_cast<char>(0));
+    for (int i = 0; i < 48; ++i) {
+        tgaData.append(static_cast<char>(128));
+    }
+    QFile f(path);
+    f.open(QIODevice::WriteOnly);
+    f.write(tgaData);
+    f.close();
+
+    if (QFileInfo::exists(path)) {
+        {
+            Stub stub;
+            stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+            LoadImageInfoRunnable runnable(path, 0);
+            runnable.run();
+        }
+        s_capturedCacheInstance = nullptr;
+    }
+    SUCCEED();
+}
+
+// L245: loadImage() fallback when reader.read() returns null after setScaledSize
+// Corrupted PNG: valid header (size readable) but corrupted IDAT data (read fails)
+TEST_F(ut_imageinfo, LoadImageInfoRunnable_LoadImage_CorruptedPng_Fallback)
+{
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QString pngPath = dir.path() + "/corrupted.png";
+    QString script = QString(
+        "from PIL import Image\n"
+        "img=Image.new('RGB',(10,10),(255,0,0))\n"
+        "img.save('%1','PNG')\n"
+        "with open('%1','rb') as f:\n"
+        "    data=bytearray(f.read())\n"
+        "pos=8\n"
+        "while pos<len(data):\n"
+        "    length=int.from_bytes(data[pos:pos+4],'big')\n"
+        "    ct=data[pos+4:pos+8]\n"
+        "    if ct==b'IDAT':\n"
+        "        for i in range(min(20,length)):\n"
+        "            data[pos+8+i]=0xFF\n"
+        "        break\n"
+        "    pos+=12+length\n"
+        "with open('%1','wb') as f:\n"
+        "    f.write(data)\n"
+    ).arg(pngPath);
+    QProcess proc;
+    proc.start("python3", QStringList() << "-c" << script);
+    proc.waitForFinished(10000);
+
+    if (QFileInfo::exists(pngPath)) {
+        {
+            Stub stub;
+            stub.set(ADDR(QCoreApplication, postEvent), ut_ii_stub_capturePostEvent);
+            LoadImageInfoRunnable runnable(pngPath, 0);
+            runnable.run();
+        }
+        s_capturedCacheInstance = nullptr;
+    }
+    SUCCEED();
+}
+
+// L251-253: LoadImageInfoRunnable::loadImage() with ICNS file.
+// ICNS has QImageReader::size() returning invalid (QSize(-1,-1)),
+// so the code skips the QImageReader path and falls through to
+// loadStaticImageFromFile, which CAN load ICNS (imageCount>0).
+// This covers the success branch of loadStaticImageFromFile in loadImage().
+TEST_F(ut_imageinfo, LoadImage_WithIcns_CoversLoadStaticImageSuccessPath)
+{
+    QTemporaryDir dir;
+    const QString path = dir.path() + "/test.icns";
+
+    // Create a valid ICNS file with a 32x32 ARGB icon (ic08 type)
+    QByteArray iconData(32 * 32 * 4, 0);
+    for (int i = 0; i < 32 * 32; ++i) {
+        iconData[i * 4] = 0xFF;     // R
+        iconData[i * 4 + 1] = 0x00; // G
+        iconData[i * 4 + 2] = 0x00; // B
+        iconData[i * 4 + 3] = 0xFF; // A
+    }
+    QByteArray iconEntry;
+    iconEntry.append("ic08");
+    qint32 entrySize = iconData.size() + 8;
+    iconEntry.append(QByteArray::fromRawData(reinterpret_cast<const char *>(&entrySize), 4).toHex());
+    // Write big-endian size
+    QByteArray sizeBytes;
+    sizeBytes.append((entrySize >> 24) & 0xFF);
+    sizeBytes.append((entrySize >> 16) & 0xFF);
+    sizeBytes.append((entrySize >> 8) & 0xFF);
+    sizeBytes.append(entrySize & 0xFF);
+    iconEntry = QByteArray("ic08") + sizeBytes + iconData;
+    qint32 totalSize = iconEntry.size() + 8;
+    QByteArray totalSizeBytes;
+    totalSizeBytes.append((totalSize >> 24) & 0xFF);
+    totalSizeBytes.append((totalSize >> 16) & 0xFF);
+    totalSizeBytes.append((totalSize >> 8) & 0xFF);
+    totalSizeBytes.append(totalSize & 0xFF);
+    QByteArray icnsData = QByteArray("icns") + totalSizeBytes + iconEntry;
+
+    QFile f(path);
+    ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+    f.write(icnsData);
+    f.close();
+
+    // Verify QImageReader returns invalid size for this ICNS
+    QImageReader checkReader(path);
+    ASSERT_FALSE(checkReader.size().isValid())
+        << "QImageReader::size() should be invalid for ICNS";
+
+    LoadImageInfoRunnable runnable(path, 0);
+    QImage image;
+    QSize sourceSize;
+    bool result = runnable.loadImage(image, sourceSize);
+    EXPECT_TRUE(result);
+    EXPECT_FALSE(image.isNull());
 }

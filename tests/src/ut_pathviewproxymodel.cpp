@@ -18,6 +18,29 @@
 #include <QEventLoop>
 #include "types.h"
 
+// ImageInfoData 声明（imageinfo.cpp 内私有类，仅声明数据成员以正确构造）
+class ImageInfoData
+{
+public:
+    typedef QSharedPointer<ImageInfoData> Ptr;
+
+    inline bool isError() const
+    {
+        bool ret = !exist || (Types::DamagedImage == type);
+        return ret;
+    }
+
+    QString path;
+    Types::ImageType type;
+    QSize size;
+    int frameIndex = 0;
+    int frameCount = 0;
+    bool exist = false;
+    qreal scale = -1;
+    qreal x = 0;
+    qreal y = 0;
+};
+
 // 创建若干临时 PNG 文件供 ImageSourceModel 使用，确保 ImageInfo 能同步加载。
 static QStringList g_pathviewTmpPaths;
 static QList<QUrl> g_pathviewTmpUrls;
@@ -474,5 +497,247 @@ TEST_F(ut_pathviewproxymodel, AsyncUpdateLoadInfo_Lambda_TriggersOnStatusChanged
     // 处理 deleteLater 事件（安全，不涉及 DBus）
     QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
 
+    SUCCEED();
+}
+
+// ============================================================
+// 补充用例：覆盖 setData 中前后遍历更新相同 URL 的分支 (L85-91, L97-99)
+// ============================================================
+TEST_F(ut_pathviewproxymodel, SetDataUpdatesSameUrlNeighbors)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(2, 0);
+
+    // 让 indexQueue[1] 和 indexQueue[3] 与 indexQueue[2] 有相同 URL
+    QUrl sameUrl = model.indexQueue[2]->url;
+    model.indexQueue[1]->url = sameUrl;
+    model.indexQueue[3]->url = sameUrl;
+
+    QSignalSpy spy(&model, &PathViewProxyModel::dataChanged);
+    QModelIndex idx = model.index(2);
+    QUrl newUrl("file:///updated.png");
+    EXPECT_TRUE(model.setData(idx, QVariant::fromValue(newUrl), Types::ImageUrlRole));
+    // 自身 + previous(1) + next(3) = 3 次 dataChanged
+    EXPECT_GE(spy.count(), 3);
+}
+
+// ============================================================
+// 补充用例：覆盖 setCurrentSourceIndex 中 jumpFlag != Current 时
+// 调用 refreshBothSideData 的分支 (L174-175)
+// ============================================================
+TEST_F(ut_pathviewproxymodel, SetCurrentSourceIndex_RefreshBothSideOnJumpFlag)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(2, 0);
+
+    // OutOfRange 跳转设置 jumpFlag 为非 Current
+    model.setCurrentSourceIndex(0, 0);  // jumpToIndex → jumpFlag = Previous
+    // 此时 jumpFlag != Current，且 type != Current → 触发 refreshBothSideData (L174-175)
+    model.setCurrentSourceIndex(1, 0);  // type = Next → 进入 if 分支
+    SUCCEED();
+}
+
+// ============================================================
+// 补充用例：覆盖 deleteCurrent 中源数据为空的分支 (L294-300)
+// ============================================================
+TEST_F(ut_pathviewproxymodel, DeleteCurrent_EmptySourceModel)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(2, 0);
+
+    // 清空源数据
+    src.setImageFiles({});
+    EXPECT_EQ(src.rowCount(), 0);
+
+    // deleteCurrent 应进入 0 == sourceModel->rowCount() 分支
+    model.deleteCurrent();
+    EXPECT_EQ(model.rowCount(), 0);
+    SUCCEED();
+}
+
+// ============================================================
+// 补充用例：覆盖 dumpInfo 中 info 为 null 的 else 分支 (L382)
+// ============================================================
+TEST_F(ut_pathviewproxymodel, DumpInfo_WithNullEntry)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(2, 0);
+
+    // 设置一个 null 条目
+    model.indexQueue[0] = nullptr;
+    model.dumpInfo();
+    SUCCEED();
+}
+
+// ============================================================
+// 补充用例：覆盖 jumpToIndex 中 current 为 null 的分支 (L395-397)
+// ============================================================
+TEST_F(ut_pathviewproxymodel, JumpToIndex_NullCurrent)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(2, 0);
+
+    // 设置当前索引条目为 null
+    model.indexQueue[model.currentProxyIdx] = nullptr;
+    model.jumpToIndex(0, 0);
+    SUCCEED();
+}
+
+// ============================================================
+// 补充用例：覆盖 distance 中 indexQueue 为空的分支 (L473-474)
+// ============================================================
+TEST_F(ut_pathviewproxymodel, Distance_EmptyQueue)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    // 不调用 resetModel，indexQueue 为空
+    EXPECT_EQ(model.distance(0, 0), PathViewProxyModel::Invalid);
+}
+
+// ============================================================
+// 补充用例：覆盖 distance 中 current 为 null 的分支 (L479-480)
+// ============================================================
+TEST_F(ut_pathviewproxymodel, Distance_NullCurrent)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(2, 0);
+
+    model.indexQueue[model.currentProxyIdx] = nullptr;
+    EXPECT_EQ(model.distance(0, 0), PathViewProxyModel::Invalid);
+}
+
+// ============================================================
+// 补充用例：覆盖 createPreviousIndexInfo 中 frameIndex > 0 的分支 (L664-668)
+// ============================================================
+TEST_F(ut_pathviewproxymodel, CreatePreviousIndexInfo_FrameIndexGreaterThanZero)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(2, 0);
+
+    auto base = model.infoFromIndex(2, 0);
+    ASSERT_TRUE(!base.isNull());
+    base->frameIndex = 1;
+    base->frameCount = 3;
+
+    auto prev = model.createPreviousIndexInfo(base);
+    ASSERT_TRUE(!prev.isNull());
+    EXPECT_EQ(prev->frameIndex, 0);
+}
+
+// ============================================================
+// 补充用例：覆盖 createNextIndexInfo 中 frameCount-1 > frameIndex 的分支 (L692-696)
+// ============================================================
+TEST_F(ut_pathviewproxymodel, CreateNextIndexInfo_HasNextFrame)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(2, 0);
+
+    auto base = model.infoFromIndex(2, 0);
+    ASSERT_TRUE(!base.isNull());
+    base->frameIndex = 0;
+    base->frameCount = 3;
+
+    auto next = model.createNextIndexInfo(base);
+    ASSERT_TRUE(!next.isNull());
+    EXPECT_EQ(next->frameIndex, 1);
+}
+
+// ============================================================
+// 补充用例：覆盖 asyncUpdateLoadInfo lambda 中 Ready+MultiImage 三分支 (L605-644)
+// ============================================================
+
+// 分支 1: sourceIndex == current->index
+TEST_F(ut_pathviewproxymodel, AsyncUpdateLoadInfo_Lambda_ReadyMultiImage_EqualIndex)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(2, 0);
+
+    // Delete ImageInfo children created during resetModel so findChild finds ours
+    qDeleteAll(model.findChildren<ImageInfo *>());
+
+    int currentSourceIdx = model.indexQueue[model.currentProxyIdx]->index;
+    model.asyncUpdateLoadInfo(g_pathviewTmpUrls.first(), currentSourceIdx, 0);
+
+    ImageInfo *delayInfo = model.findChild<ImageInfo *>();
+    ASSERT_NE(delayInfo, nullptr);
+    delayInfo->data = ImageInfoData::Ptr(new ImageInfoData);
+    delayInfo->data->type = Types::MultiImage;
+    delayInfo->data->frameCount = 2;
+    delayInfo->data->exist = true;
+    delayInfo->setStatus(ImageInfo::Ready);
+
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+    SUCCEED();
+}
+
+// 分支 2: sourceIndex < current->index
+TEST_F(ut_pathviewproxymodel, AsyncUpdateLoadInfo_Lambda_ReadyMultiImage_LessIndex)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(2, 0);
+
+    qDeleteAll(model.findChildren<ImageInfo *>());
+
+    int currentSourceIdx = model.indexQueue[model.currentProxyIdx]->index;
+    int lessIdx = currentSourceIdx - 1;
+    if (lessIdx < 0) lessIdx = 0;
+    model.asyncUpdateLoadInfo(g_pathviewTmpUrls.first(), lessIdx, 0);
+
+    ImageInfo *delayInfo = model.findChild<ImageInfo *>();
+    ASSERT_NE(delayInfo, nullptr);
+    delayInfo->data = ImageInfoData::Ptr(new ImageInfoData);
+    delayInfo->data->type = Types::MultiImage;
+    delayInfo->data->frameCount = 2;
+    delayInfo->data->exist = true;
+    delayInfo->setStatus(ImageInfo::Ready);
+
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+    SUCCEED();
+}
+
+// 分支 3: sourceIndex > current->index
+TEST_F(ut_pathviewproxymodel, AsyncUpdateLoadInfo_Lambda_ReadyMultiImage_GreaterIndex)
+{
+    ImageSourceModel src;
+    src.setImageFiles(g_pathviewTmpUrls);
+    PathViewProxyModel model(&src);
+    model.resetModel(0, 0);
+
+    qDeleteAll(model.findChildren<ImageInfo *>());
+
+    int currentSourceIdx = model.indexQueue[model.currentProxyIdx]->index;
+    int greaterIdx = currentSourceIdx + 2;
+    model.asyncUpdateLoadInfo(g_pathviewTmpUrls.first(), greaterIdx, 0);
+
+    ImageInfo *delayInfo = model.findChild<ImageInfo *>();
+    ASSERT_NE(delayInfo, nullptr);
+    delayInfo->data = ImageInfoData::Ptr(new ImageInfoData);
+    delayInfo->data->type = Types::MultiImage;
+    delayInfo->data->frameCount = 2;
+    delayInfo->data->exist = true;
+    delayInfo->setStatus(ImageInfo::Ready);
+
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
     SUCCEED();
 }

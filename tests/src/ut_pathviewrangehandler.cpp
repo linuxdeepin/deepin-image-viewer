@@ -9,6 +9,7 @@
 #include <QMouseEvent>
 #include <QQuickItem>
 #include <QSignalSpy>
+#include <new>
 
 void ut_pathviewrangehandler::SetUp() {}
 void ut_pathviewrangehandler::TearDown() {}
@@ -246,5 +247,15 @@ TEST_F(ut_pathviewrangehandler, Destructor_DeletingDestructor)
 {
     auto *obj = new PathViewRangeHandler();
     delete obj;
+    SUCCEED();
+}
+
+// 析构函数: 通过 placement new + 显式析构触发 D2 base object destructor
+// 栈对象析构可能被内联，显式调用确保 D2 符号被覆盖
+TEST_F(ut_pathviewrangehandler, Destructor_BaseDestructor)
+{
+    alignas(PathViewRangeHandler) unsigned char buf[sizeof(PathViewRangeHandler)];
+    PathViewRangeHandler *obj = new (buf) PathViewRangeHandler();
+    obj->~PathViewRangeHandler();
     SUCCEED();
 }
