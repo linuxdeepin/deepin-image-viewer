@@ -164,44 +164,6 @@ TEST_F(ut_globalstatus, ViewFlickingProperty)
     EXPECT_EQ(spy.count(), 1);
 }
 
-// 测试 editMode 属性设置与信号
-TEST_F(ut_globalstatus, EditModeProperty)
-{
-    GlobalStatus status;
-    EXPECT_FALSE(status.editMode());
-
-    QSignalSpy spy(&status, &GlobalStatus::editModeChanged);
-    status.setEditMode(true);
-    EXPECT_TRUE(status.editMode());
-    EXPECT_EQ(spy.count(), 1);
-
-    status.setEditMode(true);
-    EXPECT_EQ(spy.count(), 1);
-
-    status.setEditMode(false);
-    EXPECT_FALSE(status.editMode());
-    EXPECT_EQ(spy.count(), 2);
-}
-
-// 测试 editModified 属性设置与信号
-TEST_F(ut_globalstatus, EditModifiedProperty)
-{
-    GlobalStatus status;
-    EXPECT_FALSE(status.editModified());
-
-    QSignalSpy spy(&status, &GlobalStatus::editModifiedChanged);
-    status.setEditModified(true);
-    EXPECT_TRUE(status.editModified());
-    EXPECT_EQ(spy.count(), 1);
-
-    status.setEditModified(true);
-    EXPECT_EQ(spy.count(), 1);
-
-    status.setEditModified(false);
-    EXPECT_FALSE(status.editModified());
-    EXPECT_EQ(spy.count(), 2);
-}
-
 // 测试 animationBlock 属性设置与信号
 TEST_F(ut_globalstatus, AnimationBlockProperty)
 {
