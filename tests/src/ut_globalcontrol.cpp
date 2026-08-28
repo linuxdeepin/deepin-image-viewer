@@ -7,6 +7,7 @@
 
 #include "stub.h"
 #include "utils/rotateimagehelper.h"
+#include "imagedata/pathviewproxymodel.h"
 
 #include <QSignalSpy>
 #include <QTemporaryDir>
@@ -17,6 +18,7 @@
 #include <QTimerEvent>
 #include <QCoreApplication>
 #include <QStandardPaths>
+#include <QTest>
 #include <cstdlib>
 #include <csetjmp>
 
@@ -416,10 +418,17 @@ static jmp_buf ut_gc_exit_jmpbuf;
     longjmp(ut_gc_exit_jmpbuf, 1);
 }
 
+static void ut_gc_stub_qapp_exit(int) {}
+
 TEST_F(ut_globalcontrol, ForceExit_Stubbed_NoTermination)
 {
     Stub stub;
     stub.set(_Exit, ut_gc_stub_exit_longjmp);
+    // 同时桩 QCoreApplication::exit，防止其投递延迟退出事件。
+    // 退出事件会在后续测试的 QEventLoop::exec() 中被处理，
+    // 触发 aboutToQuit 信号并设置全局 ImageInfoCache::aboutToQuit=true，
+    // 导致所有后续图片加载被跳过。
+    stub.set(&QCoreApplication::exit, ut_gc_stub_qapp_exit);
 
     GlobalControl control;
 
@@ -431,4 +440,272 @@ TEST_F(ut_globalcontrol, ForceExit_Stubbed_NoTermination)
     } else {
         SUCCEED();
     }
+}
+
+// ===================== Coverage enhancement tests =====================
+
+#include "imagedata/imageinfo.h"
+
+// ImageInfoData declaration (private class from imageinfo.cpp)
+class ImageInfoData
+{
+public:
+    typedef QSharedPointer<ImageInfoData> Ptr;
+    inline bool isError() const { return !exist || (Types::DamagedImage == type); }
+    QString path;
+    Types::ImageType type;
+    QSize size;
+    int frameIndex = 0;
+    int frameCount = 0;
+    bool exist = false;
+    qreal scale = -1;
+    qreal x = 0;
+    qreal y = 0;
+};
+
+// Helper: set up multi-image data on currentImage
+static void setupMultiImageData(GlobalControl &control, int frameCount, int frameIndex = 0)
+{
+    control.currentImage.data = ImageInfoData::Ptr(new ImageInfoData);
+    control.currentImage.data->type = Types::MultiImage;
+    control.currentImage.data->frameCount = frameCount;
+    control.currentImage.data->frameIndex = frameIndex;
+    control.currentImage.data->exist = true;
+    control.currentImage.data->size = QSize(10, 10);
+    control.curFrameIndex = frameIndex;
+}
+
+// setCurrentRotation: invalid angle (not multiple of 90)
+TEST_F(ut_globalcontrol, SetCurrentRotation_InvalidAngle)
+{
+    GlobalControl control;
+    control.setCurrentRotation(45);
+    EXPECT_EQ(control.currentRotation(), 45);
+}
+
+// setCurrentRotation: same value (no change)
+TEST_F(ut_globalcontrol, SetCurrentRotation_SameValue_NoChange)
+{
+    GlobalControl control;
+    // imageRotation is 0 by default, setting to 0 should hit else branch
+    control.setCurrentRotation(0);
+    EXPECT_EQ(control.currentRotation(), 0);
+}
+
+// setImageFiles: empty list
+TEST_F(ut_globalcontrol, SetImageFiles_EmptyList_ReturnsFalse)
+{
+    GlobalControl control;
+    EXPECT_FALSE(control.setImageFiles({}, ""));
+}
+
+// setImageFiles: openFile not in list
+TEST_F(ut_globalcontrol, SetImageFiles_OpenFileNotInList_ReturnsFalse)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 3);
+    EXPECT_FALSE(control.setImageFiles(files, "/tmp/not_in_list.png"));
+}
+
+// addImageAndSetCurrentSource: already-existing image
+TEST_F(ut_globalcontrol, AddImageAndSetCurrentSource_ExistingImage)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 3);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(1)));
+    // Add an image that already exists in the model
+    EXPECT_TRUE(control.addImageAndSetCurrentSource(QUrl::fromLocalFile(files.value(0))));
+}
+
+// removeImage: with rotation != 0
+TEST_F(ut_globalcontrol, RemoveImage_WithRotation)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 3);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(0)));
+    // Set rotation to non-zero
+    control.imageRotation = 90;
+    control.removeImage(QUrl(files.value(0)));
+    EXPECT_EQ(control.currentRotation(), 0);
+}
+
+// removeImage: at end with remaining images
+TEST_F(ut_globalcontrol, RemoveImage_AtEndWithRemaining)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 3);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(2)));
+    // Remove the last image (at end)
+    control.removeImage(QUrl(files.value(2)));
+    EXPECT_EQ(control.imageCount(), 2);
+}
+
+// previousImage: multi-frame with curFrameIndex > 0
+TEST_F(ut_globalcontrol, PreviousImage_MultiFrame_PreviousFrame)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 2);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(1)));
+    setupMultiImageData(control, 3, 1);
+    EXPECT_TRUE(control.previousImage());
+    EXPECT_EQ(control.currentFrameIndex(), 0);
+}
+
+// nextImage: multi-frame with curFrameIndex < frameCount - 1
+TEST_F(ut_globalcontrol, NextImage_MultiFrame_NextFrame)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 2);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(0)));
+    setupMultiImageData(control, 3, 0);
+    EXPECT_TRUE(control.nextImage());
+    EXPECT_EQ(control.currentFrameIndex(), 1);
+}
+
+// lastImage: multi-frame
+TEST_F(ut_globalcontrol, LastImage_MultiFrame)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 2);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(0)));
+    setupMultiImageData(control, 3, 0);
+    EXPECT_TRUE(control.lastImage());
+    // frameIndex should be frameCount - 1 = 2
+    EXPECT_EQ(control.currentFrameIndex(), 2);
+}
+
+// setIndexAndFrameIndex: frame index change only (index stays same)
+TEST_F(ut_globalcontrol, SetIndexAndFrameIndex_FrameChangeOnly)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 2);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(0)));
+    setupMultiImageData(control, 3, 0);
+    // Same index (0), different frame index
+    control.setIndexAndFrameIndex(0, 1);
+    EXPECT_EQ(control.currentFrameIndex(), 1);
+}
+
+// rotateImageFinished lambda with matching path
+TEST_F(ut_globalcontrol, RotateImageFinished_MatchingPath)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 1);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(0)));
+    // Set source as proper file:// URL so toLocalFile() returns the path
+    control.currentImage.setSource(QUrl::fromLocalFile(files.value(0)));
+    // Emit with matching path
+    RotateImageHelper::instance()->rotateImageFinished(files.value(0), true);
+    SUCCEED();
+}
+
+// viewModelSyncTimer in timerEvent - direct call with stub to avoid DBus crash
+static void stub_setCurrentSourceIndex(int, int) {}
+
+TEST_F(ut_globalcontrol, ViewModelSyncTimer_TriggersInTimerEvent)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 2);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(0)));
+
+    Stub stub;
+    stub.set(ADDR(PathViewProxyModel, setCurrentSourceIndex), stub_setCurrentSourceIndex);
+
+    control.viewModelSyncTimer.start(10, &control);
+    int timerId = control.viewModelSyncTimer.timerId();
+    QTimerEvent event(timerId);
+    control.timerEvent(&event);
+    EXPECT_FALSE(control.viewModelSyncTimer.isActive());
+}
+
+// nextImage with single image returns false (no next available)
+TEST_F(ut_globalcontrol, NextImage_SingleImage_ReturnsFalse)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 1);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(0)));
+    EXPECT_FALSE(control.nextImage());
+}
+
+// addImageAndSetCurrentSource with non-zero curFrameIndex emits currentFrameIndexChanged
+TEST_F(ut_globalcontrol, AddImageAndSetCurrentSource_FrameIndexChange_EmitsSignal)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 2);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(0)));
+    // Set curFrameIndex to non-zero
+    control.curFrameIndex = 2;
+    QSignalSpy spy(&control, &GlobalControl::currentFrameIndexChanged);
+    // Add a new image file not in the list
+    QString newPath = dir.filePath("ut_test_img_new.png");
+    QImage img(10, 10, QImage::Format_ARGB32);
+    img.fill(Qt::blue);
+    ASSERT_TRUE(img.save(newPath, "PNG"));
+    EXPECT_TRUE(control.addImageAndSetCurrentSource(QUrl::fromLocalFile(newPath)));
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// removeImage with single image leaves empty model
+TEST_F(ut_globalcontrol, RemoveImage_SingleImage_EmptyModel)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 1);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(0)));
+    EXPECT_EQ(control.imageCount(), 1);
+    QUrl current = control.currentSource();
+    control.removeImage(current);
+    EXPECT_EQ(control.imageCount(), 0);
+}
+
+// Fix: RotateImageFinished_MatchingPath - set source as proper file:// URL so toLocalFile() works
+
+// Stub for insertImage to return -1 (failure)
+static int stub_gc_insertImage_return_neg1(const QUrl &) { return -1; }
+
+// L403: addImageAndSetCurrentSource returns false when sourceModel->insertImage returns -1
+TEST_F(ut_globalcontrol, AddImageAndSetCurrentSource_InsertImageFails_ReturnsFalse)
+{
+    GlobalControl control;
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    QStringList files = createTestImageFiles(dir, 2);
+    ASSERT_TRUE(control.setImageFiles(files, files.value(0)));
+
+    Stub stub;
+    stub.set(ADDR(ImageSourceModel, insertImage), stub_gc_insertImage_return_neg1);
+
+    // Create a new image file not already in the model
+    QString newPath = dir.filePath("ut_test_img_insert_fail.png");
+    QImage img(10, 10, QImage::Format_ARGB32);
+    img.fill(Qt::yellow);
+    ASSERT_TRUE(img.save(newPath, "PNG"));
+
+    // addImageAndSetCurrentSource should return false (L403)
+    EXPECT_FALSE(control.addImageAndSetCurrentSource(QUrl::fromLocalFile(newPath)));
 }

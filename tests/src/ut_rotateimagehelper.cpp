@@ -14,6 +14,27 @@
 #include <QSignalSpy>
 #include <QThreadPool>
 #include <QCoreApplication>
+#include <QFutureWatcher>
+#include <QQueue>
+#include <QMutex>
+
+#include <QTemporaryDir>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
+
+class RotateImageHelperData
+{
+public:
+    explicit RotateImageHelperData() {}
+
+    QString currentRotateImage;
+    QHash<QString, int> rotationCache;
+    QFutureWatcher<void> watcher;
+    QMutex queueMutex;
+    QQueue<QPair<QString, int>> processQueue;
+    QTemporaryDir cacheDir;
+};
 
 void ut_rotateimagehelper::SetUp()
 {
@@ -219,8 +240,10 @@ TEST_F(ut_rotateimagehelper, EnqueueRotateTask_QueuesAndProcesses)
 
     fresh->enqueueRotateTask(srcPath, 90);
 
-    // 等待后台线程完成（不使用事件循环）
+    // 等待后台线程完成（waitForFinished 阻塞直到 lambda 执行完毕）
+    fresh->data->watcher.waitForFinished();
     QThreadPool::globalInstance()->waitForDone();
+    QThread::msleep(200);
     // 信号通过排队连接从子线程发射，无事件循环时 spy 可能未收到
     EXPECT_GE(spy.count(), 0);
 
@@ -231,13 +254,175 @@ TEST_F(ut_rotateimagehelper, EnqueueRotateTask_QueuesAndProcesses)
 // ==================== aboutToQuit lambda (构造函数) ====================
 
 // 测试构造函数中 aboutToQuit lambda: 手动发射信号触发清理逻辑
+// Use a large image so the rotation task is still running when aboutToQuit fires.
+// This ensures L51-54 (watcher.isRunning() == true branch) is covered.
 TEST_F(ut_rotateimagehelper, AboutToQuit_TriggersConstructorLambda_NoCrash)
 {
-    // 确保单例已创建（构造函数中连接 aboutToQuit 信号）
-    RotateImageHelper::instance();
-    // 手动发射 QCoreApplication::aboutToQuit 信号
-    // (-fno-access-control 允许调用 protected 信号；Qt6 信号需 QPrivateSignal 参数)
-    // data 未运行 watcher 时，lambda 仅执行判断分支不进入清理
+    RotateImageHelper *fresh = new RotateImageHelper();
+    fresh->checkDataValid();
+
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+
+    // Use a large image so rotation takes longer than the sleep before aboutToQuit
+    QString srcPath = tmpDir.filePath("about_to_quit_large.png");
+    QImage img(2000, 2000, QImage::Format_RGB32);
+    img.fill(Qt::red);
+    ASSERT_TRUE(img.save(srcPath, "PNG"));
+
+    // Enqueue multiple rotation tasks to keep watcher busy
+    fresh->enqueueRotateTask(srcPath, 90);
+    fresh->enqueueRotateTask(srcPath, 180);
+    fresh->enqueueRotateTask(srcPath, 270);
+
+    // Give the thread just enough time to start processing
+    QThread::msleep(10);
+
+    // Emit aboutToQuit while watcher is still running — covers L51-54
     qApp->aboutToQuit(QCoreApplication::QPrivateSignal{});
+
+    // Clean up — watcher should have been waited on by the lambda
+    if (fresh->data && fresh->data->watcher.isRunning()) {
+        fresh->data->watcher.waitForFinished();
+    }
+    QThreadPool::globalInstance()->waitForDone();
+    delete fresh;
+    SUCCEED();
+}
+
+// 测试 aboutToQuit lambda with no data — lambda fires but if-check is false (L48 only)
+TEST_F(ut_rotateimagehelper, AboutToQuit_NullData_NoCrash)
+{
+    RotateImageHelper *fresh = new RotateImageHelper();
+    // data is null, so lambda only checks data && ... which is false
+    qApp->aboutToQuit(QCoreApplication::QPrivateSignal{});
+    delete fresh;
+    SUCCEED();
+}
+
+// 测试 aboutToQuit lambda with data but watcher not running (L48, L50 false)
+TEST_F(ut_rotateimagehelper, AboutToQuit_WatcherNotRunning_NoCrash)
+{
+    RotateImageHelper *fresh = new RotateImageHelper();
+    fresh->checkDataValid();
+    // data is non-null but watcher is not running, so inner if is false
+    qApp->aboutToQuit(QCoreApplication::QPrivateSignal{});
+    delete fresh;
+    SUCCEED();
+}
+
+// L103-106: rotateImageFile while watcher running, same path updates existing task
+TEST_F(ut_rotateimagehelper, RotateImageFile_WhileRunning_SamePath_UpdatesTask)
+{
+    RotateImageHelper *fresh = new RotateImageHelper();
+    fresh->checkDataValid();
+
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    // Create a larger image so rotation takes longer
+    QString srcPath = tmpDir.filePath("large_rotate.png");
+    QImage img(2000, 2000, QImage::Format_ARGB32);
+    img.fill(Qt::blue);
+    ASSERT_TRUE(img.save(srcPath, "PNG"));
+
+    // Enqueue first task directly to start watcher
+    fresh->enqueueRotateTask(srcPath, 90);
+    // Immediately call rotateImageFile with same path — watcher IS running
+    // This should hit the if (data->watcher.isRunning()) branch at L100
+    fresh->rotateImageFile(srcPath, 180);
+
+    // Wait for completion
+    fresh->data->watcher.waitForFinished();
+    QThreadPool::globalInstance()->waitForDone();
+    delete fresh;
+    SUCCEED();
+}
+
+// L103-106: rotateImageFile while watcher running, DIFFERENT path enqueues
+TEST_F(ut_rotateimagehelper, RotateImageFile_WhileRunning_DifferentPath_Enqueues)
+{
+    RotateImageHelper *fresh = new RotateImageHelper();
+    fresh->checkDataValid();
+
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString srcPath1 = tmpDir.filePath("rotate_a.png");
+    QString srcPath2 = tmpDir.filePath("rotate_b.png");
+    QImage img(2000, 2000, QImage::Format_ARGB32);
+    img.fill(Qt::blue);
+    ASSERT_TRUE(img.save(srcPath1, "PNG"));
+    ASSERT_TRUE(img.save(srcPath2, "PNG"));
+
+    // Enqueue first task directly to start watcher
+    fresh->enqueueRotateTask(srcPath1, 90);
+    // Immediately call rotateImageFile with different path — watcher IS running
+    // This should hit the enqueue path at L107-108
+    fresh->rotateImageFile(srcPath2, 180);
+
+    // Wait for completion
+    fresh->data->watcher.waitForFinished();
+    QThreadPool::globalInstance()->waitForDone();
+    delete fresh;
+    SUCCEED();
+}
+
+// 测试 rotateImageFile 对 MTP 路径跳过旋转 (L86-87)
+TEST_F(ut_rotateimagehelper, RotateImageFile_MTPPath_SkipsRotation)
+{
+    RotateImageHelper::instance()->rotateImageFile("mtp:host=test/file.jpg", 90);
+    SUCCEED();
+}
+
+// 测试 rotateImageFile 对回收站路径跳过旋转 (L86-87)
+TEST_F(ut_rotateimagehelper, RotateImageFile_TrashPath_SkipsRotation)
+{
+    QString trashPath = QDir::homePath() + "/.local/share/Trash/files/test.jpg";
+    RotateImageHelper::instance()->rotateImageFile(trashPath, 90);
+    SUCCEED();
+}
+
+// 测试 rotateImageFile 在 watcher 运行时重复调用同一路径更新任务 (L103-106)
+TEST_F(ut_rotateimagehelper, RotateImageFile_DuplicateWhileRunning_UpdatesTask)
+{
+    RotateImageHelper *fresh = new RotateImageHelper();
+    fresh->checkDataValid();
+
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString srcPath = tmpDir.filePath("dup_rotate.png");
+    QImage img(4, 4, QImage::Format_ARGB32);
+    img.fill(Qt::red);
+    ASSERT_TRUE(img.save(srcPath, "PNG"));
+
+    // 第一次调用启动 watcher
+    fresh->rotateImageFile(srcPath, 90);
+    // watcher 可能在运行中，立即再次调用同一路径
+    fresh->rotateImageFile(srcPath, 180);
+
+    QThreadPool::globalInstance()->waitForDone();
+    delete fresh;
+    SUCCEED();
+}
+
+// 测试 resetRotateState 在 watcher 运行时延迟删除缓存目录 (L134)
+TEST_F(ut_rotateimagehelper, ResetRotateState_WhileWatcherRunning_DeferCacheRemoval)
+{
+    RotateImageHelper *fresh = new RotateImageHelper();
+    fresh->checkDataValid();
+
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString srcPath = tmpDir.filePath("defer_rotate.png");
+    QImage img(4, 4, QImage::Format_ARGB32);
+    img.fill(Qt::green);
+    ASSERT_TRUE(img.save(srcPath, "PNG"));
+
+    // 启动旋转任务
+    fresh->rotateImageFile(srcPath, 90);
+    // 立即在 watcher 可能运行时调用 reset
+    fresh->resetRotateState();
+
+    QThreadPool::globalInstance()->waitForDone();
+    delete fresh;
     SUCCEED();
 }

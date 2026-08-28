@@ -12,6 +12,7 @@
 #include <QSignalSpy>
 #include <QCoreApplication>
 #include <QImage>
+#include <QLoggingCategory>
 
 // 生成一个临时文件用于测试，返回绝对路径
 static QString makeWatcherTempFile(const QString &name)
@@ -177,5 +178,174 @@ TEST_F(ut_imagefilewatcher, DeletingDestructor_NewDelete_NoCrash)
     ASSERT_NE(watcher, nullptr);
     // 析构函数中仅输出日志，删除不崩溃
     delete watcher;
+    SUCCEED();
+}
+
+// onImageDirChanged with removedFile entry that does NOT exist in directory
+TEST_F(ut_imagefilewatcher, OnImageDirChanged_WithRemovedFile)
+{
+    QString dir = QDir::tempPath() + "/ut_filewatcher_dirchanged_" +
+                  QString::number(QCoreApplication::applicationPid());
+    QDir().mkpath(dir);
+    QString f1 = dir + "/nonexist.png";
+
+    // Directly populate removedFile (avoids calling onImageFileChanged which
+    // creates ImageInfo objects and starts async LoadImageInfoRunnable tasks
+    // that cause segfaults during global teardown).
+    ImageFileWatcher::instance()->removedFile.insert(f1, QUrl::fromLocalFile(f1));
+
+    // File is not in directory listing -> else branch (L242)
+    ImageFileWatcher::instance()->onImageDirChanged(dir);
+
+    // File should remain in removedFile (not erased)
+    EXPECT_TRUE(ImageFileWatcher::instance()->removedFile.contains(f1));
+
+    ImageFileWatcher::instance()->resetImageFiles({});
+    QDir().rmdir(dir);
+    SUCCEED();
+}
+
+// onImageDirChanged with removedFile entry that EXISTS in directory → restore branch (L231-237)
+// NOTE: Source code has a bug at L240 — after erase(itr), itr.key() is called
+// unconditionally in a qCDebug line, which is UB if itr == end().  We work
+// around this by disabling the debug log category so qCDebug does not evaluate
+// its arguments.  We cannot fix the source (only mark defects for the user).
+TEST_F(ut_imagefilewatcher, OnImageDirChanged_WithRestoredFile)
+{
+    QString dir = QDir::tempPath() + "/ut_filewatcher_restored_" +
+                  QString::number(QCoreApplication::applicationPid());
+    QDir().mkpath(dir);
+    QString f1 = dir + "/restored.png";
+    QImage img(4, 4, QImage::Format_ARGB32);
+    img.fill(Qt::green);
+    img.save(f1, "PNG");
+
+    // Populate removedFile with the restored file path.
+    ImageFileWatcher::instance()->removedFile.insert(f1, QUrl::fromLocalFile(f1));
+
+    // Record rotate status for f1 so onImageFileChanged (called inside restore
+    // branch) takes the early-return path and does NOT start async reloads.
+    ImageFileWatcher::instance()->recordRotateImage(f1);
+
+    // Disable debug logging to prevent source UB (itr.key() on end() iterator
+    // inside qCDebug at L240) from crashing.
+    QLoggingCategory::setFilterRules("org.deepin.dde.imageviewer.debug=false");
+
+    // File exists in directory → restore branch (L231-237)
+    ImageFileWatcher::instance()->onImageDirChanged(dir);
+
+    // Restore logging rules
+    QLoggingCategory::setFilterRules("");
+
+    // f1 should have been erased from removedFile
+    EXPECT_FALSE(ImageFileWatcher::instance()->removedFile.contains(f1));
+
+    // Clean up (do NOT call processEvents — pending DBus events from
+    // OcrInterface can crash Qt6DBus during teardown)
+    ImageFileWatcher::instance()->resetImageFiles({});
+
+    QFile::remove(f1);
+    QDir().rmdir(dir);
+}
+
+// =================== Round 58 coverage improvement tests ===================
+
+// L68-69: addFileDirWatchPaths with duplicate directory (isCurrentDir returns true)
+// addFileDirWatchPaths is private, but -fno-access-control allows direct calls.
+TEST_F(ut_imagefilewatcher, AddFileDirWatchPaths_DuplicateDir_SkipsReset)
+{
+    QString dir = QDir::tempPath() + "/ut_filewatcher_dup_" +
+                  QString::number(QCoreApplication::applicationPid());
+    QDir().mkpath(dir);
+    QString f1 = dir + "/dup_test.png";
+    QImage img(4, 4, QImage::Format_ARGB32);
+    img.fill(Qt::green);
+    img.save(f1, "PNG");
+
+    // First call adds the directory to fileWatcher (must use file:// URL so QUrl::toLocalFile works)
+    ImageFileWatcher::instance()->resetImageFiles({QUrl::fromLocalFile(f1).toString()});
+    // Second call with plain path hits isCurrentDir == true and returns early (L68-69)
+    ImageFileWatcher::instance()->resetImageFiles({f1});
+
+    ImageFileWatcher::instance()->resetImageFiles({});
+    QFile::remove(f1);
+    QDir().rmdir(dir);
+    SUCCEED();
+}
+
+// L197-198: onImageFileChanged when file does NOT exist (removed/deleted)
+TEST_F(ut_imagefilewatcher, OnImageFileChanged_FileRemoved)
+{
+    QString dir = QDir::tempPath() + "/ut_filewatcher_removed_" +
+                  QString::number(QCoreApplication::applicationPid());
+    QDir().mkpath(dir);
+    QString f1 = dir + "/removed_test.png";
+    QImage img(4, 4, QImage::Format_ARGB32);
+    img.fill(Qt::red);
+    img.save(f1, "PNG");
+
+    // Use resetImageFiles with file:// URL to properly add file to cacheFileInfo
+    ImageFileWatcher::instance()->resetImageFiles({QUrl::fromLocalFile(f1).toString()});
+
+    // Ensure file is NOT in rotateImagePathSet so the early return is skipped
+    ImageFileWatcher::instance()->rotateImagePathSet.remove(f1);
+
+    // Delete the file so onImageFileChanged hits the !isExist branch (L197-198)
+    QFile::remove(f1);
+    ASSERT_FALSE(QFile::exists(f1));
+
+    // Call onImageFileChanged - file does not exist, so removedFile is populated
+    ImageFileWatcher::instance()->onImageFileChanged(f1);
+
+    // Verify the file was added to removedFile
+    EXPECT_TRUE(ImageFileWatcher::instance()->removedFile.contains(f1));
+
+    // Clean up
+    ImageFileWatcher::instance()->resetImageFiles({});
+    QDir().rmdir(dir);
+    SUCCEED();
+}
+
+// L111: addImageFile with invalid path (directory, not file)
+TEST_F(ut_imagefilewatcher, AddImageFile_WithDirectoryPath_ReturnsEarly)
+{
+    QString dir = QDir::tempPath() + "/ut_filewatcher_addimg_" +
+                  QString::number(QCoreApplication::applicationPid());
+    QDir().mkpath(dir);
+
+    // Call addImageFile with a directory path - should return early at L111
+    ImageFileWatcher::instance()->addImageFile(dir);
+
+    ImageFileWatcher::instance()->resetImageFiles({});
+    QDir().rmdir(dir);
+    SUCCEED();
+}
+
+// L192-212: onImageFileChanged when file exists in cacheFileInfo and file exists on disk
+TEST_F(ut_imagefilewatcher, OnImageFileChanged_FileExists)
+{
+    QString dir = QDir::tempPath() + "/ut_filewatcher_changed_" +
+                  QString::number(QCoreApplication::applicationPid());
+    QDir().mkpath(dir);
+    QString f1 = dir + "/changed_test.png";
+    QImage img(4, 4, QImage::Format_ARGB32);
+    img.fill(Qt::blue);
+    img.save(f1, "PNG");
+
+    // Populate cacheFileInfo directly so onImageFileChanged processes the file
+    QUrl url = QUrl::fromLocalFile(f1);
+    ImageFileWatcher::instance()->cacheFileInfo.insert(f1, url);
+
+    // Ensure file is NOT in rotateImagePathSet so the early return is skipped
+    ImageFileWatcher::instance()->rotateImagePathSet.remove(f1);
+
+    // Call onImageFileChanged - file exists, so it goes through the exists branch (L203-204)
+    ImageFileWatcher::instance()->onImageFileChanged(f1);
+
+    // Clean up
+    ImageFileWatcher::instance()->resetImageFiles({});
+    ImageFileWatcher::instance()->cacheFileInfo.remove(f1);
+    QFile::remove(f1);
+    QDir().rmdir(dir);
     SUCCEED();
 }

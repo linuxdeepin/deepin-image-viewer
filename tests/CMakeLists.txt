@@ -79,12 +79,15 @@ list(REMOVE_ITEM IMAGEVIEWER_SRC_TEST
 )
 
 # 收集测试源文件
+# 包含资源文件（graffiti 画笔等），使 ImageEditController::applyGraffiti 可完整执行
+qt_add_resources(IMAGEVIEWER_TEST_QRC ${CMAKE_SOURCE_DIR}/src/res.qrc)
 file(GLOB_RECURSE IMAGEVIEWER_UT_SRC ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
 
 # 生成测试可执行程序
 add_executable(${PROJECT_NAME_TEST}
     ${IMAGEVIEWER_SRC_TEST}
     ${IMAGEVIEWER_UT_SRC}
+    ${IMAGEVIEWER_TEST_QRC}
     )
 
 # 生成测试可执行程序的依赖库

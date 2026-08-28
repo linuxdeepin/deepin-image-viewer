@@ -11,6 +11,7 @@
 #include <QTemporaryFile>
 #include <QFile>
 #include <QFileInfo>
+#include <QImageReader>
 #include <dlfcn.h>
 
 #include "stub.h"
@@ -212,4 +213,46 @@ TEST_F(ut_printhelper, PrintHelper_ShowPrintDialog_MultiplePaths_NoCrash)
     EXPECT_TRUE(p->m_re->m_paths.isEmpty());
 
     QFile::remove(tmpPath);
+}
+
+// showPrintDialog: 多页图片触发 L114-117 多页加载分支
+// 通过 stub QImageReader::imageCount 返回 >1 模拟多页图片
+static int ut_printhelper_stub_imageCount(QImageReader *)
+{
+    return 2;
+}
+
+TEST_F(ut_printhelper, PrintHelper_ShowPrintDialog_MultiPageImage_LoadsAllPages)
+{
+    // 创建临时图片文件(实际单页，但 stub 让 imageCount 返回 2)
+    QString tmpPath = QString("/tmp/ut_printhelper_multipage_%1.png").arg(QCoreApplication::instance()->applicationPid());
+    QImage img(10, 10, QImage::Format_RGB32);
+    img.fill(Qt::red);
+    ASSERT_TRUE(img.save(tmpPath, "PNG"));
+
+    PrintHelper *p = PrintHelper::getIntance();
+    Stub stub;
+    ut_printhelper_install_exec_stub(stub);
+    stub.set(ADDR(QImageReader, imageCount), ut_printhelper_stub_imageCount);
+    QStringList paths;
+    paths << tmpPath;
+    p->showPrintDialog(paths, nullptr);
+    EXPECT_TRUE(p->m_re->m_paths.isEmpty());
+
+    QFile::remove(tmpPath);
+}
+
+// paintRequestSync: 高窄图片触发 L197-201 适应高度分支
+TEST_F(ut_printhelper, RequestedSlot_PaintRequestSync_TallImage_FitHeight)
+{
+    RequestedSlot slot;
+    // 创建非常窄而高的图片，使得 wRect.height() - img.height() * ratio <= 0
+    // ratio = wRect.width() / img.width()，如果 img 很窄(宽度小)，ratio 很大
+    // img.height() * ratio 会大于 wRect.height()
+    QImage tall(2, 2000, QImage::Format_RGB32);
+    tall.fill(Qt::magenta);
+    slot.m_imgs << tall;
+    DPrinter printer;
+    slot.paintRequestSync(&printer);
+    SUCCEED();
 }

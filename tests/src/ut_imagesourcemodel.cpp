@@ -160,3 +160,52 @@ TEST_F(ut_imagesourcemodel, RowCountWithParent)
     model.setImageFiles(files);
     EXPECT_EQ(model.rowCount(QModelIndex()), 2);
 }
+
+// 测试 insertImage: 插入新图片(排序在已有图片之前)触发 L137-138
+TEST_F(ut_imagesourcemodel, InsertImage_NewImageSortsBeforeExisting)
+{
+    ImageSourceModel model;
+    QList<QUrl> files;
+    files << QUrl("file:///c.jpg") << QUrl("file:///d.jpg");
+    model.setImageFiles(files);
+
+    // 插入 b.jpg，其 baseName 排在 c.jpg 之前
+    int idx = model.insertImage(QUrl("file:///b.jpg"));
+    EXPECT_EQ(idx, 0);
+    EXPECT_EQ(model.rowCount(), 3);
+    EXPECT_EQ(model.data(model.index(0), Types::ImageUrlRole).toUrl(), QUrl("file:///b.jpg"));
+}
+
+// 测试 insertImage: 插入已存在的图片返回已有索引
+TEST_F(ut_imagesourcemodel, InsertImage_ExistingImageReturnsIndex)
+{
+    ImageSourceModel model;
+    QList<QUrl> files;
+    files << QUrl("file:///a.jpg") << QUrl("file:///b.jpg");
+    model.setImageFiles(files);
+
+    int idx = model.insertImage(QUrl("file:///b.jpg"));
+    EXPECT_EQ(idx, 1);
+    EXPECT_EQ(model.rowCount(), 2);
+}
+
+// 测试 insertImage: 空路径返回 -1
+TEST_F(ut_imagesourcemodel, InsertImage_EmptyPathReturnsNegative)
+{
+    ImageSourceModel model;
+    int idx = model.insertImage(QUrl());
+    EXPECT_EQ(idx, -1);
+}
+
+// 测试 insertImage: 插入到末尾
+TEST_F(ut_imagesourcemodel, InsertImage_AppendToEnd)
+{
+    ImageSourceModel model;
+    QList<QUrl> files;
+    files << QUrl("file:///a.jpg") << QUrl("file:///b.jpg");
+    model.setImageFiles(files);
+
+    int idx = model.insertImage(QUrl("file:///z.jpg"));
+    EXPECT_EQ(idx, 2);
+    EXPECT_EQ(model.rowCount(), 3);
+}
