@@ -241,12 +241,12 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation type="unfinished"/>
+        <translation>Markera allt (Ctrl+A)</translation>
     </message>
 </context>
 <context>
@@ -254,7 +254,7 @@
     <message>
         <location filename="../qml/MainStack.qml" line="129"/>
         <source>Select pictures</source>
-        <translation type="unfinished"/>
+        <translation>Välj bilder</translation>
     </message>
 </context>
 <context>
@@ -262,7 +262,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
+        <translation>Bildfilen hittades inte</translation>
     </message>
 </context>
 <context>
@@ -278,7 +278,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Filen finns redan. Använd ett annat namn</translation>
     </message>
 </context>
 <context>
@@ -291,12 +291,12 @@
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
         <source>day</source>
-        <translation type="unfinished"/>
+        <translation>dag</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Bildvisare är ett verktyg för att visa bilder med modernt gränssnitt och smidig prestanda.</translation>
     </message>
 </context>
 <context>
@@ -304,12 +304,12 @@
     <message>
         <location filename="../qml/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>Ange ett nytt namn</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>Filen finns redan. Använd ett annat namn</translation>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
@@ -319,7 +319,7 @@
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>Bekräfta</translation>
     </message>
 </context>
 <context>
@@ -327,12 +327,12 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <translation>Det går inte att flytta ”%1” till papperskorgen. Vill du ta bort den permanent?</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>Åtgärden kan inte ångras</translation>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -342,7 +342,7 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>Bekräfta</translation>
     </message>
 </context>
 <context>
@@ -356,7 +356,7 @@
         <location filename="../qml/SliderShow.qml" line="172"/>
         <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Pause</source>
-        <translation type="unfinished"/>
+        <translation>Pausa</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
@@ -497,7 +497,7 @@
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="189"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Bildvisare är ett verktyg för att visa bilder med modernt gränssnitt och smidig prestanda.</translation>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="191"/>
