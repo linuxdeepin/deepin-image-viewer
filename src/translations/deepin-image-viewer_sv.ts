@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sv">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sv">
 <context>
     <name>FileControl</name>
     <message>
@@ -30,6 +28,7 @@
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="801"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Copy</source>
         <translation>Kopiera</translation>
     </message>
@@ -76,12 +75,12 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Zoom in</source>
-        <translation>Zoom in</translation>
+        <translation>Zooma in</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Zoom out</source>
-        <translation>Zoom ut</translation>
+        <translation>Zooma ut</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="845"/>
@@ -116,12 +115,12 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="897"/>
         <source>Select all</source>
-        <translation>Välj allt</translation>
+        <translation>Markera allt</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="905"/>
         <source>Live Text</source>
-        <translation>Live Text</translation>
+        <translation>Livetext</translation>
     </message>
 </context>
 <context>
@@ -219,7 +218,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="105"/>
         <source>Dimensions</source>
-        <translation>Dimensioner</translation>
+        <translation>Mått</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="112"/>
@@ -242,12 +241,12 @@
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="155"/>
         <source>Copy (Ctrl+C)</source>
-        <translation>Kopiera (Ctrl+C)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/LiveText/LiveTextWidget.qml" line="172"/>
         <source>Select all (Ctrl+A)</source>
-        <translation>Välj allt (Ctrl+A)</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -255,7 +254,7 @@
     <message>
         <location filename="../qml/MainStack.qml" line="129"/>
         <source>Select pictures</source>
-        <translation>Välj bilder</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -263,7 +262,7 @@
     <message>
         <location filename="../qml/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
-        <translation>Bildfilen hittades inte</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -279,7 +278,7 @@
     <message>
         <location filename="../qml/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>Filnamnet finns redan, använd ett annat namn</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -292,12 +291,12 @@
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
         <source>day</source>
-        <translation>Bekräfta</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../main.cpp" line="51"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Kan inte flytta "%1" till papperskorgen. Vill du permanent ta bort den?</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -305,12 +304,12 @@
     <message>
         <location filename="../qml/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation>Detta återkalle är inte möjligt</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>Pausa</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ReName.qml" line="141"/>
@@ -320,20 +319,20 @@
     <message>
         <location filename="../qml/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation>Spela</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="71"/>
-        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>Originalstorlek</translation>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>Rota</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="101"/>
@@ -343,7 +342,7 @@
     <message>
         <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation>Bekräfta</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -355,13 +354,15 @@
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
+        <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Pause</source>
-        <translation>Pausa</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="172"/>
+        <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Play</source>
-        <translation>Spela</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
@@ -370,6 +371,7 @@
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="203"/>
+        <location filename="../qml/SliderShow.qml" line="244"/>
         <source>Exit</source>
         <translation>Avsluta</translation>
     </message>
@@ -389,7 +391,7 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation>Originalstorlek</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="227"/>
@@ -399,7 +401,7 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="244"/>
         <source>Rotate</source>
-        <translation>Vrid</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="517"/>
@@ -495,7 +497,7 @@
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="189"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Bildvisaren är en bildvisningstjänst med modig gränssnitt och mjuk prestanda.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="191"/>
@@ -505,7 +507,7 @@
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="167"/>
         <source>Open image</source>
-        <translation>Öppna bild</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
