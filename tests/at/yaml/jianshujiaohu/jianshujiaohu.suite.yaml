@@ -1,0 +1,69 @@
+name: jianshujiaohu_suite
+app: deepin-image-viewer
+module: jianshujiaohu
+setup:
+- action: session_start
+  command: deepin-image-viewer
+  wait: 3.0
+suites:
+- id: suite_jianshujiaohu_001_s1
+  name: 快捷键Down缩小图片
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: down
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_jianshujiaohu_002_s1
+  name: 快捷键Ctrl+-缩小图片
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+-
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_jianshujiaohu_003_s1
+  name: 快捷键Ctrl+F9设置壁纸
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+f9
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+- id: suite_jianshujiaohu_008_s1
+  name: 鼠标滚轮缩放图片
+  description: ''
+  steps:
+  - step_type: action
+    action: mouse_scroll
+    value: -3
+  - step_type: action
+    action: mouse_scroll
+    value: 3
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_jianshujiaohu_011_s1
+  name: 快捷键F1唤起帮助窗口
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f1
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+teardown:
+- action: session_stop

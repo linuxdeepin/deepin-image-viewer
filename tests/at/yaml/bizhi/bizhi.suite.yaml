@@ -1,0 +1,48 @@
+name: bizhi_suite
+app: deepin-image-viewer
+module: bizhi
+setup:
+- action: session_start
+  command: deepin-image-viewer
+  wait: 3.0
+suites:
+- id: suite_bizhi_001_s1
+  name: 壁纸-窗口下设置壁纸
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bizhi_002_s1
+  name: 壁纸-窗口下不能设置壁纸
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: right_click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: OptionMenu
+  - step_type: assert
+    action: assert_not_exists
+    selector:
+      name: Set as wallpaper
+teardown:
+- action: session_stop

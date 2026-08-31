@@ -1,0 +1,61 @@
+name: 缩略图覆盖_suite
+app: deepin-image-viewer
+module: 缩略图覆盖
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 3.0
+suites:
+- id: suite_thumb_001_s1
+  name: 缩略图视图元素覆盖验证
+  description: 验证缩略图列表视图相关元素存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ThumbnailListView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Edit
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Delete
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Extract text
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Fit to window
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MultiThumbnailDelegate
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MultiThumbnailImg
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalThumbnailImg
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_RemoveDialog
+teardown:
+- action: session_stop

@@ -19,7 +19,6 @@ suites:
     key: f11
   - action: keyboard_press
     key: f11
-  - action: wait
     wait: 0.5
   assert_steps:
   - action: assert_process_running
@@ -80,7 +79,6 @@ suites:
   steps:
   - action: keyboard_hot_key
     key: ctrl+f9
-  - action: wait
     wait: 1.0
   assert_steps:
   - action: assert_process_running
@@ -169,7 +167,6 @@ suites:
   steps:
   - action: keyboard_hot_key
     key: alt+d
-  - action: wait
     wait: 1.0
   assert_steps:
   - action: assert_process_running

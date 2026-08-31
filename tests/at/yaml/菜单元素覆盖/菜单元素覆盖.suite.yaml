@@ -1,0 +1,53 @@
+name: 菜单元素覆盖_suite
+app: deepin-image-viewer
+module: 菜单元素覆盖
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 3.0
+suites:
+- id: suite_menu_001_s1
+  name: 右键菜单项元素存在性验证
+  description: 打开右键菜单验证所有菜单项元素存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: right_click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Copy
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Display in file manager
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image info
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Print
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Rename
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Rotate clockwise
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Rotate counterclockwise
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Slide show
+teardown:
+- action: session_stop

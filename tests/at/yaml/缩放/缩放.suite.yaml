@@ -1,40 +1,33 @@
 name: 缩放_suite
 app: deepin-image-viewer
-description: ''
 module: 缩放
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
-  command: tests/at/launch.sh
+  command: deepin-image-viewer
   wait: 3.0
 suites:
-- id: case_1652139_s1
-  name: 启动看图应用
+- id: suite_suofang_001_s1
+  name: ''
   description: ''
-  tags: []
   steps:
-  - action: keyboard_press
-    key: down
-  - action: keyboard_press
-    key: down
-  - action: keyboard_press
-    key: down
+  - step_type: action
+    action: keyboard_press
+    selector:
+      name: Image view
+    key: Down
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    selector:
+      name: Image view
+    key: Up
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
-- id: case_1652137_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
-  steps:
-  - action: keyboard_press
-    key: up
-  - action: keyboard_press
-    key: up
-  - action: keyboard_press
-    key: up
-  assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_ocr_exists
+    text: 2%
+  - step_type: assert
+    action: assert_ocr_exists
+    text: 2000%
 teardown:
 - action: session_stop

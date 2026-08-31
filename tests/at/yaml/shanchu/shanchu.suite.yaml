@@ -1,0 +1,26 @@
+name: shanchu_suite
+app: deepin-image-viewer
+module: shanchu
+setup:
+- action: session_start
+  command: deepin-image-viewer
+  wait: 3.0
+suites:
+- id: suite_shanchu_001_s1
+  name: 删除-删除单张图片后看图界面展示
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: delete
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MainStack
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

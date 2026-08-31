@@ -1,0 +1,107 @@
+name: tupiangeshi_suite
+app: deepin-image-viewer
+module: tupiangeshi
+setup:
+- action: session_start
+  command: deepin-image-viewer
+  wait: 3.0
+suites:
+- id: suite_tupiangeshi_001_s1
+  name: 图片格式-多格式图片打开浏览
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalImageDelegate
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+- id: suite_tupiangeshi_002_s1
+  name: 图片格式-右键菜单展示检查
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: right_click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: OptionMenu
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RightMenu
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_tupiangeshi_003_s1
+  name: 图片格式-旋转后切换图片检查
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate clockwise
+    wait: 1.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_tupiangeshi_007_s1
+  name: 图片格式-tif多页图键鼠切换检查
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: point
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MultiImageDelegate
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+teardown:
+- action: session_stop

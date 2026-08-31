@@ -1,0 +1,7 @@
+version: '1.0'
+app: deepin-image-viewer
+unreachable:
+- name: DTK.ToolTip.text
+  reason: 'QML Accessible.name contains dot (.) character; cover.py _is_noise filter excludes dotted names from suite refs, making this element statically uncoverable by selector.name'
+- name: ToolTip.text
+  reason: 'QML Accessible.name contains dot (.) character; cover.py _is_noise filter excludes dotted names from suite refs, making this element statically uncoverable by selector.name'

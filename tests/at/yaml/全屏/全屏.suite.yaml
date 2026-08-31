@@ -18,12 +18,10 @@ suites:
   - action: mouse_double_click
     x: 500
     y: 400
-  - action: wait
     wait: 1.0
   - action: mouse_double_click
     x: 500
     y: 400
-  - action: wait
     wait: 1.0
   assert_steps:
   - action: assert_process_running

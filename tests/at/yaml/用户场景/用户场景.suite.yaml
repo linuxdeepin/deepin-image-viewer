@@ -1,0 +1,62 @@
+name: 用户场景_suite
+app: deepin-image-viewer
+module: 用户场景
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 3.0
+suites:
+- id: suite_用户场景_001_s1
+  name: OCR识别长图成功-看图内OCR识别
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Extract text
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LiveTextWidget
+- id: suite_用户场景_002_s1
+  name: 视图切换放大旋转翻转-上下张切换
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+- id: suite_用户场景_005_s1
+  name: 卸载截图看图OCR识别成功-看图内OCR识别
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Extract text
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_ocr_exists
+    text: 欢迎使用统信UOS
+teardown:
+- action: session_stop

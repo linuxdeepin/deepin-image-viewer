@@ -1,1757 +1,803 @@
-# === 格式范例 ===
-# metadata:
-#   generated_at: "2026-07-28T00:00:00"
-#   source: "input.xlsx"
-# cases:
-#   - id: "case-id"
-#     name: "用例名称"
-#     module: "模块"
-#     status: "active"
-#     annotation:
-#       测试界面: "主窗口"
-#       测试功能: "工具栏操作"
-#       前置条件: "应用已启动并打开图片"
-#       AT元素引用: ["Toolbar"]
-#     steps:
-#       - step_type: "action"
-#         action: "session_start"
-#         command: "deepin-image-viewer /path/to/image.jpg"
-#       - step_type: "action"
-#         action: "mouse_click"
-#         selector: {name: "适应窗口", role: "button"}
-#       - step_type: "assert"
-#         action: "assert_element"
-#         selector: {name: "适应窗口", role: "button"}
-# === 格式范例结束 ===
-
-metadata:
-  generated_at: '2026-07-28T12:00:00'
-  source: 统信桌面操作系统 V25-用例.xlsx
+version: '1.0'
 cases:
-- id: case_2003949
+- id: suite_mainmenu_001_s1
   name: 主菜单-关于
-  module: 主菜单
-  status: active
-  annotation:
-    测试界面: 主窗口-主菜单
-    测试功能: 主菜单关于
-    前置条件: 应用已启动
-    AT元素引用: []
+  module: mainmenu
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
     action: dtk_main_menu
+    selector:
+      name: Title bar
     items:
     - 关于
-    description: '主菜单选择: 关于'
+    wait: 2.0
   - step_type: assert
-    description: 验证关于窗口弹出
     action: assert_window
-    name_pattern: 关于
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652347
-  name: 主菜单-帮助
-  module: 主菜单
-  status: active
-  annotation:
-    测试界面: 主窗口-主菜单
-    测试功能: 主菜单帮助
-    前置条件: 应用已启动
-    AT元素引用: []
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageViewer
+- id: suite_mainmenu_004_s1
+  name: 主菜单-多窗口退出
+  module: mainmenu
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
     action: dtk_main_menu
-    items:
-    - 帮助
-    description: '主菜单选择: 帮助'
-  - step_type: assert
-    description: 验证帮助窗口弹出
-    action: assert_window
-    name_pattern: 帮助
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652353
-  name: 多窗口退出
-  module: 主菜单
-  status: active
-  annotation:
-    测试界面: 主窗口-主菜单
-    测试功能: 主菜单退出
-    前置条件: 应用已启动
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: dtk_main_menu
+    selector:
+      name: Title bar
     items:
     - 退出
-    description: '主菜单选择: 退出'
+    wait: 2.0
   - step_type: assert
-    description: 确认应用已退出
     action: assert_process_not_running
     app: deepin-image-viewer
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652359
-  name: 关于与关闭交互
-  module: 主菜单
-  status: active
-  annotation:
-    测试界面: 主窗口-主菜单
-    测试功能: 关于窗口打开后关闭再重启
-    前置条件: 应用已启动
-    AT元素引用: []
+- id: suite_mainmenu_006_s1
+  name: 全屏右键菜单逆时针旋转
+  module: mainmenu
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.0
   - step_type: action
-    action: dtk_main_menu
+    action: dtk_context_menu
+    selector:
+      name: FullImageViewer
     items:
-    - 关于
-    description: '主菜单选择: 关于'
+    - Rotate counterclockwise
+    wait: 2.0
   - step_type: assert
-    description: 验证关于窗口弹出
-    action: assert_window
-    name_pattern: 关于
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: assert
-    description: 确认重新启动后主窗口显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652667
-  name: F11全屏
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: F11全屏切换
-    前置条件: 应用已启动并显示主窗口
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: FullImageViewer
+- id: suite_mainmenu_007_s1
+  name: 右键菜单在文件管理器中显示
+  module: mainmenu
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Display in file manager
+    wait: 2.0
+  - step_type: assert
+    action: assert_window
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_mainmenu_008_s1
+  name: 右键菜单打开图片信息
+  module: mainmenu
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Image info
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_InformationDialog
+- id: suite_mainmenu_009_s1
+  name: 右键菜单删除
+  module: mainmenu
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Delete
+    wait: 1.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_quanping_001_s1
+  name: 全屏-双击图片进入全屏
+  module: quanping
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_quanping_002_s1
+  name: 全屏-快捷键F11进入与ESC退出全屏
+  module: quanping
+  steps:
   - step_type: action
     action: keyboard_press
     key: f11
-    description: 按下 f11
-  - step_type: assert
-    description: 验证窗口进入全屏模式（标题栏消失）
-    action: assert_window
-    name_pattern: wechat.jpg
+    wait: 1.5
   - step_type: action
     action: keyboard_press
-    key: f11
-    description: 按下 f11
+    key: esc
+    wait: 1.5
   - step_type: assert
-    description: 确认退出全屏后主窗口恢复正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652645
-  name: F5幻灯片
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: F5幻灯片放映
-    前置条件: 应用已启动并显示主窗口
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_quanping_003_s1
+  name: 幻灯片-ESC退出幻灯片放映
+  module: quanping
   steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
   - step_type: action
     action: keyboard_press
     key: f5
-    description: 按下 f5
-  - step_type: assert
-    description: 验证幻灯片放映模式启动
-    action: assert_window
-    name_pattern: wechat.jpg
+    wait: 2.0
   - step_type: action
     action: keyboard_press
-    key: escape
-    description: 按下 escape
+    key: esc
+    wait: 1.5
   - step_type: assert
-    description: 确认退出幻灯片后主窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652643
-  name: Ctrl+Shift+/快捷键预览
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: Ctrl+Shift+/快捷键预览
-    前置条件: 应用已启动并显示主窗口
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_quanping_004_s1
+  name: 幻灯片-多张图片循环放映
+  module: quanping
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+shift+/
-    description: 按下 ctrl+shift+/
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Slide show
+    wait: 2.0
   - step_type: assert
-    description: 验证快捷键预览窗口弹出
-    action: assert_window
-    name_pattern: 快捷键
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_quanping_005_s1
+  name: tif多页图-播放幻灯片
+  module: quanping
+  steps:
   - step_type: action
     action: keyboard_press
-    key: escape
-    description: 按下 escape
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652657
-  name: F1帮助
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: F1帮助
-    前置条件: 应用已启动并显示主窗口
-    AT元素引用: []
+    key: f5
+    wait: 2.0
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_shanchu_001_s1
+  name: 删除-删除单张图片后看图界面展示
+  module: shanchu
   steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
   - step_type: action
     action: keyboard_press
-    key: f1
-    description: 按下 f1
+    key: delete
+    wait: 2.0
   - step_type: assert
-    description: 验证帮助窗口弹出
-    action: assert_window
-    name_pattern: 帮助
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652671
-  name: Right下一张
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右箭头切换下一张图片
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: MainStack
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_youjiancaidan_001_s1
+  name: 右键菜单-图片右键唤起打印预览
+  module: youjiancaidan
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_press
-    key: right
-    description: 按下 right
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Print
+    wait: 2.0
   - step_type: assert
-    description: 验证按右箭头后窗口正常显示下一张图片
     action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652669
-  name: Left上一张
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 左箭头切换上一张图片
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tupiangeshi_001_s1
+  name: 图片格式-多格式图片打开浏览
+  module: tupiangeshi
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_press
-    key: left
-    description: 按下 left
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
   - step_type: assert
-    description: 验证按左箭头后窗口正常显示上一张图片
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652673
-  name: Ctrl+F9壁纸
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: Ctrl+F9设置壁纸
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: NormalImageDelegate
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+- id: suite_tupiangeshi_002_s1
+  name: 图片格式-右键菜单展示检查
+  module: tupiangeshi
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+f9
-    description: 按下 ctrl+f9
-  - step_type: action
-    action: wait
-    value: 2.0
-    description: 等待
+    action: element_action
+    selector:
+      name: Image view
+    do: right_click
+    wait: 1.0
   - step_type: assert
-    description: 确认壁纸设置操作完成，窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652677
-  name: Down缩小
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 下箭头缩小图片
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: OptionMenu
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RightMenu
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_tupiangeshi_003_s1
+  name: 图片格式-旋转后切换图片检查
+  module: tupiangeshi
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate clockwise
+    wait: 1.5
   - step_type: action
-    action: keyboard_press
-    key: down
-    description: 按下 down
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
   - step_type: assert
-    description: 验证按下箭头缩小后窗口正常显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652653
-  name: Up放大
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 上箭头放大图片
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_tupiangeshi_007_s1
+  name: 图片格式-tif多页图键鼠切换检查
+  module: tupiangeshi
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
   - step_type: action
-    action: keyboard_press
-    key: up
-    description: 按下 up
+    action: element_action
+    selector:
+      name: Image view
+    do: point
+    wait: 0.5
   - step_type: assert
-    description: 验证按上箭头放大后窗口正常显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652675
-  name: Ctrl+-缩小
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: Ctrl+-缩小图片
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: MultiImageDelegate
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_bizhi_001_s1
+  name: 壁纸-窗口下设置壁纸
+  module: bizhi
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+-
-    description: 按下 ctrl+-
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
+    wait: 2.0
   - step_type: assert
-    description: 验证Ctrl+-缩小后窗口正常显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652651
-  name: Ctrl++放大
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: Ctrl++放大图片
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bizhi_002_s1
+  name: 壁纸-窗口下不能设置壁纸
+  module: bizhi
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl++
-    description: 按下 ctrl++
+    action: element_action
+    selector:
+      name: Image view
+    do: right_click
+    wait: 1.0
   - step_type: assert
-    description: 验证Ctrl++放大后窗口正常显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652663
-  name: 滚轮缩放
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 鼠标滚轮缩放图片
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: OptionMenu
+  - step_type: assert
+    action: assert_not_exists
+    selector:
+      name: Set as wallpaper
+- id: suite_waibujiaohu_001_s1
+  name: 复制图片到WPS-右键复制当前图片至剪贴板
+  module: waibujiaohu
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: mouse_scroll
-    value: -3
-    description: 鼠标滚轮滚动
-  - step_type: action
-    action: mouse_scroll
-    value: 3
-    description: 鼠标滚轮滚动
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    wait: 1.0
   - step_type: assert
-    description: 验证滚轮缩放后窗口正常显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652661
-  name: F2重命名
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: F2重命名
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkou_001_s1
+  name: 导航窗口-缩略图切换图片
+  module: daohangchuangkou
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_press
-    key: f2
-    description: 按下 f2
+    action: element_action
+    selector:
+      name: NormalThumbnailDelegate
+    do: click
+    wait: 1.0
   - step_type: assert
-    description: 验证重命名编辑状态激活
-    action: assert_window
-    name_pattern: 重命名
-  - step_type: action
-    action: keyboard_press
-    key: escape
-    description: 按下 escape
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652659
-  name: Ctrl+I图片信息
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: Ctrl+I图片信息
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkou_003_s1
+  name: 导航窗口-按钮关闭导航窗口
+  module: daohangchuangkou
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
+    action: element_action
+    selector:
+      name: Original size
+    do: click
+    wait: 1.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: Close navigation window
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_NavigationWidget
+  - step_type: assert
+    action: assert_not_exists
+    selector:
+      name: Loader_NavigationWidget
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_001_s1
+  name: 图片信息-工具栏切换图片展示
+  module: gongjulan
+  steps:
   - step_type: action
     action: keyboard_hot_key
     key: ctrl+i
-    description: 按下 ctrl+i
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: 下一张
+    do: click
+    wait: 1.0
   - step_type: assert
-    description: 验证图片信息窗口弹出
-    action: assert_window
-    name_pattern: 图片信息
-  - step_type: action
-    action: keyboard_press
-    key: escape
-    description: 按下 escape
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652655
-  name: Ctrl+C复制
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: Ctrl+C复制图片
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: Loader_InformationDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_InformationDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Dimensions
+- id: suite_gongjulan_002_s1
+  name: 工具栏-下一张按钮
+  module: gongjulan
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+c
-    description: 按下 ctrl+c
+    action: element_action
+    selector:
+      name: 下一张
+    do: click
+    wait: 1.0
   - step_type: assert
-    description: 确认复制操作后应用进程仍正常运行
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652649
-  name: Alt+D文件管理器
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: Alt+D打开文件管理器
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+- id: suite_gongjulan_013_s1
+  name: OCR-入口检查-窗口下点击工具栏按钮
+  module: gongjulan
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_hot_key
-    key: alt+d
-    description: 按下 alt+d
-  - step_type: action
-    action: wait
-    value: 2.0
-    description: 等待
-  - step_type: assert
-    description: 验证文件管理器已启动
-    action: assert_process_running
-    app: deepin-file-manager
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652647
-  name: Ctrl+O打开
-  module: 键鼠交互
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: Ctrl+O打开文件
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+o
-    description: 按下 ctrl+o
-  - step_type: assert
-    description: 验证打开文件对话框弹出
-    action: assert_window
-    name_pattern: 打开
-  - step_type: action
-    action: keyboard_press
-    key: escape
-    description: 按下 escape
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652135
-  name: 下一张
-  module: 工具栏
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 工具栏下一张按钮
-    前置条件: 应用已启动并显示多张图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: mouse_click
-    x: 500
-    y: 700
-    description: 鼠标点击 (x:500, y:700)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 验证点击下一张后窗口正常切换
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652133
-  name: 上一张
-  module: 工具栏
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 工具栏上一张按钮
-    前置条件: 应用已启动并显示多张图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: mouse_click
-    x: 400
-    y: 700
-    description: 鼠标点击 (x:400, y:700)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 验证点击上一张后窗口正常切换
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1651973
-  name: 横图适应窗口
-  module: 工具栏
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 横图适应窗口
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: mouse_click
-    x: 600
-    y: 700
-    description: 鼠标点击 (x:600, y:700)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 验证横图适应窗口后显示正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1651971
-  name: 竖图适应窗口
-  module: 工具栏
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 竖图适应窗口
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: mouse_click
-    x: 600
-    y: 700
-    description: 鼠标点击 (x:600, y:700)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 验证竖图适应窗口后显示正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1651975
-  name: 全屏旋转按钮
-  module: 工具栏
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 全屏模式下旋转按钮
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_press
-    key: f11
-    description: 按下 f11
-  - step_type: action
-    action: mouse_click
-    x: 700
-    y: 700
-    description: 鼠标点击 (x:700, y:700)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 验证全屏模式下点击旋转按钮后显示正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: keyboard_press
-    key: f11
-    description: 按下 f11
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652105
-  name: 删除按钮
-  module: 工具栏
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 工具栏删除按钮
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: mouse_click
-    x: 800
-    y: 700
-    description: 鼠标点击 (x:800, y:700)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 验证点击删除按钮后窗口正常响应
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652413
-  name: 右键菜单检查
-  module: 右键菜单
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右键菜单弹出
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: mouse_right_click
-    x: 500
-    y: 400
-    description: 鼠标右击 (x:500, y:400)
-  - step_type: assert
-    description: 验证右键菜单弹出，窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: keyboard_press
-    key: escape
-    description: 按下 escape
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652147
-  name: 右键复制
-  module: 右键菜单
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右键菜单复制
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: dtk_context_menu
+    action: element_action
     selector:
-      x: 500
-      y: 400
-    items:
-    - 复制
-    description: '右键菜单选择: 复制'
+      name: 识别文字
+    do: click
+    wait: 2.0
   - step_type: assert
-    description: 确认右键复制后应用进程正常运行
+    action: assert_window
+  - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652213
-  name: 右键删除
-  module: 右键菜单
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右键菜单删除
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+- id: suite_xuanzhuan_001_s1
+  name: 全屏快捷键顺时针旋转
+  module: 旋转
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: dtk_context_menu
+    action: element_action
     selector:
-      x: 500
-      y: 400
-    items:
-    - 删除
-    description: '右键菜单选择: 删除'
+      name: Image view
+      role: item
+    do: double_click
+    wait: 1.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: Ctrl+R
   - step_type: assert
-    description: 验证右键删除后窗口正常响应
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652217
-  name: 右键设为壁纸
-  module: 右键菜单
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右键菜单设为壁纸
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: dtk_context_menu
+    action: assert_element
     selector:
-      x: 500
-      y: 400
-    items:
-    - 设为壁纸
-    description: '右键菜单选择: 设为壁纸'
-  - step_type: action
-    action: wait
-    value: 2.0
-    description: 等待
+      name: FullImageViewer
+      role: image viewer
   - step_type: assert
-    description: 确认设置壁纸后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652221
-  name: 右键图片信息
-  module: 右键菜单
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右键菜单图片信息
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: dtk_context_menu
-    selector:
-      x: 500
-      y: 400
-    items:
-    - 图片信息
-    description: '右键菜单选择: 图片信息'
-  - step_type: assert
-    description: 验证图片信息窗口弹出
-    action: assert_window
-    name_pattern: 图片信息
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652237
-  name: 右键在文件管理器中显示
-  module: 右键菜单
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右键菜单在文件管理器中显示
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: dtk_context_menu
-    selector:
-      x: 500
-      y: 400
-    items:
-    - 在文件管理器中显示
-    description: '右键菜单选择: 在文件管理器中显示'
-  - step_type: action
-    action: wait
-    value: 2.0
-    description: 等待
-  - step_type: assert
-    description: 验证文件管理器已启动
     action: assert_process_running
-    app: deepin-file-manager
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652245
-  name: 全屏右键逆时针旋转
-  module: 右键菜单
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 全屏模式下右键逆时针旋转
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+- id: suite_linglong_001_s1
+  name: 玲珑应用基本功能-翻页浏览
+  module: linglong
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
   - step_type: action
-    action: mouse_double_click
-    x: 500
-    y: 400
-    description: 鼠标双击 (x:500, y:400)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+- id: suite_linglong_002_s1
+  name: 玲珑应用基本功能-重命名
+  module: linglong
+  steps:
   - step_type: action
     action: dtk_context_menu
     selector:
-      x: 500
-      y: 400
+      name: Image view
     items:
-    - 逆时针旋转
-    description: '右键菜单选择: 逆时针旋转'
-  - step_type: action
-    action: wait
-    value: 2.0
-    description: 等待
+    - Rename
+    wait: 1.0
   - step_type: assert
-    description: 验证全屏模式下逆时针旋转后显示正常
-    action: assert_window
-    name_pattern: wechat.jpg
+    action: assert_element
+    selector:
+      name: Renamedialog
+- id: suite_linglong_005_s1
+  name: 玲珑应用基本功能-复制与设为壁纸
+  module: linglong
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    wait: 1.0
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
+    wait: 2.0
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_linglong_006_s1
+  name: 运行玲珑应用
+  module: linglong
+  steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_用户场景_001_s1
+  name: OCR识别长图成功-看图内OCR识别
+  module: 用户场景
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Extract text
+    wait: 2.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LiveTextWidget
+- id: suite_用户场景_002_s1
+  name: 视图切换放大旋转翻转-上下张切换
+  module: 用户场景
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+- id: suite_用户场景_005_s1
+  name: 卸载截图看图OCR识别成功-看图内OCR识别
+  module: 用户场景
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Extract text
+    wait: 2.0
+  - step_type: assert
+    action: assert_ocr_exists
+    text: 欢迎使用统信UOS
+- id: suite_suofang_001_s1
+  name: ''
+  module: 缩放
+  steps:
   - step_type: action
     action: keyboard_press
-    key: f11
-    description: 按下 f11
+    selector:
+      name: Image view
+    key: Down
+    wait: 0.5
   - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652199
-  name: 右键退出全屏
-  module: 右键菜单
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右键菜单退出全屏
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: keyboard_press
+    selector:
+      name: Image view
+    key: Up
+    wait: 0.5
+  - step_type: assert
+    action: assert_ocr_exists
+    text: 2%
+  - step_type: assert
+    action: assert_ocr_exists
+    text: 2000%
+- id: suite_rename_001_s1
+  name: 重命名-文件名字符类型检查
+  module: rename
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
+    action: keyboard_press
+    key: f2
+    wait: 1.0
   - step_type: action
-    action: mouse_double_click
-    x: 500
-    y: 400
-    description: 鼠标双击 (x:500, y:400)
+    action: keyboard_type
+    text: Test123!@# Ab
   - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  - step_type: assert
+    action: assert_not_exists
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_rename_002_s1
+  name: 重命名-长名称省略号展示
+  module: rename
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+a
+  - step_type: action
+    action: keyboard_press
+    key: delete
+  - step_type: action
+    action: keyboard_type
+    text: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+- id: suite_rename_003_s1
+  name: 重命名-与其他非同格式图片重名
+  module: rename
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+a
+  - step_type: action
+    action: keyboard_press
+    key: delete
+  - step_type: action
+    action: keyboard_type
+    text: bbb
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  - step_type: assert
+    action: assert_not_exists
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_rename_007_s1
+  name: 重命名-只读图片重命名
+  module: rename
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: assert
+    action: assert_not_exists
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_rename_008_s1
+  name: 重命名-读写图片右键重命名
+  module: rename
+  steps:
   - step_type: action
     action: dtk_context_menu
     selector:
-      x: 500
-      y: 400
+      name: Image view
     items:
-    - 退出全屏
-    description: '右键菜单选择: 退出全屏'
-  - step_type: assert
-    description: 验证退出全屏后主窗口恢复正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652281
-  name: 读写图片重命名
-  module: 重命名
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右键菜单重命名读写图片
-    前置条件: 应用已启动并显示可重命名的图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: dtk_context_menu
-    selector:
-      x: 500
-      y: 400
-    items:
-    - 重命名
-    description: '右键菜单选择: 重命名'
-  - step_type: assert
-    description: 验证重命名编辑状态激活
-    action: assert_window
-    name_pattern: 重命名
+    - Rename
+    wait: 2.0
   - step_type: action
     action: keyboard_type
     text: test_rename
-    description: 输入 test_rename
   - step_type: action
     action: keyboard_press
     key: enter
-    description: 按下 enter
+    wait: 1.0
   - step_type: assert
-    description: 确认重命名完成后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652343
-  name: 字符类型检查
-  module: 重命名
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: F2重命名字符类型检查
-    前置条件: 应用已启动并显示可重命名的图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_press
-    key: f2
-    description: 按下 f2
-  - step_type: assert
-    description: 验证F2进入重命名编辑状态
-    action: assert_window
-    name_pattern: 重命名
-  - step_type: action
-    action: keyboard_type
-    text: Test123!@#
-    description: 输入 Test123!@#
-  - step_type: action
-    action: keyboard_press
-    key: enter
-    description: 按下 enter
-  - step_type: assert
-    description: 确认特殊字符重命名后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652207
-  name: 双击全屏
-  module: 全屏
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 双击进入/退出全屏
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: mouse_double_click
-    x: 500
-    y: 400
-    description: 鼠标双击 (x:500, y:400)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 验证双击进入全屏后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: mouse_double_click
-    x: 500
-    y: 400
-    description: 鼠标双击 (x:500, y:400)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 确认再次双击退出全屏后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652203
-  name: F11全屏ESC退出
-  module: 全屏
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: F11进入全屏ESC退出
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_press
-    key: f11
-    description: 按下 f11
-  - step_type: assert
-    description: 验证F11进入全屏后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: keyboard_press
-    key: escape
-    description: 按下 escape
-  - step_type: assert
-    description: 确认ESC退出全屏后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652159
-  name: 多张幻灯片
-  module: 幻灯片
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右键菜单幻灯片放映
-    前置条件: 应用已启动并显示多张图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: dtk_context_menu
+    action: assert_not_exists
     selector:
-      x: 500
-      y: 400
-    items:
-    - 幻灯片放映
-    description: '右键菜单选择: 幻灯片放映'
-  - step_type: action
-    action: wait
-    value: 3.0
-    description: 等待
+      name: RenameDialog
   - step_type: assert
-    description: 验证幻灯片放映模式下窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: keyboard_press
-    key: escape
-    description: 按下 escape
-  - step_type: assert
-    description: 确认退出幻灯片后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652197
-  name: ESC退出幻灯片
-  module: 幻灯片
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: F5启动幻灯片ESC退出
-    前置条件: 应用已启动并显示多张图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_jianshujiaohu_001_s1
+  name: 快捷键Down缩小图片
+  module: jianshujiaohu
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
     action: keyboard_press
-    key: f5
-    description: 按下 f5
-  - step_type: action
-    action: wait
-    value: 2.0
-    description: 等待
+    key: down
   - step_type: assert
-    description: 验证F5启动幻灯片后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: keyboard_press
-    key: escape
-    description: 按下 escape
-  - step_type: assert
-    description: 确认ESC退出幻灯片后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652149
-  name: Ctrl+C复制大图
-  module: 复制
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: Ctrl+C复制大图
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_jianshujiaohu_002_s1
+  name: 快捷键Ctrl+-缩小图片
+  module: jianshujiaohu
   steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
   - step_type: action
     action: keyboard_hot_key
-    key: ctrl+c
-    description: 按下 ctrl+c
+    key: ctrl+-
   - step_type: assert
-    description: 确认复制大图后应用进程仍正常运行
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_jianshujiaohu_003_s1
+  name: 快捷键Ctrl+F9设置壁纸
+  module: jianshujiaohu
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+f9
+  - step_type: assert
     action: assert_process_running
-    app: deepin-image-viewer
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652139
-  name: 最小缩小
-  module: 缩放
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 键盘连续缩小到最小
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
+- id: suite_jianshujiaohu_008_s1
+  name: 鼠标滚轮缩放图片
+  module: jianshujiaohu
   steps:
   - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
+    action: mouse_scroll
+    value: -3
   - step_type: action
-    action: keyboard_press
-    key: down
-    description: 按下 down
-  - step_type: action
-    action: keyboard_press
-    key: down
-    description: 按下 down
-  - step_type: action
-    action: keyboard_press
-    key: down
-    description: 按下 down
+    action: mouse_scroll
+    value: 3
   - step_type: assert
-    description: 验证连续缩小三次后窗口正常显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652137
-  name: 最大放大
-  module: 缩放
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 键盘连续放大到最大
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_press
-    key: up
-    description: 按下 up
-  - step_type: action
-    action: keyboard_press
-    key: up
-    description: 按下 up
-  - step_type: action
-    action: keyboard_press
-    key: up
-    description: 按下 up
-  - step_type: assert
-    description: 验证连续放大三次后窗口正常显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1651939
-  name: 导航窗口按钮关闭
-  module: 导航窗口
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 导航窗口按钮关闭
-    前置条件: 应用已启动并显示图片，导航窗口可见
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: mouse_click
-    x: 100
-    y: 200
-    description: 鼠标点击 (x:100, y:200)
-  - step_type: action
-    action: wait
-    value: 0.5
-    description: 等待
-  - step_type: assert
-    description: 验证点击导航窗口关闭按钮后主窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1651933
-  name: 右键隐藏/显示导航窗口
-  module: 导航窗口
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右键菜单隐藏/显示导航窗口
-    前置条件: 应用已启动并显示图片，导航窗口可见
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: dtk_context_menu
+    action: assert_element
     selector:
-      x: 500
-      y: 400
-    items:
-    - 隐藏导航窗口
-    description: '右键菜单选择: 隐藏导航窗口'
-  - step_type: action
-    action: wait
-    value: 0.5
-    description: 等待
-  - step_type: action
-    action: dtk_context_menu
-    selector:
-      x: 500
-      y: 400
-    items:
-    - 显示导航窗口
-    description: '右键菜单选择: 显示导航窗口'
-  - step_type: action
-    action: wait
-    value: 0.5
-    description: 等待
-  - step_type: assert
-    description: 确认导航窗口隐藏后重新显示，主窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652437
-  name: 窗口关闭
-  module: 窗口
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 窗口关闭基本操作
-    前置条件: 应用已启动并显示主窗口
-    AT元素引用: []
+      name: Image view
+- id: suite_jianshujiaohu_011_s1
+  name: 快捷键F1唤起帮助窗口
+  module: jianshujiaohu
   steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: assert
-    description: 验证应用启动后主窗口正常显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652143
-  name: 右键打印
-  module: 打印
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 右键菜单打印
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: dtk_context_menu
-    selector:
-      x: 500
-      y: 400
-    items:
-    - 打印
-    description: '右键菜单选择: 打印'
-  - step_type: assert
-    description: 验证打印对话框弹出
-    action: assert_window
-    name_pattern: 打印
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652225
-  name: 图片信息翻页
-  module: 图片信息
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 图片信息面板查看与翻页
-    前置条件: 应用已启动并显示图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+i
-    description: 按下 ctrl+i
-  - step_type: assert
-    description: 验证图片信息窗口弹出
-    action: assert_window
-    name_pattern: 图片信息
   - step_type: action
     action: keyboard_press
-    key: right
-    description: 按下 right
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
+    key: f1
   - step_type: assert
-    description: 确认图片信息翻页后显示正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: keyboard_press
-    key: escape
-    description: 按下 escape
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652071
-  name: tif上一张
-  module: tif多页图
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: tif多页图上一张
-    前置条件: 应用已启动并打开tif多页图
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: assert
-    description: 验证tif图片窗口正常显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: mouse_click
-    x: 900
-    y: 400
-    description: 鼠标点击 (x:900, y:400)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 验证tif切换到上一张后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652069
-  name: tif下一页
-  module: tif多页图
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: tif多页图下一页
-    前置条件: 应用已启动并打开tif多页图
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: assert
-    description: 验证tif图片窗口正常显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: mouse_click
-    x: 920
-    y: 400
-    description: 鼠标点击 (x:920, y:400)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 验证tif切换到下一页后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652039
-  name: tif缩略图
-  module: tif多页图
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: tif多页图缩略图
-    前置条件: 应用已启动并打开tif多页图
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: assert
-    description: 验证tif图片窗口正常显示
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: mouse_click
-    x: 500
-    y: 700
-    description: 鼠标点击 (x:500, y:700)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 验证点击缩略图后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1652067
-  name: tif切换
-  module: tif多页图
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: tif多页图页面切换
-    前置条件: 应用已启动并打开tif多页图
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: mouse_click
-    x: 920
-    y: 400
-    description: 鼠标点击 (x:920, y:400)
-  - step_type: action
-    action: wait
-    value: 1.0
-    description: 等待
-  - step_type: assert
-    description: 验证tif页面切换后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1651905
-  name: tif幻灯片
-  module: tif多页图
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: tif多页图幻灯片放映
-    前置条件: 应用已启动并打开tif多页图
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: keyboard_press
-    key: f5
-    description: 按下 f5
-  - step_type: action
-    action: wait
-    value: 2.0
-    description: 等待
-  - step_type: assert
-    description: 验证tif幻灯片放映后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: keyboard_press
-    key: escape
-    description: 按下 escape
-  - step_type: assert
-    description: 确认退出幻灯片后窗口正常
-    action: assert_window
-    name_pattern: wechat.jpg
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
-- id: case_1651809
-  name: OCR识别文字
-  module: OCR
-  status: active
-  annotation:
-    测试界面: 主窗口
-    测试功能: 工具栏OCR文字识别
-    前置条件: 应用已启动并显示含文字的图片
-    AT元素引用: []
-  steps:
-  - step_type: action
-    action: session_start
-    command: /home/tsl/project/deepin-image-viewer/deepin-image-viewer/obj-x86_64-linux-gnu/src/deepin-image-viewer /home/tsl/Documents/AT-TEST/youqu-ai-main/youqu-ai-main/docs/assets/wechat.jpg
-    description: 启动看图应用
-  - step_type: action
-    action: mouse_click
-    x: 650
-    y: 700
-    description: 鼠标点击 (x:650, y:700)
-  - step_type: action
-    action: wait
-    value: 2.0
-    description: 等待
-  - step_type: assert
-    description: 验证OCR识别结果窗口弹出
-    action: assert_window
-    name_pattern: OCR
-  - step_type: action
-    action: session_stop
-    description: 关闭看图应用
+    action: assert_process_running

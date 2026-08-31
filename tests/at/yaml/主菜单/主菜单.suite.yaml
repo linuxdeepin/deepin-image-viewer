@@ -14,9 +14,7 @@ suites:
   name: 启动看图应用
   description: ''
   tags: []
-  steps:
-  - action: wait
-    wait: 0.5
+  steps: []
   assert_steps:
   - action: assert_process_running
 - id: case_1652347_s1
@@ -34,18 +32,14 @@ suites:
   name: 启动看图应用
   description: ''
   tags: []
-  steps:
-  - action: wait
-    wait: 0.5
+  steps: []
   assert_steps:
   - action: assert_process_running
 - id: case_1652359_s1
   name: 启动看图应用
   description: ''
   tags: []
-  steps:
-  - action: wait
-    wait: 0.5
+  steps: []
   assert_steps:
   - action: assert_process_running
 - id: case_1652359_s2

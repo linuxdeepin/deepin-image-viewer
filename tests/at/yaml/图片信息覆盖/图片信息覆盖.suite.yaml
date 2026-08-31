@@ -1,0 +1,122 @@
+name: 图片信息覆盖_suite
+app: deepin-image-viewer
+module: 图片信息覆盖
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 3.0
+suites:
+- id: suite_info_001_s1
+  name: 图片信息对话框元素覆盖验证
+  description: 通过右键菜单打开图片信息对话框验证所有元素存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Image info
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BasicInfo
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DetailInfoItem
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyInfoView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FileNameProp
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: InfoType
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: InfoSize
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Aperture
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Colorspace
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DateCaptured
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DateModified
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DeviceModel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ExposureMode
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ExposureProgram
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ExposureTime
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Flash
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FlashCompensation
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FocalLength
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Iso
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LensModel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MaxAperture
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MeteringMode
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: WhiteBalance
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyActionItemDelegate_ElideLabel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyItemDelegate_ContentElideLabel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyItemDelegate_ElideLabel
+teardown:
+- action: session_stop

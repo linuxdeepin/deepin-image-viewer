@@ -1,0 +1,138 @@
+name: rename_suite
+app: deepin-image-viewer
+module: rename
+setup:
+- action: session_start
+  command: deepin-image-viewer
+  wait: 3.0
+suites:
+- id: suite_rename_001_s1
+  name: 重命名-文件名字符类型检查
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: Test123!@# Ab
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_not_exists
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_rename_002_s1
+  name: 重命名-长名称省略号展示
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+a
+  - step_type: action
+    action: keyboard_press
+    key: delete
+  - step_type: action
+    action: keyboard_type
+    text: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+- id: suite_rename_003_s1
+  name: 重命名-与其他非同格式图片重名
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+a
+  - step_type: action
+    action: keyboard_press
+    key: delete
+  - step_type: action
+    action: keyboard_type
+    text: bbb
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_not_exists
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_rename_007_s1
+  name: 重命名-只读图片重命名
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_not_exists
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_rename_008_s1
+  name: 重命名-读写图片右键重命名
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rename
+    wait: 2.0
+  - step_type: action
+    action: keyboard_type
+    text: test_rename
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_not_exists
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+teardown:
+- action: session_stop

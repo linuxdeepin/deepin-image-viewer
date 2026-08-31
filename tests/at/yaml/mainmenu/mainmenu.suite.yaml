@@ -1,0 +1,117 @@
+name: mainmenu_suite
+app: deepin-image-viewer
+module: mainmenu
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 3.0
+suites:
+- id: suite_mainmenu_001_s1
+  name: 主菜单-关于
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_main_menu
+    selector:
+      name: Title bar
+    items:
+    - 关于
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_window
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageViewer
+- id: suite_mainmenu_004_s1
+  name: 主菜单-多窗口退出
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_main_menu
+    selector:
+      name: Title bar
+    items:
+    - 退出
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_not_running
+    app: deepin-image-viewer
+- id: suite_mainmenu_006_s1
+  name: 全屏右键菜单逆时针旋转
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.0
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: FullImageViewer
+    items:
+    - Rotate counterclockwise
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+- id: suite_mainmenu_007_s1
+  name: 右键菜单在文件管理器中显示
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Display in file manager
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_window
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_mainmenu_008_s1
+  name: 右键菜单打开图片信息
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Image info
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_InformationDialog
+- id: suite_mainmenu_009_s1
+  name: 右键菜单删除
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Delete
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop
