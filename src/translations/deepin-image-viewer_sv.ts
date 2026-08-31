@@ -507,7 +507,7 @@
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="167"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Öppna bild</translation>
     </message>
 </context>
 </TS>
