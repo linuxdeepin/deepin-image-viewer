@@ -362,7 +362,7 @@
         <location filename="../qml/SliderShow.qml" line="172"/>
         <location filename="../qml/SliderShow.qml" line="223"/>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation>Spela</translation>
     </message>
     <message>
         <location filename="../qml/SliderShow.qml" line="188"/>
@@ -391,7 +391,7 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="209"/>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>Ursprunglig storlek</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="227"/>
@@ -401,7 +401,7 @@
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="244"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Rotera</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailListView.qml" line="517"/>
