@@ -1,0 +1,493 @@
+scan_total: 98
+total: 98
+elements:
+  text:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  EditCanvas:
+    role: ''
+    source: qml/EditCanvas.qml
+    type: Item
+    name_source: accessible
+  TextEditor:
+    role: text
+    source: qml/EditCanvas.qml
+    type: TextInput
+    name_source: accessible
+  DTK.ToolTip.text:
+    role: push button
+    source: qml/EditToolbar.qml
+    type: ToolButton
+    name_source: accessible
+  Thickness:
+    role: ''
+    source: qml/EditPropertyPanel.qml
+    type: Item
+    name_source: accessible
+  EditPropertyPanel_ToolButton:
+    role: push button
+    source: qml/EditPropertyPanel.qml
+    type: ToolButton
+    name_source: accessible
+  Color:
+    role: ''
+    source: qml/EditPropertyPanel.qml
+    type: Item
+    name_source: accessible
+  Image view:
+    role: ''
+    source: qml/MainStack.qml
+    type: Item
+    name_source: accessible
+  FullImageViewer:
+    role: ''
+    source: qml/FullImageView.qml
+    type: ImageViewer
+    name_source: accessible
+  FullImageEditCanvas:
+    role: ''
+    source: qml/FullImageView.qml
+    type: EditCanvas
+    name_source: accessible
+  Toolbar:
+    role: ''
+    source: qml/FullImageView.qml
+    type: ThumbnailListView
+    name_source: accessible
+  EditToolbar:
+    role: ''
+    source: qml/FullImageView.qml
+    type: EditToolbar
+    name_source: accessible
+  OverwriteDialog:
+    role: ''
+    source: qml/FullImageView.qml
+    type: EditConfirmDialog
+    name_source: accessible
+  EditPropertyPanel:
+    role: ''
+    source: qml/FullImageView.qml
+    type: EditPropertyPanel
+    name_source: accessible
+  FloatLabel:
+    role: ''
+    source: qml/FullImageView.qml
+    type: FloatingNotice
+    name_source: accessible
+  ImageDelegate:
+    role: ''
+    source: qml/ImageDelegate/DamagedImageDelegate.qml
+    type: BaseImageDelegate
+    name_source: accessible
+  DynamicImageDelegate:
+    role: ''
+    source: qml/ImageDelegate/DynamicImageDelegate.qml
+    type: BaseImageDelegate
+    name_source: accessible
+  ImageDelegateSourceSizeOptimizer:
+    role: ''
+    source: qml/ImageDelegate/DynamicImageDelegate.qml
+    type: SourceSizeOptimizer
+    name_source: accessible
+  ImageDelegateImageInput:
+    role: ''
+    source: qml/ImageDelegate/DynamicImageDelegate.qml
+    type: ImageInputHandler
+    name_source: accessible
+  MultiImageDelegate:
+    role: ''
+    source: qml/ImageDelegate/MultiImageDelegate.qml
+    type: BaseImageDelegate
+    name_source: accessible
+  MultiImageView:
+    role: list
+    source: qml/ImageDelegate/MultiImageDelegate.qml
+    type: ListView
+    name_source: accessible
+  ImageInput:
+    role: ''
+    source: qml/ImageDelegate/MultiImageDelegate.qml
+    type: ImageInputHandler
+    name_source: accessible
+  NonexitImageDelegate:
+    role: ''
+    source: qml/ImageDelegate/NonexistImageDelegate.qml
+    type: BaseImageDelegate
+    name_source: accessible
+  NormalImageDelegate:
+    role: ''
+    source: qml/ImageDelegate/NormalImageDelegate.qml
+    type: BaseImageDelegate
+    name_source: accessible
+  NormalImageSourceSizeOptimizer:
+    role: ''
+    source: qml/ImageDelegate/NormalImageDelegate.qml
+    type: SourceSizeOptimizer
+    name_source: accessible
+  NormalImageImageInput:
+    role: ''
+    source: qml/ImageDelegate/NormalImageDelegate.qml
+    type: ImageInputHandler
+    name_source: accessible
+  SvgImageDelegate:
+    role: ''
+    source: qml/ImageDelegate/SvgImageDelegate.qml
+    type: BaseImageDelegate
+    name_source: accessible
+  SvgImageSourceSizeOptimizer:
+    role: ''
+    source: qml/ImageDelegate/SvgImageDelegate.qml
+    type: SourceSizeOptimizer
+    name_source: accessible
+  SvgImageImageInput:
+    role: ''
+    source: qml/ImageDelegate/SvgImageDelegate.qml
+    type: ImageInputHandler
+    name_source: accessible
+  ImageAnimation:
+    role: ''
+    source: qml/ImageViewer.qml
+    type: ImageAnimation
+    name_source: accessible
+  ImageViewer_ViewDelegateLoader:
+    role: ''
+    source: qml/ImageViewer.qml
+    type: ViewDelegateLoader
+    name_source: accessible
+  LiveTextWidget:
+    role: ''
+    source: qml/ImageViewer.qml
+    type: LiveTextWidget
+    name_source: accessible
+  Renamedialog:
+    role: ''
+    source: qml/ImageViewer.qml
+    type: ReName
+    name_source: accessible
+  RightMenu:
+    role: ''
+    source: qml/ImageViewer.qml
+    type: ViewRightMenu
+    name_source: accessible
+  Loader_InformationDialog:
+    role: ''
+    source: qml/ImageViewer.qml
+    type: InformationDialog
+    name_source: accessible
+  Loader_NavigationWidget:
+    role: ''
+    source: qml/ImageViewer.qml
+    type: NavigationWidget
+    name_source: accessible
+  BasicInfo:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItem
+    name_source: accessible
+  FileNameProp:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyActionItemDelegate
+    name_source: accessible
+  InfoSize:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  Dimensions:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  InfoType:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  DateCaptured:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  DateModified:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  DetailInfoItem:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItem
+    name_source: accessible
+  Aperture:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  ExposureProgram:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  FocalLength:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  Iso:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  ExposureMode:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  ExposureTime:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  Flash:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  FlashCompensation:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  MaxAperture:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  Colorspace:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  MeteringMode:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  WhiteBalance:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  DeviceModel:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  LensModel:
+    role: ''
+    source: qml/InformationDialog/InformationDialog.qml
+    type: PropertyItemDelegate
+    name_source: accessible
+  PropertyActionItemDelegate_ElideLabel:
+    role: ''
+    source: qml/InformationDialog/PropertyActionItemDelegate.qml
+    type: ElideLabel
+    name_source: accessible
+  PropertyInfoView:
+    role: list
+    source: qml/InformationDialog/PropertyItem.qml
+    type: ListView
+    name_source: accessible
+  PropertyItemDelegate_ElideLabel:
+    role: ''
+    source: qml/InformationDialog/PropertyItemDelegate.qml
+    type: ElideLabel
+    name_source: accessible
+  PropertyItemDelegate_ContentElideLabel:
+    role: ''
+    source: qml/InformationDialog/PropertyItemDelegate.qml
+    type: ElideLabel
+    name_source: accessible
+  RubberBand:
+    role: ''
+    source: qml/LiveText/LiveBlock.qml
+    type: LiveBlockRubberBand
+    name_source: accessible
+  LiveMenu:
+    role: menu
+    source: qml/LiveText/LiveTextWidget.qml
+    type: Menu
+    name_source: accessible
+  TitleRect:
+    role: ''
+    source: qml/MainStack.qml
+    type: ViewTopTitle
+    name_source: accessible
+  UnsavedEditDialog:
+    role: ''
+    source: qml/MainStack.qml
+    type: EditConfirmDialog
+    name_source: accessible
+  Close navigation window:
+    role: push button
+    source: qml/NavigationWidget.qml
+    type: ToolButton
+    name_source: accessible
+  FadeInOutImage:
+    role: ''
+    source: qml/SliderShow.qml
+    type: SFadeInOut
+    name_source: accessible
+  SliderMenu:
+    role: menu
+    source: qml/SliderShow.qml
+    type: Menu
+    name_source: accessible
+  MultiThumbnailDelegate:
+    role: ''
+    source: qml/ThumbnailDelegate/MultiThumnailDelegate.qml
+    type: BaseThumbnailDelegate
+    name_source: accessible
+  ThumbnailListView:
+    role: list
+    source: qml/ThumbnailDelegate/MultiThumnailDelegate.qml
+    type: ListView
+    name_source: accessible
+  MultiThumbnailImg:
+    role: ''
+    source: qml/ThumbnailDelegate/MultiThumnailDelegate.qml
+    type: ThumbnailImage
+    name_source: accessible
+  NormalThumbnailDelegate:
+    role: ''
+    source: qml/ThumbnailDelegate/NormalThumbnailDelegate.qml
+    type: BaseThumbnailDelegate
+    name_source: accessible
+  NormalThumbnailImg:
+    role: ''
+    source: qml/ThumbnailDelegate/NormalThumbnailDelegate.qml
+    type: ThumbnailImage
+    name_source: accessible
+  Loader_RemoveDialog:
+    role: ''
+    source: qml/ThumbnailListView.qml
+    type: RemoveDialog
+    name_source: accessible
+  Previous:
+    role: ''
+    source: qml/ThumbnailListView.qml
+    type: ToolbarIconButton
+    name_source: accessible
+  Next:
+    role: ''
+    source: qml/ThumbnailListView.qml
+    type: ToolbarIconButton
+    name_source: accessible
+  Original size:
+    role: ''
+    source: qml/ThumbnailListView.qml
+    type: ToolbarIconButton
+    name_source: accessible
+  Fit to window:
+    role: ''
+    source: qml/ThumbnailListView.qml
+    type: ToolbarIconButton
+    name_source: accessible
+  ToolTip.text:
+    role: ''
+    source: qml/ThumbnailListView.qml
+    type: ToolbarIconButton
+    name_source: accessible
+  BottomthumbnaillistView:
+    role: list
+    source: qml/ThumbnailListView.qml
+    type: ListView
+    name_source: accessible
+  Extract text:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  Edit:
+    role: ''
+    source: qml/ThumbnailListView.qml
+    type: ToolbarIconButton
+    name_source: accessible
+  Delete:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  OptionMenu:
+    role: menu
+    source: qml/ViewRightMenu.qml
+    type: Menu
+    name_source: accessible
+  Print:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  Slide show:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  Copy:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  Rename:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  Rotate clockwise:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  Rotate counterclockwise:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  Set as wallpaper:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  Display in file manager:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  Image info:
+    role: ''
+    source: qml/ViewRightMenu.qml
+    type: RightMenuItem
+    name_source: accessible
+  Title bar:
+    role: ''
+    source: qml/ViewTopTitle.qml
+    type: Rectangle
+    name_source: accessible
+  ViewTopTitleMenu:
+    role: menu
+    source: qml/ViewTopTitle.qml
+    type: Menu
+    name_source: accessible
+  ImageViewer:
+    role: ''
+    source: qml/main.qml
+    type: ApplicationWindow
+    name_source: accessible
+  MainStack:
+    role: ''
+    source: qml/main.qml
+    type: MainStack
+    name_source: accessible

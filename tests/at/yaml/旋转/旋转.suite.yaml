@@ -1,0 +1,32 @@
+name: 旋转_suite
+app: deepin-image-viewer
+module: 旋转
+setup:
+- action: session_start
+  command: deepin-image-viewer
+  wait: 3.0
+suites:
+- id: suite_xuanzhuan_001_s1
+  name: 全屏快捷键顺时针旋转
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+      role: item
+    do: double_click
+    wait: 1.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: Ctrl+R
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+      role: image viewer
+  - step_type: assert
+    action: assert_process_running
+teardown:
+- action: session_stop

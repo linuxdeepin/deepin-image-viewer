@@ -1,46 +1,281 @@
 elements:
-  n0:
-    name: wechat.jpg
-    role: frame
-  n1:
-    name: Image view
-    role: panel
-  n2:
+  Title bar:
     name: Title bar
-    role: tool bar
-  n9:
+  ImageViewer:
+    name: ImageViewer
+  Image view:
     name: Image view
-    role: panel
-  n10:
-    name: Close navigation window
-    role: button
-  n11:
-    name: Previous
-    role: button
-  n12:
+  FullImageViewer:
+    name: FullImageViewer
+    role: image viewer
+  Loader_InformationDialog:
+    name: Loader_InformationDialog
+  MainStack:
+    name: MainStack
+  NormalImageDelegate:
+    name: NormalImageDelegate
+  Next:
     name: Next
-    role: button
-  n14:
-    name: Toolbar
-    role: tool bar
-  n15:
-    name: 上一张
-    role: button
-  n16:
+  BottomthumbnaillistView:
+    name: BottomthumbnaillistView
+  OptionMenu:
+    name: OptionMenu
+  RightMenu:
+    name: RightMenu
+  MultiImageDelegate:
+    name: MultiImageDelegate
+  Set as wallpaper:
+    name: Set as wallpaper
+  NormalThumbnailDelegate:
+    name: NormalThumbnailDelegate
+  Original size:
+    name: Original size
+  Loader_NavigationWidget:
+    name: Loader_NavigationWidget
+  Close navigation window:
+    name: Close navigation window
+  下一张:
     name: 下一张
-    role: button
-  n17:
-    name: 原始大小
-    role: button
-  n18:
-    name: 适应窗口
-    role: button
-  n19:
-    name: 旋转
-    role: button
-  n21:
+  Dimensions:
+    name: Dimensions
+  识别文字:
     name: 识别文字
-    role: button
-  n22:
-    name: 删除
-    role: button
+  Previous:
+    name: Previous
+  Renamedialog:
+    name: Renamedialog
+  LiveTextWidget:
+    name: LiveTextWidget
+  RenameDialog:
+    name: RenameDialog
+  text:
+    name: text
+    role: ''
+  EditCanvas:
+    name: EditCanvas
+    role: ''
+  TextEditor:
+    name: TextEditor
+    role: text
+  DTK.ToolTip.text:
+    name: DTK.ToolTip.text
+    role: push button
+  Thickness:
+    name: Thickness
+    role: ''
+  EditPropertyPanel_ToolButton:
+    name: EditPropertyPanel_ToolButton
+    role: push button
+  Color:
+    name: Color
+    role: ''
+  FullImageEditCanvas:
+    name: FullImageEditCanvas
+    role: ''
+  Toolbar:
+    name: Toolbar
+    role: ''
+  EditToolbar:
+    name: EditToolbar
+    role: ''
+  OverwriteDialog:
+    name: OverwriteDialog
+    role: ''
+  EditPropertyPanel:
+    name: EditPropertyPanel
+    role: ''
+  FloatLabel:
+    name: FloatLabel
+    role: ''
+  ImageDelegate:
+    name: ImageDelegate
+    role: ''
+  DynamicImageDelegate:
+    name: DynamicImageDelegate
+    role: ''
+  ImageDelegateSourceSizeOptimizer:
+    name: ImageDelegateSourceSizeOptimizer
+    role: ''
+  ImageDelegateImageInput:
+    name: ImageDelegateImageInput
+    role: ''
+  MultiImageView:
+    name: MultiImageView
+    role: list
+  ImageInput:
+    name: ImageInput
+    role: ''
+  NonexitImageDelegate:
+    name: NonexitImageDelegate
+    role: ''
+  NormalImageSourceSizeOptimizer:
+    name: NormalImageSourceSizeOptimizer
+    role: ''
+  NormalImageImageInput:
+    name: NormalImageImageInput
+    role: ''
+  SvgImageDelegate:
+    name: SvgImageDelegate
+    role: ''
+  SvgImageSourceSizeOptimizer:
+    name: SvgImageSourceSizeOptimizer
+    role: ''
+  SvgImageImageInput:
+    name: SvgImageImageInput
+    role: ''
+  ImageAnimation:
+    name: ImageAnimation
+    role: ''
+  ImageViewer_ViewDelegateLoader:
+    name: ImageViewer_ViewDelegateLoader
+    role: ''
+  BasicInfo:
+    name: BasicInfo
+    role: ''
+  FileNameProp:
+    name: FileNameProp
+    role: ''
+  InfoSize:
+    name: InfoSize
+    role: ''
+  InfoType:
+    name: InfoType
+    role: ''
+  DateCaptured:
+    name: DateCaptured
+    role: ''
+  DateModified:
+    name: DateModified
+    role: ''
+  DetailInfoItem:
+    name: DetailInfoItem
+    role: ''
+  Aperture:
+    name: Aperture
+    role: ''
+  ExposureProgram:
+    name: ExposureProgram
+    role: ''
+  FocalLength:
+    name: FocalLength
+    role: ''
+  Iso:
+    name: Iso
+    role: ''
+  ExposureMode:
+    name: ExposureMode
+    role: ''
+  ExposureTime:
+    name: ExposureTime
+    role: ''
+  Flash:
+    name: Flash
+    role: ''
+  FlashCompensation:
+    name: FlashCompensation
+    role: ''
+  MaxAperture:
+    name: MaxAperture
+    role: ''
+  Colorspace:
+    name: Colorspace
+    role: ''
+  MeteringMode:
+    name: MeteringMode
+    role: ''
+  WhiteBalance:
+    name: WhiteBalance
+    role: ''
+  DeviceModel:
+    name: DeviceModel
+    role: ''
+  LensModel:
+    name: LensModel
+    role: ''
+  PropertyActionItemDelegate_ElideLabel:
+    name: PropertyActionItemDelegate_ElideLabel
+    role: ''
+  PropertyInfoView:
+    name: PropertyInfoView
+    role: list
+  PropertyItemDelegate_ElideLabel:
+    name: PropertyItemDelegate_ElideLabel
+    role: ''
+  PropertyItemDelegate_ContentElideLabel:
+    name: PropertyItemDelegate_ContentElideLabel
+    role: ''
+  RubberBand:
+    name: RubberBand
+    role: ''
+  LiveMenu:
+    name: LiveMenu
+    role: menu
+  TitleRect:
+    name: TitleRect
+    role: ''
+  UnsavedEditDialog:
+    name: UnsavedEditDialog
+    role: ''
+  FadeInOutImage:
+    name: FadeInOutImage
+    role: ''
+  SliderMenu:
+    name: SliderMenu
+    role: menu
+  MultiThumbnailDelegate:
+    name: MultiThumbnailDelegate
+    role: ''
+  ThumbnailListView:
+    name: ThumbnailListView
+    role: list
+  MultiThumbnailImg:
+    name: MultiThumbnailImg
+    role: ''
+  NormalThumbnailImg:
+    name: NormalThumbnailImg
+    role: ''
+  Loader_RemoveDialog:
+    name: Loader_RemoveDialog
+    role: ''
+  Fit to window:
+    name: Fit to window
+    role: ''
+  ToolTip.text:
+    name: ToolTip.text
+    role: ''
+  Extract text:
+    name: Extract text
+    role: ''
+  Edit:
+    name: Edit
+    role: ''
+  Delete:
+    name: Delete
+    role: ''
+  Print:
+    name: Print
+    role: ''
+  Slide show:
+    name: Slide show
+    role: ''
+  Copy:
+    name: Copy
+    role: ''
+  Rename:
+    name: Rename
+    role: ''
+  Rotate clockwise:
+    name: Rotate clockwise
+    role: ''
+  Rotate counterclockwise:
+    name: Rotate counterclockwise
+    role: ''
+  Display in file manager:
+    name: Display in file manager
+    role: ''
+  Image info:
+    name: Image info
+    role: ''
+  ViewTopTitleMenu:
+    name: ViewTopTitleMenu
+    role: menu

@@ -1,0 +1,29 @@
+name: waibujiaohu_suite
+app: deepin-image-viewer
+module: waibujiaohu
+setup:
+- action: session_start
+  command: deepin-image-viewer
+  wait: 3.0
+suites:
+- id: suite_waibujiaohu_001_s1
+  name: 复制图片到WPS-右键复制当前图片至剪贴板
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

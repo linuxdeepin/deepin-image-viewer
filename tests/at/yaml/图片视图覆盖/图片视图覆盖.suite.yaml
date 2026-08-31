@@ -1,0 +1,81 @@
+name: 图片视图覆盖_suite
+app: deepin-image-viewer
+module: 图片视图覆盖
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 3.0
+suites:
+- id: suite_imgview_001_s1
+  name: 图片视图元素覆盖验证
+  description: 应用启动后验证图片视图相关元素存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageDelegate
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DynamicImageDelegate
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageDelegateImageInput
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageDelegateSourceSizeOptimizer
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageInput
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageViewer_ViewDelegateLoader
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MultiImageView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NonexitImageDelegate
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalImageImageInput
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalImageSourceSizeOptimizer
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: SvgImageDelegate
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: SvgImageImageInput
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: SvgImageSourceSizeOptimizer
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FadeInOutImage
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageAnimation
+teardown:
+- action: session_stop

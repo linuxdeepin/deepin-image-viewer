@@ -1,0 +1,53 @@
+name: 窗口组件覆盖_suite
+app: deepin-image-viewer
+module: 窗口组件覆盖
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 3.0
+suites:
+- id: suite_window_001_s1
+  name: 窗口组件元素覆盖验证
+  description: 验证窗口相关组件元素存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TitleRect
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ViewTopTitleMenu
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: SliderMenu
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LiveMenu
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: OverwriteDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: UnsavedEditDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FloatLabel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RubberBand
+teardown:
+- action: session_stop

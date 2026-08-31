@@ -1,0 +1,27 @@
+name: youjiancaidan_suite
+app: deepin-image-viewer
+module: youjiancaidan
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 3.0
+suites:
+- id: suite_youjiancaidan_001_s1
+  name: 右键菜单-图片右键唤起打印预览
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Print
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_window
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

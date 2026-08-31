@@ -1,0 +1,99 @@
+name: quanping_suite
+app: deepin-image-viewer
+module: quanping
+setup:
+- action: session_start
+  command: deepin-image-viewer
+  wait: 3.0
+suites:
+- id: suite_quanping_001_s1
+  name: 全屏-双击图片进入全屏
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_quanping_002_s1
+  name: 全屏-快捷键F11进入与ESC退出全屏
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.5
+  - step_type: action
+    action: keyboard_press
+    key: esc
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_quanping_003_s1
+  name: 幻灯片-ESC退出幻灯片放映
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f5
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: esc
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_quanping_004_s1
+  name: 幻灯片-多张图片循环放映
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Slide show
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_quanping_005_s1
+  name: tif多页图-播放幻灯片
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f5
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

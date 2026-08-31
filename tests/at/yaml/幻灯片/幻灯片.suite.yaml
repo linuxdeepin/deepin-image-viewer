@@ -17,7 +17,6 @@ suites:
   steps:
   - action: keyboard_press
     key: f5
-  - action: wait
     wait: 1.0
   - action: keyboard_press
     key: escape
@@ -31,7 +30,6 @@ suites:
   steps:
   - action: keyboard_press
     key: f5
-  - action: wait
     wait: 1.0
   - action: keyboard_press
     key: escape

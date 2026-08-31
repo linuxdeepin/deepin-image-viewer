@@ -18,7 +18,6 @@ suites:
   - action: mouse_click
     x: 500
     y: 400
-  - action: wait
     wait: 1.0
   assert_steps:
   - action: assert_process_running
@@ -26,9 +25,7 @@ suites:
   name: 启动看图应用
   description: ''
   tags: []
-  steps:
-  - action: wait
-    wait: 0.5
+  steps: []
   assert_steps:
   - action: assert_process_running
 teardown:

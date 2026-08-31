@@ -19,7 +19,6 @@ suites:
     key: ctrl+i
   - action: keyboard_press
     key: right
-  - action: wait
     wait: 1.0
   - action: keyboard_press
     key: escape

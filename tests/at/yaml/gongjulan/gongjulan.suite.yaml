@@ -1,0 +1,71 @@
+name: gongjulan_suite
+app: deepin-image-viewer
+module: gongjulan
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 3.0
+suites:
+- id: suite_gongjulan_001_s1
+  name: 图片信息-工具栏切换图片展示
+  description: ''
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+i
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: 下一张
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_InformationDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_InformationDialog
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Dimensions
+- id: suite_gongjulan_002_s1
+  name: 工具栏-下一张按钮
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: 下一张
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_013_s1
+  name: OCR-入口检查-窗口下点击工具栏按钮
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: 识别文字
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_window
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop
