@@ -5,7 +5,7 @@
 // | method | level | factors | min | actual |
 // |--------|-------|---------|-----|--------|
 // | PathViewRangeHandler(QObject*) | low | - | 1 | 1 |
-// | ~PathViewRangeHandler | low | - | 1 | 1 |
+// | ~PathViewRangeHandler | low | - | 1 | 2 |
 // | enableForward() | low | - | 1 | 1 |
 // | enableBackward() | low | - | 1 | 1 |
 // | setEnableForward(bool) | low | - | 1 | 2 |
@@ -85,6 +85,16 @@ struct MoveFilterCase {
     bool expectFiltered;    // 期望 eventFilter 返回 true 且事件被 ignore
 };
 
+// 经 volatile 汇阻断编译器去虚化/内联：delete 基类指针必须经 vtable 调用
+// out-of-line 析构链（deleting dtor D0 → base dtor D2，符号发射于 pathviewrangehandler.cpp）。
+// 注：GCC 禁止对 virtual 析构取成员函数指针（&T::~T 报错），故用此路径替代。
+void deleteViaVtableDestruct(QObject *obj)
+{
+    QObject *volatile sink = obj;   // 存入 volatile 汇，切断指针来源追踪
+    QObject *opaque = sink;         // 读回运行期值，静态类型仅 QObject*
+    delete opaque;                  // 虚析构：vtable 派发 → D0 → D2 均为真实调用
+}
+
 }  // namespace
 
 class PathViewRangeHandlerTest : public ::testing::Test {
@@ -134,6 +144,26 @@ TEST_F(PathViewRangeHandlerTest, Destructor_DeleteHandler_EmitsDestroyedAndDetac
 
     // Assert
     EXPECT_EQ(destroyedSpy.count(), 1);
+    EXPECT_TRUE(parent.children().isEmpty());
+}
+
+TEST_F(PathViewRangeHandlerTest, Destructor_ViaOpaqueBasePointerDelete_RunsOutOfLineDtorChain)
+{
+    // Arrange：堆上构造（带父对象）；volatile 汇阻断去虚化后，
+    // delete 基类指针经 vtable 强制执行 out-of-line 析构链（D0→D2）
+    QObject parent;
+    PathViewRangeHandler *handler = new PathViewRangeHandler(&parent);
+    ASSERT_EQ(handler->parent(), &parent);
+    EXPECT_EQ(handler->enableForward(), true);   // branch: 默认 enableForwardFlag = true（构造完成前置）
+    bool destroyedEmitted = false;
+    QObject::connect(handler, &QObject::destroyed,
+                     [&destroyedEmitted](QObject *) { destroyedEmitted = true; });
+
+    // Act：经不透明基类指针 delete，强制走 vtable 的 out-of-line 析构链
+    deleteViaVtableDestruct(handler);
+
+    // Assert：析构完整执行——destroyed 信号发出、从父对象 children 摘除、无崩溃
+    EXPECT_TRUE(destroyedEmitted);
     EXPECT_TRUE(parent.children().isEmpty());
 }
 

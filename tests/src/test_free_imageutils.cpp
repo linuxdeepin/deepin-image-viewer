@@ -26,7 +26,7 @@
 // | getImagesInfo         | mid   | complexity:5                              | 2   | 3      |
 // | getOrientation        | low   | -                                         | 1   | 2      |
 // | getRotatedImage       | low   | -                                         | 1   | 3      |
-// | cutSquareImage        | mid   | in_degree:3                               | 2   | 3      |
+// | cutSquareImage        | mid   | in_degree:3                               | 2   | 6      |
 // | cachePixmap           | low   | -                                         | 1   | 2      |
 // | thumbnailAttribute    | low   | -                                         | 1   | 2      |
 // | thumbnailCachePath    | mid   | in_degree:3                               | 2   | 2      |
@@ -985,6 +985,51 @@ TEST_F(FreeImageUtilsTest, CutSquareImage_NullPixmap_ReturnsNullResult)
 
     // Act
     const QPixmap got = liu::cutSquareImage(src, QSize(10, 10));
+
+    // Assert
+    EXPECT_TRUE(got.isNull());
+    EXPECT_EQ(got.width(), 0);
+}
+
+// ── cutSquareImage 单参重载（补测：lcov FNDA:0，直接调用真实函数）───────────────
+// 实现（imageutils.cpp:170-174）：cutSquareImage(pixmap) → cutSquareImage(pixmap, pixmap.size())
+// 缺陷注记（只标红不修改）：单参重载名承诺“方形”，实际透传原始（可能非方的）尺寸。
+
+TEST_F(FreeImageUtilsTest, CutSquareImage_SingleArgSquarePixmap_ReturnsSameSquareSize)
+{
+    // Arrange：24x24 方图（单参重载以 pixmap.size() 为目标）
+    QPixmap src(24, 24);
+    src.fill(Qt::cyan);
+
+    // Act
+    const QPixmap got = liu::cutSquareImage(src);
+
+    // Assert：方图输入输出等尺寸正方形
+    EXPECT_FALSE(got.isNull());
+    EXPECT_EQ(got.size(), QSize(24, 24));
+}
+
+TEST_F(FreeImageUtilsTest, CutSquareImage_SingleArgWidePixmap_ReturnsFullInputSize)
+{
+    // Arrange：30x12 宽图——单参重载透传 pixmap.size()（30x12，非正方形）
+    QPixmap src(30, 12);
+    src.fill(Qt::magenta);
+
+    // Act
+    const QPixmap got = liu::cutSquareImage(src);
+
+    // Assert：真实行为固化——输出与输入同尺寸，未被裁为 min(w,h) 正方形（见缺陷注记）
+    EXPECT_FALSE(got.isNull());
+    EXPECT_EQ(got.size(), QSize(30, 12));
+}
+
+TEST_F(FreeImageUtilsTest, CutSquareImage_SingleArgNullPixmap_ReturnsNull)
+{
+    // Arrange：空图（负面输入）
+    QPixmap src;
+
+    // Act
+    const QPixmap got = liu::cutSquareImage(src);
 
     // Assert
     EXPECT_TRUE(got.isNull());

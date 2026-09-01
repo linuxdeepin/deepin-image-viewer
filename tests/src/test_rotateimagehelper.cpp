@@ -4,7 +4,7 @@
 // 用例计数声明（self-check-structural 验证此块）：
 // | method | level | factors | min | actual |
 // |--------|-------|---------|-----|--------|
-// | RotateImageHelper(QObject *parent) | low | - | 1 | 1 |
+// | RotateImageHelper(QObject *parent) | low | - | 1 | 2 |
 // | ~RotateImageHelper | low | - | 1 | 1 |
 // | instance() | mid | - | 2 | 2 |
 // | rotateImageFile(path, angle) | mid | - | 2 | 10（5 TEST_F + TEST_P×5） |
@@ -26,7 +26,7 @@
 //    RotateImageFile_UnsupportedPathType_SkipsRotationWithoutCaching）
 // 5. 分支清单 → 用例映射已列出: [x]（见下方 5 个方法分支清单块）
 // 6. 每条 if/switch/throw/early-return 有触发用例: [x]（见各分支清单映射；
-//    唯一不可达分支：构造函数 aboutToQuit 清理 lambda，需退出 QApplication 才触发，单测不可构造）
+//    构造函数 aboutToQuit 清理 lambda 经对 qApp 直接 emit aboutToQuit 触发（QuitHook 用例））
 // 7. 异常路径 EXPECT_THROW 精确匹配: [x]（本类无显式 throw；错误路径以返回 false +
 //    信号未发射断言覆盖）
 // 8. 负面场景有专门用例: [x]（ZeroAngle/UnsupportedPathType/SourceMissingCopyFails/
@@ -794,4 +794,30 @@ TEST_F(RotateImageHelperDataTest, RotateImageHelperData_Constructor_InitializesE
     EXPECT_EQ(queueCount, 0);
     EXPECT_TRUE(cacheReady);
     EXPECT_TRUE(watcherIdle);
+}
+
+// ─── 构造函数 aboutToQuit 清理 lambda（补测：对 qApp 实例直接 emit 驱动）───
+// 分支（来源：rotateimagehelper.cpp:43-57）：
+// B1: data && data->watcher.isRunning() → waitForFinished + cacheDir.remove()
+// B2: watcher 空闲 → lambda 安全返回（无清理动作）
+// 映射： RotateImageHelper_QuitHook_QuitSignalIdleWatcher_KeepsDataIntact → B2
+
+TEST_F(RotateImageHelperTest, RotateImageHelper_QuitHook_QuitSignalIdleWatcher_KeepsDataIntact)
+{
+    // Arrange：栈实例并懒加载 data（watcher 空闲路径）；监听 qApp 的 aboutToQuit
+    RotateImageHelper scoped;
+    scoped.checkDataValid();
+    ASSERT_FALSE(scoped.data.isNull());
+    QSignalSpy quitSpy(QCoreApplication::instance(), &QCoreApplication::aboutToQuit);
+
+    // Act：对 qApp 实例直接发射 aboutToQuit（-fno-access-control 下可构造 QPrivateSignal）
+    Q_EMIT QCoreApplication::instance()->aboutToQuit(QCoreApplication::QPrivateSignal{});
+
+    // Assert：lambda 安全返回——空闲 watcher 不触发 waitForFinished/删缓存目录，
+    // data 完整保留，随后 public API（0° 早退路径）仍可正常受理
+    EXPECT_EQ(quitSpy.count(), 1);
+    EXPECT_FALSE(scoped.data->watcher.isRunning());
+    EXPECT_TRUE(scoped.data->cacheDir.isValid());
+    scoped.rotateImageFile(QStringLiteral("album/pic.png"), 0);
+    EXPECT_EQ(scoped.data->rotationCache.size(), 0);
 }

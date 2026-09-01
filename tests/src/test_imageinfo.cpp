@@ -33,7 +33,7 @@
 // | width | mid | recursive,in_degree:33 | 2 | 2 |
 // | x | low | - | 1 | 1 |
 // | y | low | - | 1 | 1 |
-// | ImageInfoCache | low | - | 1 | 1 |
+// | ImageInfoCache | low | - | 1 | 2 |
 // | ~ImageInfoCache | low | destructor | 1 | 1 |
 // | ImageInfoCache::clearCache | mid | in_degree:3,name_pattern:clearCache | 2 | 2 |
 // | ImageInfoCache::find | mid | in_degree:3 | 2 | 2 |
@@ -1579,6 +1579,8 @@ protected:
         delete obj;  // 真实析构符号（镜像仅声明，避免错误 vtable 发射）
         obj = nullptr;
         stub.clear();
+        // quit-hook 用例会 emit aboutToQuit 置位全局单例退出标志，统一复位防跨用例污染
+        resetGlobalCacheState();
     }
 
     // 强制同步（idealThreadCount=1 → enableMultiThread()=false）
@@ -1643,6 +1645,25 @@ TEST_F(ImageInfoCacheTest, ImageInfoCache_Destruction_DisposesInstanceCleanly)
 
     // Assert：真实析构符号触发 QObject::destroyed
     EXPECT_EQ(destroyedSpy.count(), 1);
+}
+
+// ─── 构造函数 aboutToQuit 清理 lambda（补测：对 qApp 实例直接 emit 驱动）───
+
+TEST_F(ImageInfoCacheTest, ImageInfoCache_QuitHook_AboutToQuitSetsFlagAndClearsCache)
+{
+    // Arrange：预置一条可命中的缓存；lambda 已在构造函数中连接到 qApp 的 aboutToQuit
+    const QString path = tempDir.filePath(QStringLiteral("quit-hook.png"));
+    obj->loadFinished(path, 0, makeData(path));
+    ASSERT_FALSE(obj->find(path, 0).isNull());
+    QSignalSpy quitSpy(QCoreApplication::instance(), &QCoreApplication::aboutToQuit);
+
+    // Act：对 qApp 实例直接发射 aboutToQuit（-fno-access-control 下可构造 QPrivateSignal）
+    Q_EMIT QCoreApplication::instance()->aboutToQuit(QCoreApplication::QPrivateSignal{});
+
+    // Assert：lambda 置位退出标志并清空缓存
+    EXPECT_EQ(quitSpy.count(), 1);
+    EXPECT_TRUE(obj->aboutToQuit);
+    EXPECT_TRUE(obj->find(path, 0).isNull());
 }
 
 TEST_F(ImageInfoCacheTest, Find_EmptyCache_ReturnsNullPointer)
