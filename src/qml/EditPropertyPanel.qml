@@ -46,6 +46,7 @@ DTK.Control {
     padding: 0
 
     background: EditPanelBackground {
+        Accessible.ignored: true
         blurSource: propertyPanel.blurSource
         borderColor: Qt.rgba(propertyPanel.themeTextColor.r,
                              propertyPanel.themeTextColor.g,
