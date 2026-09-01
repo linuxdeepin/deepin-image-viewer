@@ -37,6 +37,7 @@ DTK.Control {
     padding: 0
 
     background: EditPanelBackground {
+        Accessible.ignored: true
         blurSource: editToolbar.blurSource
         borderColor: Qt.rgba(editToolbar.themeTextColor.r,
                              editToolbar.themeTextColor.g,
