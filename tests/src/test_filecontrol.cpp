@@ -512,15 +512,17 @@ protected:
             qunsetenv("WAYLAND_DISPLAY");
     }
 
-    // 等待 setWallpaper 的后台线程完成（线程体内均为快速同步调用）
+    // 等待 setWallpaper 的后台线程完成（线程体内均为快速同步调用，stub 拦截全部 DBus
+    // 出口，不依赖主线程事件循环）。
+    // 禁止在此处 processEvents/sendPostedEvents：stub 窗口内驱动事件分发会把其它
+    // 测试 TU 挂接在真实 sessionBus 上的 DBus watcher posted 事件投递到已受 stub
+    // 干扰的连接/对象（QDBusConnection 私有事件 delivery 读野指针，全量运行时曾
+    // 在此段崩溃）。积压事件由 stub 恢复后的后续正常事件循环消化。
     void waitDbusCalls(int expectedCalls)
     {
-        for (int i = 0; i < 600 && dbusCallCount.load() < expectedCalls; ++i) {
+        for (int i = 0; i < 600 && dbusCallCount.load() < expectedCalls; ++i)
             QThread::msleep(10);
-            QCoreApplication::processEvents();
-        }
         QThread::msleep(100);
-        QCoreApplication::processEvents();
     }
 
     stub_ext::StubExt stub;
