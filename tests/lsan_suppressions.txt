@@ -14,3 +14,12 @@ leak:QDBusConnection
 leak:QDBusMessage
 leak:QDBusPendingCallWatcher
 leak:QGenericUnixServices
+
+# DTK 日志单例（DLogManager）及其 DConfig 配置对象为进程级一次性分配，
+# 由 initLoggingRules()/createDConfig() 在首次注册日志时建立，进程退出时由
+# 系统回收；Qt6Core 的 ExternalRefCountData 亦为框架内部共享引用计数缓存。
+# 均不属于本项目的真实泄漏，统一抑制。
+leak:Dtk::Core::DLogManager
+leak:Dtk::Core::DLogManagerPrivate
+leak:dconfig_org_deepin_dtk_preference
+leak:QtSharedPointer::ExternalRefCountData

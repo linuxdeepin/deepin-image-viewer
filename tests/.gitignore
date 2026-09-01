@@ -1,0 +1,8 @@
+# 单测本地状态（qt-autotest-generator）
+.ut-defects.json
+.ut-inventory.json.bak
+.ut-inventory-diff.md
+.results/
+.reports/
+__pycache__/
+.ut-inventory-summary.md
