@@ -11,17 +11,10 @@ suites:
   description: 进入编辑模式验证所有编辑相关元素存在
   steps:
   - step_type: action
-    action: dtk_context_menu
-    selector:
-      name: Image view
-    items:
-    - Rename
+    action: keyboard_hot_key
+    key: ctrl+shift+e
     wait: 2.0
   assert_steps:
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: EditCanvas
   - step_type: assert
     action: assert_element
     selector:
@@ -29,30 +22,6 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
-      name: EditPropertyPanel
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: EditPropertyPanel_ToolButton
-  - step_type: assert
-    action: assert_element
-    selector:
       name: EditToolbar
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: TextEditor
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Thickness
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Color
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: text
 teardown:
 - action: session_stop

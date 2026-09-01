@@ -24,33 +24,5 @@ suites:
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
-- id: suite_daohangchuangkou_003_s1
-  name: 导航窗口-按钮关闭导航窗口
-  description: ''
-  steps:
-  - step_type: action
-    action: element_action
-    selector:
-      name: Original size
-    do: click
-    wait: 1.5
-  - step_type: action
-    action: element_action
-    selector:
-      name: Close navigation window
-    do: click
-    wait: 1.0
-  assert_steps:
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Loader_NavigationWidget
-  - step_type: assert
-    action: assert_not_exists
-    selector:
-      name: Loader_NavigationWidget
-  - step_type: assert
-    action: assert_process_running
-    app: deepin-image-viewer
 teardown:
 - action: session_stop

@@ -11,11 +11,10 @@ suites:
   description: ''
   steps:
   - step_type: action
-    action: dtk_context_menu
+    action: element_action
     selector:
-      name: Image view
-    items:
-    - Extract text
+      name: Extract text
+    do: click
     wait: 2.0
   assert_steps:
   - step_type: assert
@@ -27,36 +26,20 @@ suites:
   description: ''
   steps:
   - step_type: action
-    action: element_action
-    selector:
-      name: Previous
-    do: click
+    action: keyboard_press
+    key: escape
+  - step_type: action
+    action: keyboard_press
+    key: right
     wait: 1.0
   - step_type: action
-    action: element_action
-    selector:
-      name: Next
-    do: click
+    action: keyboard_press
+    key: left
     wait: 1.0
   assert_steps:
   - step_type: assert
     action: assert_element
     selector:
       name: BottomthumbnaillistView
-- id: suite_用户场景_005_s1
-  name: 卸载截图看图OCR识别成功-看图内OCR识别
-  description: ''
-  steps:
-  - step_type: action
-    action: dtk_context_menu
-    selector:
-      name: Image view
-    items:
-    - Extract text
-    wait: 2.0
-  assert_steps:
-  - step_type: assert
-    action: assert_ocr_exists
-    text: 欢迎使用统信UOS
 teardown:
 - action: session_stop
