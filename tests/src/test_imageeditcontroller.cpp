@@ -26,6 +26,7 @@
 // | pixelRect(const QRectF&)（private，经 crop/applyEffect 间接覆盖） | low | - | 1 | 3 |
 // | redo() | low | - | 1 | 3 |
 // | revision() | low | - | 1 | 2 |
+// | rotateClockwise() | low | - | 1 | 2 |
 // | saveComposite(const QUrl&,const QVariantList&) | high | complexity:17,alloc_in_loop:1 | 4 | 8 |
 // | undo() | low | - | 1 | 4 |
 // | EditedImageProvider(ImageEditController*) | low | - | 1 | 2 |
@@ -1745,4 +1746,45 @@ TEST_F(ImageEditControllerTest, RequestImage_EmptyImageWithValidSize_ReturnsNull
     // Assert
     EXPECT_TRUE(image.isNull());           // result.isNull → 不走缩放分支
     EXPECT_EQ(reportedSize, QSize(0, 0));
+}
+
+// ─── rotateClockwise（补测：inventory 缺失，按 lcov FNDA 补直接调用用例）───
+// 分支（来源：imageeditcontroller.cpp:371-384）：
+// B1: m_image.isNull() → return false
+// B2: 非空 → QTransform 旋转 90° + ++m_revision + emit revisionChanged → return true
+// 映射： RotateClockwise_ActiveImage_ReturnsTrueSwapsSizeAndBumpsRevision → B2
+//        RotateClockwise_WithoutImage_ReturnsFalseWithoutSignals          → B1
+
+TEST_F(ImageEditControllerTest, RotateClockwise_ActiveImage_ReturnsTrueSwapsSizeAndBumpsRevision)
+{
+    // Arrange：12x6 非方图进入编辑会话；记录版本与 revisionChanged 信号
+    const QString path = dir.filePath(QStringLiteral("wide.png"));
+    makeSolidImage(12, 6, QColor(20, 160, 240)).save(path, "PNG");
+    ASSERT_TRUE(controller->beginEdit(QUrl::fromLocalFile(path)));
+    const int revisionBefore = controller->revision();
+    QSignalSpy spy(controller, &ImageEditController::revisionChanged);
+
+    // Act
+    const bool ret = controller->rotateClockwise();
+
+    // Assert：非空图旋转 90 度成功——宽高互换、版本 +1、发一次 revisionChanged
+    EXPECT_TRUE(ret);  // branch: m_image 非空
+    EXPECT_EQ(controller->image().size(), QSize(6, 12));
+    EXPECT_EQ(controller->revision(), revisionBefore + 1);
+    EXPECT_EQ(spy.count(), 1);
+}
+
+TEST_F(ImageEditControllerTest, RotateClockwise_WithoutImage_ReturnsFalseWithoutSignals)
+{
+    // Arrange：未 beginEdit，控制器无图
+    ASSERT_TRUE(controller->image().isNull());
+    QSignalSpy spy(controller, &ImageEditController::revisionChanged);
+
+    // Act
+    const bool ret = controller->rotateClockwise();
+
+    // Assert：m_image.isNull() 早退——返回 false、版本不变、无信号（强异常安全）
+    EXPECT_FALSE(ret);  // branch: m_image.isNull()
+    EXPECT_EQ(controller->revision(), 0);
+    EXPECT_EQ(spy.count(), 0);
 }

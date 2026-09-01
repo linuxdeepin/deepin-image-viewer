@@ -22,6 +22,9 @@
 // | rotateImageFIleWithImage | high | complexity:8,cognitive:16 | 3 | 5 |
 // | rotateImageFile | high | complexity:9,cognitive:21 | 3 | 6 |
 // | size2Human | mid | complexity:6,cognitive:17 | 2 | 9 |
+// | supportMovieFormat | low | - | 1 | 1 |
+// | supportStaticFormat | low | - | 1 | 1 |
+// | unionImageSupportFormat | low | - | 1 | 1 |
 // | unionImageVersion | low | - | 1 | 1 |
 // | UnionImage_Private ctor | mid | - | 2 | 2 |
 // | ~UnionImage_Private | low | - | 1 | 1 |
@@ -1487,4 +1490,58 @@ TEST_F(UnionImage_PrivateTest, UnionImage_Private_Destructor_CleansUpWithoutErro
     // Assert
     EXPECT_EQ(supportedCount, 54);
     EXPECT_EQ(canSaveCount, 9);
+}
+
+// ─── 支持格式查询三函数（补测：lcov FNDA:0，stub.clear() 后直连真实函数）───
+// 实现（unionimage.cpp:238-261）：
+// - supportStaticFormat()    → 返回 union_image_private.m_qtSupported（54 项静态表）
+// - supportMovieFormat()     → 返回 union_image_private.m_movie_formats.keys()
+// - unionImageSupportFormat()→ 首次调用把 m_qtSupported 填入函数内 static res 后返回
+// 映射： SupportStaticFormat_QueryTable_ReturnsNonEmptyKnownFormats       → 直连真实函数
+//        SupportMovieFormat_QueryTable_ReturnsEmptyUnpopulatedList       → 直连真实函数
+//        UnionImageSupportFormat_QueryMergedTable_MatchesStaticFormat    → 直连真实函数
+// 缺陷注记（只标红不修改）：m_movie_formats 在源码中无任何填充点，
+// supportMovieFormat() 恒返回空表（见 SupportMovieFormat 用例断言）。
+
+TEST_F(FreeUnionImageTest, SupportStaticFormat_QueryTable_ReturnsNonEmptyKnownFormats)
+{
+    // Arrange：确保无桩生效（fixture SetUp 已 clear，再显式清一次防串扰）
+    stub.clear();
+
+    // Act
+    const QStringList formats = LibUnionImage_NameSpace::supportStaticFormat();
+
+    // Assert：静态格式表非空且含常见格式（BMP/PNG/GIF 均在 m_qtSupported 中）
+    EXPECT_GE(formats.size(), 3);
+    EXPECT_TRUE(formats.contains(QStringLiteral("BMP")));
+    EXPECT_TRUE(formats.contains(QStringLiteral("PNG")));
+    EXPECT_TRUE(formats.contains(QStringLiteral("GIF")));
+}
+
+TEST_F(FreeUnionImageTest, SupportMovieFormat_QueryTable_ReturnsEmptyUnpopulatedList)
+{
+    // Arrange：同上，直连真实函数
+    stub.clear();
+
+    // Act
+    const QStringList movieFormats = LibUnionImage_NameSpace::supportMovieFormat();
+
+    // Assert：m_movie_formats 无填充点 → 恒为空表（缺陷注记，真实行为固化）；
+    // 静态格式表非空作对照，证明并非查询机制整体失效
+    EXPECT_EQ(movieFormats.size(), 0);
+    EXPECT_FALSE(LibUnionImage_NameSpace::supportStaticFormat().isEmpty());
+}
+
+TEST_F(FreeUnionImageTest, UnionImageSupportFormat_QueryMergedTable_MatchesStaticFormat)
+{
+    // Arrange：本用例不得让 SupportedImageFormats 式的 unionImageSupportFormat 桩生效
+    stub.clear();
+
+    // Act
+    const QStringList formats = LibUnionImage_NameSpace::unionImageSupportFormat();
+
+    // Assert：与静态格式表同源（首次调用填充函数内 static 缓存），非空且含 GIF
+    EXPECT_FALSE(formats.isEmpty());
+    EXPECT_TRUE(formats.contains(QStringLiteral("GIF")));
+    EXPECT_EQ(formats, LibUnionImage_NameSpace::supportStaticFormat());
 }

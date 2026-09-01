@@ -12,7 +12,7 @@
 // | isSet | mid | - | 2 | 3 |
 // | value | mid | - | 2 | 2 |
 // | positionalArguments | mid | - | 2 | 4 |
-// | process | mid | - | 2 | 3 |
+// | process | mid | - | 2 | 4 |
 // | quickPrint | low | - | 1 | 2 |
 // ─── actual 均不低于 min ───
 // 注：isSet 3 例 / positionalArguments 4 例为 TEST_P 参数化实例数。
@@ -39,6 +39,7 @@
 // 映射： Process_OptionArgument_KeptAsIsAndFlagRecognized            → B2
 //        Process_EncodedPositionalArgument_PercentDecoded            → B1
 //        Process_MixedArguments_FlagAndEncodedPositionalParsed       → B1+B2
+//        Process_SecondCall_ReplacesPreviousParseState               → B1+B2+B3（重复解析状态替换）
 //        PositionalArguments_NoFileArguments_ReturnsEmpty            → B3(0)
 //        PositionalArguments_SingleFileArgument_ReturnsOneEntry      → B3(1)
 //        PositionalArguments_MultipleEncodedFileArguments_ReturnsDecodedList → B1+B3(N)
@@ -57,6 +58,7 @@
 #include <gtest/gtest.h>
 
 #include <QCommandLineOption>
+#include <QCoreApplication>
 #include <QStringList>
 
 #include "stub_ext/stubext.h"
@@ -357,4 +359,38 @@ TEST_F(CommandParserTest, QuickPrint_MultiplePositionalArguments_ShowsPrintDialo
     // Assert：弹一次对话框，文件列表为解码后的位置参数
     EXPECT_EQ(dialogCalls, 1);
     EXPECT_EQ(capturedPaths, (QStringList{"a.png", "img b.png"}));
+}
+
+// ─── process（补测：重复解析的状态替换语义）───
+
+TEST_F(CommandParserTest, Process_SecondCall_ReplacesPreviousParseState)
+{
+    // Arrange：首轮解析带 print 选项与一个百分号编码位置参数
+    obj->process(QStringList{"app", "--print", "dir%2Fpic.png"});
+    ASSERT_EQ(obj->isSet("print"), true);
+    ASSERT_EQ(obj->positionalArguments(), (QStringList{"dir/pic.png"}));
+
+    // Act：第二轮仅携带一个普通位置参数（QCommandLineParser::parse 每轮整体重置）
+    obj->process(QStringList{"app", "plain.png"});
+
+    // Assert：选项与位置参数均为第二轮状态，无首轮残留
+    EXPECT_EQ(obj->isSet("print"), false);  // branch: 重复 process 后选项表被重置
+    EXPECT_EQ(obj->positionalArguments(), (QStringList{"plain.png"}));
+    EXPECT_TRUE(obj->value("print").isEmpty());
+}
+
+TEST_F(CommandParserTest, Process_NoArgOverload_ParsesCoreApplicationArguments)
+{
+    // Arrange：无参 process() 重载内部取 QCoreApplication::arguments() 再走带参流程；
+    // stub 成员函数指针取不到（static），用 static_cast 到函数指针消歧注入
+    stub.set_lamda(static_cast<QStringList (*)()>(&QCoreApplication::arguments),
+                   []() { return QStringList{"app", "--print", "out%20dir"}; });
+
+    // Act
+    obj->process();
+
+    // Assert：静态入口的参数被同样解码解析（注意：process 对未定义选项会 exit(1)，
+    // 故只使用 initOptions 注册过的 "print"）
+    EXPECT_EQ(obj->isSet("print"), true);
+    EXPECT_EQ(obj->positionalArguments(), (QStringList{"out dir"}));
 }

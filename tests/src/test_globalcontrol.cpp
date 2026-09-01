@@ -5,7 +5,7 @@
 // 用例计数声明（self-check-structural 验证此块）：
 // | method | level | factors | min | actual |
 // |--------|-------|---------|-----|--------|
-// | GlobalControl | low | - | 1 | 1 |
+// | GlobalControl | low | - | 1 | 3 |
 // | ~GlobalControl | low | - | 1 | 1 |
 // | addImageAndSetCurrentSource | low | - | 1 | 7 |
 // | checkSwitchEnable | mid | complexity:5 | 2 | 6 |
@@ -63,6 +63,15 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+// gcov 计数转储（GCC 专属）。
+// 注意 1：必须 extern "C" 强引用——gcov.h 的声明无 extern "C" 包裹，C++ 直用会被
+// 名字修饰成 __gcov_dump() 未定义；弱引用又不会把 libgcov.a 的 gcov-interface.o
+// 拉进链接（__gcov_dump 恒为空指针，fork 子进程覆盖数据静默丢失，实测 FNDA 恒 0）。
+// 注意 2：tests/CMakeLists.txt 固定注入 -fprofile-arcs -ftest-coverage，本目标必然
+// 处于 coverage 构建形态，强引用安全。
+extern "C" void __gcov_dump(void);
+#define UT_GCOV_DUMP() __gcov_dump()
 
 #include "stub_ext/stubext.h"
 
@@ -1666,7 +1675,9 @@ TEST_F(GlobalControlTest, ForceExit_InChildProcess_ExitsWithCodeZero)
     //    （addrof 解析到未对齐地址触发 SEGV），不可用；
     // 2) fork 后直接执行真实 QApplication::exit 在重负载前置用例后可能因 fork 时刻
     //    Qt 内部锁被占用而死锁，故子进程内仅对 QApplication::exit 打 stub（已验证安全），
-    //    _Exit(0) 保持真实路径以验证退出码。
+    //    _Exit(0) 保持真实路径以验证退出码；
+    // 3) _Exit 跳过 exit 处理不会刷 gcov 计数（FNDA 恒为 0），故在 QApplication::exit
+    //    桩内先 __gcov_dump() 落盘——此时 forceExit 已执行到桩调用点，计数完整。
     ASSERT_NE(ctrl, nullptr);
     EXPECT_EQ(ctrl->currentRotation(), 0);
 
@@ -1674,11 +1685,14 @@ TEST_F(GlobalControlTest, ForceExit_InChildProcess_ExitsWithCodeZero)
     const pid_t pid = fork();
     ASSERT_GE(pid, 0);
     if (pid == 0) {
-        // 子进程：仅隔离会触碰 Qt 内部锁的 QApplication::exit，_Exit 走真实路径
+        // 子进程：仅隔离会触碰 Qt 内部锁的 QApplication::exit，_Exit 走真实路径；
+        // 桩内先转储 gcov 计数再返回，使 forceExit 的覆盖数据在 _Exit 前落盘
         stub_ext::StubExt childStub;
         childStub.set_lamda(static_cast<void (*)(int)>(&QApplication::exit),
-                            [](int) {});
-        ctrl->forceExit();  // 子进程不应返回：_Exit(0) 直接终止
+                            [](int) {
+                                UT_GCOV_DUMP();
+                            });
+        ctrl->forceExit();  // 子进程不应返回：_Exit(0) 直接终止（计数已在桩内转储）
         _exit(1);           // 防御：意外返回时以非零码退出以便区分
     }
     // 父进程：看门狗等待（2 秒上限），任何意外情况都不允许挂死测试进程
@@ -1744,6 +1758,50 @@ TEST_F(GlobalControlTest, ViewModel_AfterSetImageFiles_StillReturnsSameInstance)
     EXPECT_NE(proxy, nullptr);
     EXPECT_EQ(proxy->rowCount(QModelIndex()), 5);
     EXPECT_EQ(ctrl->viewModel(), proxy);
+}
+
+// ── 构造函数 rotateImageFinished 连接（补测：对 sender 单例直接 emit 驱动 ctor lambda）───
+// 分支（来源：get_code_snippet GlobalControl ctor globalcontrol.cpp:38-44）：
+// B1: path == currentImage.source().toLocalFile() → submitImageChangeImmediately()
+// B2: 路径不匹配 → 仅记录日志，无副作用
+// 映射： GlobalControl_RotateFinishedHook_MatchingPathSubmitsPendingRotation    → B1
+//        GlobalControl_RotateFinishedHook_MismatchedPathKeepsPendingRotation    → B2
+
+TEST_F(GlobalControlTest, GlobalControl_RotateFinishedHook_MatchingPathSubmitsPendingRotation)
+{
+    // Arrange：三张图打开 b.png 并挂起 90 度未提交旋转；lambda 已在构造函数中连接到
+    // RotateImageHelper::instance() 的 rotateImageFinished 信号
+    const QList<QUrl> urls = loadThreeImages();
+    ctrl->setCurrentRotation(90);
+    ASSERT_EQ(ctrl->currentRotation(), 90);
+    QSignalSpy spyRotate(ctrl, &GlobalControl::requestRotateImage);
+
+    // Act：对 sender 单例直接 emit，路径与当前图一致
+    Q_EMIT RotateImageHelper::instance()->rotateImageFinished(urls.at(1).toLocalFile(), true);
+
+    // Assert：B1 命中 → submitImageChangeImmediately 发出 (路径, 90) 请求并复位角度
+    EXPECT_EQ(spyRotate.count(), 1);
+    EXPECT_EQ(spyRotate.at(0).at(0).toString(), urls.at(1).toLocalFile());
+    EXPECT_EQ(spyRotate.at(0).at(1).toInt(), 90);
+    EXPECT_EQ(ctrl->currentRotation(), 0);
+}
+
+TEST_F(GlobalControlTest, GlobalControl_RotateFinishedHook_MismatchedPathKeepsPendingRotation)
+{
+    // Arrange：挂起 90 度旋转，准备与当前图不同的路径
+    const QList<QUrl> urls = loadThreeImages();
+    ctrl->setCurrentRotation(90);
+    ASSERT_EQ(ctrl->currentRotation(), 90);
+    QSignalSpy spyRotate(ctrl, &GlobalControl::requestRotateImage);
+    const QString otherPath = tempDir.filePath(QStringLiteral("other.png"));
+
+    // Act：emit 的路径与当前图不匹配
+    Q_EMIT RotateImageHelper::instance()->rotateImageFinished(otherPath, true);
+
+    // Assert：B2 —— 不提交，挂起旋转与当前源原样保留（强异常安全）
+    EXPECT_EQ(spyRotate.count(), 0);
+    EXPECT_EQ(ctrl->currentRotation(), 90);
+    EXPECT_EQ(ctrl->currentSource(), urls.at(1));
 }
 
 // ═══════════════════ 源码缺陷标红清单（只标红，不修改源码）═══════════════════
