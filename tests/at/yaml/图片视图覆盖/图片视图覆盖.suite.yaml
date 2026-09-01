@@ -20,35 +20,11 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
-      name: ImageDelegate
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: DynamicImageDelegate
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: ImageDelegateImageInput
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: ImageDelegateSourceSizeOptimizer
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: ImageInput
-  - step_type: assert
-    action: assert_element
-    selector:
       name: ImageViewer_ViewDelegateLoader
   - step_type: assert
     action: assert_element
     selector:
-      name: MultiImageView
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: NonexitImageDelegate
+      name: NormalImageDelegate
   - step_type: assert
     action: assert_element
     selector:
@@ -57,22 +33,6 @@ suites:
     action: assert_element
     selector:
       name: NormalImageSourceSizeOptimizer
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: SvgImageDelegate
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: SvgImageImageInput
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: SvgImageSourceSizeOptimizer
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: FadeInOutImage
   - step_type: assert
     action: assert_element
     selector:

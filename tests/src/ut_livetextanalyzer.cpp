@@ -118,6 +118,7 @@ TEST_F(ut_livetextanalyzer, SetImage_ValidImage_CachesImage)
     ut_lt_installCtorStubs(stub);
     stub.set(ADDR(DeepinOCRDriver, setMatrix), ut_lt_stub_setMatrix);
     LiveTextAnalyzer analyzer;
+    analyzer.pixelRatio = 1.0;
     QImage img(32, 32, QImage::Format_RGB32);
     img.fill(Qt::red);
     analyzer.setImage(img);

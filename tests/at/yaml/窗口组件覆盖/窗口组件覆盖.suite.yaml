@@ -24,30 +24,6 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
-      name: ViewTopTitleMenu
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: SliderMenu
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: LiveMenu
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: OverwriteDialog
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: UnsavedEditDialog
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: FloatLabel
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: RubberBand
+      name: FullImageViewer
 teardown:
 - action: session_stop

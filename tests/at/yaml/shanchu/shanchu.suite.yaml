@@ -3,7 +3,7 @@ app: deepin-image-viewer
 module: shanchu
 setup:
 - action: session_start
-  command: deepin-image-viewer
+  command: tests/at/launch.sh
   wait: 3.0
 suites:
 - id: suite_shanchu_001_s1

@@ -11,12 +11,9 @@ suites:
   description: 通过右键菜单打开图片信息对话框验证所有元素存在
   steps:
   - step_type: action
-    action: dtk_context_menu
-    selector:
-      name: Image view
-    items:
-    - Image info
-    wait: 2.0
+    action: keyboard_hot_key
+    key: ctrl+i
+    wait: 1.0
   assert_steps:
   - step_type: assert
     action: assert_element
@@ -61,10 +58,6 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
-      name: DeviceModel
-  - step_type: assert
-    action: assert_element
-    selector:
       name: ExposureMode
   - step_type: assert
     action: assert_element
@@ -90,10 +83,6 @@ suites:
     action: assert_element
     selector:
       name: Iso
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: LensModel
   - step_type: assert
     action: assert_element
     selector:

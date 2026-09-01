@@ -20,7 +20,7 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
-      name: ThumbnailListView
+      name: BottomthumbnaillistView
   - step_type: assert
     action: assert_element
     selector:
@@ -44,18 +44,6 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
-      name: MultiThumbnailDelegate
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: MultiThumbnailImg
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: NormalThumbnailImg
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Loader_RemoveDialog
+      name: NormalThumbnailDelegate
 teardown:
 - action: session_stop

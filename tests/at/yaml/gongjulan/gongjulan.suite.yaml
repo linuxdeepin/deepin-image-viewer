@@ -17,18 +17,10 @@ suites:
   - step_type: action
     action: element_action
     selector:
-      name: 下一张
+      name: Next
     do: click
     wait: 1.0
   assert_steps:
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Loader_InformationDialog
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Loader_InformationDialog
   - step_type: assert
     action: assert_element
     selector:
@@ -40,7 +32,7 @@ suites:
   - step_type: action
     action: element_action
     selector:
-      name: 下一张
+      name: Next
     do: click
     wait: 1.0
   assert_steps:
@@ -58,12 +50,14 @@ suites:
   - step_type: action
     action: element_action
     selector:
-      name: 识别文字
+      name: Extract text
     do: click
     wait: 2.0
   assert_steps:
   - step_type: assert
-    action: assert_window
+    action: assert_element
+    selector:
+      name: LiveTextWidget
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer

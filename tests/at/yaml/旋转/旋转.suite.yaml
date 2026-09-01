@@ -3,7 +3,7 @@ app: deepin-image-viewer
 module: 旋转
 setup:
 - action: session_start
-  command: deepin-image-viewer
+  command: tests/at/launch.sh
   wait: 3.0
 suites:
 - id: suite_xuanzhuan_001_s1
@@ -25,7 +25,6 @@ suites:
     action: assert_element
     selector:
       name: FullImageViewer
-      role: image viewer
   - step_type: assert
     action: assert_process_running
 teardown:

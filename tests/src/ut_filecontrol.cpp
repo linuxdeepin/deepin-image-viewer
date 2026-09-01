@@ -25,6 +25,10 @@
 #include <QElapsedTimer>
 #include <QEventLoop>
 #include <QTimer>
+#include <QDBusPendingCall>
+
+#include <fcntl.h>
+#include <unistd.h>
 
 void ut_filecontrol::SetUp()
 {
@@ -113,6 +117,28 @@ static QString ut_fc_makeImage(const QTemporaryDir &dir, const QString &name)
 // 桩: 替换 PrintHelper::showPrintDialog, 避免弹出真实打印对话框(首参为 this)
 static void ut_fc_stub_showPrintDialog(PrintHelper *, const QStringList &, QWidget *)
 {
+}
+
+static bool ut_fc_lockSucceeds = true;
+
+static int ut_fc_stub_open(const char *, int, ...)
+{
+    return 42;
+}
+
+static int ut_fc_stub_lockf(int, int, off_t)
+{
+    return ut_fc_lockSucceeds ? 0 : -1;
+}
+
+static bool ut_fc_stub_pendingCallFinished(const QDBusPendingCall *)
+{
+    return true;
+}
+
+static bool ut_fc_stub_pendingCallHasError(const QDBusPendingCall *)
+{
+    return false;
 }
 
 // resetImageFiles: 重设监控列表并清空不崩溃
@@ -274,6 +300,10 @@ TEST_F(ut_filecontrol, ParseCommandlineGetPath_NoImageInArgs_ReturnsEmpty)
 TEST_F(ut_filecontrol, IsCheckOnly_FirstCall_ReturnsTrue)
 {
     FileControl control;
+    Stub stub;
+    ut_fc_lockSucceeds = true;
+    stub.set(open, ut_fc_stub_open);
+    stub.set(lockf, ut_fc_stub_lockf);
     EXPECT_TRUE(control.isCheckOnly());
 }
 
@@ -564,19 +594,16 @@ TEST_F(ut_filecontrol, SetWallpaper_NonNullPath)
 TEST_F(ut_filecontrol, DeleteImagePath_ValidUrl)
 {
     FileControl control;
-    QTemporaryFile tmp("ut_delete_XXXXXX.png");
-    tmp.setAutoRemove(true);
-    ASSERT_TRUE(tmp.open());
-    QImage img(4, 4, QImage::Format_ARGB32);
-    img.fill(Qt::red);
-    img.save(&tmp, "PNG");
-    tmp.close();
+    Stub stub;
+    stub.set(ADDR(QDBusPendingCall, isFinished), ut_fc_stub_pendingCallFinished);
+    stub.set(ADDR(QDBusPendingCall, isError), ut_fc_stub_pendingCallHasError);
 
-    QString url = QUrl::fromLocalFile(tmp.fileName()).toString();
-    // DBus Trash may not be available; file should still exist after call
-    bool result = control.deleteImagePath(url);
-    // Result depends on DBus availability; just ensure no crash
-    SUCCEED();
+    QTemporaryDir dir;
+    ASSERT_TRUE(dir.isValid());
+    const QString path = dir.filePath("already-removed.png");
+    ASSERT_FALSE(QFileInfo::exists(path));
+
+    EXPECT_TRUE(control.deleteImagePath(QUrl::fromLocalFile(path).toString()));
 }
 
 // deleteImagePath with invalid URL
@@ -783,13 +810,15 @@ TEST_F(ut_filecontrol, GetlastHeight)
     EXPECT_GE(height, 300);
 }
 
-// isCheckOnly (covers L825-862)
-TEST_F(ut_filecontrol, IsCheckOnly)
+// isCheckOnly: 锁定失败返回 false
+TEST_F(ut_filecontrol, IsCheckOnly_LockFailure_ReturnsFalse)
 {
     FileControl control;
-    bool result = control.isCheckOnly();
-    // Should succeed in test environment
-    EXPECT_TRUE(result);
+    Stub stub;
+    ut_fc_lockSucceeds = false;
+    stub.set(open, ut_fc_stub_open);
+    stub.set(lockf, ut_fc_stub_lockf);
+    EXPECT_FALSE(control.isCheckOnly());
 }
 
 // isCanSupportOcr with valid image (covers L836-843)
