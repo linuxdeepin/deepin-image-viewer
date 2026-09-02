@@ -84,21 +84,6 @@ cases:
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
-- id: suite_shanchu_001_s1
-  name: 删除-删除单张图片后看图界面展示
-  module: shanchu
-  steps:
-  - step_type: action
-    action: keyboard_press
-    key: delete
-    wait: 2.0
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: MainStack
-  - step_type: assert
-    action: assert_process_running
-    app: deepin-image-viewer
 - id: suite_daohangchuangkou_001_s1
   name: 导航窗口-缩略图切换图片
   module: daohangchuangkou

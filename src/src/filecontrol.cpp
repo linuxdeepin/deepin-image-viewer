@@ -28,6 +28,7 @@
 #include <QUrl>
 #include <QDebug>
 #include <QLoggingCategory>
+#include <QStandardPaths>
 
 #include <iostream>
 #include <sys/types.h>
@@ -816,18 +817,16 @@ bool FileControl::isSupportSetWallpaper(const QString &path)
 bool FileControl::isCheckOnly()
 {
     qCDebug(logImageViewer) << "FileControl::isCheckOnly() called.";
-    // single
-    QString userName = QDir::homePath().section("/", -1, -1);
-    std::string path = ("/home/" + userName + "/.cache/deepin/deepin-image-viewer/").toStdString();
-    QDir tdir(path.c_str());
-    qCDebug(logImageViewer) << "Cache directory path: " << QString::fromStdString(path);
+    QString cachePath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    QDir tdir(cachePath);
+    qCDebug(logImageViewer) << "Cache directory path: " << cachePath;
     if (!tdir.exists()) {
         qCDebug(logImageViewer) << "Cache directory does not exist, attempting to create.";
-        bool ret = tdir.mkpath(path.c_str());
+        bool ret = tdir.mkpath(cachePath);
         qCDebug(logImageViewer) << "Cache directory creation result: " << ret;
     }
 
-    path += "single";
+    std::string path = tdir.filePath("single").toStdString();
     qCDebug(logImageViewer) << "Attempting to open lockfile: " << QString::fromStdString(path);
     int fd = open(path.c_str(), O_WRONLY | O_CREAT, 0644);
     int flock = lockf(fd, F_TLOCK, 0);

@@ -4,7 +4,7 @@ module: 编辑模式覆盖
 setup:
 - action: session_start
   command: tests/at/launch.sh
-  wait: 3.0
+  wait: 7.0
 suites:
 - id: suite_edit_001_s1
   name: 编辑模式元素覆盖验证

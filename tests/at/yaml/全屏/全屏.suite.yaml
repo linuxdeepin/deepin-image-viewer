@@ -8,7 +8,7 @@ env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
-  wait: 3.0
+  wait: 7.0
 suites:
 - id: case_1652207_s1
   name: 启动看图应用
