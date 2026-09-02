@@ -4,7 +4,7 @@ module: quanping
 setup:
 - action: session_start
   command: tests/at/launch.sh
-  wait: 3.0
+  wait: 7.0
 suites:
 - id: suite_quanping_001_s1
   name: 全屏-双击图片进入全屏

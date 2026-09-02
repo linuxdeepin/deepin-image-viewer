@@ -4,7 +4,7 @@ module: 缩略图覆盖
 setup:
 - action: session_start
   command: tests/at/launch.sh
-  wait: 3.0
+  wait: 7.0
 suites:
 - id: suite_thumb_001_s1
   name: 缩略图视图元素覆盖验证

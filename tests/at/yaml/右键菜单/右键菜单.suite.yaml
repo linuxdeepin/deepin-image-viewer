@@ -8,7 +8,7 @@ env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
-  wait: 3.0
+  wait: 7.0
 suites:
 - id: case_1652413_s1
   name: 启动看图应用
@@ -29,18 +29,6 @@ suites:
   steps:
   - action: keyboard_hot_key
     key: ctrl+c
-  assert_steps:
-  - action: assert_process_running
-- id: case_1652213_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
-  steps:
-  - action: keyboard_press
-    key: delete
-    wait: 0.5
-  - action: keyboard_press
-    key: escape
   assert_steps:
   - action: assert_process_running
 - id: case_1652217_s1

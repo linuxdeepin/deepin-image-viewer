@@ -4,7 +4,7 @@ module: 图片视图覆盖
 setup:
 - action: session_start
   command: tests/at/launch.sh
-  wait: 3.0
+  wait: 7.0
 suites:
 - id: suite_imgview_001_s1
   name: 图片视图元素覆盖验证

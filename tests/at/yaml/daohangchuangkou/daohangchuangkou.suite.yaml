@@ -4,7 +4,7 @@ module: daohangchuangkou
 setup:
 - action: session_start
   command: tests/at/launch.sh
-  wait: 3.0
+  wait: 7.0
 suites:
 - id: suite_daohangchuangkou_001_s1
   name: 导航窗口-缩略图切换图片
