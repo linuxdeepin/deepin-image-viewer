@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -23,13 +23,18 @@ Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 PrintHelper *PrintHelper::m_Printer = nullptr;
 
-PrintHelper *PrintHelper::getIntance()
+PrintHelper *PrintHelper::getInstance()
 {
     if (!m_Printer) {
         qCDebug(logImageViewer) << "Creating new PrintHelper instance";
         m_Printer = new PrintHelper();
     }
     return m_Printer;
+}
+
+PrintHelper *PrintHelper::getIntance()
+{
+    return getInstance();
 }
 
 PrintHelper::PrintHelper(QObject *parent)
@@ -116,6 +121,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
                 imgReadreder.jumpToImage(imgindex);
                 m_re->m_imgs << imgReadreder.read();
             }
+            tempExsitPaths << path;
         } else {
             qCDebug(logImageViewer) << "Loading single image:" << path;
             // QImage不应该多次赋值，所以换到这里来，修复style问题
@@ -124,11 +130,11 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             if (!img.isNull()) {
                 qCDebug(logImageViewer) << "Loaded single image:" << path << "size:" << img.size();
                 m_re->m_imgs << img;
+                tempExsitPaths << path;
             } else {
                 qCWarning(logImageViewer) << "Failed to load image:" << path << "error:" << errMsg;
             }
         }
-        tempExsitPaths << paths;
     }
 
     // 看图采用同步,因为只有一张图片
@@ -162,8 +168,8 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 }
 
 RequestedSlot::RequestedSlot(QObject *parent)
+    : QObject(parent)
 {
-    Q_UNUSED(parent)
     qCDebug(logImageViewer) << "RequestedSlot instance created";
 }
 
@@ -190,7 +196,7 @@ void RequestedSlot::paintRequestSync(DPrinter *_printer)
             ratio = wRect.width() * 1.0 / img.width();
             if (qreal(wRect.height() - img.height() * ratio) > 0) {
                 qCDebug(logImageViewer) << "Fitting image to width, ratio:" << ratio;
-                painter.drawImage(QRectF(0, abs(qreal(wRect.height() - img.height() * ratio)) / 2,
+                painter.drawImage(QRectF(0, qAbs(qreal(wRect.height() - img.height() * ratio)) / 2,
                                          wRect.width(), img.height() * ratio),
                                   img);
             } else {

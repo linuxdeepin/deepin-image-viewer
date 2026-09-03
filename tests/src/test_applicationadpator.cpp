@@ -32,8 +32,8 @@
 // ─────────────────────────────────────────────────────────────
 // ApplicationAdaptor::openImageFile(const QString &fileName)
 // B1: fileControl == nullptr                          → 跳过全部检查 return false
-// B2: inputUrl.isLocalFile() ? toLocalFile() : fileName（三元）→ file:// URL 走 toLocalFile，
-//     裸路径/相对路径/空串/远程 URL 原样作为 localPath，再经 fromLocalFile 归一化为 file: 形态
+// B2: inputUrl.isLocalFile() ? fromLocalFile(toLocalFile()) : inputUrl（三元）→ file:// URL
+//     解包再封包归一化；其余输入（裸路径/相对路径/空串/远程 URL）原样保留，不折叠为 file: 形态
 // B3: !fileControl->isCanReadable(urlPath)（&& 短路）  → return false，isImage 不被调用
 // B4: isCanReadable && !isImage                       → return false，不发射信号
 // B5: isCanReadable && isImage                        → Q_EMIT openImageFile(urlPath) return true
@@ -41,8 +41,9 @@
 //        ApplicationAdaptor_ConstructWithNullController_NoParentAttached          → ctor(空)
 //        OpenImageFile_NullController_ReturnsFalseWithoutControllerChecks         → B1
 //        OpenImageFile_VariousInputs_ReturnsExpected (TEST_P)                     → B2/B3/B4/B5
-//   其中参数组：file-url+ok→B5；裸绝对路径→B2(假)+B5；相对路径→B2(假)+B5；
-//              空串→B2(假)+B5(退化归一化)；远程 URL→B2(假)+B5；
+//   其中参数组：file-url+ok→B2(真)+B5；裸绝对路径→B2(假)+B5（原样透传）；
+//              相对路径→B2(假)+B5（原样透传）；空串→B2(假)+B5（空串往返）；
+//              远程 URL→B2(假)+B5（不折叠，生产 isCanReadable 会拒绝远程）；
 //              不可读→B3(短路)；可读非图像→B4
 
 #include <gtest/gtest.h>
@@ -239,14 +240,15 @@ INSTANTIATE_TEST_SUITE_P(
     ::testing::Values(
         // B2(真) + B5：file:// URL 解包再封包，url 原样往返
         OpenFileCase{"file:///virtual/pic.png", true, true, true, "file:///virtual/pic.png", 1, 1},
-        // B2(假) + B5：裸绝对路径归一化为 file:// 形态（Qt6 实测 QUrl(裸路径).isLocalFile()==false）
-        OpenFileCase{"/virtual/pic.png", true, true, true, "file:///virtual/pic.png", 1, 1},
-        // B2(假) + B5：相对路径归一化为 "file:pic.png"（无斜杠，Qt6 实测）
-        OpenFileCase{"pic.png", true, true, true, "file:pic.png", 1, 1},
-        // B2(假) + B5：空串边界——fromLocalFile("") 退化为空串
+        // B2(假) + B5：裸绝对路径原样透传（QUrl(裸路径).isLocalFile()==false，Qt6 实测）
+        OpenFileCase{"/virtual/pic.png", true, true, true, "/virtual/pic.png", 1, 1},
+        // B2(假) + B5：相对路径原样透传
+        OpenFileCase{"pic.png", true, true, true, "pic.png", 1, 1},
+        // B2(假) + B5：空串边界——QUrl("") 往返仍为空串
         OpenFileCase{"", true, true, true, "", 1, 1},
-        // B2(假) + B5：远程 URL 被折叠为 file: 前缀形态（现状行为锚定）
-        OpenFileCase{"http://media.host/pic.png", true, true, true, "file:http://media.host/pic.png", 1, 1},
+        // B2(假) + B5：远程 URL 不再折叠为 file: 伪 URL，原样透传
+        //（生产 isCanReadable 对非本地 URL 的 toLocalFile 为空，会拒绝远程）
+        OpenFileCase{"http://media.host/pic.png", true, true, true, "http://media.host/pic.png", 1, 1},
         // B3：isCanReadable 短路失败，isImage 不被调用、不发信号
         OpenFileCase{"file:///virtual/pic.png", false, false, false, "file:///virtual/pic.png", 0, 0},
         // B4：可读但非图像，不发信号

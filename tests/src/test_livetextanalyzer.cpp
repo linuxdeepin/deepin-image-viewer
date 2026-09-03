@@ -4,13 +4,13 @@
 // 用例计数声明（self-check-structural 验证此块）：
 // | method | level | factors | min | actual |
 // |--------|-------|---------|-----|--------|
-// | LiveTextAnalyzer(parent) | low | - | 1 | 3 |
+// | LiveTextAnalyzer() | low | - | 1 | 2 |
 // | ~LiveTextAnalyzer | low | - | 1 | 1 |
 // | setImage(image) | low | - | 1 | 3 |
 // | analyze(token) | low | - | 1 | 2 |
 // | breakAnalyze() | low | - | 1 | 2 |
 // | liveBlock() | mid | - | 2 | 2 |
-// | charBox(blockIndex) | mid | - | 2 | 5 |（2 TEST_F + TEST_P×2 实例 + 空块 1）
+// | charBox(blockIndex) | mid | - | 2 | 6 |（2 TEST_F + TEST_P×2 实例 + 空块 1 + 空字符框 1）
 // | textResult(blockIndex,startIndex,len) | low | - | 1 | 6 |（2 TEST_F + TEST_P×4 实例）
 // | requestImage(id,size,requestedSize) | low | - | 1 | 13 |（7 TEST_F + TEST_P×3×2 实例）
 // ─── actual 均不低于 min ───
@@ -35,12 +35,12 @@
 // - analyze 的 QtConcurrent 后台任务在 TearDown 先 waitForDone 再 stub.clear()，杜绝补丁窗口竞态
 // - QGuiApplication::primaryScreen 仅在"无屏构造"用例内临时 stub，TearDown 统一恢复
 //
-// 疑似源码缺陷（行为锁定，未修改源码）：
-// 1. charBox：getCharBoxes 返回空时 boxes[0].points[0] 无空检查直接访问 → UB（livetextanalyzer.cpp:117-118），
-//    无法安全编写触发用例，仅以清单标注
-// 2. 构造函数 parent 形参未转发给 QQuickImageProvider 基类，QObject 父子关系丢失（livetextanalyzer.cpp:19-24）
-// 3. analyze：`while (ocrDriver->isRunning()) { }` 忙等无睡眠，占用 CPU 且与 breakAnalyze 存在竞态窗口（livetextanalyzer.cpp:77）
-// 4. requestImage：畸形 id 经 toUInt 解析失败静默归 0，误取第 0 块而非报错（livetextanalyzer.cpp:151-152）
+// 源码缺陷修复同步（原"行为锁定"缺陷已按修复后语义改写）：
+// 1. charBox：getCharBoxes 返回空时原直接 boxes[0] 越界，现空表早退返回无效 QVariant
+//    （CharBox_EmptyCharBoxes_ReturnsInvalidVariant 覆盖）
+// 2. 构造函数 parent 形参已移除（基类 QQuickImageProvider 无 parent 槽位，原形参被丢弃）
+// 3. analyze：忙等循环体现以 QThread::msleep(1) 退让，不再空转占核
+// 4. requestImage：畸形 id 经 toUInt(&ok) 校验失败现返回空 QImage，不再静默归 0 误取第 0 块
 //
 // 分支清单（来源：get_code_snippet livetextanalyzer.cpp:19-42 LiveTextAnalyzer 构造函数）
 // B1: qApp->primaryScreen() 非空 → pixelRatio = devicePixelRatio()
@@ -49,7 +49,6 @@
 // 用例映射：
 // - LiveTextAnalyzer_FreshInstance_LoadsPluginAndHardware   → B1（offscreen 屏存在路径 + 插件/硬件调用计数）
 // - LiveTextAnalyzer_NoPrimaryScreen_KeepsUnitPixelRatio    → B2（stub primaryScreen 返回空）
-// - LiveTextAnalyzer_ParentArgument_DroppedByBase           → B1 + 缺陷 2 行为锁定
 //
 // 分支清单（来源：get_code_snippet livetextanalyzer.cpp:44-47 ~LiveTextAnalyzer）
 // 析构仅 delete ocrDriver，无分支
@@ -65,7 +64,7 @@
 // - SetImage_NullImage_ForwardsEmptyMatrix                  → B2 负面（空图 setMatrix(0,0)）
 //
 // 分支清单（来源：get_code_snippet livetextanalyzer.cpp:69-81 analyze）
-// B1: while (ocrDriver->isRunning()) 为真 → 自旋等待（0 次与 2 次迭代均覆盖）
+// B1: while (ocrDriver->isRunning()) 为真 → QThread::msleep(1) 退让等待（0 次与 2 次迭代均覆盖）
 // B2: analyze() 结果 true/false → emit analyzeFinished(result, token)
 // 用例映射：
 // - Analyze_IdleDriver_EmitsFinishedWithTrueAndToken        → B1(0 次)/B2(true)
@@ -88,13 +87,14 @@
 // 分支清单（来源：get_code_snippet livetextanalyzer.cpp:110-129 charBox）
 // B1: blockIndex >= getTextBoxes().size() → if 越界判定
 // B2: 越界早退 return QVariant()（无效值返回路径）
-// B3: 有效 → for 遍历字符框，以 boxes[0].points[0].first 为基址压入 [0, 各框 points[1].first - base]
-// 注：getCharBoxes 为空时 B3 中 boxes[0] 无检查（疑似缺陷 1）
+// B3: getCharBoxes 返回空 → 早退 return QVariant()（修复后新增分支）
+// B4: 有效 → for 遍历字符框，以 boxes[0].points[0].first 为基址压入 [0, 各框 points[1].first - base]
 // 用例映射：
-// - CharBox_ValidBlock_ReturnsOffsetsRelativeToFirstChar    → B3
-// - CharBox_LastBoundaryBlock_ReturnsOffsets                → B3（index==size-1 边界）
+// - CharBox_ValidBlock_ReturnsOffsetsRelativeToFirstChar    → B4
+// - CharBox_LastBoundaryBlock_ReturnsOffsets                → B4（index==size-1 边界）
 // - CharBox_InvalidBlockIndex_ReturnsInvalidVariant（TEST_P）→ B1/B2（负数与 ==size）
 // - CharBox_NoTextBoxes_ReturnsInvalidVariant               → B1/B2（空列表 + index 0）
+// - CharBox_EmptyCharBoxes_ReturnsInvalidVariant            → B3
 //
 // 分支清单（来源：get_code_snippet livetextanalyzer.cpp:131-145 textResult）
 // B1: blockIndex>=size || startIndex<0 || len<=0（短路或，三条件独立触发）→ 返回 ""
@@ -105,7 +105,7 @@
 // - TextResult_InvalidParams_ReturnsEmpty（TEST_P）          → B1（块越界/start 负/len 0/len 负）
 //
 // 分支清单（来源：get_code_snippet livetextanalyzer.cpp:148-174 requestImage）
-// B1: id 无 "_" → indexOf 为 -1，+1 后 mid(0) 解析整串（垃圾串 toUInt 归 0 → 疑似缺陷 4）
+// B1: id 无 "_" / 尾随垃圾 / 负数 → toUInt(&ok) 失败 → 返回空 QImage（修复后不再归 0 误取）
 // B2: index >= getTextBoxes().size() → 返回空 QImage（size 出参不写）
 // B3: 有效 → rect 坐标 × pixelRatio 后 imageCache.copy 裁剪
 // B4: size != nullptr → *size = image.size()
@@ -116,7 +116,7 @@
 // - RequestImage_WithRequestedSize_ReturnsScaled            → B3/B4/B5（3x2 缩放，*size 保持裁剪尺寸）
 // - RequestImage_NonPositiveRequestedSize_ReturnsUnscaled（TEST_P）→ B5 短路两侧/B6
 // - RequestImage_IndexOutOfRange_ReturnsNullImage           → B2
-// - RequestImage_MalformedId_FallsBackToIndexZero（TEST_P）→ B1（缺陷 4 行为锁定）
+// - RequestImage_MalformedId_ReturnsNullImage（TEST_P）      → B1（修复后语义）
 // - RequestImage_HighPixelRatio_DoublesCropRegion           → B3（ratio=2 坐标放大）
 // - RequestImage_NullSizePointer_NoCrash                    → B4 反例（size 为空不写）
 
@@ -282,20 +282,6 @@ TEST_F(LiveTextAnalyzerTest, LiveTextAnalyzer_NoPrimaryScreen_KeepsUnitPixelRati
     // Assert  // ctor B2: 无主屏时 pixelRatio 保持默认 1.0，对象仍可用
     EXPECT_EQ(noScreenObj.pixelRatio, 1.0);
     EXPECT_TRUE(noScreenObj.liveBlock().toList().isEmpty());
-}
-
-TEST_F(LiveTextAnalyzerTest, LiveTextAnalyzer_ParentArgument_DroppedByBase)
-{
-    // Arrange: 栈上父对象 + 传入 parent 构造
-    QObject parentObj;
-
-    // Act
-    LiveTextAnalyzer child(&parentObj);
-
-    // Assert  // 现状：parent 形参未转发基类，QObject 父子关系丢失（疑似缺陷 2，行为锁定）
-    EXPECT_EQ(child.parent(), nullptr);
-    EXPECT_EQ(loadDefaultPluginCount, 2);
-    ASSERT_NE(child.ocrDriver, nullptr);
 }
 
 TEST_F(LiveTextAnalyzerTest, Destructor_AfterAnalyze_DeletesDriverWithoutDamage)
@@ -555,6 +541,20 @@ TEST_F(LiveTextAnalyzerTest, CharBox_NoTextBoxes_ReturnsInvalidVariant)
     EXPECT_EQ(getCharBoxesCount, 0);
 }
 
+TEST_F(LiveTextAnalyzerTest, CharBox_EmptyCharBoxes_ReturnsInvalidVariant)
+{
+    // Arrange: 1 个文本框但字符框为空（修复前 boxes[0] 直接越界）
+    textBoxes = { makeTextBox(0.f, 0.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 0.f) };
+    charBoxes.clear();
+
+    // Act
+    const QVariant result = obj->charBox(0);
+
+    // Assert  // charBox B3: 空字符框早退 → 无效 QVariant，不越界访问
+    EXPECT_FALSE(result.isValid());
+    EXPECT_EQ(getCharBoxesCount, 1);
+}
+
 // ══════════════════════════ textResult ══════════════════════════
 
 TEST_F(LiveTextAnalyzerTest, TextResult_ValidRange_ReturnsSubstring)
@@ -728,23 +728,23 @@ struct MalformedIdCase {
 struct MalformedIdParamTest : public LiveTextAnalyzerTest, public ::testing::WithParamInterface<MalformedIdCase> {
 };
 
-TEST_P(MalformedIdParamTest, RequestImage_MalformedId_FallsBackToIndexZero)
+TEST_P(MalformedIdParamTest, RequestImage_MalformedId_ReturnsNullImage)
 {
     const MalformedIdCase c = GetParam();
 
-    // Arrange: 1 框 (1,1)-(5,5)，喂畸形 id（无下划线/负数/尾随垃圾）
+    // Arrange: 1 框 (1,1)-(5,5)，喂畸形 id（无下划线/负数/尾随垃圾），size 出参预置哨兵值
     QImage source(10, 10, QImage::Format_ARGB32);
     source.fill(Qt::red);
     obj->setImage(source);
     textBoxes = { makeTextBox(1.f, 1.f, 2.f, 1.f, 5.f, 5.f, 2.f, 5.f, 0.f) };
-    QSize reported;
+    QSize reported(7, 7);
 
     // Act
     const QImage image = obj->requestImage(c.id, &reported, QSize());
 
-    // Assert  // requestImage B1: toUInt 解析失败归 0 → 等价取第 0 块（疑似缺陷 4 行为锁定）
-    EXPECT_EQ(image.size(), QSize(5, 5));
-    EXPECT_EQ(reported, QSize(5, 5));
+    // Assert  // requestImage B1: toUInt(&ok) 解析失败 → 空图早退，size 出参不被写（修复后语义）
+    EXPECT_TRUE(image.isNull());
+    EXPECT_EQ(reported, QSize(7, 7));
 }
 
 INSTANTIATE_TEST_SUITE_P(

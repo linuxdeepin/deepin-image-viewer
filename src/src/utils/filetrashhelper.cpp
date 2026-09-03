@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -212,8 +212,10 @@ bool FileTrashHelper::isExternalDevice(const QString &path)
 {
     qCDebug(logImageViewer) << "Checking if path is on external device:" << path;
     for (auto itr = mountDevices.begin(); itr != mountDevices.end(); ++itr) {
-        if (path.startsWith(itr.value())) {
-            qCDebug(logImageViewer) << "Path is on external device:" << itr.value();
+        const QString &mount = itr.value();
+        // 严格匹配挂载点路径边界，避免 /x/usb_backup 被误判为挂载于 /x/usb
+        if (mount == path || path.startsWith(mount + "/")) {
+            qCDebug(logImageViewer) << "Path is on external device:" << mount;
             return true;
         }
     }

@@ -4,7 +4,7 @@
 // 用例计数声明（self-check-structural 验证此块）：
 // | method | level | factors | min | actual |
 // |--------|-------|---------|-----|--------|
-// | CommandParserCtor | low | - | 1 | 1 |
+// | CommandParserCtor | low | - | 1 | 2 |
 // | instance | low | - | 1 | 1 |
 // | initialize | low | - | 1 | 1 |
 // | initOptions | low | - | 1 | 1 |
@@ -105,6 +105,22 @@ protected:
 // ═══════════════════════════════════════════════════════════════
 
 // ─── 构造 / instance / initialize / initOptions ───
+
+TEST_F(CommandParserTest, CommandParser_WithParent_LinksToParentObject)
+{
+    // Arrange：栈上父对象（SetUp 的 obj 以 nullptr 构造，不参与本用例）
+    QObject parent;
+
+    // Act
+    CommandParser *child = new CommandParser(&parent);
+
+    // Assert：parent 形参经初始化列表传入基类 QObject，父子关系建立；
+    // 构造路径 initialize/initOptions 仍正常执行
+    EXPECT_EQ(child->parent(), &parent);
+    EXPECT_FALSE(child->isSet("print"));
+    EXPECT_TRUE(child->positionalArguments().isEmpty());
+    // parent 析构自动回收 child，无泄漏
+}
 
 TEST_F(CommandParserTest, CommandParser_FreshInstance_NoFlagSetAndNoPositionalArguments)
 {

@@ -18,7 +18,7 @@
 // 最小清单完成情况（test-code-gen §最小清单）：
 // 1. 每个公开方法 ≥ 1 用例: [x]（9/9 方法，含构造函数）
 // 2. 每个输入维度按等价类划分 ≥ 1 用例/类: [x]（路径：有效/无效/空/边界前缀；DBus 返回：成功/错误/超时/无效 URL）
-// 3. 每个等价类的边界值显式覆盖: [x]（startsWith 等值边界、gvfs 近似路径、空挂载表、空挂载点、空设备列表）
+// 3. 每个等价类的边界值显式覆盖: [x]（挂载点等值/子路径/兄弟目录前缀边界、gvfs 近似路径、空挂载表、空挂载点、空设备列表）
 // 4. 同质 ≥ 3 组用 TEST_P: [x]（isGvfsFile×6、isExternalDevice×5、removeFile×3）
 // 5. 分支清单 → 用例映射已列出: [x]（见下方分支清单，来源 MCP get_code_snippet filetrashhelper.cpp:53-303）
 // 6. 每条 if/switch/throw/early-return 有触发用例: [x]
@@ -75,9 +75,9 @@
 //
 // 分支清单（来源：FileTrashHelper::isExternalDevice，filetrashhelper.cpp:211-223）
 // B1: for 遍历 mountDevices（0 次边界 / N 次）
-// B2: path.startsWith(itr.value()) → return true
+// B2: mount == path || path.startsWith(mount + "/") → return true（挂载点路径边界严格匹配）
 // B3: 遍历结束未命中 → return false
-// → IsExternalDevice_MountTablePaths_ReturnsExpected（TEST_P：等值/子路径/不相关/前缀过匹配/空表）
+// → IsExternalDevice_MountTablePaths_ReturnsExpected（TEST_P：等值/子路径/不相关/兄弟目录前缀边界/空表）
 //
 // 分支清单（来源：FileTrashHelper::isGvfsFile，filetrashhelper.cpp:228-242）
 // B1: !url.isValid() → return false
@@ -461,8 +461,8 @@ INSTANTIATE_TEST_SUITE_P(
         FileTrashExternalCase{ QStringLiteral("usb"), QStringLiteral("usb"), true },           // 等值边界
         FileTrashExternalCase{ QStringLiteral("usb"), QStringLiteral("usb/sub/a.jpg"), true }, // 子路径命中
         FileTrashExternalCase{ QStringLiteral("usb"), QStringLiteral("other/a.jpg"), false },  // 不相关路径
-        // 前缀过匹配：源码仅用 startsBy 前缀比较，无路径边界检查，usb_backup 被误判（按实际行为断言并上报缺陷）
-        FileTrashExternalCase{ QStringLiteral("usb"), QStringLiteral("usb_backup/a.jpg"), true },
+        // 路径边界：usb_backup 为 usb 的兄弟目录而非子路径，不得误判为外部设备（已修复边界检查）
+        FileTrashExternalCase{ QStringLiteral("usb"), QStringLiteral("usb_backup/a.jpg"), false },
         FileTrashExternalCase{ QString(), QStringLiteral("other/a.jpg"), false }));   // 空挂载表（B1 0 次）
 
 // ── FileTrashHelper::moveFileToTrash ──────────────────────────────

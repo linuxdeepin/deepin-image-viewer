@@ -7,6 +7,7 @@
 #include <QVariant>
 #include <QApplication>
 #include <QScreen>
+#include <QThread>
 
 #include <deepin-ocr-plugin-manager/deepinocrplugindef.h>
 #include <deepin-ocr-plugin-manager/deepinocrplugin.h>
@@ -16,7 +17,7 @@
 
 Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
-LiveTextAnalyzer::LiveTextAnalyzer(QObject *parent)
+LiveTextAnalyzer::LiveTextAnalyzer()
     : QQuickImageProvider(Image),
       ocrDriver(new DeepinOCRPlugin::DeepinOCRDriver)
 {
@@ -73,7 +74,8 @@ void LiveTextAnalyzer::analyze(const QString &token)
     // 外部调用的时候也凭借收到的token判断是否采用此次的识别结果
     // 以此来解决QML的信号延迟问题，但仅降低此问题的复现概率，没有完全解决
     QtConcurrent::run([this, token]() {
-        while (ocrDriver->isRunning()) { };   // 等待之前的分析结束
+        while (ocrDriver->isRunning())
+            QThread::msleep(1);   // 等待之前的分析结束
         bool result = ocrDriver->analyze();
         qCDebug(logImageViewer) << "OCR analysis completed with token:" << token << "result:" << result;
         emit analyzeFinished(result, token);
@@ -116,6 +118,10 @@ QVariant LiveTextAnalyzer::charBox(int blockIndex) const
 
     auto boxes = ocrDriver->getCharBoxes(static_cast<size_t>(blockIndex));
     qCDebug(logImageViewer) << "Getting character boxes for block:" << blockIndex << "count:" << boxes.size();
+    if (boxes.empty()) {
+        qCWarning(logImageViewer) << "No character boxes for block:" << blockIndex;
+        return QVariant();
+    }
 
     QList<QVariant> result;
 
@@ -148,7 +154,12 @@ QString LiveTextAnalyzer::textResult(int blockIndex, int startIndex, int len) co
 QImage LiveTextAnalyzer::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     auto startIndex = id.indexOf("_") + 1;
-    size_t index = id.mid(startIndex).toUInt();
+    bool ok = false;
+    size_t index = id.mid(startIndex).toUInt(&ok);
+    if (!ok) {
+        qCWarning(logImageViewer) << "Invalid text box id:" << id;
+        return QImage();
+    }
 
     if (index >= ocrDriver->getTextBoxes().size()) {
         qCWarning(logImageViewer) << "Invalid text box index:" << index;

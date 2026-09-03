@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2025 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -13,6 +13,7 @@
 Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 CommandParser::CommandParser(QObject *parent)
+    : QObject(parent)
 {
     qCDebug(logImageViewer) << "CommandParser constructor called.";
     initialize();

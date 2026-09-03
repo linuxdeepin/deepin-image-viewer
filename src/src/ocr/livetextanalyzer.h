@@ -16,7 +16,7 @@ class LiveTextAnalyzer : public QQuickImageProvider
 {
     Q_OBJECT
 public:
-    explicit LiveTextAnalyzer(QObject *parent = nullptr);
+    explicit LiveTextAnalyzer();
     ~LiveTextAnalyzer();
     Q_INVOKABLE void setImage(const QImage &image);
 

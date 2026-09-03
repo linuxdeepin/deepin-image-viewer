@@ -8,19 +8,16 @@
 //   （setCaptureCursor(true) + QTest::qWait 派发）；lambda2 由 setApplicationPalette
 //   真实发射 applicationPaletteChanged（DTK 为队列发射，需事件派发后送达））。
 //
-// ⚠️ 源码缺陷（只标红不修，见 ctor）：
-// palette lambda 的 connect 未传 this 作为 context（cursortool.cpp:33），
-// 连接生命周期挂在 DGuiApplicationHelper 单例上，CursorTool 析构后不会自动断开，
-// 之后任何 applicationPaletteChanged 发射都会以悬垂 this 调用 lambda（ASAN: heap-use-after-free）。
-// 因此本文件做两点约束规避崩溃（不掩盖缺陷本身）：
-//   1) 唯一会触发 palette 信号的用例（CursorTool_ApplicationPaletteChanged_*）置于文件首位，
-//      保证发射窗口内不存在已析构的 CursorTool；恢复原 palette 也在该用例体内、析构前完成并派发。
-//   2) 其余用例不再触碰 DTK 全局 palette（activeColor 改为 stub applicationPalette 重载）。
+// 历史缺陷已修复：palette lambda 的 connect 已传入 this 作为 context，
+// 连接生命周期随 CursorTool 析构自动断开，不再产生悬垂 this 调用
+// （回归用例 CursorTool_DestroyedInstance_IgnoresLaterPaletteChanges 覆盖；
+//   原“palette 用例必须置于文件首位”的排序规避约束已不再必要）。
+// 其余用例仍不触碰 DTK 全局 palette（activeColor 用 stub applicationPalette 重载）。
 //
 // 用例计数声明（min 按 level/factors 推导：low=1, mid=2, high=3）
 // | method            | level | factors | min | actual |
 // |-------------------|-------|---------|-----|--------|
-// | CursorTool        | low   | -       | 1   | 3      |
+// | CursorTool        | low   | -       | 1   | 4      |
 // | activeColor       | low   | -       | 1   | 1      |
 // | currentCursorPos  | low   | -       | 1   | 1      |
 // | setCaptureCursor  | mid   | -       | 2   | 2      |
@@ -46,10 +43,12 @@
 // B3: b == true  → m_CaptureTimer->start()
 // B4: b == false → m_CaptureTimer->stop()
 // ctor 内 applicationPaletteChanged lambda（cursortool.cpp:33-37）：无分支，全 body 覆盖
+//   （connect 以 this 为 context，实例析构后连接自动断开）
 // activeColor / currentCursorPos：无分支
 //
 // 用例映射：
 // - CursorTool_ApplicationPaletteChanged_EmitsActiveColorChangedWithNewHighlight → palette lambda（真实信号）
+// - CursorTool_DestroyedInstance_IgnoresLaterPaletteChanges → palette lambda（context 连接回归：析构自动断开）
 // - CursorTool_ConstructWithParent_CreatesIdleSampleTimerOwnedByTool             → ctor 方法体
 // - CursorTool_SampleTimeoutWithMovingCursor_EmitsCursorPosChangedForMovesOnly   → B1+B2（真实 QTimer 超时）
 // - ActiveColor_WithStubbedApplicationPalette_ReturnsExactHighlightColor         → activeColor 方法体
@@ -98,8 +97,6 @@ protected:
 // ═══════════════════════════════════════════════════════════════════
 
 // ── CursorTool::CursorTool 内 applicationPaletteChanged lambda（真实信号触发）──
-// ⚠️ 必须保持为本文件第一个用例：palette 信号发射窗口内不能存在已析构的
-// CursorTool（源码 connect 缺 context，析构后连接悬垂，见文件头缺陷说明）。
 
 TEST_F(CursorToolTest, CursorTool_ApplicationPaletteChanged_EmitsActiveColorChangedWithNewHighlight)
 {
@@ -121,6 +118,49 @@ TEST_F(CursorToolTest, CursorTool_ApplicationPaletteChanged_EmitsActiveColorChan
     EXPECT_EQ(tool->activeColor(), QColor(10, 200, 60));                     // 新色已生效（状态一致）
 
     // Cleanup：在 tool 析构前恢复全局 palette 并派发队列信号，避免污染单例状态
+    helper->setApplicationPalette(originalPalette);
+    QTest::qWait(200);
+}
+
+// ── ctor palette lambda 的 context 连接回归（实例析构后连接自动断开，不悬垂）──
+
+TEST_F(CursorToolTest, CursorTool_DestroyedInstance_IgnoresLaterPaletteChanges)
+{
+    // Arrange：短生命周期实例的作用域短于 DGuiApplicationHelper 单例；
+    // 存活的 SetUp tool 挂 spy 观测 palette 变化的实际到达情况
+    auto *helper = Dtk::Gui::DGuiApplicationHelper::instance();
+    const Dtk::Gui::DPalette originalPalette = helper->applicationPalette();
+    QSignalSpy spy(tool, &CursorTool::activeColorChanged);
+    ASSERT_TRUE(spy.isValid());
+
+    {
+        CursorTool shortLived;
+        QSignalSpy shortSpy(&shortLived, &CursorTool::activeColorChanged);
+        ASSERT_TRUE(shortSpy.isValid());
+
+        // Act（第一段）：短生命周期实例存活期间变更 palette，两实例连接均应送达
+        Dtk::Gui::DPalette pal = originalPalette;
+        pal.setColor(QPalette::Highlight, QColor(11, 22, 33));
+        helper->setApplicationPalette(pal);
+        QTest::qWait(300);
+
+        // Assert（第一段）：两实例各收到一次（连接正常建立）
+        ASSERT_EQ(shortSpy.count(), 1);
+        ASSERT_EQ(spy.count(), 1);
+    }   // shortLived 析构：connect 以其为 context，连接应随之自动断开
+
+    // Act（第二段）：析构后再变更 palette（修复前此处以悬垂 this 调用 lambda）
+    Dtk::Gui::DPalette pal2 = originalPalette;
+    pal2.setColor(QPalette::Highlight, QColor(44, 55, 66));
+    helper->setApplicationPalette(pal2);
+    QTest::qWait(300);
+
+    // Assert（第二段）：存活实例恰好再收一次（共 2），已析构实例不再被激活
+    //（无崩溃即回归通过，ASAN 下悬垂调用表现为 heap-use-after-free）
+    EXPECT_EQ(spy.count(), 2);
+    EXPECT_EQ(tool->activeColor(), QColor(44, 55, 66));
+
+    // Cleanup：恢复全局 palette 并派发，避免污染单例状态
     helper->setApplicationPalette(originalPalette);
     QTest::qWait(200);
 }

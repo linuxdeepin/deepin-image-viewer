@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -95,6 +95,16 @@ void RotateImageHelper::rotateImageFile(const QString &path, int angle)
     totalAngle += angle;
     totalAngle %= 360;
     qCDebug(logImageViewer) << "Updated total rotation angle for" << path << "to" << totalAngle << "degrees";
+
+    // 累计角度归零时无实际旋转需求，不再入队执行无效旋转，
+    // 按成功补发与 rotateImageImpl 正常路径相同的信号序列，保证接收方状态一致
+    if (0 == totalAngle) {
+        qCDebug(logImageViewer) << "Skipping rotation for accumulated 0 degrees:" << path;
+        Q_EMIT recordRotateImage(path);
+        Q_EMIT clearRotateStatus(path);
+        Q_EMIT rotateImageFinished(path, true);
+        return;
+    }
 
     if (data->watcher.isRunning()) {
         qCDebug(logImageViewer) << "Watcher is running, adding or updating task in queue.";

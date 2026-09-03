@@ -5,8 +5,9 @@
 // | method | level | factors | min | actual |
 // |--------|-------|---------|-----|--------|
 // | PrintHelper | low | - | 1 | 1 |
+// | getInstance | low | - | 1 | 1 |
 // | getIntance | mid | - | 2 | 2 |
-// | showPrintDialog | mid | - | 2 | 4 |
+// | showPrintDialog | mid | - | 2 | 5 |
 // | ~PrintHelper | low | - | 1 | 1 |
 // | RequestedSlot | low | - | 1 | 1 |
 // | paintRequestSync | low | - | 1 | 7 |
@@ -14,7 +15,7 @@
 // ─── actual 均不低于 min ───
 //
 // 最小清单完成情况（test-code-gen §最小清单）：
-// 1. 每个公开方法 ≥ 1 用例: [x]（7/7 方法，含构造/析构）
+// 1. 每个公开方法 ≥ 1 用例: [x]（8/8 方法，含构造/析构）
 // 2. 每个输入维度按等价类划分 ≥ 1 用例/类: [x]（路径：存在/缺失/空列表/多页；图像：宽扁/方/高瘦/空图）
 // 3. 每个等价类的边界值显式覆盖: [x]（0 张/1 张/2 张边界；单页与多页分界 imageCount 1/>1）
 // 4. 同质 ≥ 3 组用 TEST_P: [x]（paintRequestSync 宽高缩放 3 组）
@@ -73,18 +74,19 @@ DWIDGET_USE_NAMESPACE
 // 分支清单与用例映射（来源：MCP get_code_snippet）
 //
 // 分支清单（来源：PrintHelper::showPrintDialog，printhelper.cpp:100-162）
-// B1: imgReadreder.imageCount() > 1 → 多页分支：jumpToImage + read 逐页装入 m_imgs
+// B1: imgReadreder.imageCount() > 1 → 多页分支：jumpToImage + read 逐页装入 m_imgs，路径计入 tempExsitPaths
 // B2: imageCount() <= 1             → 单图分支：loadStaticImageFromFile 加载
-// B3: !img.isNull()                 → m_imgs 追加该图
-// B4: img.isNull()                  → 仅告警，不追加
+// B3: !img.isNull()                 → m_imgs 追加该图，路径计入 tempExsitPaths
+// B4: img.isNull()                  → 仅告警，不追加图与路径
 // B5: runtimeDtkVersion >= 5.4.10 且 tempExsitPaths.count() > 0 → setDocName(首路径 completeBaseName + ".pdf")
-// B6: tempExsitPaths.count() == 0（空 paths）→ 不调 setDocName
+// B6: tempExsitPaths.count() == 0（空 paths / 全部加载失败）→ 不调 setDocName
 // B7: exec()（本构建未定义 USE_TEST）→ 定时器在 exec 事件循环内 reject 对话框，断言 dialogSeen
 // 用例映射：
 // - ShowPrintDialog_SingleImageFile_SetsDocNameAndClearsCache → B2+B3+B5+B7
 // - ShowPrintDialog_MultiPageImage_ReadsEveryPage             → B1+B5+B7
 // - ShowPrintDialog_EmptyPaths_DoesNotSetDocName              → B6+B7
-// - ShowPrintDialog_MissingFile_LoadFailsImageSkipped         → B2+B4+B7
+// - ShowPrintDialog_MissingFile_LoadFailsImageSkipped         → B2+B4+B6+B7
+// - ShowPrintDialog_LoadFailedFirst_OnlyLoadedPathsCounted    → B2+B3+B4+B5+B7（失败在前，文档名取首个成功路径）
 //
 // 分支清单（来源：RequestedSlot::paintRequestSync，printhelper.cpp:175-215）
 // B1: !img.isNull()                       → 计算缩放比例并 drawImage
@@ -174,7 +176,7 @@ QRectF expectedPaintRect(const QRectF &wRect, int imgW, int imgH)
 
 void expectRectNear(const QRectF &actual, const QRectF &expected)
 {
-    // 坐标含源码 abs() 运算，容忍整型截断差异；宽高由同式推导，精确比较
+    // 坐标含源码 qAbs() 运算，容忍整型截断差异；宽高由同式推导，精确比较
     EXPECT_NEAR(actual.x(), expected.x(), 1.5);
     EXPECT_NEAR(actual.y(), expected.y(), 1.5);
     EXPECT_DOUBLE_EQ(actual.width(), expected.width());
@@ -281,7 +283,24 @@ TEST_F(PrintHelperTest, PrintHelper_Destructor_DefersRequestedSlotDeletion) {
     EXPECT_TRUE(guard.isNull());
 }
 
-// ───────────────────────── PrintHelper::getIntance ─────────────────────────
+// ───────────────────────── PrintHelper::getInstance/getIntance ─────────────────────────
+
+TEST_F(PrintHelperTest, GetInstance_SameSingletonAsLegacyGetIntance) {
+    // Arrange：清空静态单例，保证用例自足
+    if (PrintHelper::m_Printer != nullptr) {
+        delete PrintHelper::m_Printer;
+        PrintHelper::m_Printer = nullptr;
+    }
+
+    // Act：先经旧拼写入口创建，再经新拼写入口获取
+    PrintHelper *legacy = PrintHelper::getIntance();
+    PrintHelper *modern = PrintHelper::getInstance();
+
+    // Assert：两个入口指向同一单例
+    EXPECT_NE(modern, nullptr);
+    EXPECT_EQ(modern, legacy);
+    EXPECT_EQ(PrintHelper::m_Printer, modern);
+}
 
 TEST_F(PrintHelperTest, GetIntance_NoExistingInstance_CreatesSingletonAndReusesIt) {
     // Arrange：清空静态单例，保证用例自足
@@ -418,12 +437,51 @@ TEST_F(PrintHelperTest, ShowPrintDialog_MissingFile_LoadFailsImageSkipped) {
     helper->showPrintDialog(QStringList{ missingPath }, nullptr);
     flushDialogEvents(cap);
 
-    // Assert：加载失败 → 不追加图像；结束后缓存清空
+    // Assert：加载失败 → 不追加图像，失败路径不计入 tempExsitPaths → 不调 setDocName（B6）
     EXPECT_EQ(loadCalls, 1);
     EXPECT_EQ(loadedPath, missingPath);
+    EXPECT_EQ(cap->docNameCount, 0);
     EXPECT_TRUE(cap->dialogSeen);
     EXPECT_TRUE(helper->m_re->m_imgs.isEmpty());
     EXPECT_TRUE(helper->m_re->m_paths.isEmpty());
+}
+
+TEST_F(PrintHelperTest, ShowPrintDialog_LoadFailedFirst_OnlyLoadedPathsCounted) {
+    // Arrange：[缺失, 可加载] 顺序驱动——修复前整表追加使失败路径占 tempExsitPaths[0]，
+    // 修复后仅成功路径计入，文档名取首个成功路径
+    const QString badPath = tmpDir.filePath("bad.png");
+    ASSERT_FALSE(QFileInfo::exists(badPath));
+    QImage img(16, 16, QImage::Format_RGB32);
+    img.fill(Qt::blue);
+    const QString goodPath = tmpDir.filePath("good.png");
+    ASSERT_TRUE(img.save(goodPath, "PNG"));
+
+    int loadCalls = 0;
+    stub.set_lamda(
+        static_cast<bool (*)(const QString &, QImage &, QString &, const QString &, int)>(
+            &LibUnionImage_NameSpace::loadStaticImageFromFile),
+        [&loadCalls, &badPath](const QString &path, QImage &out, QString &, const QString &, int) -> bool {
+            ++loadCalls;
+            if (path == badPath)
+                return false;
+            out = QImage(16, 16, QImage::Format_RGB32);
+            return true;
+        });
+
+    auto cap = std::make_shared<DialogCaptures>();
+    stubPreviewDialog(cap);
+    armDialogReject(cap);
+    helper = new PrintHelper();
+
+    // Act
+    helper->showPrintDialog(QStringList{ badPath, goodPath }, nullptr);
+    flushDialogEvents(cap);
+
+    // Assert：两个路径都尝试加载，但文档名只取成功路径（good.pdf 而非 bad.pdf）
+    EXPECT_EQ(loadCalls, 2);
+    EXPECT_EQ(cap->docNameCount, 1);
+    EXPECT_EQ(cap->docName, QStringLiteral("good.pdf"));
+    EXPECT_TRUE(helper->m_re->m_imgs.isEmpty());
 }
 
 // ═════════════════════════════ RequestedSlot ═════════════════════════════
@@ -477,19 +535,18 @@ protected:
     }
 };
 
-TEST_F(RequestedSlotTest, RequestedSlot_Constructor_IgnoresParentAndStartsEmpty) {
+TEST_F(RequestedSlotTest, RequestedSlot_Constructor_SetsParentAndStartsEmpty) {
     // Arrange
     QObject owner;
 
     // Act
     RequestedSlot *withParent = new RequestedSlot(&owner);
 
-    // Assert：源码 Q_UNUSED(parent)（printhelper.cpp:165），父子关系未建立；
-    // 初始路径与图像缓存为空
-    EXPECT_EQ(withParent->parent(), nullptr);
+    // Assert：parent 经初始化列表传入基类 QObject（printhelper.cpp），父子关系建立；
+    // 初始路径与图像缓存为空；owner 析构时自动回收子对象，无需手动释放
+    EXPECT_EQ(withParent->parent(), &owner);
     EXPECT_TRUE(withParent->m_paths.isEmpty());
     EXPECT_TRUE(withParent->m_imgs.isEmpty());
-    delete withParent;  // 无父对象，手动释放防泄漏
 }
 
 TEST_F(RequestedSlotTest, RequestedSlot_Destructor_DeletesChildObjects) {

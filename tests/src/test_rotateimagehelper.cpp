@@ -48,7 +48,8 @@
 // - 状态机用例全部使用栈上独立 RotateImageHelper 实例（私有构造经
 //   -fno-access-control 可达），不污染单例；TearDown 统一 waitForDone + 单例复位。
 // - 旋转状态转移断言 = 前后状态对比（rotationCache / processQueue 镜像直读）+
-//   QSignalSpy（rotateImageImpl 三信号发射于 instance() 单例上，spy 挂单例）。
+//   QSignalSpy（rotateImageImpl 三信号发射于 instance() 单例上，spy 挂单例；
+//   rotateImageFile 累计归零短路（B8）的三信号发射于操作实例上，spy 挂该实例）。
 // - enqueueRotateTask 的 QtConcurrent 工作线程真实启动，rotateImageImpl 以函数地址
 //   stub 隔离文件写入；ImplRecorder 内置 QMutex 保证工作线程并发记录安全。
 // - QThread::msleep(10)（rotateImageImpl 内同步短睡眠）保持真实，仅 10ms。
@@ -64,10 +65,12 @@
 // B5: if (proc.first == path) → 原地更新该任务角度并 return
 // B6: for 未命中 → 追加队列（不启动新线程）
 // B7: else（watcher 未运行）→ enqueueRotateTask（入队并启动 QtConcurrent 线程）
+// B8: totalAngle %= 360 后为 0 → 不更新/不入队任务，在操作实例上按成功补发
+//     record/clear/finished(path,true) 三信号（与 rotateImageImpl 正常路径序列一致）后 return
 // 映射： RotateImageFile_ZeroOrFullTurnAngle_ReturnsBeforePathCheck → B1
 //        RotateImageFile_UnsupportedPathType_SkipsRotationWithoutCaching（TEST_P）→ B2
 //        RotateImageFile_LocalPath_EnqueuesAsyncRotationTask → B3+B7
-//        RotateImageFile_SamePathTwiceWhileRunning_UpdatesQueuedAngle → B3+B4+B5
+//        RotateImageFile_AccumulatedFullTurnWhileRunning_CompletesWithoutEnqueue → B3+B6+B8（累计归零短路）
 //        RotateImageFile_DifferentPathsWhileRunning_AppendsToQueue → B3+B4+B6
 //        RotateImageFile_AngleBeyondFullTurn_ReducesModulo360 → B3+B6（>360° 边界）
 //
@@ -415,7 +418,7 @@ TEST_F(RotateImageHelperTest, RotateImageFile_LocalPath_EnqueuesAsyncRotationTas
     EXPECT_FALSE(scoped.data->watcher.isRunning());
 }
 
-TEST_F(RotateImageHelperTest, RotateImageFile_SamePathTwiceWhileRunning_UpdatesQueuedAngle)
+TEST_F(RotateImageHelperTest, RotateImageFile_AccumulatedFullTurnWhileRunning_CompletesWithoutEnqueue)
 {
     // Arrange
     RotateImageHelper scoped;
@@ -428,16 +431,25 @@ TEST_F(RotateImageHelperTest, RotateImageFile_SamePathTwiceWhileRunning_UpdatesQ
         static_cast<bool (QFutureWatcher<void>::*)() const>(&QFutureWatcher<void>::isRunning),
         []() -> bool { return true; });
     const QString path = QStringLiteral("album/pic-a.png");
+    QSignalSpy spyRecord(&scoped, &RotateImageHelper::recordRotateImage);
+    QSignalSpy spyClear(&scoped, &RotateImageHelper::clearRotateStatus);
+    QSignalSpy spyFinished(&scoped, &RotateImageHelper::rotateImageFinished);
 
-    // Act：90° + 270° 累计取模归零；同一任务在队列中被原地更新
+    // Act：90° 入队后再追加 270°，累计取模归零 → 短路按成功完成，不再入队 0° 无效旋转
     scoped.rotateImageFile(path, 90);
     scoped.rotateImageFile(path, 270);
 
-    // Assert：B3+B4 —— 累计角度 0，队列仍单任务且角度已更新，未重复入队/启动线程
+    // Assert：B3+B6+B8 —— 累计角度 0；首个任务保持 90° 未被改写为 0、未重复入队/启动线程；
+    // 短路路径在操作实例上按成功补发与正常路径相同的三信号序列
     EXPECT_EQ(scoped.data->rotationCache.value(path), 0);
     ASSERT_EQ(scoped.data->processQueue.size(), 1);
-    EXPECT_EQ(scoped.data->processQueue.head().second, 0);
+    EXPECT_EQ(scoped.data->processQueue.head().second, 90);
     EXPECT_EQ(scoped.data->processQueue.head().first, path);
+    EXPECT_EQ(spyRecord.count(), 1);
+    EXPECT_EQ(spyClear.count(), 1);
+    ASSERT_EQ(spyFinished.count(), 1);
+    EXPECT_EQ(spyFinished.at(0).at(0).toString(), path);
+    EXPECT_EQ(spyFinished.at(0).at(1).toBool(), true);
 }
 
 TEST_F(RotateImageHelperTest, RotateImageFile_DifferentPathsWhileRunning_AppendsToQueue)
