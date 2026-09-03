@@ -58,6 +58,8 @@
         <file>dsg/icons/edit_mosaic_weak_endpoint.dci</file>
         <file>dsg/icons/edit_graffiti_weak_endpoint.dci</file>
         <file>dsg/icons/edit_crop.dci</file>
+        <file>dsg/icons/edit_crop_cancel.dci</file>
+        <file>dsg/icons/edit_crop_confirm.dci</file>
         <file>dsg/icons/edit_undo.dci</file>
         <file>dsg/icons/edit_redo.dci</file>
         <file>dsg/icons/edit_close.dci</file>
