@@ -39,17 +39,22 @@ Eventlogutils::Eventlogutils()
     qCDebug(logImageViewer) << "Initializing Eventlogutils.";
     QLibrary library("libdeepin-event-log.so");
     initFunc = reinterpret_cast<bool (*)(const std::string &, bool)>(library.resolve("Initialize"));
-    writeEventLogFunc = reinterpret_cast<void (*)(const std::string &)>(library.resolve("WriteEventLog"));
-
     if (!initFunc) {
         qCWarning(logImageViewer) << "Failed to resolve Initialize function from libdeepin-event-log.so.";
         return;
     }
+
+    // Initialize 解析成功后再解析写入函数，保证 writeEventLogFunc 就绪时事件库必然可用
+    writeEventLogFunc = reinterpret_cast<void (*)(const std::string &)>(library.resolve("WriteEventLog"));
     if (!writeEventLogFunc) {
         qCWarning(logImageViewer) << "Failed to resolve WriteEventLog function from libdeepin-event-log.so.";
         return;
     }
 
-    initFunc("deepin-image-viewer", true);
+    if (!initFunc("deepin-image-viewer", true)) {
+        qCWarning(logImageViewer) << "Failed to initialize libdeepin-event-log.so, event logging disabled.";
+        writeEventLogFunc = nullptr;
+        return;
+    }
     qCDebug(logImageViewer) << "Event logging initialized for deepin-image-viewer.";
 }

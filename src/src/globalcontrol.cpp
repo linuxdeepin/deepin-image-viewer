@@ -357,6 +357,7 @@ bool GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
 
     Q_ASSERT(sourceModel);
     // 优先更新数据源
+    const int countBeforeSet = sourceModel->rowCount();
     sourceModel->setImageFiles(QUrl::fromStringList(filePaths));
     qCDebug(logImageViewer) << "Source model image files set.";
 
@@ -367,13 +368,16 @@ bool GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
     if (currentImage.source() != currentSource) {
         qCDebug(logImageViewer) << "Updating current image source to:" << currentSource;
         currentImage.setSource(currentSource);
+        Q_EMIT currentSourceChanged();
+        qCDebug(logImageViewer) << "Emitted currentSourceChanged signal.";
     }
-    Q_EMIT currentSourceChanged();
-    qCDebug(logImageViewer) << "Emitted currentSourceChanged signal.";
 
     checkSwitchEnable();
-    Q_EMIT imageCountChanged();
-    qCDebug(logImageViewer) << "Emitted imageCountChanged signal.";
+    // 仅当图片数量实际变化时才提示
+    if (sourceModel->rowCount() != countBeforeSet) {
+        Q_EMIT imageCountChanged();
+        qCDebug(logImageViewer) << "Emitted imageCountChanged signal.";
+    }
 
     // 更新视图展示模型
     viewSourceModel->resetModel(index, 0);
@@ -434,12 +438,15 @@ void GlobalControl::removeImage(const QUrl &removeImage)
     }
 
     // 移除当前图片，默认将后续图片前移，currentIndex将不会变更，手动提示更新
-    bool atEnd = (curIndex >= sourceModel->rowCount() - 1);
+    const int countBeforeRemove = sourceModel->rowCount();
+    bool atEnd = (curIndex >= countBeforeRemove - 1);
     qCDebug(logImageViewer) << "Image is at end of list:" << atEnd;
 
     // 模型更新后将自动触发QML切换当前显示图片
     sourceModel->removeImage(removeImage);
     qCDebug(logImageViewer) << "Image removed from source model.";
+    // 仅当图片实际从模型删除时才提示数量变更
+    const bool imageRemoved = (sourceModel->rowCount() != countBeforeRemove);
 
     // NOTE：viewModel依赖源数据模型更新
     if (removeImage == currentImage.source()) {
@@ -471,10 +478,19 @@ void GlobalControl::removeImage(const QUrl &removeImage)
         qCDebug(logImageViewer) << "Emitted currentSourceChanged and currentIndexChanged signals.";
     } else {
         qCDebug(logImageViewer) << "No images left in the model after removal.";
+        // 模型已清空，同步清空当前图片信息，避免 currentSource() 返回已删除路径
+        currentImage.setSource(QUrl(""));
+        curIndex = 0;
+        Q_EMIT currentSourceChanged();
+        Q_EMIT currentIndexChanged();
+        qCDebug(logImageViewer) << "Cleared current image and reset current index.";
     }
 
     checkSwitchEnable();
-    Q_EMIT imageCountChanged();
+    if (imageRemoved) {
+        Q_EMIT imageCountChanged();
+        qCDebug(logImageViewer) << "Emitted imageCountChanged signal.";
+    }
     qCDebug(logImageViewer) << "Image removal complete";
 }
 
@@ -617,7 +633,7 @@ void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
         Q_EMIT currentSourceChanged();
         qCDebug(logImageViewer) << "Emitted currentSourceChanged signal.";
 
-        this->curIndex = index;
+        this->curIndex = validIndex;
         Q_EMIT currentIndexChanged();
         qCDebug(logImageViewer) << "Emitted currentIndexChanged signal.";
     }

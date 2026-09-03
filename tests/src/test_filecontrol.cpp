@@ -153,8 +153,8 @@
 //
 // QString FileControl::getNamePath(oldPath,newName)
 // B1: old.startsWith("file://") → 转 localFile
-// B2: now(newName) startsWith("file://") → 转 localFile（结果被丢弃，
-//     newPath 仍拼 newName 原串——疑似缺陷 D2，按现状断言并标红）
+// B2: now(newName) startsWith("file://") → 转 localFile（转换结果参与拼接，
+//     newPath 拼 now——D2 已修复，file:// 新名按转换后的本地名拼接）
 // 映射： GetNamePath_ParamSet（TEST_P）→B1/B2 组合 3 组
 //
 // int FileControl::getPrimaryScreenCenterX(windowWidth)
@@ -187,7 +187,7 @@
 // bool FileControl::isCanDelete(path)
 // B1: 非特殊 PathType && isWritable && isReadable → true
 // B2: 特殊 PathType（MTP 等）→ false
-// B3: 不可写 → false（isAlbum 恒 false，第二短路分支永不生效——疑似缺陷 D4）
+// B3: 不可写 → false（isAlbum 恒 false 死分支已删除——D4 已修复）
 // 映射： IsCanDelete_LocalWritableFile_ReturnsTrue→B1
 //        IsCanDelete_MtpPathType_ReturnsFalse→B2
 //        IsCanDelete_ReadOnlyFile_ReturnsFalse→B3
@@ -223,9 +223,9 @@
 // 分支清单（来源：FileControl::isCheckOnly）
 // B1: 锁目录不存在 → mkpath
 // B2: open 锁文件 → 返回 fd（fd==-1 见 B5）
-// B3: lockf 失败(flock==-1) → return false（同进程二次加锁触发）
-// B4: 成功 → return true（fd 未 close、锁未释放——疑似缺陷 D3，行为按现状断言）
-// B5: open 失败(fd==-1) → return false（环境异常分支，无法稳定注入，note）
+// B3: lockf 失败(flock==-1) → close(fd) 后 return false（跨进程持锁时触发）
+// B4: 成功 → return true（持有 fd 与锁至进程退出——单实例检测设计意图，D3 失败路径已修复）
+// B5: open 失败(fd==-1) → return false（fd 检查已前移至 lockf 之前；环境异常分支，无法稳定注入，note）
 // 映射： IsCheckOnly_RepeatedLockAttempts_BothSucceed→B4（B3 仅跨进程触发，单进程内不可达）
 //
 // bool FileControl::isCurrentWatcherDir(path)
@@ -313,7 +313,7 @@
 // B3: interfaceV23/V20 均 !isValid() → 仅告警不调用
 // B4: 会话判定（XDG_SESSION_TYPE/WAYLAND_DISPLAY 是否含 wayland）
 // B5: isWayland=true → Wayland Display 接口取主屏名（V23 valid 走 property / else V20）
-// B6: isWayland=false（X11）→ primaryScreen()->name()（未判空——疑似缺陷 D1）
+// B6: isWayland=false（X11）→ primaryScreen() 判空后取 name()（D1 已修复，空屏安全返回）
 // B7: 三元日志描述（isWayland ? "Wayland" : "X11"）
 // B8: interfaceV23.isValid() → SetMonitorBackground
 // B9: V23 应答 error → settingSucc=false
@@ -350,7 +350,7 @@
 // 映射： SlotFileSuffix_ParamSet→B1+B2+B3（TEST_P 4 组）
 //
 // QString FileControl::slotGetFileName(path)
-// B1: startsWith("file://") → toLocalFile
+// B1: QUrl::isLocalFile() → toLocalFile（否则回退原串——D5 已修复）
 // B2: completeBaseName
 // 映射： SlotGetFileName_PlainPath_ReturnsBaseName→B2
 //        SlotGetFileName_FileUrl_ReturnsBaseName→B1+B2
@@ -1048,8 +1048,8 @@ TEST_F(FileControlTest, GetDirImagePath_EmptyPath_ReturnsEmptyList)
 
 TEST_F(FileControlTest, GetDirImagePath_NoImageFiles_ReturnsEmptyList)
 {
-    // Arrange：目录内只有文本文件；入参传目录内文件 URL（源码按"文件所在目录"解析，
-    // 直接传目录 URL 会取到父目录——疑似缺陷 D6，见文末）
+    // Arrange：目录内只有文本文件；入参传目录内文件 URL（按"文件所在目录"解析；
+    // 目录入参已改为扫描目录自身——D6 已修复）
     const QString txt = makeTextFile(tmpDir.path(), "note.txt");
     makeTextFile(tmpDir.path(), "readme.md");
 
@@ -1099,7 +1099,7 @@ namespace {
 struct GetNamePathCase {
     bool oldAsUrl;
     QString newNameInput;  // 传给方法的原始参数
-    QString expectedNewName;  // 拼入新路径的名字（按当前实现：原样 newName）
+    QString expectedNewName;  // 拼入新路径的名字（file:// 输入时为转换后的本地名）
 };
 }  // namespace
 
@@ -1114,7 +1114,7 @@ TEST_P(GetNamePathParamTest, GetNamePath_ParamSet_BuildsNewPathInSameDir)
     const QString oldFile = makePngFile(tmpDir.path(), "origin.png");
     const QString oldInput = c.oldAsUrl ? localUrl(oldFile) : oldFile;
     const QString expectUrl = QUrl::fromLocalFile(
-            QDir(tmpDir.path()).filePath(c.expectedNewName + QStringLiteral(".png")))
+            tmpDir.path() + QLatin1Char('/') + c.expectedNewName + QStringLiteral(".png"))
                                       .toString();
 
     // Act
@@ -1132,11 +1132,9 @@ INSTANTIATE_TEST_SUITE_P(
                 GetNamePathCase{false, QStringLiteral("renamed"), QStringLiteral("renamed")},
                 // file:// 旧路径 + 普通名
                 GetNamePathCase{true, QStringLiteral("b"), QStringLiteral("b")},
-                // file:// 旧路径 + file:// 新名：入参与期望均用字面量构造。
-                // 注意不可用 localUrl("c") 生成——QUrl::fromLocalFile 对相对路径返回
-                // "file:c"（无 authority），与实现的拼接产物不一致；当前实现拼接的是
-                // newName 原串（now 转换结果被丢弃，疑似缺陷 D2），期望按现状锁定
-                GetNamePathCase{true, QStringLiteral("file:///c"), QStringLiteral("file:///c")}));
+                // file:// 旧路径 + file:// 新名：修复后拼接的是转换后的 now
+                // （"file:///c" → "/c"），期望路径为 "<tmp>//c.png"（与实现拼接方式一致）
+                GetNamePathCase{true, QStringLiteral("file:///c"), QStringLiteral("/c")}));
 
 // ═════════════════ getPrimaryScreenCenterX / Y ═════════════════
 
@@ -1320,10 +1318,9 @@ TEST_F(FileControlTest, IsCanDelete_LocalWritableFile_ReturnsTrue)
     // Act
     const bool can = obj->isCanDelete(localUrl(png));
 
-    // Assert（B1：URL 输入判 true；裸路径无 scheme → toLocalFile 为空 → false，输入约定为
-    // file:// URL 形式（与 isImage 的 fallback 不一致——疑似缺陷 D7，按真实行为锁定）
+    // Assert（B1：URL 输入判 true；裸路径经 isLocalFile 回退后同样判 true（D7 已修复）
     EXPECT_EQ(can, true);
-    EXPECT_EQ(obj->isCanDelete(png), false);
+    EXPECT_EQ(obj->isCanDelete(png), true);
 }
 
 TEST_F(FileControlTest, IsCanDelete_MtpPathType_ReturnsFalse)
@@ -1370,9 +1367,9 @@ TEST_F(FileControlTest, IsCanReadable_ExistingFile_ReturnsTrue)
     // Act
     const bool can = obj->isCanReadable(localUrl(png));
 
-    // Assert（B1：URL 输入判 true；裸路径无 scheme → toLocalFile 为空 → false（D7）
+    // Assert（B1：URL 输入判 true；裸路径经回退后同样判 true（D7 已修复）
     EXPECT_EQ(can, true);
-    EXPECT_EQ(obj->isCanReadable(png), false);
+    EXPECT_EQ(obj->isCanReadable(png), true);
 }
 
 TEST_F(FileControlTest, IsCanReadable_MissingFile_ReturnsFalse)
@@ -1399,9 +1396,9 @@ TEST_F(FileControlTest, IsCanRename_LocalWritableFile_ReturnsTrue)
     // Act
     const bool can = obj->isCanRename(localUrl(png));
 
-    // Assert（B1：URL 输入判 true；裸路径无 scheme → false（D7）
+    // Assert（B1：URL 输入判 true；裸路径经回退后同样判 true（D7 已修复）
     EXPECT_EQ(can, true);
-    EXPECT_EQ(obj->isCanRename(png), false);
+    EXPECT_EQ(obj->isCanRename(png), true);
 }
 
 TEST_F(FileControlTest, IsCanRename_MtpPathType_ReturnsFalse)
@@ -1447,9 +1444,9 @@ TEST_F(FileControlTest, IsCanSupportOcr_StaticImageReadable_ReturnsTrue)
     // Act
     const bool can = obj->isCanSupportOcr(localUrl(png));
 
-    // Assert（B1：URL 输入判 true；裸路径无 scheme → false（D7）
+    // Assert（B1：URL 输入判 true；裸路径经回退后同样判 true（D7 已修复）
     EXPECT_EQ(can, true);
-    EXPECT_EQ(obj->isCanSupportOcr(png), false);
+    EXPECT_EQ(obj->isCanSupportOcr(png), true);
 }
 
 TEST_F(FileControlTest, IsCanSupportOcr_DynamicImageType_ReturnsFalse)
@@ -1495,9 +1492,9 @@ TEST_F(FileControlTest, IsCanWrite_WritableFileAndDir_ReturnsTrue)
     // Act
     const bool can = obj->isCanWrite(localUrl(png));
 
-    // Assert（B1：URL 输入判 true；裸路径无 scheme → false（D7）
+    // Assert（B1：URL 输入判 true；裸路径经回退后同样判 true（D7 已修复）
     EXPECT_EQ(can, true);
-    EXPECT_EQ(obj->isCanWrite(png), false);
+    EXPECT_EQ(obj->isCanWrite(png), true);
 }
 
 TEST_F(FileControlTest, IsCanWrite_ReadOnlyFile_ReturnsFalse)
@@ -1518,7 +1515,8 @@ TEST_F(FileControlTest, IsCanWrite_ReadOnlyFile_ReturnsFalse)
 
 TEST_F(FileControlTest, IsCheckOnly_RepeatedLockAttempts_BothSucceed)
 {
-    // Arrange：同进程首次调用即持有锁（源码未 close/unlock，fd 泄漏——疑似缺陷 D3）
+    // Arrange：同进程首次调用即持有锁（成功路径持有 fd/锁至进程退出为单实例检测
+    // 设计意图；lockf 失败路径已 close(fd)——D3 已修复）
     ASSERT_EQ(cfgWriteCount, 0);
 
     // Act
@@ -2379,8 +2377,8 @@ TEST_P(SlotFileSuffixParamTest, SlotFileSuffix_ParamSet_ReturnsCompleteSuffix)
         f.close();
     }
     if (!input.isEmpty()) {
-        // 统一以 file:// URL 传入：源码 QUrl(path).toLocalFile() 对裸路径返回空串，
-        // QFile::exists("") 恒 false（与 isCan* 系列同源的 D7 输入约定）
+        // 统一以 file:// URL 传入：slotFileSuffix 未在本批修复范围，
+        // QUrl(path).toLocalFile() 对裸路径返回空串，QFile::exists("") 恒 false
         input = localUrl(input);
     }
 
@@ -2562,18 +2560,14 @@ TEST_F(FileControlTest, TerminateShortcutPanelProcess_WaitReturnsTrue_CompletesQ
     EXPECT_EQ(procWaitCount, 1);
 }
 
-// ═════════════════ 疑似源码缺陷清单（只标红不修）═════════════════
-// D1 setWallpaper: X11 分支 QGuiApplication::primaryScreen()->name() 未判空
-//    （filecontrol.cpp setWallpaper 线程体内，headless/无屏环境空指针解引用风险）
-// D2 getNamePath: newPath 拼接用 newName 原串而非转换后的 now
-//    （file:// 输入时新路径错误，now 转换结果被丢弃）
-// D3 isCheckOnly: open 成功后 fd 未 close、锁未释放，且变量名 flock 遮蔽同名函数
-//    （fd 泄漏；锁依赖进程退出才释放。注：lockf 为进程级锁，同进程重复加锁仍成功）
-// D4 isCanDelete: 局部变量 isAlbum 恒为 false，`|| (isAlbum && isWritable)` 分支永不生效
-// D5 slotGetFileName 系列: file:// 前缀判断使用 startsWith("file://") 而非 QUrl 解析，
-//    大小写/编码变体（如 "FILE://"）不识别（轻微，行为锁定为当前实现）
-// D6 getDirImagePath: QFileInfo(QUrl(path).toLocalFile()).dir().path() 把入参当"文件"取父目录，
-//    传目录 URL 时扫描到其父目录（本例 /tmp 下历史图片文件混入结果）——入参约定应为目录内文件路径
-// D7 isCanDelete/isCanReadable/isCanRename/isCanSupportOcr/isCanWrite/isSupportSetWallpaper:
-//    QUrl(path).toLocalFile() 对无 scheme 裸路径返回空串（无 isImage 的 isLocalFile?x:path 回退），
-//    裸路径输入静默判 false，与 isImage 行为不一致（输入约定为 file:// URL，测试按真实行为锁定）
+// ═════════════════ 源码缺陷修复状态（fix/scan-defects 分支）═════════════════
+// D1 setWallpaper: X11 分支 primaryScreen() 已判空，空屏时安全返回不发起设置（已修复）
+// D2 getNamePath: newPath 已改为拼接转换后的 now（file:// 新名按本地名拼接）（已修复）
+// D3 isCheckOnly: fd 有效性检查已前移至 lockf 之前，lockf 失败路径 close(fd)；
+//    成功路径持有 fd/锁至进程退出为单实例检测设计意图（不 close）（失败路径已修复）
+// D4 isCanDelete: isAlbum 恒 false 死分支已删除（已修复）
+// D5 slotGetFileName 系列: 已统一 QUrl::isLocalFile() 判定，非本地 URL 回退原串（已修复）
+// D6 getDirImagePath: 已区分目录/文件入参——目录用自身，文件取所在目录（已修复）
+// D7 isCanDelete/isCanReadable/isCanRename/isCanSupportOcr/isCanWrite/isRotatable:
+//    已统一 isImage 的 isLocalFile?toLocalFile:path 回退，裸路径不再静默判 false（已修复）
+//    （isSupportSetWallpaper 未在本批修复范围，仍按 file:// URL 输入约定锁定行为）
