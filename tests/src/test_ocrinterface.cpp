@@ -32,17 +32,18 @@
 // - 会话总线不存在时 sessionBus() 返回断连对象，构造与断言均安全（不依赖本机 DBus 守护进程）
 // - 全部对象在 TearDown 中 stub.clear() 后释放
 //
-// 疑似源码缺陷（行为锁定，未修改源码）：
-// 1. 公有成员 `QDBusConnection dbus` 恒以 sessionBus 默认初始化，与构造参数 connection 无关且全工程未使用
-//    （ocrinterface.h:38，用 ConstructionWithNonSessionConnection 锁定）
-// 2. openImage/openImageAndName：image.save 失败时静默发送空 payload，无错误上报/早退（ocrinterface.h:60-63 / 79-82）
+// 源码缺陷修复同步（原"行为锁定"缺陷已按修复后语义改写）：
+// 1. 公有成员 `QDBusConnection dbus`（恒 sessionBus 且全工程未使用）已删除
+//    （原 ConstructionWithNonSessionConnection_KeepsSessionBusMember 行为锁定用例改写为构造绑定校验）
+// 2. openImage/openImageAndName：image.save 失败分支已补 qWarning 日志（openImageAndName 含 imageName），
+//    调用结构不变，仍发送空 payload（行为锁定用例保持有效）
 // 3. 头文件结尾注释 `#endif // DRAWINTERFACE_H` 与 `#ifndef OCRINTERFACE_H` 不匹配，为复制残留（ocrinterface.h:96，仅标注）
 //
 // 分支清单（来源：get_code_snippet ocrinterface.cpp:10-15 OcrInterface 构造函数）
 // 构造仅转发基类（serviceName/ObjectPath/staticInterfaceName()/connection/parent），无分支
 // 用例映射：
-// - OcrInterface_Construction_BindsServicePathAndInterface         → service/path/interface/connection 四元组绑定
-// - OcrInterface_ConstructionWithNonSessionConnection_KeepsSessionBusMember → 缺陷 1 行为锁定
+// - OcrInterface_Construction_BindsServicePathAndInterface              → service/path/interface/connection 四元组绑定
+// - OcrInterface_ConstructionWithNonSessionConnection_BindsGivenConnection → 非 session 连接完整转发基类
 //
 // 分支清单（来源：get_code_snippet ocrinterface.cpp:17-20 ~OcrInterface）
 // 析构仅日志，无分支
@@ -61,17 +62,17 @@
 //
 // 分支清单（来源：get_code_snippet ocrinterface.h:56-66 openImage）
 // B1: image.save(&buf,"PNG") 成功 → qCompress(9)+toBase64 后发送
-// B2: save 失败（空图等）→ data 保持空 QByteArray 直接发送
+// B2: save 失败（空图等）→ data 保持空 QByteArray 直接发送（qWarning 记录，payload 行为不变）
 // 用例映射：
 // - OpenImage_ValidImage_SendsCompressedBase64Png                  → B1（base64 解码→解压→PNG 还原逐像素对账）
-// - OpenImage_NullImage_SendsEmptyPayload                          → B2（缺陷 2 行为锁定）
+// - OpenImage_NullImage_SendsEmptyPayload                          → B2（修复后仍发送空 payload）
 //
 // 分支清单（来源：get_code_snippet ocrinterface.h:75-85 openImageAndName）
 // B1: image.save 成功 → 压缩 base64 + imageName 双参发送
-// B2: save 失败 → 空 payload + imageName 双参发送
+// B2: save 失败 → 空 payload + imageName 双参发送（qWarning 含 imageName，payload 行为不变）
 // 用例映射：
 // - OpenImageAndName_ValidImageAndName_SendsPayloadAndName         → B1
-// - OpenImageAndName_NullImage_SendsEmptyPayloadAndName            → B2（缺陷 2 行为锁定）
+// - OpenImageAndName_NullImage_SendsEmptyPayloadAndName            → B2（修复后仍发送空 payload）
 
 #include "ocrinterface.h"
 
@@ -163,18 +164,17 @@ TEST_F(OcrInterfaceTest, OcrInterface_Construction_BindsServicePathAndInterface)
     EXPECT_EQ(boundConnection, QDBusConnection::sessionBus().name());
 }
 
-TEST_F(OcrInterfaceTest, OcrInterface_ConstructionWithNonSessionConnection_KeepsSessionBusMember)
+TEST_F(OcrInterfaceTest, OcrInterface_ConstructionWithNonSessionConnection_BindsGivenConnection)
 {
     // Arrange: 用 systemBus 作为构造连接（栈上第二实例，不产生 DBus 调用）
     OcrInterface sysBound(kTestService, kTestPath, QDBusConnection::systemBus());
 
     // Act
     const QString ctorConnection = sysBound.connection().name();
-    const QString memberConnection = sysBound.dbus.name();
 
-    // Assert  // 现状：dbus 成员恒 sessionBus，与构造参数无关且未被使用（疑似缺陷 1，行为锁定）
+    // Assert  // 非 session 连接完整转发基类（恒 sessionBus 的 dbus 成员已随源码删除）
     EXPECT_EQ(ctorConnection, QDBusConnection::systemBus().name());
-    EXPECT_EQ(memberConnection, QDBusConnection::sessionBus().name());
+    EXPECT_NE(ctorConnection, QDBusConnection::sessionBus().name());
 }
 
 TEST_F(OcrInterfaceTest, Destructor_ExistingInstance_DeletesWithoutSideEffect)
@@ -253,7 +253,7 @@ TEST_F(OcrInterfaceTest, OpenImage_NullImage_SendsEmptyPayload)
     // Act
     QDBusPendingReply<> reply = obj->openImage(nullImage);
 
-    // Assert  // openImage B2: save 失败 → 空 payload 仍照常发起调用（疑似缺陷 2，行为锁定）
+    // Assert  // openImage B2: save 失败 → qWarning 记录后空 payload 仍照常发起调用
     EXPECT_EQ(doCallCount, 1);
     EXPECT_EQ(lastMethod, QStringLiteral("openImage"));
     ASSERT_EQ(lastArgs.size(), 1);
@@ -293,7 +293,7 @@ TEST_F(OcrInterfaceTest, OpenImageAndName_NullImage_SendsEmptyPayloadAndName)
     // Act
     QDBusPendingReply<> reply = obj->openImageAndName(nullImage, imageName);
 
-    // Assert  // openImageAndName B2: 空 payload + 名称仍双参发送（疑似缺陷 2，行为锁定）
+    // Assert  // openImageAndName B2: qWarning 记录 imageName 后空 payload + 名称仍双参发送
     EXPECT_EQ(doCallCount, 1);
     ASSERT_EQ(lastArgs.size(), 2);
     EXPECT_TRUE(lastArgs.at(0).toByteArray().isEmpty());

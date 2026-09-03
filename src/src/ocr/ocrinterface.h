@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -33,7 +33,6 @@ public:
     */
     OcrInterface(const QString &serviceName, const QString &ObjectPath,
                  const QDBusConnection &connection, QObject *parent = nullptr);
-    QDBusConnection dbus = QDBusConnection::sessionBus();
     ~OcrInterface();
 
 public Q_SLOTS: // METHODS
@@ -61,6 +60,8 @@ public Q_SLOTS: // METHODS
         if (image.save(&buf, "PNG")) {
             data = qCompress(data, 9);
             data = data.toBase64();
+        } else {
+            qWarning() << __FUNCTION__ << "failed to save image to buffer, size:" << image.size();
         }
         return call(QStringLiteral("openImage"), QVariant::fromValue(data));
     }
@@ -80,6 +81,8 @@ public Q_SLOTS: // METHODS
         if (image.save(&buf, "PNG")) {
             data = qCompress(data, 9);
             data = data.toBase64();
+        } else {
+            qWarning() << __FUNCTION__ << "failed to save image:" << imageName;
         }
         return call(QStringLiteral("openImageAndName"), QVariant::fromValue(data), imageName);
     }

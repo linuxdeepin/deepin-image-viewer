@@ -21,8 +21,10 @@ bool ApplicationAdaptor::openImageFile(const QString &fileName)
 {
     if (fileControl) {
         const QUrl inputUrl(fileName);
-        const QString localPath = inputUrl.isLocalFile() ? inputUrl.toLocalFile() : fileName;
-        const QString urlPath = QUrl::fromLocalFile(localPath).toString();
+        const QUrl normalizedUrl = inputUrl.isLocalFile()
+                ? QUrl::fromLocalFile(inputUrl.toLocalFile())
+                : inputUrl;
+        const QString urlPath = normalizedUrl.toString();
         if (fileControl->isCanReadable(urlPath) && fileControl->isImage(urlPath)) {
             Q_EMIT fileControl->openImageFile(urlPath);
             return true;
