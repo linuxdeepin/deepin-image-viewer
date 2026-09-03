@@ -1,3 +1,9 @@
+deepin-image-viewer (6.1.1) unstable; urgency=medium
+
+  * chore: update version to 6.1.1
+
+ -- Tian Shilin <tianshilin@uniontech.com>  Thu, 03 Sep 2026 14:16:28 +0800
+
 deepin-image-viewer (6.0.50) unstable; urgency=medium
 
   * fix(editor): refine crop workflow and toolbar blur
