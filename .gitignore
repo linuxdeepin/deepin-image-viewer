@@ -50,3 +50,5 @@ debian/deepin-image-viewer.substvars
 #linglong building dir
 linglong
 build
+# CI license check report
+reuse_lint_report.md
