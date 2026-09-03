@@ -27,23 +27,24 @@
 // 9. 负面用例验证强异常安全: [x] （同值设置后 flag/target/信号数不变）
 // 10. stub_ext vs gMock 选择正确: [x] （纯逻辑类，无外部依赖，无需 stub/gMock）
 //
-// 分支清单（来源：get_code_snippet pathviewrangehandler.cpp:83-134 eventFilter）
+// 分支清单（来源：get_code_snippet pathviewrangehandler.cpp eventFilter）
+// B0: if (QEvent::MouseButtonRelease == event->type()) → basePoint 重置为空 QPointF
+//     （位于 B1 提前放行之前，双向允许时 Release 也会重置，防止残留状态误过滤）
 // B1: if (enableForwardFlag && enableBackwardFlag && obj == targetView) → 双向放行且来自目标视图
-// B2: case QEvent::MouseButtonRelease → basePoint 重置为空 QPointF
-// B3: case QEvent::MouseMove → 进入鼠标移动处理（dynamic_cast 后按 basePoint 分流）
-// B4: if (basePoint.isNull()) → basePoint = mouseEvent->position()（首次移动记录基准点）
-// B5: if (!enableForwardFlag && newPoint.x() > basePoint.x()) → filter = true（禁止前移却前移）
-// B6: if (!enableBackwardFlag && newPoint.x() < basePoint.x()) → filter = true（禁止后移却后移）
-// B7: if (filter) → event->ignore()（过滤命中）
-// B8: default → break → 落到末尾 return false（其它事件类型放行）
-// B9: return false（B1 早退：双向允许 + obj == targetView，事件不处理）
-// B10: return true（B7 过滤命中路径，事件被吞掉）
+// B2: case QEvent::MouseMove → 进入鼠标移动处理（dynamic_cast 后按 basePoint 分流）
+// B3: if (basePoint.isNull()) → basePoint = mouseEvent->position()（首次移动记录基准点）
+// B4: if (!enableForwardFlag && newPoint.x() > basePoint.x()) → filter = true（禁止前移却前移）
+// B5: if (!enableBackwardFlag && newPoint.x() < basePoint.x()) → filter = true（禁止后移却后移）
+// B6: if (filter) → event->ignore()（过滤命中）
+// B7: default → break → 落到末尾 return false（其它事件类型放行）
+// B8: return false（B1 早退：双向允许 + obj == targetView，事件不处理）
+// B9: return true（B6 过滤命中路径，事件被吞掉）
 // 用例映射：
-// - EventFilter_BothEnabledOnTarget_PassesThrough                      → B1/B9
-// - EventFilter_MouseButtonRelease_ResetsBasePoint                     → B2
-// - EventFilter_MouseMoveOnNonTargetObject_SetsBasePoint               → B3+B4
-// - EventFilter_MouseMoveDirection_FilteringMatchesFlags（TEST_P×7）   → B5/B6/B7/B10 过滤 + B1/B9 放行 + dx==0 边界放行
-// - EventFilter_UnhandledEventType_PassesThrough                       → B8
+// - EventFilter_BothEnabledOnTarget_PassesThrough                      → B1/B8
+// - EventFilter_MouseButtonRelease_ResetsBasePoint                     → B0（含 B1 早退前的重置）
+// - EventFilter_MouseMoveOnNonTargetObject_SetsBasePoint               → B2+B3
+// - EventFilter_MouseMoveDirection_FilteringMatchesFlags（TEST_P×7）   → B4/B5/B6/B9 过滤 + B1/B8 放行 + dx==0 边界放行
+// - EventFilter_UnhandledEventType_PassesThrough                       → B7
 //
 // 分支清单（来源：get_code_snippet pathviewrangehandler.cpp:30-49 setTarget）
 // B1: if (view == targetView) → 无任何操作、不发信号
@@ -370,19 +371,20 @@ TEST_F(PathViewRangeHandlerTest, EventFilter_BothEnabledOnTarget_PassesThrough)
 TEST_F(PathViewRangeHandlerTest, EventFilter_MouseButtonRelease_ResetsBasePoint)
 {
     // Arrange
-    obj->setEnableForward(false);   // 使 B1 不成立，进入 switch
+    obj->setEnableForward(false);   // 先使 B1 不成立，进入 switch 记录基准点
     QQuickItem view;
     obj->setTarget(&view);
     const QPointF base(30, 40);
     QMouseEvent move(QEvent::MouseMove, base, base, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
     obj->eventFilter(&view, &move);   // 先建立 basePoint
     const bool basePointEstablished = !obj->basePoint.isNull();
+    obj->setEnableForward(true);   // 恢复双向允许：Release 需在提前 return 前重置 basePoint
     QMouseEvent release(QEvent::MouseButtonRelease, base, base, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
 
     // Act
     const bool filtered = obj->eventFilter(&view, &release);
 
-    // Assert  // branch B2: MouseButtonRelease → basePoint 重置为空
+    // Assert  // branch B0: MouseButtonRelease → basePoint 重置为空（双向允许下同样生效，防残留误过滤）
     EXPECT_EQ(basePointEstablished, true);   // 前置：MouseMove 已记录 basePoint
     EXPECT_EQ(filtered, false);
     EXPECT_EQ(obj->basePoint, QPointF());

@@ -31,12 +31,17 @@ static void parseProviderID(const QString &id, QString &filePath, int &frameInde
 {
     // 从后向前查询索引标识
     int index = id.lastIndexOf(QRegularExpression(QString("%1\\d+$").arg(s_tagFrame)));
+    // 无 scheme 的裸路径 QUrl::toLocalFile() 返回空串，回退使用原串作为文件路径
+    auto toLocalFileOrRaw = [](const QString &rawId) {
+        const QUrl url(rawId);
+        return url.isLocalFile() ? url.toLocalFile() : rawId;
+    };
     if (-1 == index) {
-        filePath = QUrl(id).toLocalFile();
+        filePath = toLocalFileOrRaw(id);
         frameIndex = 0;
     } else {
         // 移除 "#frame_" 字段
-        filePath = QUrl(id.left(index)).toLocalFile();
+        filePath = toLocalFileOrRaw(id.left(index));
         frameIndex = id.right(id.size() - index - s_tagFrame.size()).toInt();
     }
 }
@@ -221,7 +226,10 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
     // 旋转角度为0时，清除旋转状态缓存，防止外部文件变更后仍使用上一次的旋转状态。
     QMutexLocker _locker(&mutex);
     if (0 == angle) {
-        qCDebug(logImageViewer) << "Skipping rotation for angle 0:" << imagePath;
+        lastRotatePath.clear();
+        lastRotateImage = QImage();
+        lastRotation = 0;
+        qCDebug(logImageViewer) << "Cleared rotation state for angle 0:" << imagePath;
         return;
     }
 
@@ -300,6 +308,7 @@ void ProviderCache::clearCache()
     imageCache.clear();
     lastRotatePath.clear();
     lastRotateImage = QImage();
+    lastRotation = 0;
     qCDebug(logImageViewer) << "ProviderCache::clearCache finished";
 }
 
@@ -510,9 +519,11 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
             }
         }
     }
-    // 缓存 100×100 缩略图
+    // 缓存 100×100 缩略图（空图像不入缓存，避免污染后续有效请求）
     QImage tmpImage = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-    ThumbnailCache::instance()->add(tempPath, frameIndex, tmpImage);
+    if (!tmpImage.isNull()) {
+        ThumbnailCache::instance()->add(tempPath, frameIndex, tmpImage);
+    }
 
     if (size && size->isEmpty()) {
         *size = image.size();

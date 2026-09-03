@@ -131,7 +131,7 @@ public:
     bool isError() const;
 
     // 源码为类内 inline 且无调用点（in_degree=0），符号未发射无法链接；
-    // 以下为源码逐字拷贝（imageinfo.cpp:31-46），仅供回归，不产生对 imageinfo.cpp 的行覆盖
+    // 以下为源码逐字拷贝（imageinfo.cpp:31-47），仅供回归，不产生对 imageinfo.cpp 的行覆盖
     Ptr cloneWithoutFrame()
     {
         Ptr other(new ImageInfoData);
@@ -140,6 +140,7 @@ public:
         other->size = this->size;
         other->frameIndex = this->frameIndex;
         other->frameCount = this->frameCount;
+        other->exist = this->exist;
 
         other->scale = this->scale;
         other->x = this->x;
@@ -332,10 +333,11 @@ struct IsErrorCase
 
 // 分支清单（来源：ImageInfo::clearCurrentCache，共 2 分支）
 // B1: if (data) → 进入清理；data 为空 → 整体跳过
-// B2: for (int i = 0; i < data->frameCount; ++i) → 逐帧 removeCache（0 帧即 0 次）
+// B2: for (int i = 0; i < qMax(1, data->frameCount); ++i) → 逐帧 removeCache
+//     （静态图 frameCount=0 按单帧处理，清除帧索引 0 的缓存与缩略图）
 // 用例映射：
 // - ClearCurrentCache_WithoutData_SkipsRemovalLoop → B1 为假
-// - ClearCurrentCache_LoadedStaticImage_NoFrameEntriesRemoved → B1 真 + B2 循环 0 次（frameCount=0）
+// - ClearCurrentCache_LoadedStaticImage_RemovesSingleFrameEntry → B1 真 + B2 循环 1 次（frameCount=0 按 1 帧）
 // - ClearCurrentCache_MultiFrameData_RemovesEachFrameEntry → B1 真 + B2 循环 3 次
 //
 // 分支清单（来源：ImageInfo::exists，共 1 分支）
@@ -1392,7 +1394,7 @@ TEST_F(ImageInfoTest, ClearCurrentCache_WithoutData_SkipsRemovalLoop)
     EXPECT_TRUE(blank.data.isNull());
 }
 
-TEST_F(ImageInfoTest, ClearCurrentCache_LoadedStaticImage_NoFrameEntriesRemoved)
+TEST_F(ImageInfoTest, ClearCurrentCache_LoadedStaticImage_RemovesSingleFrameEntry)
 {
     // Arrange
     const QString path = makeTempPng(tempDir, QStringLiteral("ccc.png"));
@@ -1403,10 +1405,12 @@ TEST_F(ImageInfoTest, ClearCurrentCache_LoadedStaticImage_NoFrameEntriesRemoved)
     // Act
     loaded->clearCurrentCache();
 
-    // Assert：B1 真 + B2 循环 0 次（静态图 frameCount=0，缺陷：单帧缓存条目不会被移除）
+    // Assert：B1 真 + 静态图 frameCount=0 按单帧处理 → removeCache(path, 0)
     EXPECT_EQ(loaded->frameCount(), 0);
-    EXPECT_EQ(calls.count, 0);
-    EXPECT_TRUE(loaded->hasCachedThumbnail());  // 缓存条目仍在
+    EXPECT_EQ(calls.count, 1);
+    ASSERT_EQ(calls.frameIndexes.size(), 1);
+    EXPECT_EQ(calls.frameIndexes.at(0), 0);
+    EXPECT_EQ(calls.paths.at(0), path);
 }
 
 TEST_F(ImageInfoTest, ClearCurrentCache_MultiFrameData_RemovesEachFrameEntry)
@@ -2257,6 +2261,7 @@ TEST_F(ImageInfoDataTest, CloneWithoutFrame_CopiesAllFields_ReturnsEqualData)
     src.size = QSize(32, 16);
     src.frameIndex = 2;
     src.frameCount = 5;
+    src.exist = true;
     src.scale = 1.25;
     src.x = -3.5;
     src.y = 4.75;
@@ -2271,12 +2276,13 @@ TEST_F(ImageInfoDataTest, CloneWithoutFrame_CopiesAllFields_ReturnsEqualData)
     EXPECT_EQ(clone->size, src.size);
     EXPECT_EQ(clone->frameIndex, src.frameIndex);
     EXPECT_EQ(clone->frameCount, src.frameCount);
+    EXPECT_EQ(clone->exist, src.exist);
     EXPECT_DOUBLE_EQ(clone->scale, src.scale);
     EXPECT_DOUBLE_EQ(clone->x, src.x);
     EXPECT_DOUBLE_EQ(clone->y, src.y);
 }
 
-TEST_F(ImageInfoDataTest, CloneWithoutFrame_DropsExistFlag_CloneBecomesError)
+TEST_F(ImageInfoDataTest, CloneWithoutFrame_InheritsExistFlag_CloneNotError)
 {
     // Arrange
     ImageInfoData src;
@@ -2286,11 +2292,10 @@ TEST_F(ImageInfoDataTest, CloneWithoutFrame_DropsExistFlag_CloneBecomesError)
     // Act
     const ImageInfoData::Ptr clone = src.cloneWithoutFrame();
 
-    // Assert：源数据 copy 漏掉 exist 字段（默认 false）→ 克隆体被判为错误数据
-    // 疑似源码缺陷：imageinfo.cpp cloneWithoutFrame 未拷贝 exist（详见汇报）
+    // Assert：克隆体继承 exist 字段 → 健康源数据克隆后不判错
     ASSERT_FALSE(clone.isNull());
-    EXPECT_EQ(clone->exist, false);
-    EXPECT_EQ(clone->isError(), true);
+    EXPECT_EQ(clone->exist, true);
+    EXPECT_EQ(clone->isError(), false);
 }
 
 // ─────────────────────── imageTypeAdapator（自由函数）───────────────────────

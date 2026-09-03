@@ -37,6 +37,8 @@ bool ImageEditController::canEdit(const QUrl &source) const
     const QString path = source.toLocalFile();
     if (path.isEmpty())
         return false;
+    if (!QFileInfo(path).isFile())
+        return false;
     QImageReader reader(path);
     if (reader.imageCount() > 1)
         return false;
@@ -296,7 +298,7 @@ void ImageEditController::discard()
         m_source = QUrl();
         m_frameIndex = 0;
         m_history.clear();
-        m_historyIndex = -1;
+        m_historyIndex = 0;
         m_savedHistoryIndex = 0;
         ++m_revision;
     }
@@ -341,7 +343,8 @@ bool ImageEditController::applyEffect(const QString &effect, const QRectF &norma
     } else if (effect == QLatin1String("graffiti")) {
         if (strength != 8 && strength != 16 && strength != 32)
             return false;
-        applyGraffiti(rect, strength);
+        if (!applyGraffiti(rect, strength))
+            return false;
     } else {
         return false;
     }
@@ -501,13 +504,13 @@ void ImageEditController::applyMosaic(const QRect &rect, int blockSize)
     painter.drawImage(rect.topLeft(), region);
 }
 
-void ImageEditController::applyGraffiti(const QRect &rect, int strength)
+bool ImageEditController::applyGraffiti(const QRect &rect, int strength)
 {
     const QImage source = m_image.copy(rect).convertToFormat(QImage::Format_ARGB32);
     QImage result = source;
     QImage brush(QStringLiteral(":/res/graffiti_mixer_tip.png"));
     if (brush.isNull())
-        return;
+        return false;
     brush = brush.convertToFormat(QImage::Format_ARGB32);
 
     const int diameter = strength == 8 ? 96 : (strength == 16 ? 174 : 256);
@@ -603,6 +606,7 @@ void ImageEditController::applyGraffiti(const QRect &rect, int strength)
     }
     QPainter imagePainter(&m_image);
     imagePainter.drawImage(rect.topLeft(), result);
+    return true;
 }
 
 EditedImageProvider::EditedImageProvider(ImageEditController *controller)

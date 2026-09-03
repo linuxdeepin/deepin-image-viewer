@@ -54,12 +54,11 @@
 //   QImageWriter 无法产出多帧文件；畸形 TIFF（头有效数据缺失）用于 size() 有效而 read() 失败的分支
 // - 全部测试图片位于各 Fixture 独立的 QTemporaryDir，路径天然唯一，不依赖测试机固定路径
 //
-// 疑似源码缺陷（行为锁定，未修改源码）：
-// 1. ProviderCache::rotateImageCached：angle==0 注释称清除旋转状态，实现直接 return 未清（imageprovider.cpp:220-225）
-// 2. ThumbnailProvider::requestImage：null 缩略图无条件入单例缓存，污染后续有效请求（imageprovider.cpp:519-520）
-// 3. ProviderCache::clearCache：复位 lastRotatePath/lastRotateImage 但未复位 lastRotation（imageprovider.cpp:296-304）
-// 4. parseProviderID：文档示例使用裸路径加帧尾标形态，但 QUrl(裸路径).toLocalFile() 返回空串，
-//    裸路径 id 解析不出文件路径（imageprovider.cpp:30-42）
+// 已修复的历史源码缺陷（本批次修复，测试按新语义断言）：
+// 1. ProviderCache::rotateImageCached：angle==0 现清除旋转状态缓存（lastRotatePath/lastRotateImage/lastRotation）后返回
+// 2. ThumbnailProvider::requestImage：null 缩略图不再入单例缓存，不污染后续有效请求
+// 3. ProviderCache::clearCache：现同时复位 lastRotation
+// 4. parseProviderID：无 scheme 裸路径回退使用原串作为文件路径（file:/// 形态行为不变）
 //
 // 分支清单（来源：get_code_snippet imageprovider.cpp:168-198 AsyncImageResponse::run）
 // B1: image.isNull()（缓存未命中）→ loadScaleAndCache 读盘
@@ -111,7 +110,7 @@
 // - Run_NonexistentFile_EmitsFinishedWithNullTexture               → B5
 //
 // 分支清单（来源：get_code_snippet imageprovider.cpp:218-261 ProviderCache::rotateImageCached）
-// B1: angle == 0 → 加锁后直接 return（不清旋转状态，注释与实现不符 → 疑似缺陷 1）
+// B1: angle == 0 → 加锁后清除旋转状态缓存（lastRotatePath/lastRotateImage/lastRotation）再 return
 // B2: imagePath != lastRotatePath → imageCache.get + 记录 lastRotate*/lastRotation=angle
 // B3: imagePath == lastRotatePath → image=lastRotateImage，lastRotation += angle
 // B4: image 非 null && lastRotation%360 != 0 → LibUnionImage_NameSpace::rotateImage
@@ -119,7 +118,7 @@
 // B6: image 非 null → imageCache.add + ThumbnailCache::instance()->add
 // B7: image 为 null → 仅告警，不写缓存
 // 用例映射：
-// - RotateImageCached_ZeroAngle_ReturnsWithoutSideEffects          → B1（断言状态未被清/未变）
+// - RotateImageCached_ZeroAngle_ClearsRotationStateCache          → B1（断言状态被清空）
 // - RotateImageCached_MissingImage_WritesNoCaches                  → B2/B7
 // - RotateImageCached_DifferentPath_ResetsRotationState            → B2×2
 // - RotateImageCached_SamePathTwice_AccumulatesRotationAngle       → B2/B3/B4/B6
@@ -174,23 +173,23 @@
 // B3: reader orig valid → *size=orig + KeepAspectRatioByExpanding 缩放解码
 // B4: orig 无效 → 跳过解码器路径
 // B5: image 为 null → 回退 readNormalImage 全图加载（成功则更新 *size）
-// B6: ThumbnailCache::instance()->add（含 null 缩略图 → 疑似缺陷 2）
+// B6: image 非 null → ThumbnailCache::instance()->add（null 缩略图不入缓存）
 // B7: size && size->isEmpty() → *size = image.size()
 // B8: !image.isNull() && requestedSize valid && 尺寸不同 → scaled
 // 用例映射：
 // - RequestImage_UncachedImage_GeneratesReaderThumbnailAndCaches   → B3/B6/B7 反例/B8 反例
 // - RequestImage_CachedThumbnail_ReturnsCacheEntryWithoutDisk      → B1
 // - RequestImage_MultiFrameTag_LoadsFrameAndCachesHundredThumb     → B2/B6/B7
-// - RequestImage_TruncatedImage_FallsBackToFullLoadNull            → B3/B5/B6
-// - RequestImage_NonexistentFile_ReturnsNullAndCachesNull          → B4/B5/B6/B7
-// - RequestImage_PoisonedCache_HidesNewlyCreatedFile               → B1（缺陷 2 行为锁定）
+// - RequestImage_TruncatedImage_FallsBackToFullLoadNull            → B3/B5（null 不入缓存）
+// - RequestImage_NonexistentFile_ReturnsNullWithoutCaching         → B4/B5/B7（null 不入缓存）
+// - RequestImage_NullThumbnailNotCached_NewlyCreatedFileLoads      → B4/B5 + 文件创建后正常加载
 //
 // 分支清单（来源：get_code_snippet imageprovider.cpp:30-42 parseProviderID）
-// B1: lastIndexOf 无 "#frame_N$" 匹配 → QUrl(id).toLocalFile + frame=0（裸路径输入时 toLocalFile 为空串）
+// B1: lastIndexOf 无 "#frame_N$" 匹配 → QUrl(id).toLocalFile + frame=0（裸路径非 isLocalFile → 回退原串）
 // B2: 匹配 → 去掉尾部 tag 再 toLocalFile + toInt（帧号仍正确解析）
 // 用例映射：
 // - ParseProviderID_IdVariants_ParseExpectedPathAndFrame（TEST_P×5）→ B1/B2
-//   （kind 0/1/2: file:// URL 常规路径；kind 3/4: 裸路径 → 路径键为空串，帧号照常）
+//   （kind 0/1/2: file:// URL 常规路径；kind 3/4: 裸路径 → 回退原串作为路径键）
 //
 // 分支清单（来源：get_code_snippet imageprovider.cpp:67-93 readNormalImageScaled）
 // B1: !targetSize.isValid() → readNormalImage 默认上限
@@ -835,11 +834,11 @@ TEST_F(ProviderCacheTest, ClearCache_PopulatedState_ResetsAllEntries)
     // Act
     obj->clearCache();
 
-    // Assert  // 图像缓存与旋转路径/图像复位；lastRotation 未复位（现状锁定 → 疑似缺陷 3）
+    // Assert  // 图像缓存与旋转路径/图像/累计角度全部复位
     EXPECT_TRUE(obj->imageCache.keys().isEmpty());
     EXPECT_TRUE(obj->lastRotatePath.isEmpty());
     EXPECT_TRUE(obj->lastRotateImage.isNull());
-    EXPECT_EQ(obj->lastRotation, 90);
+    EXPECT_EQ(obj->lastRotation, 0);
 }
 
 TEST_F(ProviderCacheTest, ClearCache_EmptyState_IsNoOp)
@@ -945,7 +944,7 @@ TEST_F(ProviderCacheTest, RenameImageCache_NonexistentPath_IsNoOp)
     EXPECT_EQ(obj->imageCache.keys().size(), 1);
 }
 
-TEST_F(ProviderCacheTest, RotateImageCached_ZeroAngle_ReturnsWithoutSideEffects)
+TEST_F(ProviderCacheTest, RotateImageCached_ZeroAngle_ClearsRotationStateCache)
 {
     // Arrange: 预置缓存与旋转状态（模拟此前已旋转过）
     const QString path = tempDir.filePath("zero_angle.png");
@@ -959,9 +958,10 @@ TEST_F(ProviderCacheTest, RotateImageCached_ZeroAngle_ReturnsWithoutSideEffects)
     // Act
     obj->rotateImageCached(0, path, 0);
 
-    // Assert  // 现状：0 度直接早退，既不旋转也不清状态（注释声称清除 → 疑似缺陷 1）
-    EXPECT_EQ(obj->lastRotation, 90);
-    EXPECT_EQ(obj->lastRotatePath, path);
+    // Assert  // 0 度：清除旋转状态缓存后返回，不旋转、不写缩略图缓存
+    EXPECT_EQ(obj->lastRotation, 0);
+    EXPECT_TRUE(obj->lastRotatePath.isEmpty());
+    EXPECT_TRUE(obj->lastRotateImage.isNull());
     EXPECT_TRUE(obj->imageCache.contains(path, 0));
     EXPECT_EQ(obj->imageCache.get(path, 0).size(), QSize(100, 50));
     EXPECT_FALSE(ThumbnailCache::instance()->contains(path, 0));
@@ -1506,13 +1506,13 @@ TEST_F(ThumbnailProviderTest, RequestImage_TruncatedImage_FallsBackToFullLoadNul
     // Act
     const QImage img = obj->requestImage(id, &outSize, QSize());
 
-    // Assert  // 回退 readNormalImage 仍失败 → null；size 出参已按原图尺寸设置
+    // Assert  // 回退 readNormalImage 仍失败 → null 不入缓存；size 出参已按原图尺寸设置
     EXPECT_TRUE(img.isNull());
     EXPECT_EQ(outSize, QSize(400, 200));
-    EXPECT_TRUE(ThumbnailCache::instance()->contains(path, 0));
+    EXPECT_FALSE(ThumbnailCache::instance()->contains(path, 0));
 }
 
-TEST_F(ThumbnailProviderTest, RequestImage_NonexistentFile_ReturnsNullAndCachesNull)
+TEST_F(ThumbnailProviderTest, RequestImage_NonexistentFile_ReturnsNullWithoutCaching)
 {
     // Arrange: id 指向不存在的文件
     const QString path = tempDir.filePath("thumb_missing.png");
@@ -1522,20 +1522,19 @@ TEST_F(ThumbnailProviderTest, RequestImage_NonexistentFile_ReturnsNullAndCachesN
     // Act
     const QImage img = obj->requestImage(id, &outSize, QSize());
 
-    // Assert  // 解码器与全图加载都失败 → null 缩略图仍入单例缓存（疑似缺陷 2）
+    // Assert  // 解码器与全图加载都失败 → null 缩略图不入单例缓存
     EXPECT_TRUE(img.isNull());
     EXPECT_TRUE(outSize.isEmpty());
-    EXPECT_TRUE(ThumbnailCache::instance()->contains(path, 0));
-    EXPECT_TRUE(ThumbnailCache::instance()->get(path, 0).isNull());
+    EXPECT_FALSE(ThumbnailCache::instance()->contains(path, 0));
 }
 
-TEST_F(ThumbnailProviderTest, RequestImage_PoisonedCache_HidesNewlyCreatedFile)
+TEST_F(ThumbnailProviderTest, RequestImage_NullThumbnailNotCached_NewlyCreatedFileLoads)
 {
-    // Arrange: 先请求不存在的路径（缓存 null），随后创建有效文件
+    // Arrange: 先请求不存在的路径（null 不入缓存），随后创建有效文件
     const QString path = tempDir.filePath("poison.png");
     const QString id = QUrl::fromLocalFile(path).toString();
     obj->requestImage(id, nullptr, QSize());
-    ASSERT_TRUE(ThumbnailCache::instance()->contains(path, 0));
+    EXPECT_FALSE(ThumbnailCache::instance()->contains(path, 0));
     const QString created = makePng(tempDir.path(), "poison.png", 400, 200, Qt::green);
     ASSERT_EQ(created, path);
     ASSERT_FALSE(QImage(path).isNull());
@@ -1543,9 +1542,11 @@ TEST_F(ThumbnailProviderTest, RequestImage_PoisonedCache_HidesNewlyCreatedFile)
     // Act
     const QImage img = obj->requestImage(id, nullptr, QSize());
 
-    // Assert  // 行为锁定：被 null 污染的缓存令后续有效文件仍返回 null（疑似缺陷 2）
-    EXPECT_TRUE(img.isNull());
-    EXPECT_TRUE(ThumbnailCache::instance()->get(path, 0).isNull());
+    // Assert  // null 未污染缓存：文件创建后再次请求正常加载并入缓存
+    EXPECT_FALSE(img.isNull());
+    EXPECT_EQ(img.size(), QSize(200, 100));
+    EXPECT_TRUE(ThumbnailCache::instance()->contains(path, 0));
+    EXPECT_EQ(ThumbnailCache::instance()->get(path, 0).size(), QSize(200, 100));
 }
 
 TEST_F(ThumbnailProviderTest, RequestPixmap_ValidImage_ReturnsScaledPixmap)
@@ -1680,10 +1681,9 @@ TEST_P(ParseIdParamTest, ParseProviderID_IdVariants_ParseExpectedPathAndFrame)
     const QImage img = parser->requestImage(id, nullptr, QSize());
 
     // Assert  // B1（无 tag → frame 0）/ B2（tag → toInt）。
-    // 裸路径（kind 3/4）非 URL 形态：QUrl(裸路径).toLocalFile() 返回空串 → 路径键为空（现状锁定 → 疑似缺陷 4）
-    const QString expectKeyPath = (c.kind >= 3) ? QString() : path;
+    // 裸路径（kind 3/4）非 URL 形态：非 isLocalFile → 回退原串作为路径键
     EXPECT_TRUE(img.isNull());
-    EXPECT_TRUE(parser->imageCache.keys().contains(ThumbnailCache::Key(expectKeyPath, c.expectFrame)));
+    EXPECT_TRUE(parser->imageCache.keys().contains(ThumbnailCache::Key(path, c.expectFrame)));
 }
 
 INSTANTIATE_TEST_SUITE_P(

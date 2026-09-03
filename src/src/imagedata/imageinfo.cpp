@@ -37,6 +37,7 @@ public:
         other->size = this->size;
         other->frameIndex = this->frameIndex;
         other->frameCount = this->frameCount;
+        other->exist = this->exist;
 
         other->scale = this->scale;
         other->x = this->x;
@@ -656,7 +657,8 @@ void ImageInfo::clearCurrentCache()
     if (data) {
         qCDebug(logImageViewer) << "Clearing current image cache:" << imageUrl.toLocalFile()
                                 << "frames:" << data->frameCount;
-        for (int i = 0; i < data->frameCount; ++i) {
+        // 静态图 frameCount 默认为 0，按单帧处理（缓存帧索引为 0），确保缓存与缩略图被清除
+        for (int i = 0; i < qMax(1, data->frameCount); ++i) {
             CacheInstance()->removeCache(imageUrl.toLocalFile(), i);
         }
     }

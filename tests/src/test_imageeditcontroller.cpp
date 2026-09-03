@@ -7,11 +7,11 @@
 // | ImageEditController(QObject*) | low | - | 1 | 1 |
 // | active() | mid | in_degree:4 | 2 | 2 |
 // | applyBoxBlur(const QRect&,int)（现名 applyGaussianBlur，经 applyEffect("gaussian") 间接覆盖） | low | - | 1 | 2 |
-// | applyEffect(const QString&,const QRectF&,int) | mid | complexity:5 | 2 | 4 (TEST_F) + 3 (TEST_P 实例) = 7 |
-// | applyGraffiti(const QRect&,int)（private，经 applyEffect("graffiti") 间接覆盖） | low | - | 1 | 1 + 3 (TEST_P 实例) = 4 |
+// | applyEffect(const QString&,const QRectF&,int) | mid | complexity:5 | 2 | 5 (TEST_F) + 3 (TEST_P 实例) = 8 |
+// | applyGraffiti(const QRect&,int)（private，经 applyEffect("graffiti") 间接覆盖） | low | - | 1 | 1 + 3 (TEST_P 实例) = 4（另见 applyEffect 行的 MissingBrush 失败路径用例） |
 // | applyMosaic(const QRect&,int)（private，经 applyEffect("mosaic") 间接覆盖） | low | - | 1 | 2 |
 // | beginEdit(const QUrl&,int) | low | - | 1 | 6 |
-// | canEdit(const QUrl&) | mid | in_degree:3 | 2 | 3 (TEST_F) + 4 (TEST_P 实例) = 7 |
+// | canEdit(const QUrl&) | mid | in_degree:3 | 2 | 4 (TEST_F) + 4 (TEST_P 实例) = 8 |
 // | canRedo() | low | - | 1 | 3 |
 // | canUndo() | low | - | 1 | 3 |
 // | commitHistory() | mid | complexity:5 | 2 | 4 |
@@ -50,15 +50,17 @@
 // inventory 中 applyBoxBlur 在当前源码中已更名 applyGaussianBlur（仍为 private），
 // 经 public 入口 applyEffect("gaussian", rect, strength) 间接覆盖。
 //
-// 分支清单（来源：ImageEditController::canEdit，imageeditcontroller.cpp:35-46）
+// 分支清单（来源：ImageEditController::canEdit，imageeditcontroller.cpp:35-48）
 // B1: path.isEmpty() → return false
-// B2: reader.imageCount() > 1（多帧图，如 GIF）→ return false
-// B3: QFileInfo(path).suffix().toLower() ∉ {bmp,jpg,jpeg,png,pgm,ppm,xpm,ico,icns} → return false（∈ → true）
+// B2: !QFileInfo(path).isFile()（文件不存在/非普通文件）→ return false
+// B3: reader.imageCount() > 1（多帧图，如 GIF）→ return false
+// B4: QFileInfo(path).suffix().toLower() ∉ {bmp,jpg,jpeg,png,pgm,ppm,xpm,ico,icns} → return false（∈ → true）
 // 用例映射：
 // - CanEdit_EmptyUrl_ReturnsFalse                        → B1
-// - CanEdit_MultiFrameImage_ReturnsFalse                 → B2
-// - CanEdit_UnsupportedSuffix_ReturnsFalse（TEST_P×4）   → B3
-// - CanEdit_SupportedPng_ReturnsTrue                     → B3（∈ 集合侧）
+// - CanEdit_NonexistentFile_ReturnsFalse                 → B2
+// - CanEdit_MultiFrameImage_ReturnsFalse                 → B3
+// - CanEdit_UnsupportedSuffix_ReturnsFalse（TEST_P×4）   → B4
+// - CanEdit_SupportedPng_ReturnsTrue                     → B4（∈ 集合侧）
 //
 // 分支清单（来源：ImageEditController::active）
 // B1: return !m_image.isNull()（无图 false / 有图 true 两态）
@@ -76,12 +78,13 @@
 // - CanUndo_Initially_ReturnsFalse / CanUndo_AfterCommit_ReturnsTrue / CanUndo_BackToOldest_ReturnsFalse → B1
 //
 // 分支清单（来源：ImageEditController::modified）
-// B1: return m_historyIndex != m_savedHistoryIndex
+// B1: return m_historyIndex != m_savedHistoryIndex（初始 0/0 → 未编辑即 false）
 // 用例映射：
 // - Modified_AfterBeginEdit_ReturnsFalse / Modified_AfterCommit_ReturnsTrue / Modified_AfterMarkSaved_ReturnsFalse → B1
+// - MarkSaved_InUneditedState_KeepsModifiedFalse → B1（未编辑初态 0/0）
 //
 // 分支清单（来源：ImageEditController::beginEdit，imageeditcontroller.cpp:84-112）
-// B1: !canEdit(source)（内含空路径 B1/多帧 B2/不支持后缀 B3）→ return false
+// B1: !canEdit(source)（内含空路径 B1/文件不存在 B2/多帧 B3/不支持后缀 B4）→ return false
 // B2: isEditing(source, frameIndex) 已在编辑 → 提前 return true（不重载、不发信号）
 // B3: frameIndex > 0 && !reader.jumpToImage(frameIndex)（单帧图越界帧号）→ return false
 // B4: reader.read() 为 null（文件不存在/内容损坏）→ return false
@@ -143,7 +146,7 @@
 //
 // 分支清单（来源：ImageEditController::discard，imageeditcontroller.cpp:289-306）
 // B1: m_image.isNull() → 提前 return（不发射任何信号）
-// B2: 有图 → 清空 m_image/m_source/m_frameIndex/m_history，index=-1，saved=0，++m_revision
+// B2: 有图 → 清空 m_image/m_source/m_frameIndex/m_history，index=0，saved=0，++m_revision（未编辑态：modified()==false）
 // B3: 清空后 Q_EMIT activeChanged()/historyChanged()/revisionChanged()
 // 用例映射：
 // - Discard_WithoutImage_EmitsNothing          → B1
@@ -157,14 +160,15 @@
 // B4: effect == "gaussian" 且强度合法 → applyGaussianBlur + 成功路径
 // B5: effect == "mosaic" 且 strength ∉ {8,16,32} → return false
 // B6: effect == "mosaic" 且强度合法 → applyMosaic + 成功路径
-// B7: effect == "graffiti" 且 strength ∉ {8,16,32} → return false
-// B8: effect == "graffiti" 且强度合法 → applyGraffiti + 成功路径
+// B7: effect == "graffiti" 且强度合法但 applyGraffiti 失败（如画笔 qrc 资源缺失）→ return false（不推进 revision）
+// B8: effect == "graffiti" 且强度合法 → applyGraffiti 成功 + 成功路径
 // B9: 其它 effect 名 → return false
 // B10: 成功路径 ++m_revision + Q_EMIT revisionChanged() + return true
 // 用例映射：
 // - ApplyEffect_WithoutImage_ReturnsFalse                     → B1
 // - ApplyEffect_TooSmallRegion_ReturnsFalseWithoutRevisionBump → B2
-// - ApplyEffect_InvalidStrength_ReturnsFalse（TEST_P×3）      → B3/B5/B7
+// - ApplyEffect_InvalidStrength_ReturnsFalse（TEST_P×3）      → B3/B5/B7前半
+// - ApplyGraffiti_MissingBrush_ReturnsFalseWithoutRevisionBump → graffiti 失败路径
 // - ApplyEffect_GaussianOnSolidImage_PreservesPixels          → B4/B10
 // - ApplyEffect_UnknownEffectName_ReturnsFalse                → B9
 // - ApplyMosaic_MixedColorsRegion_AveragesToMeanColor         → B6/B10
@@ -195,11 +199,11 @@
 //
 // 分支清单（来源：ImageEditController::markSaved，imageeditcontroller.cpp:409-415）
 // 说明：本方法源码无 if 分支（赋值 + 出锁 + 发射）；下列为其可观测行为路径（含状态分支）。
-// B1: m_savedHistoryIndex = m_historyIndex（未编辑态为 -1 → modified 变 false）
+// B1: m_savedHistoryIndex = m_historyIndex（未编辑态为 0 → modified 保持 false）
 // B2: locker.unlock() 后 Q_EMIT historyChanged()（恰 1 次）
 // B3: 提交后调用 → modified 由 true 变 false
 // B4: revision/canUndo 等其它状态保持不变
-// B5: 未编辑时调用 → saved 置 -1，后续 modified 保持 false
+// B5: 未编辑时调用 → saved 保持 0，后续 modified 保持 false
 // 用例映射：
 // - MarkSaved_AfterCommit_ClearsModifiedFlag    → B1/B3
 // - MarkSaved_EmitsHistoryChangedExactlyOnce    → B2/B4
@@ -248,7 +252,7 @@
 // - ApplyMosaic_SolidRegion_PixelsUnchanged           → B1-B6（纯色均值不变）
 //
 // 分支清单（来源：ImageEditController::applyGraffiti，imageeditcontroller.cpp:504-607）
-// B1: brush（:/res/graffiti_mixer_tip.png）isNull → 提前 return
+// B1: brush（:/res/graffiti_mixer_tip.png）isNull → return false（applyEffect 据此失败且不推进 revision）
 // B2: diameter 三元 strength==8?96:(strength==16?174:256)
 // B3: baseMask 画笔 alpha 掩码双层循环（brushY/brushX）
 // B4: scales {0.85,1.0,1.15} × angles {±20,±10,0} 生成 stampMasks 双层循环
@@ -420,14 +424,14 @@ class CanEditSuffixParamTest : public ImageEditControllerTest,
 
 TEST_P(CanEditSuffixParamTest, CanEdit_UnsupportedSuffix_ReturnsFalse)
 {
-    // Arrange
+    // Arrange：文件不存在（isFile 预检先命中），后缀亦不在支持列表
     const QUrl source = QUrl::fromLocalFile(dir.filePath(GetParam()));
 
     // Act
     const bool editable = controller->canEdit(source);
 
     // Assert
-    EXPECT_FALSE(editable);  // 后缀 ∉ 支持列表（imageCount 分支不命中）
+    EXPECT_FALSE(editable);  // 文件不存在/后缀 ∉ 支持列表（imageCount 分支不命中）
     EXPECT_EQ(source.fileName(), GetParam());
 }
 
@@ -436,6 +440,22 @@ INSTANTIATE_TEST_SUITE_P(UnsupportedSuffixes, CanEditSuffixParamTest,
                                            QStringLiteral("pic.webp"),
                                            QStringLiteral("note.txt"),
                                            QStringLiteral("doc.pdf")));
+
+TEST_F(ImageEditControllerTest, CanEdit_NonexistentFile_ReturnsFalse)
+{
+    // Arrange：后缀合法但文件不存在
+    const QString path = dir.filePath("missing.png");
+    ASSERT_FALSE(QFile::exists(path));
+    const QUrl source = QUrl::fromLocalFile(path);
+
+    // Act
+    const bool editable = controller->canEdit(source);
+
+    // Assert：QFileInfo(path).isFile() 预检失败 → false
+    EXPECT_FALSE(editable);
+    EXPECT_FALSE(QFile::exists(path));
+    EXPECT_EQ(controller->revision(), 0);
+}
 
 TEST_F(ImageEditControllerTest, CanEdit_MultiFrameImage_ReturnsFalse)
 {
@@ -519,7 +539,7 @@ TEST_F(ImageEditControllerTest, BeginEdit_NonexistentPng_ReturnsFalse)
     const bool started = controller->beginEdit(source);
 
     // Assert
-    EXPECT_FALSE(started);  // canEdit 通过（后缀 png），但 read() 为 null
+    EXPECT_FALSE(started);  // canEdit 预检失败（文件不存在，isFile 分支）
     EXPECT_EQ(controller->revision(), 0);
     EXPECT_FALSE(controller->active());
 }
@@ -856,6 +876,7 @@ TEST_F(ImageEditControllerTest, Discard_WithActiveImage_ClearsAndEmitsAll)
     // Assert
     EXPECT_FALSE(controller->active());
     EXPECT_TRUE(controller->image().isNull());
+    EXPECT_FALSE(controller->modified());  // 重置 index=0/saved=0，回到未编辑态
     EXPECT_EQ(controller->revision(), 2);  // beginEdit(1) + discard(1)
     EXPECT_EQ(activeSpy.count(), 1);
     EXPECT_EQ(historySpy.count(), 1);
@@ -1001,15 +1022,14 @@ TEST_F(ImageEditControllerTest, MarkSaved_AfterEdit_EmitsHistoryChangedOnce)
 
 TEST_F(ImageEditControllerTest, MarkSaved_InUneditedState_KeepsModifiedFalse)
 {
-    // Arrange
-    // 初始态 historyIndex=-1 / savedHistoryIndex=0 → modified()==true（源码现状）
-    ASSERT_TRUE(controller->modified());
+    // Arrange：初始态 historyIndex=0 / savedHistoryIndex=0 → 未编辑 modified()==false
+    EXPECT_FALSE(controller->modified());
 
     // Act
-    controller->markSaved();  // saved := -1
+    controller->markSaved();  // saved := 0
 
     // Assert
-    EXPECT_FALSE(controller->modified());  // -1 == -1
+    EXPECT_FALSE(controller->modified());  // 0 == 0
     EXPECT_FALSE(controller->canUndo());
     EXPECT_FALSE(controller->active());
     EXPECT_EQ(controller->revision(), 0);
@@ -1067,7 +1087,7 @@ TEST_F(ImageEditControllerTest, Undo_NothingToUndo_ReturnsFalse)
     const bool undone = controller->undo();
 
     // Assert
-    EXPECT_FALSE(undone);  // 无历史（index=-1 <= 0）
+    EXPECT_FALSE(undone);  // 无历史（index=0 <= 0）
     EXPECT_EQ(historySpy.count(), 0);
     EXPECT_EQ(controller->revision(), 0);
 }
@@ -1134,7 +1154,7 @@ TEST_F(ImageEditControllerTest, Redo_NoHistory_ReturnsFalse)
     const bool redone = controller->redo();
 
     // Assert
-    EXPECT_FALSE(redone);  // index=-1 分支
+    EXPECT_FALSE(redone);  // 无历史（index=0，0+1 >= size(0) 分支）
     EXPECT_EQ(historySpy.count(), 0);
     EXPECT_EQ(controller->revision(), 0);
 }
@@ -1479,6 +1499,29 @@ TEST_P(ApplyGraffitiStrengthParamTest, ApplyGraffiti_AllStrengths_ReturnsTrue)
 
 INSTANTIATE_TEST_SUITE_P(AllStrengths, ApplyGraffitiStrengthParamTest,
                          ::testing::Values(8, 16, 32));
+
+TEST_F(ImageEditControllerTest, ApplyGraffiti_MissingBrush_ReturnsFalseWithoutRevisionBump)
+{
+    // Arrange：stub 私有 applyGraffiti 直接返回 false，模拟画笔 qrc 资源缺失
+    //（测试二进制已链接 res.qrc，真实路径资源存在，故用 stub 构造失败分支）
+    beginWithSolidPng(QColor(200, 30, 40));
+    stub.set_lamda(VADDR(ImageEditController, applyGraffiti),
+                   [](ImageEditController *, const QRect &, int) -> bool {
+                       return false;
+                   });
+    QSignalSpy revisionSpy(controller, &ImageEditController::revisionChanged);
+    const QImage imageBefore = controller->image();
+
+    // Act
+    const bool applied = controller->applyEffect(QStringLiteral("graffiti"),
+                                                 QRectF(0, 0, 1.0, 1.0), 8);
+
+    // Assert：applyGraffiti 失败 → applyEffect 返回 false，不推进版本号、不发信号（强异常安全）
+    EXPECT_FALSE(applied);
+    EXPECT_EQ(controller->revision(), 1);
+    EXPECT_EQ(revisionSpy.count(), 0);
+    EXPECT_EQ(controller->image(), imageBefore);
+}
 
 TEST_F(ImageEditControllerTest, SaveComposite_MatchingPngNoAnnotations_WritesFile)
 {
