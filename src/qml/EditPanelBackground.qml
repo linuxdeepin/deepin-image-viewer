@@ -13,7 +13,11 @@ Item {
     required property Item blurSource
     required property Item target
     property color borderColor
+    property real blurAmount: 0.6
+    property int blurRadius: 32
     property color shadowColor
+    property int shadowBlur: 20
+    property real shadowOffsetY: 6
     property color tintColor
     property real radius: 18
     readonly property int blurPadding: 32
@@ -32,9 +36,9 @@ Item {
         anchors.fill: root
         cornerRadius: root.radius
         hollow: true
-        shadowBlur: 20
+        shadowBlur: root.shadowBlur
         shadowColor: root.shadowColor
-        shadowOffsetY: 6
+        shadowOffsetY: root.shadowOffsetY
     }
 
     Item {
@@ -69,9 +73,9 @@ Item {
         MultiEffect {
             anchors.fill: capturedImage
             autoPaddingEnabled: false
-            blur: 0.6
+            blur: root.blurAmount
             blurEnabled: true
-            blurMax: root.blurPadding
+            blurMax: root.blurRadius
             source: capturedImage
         }
 

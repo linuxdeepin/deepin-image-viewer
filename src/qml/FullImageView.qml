@@ -285,8 +285,10 @@ Item {
                 editCanvas.strokeCommitted();
         }
         onCropRequested: normalizedRect => {
-            if (IV.ImageEditor.crop(normalizedRect))
-                editCanvas.finishCrop();
+            if (IV.ImageEditor.crop(normalizedRect)) {
+                editCanvas.finishCrop(normalizedRect);
+                editToolbar.currentTool = "";
+            }
         }
         Accessible.name: "FullImageEditCanvas"
         Accessible.role: Accessible.Pane
@@ -532,7 +534,6 @@ Item {
     EditToolbar {
         id: editToolbar
 
-        blurSource: imageViewer
         canRedo: IV.ImageEditor.canRedo
         canUndo: IV.ImageEditor.canUndo
         visible: IV.GStatus.editMode
@@ -546,20 +547,94 @@ Item {
 
         onCloseRequested: stackView.requestExitEditMode()
         onRedoRequested: {
+            if (editToolbar.currentTool === "crop") editToolbar.currentTool = "";
             if (IV.ImageEditor.redo() && editCanvas.redoHistory())
                 IV.GStatus.editModified = IV.ImageEditor.modified;
         }
         onRotateRequested: {
+            if (editToolbar.currentTool === "crop") editToolbar.currentTool = "";
             if (IV.ImageEditor.rotateClockwise())
                 editCanvas.rotateClockwise();
         }
         onSaveRequested: fullThumbnail.openSaveDialog(false)
         onUndoRequested: {
+            if (editToolbar.currentTool === "crop") editToolbar.currentTool = "";
             if (IV.ImageEditor.undo() && editCanvas.undoHistory())
                 IV.GStatus.editModified = IV.ImageEditor.modified;
         }
         Accessible.name: "EditToolbar"
         Accessible.role: Accessible.ToolBar
+    }
+
+    Item {
+        id: cropActionPanel
+
+        height: 56
+        visible: IV.GStatus.editMode && editToolbar.currentTool === "crop"
+        width: 102
+        z: editToolbar.z
+
+        anchors {
+            bottom: editToolbar.top
+            bottomMargin: 10
+            left: editToolbar.left
+            leftMargin: editToolbar.cropToolOffset
+        }
+
+        Item {
+            id: cropActionButtons
+
+            anchors.fill: parent
+
+            FloatingPanel {
+                Accessible.ignored: true
+                anchors.fill: parent
+                implicitHeight: cropActionButtons.height
+            }
+
+            Row {
+                anchors.centerIn: parent
+                spacing: 12
+
+                ToolButton {
+                    Accessible.name: ToolTip.text
+                    Accessible.role: Accessible.Button
+                    display: AbstractButton.IconOnly
+                    height: 36
+                    icon.height: 20
+                    icon.name: "edit_crop_cancel"
+                    icon.width: 20
+                    padding: 8
+                    width: 36
+
+                    ToolTip.delay: 500
+                    ToolTip.text: qsTranslate("MainStack", "Cancel")
+                    ToolTip.timeout: 5000
+                    ToolTip.visible: hovered
+
+                    onClicked: editToolbar.currentTool = ""
+                }
+
+                ToolButton {
+                    Accessible.name: ToolTip.text
+                    Accessible.role: Accessible.Button
+                    display: AbstractButton.IconOnly
+                    height: 36
+                    icon.height: 20
+                    icon.name: "edit_crop_confirm"
+                    icon.width: 20
+                    padding: 8
+                    width: 36
+
+                    ToolTip.delay: 500
+                    ToolTip.text: qsTranslate("EditToolbar", "Crop")
+                    ToolTip.timeout: 5000
+                    ToolTip.visible: hovered
+
+                    onClicked: editCanvas.confirmCrop()
+                }
+            }
+        }
     }
 
     FileDialog {
@@ -652,7 +727,6 @@ Item {
             return 0;
         }
 
-        blurSource: imageViewer
         visible: IV.GStatus.editMode && editToolbar.currentTool !== ""
                  && editToolbar.currentTool !== "crop"
         z: editToolbar.z

@@ -13,7 +13,6 @@ DTK.Control {
     // uos-design: allow-literal-color Annotation colors are image content values, not UI theme colors.
     property string currentTool: ""
     property string blurMode: "gaussian"
-    required property Item blurSource
     property color currentColor: "#f82a2a"
     property int effectStrength: 15
     readonly property var effectSteps: blurMode === "gaussian" ? [5, 15, 30] : [8, 16, 32]
@@ -45,19 +44,9 @@ DTK.Control {
     implicitWidth: isEffectTool ? 381 : isTextTool ? 255 : 339
     padding: 0
 
-    background: EditPanelBackground {
+    background: DTK.FloatingPanel {
         Accessible.ignored: true
-        blurSource: propertyPanel.blurSource
-        borderColor: Qt.rgba(propertyPanel.themeTextColor.r,
-                             propertyPanel.themeTextColor.g,
-                             propertyPanel.themeTextColor.b, 0.12)
-        shadowColor: Qt.rgba(propertyPanel.palette.shadow.r,
-                             propertyPanel.palette.shadow.g,
-                             propertyPanel.palette.shadow.b, 0.24)
-        target: propertyPanel
-        tintColor: Qt.rgba(propertyPanel.palette.window.r,
-                           propertyPanel.palette.window.g,
-                           propertyPanel.palette.window.b, 0.62)
+        implicitHeight: propertyPanel.implicitHeight
     }
 
     component ModeButton: DTK.ToolButton {
@@ -99,19 +88,24 @@ DTK.Control {
         }
     }
 
-    component EffectIcon: DTK.ToolButton {
+    component EffectIcon: Item {
         required property int iconHeight
         required property string iconName
         required property int iconWidth
 
-        display: AbstractButton.IconOnly
         height: 36
-        icon.height: iconHeight
-        icon.name: iconName
-        icon.width: iconWidth
-        padding: 0
         width: 36
-        Accessible.name: "EditPropertyPanel_ToolButton"
+        Accessible.name: ""
+        Accessible.role: Accessible.Indicator
+
+        DTK.DciIcon {
+            anchors.centerIn: parent
+            height: parent.iconHeight
+            name: parent.iconName
+            sourceSize.height: parent.iconHeight
+            sourceSize.width: parent.iconWidth
+            width: parent.iconWidth
+        }
     }
 
     component SliderTrack: Rectangle {
@@ -258,10 +252,8 @@ DTK.Control {
                 iconName: propertyPanel.blurMode === "gaussian" ? "edit_blur_weak_endpoint"
                         : propertyPanel.blurMode === "mosaic" ? "edit_mosaic_weak_endpoint"
                         : "edit_graffiti_weak_endpoint"
-                iconHeight: propertyPanel.blurMode === "mosaic" ? 12
-                                                                 : propertyPanel.effectEndpointIconSize
-                iconWidth: propertyPanel.blurMode === "mosaic" ? 9
-                                                                : propertyPanel.effectEndpointIconSize
+                iconHeight: 20
+                iconWidth: 20
             }
             DTK.Slider {
                 id: effectSlider
@@ -286,8 +278,8 @@ DTK.Control {
                 iconName: propertyPanel.blurMode === "mosaic" ? "edit_mosaic"
                         : propertyPanel.blurMode === "graffiti" ? "edit_graffiti"
                         : "edit_blur"
-                iconHeight: propertyPanel.effectEndpointIconSize
-                iconWidth: propertyPanel.effectEndpointIconSize
+                iconHeight: 20
+                iconWidth: 20
             }
         }
 

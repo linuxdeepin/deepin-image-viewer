@@ -393,11 +393,17 @@ Item {
     }
 
     function cropHandleAt(x, y) {
+        var centerX = cropRect.x + cropRect.width / 2;
+        var centerY = cropRect.y + cropRect.height / 2;
         var handles = [
             { name: "topLeft", x: cropRect.x, y: cropRect.y },
+            { name: "top", x: centerX, y: cropRect.y },
             { name: "topRight", x: cropRect.x + cropRect.width, y: cropRect.y },
+            { name: "right", x: cropRect.x + cropRect.width, y: centerY },
             { name: "bottomRight", x: cropRect.x + cropRect.width, y: cropRect.y + cropRect.height },
-            { name: "bottomLeft", x: cropRect.x, y: cropRect.y + cropRect.height }
+            { name: "bottom", x: centerX, y: cropRect.y + cropRect.height },
+            { name: "bottomLeft", x: cropRect.x, y: cropRect.y + cropRect.height },
+            { name: "left", x: cropRect.x, y: centerY }
         ];
         for (var i = 0; i < handles.length; ++i) {
             if (Math.abs(x - handles[i].x) <= 8 && Math.abs(y - handles[i].y) <= 8)
@@ -520,19 +526,27 @@ Item {
                               cropRect.width / width, cropRect.height / height));
     }
 
-    function finishCrop() {
-        var crop = cropRect;
+    function finishCrop(normalizedCrop) {
+        if (normalizedCrop.width <= 0 || normalizedCrop.height <= 0
+                || width <= 0 || height <= 0)
+            return;
+        var canvasWidth = width;
+        var canvasHeight = height;
         var updated = [];
         for (var i = 0; i < strokes.length; ++i) {
             var stroke = strokes[i];
             var bounds = boundsFor(stroke);
-            if (bounds.right <= crop.x || bounds.left >= crop.x + crop.width
-                    || bounds.bottom <= crop.y || bounds.top >= crop.y + crop.height)
+            if (bounds.right / canvasWidth <= normalizedCrop.x
+                    || bounds.left / canvasWidth >= normalizedCrop.x + normalizedCrop.width
+                    || bounds.bottom / canvasHeight <= normalizedCrop.y
+                    || bounds.top / canvasHeight >= normalizedCrop.y + normalizedCrop.height)
                 continue;
             var points = [];
             for (var p = 0; p < stroke.points.length; ++p) {
-                points.push(Qt.point((stroke.points[p].x - crop.x) * width / crop.width,
-                                     (stroke.points[p].y - crop.y) * height / crop.height));
+                points.push(Qt.point((stroke.points[p].x / canvasWidth - normalizedCrop.x)
+                                     * canvasWidth / normalizedCrop.width,
+                                     (stroke.points[p].y / canvasHeight - normalizedCrop.y)
+                                     * canvasHeight / normalizedCrop.height));
             }
             updated.push(Object.assign({}, stroke, { points: points }));
         }
@@ -789,9 +803,17 @@ Item {
                                  width - crop.x - crop.width, crop.height);
                 context.fillRect(0, crop.y + crop.height, width,
                                  height - crop.y - crop.height);
-                context.strokeStyle = "#ffffff";
-                context.lineWidth = 1;
+                context.strokeStyle = Qt.rgba(editCanvas.selectionActiveColor.r,
+                                              editCanvas.selectionActiveColor.g,
+                                              editCanvas.selectionActiveColor.b, 0.55);
+                context.lineWidth = 2;
+                context.setLineDash([2.5, 2.5]);
                 context.strokeRect(crop.x, crop.y, crop.width, crop.height);
+                context.strokeStyle = "rgba(255, 255, 255, 0.65)";
+                context.lineDashOffset = 2.5;
+                context.strokeRect(crop.x, crop.y, crop.width, crop.height);
+                context.lineDashOffset = 0;
+                context.setLineDash([]);
                 context.strokeStyle = Qt.rgba(palette.light.r,
                                               palette.light.g,
                                               palette.light.b, 0.5);
@@ -806,13 +828,36 @@ Item {
                 context.moveTo(crop.x + crop.width / 3 * 2, crop.y);
                 context.lineTo(crop.x + crop.width / 3 * 2, crop.y + crop.height);
                 context.stroke();
-                var cropHandles = [
-                    [crop.x, crop.y], [crop.x + crop.width, crop.y],
-                    [crop.x + crop.width, crop.y + crop.height], [crop.x, crop.y + crop.height]
-                ];
-                context.fillStyle = "#ffffff";
-                for (var c = 0; c < cropHandles.length; ++c)
-                    context.fillRect(cropHandles[c][0] - 4, cropHandles[c][1] - 4, 8, 8);
+                var right = crop.x + crop.width;
+                var bottom = crop.y + crop.height;
+                var centerX = crop.x + crop.width / 2;
+                var centerY = crop.y + crop.height / 2;
+                var cornerLength = Math.min(16, crop.width / 4, crop.height / 4);
+                var edgeLength = Math.min(18, crop.width / 4, crop.height / 4);
+                context.strokeStyle = "#ffffff";
+                context.lineWidth = 3;
+                context.beginPath();
+                context.moveTo(crop.x, crop.y + cornerLength);
+                context.lineTo(crop.x, crop.y);
+                context.lineTo(crop.x + cornerLength, crop.y);
+                context.moveTo(right - cornerLength, crop.y);
+                context.lineTo(right, crop.y);
+                context.lineTo(right, crop.y + cornerLength);
+                context.moveTo(right, bottom - cornerLength);
+                context.lineTo(right, bottom);
+                context.lineTo(right - cornerLength, bottom);
+                context.moveTo(crop.x + cornerLength, bottom);
+                context.lineTo(crop.x, bottom);
+                context.lineTo(crop.x, bottom - cornerLength);
+                context.moveTo(centerX - edgeLength / 2, crop.y);
+                context.lineTo(centerX + edgeLength / 2, crop.y);
+                context.moveTo(right, centerY - edgeLength / 2);
+                context.lineTo(right, centerY + edgeLength / 2);
+                context.moveTo(centerX - edgeLength / 2, bottom);
+                context.lineTo(centerX + edgeLength / 2, bottom);
+                context.moveTo(crop.x, centerY - edgeLength / 2);
+                context.lineTo(crop.x, centerY + edgeLength / 2);
+                context.stroke();
                 context.restore();
             }
         }
@@ -1057,13 +1102,21 @@ Item {
                         originalTop += moveY;
                         originalBottom += moveY;
                     } else {
-                        if (drawingCanvas.resizeHandle.indexOf("Left") >= 0)
+                        if (drawingCanvas.resizeHandle === "left"
+                                || drawingCanvas.resizeHandle === "topLeft"
+                                || drawingCanvas.resizeHandle === "bottomLeft")
                             originalLeft = Math.max(0, Math.min(originalRight - minSize, mouse.x));
-                        if (drawingCanvas.resizeHandle.indexOf("Right") >= 0)
+                        if (drawingCanvas.resizeHandle === "right"
+                                || drawingCanvas.resizeHandle === "topRight"
+                                || drawingCanvas.resizeHandle === "bottomRight")
                             originalRight = Math.min(editCanvas.width, Math.max(originalLeft + minSize, mouse.x));
-                        if (drawingCanvas.resizeHandle.indexOf("top") === 0)
+                        if (drawingCanvas.resizeHandle === "top"
+                                || drawingCanvas.resizeHandle === "topLeft"
+                                || drawingCanvas.resizeHandle === "topRight")
                             originalTop = Math.max(0, Math.min(originalBottom - minSize, mouse.y));
-                        if (drawingCanvas.resizeHandle.indexOf("bottom") === 0)
+                        if (drawingCanvas.resizeHandle === "bottom"
+                                || drawingCanvas.resizeHandle === "bottomLeft"
+                                || drawingCanvas.resizeHandle === "bottomRight")
                             originalBottom = Math.min(editCanvas.height, Math.max(originalTop + minSize, mouse.y));
                     }
                     editCanvas.cropRect = Qt.rect(originalLeft, originalTop,
@@ -1188,8 +1241,14 @@ Item {
 
         height: 20
         name: "edit_rotate"
+        rotation: 90
         sourceSize.height: 20
         sourceSize.width: 20
+        transform: Scale {
+            origin.x: 10
+            origin.y: 10
+            xScale: -1
+        }
         visible: handlePosition.x >= 0 && handlePosition.y >= 0
         width: 20
         x: handlePosition.x - width / 2
