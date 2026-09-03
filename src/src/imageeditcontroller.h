@@ -58,7 +58,7 @@ private:
     QRect pixelRect(const QRectF &normalizedRect) const;
     void applyGaussianBlur(const QRect &rect, int radius);
     void applyMosaic(const QRect &rect, int blockSize);
-    void applyGraffiti(const QRect &rect, int spacing);
+    bool applyGraffiti(const QRect &rect, int spacing);
 
     mutable QReadWriteLock m_lock;
     QImage m_image;
@@ -66,7 +66,7 @@ private:
     int m_frameIndex = 0;
     int m_revision = 0;
     QVector<QImage> m_history;
-    int m_historyIndex = -1;
+    int m_historyIndex = 0;
     int m_savedHistoryIndex = 0;
 };
 

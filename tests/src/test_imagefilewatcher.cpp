@@ -46,9 +46,6 @@
 //   真实实现会触发 ImageInfoCache 后台加载；三项均以 VADDR stub 计数隔离。
 // - 文件监听用真实 QFileSystemWatcher + QTemporaryDir 落盘文件（仅同步增删路径，
 //   不等待异步信号），用例内不调用 processEvents，避免事件循环引入的不确定时序。
-// - ScopedDebugLogSuppressor：onImageDirChanged 在 erase 返回 end() 后仍以
-//   qCDebug 流式输出 itr.key()（疑似缺陷 D1，见类内注释）。ut_main 开启了 debug
-//   日志，触发恢复分支的用例需临时关闭该分类以保证流参数不求值、迭代器不解引用。
 //
 // ─────────────────────────────────────────────────────────────
 // 分支清单（来源：ImageFileWatcher::onImageFileChanged(QString)）
@@ -84,7 +81,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileSystemWatcher>
-#include <QLoggingCategory>
 #include <QSignalSpy>
 #include <QTemporaryDir>
 #include <QUrl>
@@ -114,25 +110,6 @@ QString watchUrl(const QString &localPath)
 {
     return QUrl::fromLocalFile(localPath).toString();
 }
-
-// 疑似缺陷 D1 防护：onImageDirChanged 恢复分支中 itr = removedFile.erase(itr) 之后
-// 仍执行 qCDebug(...) << itr.key()；当被擦除元素是迭代最后一个时 erase 返回 end()，
-// 解引用 end() 为 UB。ut_main 默认开启 debug 日志会使流参数被求值，故在触发该分支的
-// 用例期间临时关闭本日志分类（qCDebug 宏在 isDebugEnabled()==false 时不求值参数），
-// 退出时恢复为 true（与 ut_main 的运行期设定一致）。
-class ScopedDebugLogSuppressor {
-public:
-    ScopedDebugLogSuppressor()
-    {
-        QLoggingCategory::setFilterRules(
-                QStringLiteral("org.deepin.dde.imageviewer.debug=false"));
-    }
-    ~ScopedDebugLogSuppressor()
-    {
-        QLoggingCategory::setFilterRules(
-                QStringLiteral("org.deepin.dde.imageviewer.debug=true"));
-    }
-};
 }  // namespace
 
 class ImageFileWatcherTest : public ::testing::Test {
@@ -425,7 +402,7 @@ TEST_F(ImageFileWatcherTest, OnImageFileChanged_CachedFileDeleted_StillEmitsAndK
 TEST_F(ImageFileWatcherTest, OnImageDirChanged_RemovedFileRestored_RewatchedAndEmits)
 {
     // Arrange：文件删除 → onImageFileChanged 记入 removedFile → 文件恢复
-    ScopedDebugLogSuppressor suppressor;  // D1：erase 后解引用 end() 的 UB 防护
+    // （恢复分支的 erase 可能返回 end()，源码已先记录 key 再 erase，debug 日志开启下安全）
     const QString path = createWatchableFile(tmpDir, QStringLiteral("res.png"));
     watcher->addImageFile(watchUrl(path));
     ASSERT_TRUE(QFile::remove(path));
@@ -457,7 +434,6 @@ TEST_F(ImageFileWatcherTest, OnImageDirChanged_StillMissingFile_RecordRetainedSi
 
     // Assert：静默保留移除记录；文件恢复后再次扫描仍能触发（记录未丢失）
     EXPECT_EQ(spy.count(), 0);
-    ScopedDebugLogSuppressor suppressor;  // D1：下方恢复路径含 erase
     createWatchableFile(tmpDir, QStringLiteral("gone.png"));
     watcher->onImageDirChanged(tmpDir.path());
     EXPECT_EQ(spy.count(), 1);

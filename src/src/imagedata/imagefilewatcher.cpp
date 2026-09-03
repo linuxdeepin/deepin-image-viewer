@@ -235,9 +235,10 @@ void ImageFileWatcher::onImageDirChanged(const QString &dir)
             // 文件恢复或替换，发布文件变更信息
             onImageFileChanged(itr.key());
 
-            // 从缓存信息中移除
+            // 从缓存信息中移除（先记录 key，erase 返回的迭代器可能为 end()，不可再解引用）
+            const QString removedPath = itr.key();
             itr = removedFile.erase(itr);
-            qCDebug(logImageViewer) << "Removed " << itr.key() << " from removedFile cache.";
+            qCDebug(logImageViewer) << "Removed " << removedPath << " from removedFile cache.";
         } else {
             qCDebug(logImageViewer) << "File " << itr.key() << " not found in directory, moving to next.";
             ++itr;
