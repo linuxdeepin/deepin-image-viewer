@@ -21,6 +21,9 @@ namespace image {
 const int THUMBNAIL_MAX_SIZE = 291 * 2;
 const int THUMBNAIL_NORMAL_SIZE = 128 * 2;
 
+//元数据时间格式，写入(getAllMetaData)与解析(getCreateDateTime)共用
+const QString METADATA_DATETIME_FORMAT = "yyyy/MM/dd HH:mm:ss";
+
 enum ThumbnailType {
     ThumbNormal,
     ThumbLarge,

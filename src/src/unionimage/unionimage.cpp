@@ -216,7 +216,6 @@ public:
         qCDebug(logImageViewer) << "UnionImage_Private destroyed.";
     }
     QStringList m_qtSupported;
-    QHash<QString, int> m_movie_formats;
     QStringList m_canSave;
     QStringList m_qtrotate;
 };
@@ -252,12 +251,6 @@ UNIONIMAGESHARED_EXPORT const QStringList supportStaticFormat()
 {
     qCDebug(logImageViewer) << "Getting supported static image formats.";
     return (union_image_private.m_qtSupported);
-}
-
-UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat()
-{
-    qCDebug(logImageViewer) << "Getting supported movie formats.";
-    return (union_image_private.m_movie_formats.keys());
 }
 
 /**
@@ -800,13 +793,14 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFile(int angel, const QString &path, QSt
 UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, const QString &path, QString &erroMsg)
 {
     if (angel % 90 != 0) {
-        erroMsg = "unsupported angel";
+        erroMsg = "unsupported angle";
         return false;
     }
     QImage image_copy;
-    if (img.isNull())
+    if (img.isNull()) {
+        erroMsg = "image is null";
         return false;
-    else
+    } else
         image_copy = img;
 
     QString format = detectImageFormat(path);
@@ -987,12 +981,12 @@ imageViewerSpace::PathType getPathType(const QString &imagepath)
     } else if (imagepath.indexOf("mtp:host=") != -1) {
         qCDebug(logImageViewer) << "Detected MTP path type";
         type = imageViewerSpace::PathTypeMTP;
-    } else if (imagepath.indexOf("gphoto2:host=") != -1) {
-        qCDebug(logImageViewer) << "Detected PTP path type";
-        type = imageViewerSpace::PathTypePTP;
     } else if (imagepath.indexOf("gphoto2:host=Apple") != -1) {
         qCDebug(logImageViewer) << "Detected Apple path type";
         type = imageViewerSpace::PathTypeAPPLE;
+    } else if (imagepath.indexOf("gphoto2:host=") != -1) {
+        qCDebug(logImageViewer) << "Detected PTP path type";
+        type = imageViewerSpace::PathTypePTP;
     } else if (Libutils::image::isVaultFile(imagepath)) {
         qCDebug(logImageViewer) << "Detected safebox path type";
         type = imageViewerSpace::PathTypeSAFEBOX;

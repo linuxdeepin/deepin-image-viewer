@@ -73,7 +73,7 @@
 // - ScaleImage_LargerBoundingBox_ReturnsUpscaledImage              → B13(放大侧)/B12
 // - 未覆盖：B3/B5（需 canRead 为真但 reader.size() 无效的格式）、B6~B11（需不响应
 //   ScaledSize 的图像格式触发"落盘 PNG 重入"递归）——本运行环境无稳定构造方式，
-//   见最终汇报；递归临时文件路径为源码内建 QDir::tempPath 固定名，无法从外部注入
+//   见最终汇报；递归临时文件为 QDir::tempPath 下唯一名且在返回前删除
 //
 // 分支清单（来源：imageutils.cpp 自由函数 size2HumanT）
 // B1: bytes < 1024 → "N B"（含 0 与 1023 边界）
@@ -122,7 +122,7 @@
 // - GetThumbnail_NoCacheAllowed_GeneratesAndReturns      → B3(真)/B4/B7
 //
 // 分支清单（来源：imageutils.cpp 自由函数 getCreateDateTime）
-// B1: 初始 !dt.isValid()（恒真，进入元数据回退）
+// B1: 元数据 DateTimeOriginal 非空 → 按 METADATA_DATETIME_FORMAT 解析
 // B2: DateTimeOriginal 为空 → 改读 DateTimeDigitized
 // B3: 两者皆空 → 取当前时间字符串
 // B4: 元数据解析失败 → 回退 birthTime
@@ -130,8 +130,8 @@
 // B6: 最终 return dt
 //
 // 用例映射：
-// - GetCreateDateTime_ExistingFile_ReturnsBirthTimeFallback   → B1/B2(假)/B4
-// - GetCreateDateTime_MissingFile_ReturnsCurrentTimeFallback  → B2(真)/B3/B5
+// - GetCreateDateTime_ExistingFile_ReturnsMetadataDateTime   → B1/B2(假)
+// - GetCreateDateTime_MissingFile_ReturnsCurrentTimeFallback → B2(真)/B3/B5
 //
 // 分支清单（来源：imageutils.cpp 自由函数 getImagesInfo）
 // B1: !recursive → 非递归 entryInfoList(QDir::Files)
@@ -179,13 +179,14 @@
 // - ThumbnailPath_EachThumbnailType_ReturnsTypeSubdirPath（TEST_P 3 组）→ B1/B2/B3/B5
 //
 // 分支清单（来源：imageutils.cpp 自由函数 thumbnailCachePath）
-// B1: 环境变量命中 XDG_CACHE_HOME（el.length()==2）→ 使用该值
+// B1: 环境变量命中 XDG_CACHE_HOME（section 取键/值，值可含 '='）→ 使用该值
 // B2: 未命中 → home + "/.cache" 回退
 // B3: mkpath 创建 normal/large/fail 三个子目录
 //
 // 用例映射：
-// - ThumbnailCachePath_XdgCacheHomeSet_ReturnsIsolatedDir     → B1/B3
-// - ThumbnailCachePath_XdgCacheHomeMissing_FallsBackToHome    → B2/B3
+// - ThumbnailCachePath_XdgCacheHomeSet_ReturnsIsolatedDir          → B1/B3
+// - ThumbnailCachePath_XdgCacheHomeContainsEqualSign_UsesFullValue → B1(值含 '=')
+// - ThumbnailCachePath_XdgCacheHomeMissing_FallsBackToHome         → B2/B3
 //
 // 分支清单（来源：imageutils.cpp 自由函数 thumbnailExist）
 // B1: 对应类型缩略图文件存在 → true
@@ -197,8 +198,8 @@
 //
 // 分支清单（来源：imageutils.cpp 自由函数 isVaultFile）
 // B1: rootPath 以 '/' 结尾 → chop(1)
-// B2: path.contains(rootPath) && path.left(6)!="search" → true
-// B3: "search" 前缀路径 → 短路右侧为假 → false
+// B2: path.contains(rootPath) && QUrl(path).scheme()!="search" → true
+// B3: search 协议 URL（scheme=="search"）→ 短路右侧为假 → false
 //
 // 用例映射：
 // - IsVaultFile_VariousPaths_ReturnsExpectedFlag（TEST_P 4 组）→ B1/B2/B3
@@ -245,12 +246,12 @@
 // - ThumbnailAttribute_RemoteUrl_ReturnsEmptyMap      → B3
 //
 // 分支清单（来源：imageutils.cpp 自由函数 getAllMetaData）
-// B1: admMap.contains("DateTime")（新建空 map，恒假——疑似死代码）→ 走 else
-// B2: else → 以 lastModified 填 DateTimeOriginal/DateTimeDigitized
+// B1: 以 lastModified 按 METADATA_DATETIME_FORMAT 填 DateTimeOriginal/DateTimeDigitized
+//     （与 getCreateDateTime 解析格式一致，原恒假死分支已删除）
 //
 // 用例映射：
-// - GetAllMetaData_ValidPngFile_ReturnsExpectedFields   → B1(假)/B2
-// - GetAllMetaData_MissingFile_ReturnsFallbackFields    → B1(假)/B2
+// - GetAllMetaData_ValidPngFile_ReturnsExpectedFields   → B1
+// - GetAllMetaData_MissingFile_ReturnsFallbackFields    → B1
 //
 // 分支清单（来源：imageutils.cpp 自由函数 cachePixmap）
 // B1: QPixmapCache::find 未命中 → 从文件加载并 insert
@@ -350,7 +351,7 @@ struct BoolPathCase {
 // INSTANTIATE 的参数值在静态初始化期求值（早于 fixture 成员与 stub 生效），
 // 路径必须在测试体内构造，故参数只携带"路径种类"
 struct VaultFlagCase {
-    enum Kind { VaultFile, PlainFile, SearchPrefixed, EmptyPath };
+    enum Kind { VaultFile, PlainFile, SearchUrl, EmptyPath };
     Kind kind;
     bool expected;
 };
@@ -516,8 +517,8 @@ TEST_P(IsVaultFileParamTest, IsVaultFile_VariousPaths_ReturnsExpectedFlag)
     case VaultFlagCase::PlainFile:
         path = QDir(m_workDir.path()).filePath("plain.png");
         break;
-    case VaultFlagCase::SearchPrefixed:
-        path = QString("search") + liu::makeVaultLocalPath("", "");
+    case VaultFlagCase::SearchUrl:
+        path = QString("search://") + liu::makeVaultLocalPath("", "");
         break;
     case VaultFlagCase::EmptyPath:
         break;
@@ -537,7 +538,7 @@ INSTANTIATE_TEST_SUITE_P(
         ::testing::Values(
                 VaultFlagCase{VaultFlagCase::VaultFile, true},
                 VaultFlagCase{VaultFlagCase::PlainFile, false},
-                VaultFlagCase{VaultFlagCase::SearchPrefixed, false},
+                VaultFlagCase{VaultFlagCase::SearchUrl, false},
                 VaultFlagCase{VaultFlagCase::EmptyPath, false}));
 
 // ── isCanRemove ───────────────────────────────────────────────────────────────
@@ -765,6 +766,11 @@ TEST_F(FreeImageUtilsTest, GetAllMetaData_ValidPngFile_ReturnsExpectedFields)
     EXPECT_EQ(got.value("FileFormat"), QString("png"));
     EXPECT_EQ(got.value("FileSize"), liu::size2HumanT(QFileInfo(path).size()));
     EXPECT_TRUE(got.contains("DateTimeOriginal"));
+    // B1: 日期字段按 METADATA_DATETIME_FORMAT 写入，且可被同一格式解析（与 getCreateDateTime 对齐）
+    const QDateTime lastModified = QFileInfo(path).lastModified();
+    EXPECT_EQ(got.value("DateTimeOriginal"), lastModified.toString(liu::METADATA_DATETIME_FORMAT));
+    EXPECT_EQ(got.value("DateTimeDigitized"), lastModified.toString(liu::METADATA_DATETIME_FORMAT));
+    EXPECT_TRUE(QDateTime::fromString(got.value("DateTimeOriginal"), liu::METADATA_DATETIME_FORMAT).isValid());
 }
 
 TEST_F(FreeImageUtilsTest, GetAllMetaData_MissingFile_ReturnsFallbackFields)
@@ -784,20 +790,19 @@ TEST_F(FreeImageUtilsTest, GetAllMetaData_MissingFile_ReturnsFallbackFields)
 
 // ── getCreateDateTime ─────────────────────────────────────────────────────────
 
-TEST_F(FreeImageUtilsTest, GetCreateDateTime_ExistingFile_ReturnsBirthTimeFallback)
+TEST_F(FreeImageUtilsTest, GetCreateDateTime_ExistingFile_ReturnsMetadataDateTime)
 {
     // Arrange
     const QString path = makeSolidPng(m_workDir.path(), "born.png", 4, 4);
-    const QDateTime birthTime = QFileInfo(path).birthTime();
+    const QDateTime lastModified = QFileInfo(path).lastModified();
 
     // Act
     const QDateTime got = liu::getCreateDateTime(path);
 
-    // Assert（元数据格式不匹配解析失败 → 回退文件 birthTime）
+    // Assert（DateTimeOriginal 写入/解析格式已统一 → 命中元数据，秒精度内等于 lastModified）
     EXPECT_TRUE(got.isValid());
     EXPECT_GT(got.toSecsSinceEpoch(), qint64(1577836800));  // 晚于 2020-01-01
-    if (birthTime.isValid())
-        EXPECT_EQ(got, birthTime);
+    EXPECT_NEAR(got.toSecsSinceEpoch(), lastModified.toSecsSinceEpoch(), 1);
 }
 
 TEST_F(FreeImageUtilsTest, GetCreateDateTime_MissingFile_ReturnsCurrentTimeFallback)
@@ -1088,6 +1093,25 @@ TEST_F(FreeImageUtilsTest, ThumbnailCachePath_XdgCacheHomeSet_ReturnsIsolatedDir
     EXPECT_TRUE(QDir(m_cacheDir.filePath("thumbnails/large")).exists());
     EXPECT_TRUE(QDir(m_cacheDir.filePath("thumbnails/normal")).exists());
     EXPECT_TRUE(QDir(m_cacheDir.filePath("thumbnails/fail")).exists());
+}
+
+TEST_F(FreeImageUtilsTest, ThumbnailCachePath_XdgCacheHomeContainsEqualSign_UsesFullValue)
+{
+    // Arrange（XDG_CACHE_HOME 值内含 '='：section 解析后完整保留）
+    const QString cacheBase = m_workDir.filePath("eq=val");
+    stub_ext::StubExt localStub;
+    localStub.set_lamda(static_cast<QStringList (*)()>(&QProcess::systemEnvironment),
+                        [&cacheBase]() -> QStringList {
+                            return QStringList{ QStringLiteral("XDG_CACHE_HOME=") + cacheBase };
+                        });
+
+    // Act
+    const QString got = liu::thumbnailCachePath();
+
+    // Assert
+    EXPECT_EQ(got, cacheBase + "/thumbnails");
+    EXPECT_TRUE(QDir(cacheBase + "/thumbnails/large").exists());
+    localStub.clear();
 }
 
 TEST_F(FreeImageUtilsTest, ThumbnailCachePath_XdgCacheHomeMissing_FallsBackToHome)

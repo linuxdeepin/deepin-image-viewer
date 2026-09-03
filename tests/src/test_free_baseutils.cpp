@@ -26,7 +26,7 @@
 // | stringToDateTime         | low   | -                              | 1   | 3      |
 // | stringWidth              | low   | -                              | 1   | 1      |
 // | timeToString             | low   | -                              | 1   | 2      |
-// | trashFile                | high  | complexity:7,lines:81,in_degree:3 | 3 | 4    |
+// | trashFile                | high  | complexity:7,lines:81,in_degree:3 | 3 | 5    |
 //
 // 最小清单（test-types.md §8）：
 // [x] 1  每个函数 ≥ 1 用例（14/14）
@@ -46,9 +46,8 @@
 // B1: nTextSize > nLabelSize → 进入切分；否则原样返回（含明显富余的不切分侧）
 // B2: for 循环累计字符宽度，nOffset >= nLabelSize → 记录 nPos 并 break
 // B3: nPos-1 < 0 → nPos 归 0（首字符即超宽）
-// B4: bReturn=true 且 qstrLeftData != "" → 空格替换 \n 后拼接递归（顶层无分隔符，
-//     且递归按 3 参调用走 bReturn 默认值=false → 深层仍插 \n）
-//     → 无空格长文本无词边界，按宽度硬切在词中插 \n（D4 缺陷：无法整词换行）
+// B4: bReturn=true 且 qstrLeftData != "" → 空格替换 \n 后拼接递归（递归透传 bReturn，
+//     深层同样走 true 分支不再插 \n → 无空格长文本无词边界时不硬切，原样返回）
 // B5: bReturn=false 且 qstrLeftData != "" → left + "\n" + 递归
 // B6: qstrLeftData == ""（nPos==0）→ 落到末尾 return text 原样返回
 //
@@ -74,14 +73,17 @@
 // B1: trashFilesPath 不存在 → mkpath；B2: trashInfoPath 不存在 → mkpath
 // B3: originalInfo.exists() 为假 → return false（早退）
 // B4: while 候选 info/files 路径已存在 → nr++ 生成 baseName.nr[.suffix] 重试
+//     （files 冲突已由 getNotExistsTrashFileName 前置消解 → 实际由孤儿 trashinfo 触发）
 // B5: infoFile.open(WriteOnly) 失败 → return false（需权限注入，未覆盖）
 // B6: rename 失败 → return false（需跨设备/权限注入，未覆盖）
 // B7: 成功 → 写 trashinfo + rename + removeThumbnail + return true
 //
 // 用例映射：
-// - TrashFile_MissingSource_ReturnsFalseWithoutSideEffects  → B1+B2+B3
-// - TrashFile_ValidFile_MovesToTrashAndWritesInfo           → B7
-// - TrashFile_NameCollision_RetriesWithNumberedName         → B4（含无后缀变体）
+// - TrashFile_MissingSource_ReturnsFalseWithoutSideEffects       → B1+B2+B3
+// - TrashFile_ValidFile_MovesToTrashAndWritesInfo                → B7
+// - TrashFile_NameCollision_SecondFileUsesMd5Name                → B7(前置 md5 消解)
+// - TrashFile_OrphanedInfoConflict_RetriesWithNumberedName       → B4
+// - TrashFile_EmptySuffixFile_KeepsNameWithoutSuffixAddition     → B7(无后缀变体)
 // - 未覆盖：B5/B6（需把 info 目录改为只读/制造 rename 失败，CI 环境无法稳定注入）
 //
 // 分支清单（来源：baseutils.cpp 自由函数 copyImageToClipboard）
@@ -107,12 +109,12 @@
 // 分支清单（来源：baseutils.cpp 自由函数 showInFileManager）
 // B1: path 为空 → 早退不打开
 // B2: !QFile::exists(path) → 早退不打开
-// B3: 有效 → QDesktopServices::openUrl（源码连续调用两次，疑似缺陷只标红不修）
+// B3: 有效 → QDesktopServices::openUrl 恰好一次（重复调用缺陷已修复）
 //
 // 用例映射：
 // - ShowInFileManager_EmptyPath_SkipsOpenUrl            → B1
 // - ShowInFileManager_NonExistingPath_SkipsOpenUrl      → B2
-// - ShowInFileManager_ExistingFile_OpensAbsoluteUrlTwice→ B3
+// - ShowInFileManager_ExistingFile_OpensAbsoluteUrlOnce → B3
 //
 // 分支清单（来源：baseutils.cpp 自由函数 renderSVG）
 // B1: reader.canRead() → 按 scaledSize*size*ratio 渲染并设 devicePixelRatio
@@ -344,7 +346,7 @@ TEST_P(SpliteTextParamTest, SpliteText_VariousInputs_MatchExpectedSplitContract)
     const QString result = lb::SpliteText(text, font, labelSize, bReturn);
 
     // Assert（不变量：不超宽原样返回；超宽切分只插 \n 不丢字符（remove('\n') 可还原）；
-    //         bReturn=true 空格全部转 \n；无空格长文本被按宽度硬切在词中——D4 缺陷，
+    //         bReturn=true 空格全部转 \n，递归透传 bReturn 后无空格长文本不再按宽度硬切；
     //         期望值不依赖测试端字体度量，任何字体环境不变量恒成立）
     switch (c.kind) {
     case SpliteCase::Fits:
@@ -359,11 +361,8 @@ TEST_P(SpliteTextParamTest, SpliteText_VariousInputs_MatchExpectedSplitContract)
             EXPECT_LE(fm.horizontalAdvance(line), labelSize);        // 每行不再超宽
         break;
     case SpliteCase::NoSpaceReturnTrue:
-        EXPECT_NE(result, text);                                     // 超宽输入必被硬切（D4 实际行为）
-        EXPECT_EQ(QString(result).remove(QLatin1Char('\n')), text);  // D4: 硬切只插 \n，不丢字符
-        for (const QString &seg : result.split(QLatin1Char('\n')))
-            EXPECT_LE(fm.horizontalAdvance(seg),
-                      labelSize * 2);   // 宽松上界：顶层无分隔符至多合并两段，其余段均 < label
+        EXPECT_EQ(result, text);                                     // 递归透传 bReturn：true 模式仅按空格换行，无空格不硬切
+        EXPECT_FALSE(result.contains(QLatin1Char('\n')));
         break;
     case SpliteCase::SpacesReturnTrue:
         EXPECT_FALSE(result.contains(QLatin1Char(' ')));             // 空格全部替换为 \n
@@ -478,8 +477,8 @@ TEST_F(FreeBaseUtilsTest, GetFileContent_MissingAndEmptyFiles_ReturnEmptyString)
 
 TEST_F(FreeBaseUtilsTest, GetNotExistsTrashFileName_PlainNamesNoConflict_ReturnNamesUnchanged)
 {
-    // Arrange（隔离 HOME 下 Trash 无任何已有文件）
-    const QString trashProbe = m_home.path() + "/.local/share/Trashphoto.jpg";
+    // Arrange（隔离 HOME 下 Trash/files 无任何已有文件）
+    const QString trashProbe = m_home.path() + "/.local/share/Trash/files/photo.jpg";
     ASSERT_FALSE(QFile::exists(trashProbe));   // 前置：候选名未被占用
 
     // Act
@@ -506,10 +505,10 @@ TEST_F(FreeBaseUtilsTest, GetNotExistsTrashFileName_PathLikeInput_StripsDirector
 
 TEST_F(FreeBaseUtilsTest, GetNotExistsTrashFileName_ExistingCandidate_FallsBackToMd5Name)
 {
-    // Arrange：源码探测路径为 trashPath + name + suffix（缺少路径分隔符，见缺陷清单），
-    // 在该拼接连通处预置同名文件以触发 md5 重试
-    ASSERT_TRUE(QDir(m_home.path() + "/.local/share").mkpath(QStringLiteral(".")));
-    writeTextFile(m_home.path() + "/.local/share", "Trashphoto.jpg", "occupied");
+    // Arrange：源码探测路径为 Trash/files/ 内带分隔符的完整路径（与 trashFile 的
+    // 冲突判断基准一致），在该处预置同名文件以触发 md5 重试
+    ASSERT_TRUE(QDir(m_home.path() + "/.local/share/Trash/files").mkpath(QStringLiteral(".")));
+    writeTextFile(m_home.path() + "/.local/share/Trash/files", "photo.jpg", "occupied");
     const QString expectedMd5 =
             QString(QCryptographicHash::hash("photo", QCryptographicHash::Md5).toHex());
 
@@ -692,7 +691,7 @@ TEST_F(FreeBaseUtilsTest, ShowInFileManager_NonExistingPath_SkipsOpenUrl)
     EXPECT_FALSE(QFile::exists(missing));
 }
 
-TEST_F(FreeBaseUtilsTest, ShowInFileManager_ExistingFile_OpensAbsoluteUrlTwice)
+TEST_F(FreeBaseUtilsTest, ShowInFileManager_ExistingFile_OpensAbsoluteUrlOnce)
 {
     // Arrange
     int openCalls = 0;
@@ -709,7 +708,7 @@ TEST_F(FreeBaseUtilsTest, ShowInFileManager_ExistingFile_OpensAbsoluteUrlTwice)
     lb::showInFileManager(path);
 
     // Assert
-    EXPECT_EQ(openCalls, 2);    // B3: 源码 #if 1 分支与其后各调用一次 openUrl（疑似缺陷，只标红）
+    EXPECT_EQ(openCalls, 1);    // B3: 重复 openUrl 缺陷已修复，仅打开一次
     EXPECT_EQ(openedUrl, QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath()));
 }
 
@@ -868,13 +867,16 @@ TEST_F(FreeBaseUtilsTest, TrashFile_ValidFile_MovesToTrashAndWritesInfo)
     EXPECT_EQ(m_removeThumbArg, src);                     // 参数：传入的是原路径
 }
 
-TEST_F(FreeBaseUtilsTest, TrashFile_NameCollision_RetriesWithNumberedName)
+TEST_F(FreeBaseUtilsTest, TrashFile_NameCollision_SecondFileUsesMd5Name)
 {
-    // Arrange：同名文件两次入回收站，第二次应走 nr++ 重试生成 baseName.2.suffix
+    // Arrange：同名文件两次入回收站。探测基准统一到 Trash/files 后，
+    // 第二次由 getNotExistsTrashFileName 直接给出 md5 主名（files 冲突在前置探测即消解）
     const QString first = writeTextFile(m_work.path(), "ut-b.jpg", "first");
     const QString secondDir = m_work.path() + "/second";
     ASSERT_TRUE(QDir().mkpath(secondDir));
     const QString second = writeTextFile(secondDir, "ut-b.jpg", "second");
+    const QString md5Name =
+            QString(QCryptographicHash::hash(QByteArray("ut-b"), QCryptographicHash::Md5).toHex());
 
     // Act
     const bool firstMoved = lb::trashFile(first);
@@ -882,20 +884,40 @@ TEST_F(FreeBaseUtilsTest, TrashFile_NameCollision_RetriesWithNumberedName)
 
     // Assert
     EXPECT_TRUE(firstMoved);    // B7: 第一次直接成功
-    EXPECT_TRUE(secondMoved);   // B4: 冲突重试后成功
+    EXPECT_TRUE(secondMoved);   // 冲突消解后成功
     EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/files/ut-b.jpg"));
-    EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/files/ut-b.2.jpg"));   // B4 编号名
-    EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/info/ut-b.2.jpg.trashinfo"));
+    EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/files/" + md5Name + ".jpg"));
+    EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/info/" + md5Name + ".jpg.trashinfo"));
     EXPECT_EQ(m_removeThumbCalls, 2);   // 每次成功入站各移除一次缩略图
+}
+
+TEST_F(FreeBaseUtilsTest, TrashFile_OrphanedInfoConflict_RetriesWithNumberedName)
+{
+    // Arrange：预置孤儿 trashinfo（info 命中而 files 未占用）→ 前置探测直返原名，
+    // 触发 trashFile 内 while 的 nr++ 编号重试
+    ASSERT_TRUE(QDir(m_home.path() + "/.local/share/Trash/info").mkpath(QStringLiteral(".")));
+    writeTextFile(m_home.path() + "/.local/share/Trash/info", "ut-c.jpg.trashinfo", "orphan");
+    const QString src = writeTextFile(m_work.path(), "ut-c.jpg", "ccc");
+
+    // Act
+    const bool moved = lb::trashFile(src);
+
+    // Assert
+    EXPECT_TRUE(moved);                                                   // B4: 编号重试后成功
+    EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/files/ut-c.2.jpg"));
+    EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/info/ut-c.2.jpg.trashinfo"));
+    EXPECT_EQ(m_removeThumbCalls, 1);
 }
 
 TEST_F(FreeBaseUtilsTest, TrashFile_EmptySuffixFile_KeepsNameWithoutSuffixAddition)
 {
-    // Arrange：无后缀文件两次入回收站，重试名应为 README.2（无后缀拼接段）
+    // Arrange：无后缀文件两次入回收站，第二次主名换 md5（无后缀拼接段，无尾随点）
     const QString first = writeTextFile(m_work.path(), "README", "r1");
     const QString thirdDir = m_work.path() + "/third";
     ASSERT_TRUE(QDir().mkpath(thirdDir));
     const QString second = writeTextFile(thirdDir, "README", "r2");
+    const QString md5Name =
+            QString(QCryptographicHash::hash(QByteArray("README"), QCryptographicHash::Md5).toHex());
 
     // Act
     const bool firstMoved = lb::trashFile(first);
@@ -905,9 +927,9 @@ TEST_F(FreeBaseUtilsTest, TrashFile_EmptySuffixFile_KeepsNameWithoutSuffixAdditi
     EXPECT_TRUE(firstMoved);
     EXPECT_TRUE(secondMoved);
     EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/files/README"));       // 首次原名
+    EXPECT_EQ(QFile::exists(m_home.path() + "/.local/share/Trash/files/" + md5Name),
+              true);                                                       // 第二次 md5 主名
     EXPECT_EQ(QFile::exists(m_home.path() + "/.local/share/Trash/files/README.2"),
-              true);                                                                      // B4: 无后缀编号名
-    EXPECT_EQ(QFile::exists(m_home.path() + "/.local/share/Trash/files/README.2."),
-              false);                                                                     // 不产生尾随点
-    EXPECT_EQ(m_removeThumbCalls, 2);                                                     // 两次均触发缩略图移除
+              false);                                                      // 不再走编号名
+    EXPECT_EQ(m_removeThumbCalls, 2);                                     // 两次均触发缩略图移除
 }

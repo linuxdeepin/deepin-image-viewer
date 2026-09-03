@@ -20,6 +20,7 @@
 #include <QPixmapCache>
 #include <QProcess>
 #include <QReadWriteLock>
+#include <QTemporaryFile>
 #include <QUrl>
 #include <QApplication>
 #include <QLoggingCategory>
@@ -67,13 +68,17 @@ const QImage scaleImage(const QString &path, const QSize &size)
         } else {
             qCDebug(logImageViewer) << "Image still too large after initial scaling, attempting save and rescale.";
             // Save as supported format and scale it again
-            const QString tmp = QDir::tempPath() + "/scale_tmp_image.png";
-            QFile::remove(tmp);
-            if (tImg.save(tmp, "png", 50)) {
+            QTemporaryFile tmpFile(QDir::tempPath() + "/scale_tmp_image_XXXXXX.png");
+            const QString tmp = tmpFile.open() ? tmpFile.fileName() : QString();
+            tmpFile.close();
+            if (!tmp.isEmpty() && tImg.save(tmp, "png", 50)) {
                 qCDebug(logImageViewer) << "Saved temporary PNG for rescaling:" << tmp;
-                return scaleImage(tmp, size);
+                const QImage rescaled = scaleImage(tmp, size);
+                QFile::remove(tmp);
+                return rescaled;
             } else {
                 qCWarning(logImageViewer) << "Failed to save temporary PNG for rescaling:" << tmp;
+                QFile::remove(tmp);
                 return QImage();
             }
         }
@@ -89,20 +94,18 @@ const QDateTime getCreateDateTime(const QString &path)
     QDateTime dt;
 
     // fallback to metadata.
-    if (!dt.isValid()) {
-        QString s;
-        s = getAllMetaData(path).value("DateTimeOriginal");
-        if (s.isEmpty()) {
-            qCDebug(logImageViewer) << "DateTimeOriginal metadata is empty, trying DateTimeDigitized.";
-            s = getAllMetaData(path).value("DateTimeDigitized");
-        }
-        if (s.isEmpty()) {
-            qCDebug(logImageViewer) << "DateTimeDigitized metadata is empty, falling back to current time string.";
-            s = QDateTime::currentDateTime().toString();
-        }
-        dt = QDateTime::fromString(s, "yyyy.MM.dd HH:mm:ss");
-        qCDebug(logImageViewer) << "Using metadata date:" << dt;
+    QString s;
+    s = getAllMetaData(path).value("DateTimeOriginal");
+    if (s.isEmpty()) {
+        qCDebug(logImageViewer) << "DateTimeOriginal metadata is empty, trying DateTimeDigitized.";
+        s = getAllMetaData(path).value("DateTimeDigitized");
     }
+    if (s.isEmpty()) {
+        qCDebug(logImageViewer) << "DateTimeDigitized metadata is empty, falling back to current time string.";
+        s = QDateTime::currentDateTime().toString();
+    }
+    dt = QDateTime::fromString(s, METADATA_DATETIME_FORMAT);
+    qCDebug(logImageViewer) << "Using metadata date:" << dt;
 
     // fallback to file create time.
     if (!dt.isValid()) {
@@ -343,19 +346,12 @@ const QMap<QString, QString> getAllMetaData(const QString &path)
 {
     qCDebug(logImageViewer) << "Getting metadata for:" << path;
     QMap<QString, QString> admMap;
-    // 移除秒　　2020/6/5 DJH
     // 需要转义才能读出：或者/　　2020/8/21 DJH
     QFileInfo info(path);
-    if (admMap.contains("DateTime")) {
-        qCDebug(logImageViewer) << "DateTime already in map, converting format.";
-        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
-        admMap["DateTimeOriginal"] = time.toString("yyyy/MM/dd hh:mm");
-    } else {
-        qCDebug(logImageViewer) << "DateTime not in map, using last modified time for DateTimeOriginal.";
-        admMap.insert("DateTimeOriginal", info.lastModified().toString("yyyy/MM/dd HH:mm"));
-    }
-    admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
-    qCDebug(logImageViewer) << "DateTimeDigitized set to last modified time.";
+    qCDebug(logImageViewer) << "Using last modified time for DateTimeOriginal.";
+    admMap.insert("DateTimeOriginal", info.lastModified().toString(METADATA_DATETIME_FORMAT));
+    admMap.insert("DateTimeDigitized", info.lastModified().toString(METADATA_DATETIME_FORMAT));
+    qCDebug(logImageViewer) << "DateTimeOriginal/DateTimeDigitized set to last modified time.";
     //    // The value of width and height might incorrect
     QImageReader reader(path);
     int w = reader.size().width();
@@ -434,9 +430,8 @@ const QString thumbnailCachePath()
 
     QStringList systemEnvs = QProcess::systemEnvironment();
     for (QString it : systemEnvs) {
-        QStringList el = it.split("=");
-        if (el.length() == 2 && el.first() == "XDG_CACHE_HOME") {
-            cacheP = el.last();
+        if (it.section('=', 0, 0) == "XDG_CACHE_HOME") {
+            cacheP = it.section('=', 1);
             qCDebug(logImageViewer) << "XDG_CACHE_HOME environment variable found:" << cacheP;
             break;
         }
@@ -717,7 +712,8 @@ bool isVaultFile(const QString &path)
         rootPath.chop(1);
     }
 
-    if (path.contains(rootPath) && path.left(6) != "search") {
+    QUrl url(path);
+    if (path.contains(rootPath) && url.scheme() != "search") {
         qCDebug(logImageViewer) << "File is in vault:" << path;
         bVaultFile = true;
     }
