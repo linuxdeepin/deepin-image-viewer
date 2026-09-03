@@ -53,7 +53,6 @@ UNIONIMAGESHARED_EXPORT QString unionImageVersion();
  */
 UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat();
 UNIONIMAGESHARED_EXPORT const QStringList supportStaticFormat();
-UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat();
 
 
 UNIONIMAGESHARED_EXPORT bool isDynamicFormat();

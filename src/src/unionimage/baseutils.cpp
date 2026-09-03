@@ -135,9 +135,8 @@ void showInFileManager(const QString &path)
     qCDebug(logImageViewer) << "Opening file manager for:" << url.toString();
     QDesktopServices::openUrl(url);
 #else
-    QUrl url = QUrl::fromLocalFile(path);
+    QDesktopServices::openUrl(QUrl::fromLocalFile(path));
 #endif
-    QDesktopServices::openUrl(url);
     //    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
     //    QUrlQuery query;
     //    query.addQueryItem("selectUrl", QUrl::fromLocalFile(path).toString());
@@ -269,11 +268,11 @@ QString getNotExistsTrashFileName(const QString &fileName)
     name = name.left(200 - suffix.size());
     qCDebug(logImageViewer) << "Adjusted name size to:" << name.size();
 
-    QString trashpath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/.local/share/Trash";
-    qCDebug(logImageViewer) << "Trash path determined as:" << trashpath;
+    QString trashpath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/.local/share/Trash/files";
+    qCDebug(logImageViewer) << "Trash files path determined as:" << trashpath;
 
     while (true) {
-        QFileInfo info(trashpath + name + suffix);
+        QFileInfo info(trashpath + "/" + name + suffix);
         // QFile::exists ==> If the file is a symlink that points to a non-existing file, false is returned.
         if (!info.isSymLink() && !info.exists()) {
             qCDebug(logImageViewer) << "Generated unique trash filename:" << QString::fromUtf8(name + suffix);
@@ -435,10 +434,10 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool 
             qstrLeftData.replace(" ", "\n");
             qstrMidData.replace(" ", "\n");
             if (qstrLeftData != "")
-                return qstrLeftData + SpliteText(qstrMidData, font, nLabelSize);
+                return qstrLeftData + SpliteText(qstrMidData, font, nLabelSize, bReturn);
         } else {
             if (qstrLeftData != "")
-                return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+                return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize, bReturn);
         }
         qCDebug(logImageViewer) << "Returning split text.";
     }

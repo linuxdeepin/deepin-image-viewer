@@ -22,7 +22,6 @@
 // | rotateImageFIleWithImage | high | complexity:8,cognitive:16 | 3 | 5 |
 // | rotateImageFile | high | complexity:9,cognitive:21 | 3 | 6 |
 // | size2Human | mid | complexity:6,cognitive:17 | 2 | 9 |
-// | supportMovieFormat | low | - | 1 | 1 |
 // | supportStaticFormat | low | - | 1 | 1 |
 // | unionImageSupportFormat | low | - | 1 | 1 |
 // | unionImageVersion | low | - | 1 | 1 |
@@ -31,7 +30,7 @@
 // ─── actual 均不低于 min（actual=参数化实例数+独立用例数）───
 //
 // 最小清单完成情况（test-code-gen §最小清单）：
-// 1. 每个公开方法 ≥ 1 用例: [x]（19 自由函数 + UnionImage_Private 2 方法全覆盖；
+// 1. 每个公开方法 ≥ 1 用例: [x]（18 自由函数 + UnionImage_Private 2 方法全覆盖；
 //    convertToSRgbColorSpace 为 static 内部链接函数，经 loadStaticImageFromFile 间接覆盖）
 // 2. 每个输入维度按等价类划分 ≥ 1 用例/类: [x]（角度合法/非法、格式支持/不支持、空/非空输入、
 //    尺寸边界 0/1023/1024/1M/1G、方向 1-8 全枚举）
@@ -129,16 +128,16 @@
 // 分支清单（来源：getPathType(const QString &)）
 // B1: 含 "smb-share:server=" → SMB
 // B2: 含 "mtp:host=" → MTP
-// B3: 含 "gphoto2:host=" → PTP
-// B4: 含 "gphoto2:host=Apple" → APPLE（源码序导致不可达，见缺陷清单）
+// B3: 含 "gphoto2:host=Apple" → APPLE（特判须先于通用 gphoto2:host= 判断方可达）
+// B4: 含 "gphoto2:host=" → PTP
 // B5: isVaultFile → SAFEBOX
 // B6: 含 $HOME/.local/share/Trash → RECYCLEBIN
 // B7: 默认 → LOCAL
 // 用例映射：
 // - GetPathType_SmbUri_ReturnsSmbType → B1
 // - GetPathType_MtpUri_ReturnsMtpType → B2
-// - GetPathType_Gphoto2Uri_ReturnsPtpType → B3
-// - GetPathType_Gphoto2AppleUri_ReturnsPtpInsteadOfApple → B3/B4
+// - GetPathType_Gphoto2AppleUri_ReturnsAppleType → B3
+// - GetPathType_Gphoto2Uri_ReturnsPtpType → B4
 // - GetPathType_VaultFlaggedPath_ReturnsSafeboxType → B5
 // - GetPathType_HomeTrashPath_ReturnsRecyclebinType → B6
 // - GetPathType_PlainLocalPath_ReturnsLocalType → B7
@@ -193,15 +192,15 @@
 // - RotateImageFile_DirectoryTargetPath_ReturnsFalseWithSaveError → B6
 //
 // 分支清单（来源：rotateImageFIleWithImage(int, QImage &, const QString &, QString &)）
-// B1: angel%90!=0 → false + "unsupported angel"
-// B2: img.isNull() → false（无 erroMsg）
+// B1: angel%90!=0 → false + "unsupported angle"
+// B2: img.isNull() → false + "image is null"
 // B3: SVG → QSvgGenerator 写回 → true
 // B4: JPG/JPEG 且 QImage(path,"JPG") 非空 → 旋转保存 → true
 // B5: JPG 加载失败 → false
 // B6: 其它格式 → false
 // 用例映射：
 // - RotateImageFIleWithImage_InvalidAngle_ReturnsFalseWithMessage → B1
-// - RotateImageFIleWithImage_NullImage_ReturnsFalse → B2
+// - RotateImageFIleWithImage_NullImage_ReturnsFalseWithMessage → B2
 // - RotateImageFIleWithImage_SvgFile_RewritesAndReturnsTrue → B3
 // - RotateImageFIleWithImage_JpgFile_SavesRotatedReturnsTrue → B4
 // - RotateImageFIleWithImage_UnsupportedFormat_ReturnsFalse → B6
@@ -246,7 +245,7 @@ bool isNoneQImage(const QImage &qi);
 QString size2Human(const qlonglong bytes);
 
 // unionimage.cpp 文件内隐藏类（无头文件），按源码成员布局逐成员镜像声明
-//（含 m_movie_formats，位置/顺序必须一致，否则构造函数越界写）；
+//（位置/顺序必须一致，否则构造函数越界写）；
 // 构造/析构为类内 inline 定义，链接期与 unionimage.o 弱符号合并
 class UnionImage_Private {
 public:
@@ -254,7 +253,6 @@ public:
     ~UnionImage_Private();
 
     QStringList m_qtSupported;
-    QHash<QString, int> m_movie_formats;
     QStringList m_canSave;
     QStringList m_qtrotate;
 };
@@ -829,10 +827,10 @@ TEST_F(FreeUnionImageTest, GetPathType_Gphoto2Uri_ReturnsPtpType)
     EXPECT_TRUE(captured.isEmpty());
 }
 
-TEST_F(FreeUnionImageTest, GetPathType_Gphoto2AppleUri_ReturnsPtpInsteadOfApple)
+TEST_F(FreeUnionImageTest, GetPathType_Gphoto2AppleUri_ReturnsAppleType)
 {
     // Arrange
-    // 源码缺陷：gphoto2:host= 判断先于 gphoto2:host=Apple，APPLE 分支不可达
+    // Apple 特判先于通用 gphoto2:host= 判断，iPhone 路径应命中 APPLE 分支
     const QString path = QStringLiteral("gphoto2:host=Apple_iPhone/DCIM/IMG.jpg");
     QString captured;
     stub.set_lamda(Libutils::image::isVaultFile,
@@ -845,8 +843,8 @@ TEST_F(FreeUnionImageTest, GetPathType_Gphoto2AppleUri_ReturnsPtpInsteadOfApple)
     const imageViewerSpace::PathType type = getPathType(path);
 
     // Assert
-    EXPECT_EQ(type, imageViewerSpace::PathTypePTP);
-    EXPECT_NE(type, imageViewerSpace::PathTypeAPPLE);
+    EXPECT_EQ(type, imageViewerSpace::PathTypeAPPLE);
+    EXPECT_NE(type, imageViewerSpace::PathTypePTP);
     // else-if 链短路，isVaultFile 不应被调用
     EXPECT_TRUE(captured.isEmpty());
 }
@@ -1374,10 +1372,10 @@ TEST_F(FreeUnionImageTest, RotateImageFIleWithImage_InvalidAngle_ReturnsFalseWit
 
     // Assert
     EXPECT_FALSE(ret);
-    EXPECT_EQ(erroMsg, QString("unsupported angel"));
+    EXPECT_EQ(erroMsg, QString("unsupported angle"));
 }
 
-TEST_F(FreeUnionImageTest, RotateImageFIleWithImage_NullImage_ReturnsFalse)
+TEST_F(FreeUnionImageTest, RotateImageFIleWithImage_NullImage_ReturnsFalseWithMessage)
 {
     // Arrange
     QImage img;
@@ -1389,7 +1387,7 @@ TEST_F(FreeUnionImageTest, RotateImageFIleWithImage_NullImage_ReturnsFalse)
 
     // Assert
     EXPECT_FALSE(ret);
-    EXPECT_EQ(erroMsg, QString());
+    EXPECT_EQ(erroMsg, QString("image is null"));
 }
 
 TEST_F(FreeUnionImageTest, RotateImageFIleWithImage_SvgFile_RewritesAndReturnsTrue)
@@ -1492,16 +1490,13 @@ TEST_F(UnionImage_PrivateTest, UnionImage_Private_Destructor_CleansUpWithoutErro
     EXPECT_EQ(canSaveCount, 9);
 }
 
-// ─── 支持格式查询三函数（补测：lcov FNDA:0，stub.clear() 后直连真实函数）───
-// 实现（unionimage.cpp:238-261）：
+// ─── 支持格式查询两函数（补测：lcov FNDA:0，stub.clear() 后直连真实函数）───
+// 实现（unionimage.cpp）：
 // - supportStaticFormat()    → 返回 union_image_private.m_qtSupported（54 项静态表）
-// - supportMovieFormat()     → 返回 union_image_private.m_movie_formats.keys()
 // - unionImageSupportFormat()→ 首次调用把 m_qtSupported 填入函数内 static res 后返回
+// 注记：supportMovieFormat()/m_movie_formats 因无任何填充点、恒返回空表，已随源码删除。
 // 映射： SupportStaticFormat_QueryTable_ReturnsNonEmptyKnownFormats       → 直连真实函数
-//        SupportMovieFormat_QueryTable_ReturnsEmptyUnpopulatedList       → 直连真实函数
 //        UnionImageSupportFormat_QueryMergedTable_MatchesStaticFormat    → 直连真实函数
-// 缺陷注记（只标红不修改）：m_movie_formats 在源码中无任何填充点，
-// supportMovieFormat() 恒返回空表（见 SupportMovieFormat 用例断言）。
 
 TEST_F(FreeUnionImageTest, SupportStaticFormat_QueryTable_ReturnsNonEmptyKnownFormats)
 {
@@ -1516,20 +1511,6 @@ TEST_F(FreeUnionImageTest, SupportStaticFormat_QueryTable_ReturnsNonEmptyKnownFo
     EXPECT_TRUE(formats.contains(QStringLiteral("BMP")));
     EXPECT_TRUE(formats.contains(QStringLiteral("PNG")));
     EXPECT_TRUE(formats.contains(QStringLiteral("GIF")));
-}
-
-TEST_F(FreeUnionImageTest, SupportMovieFormat_QueryTable_ReturnsEmptyUnpopulatedList)
-{
-    // Arrange：同上，直连真实函数
-    stub.clear();
-
-    // Act
-    const QStringList movieFormats = LibUnionImage_NameSpace::supportMovieFormat();
-
-    // Assert：m_movie_formats 无填充点 → 恒为空表（缺陷注记，真实行为固化）；
-    // 静态格式表非空作对照，证明并非查询机制整体失效
-    EXPECT_EQ(movieFormats.size(), 0);
-    EXPECT_FALSE(LibUnionImage_NameSpace::supportStaticFormat().isEmpty());
 }
 
 TEST_F(FreeUnionImageTest, UnionImageSupportFormat_QueryMergedTable_MatchesStaticFormat)
