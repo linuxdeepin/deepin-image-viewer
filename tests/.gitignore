@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 UnionTech Software Technology Co., Ltd.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # 单测本地状态（qt-autotest-generator）
 .ut-defects.json
 .ut-inventory.json.bak
