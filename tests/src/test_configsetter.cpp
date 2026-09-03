@@ -5,7 +5,7 @@
 // | method | level | factors | min | actual |
 // |--------|-------|---------|-----|--------|
 // | LibConfigSetter(QObject *) ctor | low | - | 1 | 1 |
-// | ~LibConfigSetter | low | - | 1 | 1 |
+// | ~LibConfigSetter | low | - | 1 | 2 |
 // | instance | mid | - | 2 | 2 |
 // | setValue | low | - | 1 | 7 |
 // | value | mid | - | 2 | 6 |
@@ -38,11 +38,13 @@
 // LibConfigSetter(QObject*)（17-23）→ LibConfigSetter_Constructor_WithParent_CreatesOwnedSettingsObject
 // setValue(group,key,value)（41-53）→ SetValue_NewGroupKey / SetValue_OverwriteExistingKey / Value_AfterSetValue(TEST_P)
 // value(group,key,default)（55-71）→ Value_MissingKey / Value_AfterSetValue(TEST_P)
-// ~LibConfigSetter()（25-27）→ LibConfigSetter_Destructor_DirectDelete_DestroysChildSettingsAndKeepsSingleton
 //
-// 疑似缺陷（只标红不修）：
-// D1: ~LibConfigSetter 不重置静态指针 m_setter（configsetter.cpp:25-27）——若单例被外部
-//     delete，后续 instance() 将返回悬垂指针。
+// 分支清单（来源：LibConfigSetter::~LibConfigSetter，修复后含 2 分支）
+// B1: m_setter == this（销毁的是单例本身）→ m_setter = nullptr（原 D1 缺陷已修复：
+//     析构不重置静态指针，外部 delete 单例后 instance() 将返回悬垂指针）
+// B2: m_setter != this（直接构造的普通对象）→ 静态指针保持不变
+// 映射：LibConfigSetter_Destructor_SingletonDeleted_ResetsStaticPointerForRecreation → B1
+//       LibConfigSetter_Destructor_DirectDelete_DestroysChildSettingsAndKeepsSingleton → B2
 
 #include <gtest/gtest.h>
 
@@ -146,7 +148,27 @@ TEST_F(LibConfigSetterTest, LibConfigSetter_Destructor_DirectDelete_DestroysChil
 
     // Assert
     EXPECT_EQ(settingsDestroyedSpy.count(), 1);          // 子 QSettings 随父析构（QObject 父子机制）
-    EXPECT_EQ(LibConfigSetter::m_setter, savedSetter);   // 析构未重置单例指针（缺陷 D1 行为记录）
+    EXPECT_EQ(LibConfigSetter::m_setter, savedSetter);   // B2: 非单例对象析构不影响静态指针
+}
+
+TEST_F(LibConfigSetterTest, LibConfigSetter_Destructor_SingletonDeleted_ResetsStaticPointerForRecreation)
+{
+    // Arrange：独立构造对象并让其充当单例（m_setter 指向它），QSettings 隔离到临时文件
+    LibConfigSetter *cs = new LibConfigSetter();
+    delete cs->m_settings;
+    cs->m_settings = new QSettings(tmpDir.filePath(QStringLiteral("ut_cs_singleton.ini")),
+                                   QSettings::IniFormat, cs);
+    LibConfigSetter::m_setter = cs;
+
+    // Act：以单例身份销毁
+    delete cs;
+
+    // Assert（原 D1 修复语义）：析构重置静态指针，无悬垂；instance() 可安全重建
+    EXPECT_EQ(LibConfigSetter::m_setter, nullptr);
+    LibConfigSetter *fresh = LibConfigSetter::instance();
+    EXPECT_NE(fresh, nullptr);
+    EXPECT_EQ(LibConfigSetter::m_setter, fresh);
+    // 新建单例由 TearDown 统一识别（m_setter != savedSetter）销毁并恢复
 }
 
 TEST_F(LibConfigSetterTest, Instance_FirstCallWhenNull_CreatesNewSingleton)

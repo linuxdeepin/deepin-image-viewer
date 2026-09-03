@@ -170,11 +170,11 @@ enum class InvalidImageKind {
 // B2: removeImage == currentImage.source() → viewModel()->deleteCurrent()
 // B3: !atEnd（当前图不在尾部，curIndex < rowCount-1）→ 读取 index(curIndex) 更新当前图并 emit 双信号
 // B4: atEnd 且 sourceModel->rowCount() != 0 → 读取 index(curIndex-1) 且 setIndexAndFrameIndex(curIndex-1, INT_MAX)
-//     （else：rowCount == 0 无剩余图片，仅 checkSwitchEnable + imageCountChanged）
+//     （else：rowCount == 0 无剩余图片，清空 currentImage/curIndex 并 emit 双信号，随后复位导航标志）
 // 用例映射：
 // - RemoveImage_CurrentMiddleImage_ShiftsToFollowingImage → B3（B1/B2 命中）
 // - RemoveImage_CurrentLastImage_MovesToPreviousImage → B4（B2 命中）
-// - RemoveImage_LastRemainingImage_ClearsNavigationFlags → B4(假) 落 else
+// - RemoveImage_LastRemainingImage_ClearsCurrentState → B4(假) 落 else
 // - RemoveImage_WithPendingRotation_SubmitsRotationBeforeRemoval → B1
 // - RemoveImage_UnknownImage_KeepsCurrentStateIntact → B3（状态不变断言）
 //
@@ -1077,23 +1077,27 @@ TEST_F(GlobalControlTest, RemoveImage_CurrentLastImage_MovesToPreviousImage)
     EXPECT_EQ(spyCount.count(), 1);
 }
 
-TEST_F(GlobalControlTest, RemoveImage_LastRemainingImage_ClearsNavigationFlags)
+TEST_F(GlobalControlTest, RemoveImage_LastRemainingImage_ClearsCurrentState)
 {
     // Arrange：仅一张图且为当前图
     const QUrl urlA = makeImageFile(QStringLiteral("a.png"));
     QStringList paths{urlA.toString()};  // file:// 形态与模型存储一致
     ctrl->setImageFiles(paths, paths.at(0));
     QSignalSpy spyCount(ctrl, &GlobalControl::imageCountChanged);
+    QSignalSpy spySource(ctrl, &GlobalControl::currentSourceChanged);
 
     // Act：删除最后一张
     ctrl->removeImage(urlA);
 
-    // Assert：模型清空，导航标志复位（atEnd 且 rowCount==0 落入 else 分支）
+    // Assert：模型清空，导航标志复位（atEnd 且 rowCount==0 落入 else 分支）；
+    // 修复语义：currentImage 同步清空，currentSource() 不再返回已删除路径
     EXPECT_EQ(ctrl->imageCount(), 0);
     EXPECT_FALSE(ctrl->hasNextImage());
     EXPECT_FALSE(ctrl->hasPreviousImage());
+    EXPECT_TRUE(ctrl->currentSource().isEmpty());
+    EXPECT_EQ(ctrl->currentIndex(), 0);
     EXPECT_EQ(spyCount.count(), 1);
-    EXPECT_EQ(ctrl->currentSource(), urlA);  // 注：currentImage 未清空（记录现状，见缺陷清单）
+    EXPECT_EQ(spySource.count(), 1);
 }
 
 TEST_F(GlobalControlTest, RemoveImage_WithPendingRotation_SubmitsRotationBeforeRemoval)
@@ -1133,8 +1137,8 @@ TEST_F(GlobalControlTest, RemoveImage_UnknownImage_KeepsCurrentStateIntact)
     EXPECT_EQ(ctrl->imageCount(), 2);
     EXPECT_EQ(ctrl->currentIndex(), 0);
     EXPECT_EQ(ctrl->currentSource(), urlA);
-    EXPECT_EQ(spyCount.count(), 1);  // 现状：imageCountChanged 无条件发出（见缺陷清单）
-    EXPECT_EQ(spySource.count(), 1); // 现状：!atEnd 分支无条件补发双信号（见缺陷清单）
+    EXPECT_EQ(spyCount.count(), 0);   // 修复语义：图片未从模型删除，不发 imageCountChanged
+    EXPECT_EQ(spySource.count(), 1);  // 注：!atEnd 分支仍无条件补发双信号（D1 未修复项）
 }
 
 // ── renameImage ──
@@ -1235,7 +1239,7 @@ TEST_F(GlobalControlTest, SetCurrentIndex_ValidIndex_UpdatesCurrentSource)
     EXPECT_EQ(spySource.count(), 1);
 }
 
-TEST_F(GlobalControlTest, SetCurrentIndex_OutOfRangeIndex_StoredRawBeyondBounds)
+TEST_F(GlobalControlTest, SetCurrentIndex_OutOfRangeIndex_ClampsToValidRange)
 {
     // Arrange
     loadThreeImages();
@@ -1246,11 +1250,10 @@ TEST_F(GlobalControlTest, SetCurrentIndex_OutOfRangeIndex_StoredRawBeyondBounds)
     ctrl->setCurrentIndex(-1);
     const int low = ctrl->currentIndex();
 
-    // Assert：缺陷 D5（文件尾标红）——validIndex 仅用于取图，落库的是原始 index，
-    // currentIndex() 可返回越界值 99/-1（真实行为固化）
-    EXPECT_EQ(high, 99);  // branch: this->curIndex = index（原始值，未用 validIndex）
-    EXPECT_EQ(low, -1);
-    EXPECT_EQ(ctrl->imageCount(), 3);  // 数据访问仍经 validIndex，模型未越界
+    // Assert：修复语义（原 D5）——validIndex 落库，越界索引被钳制到 [0, count-1]
+    EXPECT_EQ(high, 2);   // branch: this->curIndex = validIndex（钳制值）
+    EXPECT_EQ(low, 0);
+    EXPECT_EQ(ctrl->imageCount(), 3);
 }
 
 // ── setCurrentRotation ──
@@ -1433,7 +1436,7 @@ TEST_F(GlobalControlTest, SetImageFiles_ValidList_ReturnsTrueAndOpensTarget)
     EXPECT_EQ(ctrl->imageCount(), 3);
     EXPECT_EQ(ctrl->currentIndex(), 0);
     EXPECT_EQ(ctrl->currentSource(), urls.at(0));  // branch: currentImage.source() != currentSource → setSource
-    EXPECT_EQ(spySource.count(), 1);               // currentSourceChanged 无条件发出
+    EXPECT_EQ(spySource.count(), 1);               // 修复语义：源实际变更后才发 currentSourceChanged
     EXPECT_EQ(spyCount.count(), 1);
     EXPECT_EQ(spyNext.count(), 1);                 // 首张 → next 翻转为 true
 }
@@ -1447,6 +1450,7 @@ TEST_F(GlobalControlTest, SetImageFiles_RepeatedCall_KeepsStateConsistent)
         paths << u.toString();
     QSignalSpy spySource(ctrl, &GlobalControl::currentSourceChanged);
     QSignalSpy spyIndex(ctrl, &GlobalControl::currentIndexChanged);
+    QSignalSpy spyCount(ctrl, &GlobalControl::imageCountChanged);
 
     // Act：第二次设置（currentImage.source() 已等于目标 → B3 为假）
     const bool ret = ctrl->setImageFiles(paths, paths.at(1));
@@ -1456,7 +1460,9 @@ TEST_F(GlobalControlTest, SetImageFiles_RepeatedCall_KeepsStateConsistent)
     EXPECT_EQ(ctrl->currentIndex(), 1);
     EXPECT_EQ(ctrl->currentSource(), urls.at(1));
     EXPECT_EQ(ctrl->imageCount(), 3);
-    EXPECT_EQ(spyIndex.count(), 0);  // 索引未变，不发索引信号
+    EXPECT_EQ(spyIndex.count(), 0);   // 索引未变，不发索引信号
+    EXPECT_EQ(spySource.count(), 0);  // 修复语义：源未变，不发源信号
+    EXPECT_EQ(spyCount.count(), 0);   // 修复语义：数量未变（3→3），不发数量信号
 }
 
 // ── setIndexAndFrameIndex ──
@@ -1498,7 +1504,7 @@ TEST_F(GlobalControlTest, SetIndexAndFrameIndex_SameValues_EmitsNothing)
     EXPECT_EQ(spyFrame.count(), 0);
 }
 
-TEST_F(GlobalControlTest, SetIndexAndFrameIndex_OutOfRange_RawIndexStoredButFrameClamped)
+TEST_F(GlobalControlTest, SetIndexAndFrameIndex_OutOfRange_BothIndexAndFrameClamped)
 {
     // Arrange：多帧图（frameCount=3）
     stub.set_lamda(VADDR(ImageInfo, frameCount), [](ImageInfo *) -> int { return 3; });
@@ -1512,11 +1518,11 @@ TEST_F(GlobalControlTest, SetIndexAndFrameIndex_OutOfRange_RawIndexStoredButFram
     const int lowIndex = ctrl->currentIndex();
     const int lowFrame = ctrl->currentFrameIndex();
 
-    // Assert：帧索引经 validFrameIndex 钳制；索引存原始值（缺陷 D5，文件尾标红，真实行为固化）
-    EXPECT_EQ(highIndex, 99);  // branch: this->curIndex = index（原始值）
-    EXPECT_EQ(highFrame, 2);   // qBound(0, frameIndex, frameCount-1) 钳制
-    EXPECT_EQ(lowIndex, -1);   // 同 D5
-    EXPECT_EQ(lowFrame, 0);    // 钳制生效
+    // Assert：修复语义（原 D5）——索引与帧索引均经 qBound 钳制后落库
+    EXPECT_EQ(highIndex, 2);  // branch: this->curIndex = validIndex（钳制值）
+    EXPECT_EQ(highFrame, 2);  // qBound(0, frameIndex, frameCount-1) 钳制
+    EXPECT_EQ(lowIndex, 0);   // 同上，索引下界钳制
+    EXPECT_EQ(lowFrame, 0);   // 钳制生效
 }
 
 TEST_F(GlobalControlTest, SetIndexAndFrameIndex_FrameOnlyChange_EmitsOnlyFrameSignal)
@@ -1804,34 +1810,31 @@ TEST_F(GlobalControlTest, GlobalControl_RotateFinishedHook_MismatchedPathKeepsPe
     EXPECT_EQ(ctrl->currentSource(), urls.at(1));
 }
 
-// ═══════════════════ 源码缺陷标红清单（只标红，不修改源码）═══════════════════
-// 以下断言按源码【真实行为】固化，与直觉语义不符处均在对应用例注释中标注：
-//
-// D1: removeImage 删除「非当前/不存在」的图片时仍走更新分支
-//     证据：globalcontrol.cpp:457-468（!atEnd 分支无条件 Q_EMIT currentSourceChanged/
+// ═══════════════════ 源码缺陷清单（fix/scan-defects 分支修复状态）═══════════════════
+// D1（未修复，仍标红）: removeImage 删除「非当前/不存在」的图片时仍走更新分支
+//     证据：globalcontrol.cpp（!atEnd 分支无条件 Q_EMIT currentSourceChanged/
 //     currentIndexChanged）；单图列表（curIndex==0）传入不存在的 URL 时 else-if 分支
 //     读取 index(curIndex-1) = index(-1) 得空 QUrl，会把当前源清成 null。
-//     固化用例：RemoveImage_UnknownImage_KeepsCurrentStateIntact（断言状态保持 + 双信号仍发出）。
+//     固化用例：RemoveImage_UnknownImage_KeepsCurrentStateIntact（断言状态保持 +
+//     源/索引双信号仍发出，数量信号已随 D3 修复不再发出）。
 //
-// D2: removeImage 删除最后一张图后 currentImage 未清空
-//     证据：globalcontrol.cpp:476-478（else 分支仅注释 "No images left"，无清理）。
-//     currentSource() 仍返回已删除文件的 URL（陈旧状态）。
-//     固化用例：RemoveImage_LastRemainingImage_ClearsNavigationFlags。
+// D2（已修复）: removeImage 删除最后一张图后 currentImage 未清空
+//     修复：else 分支 setSource("") + curIndex 归 0 + emit 双信号。
+//     用例：RemoveImage_LastRemainingImage_ClearsCurrentState（currentSource 为空）。
 //
-// D3: removeImage / setImageFiles 无条件发出 imageCountChanged
-//     证据：globalcontrol.cpp:478、381（未核对数量是否实际变化）。
-//     固化用例：RemoveImage_UnknownImage_KeepsCurrentStateIntact（数量未变仍 count==1）。
+// D3（已修复）: removeImage / setImageFiles 无条件发出 imageCountChanged
+//     修复：均改为模型 count 前后对比，仅数量实际变化才发。
+//     用例：RemoveImage_UnknownImage_KeepsCurrentStateIntact（数量未变 count==0）、
+//     SetImageFiles_RepeatedCall_KeepsStateConsistent（3→3 不发）。
 //
-// D4: setImageFiles 无条件发出 currentSourceChanged
-//     证据：globalcontrol.cpp:377（即使 currentImage.source() 未变化）。
-//     固化用例：SetImageFiles_RepeatedCall_KeepsStateConsistent（源未变仍 count==1）。
+// D4（已修复）: setImageFiles 无条件发出 currentSourceChanged
+//     修复：Q_EMIT 移入 currentImage.source() != currentSource 守卫内。
+//     用例：SetImageFiles_RepeatedCall_KeepsStateConsistent（源未变 count==0）。
 //
-// D5: setIndexAndFrameIndex 将原始 index 落库而非钳制后的 validIndex
-//     证据：globalcontrol.cpp:626 `this->curIndex = index;`（validIndex 仅用于
-//     sourceModel->data 取图，第 622 行）。currentIndex() 可返回越界值（如 99/-1），
-//     与同函数中帧索引使用 validFrameIndex 的做法不一致。
-//     固化用例：SetCurrentIndex_OutOfRangeIndex_StoredRawBeyondBounds、
-//     SetIndexAndFrameIndex_OutOfRange_RawIndexStoredButFrameClamped。
+// D5（已修复）: setIndexAndFrameIndex 将原始 index 落库而非钳制后的 validIndex
+//     修复：this->curIndex = validIndex，与帧索引 validFrameIndex 的做法一致。
+//     用例：SetCurrentIndex_OutOfRangeIndex_ClampsToValidRange、
+//     SetIndexAndFrameIndex_OutOfRange_BothIndexAndFrameClamped。
 //
 // 另（真实行为注记，未单列缺陷）：submitImageChangeImmediately 内部经 setCurrentRotation(0)
 // 复位旋转时会重新 start(submitTimer)，提交完成后定时器处于重新武装状态而非停止态。

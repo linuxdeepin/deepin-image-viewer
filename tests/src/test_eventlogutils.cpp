@@ -4,18 +4,19 @@
 // 用例计数声明（self-check-structural 验证此块）：
 // | method | level | factors | min | actual |
 // |--------|-------|---------|-----|--------|
-// | Eventlogutils() ctor | low | - | 1 | 3 |
+// | Eventlogutils() ctor | low | - | 1 | 4 |
 // | GetInstance | low | - | 1 | 2 |
 // | writeLogs | mid | - | 2 | 4 |
 // ─── actual 均不低于 min ───
 //
 // 最小清单完成情况（test-code-gen §最小清单）：
 // 1. 每个公开方法 ≥ 1 用例: [x]（inventory 3 个方法全覆盖；私有构造经 -fno-access-control 直接构造）
-// 2. 每个输入维度按等价类划分 ≥ 1 用例/类: [x]（resolve：成功/Initialize 缺失/WriteEventLog 缺失/全缺失；payload：空/单键/嵌套）
+// 2. 每个输入维度按等价类划分 ≥ 1 用例/类: [x]（resolve：成功/Initialize 缺失/WriteEventLog 缺失/全缺失/
+//    Initialize 调用返回失败；payload：空/单键/嵌套）
 // 3. 每个等价类的边界值显式覆盖: [x]（空 QJsonObject payload、单键对象、含嵌套子对象）
 // 4. 同质 ≥ 3 组用 TEST_P: [x]（WriteLogs_FuncResolved 3 组 payload）
 // 5. 分支清单 → 用例映射已列出: [x]（见下方分支清单块）
-// 6. 每条 if/switch/throw/early-return 有触发用例: [x]（ctor B1/B2/B3、GetInstance B1/B2、writeLogs B1/B2 全覆盖）
+// 6. 每条 if/switch/throw/early-return 有触发用例: [x]（ctor B1/B2/B3/B4、GetInstance B1/B2、writeLogs B1/B2 全覆盖）
 // 7. 异常路径 EXPECT_THROW 精确匹配: [x]（本类无显式 throw；符号缺失路径以提前 return + 桩计数/指针断言覆盖）
 // 8. 负面场景有专门用例: [x]（InitializeUnresolved / WriteEventLogUnresolved / WriteFuncNull）
 // 9. 负面用例验证强异常安全: [x]（WriteFuncNull 提前返回后入参 QJsonObject 未被改动断言）
@@ -26,13 +27,16 @@
 // 分支清单 → 用例映射（来源：get_code_snippet 真实源码）
 // ─────────────────────────────────────────────────────────────
 
-// 分支清单（来源：Eventlogutils::Eventlogutils 构造函数 eventlogutils.cpp:37-55）
-// B1: !initFunc → qCWarning + return（不调用 Initialize）
-// B2: !writeEventLogFunc → qCWarning + return（不调用 Initialize）
-// B3: 两个函数指针就绪 → initFunc("deepin-image-viewer", true)
-// 映射：Eventlogutils_Constructor_InitializeUnresolved_SkipsInitButKeepsWriteFunc → B1
+// 分支清单（来源：Eventlogutils::Eventlogutils 构造函数，修复后 eventlogutils.cpp:37-61）
+// B1: !initFunc → qCWarning + return（writeEventLogFunc 不被赋值，保持 nullptr；
+//     原 D1 缺陷已修复：Initialize 解析失败时 writeEventLogFunc 不再残留非空）
+// B2: !writeEventLogFunc（Initialize 解析成功后才解析 WriteEventLog）→ qCWarning + return
+// B3: initFunc("deepin-image-viewer", true) 返回 false → 清空 writeEventLogFunc 并 return
+// B4: Initialize 调用成功 → 事件库初始化完成
+// 映射：Eventlogutils_Constructor_InitializeUnresolved_SkipsInitAndWriteFuncStaysNull → B1
 //       Eventlogutils_Constructor_WriteEventLogUnresolved_SkipsInit → B2
-//       Eventlogutils_Constructor_LibraryResolved_InitializesWithAppNameAndEnableSig → B3
+//       Eventlogutils_Constructor_InitializeFails_ClearsWriteFuncAndDropsLogs → B3
+//       Eventlogutils_Constructor_LibraryResolved_InitializesWithAppNameAndEnableSig → B4
 
 // 分支清单（来源：Eventlogutils::GetInstance eventlogutils.cpp:15-23）
 // B1: m_pInstance == nullptr → new Eventlogutils()
@@ -45,11 +49,6 @@
 // B2: 就绪 → writeEventLogFunc(QJsonDocument(data).toJson(Compact).toStdString())
 // 映射：WriteLogs_WriteFuncNull_DropsLogsWithoutCrash → B1
 //       WriteLogs_FuncResolved_WritesCompactJsonPayload（TEST_P）→ B2
-//
-// 疑似缺陷（只标红不修）：
-// D1: 构造函数中 writeEventLogFunc 在 initFunc 判空之前已被赋值（eventlogutils.cpp:42-45）——
-//     当 Initialize 解析失败走 B1 提前 return 时，writeEventLogFunc 仍为非空，后续 writeLogs
-//     会在事件库未初始化的状态下调用 WriteEventLog，存在未定义行为风险。
 
 #include <gtest/gtest.h>
 
@@ -76,13 +75,15 @@ std::string lastPayload;
 
 // resolve 桩模式：0=全部解析成功 1=Initialize 缺失 2=WriteEventLog 缺失 3=全部缺失
 int resolveMode = 0;
+// fakeInitialize 的返回值：true=初始化成功 false=初始化失败（覆盖 B3 分支）
+bool initReturn = true;
 
 bool fakeInitialize(const std::string &packagename, bool enable_sig)
 {
     ++initCalls;
     lastAppName = packagename;
     lastEnableSig = enable_sig;
-    return true;
+    return initReturn;
 }
 
 void fakeWriteEventLog(const std::string &eventdata)
@@ -109,6 +110,7 @@ void resetEventlogCounters()
     lastAppName.clear();
     lastEnableSig = false;
     lastPayload.clear();
+    initReturn = true;
 }
 
 QJsonObject makeFlatObject()
@@ -182,7 +184,7 @@ TEST_F(EventlogutilsTest, Eventlogutils_Constructor_LibraryResolved_InitializesW
     EXPECT_NE(utils.writeEventLogFunc, nullptr);
 }
 
-TEST_F(EventlogutilsTest, Eventlogutils_Constructor_InitializeUnresolved_SkipsInitButKeepsWriteFunc)
+TEST_F(EventlogutilsTest, Eventlogutils_Constructor_InitializeUnresolved_SkipsInitAndWriteFuncStaysNull)
 {
     // Arrange
     resolveMode = 1;  // Initialize 解析失败
@@ -190,10 +192,11 @@ TEST_F(EventlogutilsTest, Eventlogutils_Constructor_InitializeUnresolved_SkipsIn
     // Act
     Eventlogutils utils;
 
-    // Assert
-    EXPECT_EQ(initCalls, 0);                     // B1: 提前 return，Initialize 未被调用
-    EXPECT_EQ(utils.initFunc, nullptr);          // initFunc 保持为空
-    EXPECT_NE(utils.writeEventLogFunc, nullptr); // 缺陷 D1：WriteEventLog 指针仍被赋值
+    // Assert（原 D1 修复语义）：提前 return 时 writeEventLogFunc 未被赋值，
+    // 保持 nullptr，writeLogs 不会在未初始化的事件库上调用 WriteEventLog
+    EXPECT_EQ(initCalls, 0);                      // B1: 提前 return，Initialize 未被调用
+    EXPECT_EQ(utils.initFunc, nullptr);           // initFunc 保持为空
+    EXPECT_EQ(utils.writeEventLogFunc, nullptr);  // writeEventLogFunc 不再残留非空
 }
 
 TEST_F(EventlogutilsTest, Eventlogutils_Constructor_WriteEventLogUnresolved_SkipsInit)
@@ -208,6 +211,26 @@ TEST_F(EventlogutilsTest, Eventlogutils_Constructor_WriteEventLogUnresolved_Skip
     EXPECT_EQ(initCalls, 0);                      // B2: 提前 return，Initialize 未被调用
     EXPECT_EQ(utils.writeEventLogFunc, nullptr);  // writeEventLogFunc 保持为空
     EXPECT_NE(utils.initFunc, nullptr);           // Initialize 已解析但因 B2 未被调用
+}
+
+TEST_F(EventlogutilsTest, Eventlogutils_Constructor_InitializeFails_ClearsWriteFuncAndDropsLogs)
+{
+    // Arrange：两个符号均解析成功，但 Initialize 调用返回失败
+    initReturn = false;
+    Eventlogutils utils;
+    QJsonObject data;
+    data.insert(QStringLiteral("tid"), QJsonValue(1000000003));
+
+    // Act
+    utils.writeLogs(data);
+
+    // Assert（原 D1 修复语义）：初始化失败清空 writeEventLogFunc，
+    // writeLogs 直接丢弃日志，不在未初始化的库上调用 WriteEventLog
+    EXPECT_EQ(initCalls, 1);                      // Initialize 恰被调用一次
+    EXPECT_EQ(utils.writeEventLogFunc, nullptr);  // B3: 失败后清空
+    EXPECT_EQ(writeCalls, 0);                     // 日志被安全丢弃
+    EXPECT_EQ(data.value(QStringLiteral("tid")).toInt(),
+              1000000003);  // 入参未被改动（强异常安全）
 }
 
 TEST_F(EventlogutilsTest, GetInstance_FirstCall_CreatesInitializedSingleton)

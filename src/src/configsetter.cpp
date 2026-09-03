@@ -24,6 +24,10 @@ LibConfigSetter::LibConfigSetter(QObject *parent)
 
 LibConfigSetter::~LibConfigSetter() {
     qCDebug(logImageViewer) << "LibConfigSetter destructor called.";
+    // 仅当销毁的是单例本身时重置静态指针，避免悬垂指针
+    if (m_setter == this) {
+        m_setter = nullptr;
+    }
 }
 
 LibConfigSetter *LibConfigSetter::m_setter = nullptr;

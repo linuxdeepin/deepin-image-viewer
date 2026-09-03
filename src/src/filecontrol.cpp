@@ -139,7 +139,10 @@ QStringList FileControl::getDirImagePath(const QString &path)
     }
 
     QStringList image_list;
-    QString DirPath = QFileInfo(QUrl(path).toLocalFile()).dir().path();
+    const QUrl url(path);
+    const QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
+    QFileInfo pathInfo(localPath);
+    QString DirPath = pathInfo.isDir() ? pathInfo.absoluteFilePath() : pathInfo.dir().path();
     qCDebug(logImageViewer) << "Directory path:" << DirPath;
 
     QDir _dirinit(DirPath);
@@ -194,7 +197,7 @@ QString FileControl::getNamePath(const QString &oldPath, const QString &newName)
     QFileInfo info(old);
     QString path = info.path();
     QString suffix = info.suffix();
-    QString newPath = path + "/" + newName + "." + suffix;
+    QString newPath = path + "/" + now + "." + suffix;
     qCDebug(logImageViewer) << "Constructed new path:" << newPath;
     return QUrl::fromLocalFile(newPath).toString();
 }
@@ -270,7 +273,12 @@ void FileControl::setWallpaper(const QString &imgPath)
                             }
                         } else {
                             qCDebug(logImageViewer) << "Attempting to get primary screen for X11.";
-                            screenname = QGuiApplication::primaryScreen()->name();
+                            QScreen *screen = QGuiApplication::primaryScreen();
+                            if (!screen) {
+                                qCWarning(logImageViewer) << "Primary screen not found, skip setting wallpaper.";
+                                return;
+                            }
+                            screenname = screen->name();
                             qCDebug(logImageViewer) << "Got primary screen from X11:" << screenname;
                         }
 
@@ -408,7 +416,8 @@ bool FileControl::isRotatable(const QString &path)
 {
     qCDebug(logImageViewer) << "Checking if image is rotatable:" << path;
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    const QUrl url(path);
+    const QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
     QFileInfo info(localPath);
     if (!info.isFile() || !info.exists() || !info.isWritable()) {
         qCDebug(logImageViewer) << "Image is not rotatable: Not a file, does not exist, or not writable.";
@@ -423,7 +432,8 @@ bool FileControl::isRotatable(const QString &path)
 bool FileControl::isCanWrite(const QString &path)
 {
     qCDebug(logImageViewer) << "Checking if path is writable:" << path;
-    QString localPath = QUrl(path).toLocalFile();
+    const QUrl url(path);
+    const QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
     QFileInfo info(localPath);
     bool bRet = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();   // 是否可写
     qCDebug(logImageViewer) << "Path writable check result: " << bRet;
@@ -434,14 +444,14 @@ bool FileControl::isCanDelete(const QString &path)
 {
     qCDebug(logImageViewer) << "Checking if path is deletable:" << path;
     bool bRet = false;
-    bool isAlbum = false;
-    QString localPath = QUrl(path).toLocalFile();
+    const QUrl url(path);
+    const QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
     QFileInfo info(localPath);
     bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();   // 是否可写
     bool isReadable = info.isReadable();   // 是否可读
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);
     qCDebug(logImageViewer) << "Path type: " << pathType << ", isWritable: " << isWritable << ", isReadable: " << isReadable;
-    if ((imageViewerSpace::PathTypeAPPLE != pathType && imageViewerSpace::PathTypeSAFEBOX != pathType && imageViewerSpace::PathTypeRECYCLEBIN != pathType && imageViewerSpace::PathTypeMTP != pathType && imageViewerSpace::PathTypePTP != pathType && isWritable && isReadable) || (isAlbum && isWritable)) {
+    if (imageViewerSpace::PathTypeAPPLE != pathType && imageViewerSpace::PathTypeSAFEBOX != pathType && imageViewerSpace::PathTypeRECYCLEBIN != pathType && imageViewerSpace::PathTypeMTP != pathType && imageViewerSpace::PathTypePTP != pathType && isWritable && isReadable) {
         qCDebug(logImageViewer) << "Path is deletable based on conditions.";
         bRet = true;
     } else {
@@ -509,12 +519,8 @@ QString FileControl::parseCommandlineGetPath()
 QString FileControl::slotGetFileName(const QString &path)
 {
     qCDebug(logImageViewer) << "Getting file name for path: " << path;
-    QString tmppath = path;
-
-    if (path.startsWith("file://")) {
-        qCDebug(logImageViewer) << "Path starts with file://, converting to local file.";
-        tmppath = QUrl(tmppath).toLocalFile();
-    }
+    const QUrl url(path);
+    QString tmppath = url.isLocalFile() ? url.toLocalFile() : path;
 
     QFileInfo info(tmppath);
     qCDebug(logImageViewer) << "Returning complete base name: " << info.completeBaseName();
@@ -524,12 +530,8 @@ QString FileControl::slotGetFileName(const QString &path)
 QString FileControl::slotGetFileNameSuffix(const QString &path)
 {
     qCDebug(logImageViewer) << "Getting file name with suffix for path: " << path;
-    QString tmppath = path;
-
-    if (path.startsWith("file://")) {
-        qCDebug(logImageViewer) << "Path starts with file://, converting to local file.";
-        tmppath = QUrl(tmppath).toLocalFile();
-    }
+    const QUrl url(path);
+    QString tmppath = url.isLocalFile() ? url.toLocalFile() : path;
 
     QFileInfo info(tmppath);
     qCDebug(logImageViewer) << "Returning file name with suffix: " << info.fileName();
@@ -829,16 +831,17 @@ bool FileControl::isCheckOnly()
     std::string path = tdir.filePath("single").toStdString();
     qCDebug(logImageViewer) << "Attempting to open lockfile: " << QString::fromStdString(path);
     int fd = open(path.c_str(), O_WRONLY | O_CREAT, 0644);
-    int flock = lockf(fd, F_TLOCK, 0);
-
     if (fd == -1) {
         perror("open lockfile/n");
         qCWarning(logImageViewer) << "Failed to open lockfile.";
         return false;
     }
+
+    int flock = lockf(fd, F_TLOCK, 0);
     if (flock == -1) {
         perror("lock file error/n");
         qCWarning(logImageViewer) << "Failed to lock file.";
+        close(fd);
         return false;
     }
     qCDebug(logImageViewer) << "Lock file opened and locked successfully.";
@@ -848,7 +851,8 @@ bool FileControl::isCheckOnly()
 bool FileControl::isCanSupportOcr(const QString &path)
 {
     qCDebug(logImageViewer) << "FileControl::isCanSupportOcr() called for path: " << path;
-    QString localPath = QUrl(path).toLocalFile();
+    const QUrl url(path);
+    const QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
     QFileInfo info(localPath);
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
     qCDebug(logImageViewer) << "Image type: " << type << ", isReadable: " << info.isReadable();
@@ -866,7 +870,8 @@ bool FileControl::isCanRename(const QString &path)
 {
     qCDebug(logImageViewer) << "FileControl::isCanRename() called for path: " << path;
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    const QUrl url(path);
+    const QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);   // 路径类型
     QFileInfo info(localPath);
     bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();   // 是否可写
@@ -883,7 +888,8 @@ bool FileControl::isCanReadable(const QString &path)
 {
     qCDebug(logImageViewer) << "FileControl::isCanReadable() called for path: " << path;
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    const QUrl url(path);
+    const QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
     QFileInfo info(localPath);
     if (info.isReadable()) {
         qCDebug(logImageViewer) << "Path is readable. Returning true.";
