@@ -33,6 +33,17 @@ ApplicationWindow {
     palette: DTK.palette
     // 调整暗色主题下的窗口背景色
     color: DS.Style.control.selectColor(palette.window, palette.window, Qt.rgba(24 / 255, 24 / 255, 24 / 255, 1))
+
+    //uos-design: 应用内瞬态提示统一由 D.FloatingMessage / MessageManager 承载。
+    //此布局决定浮动消息出现的位置：工具栏悬浮于窗口底上方 10px (showBottomY=80, 高 70)，
+    //其顶边距窗口底 80px；提示框再上方留 10px 间距。
+    MessageManager.layout: Column {
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+            bottomMargin: 80 + 10
+        }
+    }
     // uos-design: allow-overlay-titlebar 应用采用沉浸式浮动标题栏 (ViewTopTitle) 而非窗口级 D.TitleBar header，
     // 标题栏随图片缩放/全屏滑入滑出，窗口按钮 (菜单/最小化/最大化/关闭) 由浮动 TitleBar 内的
     // D.WindowButtonGroup 提供，符合 DTK 窗口按钮 hover/press 标准实现。
