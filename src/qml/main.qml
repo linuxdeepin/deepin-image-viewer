@@ -35,13 +35,13 @@ ApplicationWindow {
     color: DS.Style.control.selectColor(palette.window, palette.window, Qt.rgba(24 / 255, 24 / 255, 24 / 255, 1))
 
     //uos-design: 应用内瞬态提示统一由 D.FloatingMessage / MessageManager 承载。
-    //此布局决定浮动消息出现的位置：工具栏悬浮于窗口底上方 10px (showBottomY=80, 高 70)，
-    //其顶边距窗口底 80px；提示框再上方留 10px 间距。
+    //此布局决定浮动消息出现的位置：工具栏顶边距窗口底为 GStatus.showBottomY（工具栏高 70 + 底边距 10），
+    //提示框与工具栏保持 10px 间距，与工具栏共用同一设计常量。
     MessageManager.layout: Column {
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
-            bottomMargin: 80 + 10
+            bottomMargin: IV.GStatus.showBottomY + 10
         }
     }
     // uos-design: allow-overlay-titlebar 应用采用沉浸式浮动标题栏 (ViewTopTitle) 而非窗口级 D.TitleBar header，
