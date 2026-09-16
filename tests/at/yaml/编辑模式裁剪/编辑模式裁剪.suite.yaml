@@ -1,0 +1,128 @@
+name: 编辑模式裁剪_suite
+app: deepin-image-viewer
+module: 编辑模式裁剪
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_bianjimoshicaijian_001_s1
+  name: 编辑模式-裁剪选框显示验证
+  description: 进入编辑模式选择裁剪工具，验证裁剪选框和编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshicaijian_002_s1
+  name: 编辑模式-双击确认裁剪验证
+  description: 进入编辑模式裁剪状态后双击画布确认裁剪，验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditCanvas
+    do: double_click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshicaijian_003_s1
+  name: 编辑模式-回车确认裁剪验证
+  description: 进入编辑模式裁剪状态后按回车键确认裁剪，验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshicaijian_004_s1
+  name: 编辑模式-裁剪时标注区域外删除验证
+  description: 进入编辑模式裁剪状态后按Ctrl+Z撤销裁剪区域外标注，验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+z
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

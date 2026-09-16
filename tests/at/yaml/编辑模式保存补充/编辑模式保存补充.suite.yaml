@@ -1,0 +1,92 @@
+name: 编辑模式保存补充_suite
+app: deepin-image-viewer
+module: 编辑模式保存补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_bianjimoshibaocunbuchong_001_s1
+  name: 编辑模式-保存后再次编辑标注验证
+  description: 进入编辑模式退出后再次进入编辑模式，验证编辑画布和工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshibaocunbuchong_002_s1
+  name: 编辑模式-覆盖原图二次确认弹窗验证
+  description: 进入编辑模式修改后退出触发未保存对话框，验证对话框和编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: UnsavedEditDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshibaocunbuchong_003_s1
+  name: 编辑模式-图元层级绘制顺序验证
+  description: 进入编辑模式验证图元层级绘制功能，验证编辑画布和属性面板存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

@@ -4110,3 +4110,693 @@ cases:
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
+- id: suite_bianjimoshichangjing3_001_s1
+  name: 编辑模式-画笔工具选择与绘制验证
+  module: 编辑模式场景三
+  app: deepin-image-viewer
+  description: 进入编辑模式选择画笔工具，验证编辑属性面板工具按钮和编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing3_002_s1
+  name: 编辑模式-直线工具选择验证
+  module: 编辑模式场景三
+  app: deepin-image-viewer
+  description: 进入编辑模式选择直线工具，验证编辑画布和工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing3_003_s1
+  name: 编辑模式-箭头工具选择验证
+  module: 编辑模式场景三
+  app: deepin-image-viewer
+  description: 进入编辑模式选择箭头工具，验证编辑画布和属性面板存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing3_004_s1
+  name: 编辑模式-矩形工具选择验证
+  module: 编辑模式场景三
+  app: deepin-image-viewer
+  description: 进入编辑模式选择矩形工具，验证编辑画布和属性面板工具按钮存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel_ToolButton
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing3_005_s1
+  name: 编辑模式-圆形工具选择验证
+  module: 编辑模式场景三
+  app: deepin-image-viewer
+  description: 进入编辑模式选择圆形工具，验证编辑画布和编辑工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing3_006_s1
+  name: 编辑模式-文字标注输入验证
+  module: 编辑模式场景三
+  app: deepin-image-viewer
+  description: 进入编辑模式在文本编辑器中输入文字标注，验证文本编辑器存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: TextEditor
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: 测试标注
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TextEditor
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing3_007_s1
+  name: 编辑模式-序号标注工具验证
+  module: 编辑模式场景三
+  app: deepin-image-viewer
+  description: 进入编辑模式选择序号标注工具，验证编辑属性面板和编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing3_008_s1
+  name: 编辑模式-删除标注对象验证
+  module: 编辑模式场景三
+  app: deepin-image-viewer
+  description: 进入编辑模式后按Ctrl+Z撤销删除标注对象，验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+z
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshixiaoguo_001_s1
+  name: 编辑模式-马赛克效果工具验证
+  module: 编辑模式效果
+  app: deepin-image-viewer
+  description: 进入编辑模式选择马赛克效果工具，验证编辑画布和属性面板存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshixiaoguo_002_s1
+  name: 编辑模式-高斯模糊效果工具验证
+  module: 编辑模式效果
+  app: deepin-image-viewer
+  description: 进入编辑模式选择高斯模糊效果工具，验证编辑画布和工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshixiaoguo_003_s1
+  name: 编辑模式-涂鸦特效工具验证
+  module: 编辑模式效果
+  app: deepin-image-viewer
+  description: 进入编辑模式选择涂鸦特效工具，验证编辑画布和属性面板工具按钮存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel_ToolButton
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshicaijian_001_s1
+  name: 编辑模式-裁剪选框显示验证
+  module: 编辑模式裁剪
+  app: deepin-image-viewer
+  description: 进入编辑模式选择裁剪工具，验证裁剪选框和编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshicaijian_002_s1
+  name: 编辑模式-双击确认裁剪验证
+  module: 编辑模式裁剪
+  app: deepin-image-viewer
+  description: 进入编辑模式裁剪状态后双击画布确认裁剪，验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditCanvas
+    do: double_click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshicaijian_003_s1
+  name: 编辑模式-回车确认裁剪验证
+  module: 编辑模式裁剪
+  app: deepin-image-viewer
+  description: 进入编辑模式裁剪状态后按回车键确认裁剪，验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshicaijian_004_s1
+  name: 编辑模式-裁剪时标注区域外删除验证
+  module: 编辑模式裁剪
+  app: deepin-image-viewer
+  description: 进入编辑模式裁剪状态后按Ctrl+Z撤销裁剪区域外标注，验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+z
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshiyansecuxi_001_s1
+  name: 编辑模式-浮动面板颜色选择验证
+  module: 编辑模式颜色粗细
+  app: deepin-image-viewer
+  description: 进入编辑模式点击颜色选择控件，验证颜色控件和编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Color
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Color
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshiyansecuxi_002_s1
+  name: 编辑模式-调节粗细后绘制验证
+  module: 编辑模式颜色粗细
+  app: deepin-image-viewer
+  description: 进入编辑模式点击粗细调节控件，验证粗细控件和编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Thickness
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Thickness
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshibaocunbuchong_001_s1
+  name: 编辑模式-保存后再次编辑标注验证
+  module: 编辑模式保存补充
+  app: deepin-image-viewer
+  description: 进入编辑模式退出后再次进入编辑模式，验证编辑画布和工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshibaocunbuchong_002_s1
+  name: 编辑模式-覆盖原图二次确认弹窗验证
+  module: 编辑模式保存补充
+  app: deepin-image-viewer
+  description: 进入编辑模式修改后退出触发未保存对话框，验证对话框和编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: UnsavedEditDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshibaocunbuchong_003_s1
+  name: 编辑模式-图元层级绘制顺序验证
+  module: 编辑模式保存补充
+  app: deepin-image-viewer
+  description: 进入编辑模式验证图元层级绘制功能，验证编辑画布和属性面板存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshibzimoshi_001_s1
+  name: 编辑模式-文本工具子模式切换记忆验证
+  module: 编辑模式子模式
+  app: deepin-image-viewer
+  description: 进入编辑模式切换文本工具子模式后退出再进入，验证文本编辑器和编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: TextEditor
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TextEditor
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshibzimoshi_002_s1
+  name: 编辑模式-模糊工具子模式切换记忆验证
+  module: 编辑模式子模式
+  app: deepin-image-viewer
+  description: 进入编辑模式切换模糊工具子模式后退出再进入，验证编辑画布和属性面板存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: EditPropertyPanel_ToolButton
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
