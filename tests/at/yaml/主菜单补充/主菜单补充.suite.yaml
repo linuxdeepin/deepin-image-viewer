@@ -1,0 +1,60 @@
+name: 主菜单补充_suite
+app: deepin-image-viewer
+module: 主菜单补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_zhucaidanbuchong_001_s1
+  name: 主菜单-点击标题栏菜单查看菜单项
+  description: 点击标题栏打开主菜单，验证标题栏菜单控件存在且应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: ViewTopTitleMenu
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ViewTopTitleMenu
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_zhucaidanbuchong_002_s1
+  name: 主菜单-标题栏菜单与图片视图共存
+  description: 打开标题栏菜单后关闭，验证图片视图和标题栏区域仍然存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TitleRect
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

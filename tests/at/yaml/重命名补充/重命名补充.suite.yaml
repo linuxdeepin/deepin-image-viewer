@@ -1,0 +1,81 @@
+name: 重命名补充_suite
+app: deepin-image-viewer
+module: 重命名补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_chongmingmingbuchong_001_s1
+  name: 重命名-右键菜单重命名输入新名称
+  description: 右键图片选择重命名，输入新文件名后确认，验证重命名对话框出现并应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rename
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: renamed_test.jpg
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_chongmingmingbuchong_002_s1
+  name: 重命名-F2打开后输入长文件名
+  description: 按F2打开重命名对话框，输入超长文件名，验证重命名对话框仍然存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Renamedialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_chongmingmingbuchong_003_s1
+  name: 重命名-F2打开后清空再输入
+  description: 按F2打开重命名对话框，全选清空后输入新名称，验证重命名对话框存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+a
+    wait: 0.3
+  - step_type: action
+    action: keyboard_type
+    text: new_name.jpg
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Renamedialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop
