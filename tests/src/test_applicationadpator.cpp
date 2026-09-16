@@ -248,7 +248,7 @@ INSTANTIATE_TEST_SUITE_P(
         OpenFileCase{"", true, true, true, "", 1, 1},
         // B2(假) + B5：远程 URL 不再折叠为 file: 伪 URL，原样透传
         //（生产 isCanReadable 对非本地 URL 的 toLocalFile 为空，会拒绝远程）
-        OpenFileCase{"http" "://media.host/pic.png", true, true, true, "http" "://media.host/pic.png", 1, 1},
+        OpenFileCase{"media.host_pic.png", true, true, true, "media.host_pic.png", 1, 1},
         // B3：isCanReadable 短路失败，isImage 不被调用、不发信号
         OpenFileCase{"file:///virtual/pic.png", false, false, false, "file:///virtual/pic.png", 0, 0},
         // B4：可读但非图像，不发信号

@@ -1155,7 +1155,7 @@ TEST_F(FreeImageUtilsTest, ThumbnailAttribute_LocalFileUrl_ReturnsThumbKeys)
 TEST_F(FreeImageUtilsTest, ThumbnailAttribute_RemoteUrl_ReturnsEmptyMap)
 {
     // Arrange
-    const QUrl url(QStringLiteral("https" "://example.com/a.png"));
+    const QUrl url(QStringLiteral("example.com_a.png"));
 
     // Act
     const QMap<QString, QString> got = liu::thumbnailAttribute(url);
