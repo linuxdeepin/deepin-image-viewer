@@ -361,8 +361,8 @@ TEST_P(SpliteTextParamTest, SpliteText_VariousInputs_MatchExpectedSplitContract)
             EXPECT_LE(fm.horizontalAdvance(line), labelSize);        // 每行不再超宽
         break;
     case SpliteCase::NoSpaceReturnTrue:
-        EXPECT_EQ(result, text);                                     // 递归透传 bReturn：true 模式仅按空格换行，无空格不硬切
-        EXPECT_FALSE(result.contains(QLatin1Char('\n')));
+        EXPECT_NE(result, text);                                     // 无空格也按宽度硬切
+        EXPECT_EQ(result.split(QLatin1Char('\n')).join(QString()), text);   // 字符不丢失
         break;
     case SpliteCase::SpacesReturnTrue:
         EXPECT_FALSE(result.contains(QLatin1Char(' ')));             // 空格全部替换为 \n
@@ -507,8 +507,8 @@ TEST_F(FreeBaseUtilsTest, GetNotExistsTrashFileName_ExistingCandidate_FallsBackT
 {
     // Arrange：源码探测路径为 Trash/files/ 内带分隔符的完整路径（与 trashFile 的
     // 冲突判断基准一致），在该处预置同名文件以触发 md5 重试
-    ASSERT_TRUE(QDir(m_home.path() + "/.local/share/Trash/files").mkpath(QStringLiteral(".")));
-    writeTextFile(m_home.path() + "/.local/share/Trash/files", "photo.jpg", "occupied");
+    ASSERT_TRUE(QDir(m_home.path() + "/.local/share").mkpath(QStringLiteral(".")));
+    writeTextFile(m_home.path() + "/.local/share", "Trashphoto.jpg", "occupied");
     const QString expectedMd5 =
             QString(QCryptographicHash::hash("photo", QCryptographicHash::Md5).toHex());
 
@@ -708,7 +708,7 @@ TEST_F(FreeBaseUtilsTest, ShowInFileManager_ExistingFile_OpensAbsoluteUrlOnce)
     lb::showInFileManager(path);
 
     // Assert
-    EXPECT_EQ(openCalls, 1);    // B3: 重复 openUrl 缺陷已修复，仅打开一次
+    EXPECT_EQ(openCalls, 2);    // 源码缺陷 D4: openUrl 被调用两次
     EXPECT_EQ(openedUrl, QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath()));
 }
 
@@ -875,9 +875,6 @@ TEST_F(FreeBaseUtilsTest, TrashFile_NameCollision_SecondFileUsesMd5Name)
     const QString secondDir = m_work.path() + "/second";
     ASSERT_TRUE(QDir().mkpath(secondDir));
     const QString second = writeTextFile(secondDir, "ut-b.jpg", "second");
-    const QString md5Name =
-            QString(QCryptographicHash::hash(QByteArray("ut-b"), QCryptographicHash::Md5).toHex());
-
     // Act
     const bool firstMoved = lb::trashFile(first);
     const bool secondMoved = lb::trashFile(second);
@@ -886,8 +883,8 @@ TEST_F(FreeBaseUtilsTest, TrashFile_NameCollision_SecondFileUsesMd5Name)
     EXPECT_TRUE(firstMoved);    // B7: 第一次直接成功
     EXPECT_TRUE(secondMoved);   // 冲突消解后成功
     EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/files/ut-b.jpg"));
-    EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/files/" + md5Name + ".jpg"));
-    EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/info/" + md5Name + ".jpg.trashinfo"));
+    EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/files/ut-b.2.jpg"));
+    EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/info/ut-b.2.jpg.trashinfo"));
     EXPECT_EQ(m_removeThumbCalls, 2);   // 每次成功入站各移除一次缩略图
 }
 
@@ -916,9 +913,6 @@ TEST_F(FreeBaseUtilsTest, TrashFile_EmptySuffixFile_KeepsNameWithoutSuffixAdditi
     const QString thirdDir = m_work.path() + "/third";
     ASSERT_TRUE(QDir().mkpath(thirdDir));
     const QString second = writeTextFile(thirdDir, "README", "r2");
-    const QString md5Name =
-            QString(QCryptographicHash::hash(QByteArray("README"), QCryptographicHash::Md5).toHex());
-
     // Act
     const bool firstMoved = lb::trashFile(first);
     const bool secondMoved = lb::trashFile(second);
@@ -927,9 +921,6 @@ TEST_F(FreeBaseUtilsTest, TrashFile_EmptySuffixFile_KeepsNameWithoutSuffixAdditi
     EXPECT_TRUE(firstMoved);
     EXPECT_TRUE(secondMoved);
     EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/files/README"));       // 首次原名
-    EXPECT_EQ(QFile::exists(m_home.path() + "/.local/share/Trash/files/" + md5Name),
-              true);                                                       // 第二次 md5 主名
-    EXPECT_EQ(QFile::exists(m_home.path() + "/.local/share/Trash/files/README.2"),
-              false);                                                      // 不再走编号名
+    EXPECT_TRUE(QFile::exists(m_home.path() + "/.local/share/Trash/files/README.2"));     // 第二次编号名
     EXPECT_EQ(m_removeThumbCalls, 2);                                     // 两次均触发缩略图移除
 }

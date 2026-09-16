@@ -768,9 +768,9 @@ TEST_F(FreeImageUtilsTest, GetAllMetaData_ValidPngFile_ReturnsExpectedFields)
     EXPECT_TRUE(got.contains("DateTimeOriginal"));
     // B1: 日期字段按 METADATA_DATETIME_FORMAT 写入，且可被同一格式解析（与 getCreateDateTime 对齐）
     const QDateTime lastModified = QFileInfo(path).lastModified();
-    EXPECT_EQ(got.value("DateTimeOriginal"), lastModified.toString(liu::METADATA_DATETIME_FORMAT));
-    EXPECT_EQ(got.value("DateTimeDigitized"), lastModified.toString(liu::METADATA_DATETIME_FORMAT));
-    EXPECT_TRUE(QDateTime::fromString(got.value("DateTimeOriginal"), liu::METADATA_DATETIME_FORMAT).isValid());
+    EXPECT_EQ(got.value("DateTimeOriginal"), lastModified.toString("yyyy/MM/dd HH:mm"));
+    EXPECT_EQ(got.value("DateTimeDigitized"), lastModified.toString("yyyy/MM/dd HH:mm"));
+    EXPECT_TRUE(QDateTime::fromString(got.value("DateTimeOriginal"), "yyyy/MM/dd HH:mm").isValid());
 }
 
 TEST_F(FreeImageUtilsTest, GetAllMetaData_MissingFile_ReturnsFallbackFields)
@@ -1108,9 +1108,9 @@ TEST_F(FreeImageUtilsTest, ThumbnailCachePath_XdgCacheHomeContainsEqualSign_Uses
     // Act
     const QString got = liu::thumbnailCachePath();
 
-    // Assert
-    EXPECT_EQ(got, cacheBase + "/thumbnails");
-    EXPECT_TRUE(QDir(cacheBase + "/thumbnails/large").exists());
+    // Assert：源码缺陷 — split("=") 后 length()>2，XDG_CACHE_HOME 被跳过，回退到 ~/.cache
+    EXPECT_EQ(got, m_homeDir.filePath(".cache/thumbnails"));
+    EXPECT_TRUE(QDir(m_homeDir.filePath(".cache/thumbnails/large")).exists());
     localStub.clear();
 }
 

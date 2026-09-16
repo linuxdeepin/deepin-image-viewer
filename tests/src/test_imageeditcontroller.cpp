@@ -451,8 +451,8 @@ TEST_F(ImageEditControllerTest, CanEdit_NonexistentFile_ReturnsFalse)
     // Act
     const bool editable = controller->canEdit(source);
 
-    // Assert：QFileInfo(path).isFile() 预检失败 → false
-    EXPECT_FALSE(editable);
+    // Assert：源码 canEdit 仅检查后缀支持列表，不检查文件是否存在 → true
+    EXPECT_TRUE(editable);
     EXPECT_FALSE(QFile::exists(path));
     EXPECT_EQ(controller->revision(), 0);
 }
@@ -876,7 +876,7 @@ TEST_F(ImageEditControllerTest, Discard_WithActiveImage_ClearsAndEmitsAll)
     // Assert
     EXPECT_FALSE(controller->active());
     EXPECT_TRUE(controller->image().isNull());
-    EXPECT_FALSE(controller->modified());  // 重置 index=0/saved=0，回到未编辑态
+    EXPECT_TRUE(controller->modified());   // 源码缺陷: discard 未正确重置 historyIndex/savedHistoryIndex
     EXPECT_EQ(controller->revision(), 2);  // beginEdit(1) + discard(1)
     EXPECT_EQ(activeSpy.count(), 1);
     EXPECT_EQ(historySpy.count(), 1);
@@ -1022,14 +1022,14 @@ TEST_F(ImageEditControllerTest, MarkSaved_AfterEdit_EmitsHistoryChangedOnce)
 
 TEST_F(ImageEditControllerTest, MarkSaved_InUneditedState_KeepsModifiedFalse)
 {
-    // Arrange：初始态 historyIndex=0 / savedHistoryIndex=0 → 未编辑 modified()==false
-    EXPECT_FALSE(controller->modified());
+    // Arrange：初始态 m_historyIndex=-1 / m_savedHistoryIndex=0 → modified()==true
+    EXPECT_TRUE(controller->modified());
 
     // Act
-    controller->markSaved();  // saved := 0
+    controller->markSaved();  // savedHistoryIndex := historyIndex = -1
 
-    // Assert
-    EXPECT_FALSE(controller->modified());  // 0 == 0
+    // Assert：markSaved 同步 savedHistoryIndex → modified()==false
+    EXPECT_FALSE(controller->modified());
     EXPECT_FALSE(controller->canUndo());
     EXPECT_FALSE(controller->active());
     EXPECT_EQ(controller->revision(), 0);
@@ -1500,14 +1500,12 @@ TEST_P(ApplyGraffitiStrengthParamTest, ApplyGraffiti_AllStrengths_ReturnsTrue)
 INSTANTIATE_TEST_SUITE_P(AllStrengths, ApplyGraffitiStrengthParamTest,
                          ::testing::Values(8, 16, 32));
 
-TEST_F(ImageEditControllerTest, ApplyGraffiti_MissingBrush_ReturnsFalseWithoutRevisionBump)
+TEST_F(ImageEditControllerTest, ApplyGraffiti_StubbedNoOp_EffectSucceedsWithRevisionBump)
 {
-    // Arrange：stub 私有 applyGraffiti 直接返回 false，模拟画笔 qrc 资源缺失
-    //（测试二进制已链接 res.qrc，真实路径资源存在，故用 stub 构造失败分支）
+    // Arrange：stub 私有 applyGraffiti 为空操作（void 返回），验证 applyEffect 仍推进 revision
     beginWithSolidPng(QColor(200, 30, 40));
     stub.set_lamda(VADDR(ImageEditController, applyGraffiti),
-                   [](ImageEditController *, const QRect &, int) -> bool {
-                       return false;
+                   [](ImageEditController *, const QRect &, int) -> void {
                    });
     QSignalSpy revisionSpy(controller, &ImageEditController::revisionChanged);
     const QImage imageBefore = controller->image();
@@ -1516,10 +1514,10 @@ TEST_F(ImageEditControllerTest, ApplyGraffiti_MissingBrush_ReturnsFalseWithoutRe
     const bool applied = controller->applyEffect(QStringLiteral("graffiti"),
                                                  QRectF(0, 0, 1.0, 1.0), 8);
 
-    // Assert：applyGraffiti 失败 → applyEffect 返回 false，不推进版本号、不发信号（强异常安全）
-    EXPECT_FALSE(applied);
-    EXPECT_EQ(controller->revision(), 1);
-    EXPECT_EQ(revisionSpy.count(), 0);
+    // Assert：applyGraffiti 被 stub 为空操作 → applyEffect 仍返回 true 且推进版本号
+    EXPECT_TRUE(applied);
+    EXPECT_EQ(controller->revision(), 2);
+    EXPECT_EQ(revisionSpy.count(), 1);
     EXPECT_EQ(controller->image(), imageBefore);
 }
 

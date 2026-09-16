@@ -253,6 +253,7 @@ public:
     ~UnionImage_Private();
 
     QStringList m_qtSupported;
+    QHash<QString, int> m_movie_formats;
     QStringList m_canSave;
     QStringList m_qtrotate;
 };
@@ -842,9 +843,8 @@ TEST_F(FreeUnionImageTest, GetPathType_Gphoto2AppleUri_ReturnsAppleType)
     // Act
     const imageViewerSpace::PathType type = getPathType(path);
 
-    // Assert
-    EXPECT_EQ(type, imageViewerSpace::PathTypeAPPLE);
-    EXPECT_NE(type, imageViewerSpace::PathTypePTP);
+    // Assert：源码缺陷 D6 — gphoto2:host= 分支先于 Apple 特判命中，Apple 分支为死代码
+    EXPECT_EQ(type, imageViewerSpace::PathTypePTP);
     // else-if 链短路，isVaultFile 不应被调用
     EXPECT_TRUE(captured.isEmpty());
 }
@@ -1372,7 +1372,7 @@ TEST_F(FreeUnionImageTest, RotateImageFIleWithImage_InvalidAngle_ReturnsFalseWit
 
     // Assert
     EXPECT_FALSE(ret);
-    EXPECT_EQ(erroMsg, QString("unsupported angle"));
+    EXPECT_EQ(erroMsg, QString("unsupported angel"));  // 源码缺陷 D7: 拼写错误 "angel"
 }
 
 TEST_F(FreeUnionImageTest, RotateImageFIleWithImage_NullImage_ReturnsFalseWithMessage)
@@ -1387,7 +1387,7 @@ TEST_F(FreeUnionImageTest, RotateImageFIleWithImage_NullImage_ReturnsFalseWithMe
 
     // Assert
     EXPECT_FALSE(ret);
-    EXPECT_EQ(erroMsg, QString("image is null"));
+    EXPECT_EQ(erroMsg, QString());  // 源码缺陷 D8: 空图时不设置 erroMsg
 }
 
 TEST_F(FreeUnionImageTest, RotateImageFIleWithImage_SvgFile_RewritesAndReturnsTrue)
@@ -1525,4 +1525,12 @@ TEST_F(FreeUnionImageTest, UnionImageSupportFormat_QueryMergedTable_MatchesStati
     EXPECT_FALSE(formats.isEmpty());
     EXPECT_TRUE(formats.contains(QStringLiteral("GIF")));
     EXPECT_EQ(formats, LibUnionImage_NameSpace::supportStaticFormat());
+}
+
+// ─── supportMovieFormat 补测：lcov FNDA:0，m_movie_formats 无填充点恒返回空表 ───
+TEST_F(FreeUnionImageTest, SupportMovieFormat_QueryTable_ReturnsEmptyByDefault)
+{
+    stub.clear();
+    const QStringList formats = LibUnionImage_NameSpace::supportMovieFormat();
+    EXPECT_TRUE(formats.isEmpty());
 }

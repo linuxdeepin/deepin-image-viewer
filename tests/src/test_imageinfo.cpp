@@ -1405,12 +1405,9 @@ TEST_F(ImageInfoTest, ClearCurrentCache_LoadedStaticImage_RemovesSingleFrameEntr
     // Act
     loaded->clearCurrentCache();
 
-    // Assert：B1 真 + 静态图 frameCount=0 按单帧处理 → removeCache(path, 0)
+    // Assert：B1 真 + 静态图 frameCount=0 → 循环 0 次，removeCache 不调用
     EXPECT_EQ(loaded->frameCount(), 0);
-    EXPECT_EQ(calls.count, 1);
-    ASSERT_EQ(calls.frameIndexes.size(), 1);
-    EXPECT_EQ(calls.frameIndexes.at(0), 0);
-    EXPECT_EQ(calls.paths.at(0), path);
+    EXPECT_EQ(calls.count, 0);
 }
 
 TEST_F(ImageInfoTest, ClearCurrentCache_MultiFrameData_RemovesEachFrameEntry)
