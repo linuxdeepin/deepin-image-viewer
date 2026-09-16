@@ -2920,3 +2920,1193 @@ cases:
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
+- id: suite_gongjulanchangjing3_001_s1
+  name: 工具栏-删除按钮检查
+  module: 工具栏场景三
+  app: deepin-image-viewer
+  description: 点击工具栏删除按钮删除当前图片，验证图片视图和工具栏存在且应用运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Delete
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulanchangjing3_002_s1
+  name: 工具栏-多张图片时检查工具栏按钮
+  module: 工具栏场景三
+  app: deepin-image-viewer
+  description: 切换到下一张图片后检查工具栏各按钮存在，验证工具栏和图片视图正常
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulanchangjing3_003_s1
+  name: 工具栏-单张可读写图片按钮展示
+  module: 工具栏场景三
+  app: deepin-image-viewer
+  description: 检查单张可读写图片时工具栏按钮齐全，验证工具栏和旋转按钮存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Rotate clockwise
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_shanchuchangjing2_001_s1
+  name: 删除-删除单张图片后看图界面展示
+  module: 删除场景二
+  app: deepin-image-viewer
+  description: 按Delete键删除当前图片后验证看图界面仍然正常运行，图片视图和主栈控件存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: delete
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MainStack
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_shanchuchangjing2_002_s1
+  name: 删除-只读权限图片删除检查
+  module: 删除场景二
+  app: deepin-image-viewer
+  description: 尝试删除只读权限图片，验证应用仍然运行且图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Delete
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bizhibuchong_001_s1
+  name: 壁纸-窗口下右键设置壁纸
+  module: 壁纸补充
+  app: deepin-image-viewer
+  description: 窗口模式下右键图片选择设为壁纸，验证图片视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bizhibuchong_002_s1
+  name: 壁纸-设置壁纸格式图片检查
+  module: 壁纸补充
+  app: deepin-image-viewer
+  description: 检查支持设置壁纸格式的图片可正常设为壁纸，验证图片视图存在且应用运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tupianxinxibuchong_001_s1
+  name: 图片信息-右键菜单打开图片信息
+  module: 图片信息补充
+  app: deepin-image-viewer
+  description: 右键图片选择图片信息，验证属性信息视图控件存在且应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Image info
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyInfoView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tupianxinxibuchong_002_s1
+  name: 图片信息-工具栏切换图片展示
+  module: 图片信息补充
+  app: deepin-image-viewer
+  description: 打开图片信息后通过工具栏切换下一张图片，验证图片视图和属性信息视图存在
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+i
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyInfoView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tupianxinxibuchong_003_s1
+  name: 图片信息-Ctrl+I快捷键打开
+  module: 图片信息补充
+  app: deepin-image-viewer
+  description: 按Ctrl+I快捷键打开图片信息面板，验证属性信息视图存在
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+i
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyInfoView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkoubuchong2_001_s1
+  name: 导航窗口-移动显示区域
+  module: 导航窗口补充二
+  app: deepin-image-viewer
+  description: 打开导航窗口后验证缩略图列表视图控件存在，应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+n
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ThumbnailListView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkoubuchong2_002_s1
+  name: 导航窗口-关闭后验证图片视图
+  module: 导航窗口补充二
+  app: deepin-image-viewer
+  description: 打开导航窗口后关闭，验证图片视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+n
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkoubuchong2_003_s1
+  name: 导航窗口-按钮关闭导航窗口
+  module: 导航窗口补充二
+  app: deepin-image-viewer
+  description: 打开导航窗口后点击关闭按钮，验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+n
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Close navigation window
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tifduoyetubuchong_001_s1
+  name: tif多页图-缩略图切换图片
+  module: tif多页图补充
+  app: deepin-image-viewer
+  description: 通过缩略图列表切换tif多页图，验证缩略图列表和图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: BottomthumbnaillistView
+    do: click
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tifduoyetubuchong_002_s1
+  name: tif多页图-切换页后检查缩略图
+  module: tif多页图补充
+  app: deepin-image-viewer
+  description: 切换tif多页图页面后检查缩略图列表存在，验证应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tifduoyetubuchong_003_s1
+  name: tif多页图-工具栏切换上一张图片
+  module: tif多页图补充
+  app: deepin-image-viewer
+  description: 通过工具栏上一张按钮切换tif多页图，验证图片视图和工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_001_s1
+  name: 编辑模式-按钮点击退出编辑（无修改）
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 点击编辑按钮进入编辑模式后再点击退出，验证返回图片视图且应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_002_s1
+  name: 编辑模式-ESC快捷键退出编辑（无修改）
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 进入编辑模式后按ESC退出，验证返回图片视图
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+e
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_003_s1
+  name: 编辑模式-未保存修改退出选择保存副本
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 进入编辑模式后按ESC触发未保存对话框，验证未保存编辑对话框出现
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+e
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: UnsavedEditDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_004_s1
+  name: 编辑模式-未保存修改退出选择不保存
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 进入编辑模式后按ESC选择不保存退出，验证返回图片视图
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+e
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: UnsavedEditDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_005_s1
+  name: 编辑模式-未保存修改退出选择取消
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 进入编辑模式后按ESC选择取消，验证仍在编辑模式中
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+e
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_006_s1
+  name: 编辑模式-不可编辑格式禁用编辑入口
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 检查不可编辑格式图片编辑入口状态，验证图片视图和工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_007_s1
+  name: 编辑模式-工具栏按钮分组与快捷键触发验证
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 进入编辑模式验证编辑工具栏控件分组存在，验证编辑画布和编辑工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_008_s1
+  name: 编辑模式-重做功能验证
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 进入编辑模式后按Ctrl+Y执行重做操作，验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+y
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_009_s1
+  name: 编辑模式-新操作清空重做验证
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 进入编辑模式后执行新操作清空重做栈，验证编辑画布和编辑工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+y
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_010_s1
+  name: 编辑模式-保存副本默认规则验证
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 进入编辑模式验证保存副本功能可用，验证编辑属性面板和编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_011_s1
+  name: 编辑模式-格式兼容性验证
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 进入编辑模式验证不同格式图片编辑功能兼容，验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_012_s1
+  name: 编辑模式-原图保护功能验证
+  module: 编辑模式场景二
+  app: deepin-image-viewer
+  description: 进入编辑模式验证原图保护机制，验证编辑画布存在且原图不被覆盖
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_chongmingmingchangjing2_001_s1
+  name: 重命名-读写图片重命名
+  module: 重命名场景二
+  app: deepin-image-viewer
+  description: 右键图片选择重命名输入新名称并确认，验证重命名对话框出现且应用运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rename
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: renamed_img.jpg
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_chongmingmingchangjing2_002_s1
+  name: 重命名-只读图片重命名
+  module: 重命名场景二
+  app: deepin-image-viewer
+  description: 尝试对只读图片进行重命名，验证重命名对话框出现且应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_xuanzhuanbuchong_001_s1
+  name: 旋转-全屏快捷键顺时针旋转
+  module: 旋转补充
+  app: deepin-image-viewer
+  description: 双击进入全屏后按Ctrl+R顺时针旋转图片，验证全屏视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+r
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_xuanzhuanbuchong_002_s1
+  name: 旋转-全屏右键菜单逆时针旋转
+  module: 旋转补充
+  app: deepin-image-viewer
+  description: 全屏模式下右键选择逆时针旋转，验证全屏视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: FullImageViewer
+    items:
+    - Rotate counterclockwise
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gonggongnenglibuchong_001_s1
+  name: 公共能力-看图自有窗口属性
+  module: 公共能力补充
+  app: deepin-image-viewer
+  description: 验证看图自有窗口标题栏和工具栏控件存在，应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Title bar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TitleRect
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gonggongnenglibuchong_002_s1
+  name: 公共能力-看图工具栏单张图片检查
+  module: 公共能力补充
+  app: deepin-image-viewer
+  description: 单张图片模式下检查工具栏各按钮齐全，验证工具栏和图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gonggongnenglibuchong_003_s1
+  name: 公共能力-看图工具栏多张图片检查
+  module: 公共能力补充
+  app: deepin-image-viewer
+  description: 多张图片模式下检查工具栏各按钮齐全，验证工具栏和缩略图列表存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gonggongnenglibuchong_004_s1
+  name: 公共能力-看图右键菜单检查
+  module: 公共能力补充
+  app: deepin-image-viewer
+  description: 右键图片验证右键菜单各功能项可用，验证图片视图存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gonggongnenglibuchong_005_s1
+  name: 公共能力-键盘交互检查
+  module: 公共能力补充
+  app: deepin-image-viewer
+  description: 通过键盘快捷键操作图片，验证图片视图存在且应用运行
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: right
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: left
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_zhucaidanbuchong2_001_s1
+  name: 主菜单-关于
+  module: 主菜单补充二
+  app: deepin-image-viewer
+  description: 点击标题栏菜单查看关于选项，验证标题栏菜单控件存在且应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: ViewTopTitleMenu
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ViewTopTitleMenu
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Title bar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_kantudongxiaobuchong_001_s1
+  name: 看图动效-缩略图切换图片动效
+  module: 看图动效补充
+  app: deepin-image-viewer
+  description: 通过缩略图列表切换图片验证图片动画控件存在，应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageAnimation
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_kantudongxiaobuchong_002_s1
+  name: 看图动效-上一张切换动效
+  module: 看图动效补充
+  app: deepin-image-viewer
+  description: 通过上一张按钮切换图片验证图片动画控件存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageAnimation
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_kantudongxiaobuchong_003_s1
+  name: 看图动效-旋转后图片动效
+  module: 看图动效补充
+  app: deepin-image-viewer
+  description: 旋转图片后验证图片动画控件存在
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+r
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageAnimation
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_dayinbuchong_001_s1
+  name: 打印预览-右键唤起打印
+  module: 打印补充
+  app: deepin-image-viewer
+  description: 右键图片选择打印，验证图片视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Print
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_fuzhibuchong_001_s1
+  name: 复制-复制大分辨率图片
+  module: 复制补充
+  app: deepin-image-viewer
+  description: 右键选择复制大分辨率图片，验证图片视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_wenguandaakaibuchong_001_s1
+  name: 加载图片-桌面双击打开图片
+  module: 文管打开补充
+  app: deepin-image-viewer
+  description: 验证通过桌面双击打开图片后图片视图控件存在，应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_wenguandaakaibuchong_002_s1
+  name: 加载图片-文管中双击图片
+  module: 文管打开补充
+  app: deepin-image-viewer
+  description: 验证文管中双击图片打开看图后图片视图控件存在，应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tupiangeshibuchong_001_s1
+  name: 图片格式-图片支持检查
+  module: 图片格式补充
+  app: deepin-image-viewer
+  description: 切换图片检查不同格式图片是否均支持打开，验证图片视图和缩略图列表存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tupiangeshibuchong_002_s1
+  name: 图片格式-右键菜单检查
+  module: 图片格式补充
+  app: deepin-image-viewer
+  description: 右键图片验证右键菜单功能项对不同格式图片可用，验证图片视图存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate clockwise
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tupiangeshibuchong_003_s1
+  name: 图片格式-支持旋转格式图片检查
+  module: 图片格式补充
+  app: deepin-image-viewer
+  description: 旋转图片后验证图片视图和图片动画控件存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate clockwise
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageAnimation
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_chuangkouguanbi_001_s1
+  name: 关闭-窗口关闭按钮
+  module: 窗口关闭
+  app: deepin-image-viewer
+  description: 验证窗口关闭按钮区域控件存在，应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Title bar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TitleRect
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_banbenjianrong_001_s1
+  name: 版本兼容-文案语言翻译检查
+  module: 版本兼容
+  app: deepin-image-viewer
+  description: 验证看图窗口标题栏和工具栏控件文案正常显示，应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Title bar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
