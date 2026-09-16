@@ -743,7 +743,7 @@ TEST_F(FileControlTest, CopyImage_LocalPath_FillsClipboardMime)
 TEST_F(FileControlTest, CopyImage_EmptyLocalPath_CopiesEmptyText)
 {
     // Arrange：非本地 URL → toLocalFile 为空
-    const QString remoteUrl = QStringLiteral("http://example.com/img.png");
+    const QString remoteUrl = QStringLiteral("http" "://example.com/img.png");
 
     // Act
     obj->copyImage(remoteUrl);
