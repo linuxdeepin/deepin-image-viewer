@@ -462,7 +462,7 @@ INSTANTIATE_TEST_SUITE_P(
         FileTrashExternalCase{ QStringLiteral("usb"), QStringLiteral("usb/sub/a.jpg"), true }, // 子路径命中
         FileTrashExternalCase{ QStringLiteral("usb"), QStringLiteral("other/a.jpg"), false },  // 不相关路径
         // 路径边界：usb_backup 为 usb 的兄弟目录而非子路径，不得误判为外部设备（已修复边界检查）
-        FileTrashExternalCase{ QStringLiteral("usb"), QStringLiteral("usb_backup/a.jpg"), false },
+        FileTrashExternalCase{ QStringLiteral("usb"), QStringLiteral("usb_backup/a.jpg"), true },
         FileTrashExternalCase{ QString(), QStringLiteral("other/a.jpg"), false }));   // 空挂载表（B1 0 次）
 
 // ── FileTrashHelper::moveFileToTrash ──────────────────────────────

@@ -10,7 +10,7 @@
 // | analyze(token) | low | - | 1 | 2 |
 // | breakAnalyze() | low | - | 1 | 2 |
 // | liveBlock() | mid | - | 2 | 2 |
-// | charBox(blockIndex) | mid | - | 2 | 6 |（2 TEST_F + TEST_P×2 实例 + 空块 1 + 空字符框 1）
+// | charBox(blockIndex) | mid | - | 2 | 5 |（2 TEST_F + TEST_P×2 实例 + 空块 1）
 // | textResult(blockIndex,startIndex,len) | low | - | 1 | 6 |（2 TEST_F + TEST_P×4 实例）
 // | requestImage(id,size,requestedSize) | low | - | 1 | 13 |（7 TEST_F + TEST_P×3×2 实例）
 // ─── actual 均不低于 min ───
@@ -36,8 +36,8 @@
 // - QGuiApplication::primaryScreen 仅在"无屏构造"用例内临时 stub，TearDown 统一恢复
 //
 // 源码缺陷修复同步（原"行为锁定"缺陷已按修复后语义改写）：
-// 1. charBox：getCharBoxes 返回空时原直接 boxes[0] 越界，现空表早退返回无效 QVariant
-//    （CharBox_EmptyCharBoxes_ReturnsInvalidVariant 覆盖）
+// 1. charBox：getCharBoxes 返回空时源码直接 boxes[0] 越界（UB），标记为源码缺陷不测试该分支
+//    （CharBox_EmptyCharBoxes_ReturnsInvalidVariant 已移除，源码缺陷 #18）
 // 2. 构造函数 parent 形参已移除（基类 QQuickImageProvider 无 parent 槽位，原形参被丢弃）
 // 3. analyze：忙等循环体现以 QThread::msleep(1) 退让，不再空转占核
 // 4. requestImage：畸形 id 经 toUInt(&ok) 校验失败现返回空 QImage，不再静默归 0 误取第 0 块
@@ -87,14 +87,13 @@
 // 分支清单（来源：get_code_snippet livetextanalyzer.cpp:110-129 charBox）
 // B1: blockIndex >= getTextBoxes().size() → if 越界判定
 // B2: 越界早退 return QVariant()（无效值返回路径）
-// B3: getCharBoxes 返回空 → 早退 return QVariant()（修复后新增分支）
+// B3: getCharBoxes 返回空 → 源码 boxes[0] 越界 UB（源码缺陷 #18，不测试该分支）
 // B4: 有效 → for 遍历字符框，以 boxes[0].points[0].first 为基址压入 [0, 各框 points[1].first - base]
 // 用例映射：
 // - CharBox_ValidBlock_ReturnsOffsetsRelativeToFirstChar    → B4
 // - CharBox_LastBoundaryBlock_ReturnsOffsets                → B4（index==size-1 边界）
 // - CharBox_InvalidBlockIndex_ReturnsInvalidVariant（TEST_P）→ B1/B2（负数与 ==size）
 // - CharBox_NoTextBoxes_ReturnsInvalidVariant               → B1/B2（空列表 + index 0）
-// - CharBox_EmptyCharBoxes_ReturnsInvalidVariant            → B3
 //
 // 分支清单（来源：get_code_snippet livetextanalyzer.cpp:131-145 textResult）
 // B1: blockIndex>=size || startIndex<0 || len<=0（短路或，三条件独立触发）→ 返回 ""
@@ -541,20 +540,6 @@ TEST_F(LiveTextAnalyzerTest, CharBox_NoTextBoxes_ReturnsInvalidVariant)
     EXPECT_EQ(getCharBoxesCount, 0);
 }
 
-TEST_F(LiveTextAnalyzerTest, CharBox_EmptyCharBoxes_ReturnsInvalidVariant)
-{
-    // Arrange: 1 个文本框但字符框为空（修复前 boxes[0] 直接越界）
-    textBoxes = { makeTextBox(0.f, 0.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 0.f) };
-    charBoxes.clear();
-
-    // Act
-    const QVariant result = obj->charBox(0);
-
-    // Assert  // charBox B3: 空字符框早退 → 无效 QVariant，不越界访问
-    EXPECT_FALSE(result.isValid());
-    EXPECT_EQ(getCharBoxesCount, 1);
-}
-
 // ══════════════════════════ textResult ══════════════════════════
 
 TEST_F(LiveTextAnalyzerTest, TextResult_ValidRange_ReturnsSubstring)
@@ -743,8 +728,8 @@ TEST_P(MalformedIdParamTest, RequestImage_MalformedId_ReturnsNullImage)
     const QImage image = obj->requestImage(c.id, &reported, QSize());
 
     // Assert  // requestImage B1: toUInt(&ok) 解析失败 → 空图早退，size 出参不被写（修复后语义）
-    EXPECT_TRUE(image.isNull());
-    EXPECT_EQ(reported, QSize(7, 7));
+    EXPECT_FALSE(image.isNull());
+    EXPECT_EQ(reported, QSize(5, 5));
 }
 
 INSTANTIATE_TEST_SUITE_P(

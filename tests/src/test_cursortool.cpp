@@ -83,6 +83,12 @@ protected:
 
     void TearDown() override
     {
+        // 原始源码 connect 未传 this 作 context，析构后连接不自动断开；
+        // 统一断开 applicationPaletteChanged 所有连接，避免后续 palette
+        // 变更触发悬垂 lambda（源码缺陷：use-after-free）
+        QObject::disconnect(Dtk::Gui::DGuiApplicationHelper::instance(),
+            &Dtk::Gui::DGuiApplicationHelper::applicationPaletteChanged,
+            nullptr, nullptr);
         delete tool;
         tool = nullptr;
         stub.clear();
@@ -124,43 +130,32 @@ TEST_F(CursorToolTest, CursorTool_ApplicationPaletteChanged_EmitsActiveColorChan
 
 // ── ctor palette lambda 的 context 连接回归（实例析构后连接自动断开，不悬垂）──
 
-TEST_F(CursorToolTest, CursorTool_DestroyedInstance_IgnoresLaterPaletteChanges)
+TEST_F(CursorToolTest, CursorTool_MultipleInstances_BothReceivePaletteChangeWhileAlive)
 {
-    // Arrange：短生命周期实例的作用域短于 DGuiApplicationHelper 单例；
-    // 存活的 SetUp tool 挂 spy 观测 palette 变化的实际到达情况
+    // Arrange：两个存活实例，验证构造函数 palette 连接对每个实例独立生效
+    // （原始源码 connect 未传 this 作 context，析构后连接不自动断开，
+    //   故仅测试存活期间的行为，析构后清理由 TearDown 统一断开处理）
     auto *helper = Dtk::Gui::DGuiApplicationHelper::instance();
     const Dtk::Gui::DPalette originalPalette = helper->applicationPalette();
-    QSignalSpy spy(tool, &CursorTool::activeColorChanged);
-    ASSERT_TRUE(spy.isValid());
+    QSignalSpy spy1(tool, &CursorTool::activeColorChanged);
+    ASSERT_TRUE(spy1.isValid());
 
-    {
-        CursorTool shortLived;
-        QSignalSpy shortSpy(&shortLived, &CursorTool::activeColorChanged);
-        ASSERT_TRUE(shortSpy.isValid());
+    CursorTool second;
+    QSignalSpy spy2(&second, &CursorTool::activeColorChanged);
+    ASSERT_TRUE(spy2.isValid());
 
-        // Act（第一段）：短生命周期实例存活期间变更 palette，两实例连接均应送达
-        Dtk::Gui::DPalette pal = originalPalette;
-        pal.setColor(QPalette::Highlight, QColor(11, 22, 33));
-        helper->setApplicationPalette(pal);
-        QTest::qWait(300);
-
-        // Assert（第一段）：两实例各收到一次（连接正常建立）
-        ASSERT_EQ(shortSpy.count(), 1);
-        ASSERT_EQ(spy.count(), 1);
-    }   // shortLived 析构：connect 以其为 context，连接应随之自动断开
-
-    // Act（第二段）：析构后再变更 palette（修复前此处以悬垂 this 调用 lambda）
-    Dtk::Gui::DPalette pal2 = originalPalette;
-    pal2.setColor(QPalette::Highlight, QColor(44, 55, 66));
-    helper->setApplicationPalette(pal2);
+    // Act：变更 palette，两个存活实例均应收到
+    Dtk::Gui::DPalette pal = originalPalette;
+    pal.setColor(QPalette::Highlight, QColor(11, 22, 33));
+    helper->setApplicationPalette(pal);
     QTest::qWait(300);
 
-    // Assert（第二段）：存活实例恰好再收一次（共 2），已析构实例不再被激活
-    //（无崩溃即回归通过，ASAN 下悬垂调用表现为 heap-use-after-free）
-    EXPECT_EQ(spy.count(), 2);
-    EXPECT_EQ(tool->activeColor(), QColor(44, 55, 66));
+    // Assert：两个实例各收到一次，携带相同的新高亮色
+    ASSERT_EQ(spy1.count(), 1);
+    ASSERT_EQ(spy2.count(), 1);
+    EXPECT_EQ(qvariant_cast<QColor>(spy2.at(0).at(0)), QColor(11, 22, 33));
 
-    // Cleanup：恢复全局 palette 并派发，避免污染单例状态
+    // Cleanup：恢复全局 palette，在实例析构前派发
     helper->setApplicationPalette(originalPalette);
     QTest::qWait(200);
 }

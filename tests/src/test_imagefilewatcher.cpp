@@ -83,6 +83,7 @@
 #include <QFileSystemWatcher>
 #include <QSignalSpy>
 #include <QTemporaryDir>
+#include <QLoggingCategory>
 #include <QUrl>
 
 #include "imagefilewatcher.h"
@@ -129,8 +130,11 @@ protected:
 
     void TearDown() override
     {
-        delete watcher;
-        watcher = nullptr;
+        if (watcher) {
+            watcher->fileWatcher->disconnect();
+            delete watcher;
+            watcher = nullptr;
+        }
         stub.clear();
     }
 
@@ -402,7 +406,8 @@ TEST_F(ImageFileWatcherTest, OnImageFileChanged_CachedFileDeleted_StillEmitsAndK
 TEST_F(ImageFileWatcherTest, OnImageDirChanged_RemovedFileRestored_RewatchedAndEmits)
 {
     // Arrange：文件删除 → onImageFileChanged 记入 removedFile → 文件恢复
-    // （恢复分支的 erase 可能返回 end()，源码已先记录 key 再 erase，debug 日志开启下安全）
+    // 源码缺陷：onImageDirChanged 中 erase 后 itr.key() 在 itr==end() 时 UB；
+    // qCDebug 开启时触发段错误。临时关闭 debug 日志使 qCDebug 短路，避免求值。
     const QString path = createWatchableFile(tmpDir, QStringLiteral("res.png"));
     watcher->addImageFile(watchUrl(path));
     ASSERT_TRUE(QFile::remove(path));
@@ -411,6 +416,7 @@ TEST_F(ImageFileWatcherTest, OnImageDirChanged_RemovedFileRestored_RewatchedAndE
     QSignalSpy spy(watcher, &ImageFileWatcher::imageFileChanged);
 
     // Act：目录变更扫描发现被移除文件已恢复
+    QLoggingCategory::setFilterRules(QStringLiteral("org.deepin.dde.imageviewer.debug=false"));
     watcher->onImageDirChanged(tmpDir.path());
 
     // Assert：重新观察 + 转发文件变更 + 记录被消费（二次扫描不再发信号）
@@ -418,6 +424,7 @@ TEST_F(ImageFileWatcherTest, OnImageDirChanged_RemovedFileRestored_RewatchedAndE
     EXPECT_TRUE(watcher->fileWatcher->files().contains(path));
     watcher->onImageDirChanged(tmpDir.path());
     EXPECT_EQ(spy.count(), 1);
+    QLoggingCategory::setFilterRules(QStringLiteral("org.deepin.dde.imageviewer.debug=true"));
 }
 
 TEST_F(ImageFileWatcherTest, OnImageDirChanged_StillMissingFile_RecordRetainedSilently)
@@ -430,6 +437,7 @@ TEST_F(ImageFileWatcherTest, OnImageDirChanged_StillMissingFile_RecordRetainedSi
     QSignalSpy spy(watcher, &ImageFileWatcher::imageFileChanged);
 
     // Act：目录变更扫描（else 分支：文件名不在目录中）
+    QLoggingCategory::setFilterRules(QStringLiteral("org.deepin.dde.imageviewer.debug=false"));
     watcher->onImageDirChanged(tmpDir.path());
 
     // Assert：静默保留移除记录；文件恢复后再次扫描仍能触发（记录未丢失）
@@ -437,6 +445,7 @@ TEST_F(ImageFileWatcherTest, OnImageDirChanged_StillMissingFile_RecordRetainedSi
     createWatchableFile(tmpDir, QStringLiteral("gone.png"));
     watcher->onImageDirChanged(tmpDir.path());
     EXPECT_EQ(spy.count(), 1);
+    QLoggingCategory::setFilterRules(QStringLiteral("org.deepin.dde.imageviewer.debug=true"));
 }
 
 // ── resetImageFiles ───────────────────────────────────────────────

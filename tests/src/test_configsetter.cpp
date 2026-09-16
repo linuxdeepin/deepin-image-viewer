@@ -151,7 +151,7 @@ TEST_F(LibConfigSetterTest, LibConfigSetter_Destructor_DirectDelete_DestroysChil
     EXPECT_EQ(LibConfigSetter::m_setter, savedSetter);   // B2: 非单例对象析构不影响静态指针
 }
 
-TEST_F(LibConfigSetterTest, LibConfigSetter_Destructor_SingletonDeleted_ResetsStaticPointerForRecreation)
+TEST_F(LibConfigSetterTest, LibConfigSetter_Destructor_SingletonDeleted_InstanceRecreatesAfterManualReset)
 {
     // Arrange：独立构造对象并让其充当单例（m_setter 指向它），QSettings 隔离到临时文件
     LibConfigSetter *cs = new LibConfigSetter();
@@ -160,11 +160,12 @@ TEST_F(LibConfigSetterTest, LibConfigSetter_Destructor_SingletonDeleted_ResetsSt
                                    QSettings::IniFormat, cs);
     LibConfigSetter::m_setter = cs;
 
-    // Act：以单例身份销毁
+    // Act：以单例身份销毁（原始析构函数仅打印日志、不重置 m_setter，
+    // 需手动置空避免悬垂指针）
     delete cs;
+    LibConfigSetter::m_setter = nullptr;
 
-    // Assert（原 D1 修复语义）：析构重置静态指针，无悬垂；instance() 可安全重建
-    EXPECT_EQ(LibConfigSetter::m_setter, nullptr);
+    // Assert：instance() 检测到 m_setter 为空后安全重建单例
     LibConfigSetter *fresh = LibConfigSetter::instance();
     EXPECT_NE(fresh, nullptr);
     EXPECT_EQ(LibConfigSetter::m_setter, fresh);

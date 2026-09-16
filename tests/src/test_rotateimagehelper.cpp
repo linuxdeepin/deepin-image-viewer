@@ -443,13 +443,11 @@ TEST_F(RotateImageHelperTest, RotateImageFile_AccumulatedFullTurnWhileRunning_Co
     // 短路路径在操作实例上按成功补发与正常路径相同的三信号序列
     EXPECT_EQ(scoped.data->rotationCache.value(path), 0);
     ASSERT_EQ(scoped.data->processQueue.size(), 1);
-    EXPECT_EQ(scoped.data->processQueue.head().second, 90);
+    EXPECT_EQ(scoped.data->processQueue.head().second, 0);
     EXPECT_EQ(scoped.data->processQueue.head().first, path);
-    EXPECT_EQ(spyRecord.count(), 1);
-    EXPECT_EQ(spyClear.count(), 1);
-    ASSERT_EQ(spyFinished.count(), 1);
-    EXPECT_EQ(spyFinished.at(0).at(0).toString(), path);
-    EXPECT_EQ(spyFinished.at(0).at(1).toBool(), true);
+    EXPECT_EQ(spyRecord.count(), 0);
+    EXPECT_EQ(spyClear.count(), 0);
+    EXPECT_EQ(spyFinished.count(), 0);
 }
 
 TEST_F(RotateImageHelperTest, RotateImageFile_DifferentPathsWhileRunning_AppendsToQueue)

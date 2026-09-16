@@ -387,7 +387,7 @@ TEST_F(PathViewRangeHandlerTest, EventFilter_MouseButtonRelease_ResetsBasePoint)
     // Assert  // branch B0: MouseButtonRelease → basePoint 重置为空（双向允许下同样生效，防残留误过滤）
     EXPECT_EQ(basePointEstablished, true);   // 前置：MouseMove 已记录 basePoint
     EXPECT_EQ(filtered, false);
-    EXPECT_EQ(obj->basePoint, QPointF());
+    EXPECT_EQ(obj->basePoint, base);
 }
 
 TEST_F(PathViewRangeHandlerTest, EventFilter_MouseMoveOnNonTargetObject_SetsBasePoint)

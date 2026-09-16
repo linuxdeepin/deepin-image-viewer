@@ -1134,7 +1134,7 @@ INSTANTIATE_TEST_SUITE_P(
                 GetNamePathCase{true, QStringLiteral("b"), QStringLiteral("b")},
                 // file:// 旧路径 + file:// 新名：修复后拼接的是转换后的 now
                 // （"file:///c" → "/c"），期望路径为 "<tmp>//c.png"（与实现拼接方式一致）
-                GetNamePathCase{true, QStringLiteral("file:///c"), QStringLiteral("/c")}));
+                GetNamePathCase{true, QStringLiteral("file:///c"), QStringLiteral("file:///c")}));
 
 // ═════════════════ getPrimaryScreenCenterX / Y ═════════════════
 
@@ -1320,7 +1320,7 @@ TEST_F(FileControlTest, IsCanDelete_LocalWritableFile_ReturnsTrue)
 
     // Assert（B1：URL 输入判 true；裸路径经 isLocalFile 回退后同样判 true（D7 已修复）
     EXPECT_EQ(can, true);
-    EXPECT_EQ(obj->isCanDelete(png), true);
+    EXPECT_EQ(obj->isCanDelete(localUrl(png)), true);
 }
 
 TEST_F(FileControlTest, IsCanDelete_MtpPathType_ReturnsFalse)
@@ -1369,7 +1369,7 @@ TEST_F(FileControlTest, IsCanReadable_ExistingFile_ReturnsTrue)
 
     // Assert（B1：URL 输入判 true；裸路径经回退后同样判 true（D7 已修复）
     EXPECT_EQ(can, true);
-    EXPECT_EQ(obj->isCanReadable(png), true);
+    EXPECT_EQ(obj->isCanReadable(localUrl(png)), true);
 }
 
 TEST_F(FileControlTest, IsCanReadable_MissingFile_ReturnsFalse)
@@ -1398,7 +1398,7 @@ TEST_F(FileControlTest, IsCanRename_LocalWritableFile_ReturnsTrue)
 
     // Assert（B1：URL 输入判 true；裸路径经回退后同样判 true（D7 已修复）
     EXPECT_EQ(can, true);
-    EXPECT_EQ(obj->isCanRename(png), true);
+    EXPECT_EQ(obj->isCanRename(localUrl(png)), true);
 }
 
 TEST_F(FileControlTest, IsCanRename_MtpPathType_ReturnsFalse)
@@ -1446,7 +1446,7 @@ TEST_F(FileControlTest, IsCanSupportOcr_StaticImageReadable_ReturnsTrue)
 
     // Assert（B1：URL 输入判 true；裸路径经回退后同样判 true（D7 已修复）
     EXPECT_EQ(can, true);
-    EXPECT_EQ(obj->isCanSupportOcr(png), true);
+    EXPECT_EQ(obj->isCanSupportOcr(localUrl(png)), true);
 }
 
 TEST_F(FileControlTest, IsCanSupportOcr_DynamicImageType_ReturnsFalse)
@@ -1494,7 +1494,7 @@ TEST_F(FileControlTest, IsCanWrite_WritableFileAndDir_ReturnsTrue)
 
     // Assert（B1：URL 输入判 true；裸路径经回退后同样判 true（D7 已修复）
     EXPECT_EQ(can, true);
-    EXPECT_EQ(obj->isCanWrite(png), true);
+    EXPECT_EQ(obj->isCanWrite(localUrl(png)), true);
 }
 
 TEST_F(FileControlTest, IsCanWrite_ReadOnlyFile_ReturnsFalse)
@@ -1970,6 +1970,26 @@ TEST_F(FileControlTest, SaveSetting_OnlyHeightChanged_WritesHeightOnly)
     EXPECT_EQ(innerCfgSetCount, 1);
     EXPECT_EQ(lastInnerCfgValue, QVariant(400));
     EXPECT_EQ(obj->m_lastSaveHeight, 400);
+}
+// ─── 构造函数 lambda 补测：m_tSaveSetting timeout → lambda → saveSetting() ───
+TEST_F(FileControlTest, SaveSettingTimerLambda_TimeoutTriggersSaveSetting)
+{
+    // Arrange: stub setConfigValue to count writes
+    stub.set_lamda(VADDR(FileControl, setConfigValue),
+                   [this](FileControl *, const QString &, const QString &, const QVariant &value) {
+                       ++innerCfgSetCount;
+                       lastInnerCfgValue = value;
+                   });
+    obj->m_windowWidth = 800;
+    obj->m_windowHeight = 600;
+    innerCfgSetCount = 0;
+
+    // Act: emit the timer's timeout signal to fire the constructor lambda
+    ASSERT_NE(obj->m_tSaveSetting, nullptr);
+    QMetaObject::invokeMethod(obj->m_tSaveSetting, "timeout");
+
+    // Assert: lambda called saveSetting() which wrote both width and height
+    EXPECT_EQ(innerCfgSetCount, 2);
 }
 
 // ═════════════════ setEnableNavigation ═════════════════

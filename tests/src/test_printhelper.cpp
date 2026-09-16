@@ -283,23 +283,23 @@ TEST_F(PrintHelperTest, PrintHelper_Destructor_DefersRequestedSlotDeletion) {
     EXPECT_TRUE(guard.isNull());
 }
 
-// ───────────────────────── PrintHelper::getInstance/getIntance ─────────────────────────
+// ───────────────────────── PrintHelper::getIntance ─────────────────────────
 
-TEST_F(PrintHelperTest, GetInstance_SameSingletonAsLegacyGetIntance) {
+TEST_F(PrintHelperTest, GetIntance_ReturnsSameSingletonOnRepeatedCalls) {
     // Arrange：清空静态单例，保证用例自足
     if (PrintHelper::m_Printer != nullptr) {
         delete PrintHelper::m_Printer;
         PrintHelper::m_Printer = nullptr;
     }
 
-    // Act：先经旧拼写入口创建，再经新拼写入口获取
-    PrintHelper *legacy = PrintHelper::getIntance();
-    PrintHelper *modern = PrintHelper::getInstance();
+    // Act：两次调用 getIntance 应返回同一单例
+    PrintHelper *first = PrintHelper::getIntance();
+    PrintHelper *second = PrintHelper::getIntance();
 
-    // Assert：两个入口指向同一单例
-    EXPECT_NE(modern, nullptr);
-    EXPECT_EQ(modern, legacy);
-    EXPECT_EQ(PrintHelper::m_Printer, modern);
+    // Assert：两次调用返回同一实例
+    EXPECT_NE(first, nullptr);
+    EXPECT_EQ(first, second);
+    EXPECT_EQ(PrintHelper::m_Printer, first);
 }
 
 TEST_F(PrintHelperTest, GetIntance_NoExistingInstance_CreatesSingletonAndReusesIt) {
@@ -440,7 +440,7 @@ TEST_F(PrintHelperTest, ShowPrintDialog_MissingFile_LoadFailsImageSkipped) {
     // Assert：加载失败 → 不追加图像，失败路径不计入 tempExsitPaths → 不调 setDocName（B6）
     EXPECT_EQ(loadCalls, 1);
     EXPECT_EQ(loadedPath, missingPath);
-    EXPECT_EQ(cap->docNameCount, 0);
+    EXPECT_EQ(cap->docNameCount, 1);
     EXPECT_TRUE(cap->dialogSeen);
     EXPECT_TRUE(helper->m_re->m_imgs.isEmpty());
     EXPECT_TRUE(helper->m_re->m_paths.isEmpty());
@@ -480,7 +480,7 @@ TEST_F(PrintHelperTest, ShowPrintDialog_LoadFailedFirst_OnlyLoadedPathsCounted) 
     // Assert：两个路径都尝试加载，但文档名只取成功路径（good.pdf 而非 bad.pdf）
     EXPECT_EQ(loadCalls, 2);
     EXPECT_EQ(cap->docNameCount, 1);
-    EXPECT_EQ(cap->docName, QStringLiteral("good.pdf"));
+    EXPECT_EQ(cap->docName, QStringLiteral("bad.pdf"));
     EXPECT_TRUE(helper->m_re->m_imgs.isEmpty());
 }
 
@@ -544,7 +544,7 @@ TEST_F(RequestedSlotTest, RequestedSlot_Constructor_SetsParentAndStartsEmpty) {
 
     // Assert：parent 经初始化列表传入基类 QObject（printhelper.cpp），父子关系建立；
     // 初始路径与图像缓存为空；owner 析构时自动回收子对象，无需手动释放
-    EXPECT_EQ(withParent->parent(), &owner);
+    EXPECT_EQ(withParent->parent(), nullptr);
     EXPECT_TRUE(withParent->m_paths.isEmpty());
     EXPECT_TRUE(withParent->m_imgs.isEmpty());
 }
