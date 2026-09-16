@@ -1,8 +1,399 @@
-version: '1.0'
+app: deepin-image-viewer
 cases:
+- id: suite_ocr_001_s1
+  name: OCR-点击识别文字按钮
+  module: OCR
+  app: deepin-image-viewer
+  description: 点击工具栏识别文字按钮，验证OCR组件出现
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: 识别文字
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LiveTextWidget
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_ocr_002_s1
+  name: OCR-右键菜单识别文字
+  module: OCR
+  app: deepin-image-viewer
+  description: 右键图片选择识别文字，验证OCR组件出现
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Extract text
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LiveTextWidget
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkou_001_s1
+  name: 导航窗口-缩略图切换图片
+  module: daohangchuangkou
+  app: deepin-image-viewer
+  description: 点击缩略图切换图片，验证图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: NormalThumbnailDelegate
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkou_002_s1
+  name: 导航窗口-关闭导航窗口
+  module: daohangchuangkou
+  app: deepin-image-viewer
+  description: 点击关闭导航窗口按钮，验证图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Close navigation window
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_001_s1
+  name: 工具栏-下一张按钮
+  module: gongjulan
+  app: deepin-image-viewer
+  description: 点击工具栏下一张按钮，验证图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_002_s1
+  name: 工具栏-上一张按钮
+  module: gongjulan
+  app: deepin-image-viewer
+  description: 点击工具栏上一张按钮，验证图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_003_s1
+  name: 工具栏-OCR识别文字
+  module: gongjulan
+  app: deepin-image-viewer
+  description: 点击工具栏识别文字按钮，验证OCR组件出现
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: 识别文字
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LiveTextWidget
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_004_s1
+  name: 工具栏-适应窗口
+  module: gongjulan
+  app: deepin-image-viewer
+  description: 点击工具栏适应窗口按钮，验证图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Fit to window
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_005_s1
+  name: 工具栏-原始尺寸
+  module: gongjulan
+  app: deepin-image-viewer
+  description: 点击工具栏原始尺寸按钮，验证图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Original size
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_001_s1
+  name: 快捷键Down缩小图片
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 按Down键缩小图片，验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_002_s1
+  name: 快捷键Ctrl+-缩小图片
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 按Ctrl+-缩小图片，验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+-
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_003_s1
+  name: 快捷键Ctrl+F9设置壁纸
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 按Ctrl+F9设置壁纸，验证应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+f9
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_004_s1
+  name: 鼠标滚轮缩放图片
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 滚轮上下滚动缩放图片，验证图片视图存在
+  steps:
+  - step_type: action
+    action: mouse_scroll
+    value: -3
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 3
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_005_s1
+  name: 快捷键F1唤起帮助窗口
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 按F1打开帮助窗口，验证应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f1
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_006_s1
+  name: 快捷键Up放大图片
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 按Up键放大图片，验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_007_s1
+  name: 快捷键Left切换上一张
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 按Left键切换上一张图片，验证缩略图列表存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: left
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_008_s1
+  name: 快捷键Right切换下一张
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 按Right键切换下一张图片，验证缩略图列表存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: right
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_009_s1
+  name: 快捷键Ctrl++放大图片
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 按Ctrl++放大图片，验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl++
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_010_s1
+  name: 快捷键F2重命名图片
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 按F2打开重命名对话框，验证重命名对话框出现
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Renamedialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_011_s1
+  name: 快捷键Ctrl+C复制图片
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 按Ctrl+C复制图片，验证应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+c
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_012_s1
+  name: 快捷键Ctrl+I查看图片信息
+  module: jianshujiaohu
+  app: deepin-image-viewer
+  description: 按Ctrl+I打开图片信息对话框，验证信息对话框出现
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+i
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_InformationDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: suite_quanping_001_s1
   name: 全屏-双击图片进入全屏
   module: quanping
+  app: deepin-image-viewer
+  description: ''
   steps:
   - step_type: action
     action: element_action
@@ -10,6 +401,7 @@ cases:
       name: Image view
     do: double_click
     wait: 1.5
+  assert_steps:
   - step_type: assert
     action: assert_element
     selector:
@@ -20,6 +412,8 @@ cases:
 - id: suite_quanping_002_s1
   name: 全屏-快捷键F11进入与ESC退出全屏
   module: quanping
+  app: deepin-image-viewer
+  description: ''
   steps:
   - step_type: action
     action: keyboard_press
@@ -29,6 +423,7 @@ cases:
     action: keyboard_press
     key: esc
     wait: 1.5
+  assert_steps:
   - step_type: assert
     action: assert_element
     selector:
@@ -43,6 +438,8 @@ cases:
 - id: suite_quanping_003_s1
   name: 幻灯片-ESC退出幻灯片放映
   module: quanping
+  app: deepin-image-viewer
+  description: ''
   steps:
   - step_type: action
     action: keyboard_press
@@ -52,6 +449,7 @@ cases:
     action: keyboard_press
     key: esc
     wait: 1.5
+  assert_steps:
   - step_type: assert
     action: assert_element
     selector:
@@ -62,6 +460,8 @@ cases:
 - id: suite_quanping_004_s1
   name: 幻灯片-多张图片循环放映
   module: quanping
+  app: deepin-image-viewer
+  description: ''
   steps:
   - step_type: action
     action: dtk_context_menu
@@ -70,135 +470,122 @@ cases:
     items:
     - Slide show
     wait: 2.0
+  assert_steps:
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
 - id: suite_quanping_005_s1
   name: tif多页图-播放幻灯片
   module: quanping
+  app: deepin-image-viewer
+  description: ''
   steps:
   - step_type: action
     action: keyboard_press
     key: f5
     wait: 2.0
+  assert_steps:
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
-- id: suite_daohangchuangkou_001_s1
-  name: 导航窗口-缩略图切换图片
-  module: daohangchuangkou
+- id: suite_tifduoyetu_001_s1
+  name: tif多页图-翻页浏览
+  module: tif多页图
+  app: deepin-image-viewer
+  description: 点击下一张按钮翻页浏览，验证图片视图存在
   steps:
-  - step_type: action
-    action: element_action
-    selector:
-      name: NormalThumbnailDelegate
-    do: click
-    wait: 1.0
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Image view
-  - step_type: assert
-    action: assert_process_running
-    app: deepin-image-viewer
-- id: suite_gongjulan_001_s1
-  name: 图片信息-工具栏切换图片展示
-  module: gongjulan
-  steps:
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+i
-    wait: 1.0
-  - step_type: action
-    action: element_action
-    selector:
-      name: 下一张
-    do: click
-    wait: 1.0
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Loader_InformationDialog
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Dimensions
-- id: suite_gongjulan_002_s1
-  name: 工具栏-下一张按钮
-  module: gongjulan
-  steps:
-  - step_type: action
-    action: element_action
-    selector:
-      name: 下一张
-    do: click
-    wait: 1.0
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Image view
-  - step_type: assert
-    action: assert_process_running
-    app: deepin-image-viewer
-- id: suite_gongjulan_013_s1
-  name: OCR-入口检查-窗口下点击工具栏按钮
-  module: gongjulan
-  steps:
-  - step_type: action
-    action: element_action
-    selector:
-      name: 识别文字
-    do: click
-    wait: 2.0
-  - step_type: assert
-    action: assert_window
-  - step_type: assert
-    action: assert_process_running
-    app: deepin-image-viewer
-- id: suite_xuanzhuan_001_s1
-  name: 全屏快捷键顺时针旋转
-  module: 旋转
-  steps:
-  - step_type: action
-    action: element_action
-    selector:
-      name: Image view
-      role: item
-    do: double_click
-    wait: 1.0
-  - step_type: action
-    action: keyboard_hot_key
-    key: Ctrl+R
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: FullImageViewer
-      role: image viewer
-  - step_type: assert
-    action: assert_process_running
-- id: suite_linglong_001_s1
-  name: 玲珑应用基本功能-翻页浏览
-  module: linglong
-  steps:
-  - step_type: action
-    action: element_action
-    selector:
-      name: Previous
-    do: click
-    wait: 1.0
   - step_type: action
     action: element_action
     selector:
       name: Next
     do: click
     wait: 1.0
+  assert_steps:
   - step_type: assert
     action: assert_element
     selector:
-      name: BottomthumbnaillistView
-- id: suite_linglong_002_s1
-  name: 玲珑应用基本功能-重命名
-  module: linglong
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tifduoyetu_002_s1
+  name: tif多页图-幻灯片播放
+  module: tif多页图
+  app: deepin-image-viewer
+  description: 按F5启动幻灯片，ESC退出，验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f5
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: esc
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_zhucaidan_001_s1
+  name: 主菜单-帮助
+  module: 主菜单
+  app: deepin-image-viewer
+  description: 按F1打开帮助窗口，验证应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f1
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_zhucaidan_002_s1
+  name: 主菜单-打开主菜单
+  module: 主菜单
+  app: deepin-image-viewer
+  description: 点击主菜单按钮，验证菜单出现
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: OptionMenu
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: OptionMenu
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_001_s1
+  name: 右键菜单-复制图片
+  module: 右键菜单
+  app: deepin-image-viewer
+  description: 右键图片选择复制，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_002_s1
+  name: 右键菜单-重命名
+  module: 右键菜单
+  app: deepin-image-viewer
+  description: 右键图片选择重命名，验证重命名对话框出现
   steps:
   - step_type: action
     action: dtk_context_menu
@@ -207,24 +594,167 @@ cases:
     items:
     - Rename
     wait: 1.0
+  assert_steps:
   - step_type: assert
     action: assert_element
     selector:
       name: Renamedialog
-- id: suite_linglong_006_s1
-  name: 运行玲珑应用
-  module: linglong
-  steps:
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: ImageViewer
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
-- id: suite_用户场景_001_s1
-  name: OCR识别长图成功-看图内OCR识别
-  module: 用户场景
+- id: suite_yjbuancaidan_003_s1
+  name: 右键菜单-删除图片
+  module: 右键菜单
+  app: deepin-image-viewer
+  description: 右键图片选择删除，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Delete
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_004_s1
+  name: 右键菜单-顺时针旋转
+  module: 右键菜单
+  app: deepin-image-viewer
+  description: 右键图片选择顺时针旋转，验证图片视图存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate clockwise
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_005_s1
+  name: 右键菜单-逆时针旋转
+  module: 右键菜单
+  app: deepin-image-viewer
+  description: 右键图片选择逆时针旋转，验证图片视图存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate counterclockwise
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_006_s1
+  name: 右键菜单-打印
+  module: 右键菜单
+  app: deepin-image-viewer
+  description: 右键图片选择打印，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Print
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_007_s1
+  name: 右键菜单-图片信息
+  module: 右键菜单
+  app: deepin-image-viewer
+  description: 右键图片选择图片信息，验证信息对话框出现
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Image info
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_InformationDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_008_s1
+  name: 右键菜单-幻灯片放映
+  module: 右键菜单
+  app: deepin-image-viewer
+  description: 右键图片选择幻灯片放映，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Slide show
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_009_s1
+  name: 右键菜单-设为壁纸
+  module: 右键菜单
+  app: deepin-image-viewer
+  description: 右键图片选择设为壁纸，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_010_s1
+  name: 右键菜单-在文件管理器中显示
+  module: 右键菜单
+  app: deepin-image-viewer
+  description: 右键图片选择在文件管理器中显示，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Display in file manager
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_011_s1
+  name: 右键菜单-识别文字
+  module: 右键菜单
+  app: deepin-image-viewer
+  description: 右键图片选择识别文字，验证OCR组件出现
   steps:
   - step_type: action
     action: dtk_context_menu
@@ -233,6 +763,367 @@ cases:
     items:
     - Extract text
     wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LiveTextWidget
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tupianxinxi_001_s1
+  name: 图片信息-快捷键Ctrl+I
+  module: 图片信息
+  app: deepin-image-viewer
+  description: 按Ctrl+I打开图片信息对话框，验证信息对话框出现
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+i
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_InformationDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tupianxinxi_002_s1
+  name: 图片信息-右键菜单
+  module: 图片信息
+  app: deepin-image-viewer
+  description: 右键图片选择图片信息，验证信息对话框出现
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Image info
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_InformationDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_info_001_s1
+  name: 图片信息对话框元素覆盖验证
+  module: 图片信息覆盖
+  app: deepin-image-viewer
+  description: 通过右键菜单打开图片信息对话框验证所有元素存在
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+i
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BasicInfo
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DetailInfoItem
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyInfoView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FileNameProp
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: InfoType
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: InfoSize
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Dimensions
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DeviceModel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LensModel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Aperture
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Colorspace
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DateCaptured
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DateModified
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ExposureMode
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ExposureProgram
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ExposureTime
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Flash
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FlashCompensation
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FocalLength
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Iso
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MaxAperture
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MeteringMode
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: WhiteBalance
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyActionItemDelegate_ElideLabel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyItemDelegate_ContentElideLabel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyItemDelegate_ElideLabel
+- id: suite_imgview_001_s1
+  name: 图片视图元素覆盖验证
+  module: 图片视图覆盖
+  app: deepin-image-viewer
+  description: 应用启动后验证图片视图相关元素存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageViewer_ViewDelegateLoader
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalImageDelegate
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalImageImageInput
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalImageSourceSizeOptimizer
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageAnimation
+- id: suite_fuzhi_001_s1
+  name: 复制-右键菜单复制
+  module: 复制
+  app: deepin-image-viewer
+  description: 右键图片选择复制，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_fuzhi_002_s1
+  name: 复制-快捷键Ctrl+C
+  module: 复制
+  app: deepin-image-viewer
+  description: 按Ctrl+C复制图片，验证应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+c
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_huanjidengpian_001_s1
+  name: 幻灯片-F5启动ESC退出
+  module: 幻灯片
+  app: deepin-image-viewer
+  description: 按F5启动幻灯片放映，按ESC退出
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f5
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: esc
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_huanjidengpian_002_s1
+  name: 幻灯片-右键菜单启动
+  module: 幻灯片
+  app: deepin-image-viewer
+  description: 右键图片选择幻灯片放映，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Slide show
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_dayin_001_s1
+  name: 打印-右键菜单打印
+  module: 打印
+  app: deepin-image-viewer
+  description: 右键图片选择打印，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Print
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_xuanzhuan_001_s1
+  name: 旋转-全屏快捷键顺时针旋转
+  module: 旋转
+  app: deepin-image-viewer
+  description: 双击进入全屏，按Ctrl+R顺时针旋转
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+r
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_xuanzhuan_002_s1
+  name: 旋转-右键菜单顺时针旋转
+  module: 旋转
+  app: deepin-image-viewer
+  description: 右键图片选择顺时针旋转，验证图片视图存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate clockwise
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_xuanzhuan_003_s1
+  name: 旋转-右键菜单逆时针旋转
+  module: 旋转
+  app: deepin-image-viewer
+  description: 右键图片选择逆时针旋转，验证图片视图存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate counterclockwise
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_用户场景_001_s1
+  name: OCR识别长图成功-看图内OCR识别
+  module: 用户场景
+  app: deepin-image-viewer
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Extract text
+    do: click
+    wait: 2.0
+  assert_steps:
   - step_type: assert
     action: assert_element
     selector:
@@ -240,74 +1131,180 @@ cases:
 - id: suite_用户场景_002_s1
   name: 视图切换放大旋转翻转-上下张切换
   module: 用户场景
+  app: deepin-image-viewer
+  description: ''
   steps:
   - step_type: action
-    action: element_action
-    selector:
-      name: Previous
-    do: click
+    action: keyboard_press
+    key: escape
+  - step_type: action
+    action: keyboard_press
+    key: right
     wait: 1.0
   - step_type: action
-    action: element_action
-    selector:
-      name: Next
-    do: click
+    action: keyboard_press
+    key: left
     wait: 1.0
+  assert_steps:
   - step_type: assert
     action: assert_element
     selector:
       name: BottomthumbnaillistView
-- id: suite_jianshujiaohu_001_s1
-  name: 快捷键Down缩小图片
-  module: jianshujiaohu
-  steps:
-  - step_type: action
-    action: keyboard_press
-    key: down
+- id: suite_window_001_s1
+  name: 窗口组件元素覆盖验证
+  module: 窗口组件覆盖
+  app: deepin-image-viewer
+  description: 验证窗口相关组件元素存在
+  steps: []
+  assert_steps:
   - step_type: assert
     action: assert_element
     selector:
-      name: Image view
-- id: suite_jianshujiaohu_002_s1
-  name: 快捷键Ctrl+-缩小图片
-  module: jianshujiaohu
+      name: TitleRect
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MainStack
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Title bar
+- id: suite_edit_001_s1
+  name: 编辑模式元素覆盖验证
+  module: 编辑模式覆盖
+  app: deepin-image-viewer
+  description: 进入编辑模式验证所有编辑相关元素存在
   steps:
   - step_type: action
     action: keyboard_hot_key
-    key: ctrl+-
+    key: ctrl+shift+e
+    wait: 2.0
+  assert_steps:
   - step_type: assert
     action: assert_element
     selector:
-      name: Image view
-- id: suite_jianshujiaohu_003_s1
-  name: 快捷键Ctrl+F9设置壁纸
-  module: jianshujiaohu
-  steps:
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+f9
-  - step_type: assert
-    action: assert_process_running
-- id: suite_jianshujiaohu_008_s1
-  name: 鼠标滚轮缩放图片
-  module: jianshujiaohu
-  steps:
-  - step_type: action
-    action: mouse_scroll
-    value: -3
-  - step_type: action
-    action: mouse_scroll
-    value: 3
+      name: FullImageEditCanvas
   - step_type: assert
     action: assert_element
     selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel_ToolButton
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Color
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Thickness
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TextEditor
+- id: suite_thumb_001_s1
+  name: 缩略图视图元素覆盖验证
+  module: 缩略图覆盖
+  app: deepin-image-viewer
+  description: 验证缩略图列表视图相关元素存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
       name: Image view
-- id: suite_jianshujiaohu_011_s1
-  name: 快捷键F1唤起帮助窗口
-  module: jianshujiaohu
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ThumbnailListView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MultiImageView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Edit
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Delete
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Extract text
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Fit to window
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalThumbnailDelegate
+- id: suite_chongmingming_001_s1
+  name: 重命名-快捷键F2重命名
+  module: 重命名
+  app: deepin-image-viewer
+  description: 按F2打开重命名对话框，输入新名称并确认
   steps:
   - step_type: action
     action: keyboard_press
-    key: f1
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: test_rename
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
   - step_type: assert
     action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_chongmingming_002_s1
+  name: 重命名-右键菜单重命名
+  module: 重命名
+  app: deepin-image-viewer
+  description: 右键图片选择重命名，验证重命名对话框出现
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rename
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Renamedialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
