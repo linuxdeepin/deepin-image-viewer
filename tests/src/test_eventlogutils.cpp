@@ -28,11 +28,10 @@
 // ─────────────────────────────────────────────────────────────
 
 // 分支清单（来源：Eventlogutils::Eventlogutils 构造函数，eventlogutils.cpp:37-55）
-// 注意：源码先解析两个符号（initFunc + writeEventLogFunc），再逐一检查。
-// B1: !initFunc → qCWarning + return（writeEventLogFunc 已被赋值，保持非空；
-//     源码缺陷：resolve 顺序导致 writeEventLogFunc 残留非空）
+// 注意：源码依次解析符号并逐一检查（先 initFunc，再 writeEventLogFunc，最后调用 initFunc）。
+// B1: !initFunc → qCWarning + return（writeEventLogFunc 从未被赋值，保持为空）
 // B2: !writeEventLogFunc → qCWarning + return
-// B3: initFunc("deepin-image-viewer", true) 返回值被忽略，不清空 writeEventLogFunc
+// B3: initFunc("deepin-image-viewer", true) 返回 false → 清空 writeEventLogFunc + return
 // B4: Initialize 调用成功 → 事件库初始化完成
 // 映射：Eventlogutils_Constructor_InitializeUnresolved_SkipsInitAndWriteFuncStaysNull → B1
 //       Eventlogutils_Constructor_WriteEventLogUnresolved_SkipsInit → B2
@@ -196,8 +195,8 @@ TEST_F(EventlogutilsTest, Eventlogutils_Constructor_InitializeUnresolved_SkipsIn
     // Assert：源码先解析两个符号再检查 initFunc，writeEventLogFunc 已被赋值
     EXPECT_EQ(initCalls, 0);                      // B1: 提前 return，Initialize 未被调用
     EXPECT_EQ(utils.initFunc, nullptr);           // initFunc 保持为空
-    // 源码先解析两个符号再检查，writeEventLogFunc 已被赋值（源码缺陷：resolve 顺序）
-    EXPECT_NE(utils.writeEventLogFunc, nullptr);  // writeEventLogFunc 残留非空
+    // 源码先解析 initFunc，解析失败即 return，writeEventLogFunc 从未被赋值，保持为空
+    EXPECT_EQ(utils.writeEventLogFunc, nullptr);  // writeEventLogFunc 保持为空
 }
 
 TEST_F(EventlogutilsTest, Eventlogutils_Constructor_WriteEventLogUnresolved_SkipsInit)
@@ -225,12 +224,11 @@ TEST_F(EventlogutilsTest, Eventlogutils_Constructor_InitializeFails_ClearsWriteF
     // Act
     utils.writeLogs(data);
 
-    // Assert：源码不检查 initFunc 返回值、不清空 writeEventLogFunc，
-    // writeLogs 正常调用 WriteEventLog 写出日志
-    EXPECT_EQ(initCalls, 1);                      // Initialize 恰被调用一次（返回值被源码忽略）
-    // 源码不检查 initFunc 返回值、不清空 writeEventLogFunc
-    EXPECT_NE(utils.writeEventLogFunc, nullptr);  // writeEventLogFunc 保持非空
-    EXPECT_EQ(writeCalls, 1);                     // writeLogs 正常写出（未被丢弃）
+    // Assert：源码检查 initFunc 返回值，返回 false 时清空 writeEventLogFunc 并 return，
+    // writeLogs 因 writeEventLogFunc 为空而丢弃日志
+    EXPECT_EQ(initCalls, 1);                      // Initialize 恰被调用一次
+    EXPECT_EQ(utils.writeEventLogFunc, nullptr);  // writeEventLogFunc 被清空
+    EXPECT_EQ(writeCalls, 0);                     // writeLogs 丢弃日志（writeEventLogFunc 为空）
     EXPECT_EQ(data.value(QStringLiteral("tid")).toInt(),
               1000000003);  // 入参未被改动（强异常安全）
 }

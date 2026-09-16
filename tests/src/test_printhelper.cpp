@@ -440,7 +440,7 @@ TEST_F(PrintHelperTest, ShowPrintDialog_MissingFile_LoadFailsImageSkipped) {
     // Assert：加载失败 → 不追加图像，失败路径不计入 tempExsitPaths → 不调 setDocName（B6）
     EXPECT_EQ(loadCalls, 1);
     EXPECT_EQ(loadedPath, missingPath);
-    EXPECT_EQ(cap->docNameCount, 1);
+    EXPECT_EQ(cap->docNameCount, 0);
     EXPECT_TRUE(cap->dialogSeen);
     EXPECT_TRUE(helper->m_re->m_imgs.isEmpty());
     EXPECT_TRUE(helper->m_re->m_paths.isEmpty());
@@ -480,7 +480,7 @@ TEST_F(PrintHelperTest, ShowPrintDialog_LoadFailedFirst_OnlyLoadedPathsCounted) 
     // Assert：两个路径都尝试加载，但文档名只取成功路径（good.pdf 而非 bad.pdf）
     EXPECT_EQ(loadCalls, 2);
     EXPECT_EQ(cap->docNameCount, 1);
-    EXPECT_EQ(cap->docName, QStringLiteral("bad.pdf"));
+    EXPECT_EQ(cap->docName, QStringLiteral("good.pdf"));
     EXPECT_TRUE(helper->m_re->m_imgs.isEmpty());
 }
 
@@ -544,7 +544,7 @@ TEST_F(RequestedSlotTest, RequestedSlot_Constructor_SetsParentAndStartsEmpty) {
 
     // Assert：parent 经初始化列表传入基类 QObject（printhelper.cpp），父子关系建立；
     // 初始路径与图像缓存为空；owner 析构时自动回收子对象，无需手动释放
-    EXPECT_EQ(withParent->parent(), nullptr);
+    EXPECT_EQ(withParent->parent(), &owner);
     EXPECT_TRUE(withParent->m_paths.isEmpty());
     EXPECT_TRUE(withParent->m_imgs.isEmpty());
 }

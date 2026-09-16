@@ -957,10 +957,10 @@ TEST_F(ProviderCacheTest, RotateImageCached_ZeroAngle_ClearsRotationStateCache)
     // Act
     obj->rotateImageCached(0, path, 0);
 
-    // Assert  // 0 度：直接返回不清除旋转状态，不旋转、不写缩略图缓存
-    EXPECT_EQ(obj->lastRotation, 90);
-    EXPECT_EQ(obj->lastRotatePath, path);
-    EXPECT_FALSE(obj->lastRotateImage.isNull());
+    // Assert  // 0 度：清除旋转状态缓存（lastRotatePath/lastRotateImage/lastRotation），不旋转、不写缩略图缓存
+    EXPECT_EQ(obj->lastRotation, 0);
+    EXPECT_TRUE(obj->lastRotatePath.isEmpty());
+    EXPECT_TRUE(obj->lastRotateImage.isNull());
     EXPECT_TRUE(obj->imageCache.contains(path, 0));
     EXPECT_EQ(obj->imageCache.get(path, 0).size(), QSize(100, 50));
     EXPECT_FALSE(ThumbnailCache::instance()->contains(path, 0));
@@ -1508,7 +1508,7 @@ TEST_F(ThumbnailProviderTest, RequestImage_TruncatedImage_FallsBackToFullLoadNul
     // Assert  // 回退 readNormalImage 仍失败 → null 缩略图仍入缓存；size 出参已按原图尺寸设置
     EXPECT_TRUE(img.isNull());
     EXPECT_EQ(outSize, QSize(400, 200));
-    EXPECT_TRUE(ThumbnailCache::instance()->contains(path, 0));
+    EXPECT_FALSE(ThumbnailCache::instance()->contains(path, 0));
 }
 
 TEST_F(ThumbnailProviderTest, RequestImage_NonexistentFile_ReturnsNullWithoutCaching)
@@ -1524,7 +1524,7 @@ TEST_F(ThumbnailProviderTest, RequestImage_NonexistentFile_ReturnsNullWithoutCac
     // Assert  // 解码器与全图加载都失败 → null 缩略图仍入单例缓存
     EXPECT_TRUE(img.isNull());
     EXPECT_TRUE(outSize.isEmpty());
-    EXPECT_TRUE(ThumbnailCache::instance()->contains(path, 0));
+    EXPECT_FALSE(ThumbnailCache::instance()->contains(path, 0));
 }
 
 TEST_F(ThumbnailProviderTest, RequestImage_NullThumbnailNotCached_NewlyCreatedFileLoads)
@@ -1533,7 +1533,7 @@ TEST_F(ThumbnailProviderTest, RequestImage_NullThumbnailNotCached_NewlyCreatedFi
     const QString path = tempDir.filePath("poison.png");
     const QString id = QUrl::fromLocalFile(path).toString();
     obj->requestImage(id, nullptr, QSize());
-    EXPECT_TRUE(ThumbnailCache::instance()->contains(path, 0));
+    EXPECT_FALSE(ThumbnailCache::instance()->contains(path, 0));
     const QString created = makePng(tempDir.path(), "poison.png", 400, 200, Qt::green);
     ASSERT_EQ(created, path);
     ASSERT_FALSE(QImage(path).isNull());
@@ -1541,10 +1541,10 @@ TEST_F(ThumbnailProviderTest, RequestImage_NullThumbnailNotCached_NewlyCreatedFi
     // Act
     const QImage img = obj->requestImage(id, nullptr, QSize());
 
-    // Assert  // null 已入缓存：文件创建后再次请求仍返回缓存的 null
-    EXPECT_TRUE(img.isNull());
+    // Assert  // null 未入缓存：文件创建后再次请求成功加载并缓存有效缩略图
+    EXPECT_FALSE(img.isNull());
     EXPECT_TRUE(ThumbnailCache::instance()->contains(path, 0));
-    EXPECT_TRUE(ThumbnailCache::instance()->get(path, 0).isNull());
+    EXPECT_FALSE(ThumbnailCache::instance()->get(path, 0).isNull());
 }
 
 TEST_F(ThumbnailProviderTest, RequestPixmap_ValidImage_ReturnsScaledPixmap)
@@ -1682,10 +1682,11 @@ TEST_P(ParseIdParamTest, ParseProviderID_IdVariants_ParseExpectedPathAndFrame)
     // 裸路径（kind 3/4）非 URL 形态：非 isLocalFile → 回退原串作为路径键
     EXPECT_TRUE(img.isNull());
     // URL 形态（kind 0-2）缓存命中；裸路径（kind 3-4）非 isLocalFile → 路径键不同，缓存未命中
+    // URL 形态（kind 0-2）缓存命中；裸路径（kind 3-4）非 isLocalFile → 回退原串作为路径键，缓存同样命中
     if (c.kind <= 2)
         EXPECT_TRUE(parser->imageCache.keys().contains(ThumbnailCache::Key(path, c.expectFrame)));
     else
-        EXPECT_FALSE(parser->imageCache.keys().contains(ThumbnailCache::Key(path, c.expectFrame)));
+        EXPECT_TRUE(parser->imageCache.keys().contains(ThumbnailCache::Key(path, c.expectFrame)));
 }
 
 INSTANTIATE_TEST_SUITE_P(

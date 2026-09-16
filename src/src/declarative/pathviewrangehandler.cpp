@@ -21,6 +21,8 @@ PathViewRangeHandler::PathViewRangeHandler(QObject *parent)
     qCDebug(logImageViewer) << "PathViewRangeHandler constructor called.";
 }
 
+PathViewRangeHandler::~PathViewRangeHandler() = default;
+
 QQuickItem *PathViewRangeHandler::target() const
 {
     qCDebug(logImageViewer) << "PathViewRangeHandler::target() called.";

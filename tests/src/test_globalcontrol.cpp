@@ -1094,10 +1094,10 @@ TEST_F(GlobalControlTest, RemoveImage_LastRemainingImage_ClearsCurrentState)
     EXPECT_EQ(ctrl->imageCount(), 0);
     EXPECT_FALSE(ctrl->hasNextImage());
     EXPECT_FALSE(ctrl->hasPreviousImage());
-    EXPECT_FALSE(ctrl->currentSource().isEmpty());  // 源码缺陷 D11: 未清空 currentSource
+    EXPECT_TRUE(ctrl->currentSource().isEmpty());
     EXPECT_EQ(ctrl->currentIndex(), 0);
     EXPECT_EQ(spyCount.count(), 1);
-    EXPECT_EQ(spySource.count(), 0);  // 源码缺陷 D11: 无图时不发 currentSourceChanged
+    EXPECT_EQ(spySource.count(), 1);
 }
 
 TEST_F(GlobalControlTest, RemoveImage_WithPendingRotation_SubmitsRotationBeforeRemoval)
@@ -1137,7 +1137,7 @@ TEST_F(GlobalControlTest, RemoveImage_UnknownImage_KeepsCurrentStateIntact)
     EXPECT_EQ(ctrl->imageCount(), 2);
     EXPECT_EQ(ctrl->currentIndex(), 0);
     EXPECT_EQ(ctrl->currentSource(), urlA);
-    EXPECT_EQ(spyCount.count(), 1);   // 源码缺陷 D12: 移除未知图片时仍发 imageCountChanged
+    EXPECT_EQ(spyCount.count(), 0);
     EXPECT_EQ(spySource.count(), 1);  // 源码缺陷 D12: !atEnd 分支仍无条件补发双信号
 }
 
@@ -1251,8 +1251,8 @@ TEST_F(GlobalControlTest, SetCurrentIndex_OutOfRangeIndex_ClampsToValidRange)
     const int low = ctrl->currentIndex();
 
     // Assert：修复语义（原 D5）——validIndex 落库，越界索引被钳制到 [0, count-1]
-    EXPECT_EQ(high, 99);  // 源码缺陷 D9: 存储原始 index 而非钳制值 validIndex
-    EXPECT_EQ(low, -1);   // 源码缺陷 D9: 同上
+    EXPECT_EQ(high, 2);   // qBound clamps to last valid index
+    EXPECT_EQ(low, 0);    // qBound clamps to first valid index
     EXPECT_EQ(ctrl->imageCount(), 3);
 }
 
@@ -1461,8 +1461,8 @@ TEST_F(GlobalControlTest, SetImageFiles_RepeatedCall_KeepsStateConsistent)
     EXPECT_EQ(ctrl->currentSource(), urls.at(1));
     EXPECT_EQ(ctrl->imageCount(), 3);
     EXPECT_EQ(spyIndex.count(), 0);   // 索引未变，不发索引信号
-    EXPECT_EQ(spySource.count(), 1);  // 源码缺陷 D13: 无条件发 currentSourceChanged
-    EXPECT_EQ(spyCount.count(), 1);   // 源码缺陷 D13: 无条件发 imageCountChanged
+    EXPECT_EQ(spySource.count(), 0);
+    EXPECT_EQ(spyCount.count(), 0);
 }
 
 // ── setIndexAndFrameIndex ──
@@ -1519,9 +1519,9 @@ TEST_F(GlobalControlTest, SetIndexAndFrameIndex_OutOfRange_BothIndexAndFrameClam
     const int lowFrame = ctrl->currentFrameIndex();
 
     // Assert：修复语义（原 D5）——索引与帧索引均经 qBound 钳制后落库
-    EXPECT_EQ(highIndex, 99);  // 源码缺陷 D9: curIndex 存储原始 index
+    EXPECT_EQ(highIndex, 2);   // qBound clamps to last valid index
     EXPECT_EQ(highFrame, 2);   // qBound(0, frameIndex, frameCount-1) 钳制
-    EXPECT_EQ(lowIndex, -1);   // 源码缺陷 D9: 同上
+    EXPECT_EQ(lowIndex, 0);    // qBound clamps to first valid index
     EXPECT_EQ(lowFrame, 0);    // 钳制生效
 }
 

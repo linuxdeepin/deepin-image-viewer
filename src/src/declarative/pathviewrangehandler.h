@@ -18,7 +18,7 @@ class PathViewRangeHandler : public QObject
 
 public:
     explicit PathViewRangeHandler(QObject *parent = nullptr);
-    ~PathViewRangeHandler() = default;
+    ~PathViewRangeHandler();
 
     QQuickItem *target() const;
     void setTarget(QQuickItem *view);

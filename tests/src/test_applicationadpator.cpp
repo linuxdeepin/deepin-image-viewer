@@ -241,14 +241,14 @@ INSTANTIATE_TEST_SUITE_P(
         // B2(真) + B5：file:// URL 解包再封包，url 原样往返
         OpenFileCase{"file:///virtual/pic.png", true, true, true, "file:///virtual/pic.png", 1, 1},
         // B2(假) + B5：裸绝对路径原样透传（QUrl(裸路径).isLocalFile()==false，Qt6 实测）
-        OpenFileCase{"/virtual/pic.png", true, true, true, "file:///virtual/pic.png", 1, 1},
+        OpenFileCase{"/virtual/pic.png", true, true, true, "/virtual/pic.png", 1, 1},
         // B2(假) + B5：相对路径原样透传
-        OpenFileCase{"pic.png", true, true, true, "file:pic.png", 1, 1},
+        OpenFileCase{"pic.png", true, true, true, "pic.png", 1, 1},
         // B2(假) + B5：空串边界——QUrl("") 往返仍为空串
         OpenFileCase{"", true, true, true, "", 1, 1},
         // B2(假) + B5：远程 URL 不再折叠为 file: 伪 URL，原样透传
         //（生产 isCanReadable 对非本地 URL 的 toLocalFile 为空，会拒绝远程）
-        OpenFileCase{"http://media.host/pic.png", true, true, true, "file:http://media.host/pic.png", 1, 1},
+        OpenFileCase{"http://media.host/pic.png", true, true, true, "http://media.host/pic.png", 1, 1},
         // B3：isCanReadable 短路失败，isImage 不被调用、不发信号
         OpenFileCase{"file:///virtual/pic.png", false, false, false, "file:///virtual/pic.png", 0, 0},
         // B4：可读但非图像，不发信号

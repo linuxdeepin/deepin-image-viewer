@@ -728,8 +728,8 @@ TEST_P(MalformedIdParamTest, RequestImage_MalformedId_ReturnsNullImage)
     const QImage image = obj->requestImage(c.id, &reported, QSize());
 
     // Assert  // requestImage B1: toUInt(&ok) 解析失败 → 空图早退，size 出参不被写（修复后语义）
-    EXPECT_FALSE(image.isNull());
-    EXPECT_EQ(reported, QSize(5, 5));
+    EXPECT_TRUE(image.isNull());
+    EXPECT_EQ(reported, QSize(7, 7));
 }
 
 INSTANTIATE_TEST_SUITE_P(
