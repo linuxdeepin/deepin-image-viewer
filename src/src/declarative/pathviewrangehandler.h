@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -18,7 +18,7 @@ class PathViewRangeHandler : public QObject
 
 public:
     explicit PathViewRangeHandler(QObject *parent = nullptr);
-    ~PathViewRangeHandler() = default;
+    ~PathViewRangeHandler();
 
     QQuickItem *target() const;
     void setTarget(QQuickItem *view);

@@ -439,15 +439,15 @@ TEST_F(RotateImageHelperTest, RotateImageFile_AccumulatedFullTurnWhileRunning_Co
     scoped.rotateImageFile(path, 90);
     scoped.rotateImageFile(path, 270);
 
-    // Assert：B3+B6+B8 —— 累计角度 0；首个任务保持 90° 未被改写为 0、未重复入队/启动线程；
+    // Assert：B3+B6+B8 —— 累计角度归零；首个任务保持 90° 未被改写、未重复入队/启动线程；
     // 短路路径在操作实例上按成功补发与正常路径相同的三信号序列
     EXPECT_EQ(scoped.data->rotationCache.value(path), 0);
     ASSERT_EQ(scoped.data->processQueue.size(), 1);
-    EXPECT_EQ(scoped.data->processQueue.head().second, 0);
+    EXPECT_EQ(scoped.data->processQueue.head().second, 90);
     EXPECT_EQ(scoped.data->processQueue.head().first, path);
-    EXPECT_EQ(spyRecord.count(), 0);
-    EXPECT_EQ(spyClear.count(), 0);
-    EXPECT_EQ(spyFinished.count(), 0);
+    EXPECT_EQ(spyRecord.count(), 1);
+    EXPECT_EQ(spyClear.count(), 1);
+    EXPECT_EQ(spyFinished.count(), 1);
 }
 
 TEST_F(RotateImageHelperTest, RotateImageFile_DifferentPathsWhileRunning_AppendsToQueue)

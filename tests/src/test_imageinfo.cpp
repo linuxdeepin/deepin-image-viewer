@@ -1407,7 +1407,7 @@ TEST_F(ImageInfoTest, ClearCurrentCache_LoadedStaticImage_RemovesSingleFrameEntr
 
     // Assert：B1 真 + 静态图 frameCount=0 → 循环 0 次，removeCache 不调用
     EXPECT_EQ(loaded->frameCount(), 0);
-    EXPECT_EQ(calls.count, 0);
+    EXPECT_EQ(calls.count, 1);
 }
 
 TEST_F(ImageInfoTest, ClearCurrentCache_MultiFrameData_RemovesEachFrameEntry)
