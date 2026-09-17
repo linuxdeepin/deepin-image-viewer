@@ -528,10 +528,10 @@ Item {
 
     function finishCrop(normalizedCrop) {
         if (normalizedCrop.width <= 0 || normalizedCrop.height <= 0
-                || width <= 0 || height <= 0)
+                || stableCanvasWidth <= 0 || stableCanvasHeight <= 0)
             return;
-        var canvasWidth = width;
-        var canvasHeight = height;
+        var canvasWidth = stableCanvasWidth;
+        var canvasHeight = stableCanvasHeight;
         var updated = [];
         for (var i = 0; i < strokes.length; ++i) {
             var stroke = strokes[i];
