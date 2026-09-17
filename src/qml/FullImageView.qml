@@ -287,7 +287,6 @@ Item {
         onCropRequested: normalizedRect => {
             if (IV.ImageEditor.crop(normalizedRect)) {
                 editCanvas.finishCrop(normalizedRect);
-                editToolbar.currentTool = "";
             }
         }
         Accessible.name: "FullImageEditCanvas"
