@@ -305,7 +305,7 @@ Item {
             if (IV.GStatus.editMode) {
                 IV.ImageEditor.beginEdit(IV.GControl.currentSource, IV.GControl.currentFrameIndex);
                 editToolbar.currentTool = "";
-                floatLabel.visible = false;
+                floatLabel.close();
                 editCanvas.clear();
                 editCanvas.initializeHistory();
             } else {
@@ -750,26 +750,10 @@ Item {
     }
 
     //浮动提示框
+    //uos-design: 瞬态提示由 D.FloatingMessage/MessageManager 承载（见 Utils/FloatingNotice.qml），
+    //本组件退化为非可视接口；定位由 main.qml 中窗口级 D.MessageManager.layout 统一控制
+    //（缩略图栏高度 + floatMargin，与旧锚定位置等价）。
     FloatingNotice {
         id: floatLabel
-
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: thumbnailViewBackGround.height + IV.GStatus.floatMargin
-        anchors.left: parent.left
-        anchors.leftMargin: parent.width / 2 - 50
-        opacity: 0.7
-        visible: false
-
-        Timer {
-            interval: 1500
-            repeat: false
-            running: parent.visible
-
-            onTriggered: {
-                parent.visible = false;
-            }
-        }
-        Accessible.name: "FloatLabel"
-        Accessible.role: Accessible.Pane
     }
 }

@@ -115,7 +115,7 @@ Item {
 
     function showScaleFloatLabel() {
         if (IV.GStatus.editMode) {
-            floatLabel.visible = false;
+            floatLabel.close();
             return;
         }
         // 不存在的图片不弹出缩放提示框
@@ -125,14 +125,14 @@ Item {
 
         // 图片实际缩放比值 绘制像素宽度 / 图片原始像素宽度
         var readableScale = targetImage.paintedWidth * targetImage.scale / targetImageInfo.width * 100;
-        if (readableScale.toFixed(0) > 2000 && readableScale.toFixed(0) <= 3000) {
-            floatLabel.displayStr = "2000%";
-        } else if (readableScale.toFixed(0) < 2 && readableScale.toFixed(0) >= 0) {
-            floatLabel.displayStr = "2%";
-        } else if (readableScale.toFixed(0) >= 2 && readableScale.toFixed(0) <= 2000) {
-            floatLabel.displayStr = readableScale.toFixed(0) + "%";
+        var scaleInt = parseInt(readableScale.toFixed(0)); // 缓存取整结果，避免重复 toFixed 调用
+        if (scaleInt > 2000 && scaleInt <= 3000) {
+            floatLabel.show("2000%");
+        } else if (scaleInt < 2 && scaleInt >= 0) {
+            floatLabel.show("2%");
+        } else if (scaleInt >= 2 && scaleInt <= 2000) {
+            floatLabel.show(scaleInt + "%");
         }
-        floatLabel.visible = true;
     }
 
     Component.onCompleted: {
