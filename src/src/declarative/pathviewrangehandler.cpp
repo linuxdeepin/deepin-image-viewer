@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 - 2026 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -20,6 +20,8 @@ PathViewRangeHandler::PathViewRangeHandler(QObject *parent)
 {
     qCDebug(logImageViewer) << "PathViewRangeHandler constructor called.";
 }
+
+PathViewRangeHandler::~PathViewRangeHandler() = default;
 
 QQuickItem *PathViewRangeHandler::target() const
 {

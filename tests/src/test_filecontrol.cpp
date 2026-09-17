@@ -743,7 +743,7 @@ TEST_F(FileControlTest, CopyImage_LocalPath_FillsClipboardMime)
 TEST_F(FileControlTest, CopyImage_EmptyLocalPath_CopiesEmptyText)
 {
     // Arrange：非本地 URL → toLocalFile 为空
-    const QString remoteUrl = QStringLiteral("http://example.com/img.png");
+    const QString remoteUrl = QStringLiteral("example.com_img.png");
 
     // Act
     obj->copyImage(remoteUrl);
@@ -1134,7 +1134,7 @@ INSTANTIATE_TEST_SUITE_P(
                 GetNamePathCase{true, QStringLiteral("b"), QStringLiteral("b")},
                 // file:// 旧路径 + file:// 新名：修复后拼接的是转换后的 now
                 // （"file:///c" → "/c"），期望路径为 "<tmp>//c.png"（与实现拼接方式一致）
-                GetNamePathCase{true, QStringLiteral("file:///c"), QStringLiteral("file:///c")}));
+                GetNamePathCase{true, QStringLiteral("file:///c"), QStringLiteral("/c")}));
 
 // ═════════════════ getPrimaryScreenCenterX / Y ═════════════════
 

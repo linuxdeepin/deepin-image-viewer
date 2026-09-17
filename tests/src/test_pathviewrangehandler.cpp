@@ -168,6 +168,21 @@ TEST_F(PathViewRangeHandlerTest, Destructor_ViaOpaqueBasePointerDelete_RunsOutOf
     EXPECT_TRUE(parent.children().isEmpty());
 }
 
+TEST_F(PathViewRangeHandlerTest, Destructor_StackAllocated_RunsBaseObjectDtor)
+{
+    // Arrange：栈上构造（带父对象），超出作用域时编译器直接调用 D2（base object destructor）
+    QObject parent;
+
+    // Act
+    {
+        PathViewRangeHandler handler(&parent);
+        EXPECT_EQ(handler.parent(), &parent);
+    }  // handler 超出作用域 → D2 析构
+
+    // Assert：D2 析构完整执行——从父对象 children 摘除、无崩溃
+    EXPECT_TRUE(parent.children().isEmpty());
+}
+
 TEST_F(PathViewRangeHandlerTest, EnableForward_DefaultThenDisabled_ReturnsTrueThenFalse)
 {
     // Arrange
@@ -387,7 +402,7 @@ TEST_F(PathViewRangeHandlerTest, EventFilter_MouseButtonRelease_ResetsBasePoint)
     // Assert  // branch B0: MouseButtonRelease → basePoint 重置为空（双向允许下同样生效，防残留误过滤）
     EXPECT_EQ(basePointEstablished, true);   // 前置：MouseMove 已记录 basePoint
     EXPECT_EQ(filtered, false);
-    EXPECT_EQ(obj->basePoint, base);
+    EXPECT_EQ(obj->basePoint, QPointF());
 }
 
 TEST_F(PathViewRangeHandlerTest, EventFilter_MouseMoveOnNonTargetObject_SetsBasePoint)
