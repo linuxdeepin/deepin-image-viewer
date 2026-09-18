@@ -143,5 +143,5 @@ DTK.Control {
     Shortcut { enabled: IV.GStatus.editMode; sequence: "B"; onActivated: selectTool("blur") }
     Shortcut { enabled: IV.GStatus.editMode; sequence: "X"; onActivated: selectTool("crop") }
     Shortcut { enabled: IV.GStatus.editMode && editToolbar.canUndo; sequences: [StandardKey.Undo]; onActivated: editToolbar.undoRequested() }
-    Shortcut { enabled: IV.GStatus.editMode && editToolbar.canRedo; sequences: [StandardKey.Redo]; onActivated: editToolbar.redoRequested() }
+    Shortcut { enabled: IV.GStatus.editMode && editToolbar.canRedo; sequences: [StandardKey.Redo, "Ctrl+Y"]; onActivated: editToolbar.redoRequested() }
 }
