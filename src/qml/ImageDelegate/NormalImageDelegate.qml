@@ -96,7 +96,7 @@ BaseImageDelegate {
         width: delegate.width
         // debounced (scroll wheel): retain old texture for smooth transition
         // immediate (large jump): no retain, use snapshot instead
-        retainWhileLoading: !delegate.sourceUpdatePending && !sourceSizeOptimizer.immediateUpgrade
+        retainWhileLoading: (!delegate.sourceUpdatePending || IV.GStatus.editMode) && !sourceSizeOptimizer.immediateUpgrade
 
         onScaleChanged: {
             sourceSizeOptimizer.requestUpdate()

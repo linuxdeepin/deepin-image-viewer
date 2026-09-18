@@ -287,7 +287,6 @@ Item {
         onCropRequested: normalizedRect => {
             if (IV.ImageEditor.crop(normalizedRect)) {
                 editCanvas.finishCrop(normalizedRect);
-                editToolbar.currentTool = "";
             }
         }
         Accessible.name: "FullImageEditCanvas"
@@ -691,22 +690,23 @@ Item {
         Accessible.role: Accessible.Dialog
     }
 
-    Dialog {
+    EditConfirmDialog {
         id: saveErrorDialog
 
-        property string message: ""
-
-        anchors.centerIn: parent
-        modal: true
-        standardButtons: Dialog.Ok
-        title: qsTr("Save Failed")
-
-        contentItem: Label { text: saveErrorDialog.message; wrapMode: Text.WordWrap }
+        actions: [
+            { "text": qsTranslate("QPlatformTheme", "OK"),
+              "action": "confirm", "recommended": true }
+        ]
+        message: qsTr("Save Failed")
+        parentWindow: Window.window
+        title: ""
+        Accessible.name: "SaveErrorDialog"
+        Accessible.role: Accessible.Dialog
     }
 
     Connections {
         function onSaveFailed(message) {
-            saveErrorDialog.message = message;
+            saveErrorDialog.secondaryMessage = message;
             saveErrorDialog.open();
         }
 
