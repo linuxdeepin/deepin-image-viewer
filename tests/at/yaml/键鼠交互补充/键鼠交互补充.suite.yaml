@@ -1,0 +1,50 @@
+name: 键鼠交互补充_suite
+app: deepin-image-viewer
+module: 键鼠交互补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_jianshujiaohubuchong_001_s1
+  name: 键鼠交互-Alt+D在文件管理器中显示
+  description: 按Alt+D快捷键在文件管理器中显示当前图片，验证应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: alt+d
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohubuchong_002_s1
+  name: 键鼠交互-Ctrl+O打开文件对话框
+  description: 按Ctrl+O快捷键打开文件选择对话框，验证应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+o
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohubuchong_003_s1
+  name: 键鼠交互-Ctrl+Shift+斜杠快捷键预览
+  description: 按Ctrl+Shift+/快捷键查看快捷键预览，验证应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+slash
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

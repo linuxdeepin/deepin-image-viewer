@@ -1,0 +1,54 @@
+name: 文管打开_suite
+app: deepin-image-viewer
+module: 文管打开
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_wenguandakai_001_s1
+  name: 文管打开-窗口右键菜单在文管中显示
+  description: 窗口模式下右键图片选择在文件管理器中显示，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Display in file manager
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_wenguandakai_002_s1
+  name: 文管打开-全屏右键菜单在文管中显示
+  description: 全屏模式下右键图片选择在文件管理器中显示，验证应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: FullImageViewer
+    items:
+    - Display in file manager
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

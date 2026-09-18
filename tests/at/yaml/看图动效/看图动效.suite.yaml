@@ -1,0 +1,33 @@
+name: 看图动效_suite
+app: deepin-image-viewer
+module: 看图动效
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_kantudongxiao_001_s1
+  name: 看图动效-旋转后图片动画控件验证
+  description: 右键旋转图片后验证图片动画控件存在，应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate clockwise
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageAnimation
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

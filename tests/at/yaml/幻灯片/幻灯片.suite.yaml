@@ -1,40 +1,45 @@
 name: 幻灯片_suite
 app: deepin-image-viewer
-description: ''
 module: 幻灯片
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
-- id: case_1652159_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+- id: suite_huanjidengpian_001_s1
+  name: 幻灯片-F5启动ESC退出
+  description: 按F5启动幻灯片放映，按ESC退出
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f5
-    wait: 1.0
-  - action: keyboard_press
-    key: escape
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: esc
+    wait: 1.5
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
-- id: case_1652197_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_huanjidengpian_002_s1
+  name: 幻灯片-右键菜单启动
+  description: 右键图片选择幻灯片放映，验证应用正常运行
   steps:
-  - action: keyboard_press
-    key: f5
-    wait: 1.0
-  - action: keyboard_press
-    key: escape
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Slide show
+    wait: 2.0
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop

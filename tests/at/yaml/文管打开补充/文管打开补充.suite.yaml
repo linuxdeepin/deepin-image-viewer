@@ -1,0 +1,50 @@
+name: 文管打开补充_suite
+app: deepin-image-viewer
+module: 文管打开补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_wenguandaakaibuchong_001_s1
+  name: 加载图片-桌面双击打开图片
+  description: 验证通过桌面双击打开图片后图片视图控件存在，应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_wenguandaakaibuchong_002_s1
+  name: 加载图片-文管中双击图片
+  description: 验证文管中双击图片打开看图后图片视图控件存在，应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

@@ -7,27 +7,8 @@ setup:
   wait: 7.0
 suites:
 - id: suite_gongjulan_001_s1
-  name: 图片信息-工具栏切换图片展示
-  description: ''
-  steps:
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+i
-    wait: 1.0
-  - step_type: action
-    action: element_action
-    selector:
-      name: Next
-    do: click
-    wait: 1.0
-  assert_steps:
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Dimensions
-- id: suite_gongjulan_002_s1
   name: 工具栏-下一张按钮
-  description: ''
+  description: 点击工具栏下一张按钮，验证图片视图存在
   steps:
   - step_type: action
     action: element_action
@@ -43,14 +24,32 @@ suites:
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
-- id: suite_gongjulan_013_s1
-  name: OCR-入口检查-窗口下点击工具栏按钮
-  description: ''
+- id: suite_gongjulan_002_s1
+  name: 工具栏-上一张按钮
+  description: 点击工具栏上一张按钮，验证图片视图存在
   steps:
   - step_type: action
     action: element_action
     selector:
-      name: Extract text
+      name: Previous
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_003_s1
+  name: 工具栏-OCR识别文字
+  description: 点击工具栏识别文字按钮，验证OCR组件出现
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: 识别文字
     do: click
     wait: 2.0
   assert_steps:
@@ -58,6 +57,42 @@ suites:
     action: assert_element
     selector:
       name: LiveTextWidget
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_004_s1
+  name: 工具栏-适应窗口
+  description: 点击工具栏适应窗口按钮，验证图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Fit to window
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_005_s1
+  name: 工具栏-原始尺寸
+  description: 点击工具栏原始尺寸按钮，验证图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Original size
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
