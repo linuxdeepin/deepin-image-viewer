@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020-2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -29,6 +29,7 @@ const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
 const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
 DWIDGET_USE_NAMESPACE
+namespace Dtk { namespace Core { class DConfig; } }
 class HomePageWidget;
 class ImageViewer;
 class QSettings;
@@ -54,6 +55,8 @@ public:
 private:
 
     void initUI();
+    //根据 DConfig 配置决定右键菜单“设置为壁纸”项的显示/隐藏
+    void initSetWallpaperConfig();
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
@@ -76,6 +79,7 @@ private:
     ImageViewer      *m_imageViewer = nullptr;
     DMainWindow      *m_mainwidow = nullptr;
     QSettings        *m_settings = nullptr;
+    Dtk::Core::DConfig *m_dconfig = nullptr;
     QTimer           *m_saveSettingTimer = nullptr;
     bool             m_ocrIsExisted = false;
 };

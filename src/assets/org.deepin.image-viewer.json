@@ -1,0 +1,17 @@
+{
+    "magic": "dsg.config.meta",
+    "version": "1.0",
+    "contents": {
+        "setWallpaperVisible": {
+            "value": true,
+            "serial": 0,
+            "flags": [],
+            "name": "Show 'Set as wallpaper'",
+            "name[zh_CN]": "显示“设置为壁纸”",
+            "description": "Show or hide the 'Set as wallpaper' item in the image viewer context menu.",
+            "description[zh_CN]": "控制看图右键菜单中“设置为壁纸”选项的显示/隐藏。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        }
+    }
+}
