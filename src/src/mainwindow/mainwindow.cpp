@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020-2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -22,11 +22,15 @@
 #include <DTableView>
 #include <DFileDialog>
 #include <DGuiApplicationHelper>
+#include <DConfig>
 
 #include "module/view/homepagewidget.h"
 #include <libimageviewer/imageviewer.h>
 #include <libimageviewer/imageengine.h>
+#include <libimageviewer/image-viewer_global.h>
 #include "application.h"
+
+DCORE_USE_NAMESPACE
 
 // 最小宽高
 #define MAINWIDGET_MINIMUN_HEIGHT 300
@@ -35,6 +39,11 @@
 
 const QString CONFIG_PATH =   QDir::homePath() +
                               "/.config/deepin/deepin-image-viewer/config.conf";
+
+// DConfig 配置：控制右键菜单“设置为壁纸”项的显示/隐藏
+static const char *const DCONFIG_APPID = "org.deepin.image-viewer";
+static const char *const DCONFIG_NAME = "org.deepin.image-viewer";
+static const char *const DCONFIG_KEY_SET_WALLPAPER_VISIBLE = "setWallpaperVisible";
 
 MainWindow::MainWindow(QWidget *parent)
     : DWidget(parent)
@@ -89,6 +98,22 @@ QVariant MainWindow::value(const QString &group, const QString &key, const QVari
     m_settings->endGroup();
 
     return value;
+}
+
+// 读取 DConfig 配置，决定右键菜单“设置为壁纸”项的显示/隐藏（默认显示）
+void MainWindow::initSetWallpaperConfig()
+{
+    bool visible = true;
+    m_dconfig = DConfig::create(DCONFIG_APPID, DCONFIG_NAME, QString(), this);
+    if (m_dconfig && m_dconfig->isValid()) {
+        visible = m_dconfig->value(DCONFIG_KEY_SET_WALLPAPER_VISIBLE, true).toBool();
+    } else {
+        qWarning() << "DConfig is invalid, use default setWallpaperVisible = true";
+    }
+
+    if (m_imageViewer) {
+        m_imageViewer->setViewPanelContextMenuItemVisible(imageViewerSpace::IdSetAsWallpaper, visible);
+    }
 }
 
 QJsonObject MainWindow::createShorcutJson()
@@ -261,6 +286,9 @@ void MainWindow::initUI()
 
     m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeLocal, CACHE_PATH, nullptr, this);
     m_centerWidget->addWidget(m_imageViewer);
+
+    //根据 DConfig 配置初始化“设置为壁纸”项的显示/隐藏
+    initSetWallpaperConfig();
 
     m_centerWidget->setCurrentWidget(m_homePageWidget);
 

@@ -67,6 +67,9 @@ pkg_check_modules(3rd_lib REQUIRED
     dtkcore
     )
 
+# DtkCore 会引入 DtkDConfig，提供 dconfig_meta_files 宏与 DSG_DATA_DIR
+find_package(DtkCore REQUIRED)
+
 ## translations
 
 file(GLOB TS LIST_DIRECTORIES false translations/${CMD_NAME}*.ts)
@@ -131,5 +134,12 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
 #context-menu conf 文管右键菜单配置文件
 install(FILES ${PROJECT_SOURCE_DIR}/misc/context-menus/deepin-print-pictures.conf
     DESTINATION /usr/share/applications/context-menus/)
+#DConfig 配置元数据（安装到 /usr/share/dsg/configs/org.deepin.image-viewer/）
+set(APPID org.deepin.image-viewer)
+set(configFile ${PROJECT_SOURCE_DIR}/assets/org.deepin.image-viewer.json)
+if (DEFINED DSG_DATA_DIR)
+    message("-- DConfig is supported by DTK")
+    dconfig_meta_files(APPID ${APPID} FILES ${configFile})
+endif()
 
 
