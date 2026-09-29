@@ -23,3 +23,12 @@ leak:Dtk::Core::DLogManager
 leak:Dtk::Core::DLogManagerPrivate
 leak:dconfig_org_deepin_dtk_preference
 leak:QtSharedPointer::ExternalRefCountData
+
+# DTK6 GUI 平台主题（DPlatformTheme / OrgDeepinDTKPreference）为进程级一次性分配，
+# 由 Dtk::Gui::DGuiApplicationHelperPrivate::initApplication(QGuiApplication*) 在
+# QGuiApplication 初始化时建立，进程退出时由系统回收，不属于本项目的真实泄漏，统一抑制。
+# （ASAN 构建下 LSan 会报告这部分 dtk6gui 框架级残留，否则会导致测试进程退出码为 1，
+# 即使全部用例通过。）
+leak:Dtk::Gui::DPlatformTheme
+leak:Dtk::Gui::DGuiApplicationHelperPrivate::initApplication
+leak:OrgDeepinDTKPreference
