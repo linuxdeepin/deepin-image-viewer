@@ -6,7 +6,7 @@
 // |--------|-------|---------|-----|--------|
 // | adjustImageToRealPosition | high | complexity:10,cognitive:19 | 3 | 14 |
 // | canSave | mid | in_degree:4 | 2 | 3 |
-// | convertToSRgbColorSpace | high | complexity:14,cognitive:21 | 3 | 3 |
+// | convertToSRgbColorSpace | high | complexity:14,cognitive:21 | 3 | 4 |
 // | creatNewImage | low | - | 1 | 3 |
 // | detectImageFormat | high | complexity:16,lines:112 | 3 | 17 |
 // | getFileFormat | low | - | 1 | 3 |
@@ -88,6 +88,7 @@
 // - ConvertToSRgbColorSpace_UntaggedImage_NoConversionApplied → B4
 // - ConvertToSRgbColorSpace_SRgbTaggedImage_KeepsValidImage → B2(否)/B4
 // - ConvertToSRgbColorSpace_WideGamutImage_ConvertedSuccessfully → B2/B5
+// - BUG326991_ConvertToSRgbColorSpace_CmykImage_ConvertedToNonCmyk → B3/B6（PMS sev2 色差根因锚点）
 //
 // 分支清单（来源：detectImageFormat(const QString &)）
 // B0: 文件打开失败 → return ""
@@ -1524,4 +1525,26 @@ TEST_F(FreeUnionImageTest, UnionImageSupportFormat_QueryMergedTable_MatchesStati
     EXPECT_FALSE(formats.isEmpty());
     EXPECT_TRUE(formats.contains(QStringLiteral("GIF")));
     EXPECT_EQ(formats, LibUnionImage_NameSpace::supportStaticFormat());
+}
+
+// PMS: BUG326991 sev2 | commit "fix: Fixed CMYK image display issue" | 根因: CMYK 色彩空间未转 sRGB 导致 jpg 色差
+// 锚定 convertToSRgbColorSpace B3 分支(format==Format_CMYK8888 && colorSpace 无效)→方法2 转 RGB888
+TEST_F(FreeUnionImageTest, BUG326991_ConvertToSRgbColorSpace_CmykImage_ConvertedToNonCmyk)
+{
+    // Arrange: 构造 CMYK 格式图像(JPG 保存可保留 Format_CMYK8888 且 colorSpace 无效)，
+    //          触发 convertToSRgbColorSpace B3 分支→方法2(convertToFormat RGB888)转换
+    QImage cmykImg(4, 2, QImage::Format_CMYK8888);
+    cmykImg.fill(0);
+    const QString path = tmpDir.filePath(QStringLiteral("cmyk.jpg"));
+    ASSERT_TRUE(cmykImg.save(path, "JPG"));
+    QImage res;
+    QString errMsg;
+
+    // Act: loadStaticImageFromFile(Qt6) 内部调用 convertToSRgbColorSpace 转换 CMYK→sRGB
+    const bool ret = loadStaticImageFromFile(path, res, errMsg);
+
+    // Assert: 转换后图像非空且 format 不再是 CMYK8888(色差根因已修复，转为 RGB888)
+    EXPECT_TRUE(ret);
+    EXPECT_FALSE(res.isNull());
+    EXPECT_NE(res.format(), QImage::Format_CMYK8888);
 }
