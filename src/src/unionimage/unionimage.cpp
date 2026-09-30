@@ -81,7 +81,12 @@ static QImage convertToSRgbColorSpace(const QImage &image)
             qCDebug(logImageViewer) << "Color space conversion method 1 failed";
         }
     } catch (...) {
-        qCDebug(logImageViewer) << "Color space conversion method 1 threw exception";
+        // Do not swallow the failure silently: the exception aborts method 1,
+        // and if the fallbacks below fail too the original image is returned
+        // (e.g. an unconverted CMYK image, cf. BUG326991).
+        qCWarning(logImageViewer) << "Color space conversion method 1 threw exception,"
+                                  << "format:" << image.format()
+                                  << "colorSpace:" << image.colorSpace();
     }
     
     if (convertedImage.isNull()) {
