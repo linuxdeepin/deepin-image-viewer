@@ -1,14 +1,32 @@
-name: 图片视图覆盖_suite
+name: 文管打开补充_suite
 app: deepin-image-viewer
-module: 图片视图覆盖
+module: 文管打开补充
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
-- id: suite_imgview_001_s1
-  name: 图片视图元素覆盖验证
-  description: 应用启动后验证图片视图区域可访问元素存在
+- id: suite_wenguandaakaibuchong_001_s1
+  name: 加载图片-桌面双击打开图片
+  description: 验证通过桌面双击打开图片后图片视图控件存在，应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_wenguandaakaibuchong_002_s1
+  name: 加载图片-文管中双击图片
+  description: 验证文管中双击图片打开看图后图片视图控件存在，应用正常运行
   steps:
   - step_type: action
     action: element_action
@@ -25,28 +43,6 @@ suites:
     action: assert_element
     selector:
       name: Toolbar
-- id: case_1695355_s1
-  name: 图片显示方式-1:1显示和适应窗口
-  description: 依次点击原始尺寸和适应窗口按钮，验证图片视图存在
-  steps:
-  - step_type: action
-    action: element_action
-    selector:
-      name: Original size
-    do: click
-    wait: 1.0
-  - step_type: action
-    action: element_action
-    selector:
-      name: Fit to window
-    do: click
-    wait: 1.0
-  assert_steps:
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Image view
-    app: deepin-image-viewer
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer

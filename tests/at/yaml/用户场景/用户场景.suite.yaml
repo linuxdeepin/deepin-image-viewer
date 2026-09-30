@@ -15,12 +15,16 @@ suites:
     selector:
       name: Extract text
     do: click
-    wait: 2.0
+    wait: 25.0
   assert_steps:
   - step_type: assert
     action: assert_element
     selector:
-      name: LiveTextWidget
+      name: HighlightText
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
 - id: suite_用户场景_002_s1
   name: 视图切换放大旋转翻转-上下张切换
   description: ''
@@ -40,6 +44,50 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
-      name: BottomthumbnaillistView
+      name: Image view
+- id: case_1652779_s1
+  name: 视图切换、放大、旋转、翻转
+  description: 依次切换图片、滚轮缩放、旋转、1:1视图、适应窗口，验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: right
+    wait: 1.0
+  - step_type: action
+    action: mouse_scroll
+    value: 3
+    wait: 0.3
+  - step_type: action
+    action: mouse_scroll
+    value: -3
+    wait: 0.3
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate clockwise
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Original size
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Fit to window
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop

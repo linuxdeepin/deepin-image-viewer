@@ -1,42 +1,181 @@
 name: 重命名_suite
 app: deepin-image-viewer
-description: ''
 module: 重命名
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
+- id: suite_chongmingming_002_s1
+  name: 重命名-右键菜单重命名
+  description: 右键图片选择重命名，验证重命名输入框出现后键盘取消关闭
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rename
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: New file name
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+- id: suite_chongmingming_001_s1
+  name: 重命名-快捷键F2重命名
+  description: 按F2打开重命名对话框，验证输入框出现后键盘取消关闭（放在末尾避免残留影响）
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: New file name
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
 - id: case_1652281_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 重命名-读写图片重命名
+  description: 按F2打开重命名对话框，验证输入框出现后取消关闭
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f2
-  - action: keyboard_type
-    text: test_rename
-  - action: keyboard_press
-    key: enter
+    wait: 1.0
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
-- id: case_1652343_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: New file name
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: tab
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: tab
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+- id: case_1652295_s1
+  name: 重命名-修改smb中图片名称
+  description: 按F2打开重命名对话框（smb图片），验证输入框出现后取消关闭
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f2
-  - action: keyboard_type
-    text: Test123!@#
-  - action: keyboard_press
-    key: enter
+    wait: 1.0
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: New file name
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: tab
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: tab
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+- id: case_1652297_s1
+  name: 重命名-修改U盘中图片名称
+  description: 按F2打开重命名对话框（U盘图片），验证输入框出现后取消关闭
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: New file name
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: tab
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: tab
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+- id: case_1652319_s1
+  name: 重命名-名称较长时省略号
+  description: 按F2打开重命名对话框，验证输入框出现后取消关闭（长文件名场景）
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: New file name
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: tab
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: tab
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
 teardown:
 - action: session_stop

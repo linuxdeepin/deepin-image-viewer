@@ -8,16 +8,16 @@ setup:
 suites:
 - id: suite_window_001_s1
   name: 窗口组件元素覆盖验证
-  description: 验证窗口相关组件元素存在
+  description: 验证窗口骨架相关可访问元素存在
   steps: []
   assert_steps:
   - step_type: assert
     action: assert_element
     selector:
-      name: TitleRect
+      name: Image view
   - step_type: assert
     action: assert_element
     selector:
-      name: MainStack
+      name: Toolbar
 teardown:
 - action: session_stop

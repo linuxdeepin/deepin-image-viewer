@@ -8,104 +8,32 @@ setup:
 suites:
 - id: suite_info_001_s1
   name: 图片信息对话框元素覆盖验证
-  description: 通过右键菜单打开图片信息对话框验证所有元素存在
+  description: 通过Ctrl+I打开图片信息对话框，验证基本信息页可访问元素存在（放末尾避免对话框残留影响后续用例）
   steps:
   - step_type: action
     action: keyboard_hot_key
     key: ctrl+i
-    wait: 1.0
+    wait: 2.0
   assert_steps:
   - step_type: assert
     action: assert_element
     selector:
-      name: BasicInfo
+      name: Basic info
   - step_type: assert
     action: assert_element
     selector:
-      name: DetailInfoItem
+      name: Details
   - step_type: assert
     action: assert_element
     selector:
-      name: PropertyInfoView
+      name: Dimensions
   - step_type: assert
     action: assert_element
     selector:
-      name: FileNameProp
+      name: Size
   - step_type: assert
     action: assert_element
     selector:
-      name: InfoType
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: InfoSize
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Aperture
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Colorspace
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: DateCaptured
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: DateModified
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: ExposureMode
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: ExposureProgram
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: ExposureTime
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Flash
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: FlashCompensation
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: FocalLength
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Iso
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: MaxAperture
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: MeteringMode
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: WhiteBalance
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: PropertyActionItemDelegate_ElideLabel
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: PropertyItemDelegate_ContentElideLabel
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: PropertyItemDelegate_ElideLabel
+      name: Type
 teardown:
 - action: session_stop

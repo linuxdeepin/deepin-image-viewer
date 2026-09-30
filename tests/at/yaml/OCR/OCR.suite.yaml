@@ -1,25 +1,82 @@
 name: OCR_suite
 app: deepin-image-viewer
-description: ''
 module: OCR
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
-- id: case_1651809_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+- id: suite_ocr_001_s1
+  name: OCR-点击识别文字按钮
+  description: 点击工具栏识别文字按钮，验证OCR识别完成（HighlightText按钮出现）
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
-    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Extract text
+    do: click
+    wait: 25.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: HighlightText
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+- id: suite_ocr_002_s1
+  name: OCR-右键菜单识别文字
+  description: 右键图片键盘导航选择识别文字，验证OCR识别完成（HighlightText按钮出现）
+  steps:
+  - step_type: action
+    action: mouse_right_click
+    selector:
+      name: Image view
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 25.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: HighlightText
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651809_s1
+  name: OCR-入口检查-窗口下点击工具栏按钮
+  description: 点击工具栏识别文字按钮，验证OCR识别窗口调起（HighlightText出现）后ESC退出
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Extract text
+    do: click
+    wait: 25.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: HighlightText
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
 teardown:
 - action: session_stop
