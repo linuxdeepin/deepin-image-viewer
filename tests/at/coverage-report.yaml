@@ -1,11 +1,9 @@
-scan_total: 98
+scan_total: 55
+transient_items: []
 unreachable: 2
-denominator: 96
-covered: 96
+denominator: 53
+covered: 53
 uncovered: 0
 coverage: 100.0
 passed: true
-accessible_named: 96
-accessible_covered: 96
-accessible_coverage: 100.0
 uncovered_elements: []

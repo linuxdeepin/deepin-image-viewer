@@ -1,5 +1,145 @@
 version: '1.0'
 cases:
+- id: case_1651809_s1
+  name: OCR-点击工具栏识别文字按钮
+  module: OCR
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: 识别文字
+    do: click
+    wait: 2.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LiveTextWidget
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkou_001_s1
+  name: 导航窗口-缩略图切换图片
+  module: daohangchuangkou
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: NormalThumbnailDelegate
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_001_s1
+  name: 图片信息-工具栏切换图片展示
+  module: gongjulan
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+i
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Dimensions
+- id: suite_gongjulan_002_s1
+  name: 工具栏-下一张按钮
+  module: gongjulan
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulan_013_s1
+  name: OCR-入口检查-窗口下点击工具栏按钮
+  module: gongjulan
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Extract text
+    do: click
+    wait: 2.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LiveTextWidget
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_001_s1
+  name: 快捷键Down缩小图片
+  module: jianshujiaohu
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_jianshujiaohu_002_s1
+  name: 快捷键Ctrl+-缩小图片
+  module: jianshujiaohu
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+-
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_jianshujiaohu_003_s1
+  name: 快捷键Ctrl+F9设置壁纸
+  module: jianshujiaohu
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+f9
+  - step_type: assert
+    action: assert_process_running
+- id: suite_jianshujiaohu_008_s1
+  name: 鼠标滚轮缩放图片
+  module: jianshujiaohu
+  steps:
+  - step_type: action
+    action: mouse_scroll
+    value: -3
+  - step_type: action
+    action: mouse_scroll
+    value: 3
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+- id: suite_jianshujiaohu_011_s1
+  name: 快捷键F1唤起帮助窗口
+  module: jianshujiaohu
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f1
+  - step_type: assert
+    action: assert_process_running
 - id: suite_quanping_001_s1
   name: 全屏-双击图片进入全屏
   module: quanping
@@ -84,9 +224,43 @@ cases:
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
-- id: suite_daohangchuangkou_001_s1
-  name: 导航窗口-缩略图切换图片
-  module: daohangchuangkou
+- id: case_1652071_s1
+  name: tif多页图-工具栏切换上一张图片
+  module: tif多页图
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652069_s1
+  name: tif多页图-切换页后检查缩略图
+  module: tif多页图
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652039_s1
+  name: tif多页图-缩略图切换图片
+  module: tif多页图
   steps:
   - step_type: action
     action: element_action
@@ -101,19 +275,325 @@ cases:
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
-- id: suite_gongjulan_001_s1
-  name: 图片信息-工具栏切换图片展示
-  module: gongjulan
+- id: case_1652067_s1
+  name: tif多页图-Ctrl滚轮切换图片
+  module: tif多页图
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: mouse_scroll
+    value: -3
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 3
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651905_s1
+  name: tif多页图-播放幻灯片
+  module: tif多页图
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f5
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_2003949_s1
+  name: 主菜单-点击主菜单按钮唤起菜单
+  module: 主菜单
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: OptionMenu
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: OptionMenu
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652347_s1
+  name: 主菜单-快捷键F1唤起帮助
+  module: 主菜单
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f1
+    wait: 2.0
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652353_s1
+  name: 主菜单-多窗口场景下主菜单可操作
+  module: 主菜单
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: OptionMenu
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: OptionMenu
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652359_s1
+  name: 主菜单-关闭窗口后重新启动看图
+  module: 主菜单
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652207_s1
+  name: 全屏-双击图片进入全屏模式
+  module: 全屏
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652203_s1
+  name: 全屏-快捷键F11进入与退出全屏
+  module: 全屏
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.5
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652199_s1
+  name: 全屏-右键菜单退出全屏
+  module: 全屏
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.5
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Exit fullscreen
+    wait: 1.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652211_s1
+  name: 删除-删除单张图片后看图界面展示
+  module: 删除
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: delete
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652061_s1
+  name: 删除-只读权限图片删除检查
+  module: 删除
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: delete
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_RemoveDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652413_s1
+  name: 右键菜单-图片查看区域右键菜单检查
+  module: 右键菜单
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items: []
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652147_s1
+  name: 右键菜单-复制当前图片
+  module: 右键菜单
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652217_s1
+  name: 右键菜单-设置壁纸
+  module: 右键菜单
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
+    wait: 1.0
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652221_s1
+  name: 右键菜单-图片信息查看
+  module: 右键菜单
   steps:
   - step_type: action
     action: keyboard_hot_key
     key: ctrl+i
     wait: 1.0
-  - step_type: action
-    action: element_action
+  - step_type: assert
+    action: assert_element
     selector:
-      name: 下一张
-    do: click
+      name: Loader_InformationDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652237_s1
+  name: 右键菜单-快捷键Alt+D删除图片
+  module: 右键菜单
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: alt+d
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_RemoveDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652245_s1
+  name: 右键菜单-快捷键Ctrl+Shift+R逆时针旋转
+  module: 右键菜单
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+r
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652199_s1
+  name: 右键菜单-全屏模式下右键退出全屏
+  module: 右键菜单
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.5
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Exit fullscreen
+    wait: 1.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652225_s1
+  name: 图片信息-Ctrl+I查看图片信息
+  module: 图片信息
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+i
     wait: 1.0
   - step_type: assert
     action: assert_element
@@ -123,9 +603,295 @@ cases:
     action: assert_element
     selector:
       name: Dimensions
-- id: suite_gongjulan_002_s1
-  name: 工具栏-下一张按钮
-  module: gongjulan
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_info_001_s1
+  name: 图片信息对话框元素覆盖验证
+  module: 图片信息覆盖
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+i
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BasicInfo
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DetailInfoItem
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyInfoView
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FileNameProp
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: InfoType
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: InfoSize
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Aperture
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Colorspace
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DateCaptured
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DateModified
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ExposureMode
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ExposureProgram
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ExposureTime
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Flash
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FlashCompensation
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FocalLength
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Iso
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MaxAperture
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MeteringMode
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: WhiteBalance
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyActionItemDelegate_ElideLabel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyItemDelegate_ContentElideLabel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: PropertyItemDelegate_ElideLabel
+- id: case_1652747_s1
+  name: 图片格式-右键菜单检查
+  module: 图片格式
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    - Rename
+    - Delete
+    - Set as wallpaper
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652737_s1
+  name: 图片格式-图片支持检查
+  module: 图片格式
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: 下一张
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_imgview_001_s1
+  name: 图片视图元素覆盖验证
+  module: 图片视图覆盖
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageViewer_ViewDelegateLoader
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalImageDelegate
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalImageImageInput
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalImageSourceSizeOptimizer
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageAnimation
+- id: case_1652215_s1
+  name: 壁纸-窗口下设置壁纸功能检查
+  module: 壁纸
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652149_s1
+  name: 复制-右键菜单复制图片
+  module: 复制
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652147_s1
+  name: 复制-右键菜单复制大分辨率图片
+  module: 复制
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651939_s1
+  name: 导航窗口-按钮关闭导航窗口
+  module: 导航窗口
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Close navigation window
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651933_s1
+  name: 导航窗口-右键菜单唤起或关闭
+  module: 导航窗口
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Close navigation window
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651955_s1
+  name: 导航窗口-移动显示区域
+  module: 导航窗口
+  steps:
+  - step_type: action
+    action: mouse_scroll
+    value: -5
+    wait: 0.5
+  - step_type: action
+    action: mouse_click
+    x: 500
+    y: 400
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652135_s1
+  name: 工具栏-下一张按钮切换图片
+  module: 工具栏
   steps:
   - step_type: action
     action: element_action
@@ -140,23 +906,159 @@ cases:
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
-- id: suite_gongjulan_013_s1
-  name: OCR-入口检查-窗口下点击工具栏按钮
-  module: gongjulan
+- id: case_1652133_s1
+  name: 工具栏-上一张按钮切换图片
+  module: 工具栏
   steps:
   - step_type: action
     action: element_action
     selector:
-      name: 识别文字
+      name: Previous
     do: click
-    wait: 2.0
+    wait: 1.0
   - step_type: assert
-    action: assert_window
+    action: assert_element
+    selector:
+      name: Image view
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
-- id: suite_xuanzhuan_001_s1
-  name: 全屏快捷键顺时针旋转
+- id: case_1651973_s1
+  name: 工具栏-横图适应窗口
+  module: 工具栏
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Fit to window
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651971_s1
+  name: 工具栏-竖图适应窗口
+  module: 工具栏
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Fit to window
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651975_s1
+  name: 工具栏-全屏旋转按钮
+  module: 工具栏
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+r
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652105_s1
+  name: 工具栏-删除按钮检查
+  module: 工具栏
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Delete
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_RemoveDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652159_s1
+  name: 幻灯片-F5播放并ESC退出
+  module: 幻灯片
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f5
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652197_s1
+  name: 幻灯片-多张图片循环播放
+  module: 幻灯片
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Slide show
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652143_s1
+  name: 打印-Ctrl+P唤起打印窗口
+  module: 打印
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+p
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652255_s1
+  name: 旋转-全屏快捷键顺时针旋转
   module: 旋转
   steps:
   - step_type: action
@@ -173,65 +1075,17 @@ cases:
     action: assert_element
     selector:
       name: FullImageViewer
-      role: image viewer
   - step_type: assert
     action: assert_process_running
-- id: suite_linglong_001_s1
-  name: 玲珑应用基本功能-翻页浏览
-  module: linglong
-  steps:
-  - step_type: action
-    action: element_action
-    selector:
-      name: Previous
-    do: click
-    wait: 1.0
-  - step_type: action
-    action: element_action
-    selector:
-      name: Next
-    do: click
-    wait: 1.0
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: BottomthumbnaillistView
-- id: suite_linglong_002_s1
-  name: 玲珑应用基本功能-重命名
-  module: linglong
-  steps:
-  - step_type: action
-    action: dtk_context_menu
-    selector:
-      name: Image view
-    items:
-    - Rename
-    wait: 1.0
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Renamedialog
-- id: suite_linglong_006_s1
-  name: 运行玲珑应用
-  module: linglong
-  steps:
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: ImageViewer
-  - step_type: assert
-    action: assert_process_running
-    app: deepin-image-viewer
 - id: suite_用户场景_001_s1
   name: OCR识别长图成功-看图内OCR识别
   module: 用户场景
   steps:
   - step_type: action
-    action: dtk_context_menu
+    action: element_action
     selector:
-      name: Image view
-    items:
-    - Extract text
+      name: Extract text
+    do: click
     wait: 2.0
   - step_type: assert
     action: assert_element
@@ -242,72 +1096,989 @@ cases:
   module: 用户场景
   steps:
   - step_type: action
-    action: element_action
-    selector:
-      name: Previous
-    do: click
+    action: keyboard_press
+    key: escape
+  - step_type: action
+    action: keyboard_press
+    key: right
     wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: left
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+- id: case_1652437_s1
+  name: 窗口-ESC关闭看图窗口
+  module: 窗口
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_window_001_s1
+  name: 窗口组件元素覆盖验证
+  module: 窗口组件覆盖
+  steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TitleRect
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MainStack
+- id: suite_edit_001_s1
+  name: 编辑模式元素覆盖验证
+  module: 编辑模式覆盖
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+e
+    wait: 2.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageEditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+- id: suite_thumb_001_s1
+  name: 缩略图视图元素覆盖验证
+  module: 缩略图覆盖
+  steps:
   - step_type: action
     action: element_action
     selector:
-      name: Next
+      name: Image view
     do: click
     wait: 1.0
   - step_type: assert
     action: assert_element
     selector:
       name: BottomthumbnaillistView
-- id: suite_jianshujiaohu_001_s1
-  name: 快捷键Down缩小图片
-  module: jianshujiaohu
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Edit
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Delete
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Extract text
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Fit to window
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: NormalThumbnailDelegate
+- id: case_1652281_s1
+  name: 重命名-快捷键F2唤起重命名窗口
+  module: 重命名
   steps:
   - step_type: action
     action: keyboard_press
-    key: down
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: test_rename
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
   - step_type: assert
     action: assert_element
     selector:
-      name: Image view
-- id: suite_jianshujiaohu_002_s1
-  name: 快捷键Ctrl+-缩小图片
-  module: jianshujiaohu
-  steps:
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+-
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: Image view
-- id: suite_jianshujiaohu_003_s1
-  name: 快捷键Ctrl+F9设置壁纸
-  module: jianshujiaohu
-  steps:
-  - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+f9
+      name: RenameDialog
   - step_type: assert
     action: assert_process_running
-- id: suite_jianshujiaohu_008_s1
-  name: 鼠标滚轮缩放图片
-  module: jianshujiaohu
+    app: deepin-image-viewer
+- id: case_1652343_s1
+  name: 重命名-文件名字符类型检查
+  module: 重命名
   steps:
   - step_type: action
-    action: mouse_scroll
-    value: -3
+    action: keyboard_press
+    key: f2
+    wait: 1.0
   - step_type: action
-    action: mouse_scroll
-    value: 3
+    action: keyboard_type
+    text: Test123!@#
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652283_s1
+  name: 重命名-只读图片重命名检查
+  module: 重命名
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
   - step_type: assert
     action: assert_element
     selector:
       name: Image view
-- id: suite_jianshujiaohu_011_s1
-  name: 快捷键F1唤起帮助窗口
-  module: jianshujiaohu
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652285_s1
+  name: 重命名-文件名字符长度检查
+  module: 重命名
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652307_s1
+  name: 重命名-修改名称与其他非同格式图片重名
+  module: 重命名
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: next
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652319_s1
+  name: 重命名-修改图片名称较长时省略号展示
+  module: 重命名
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: very_long_filename_for_ellipsis_display_test
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652667_s1
+  name: 键鼠交互-F11进入退出全屏
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652645_s1
+  name: 键鼠交互-F5播放幻灯片并退出
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f5
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652643_s1
+  name: 键鼠交互-Ctrl+Shift+/快捷键
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+/
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652657_s1
+  name: 键鼠交互-F1唤起帮助
+  module: 键鼠交互
   steps:
   - step_type: action
     action: keyboard_press
     key: f1
+    wait: 1.0
   - step_type: assert
     action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652671_s1
+  name: 键鼠交互-快捷键Right切换下一张
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: right
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652669_s1
+  name: 键鼠交互-快捷键Left切换上一张
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: left
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652673_s1
+  name: 键鼠交互-快捷键Ctrl+F9设置壁纸
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+f9
+    wait: 1.0
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652677_s1
+  name: 键鼠交互-快捷键Down缩小图片
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652653_s1
+  name: 键鼠交互-快捷键Up放大图片
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652675_s1
+  name: 键鼠交互-快捷键Ctrl+-缩小图片
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+-
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652651_s1
+  name: 键鼠交互-快捷键Ctrl++放大图片
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl++
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652663_s1
+  name: 键鼠交互-鼠标滚轮缩放图片
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: mouse_scroll
+    value: -3
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 3
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652661_s1
+  name: 键鼠交互-F2唤起重命名窗口
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652659_s1
+  name: 键鼠交互-Ctrl+I查看图片信息
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+i
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652655_s1
+  name: 键鼠交互-Ctrl+C复制图片
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+c
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652649_s1
+  name: 键鼠交互-Alt+D删除图片
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: alt+d
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_RemoveDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652647_s1
+  name: 键鼠交互-Ctrl+O打开图片
+  module: 键鼠交互
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+o
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652095_s1
+  name: 键鼠切换-光标在预览区域图片上时Ctrl+滚轮切换图片
+  module: 键鼠切换
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 1
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652089_s1
+  name: 键鼠切换-光标在图片旁空白区域时Ctrl+滚轮切换图片
+  module: 键鼠切换
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 1
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652081_s1
+  name: 键鼠切换-光标在缩略图区域时Ctrl+滚轮无响应
+  module: 键鼠切换
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: BottomthumbnaillistView
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652079_s1
+  name: 键鼠切换-光标在工具栏非缩略图区域时Ctrl+滚轮无响应
+  module: 键鼠切换
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 1
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652077_s1
+  name: 键鼠切换-光标在标题栏时Ctrl+滚轮无响应
+  module: 键鼠切换
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Title bar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652073_s1
+  name: 键鼠切换-首张图时切换上一张不循环
+  module: 键鼠切换
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: 下一张
+    do: click
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652119_s1
+  name: 键鼠切换-滚动缩放过程中按下Ctrl切换图片
+  module: 键鼠切换
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -3
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 3
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+
+- id: case_1652213_s1
+  name: 删除-右键菜单删除图片
+  module: 删除
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Delete
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_RemoveDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652137_s1
+  name: 缩放-最大放大倍数检查
+  module: 缩放
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652139_s1
+  name: 缩放-最小缩小倍数检查
+  module: 缩放
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652239_s1
+  name: 全屏-全屏下右键菜单在文管中显示
+  module: 全屏
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.5
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Display in file manager
+    wait: 1.5
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652123_s1
+  name: 工具栏-多张图片时检查工具栏
+  module: 工具栏
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Next
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651981_s1
+  name: 工具栏-单张可读写图片按钮展示
+  module: 工具栏
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651997_s1
+  name: 工具栏-全屏唤出工具栏
+  module: 工具栏
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.5
+  - step_type: action
+    action: mouse_move
+    selector:
+      name: FullImageViewer
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652093_s1
+  name: 键鼠切换-撕裂图页面检查图片切换功能
+  module: 键鼠切换
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 1
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652779_s1
+  name: 视图切换放大旋转翻转-综合操作场景
+  module: 用户场景
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: 下一张
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: Rotate clockwise
+    do: click
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652773_s1
+  name: 格式支持-多格式图片查看检查
+  module: 用户场景
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652745_s1
+  name: 图片格式-支持旋转格式图片检查
+  module: 图片格式
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Rotate clockwise
+    do: click
+    wait: 1.0
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652741_s1
+  name: 图片格式-支持设置壁纸格式图片检查
+  module: 图片格式
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+f9
+    wait: 1.0
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652427_s1
+  name: 公共能力-看图工具栏多张图片检查
+  module: 公共能力
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Next
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652429_s1
+  name: 公共能力-看图工具栏单张图片检查
+  module: 公共能力
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652433_s1
+  name: 公共能力-看图自有窗口属性检查
+  module: 公共能力
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 0.5
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Title bar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer

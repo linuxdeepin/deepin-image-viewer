@@ -1,23 +1,22 @@
-name: 打印_suite
+name: 壁纸_suite
 app: deepin-image-viewer
-module: 打印
+module: 壁纸
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
-- id: case_1652143_s1
-  name: 打印-Ctrl+P唤起打印窗口
-  description: 按Ctrl+P唤起打印窗口后关闭
+- id: case_1652215_s1
+  name: 壁纸-窗口下设置壁纸功能检查
+  description: 在图片查看区域右键唤起菜单，验证设置壁纸菜单项正常展示（SVG等不支持格式需特殊fixture）
   steps:
   - step_type: action
-    action: keyboard_hot_key
-    key: ctrl+p
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
     wait: 1.0
-  - step_type: action
-    action: keyboard_press
-    key: escape
-    wait: 0.5
   assert_steps:
   - step_type: assert
     action: assert_element

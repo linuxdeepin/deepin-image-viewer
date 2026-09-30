@@ -279,3 +279,6 @@ elements:
   ViewTopTitleMenu:
     name: ViewTopTitleMenu
     role: menu
+  Exit fullscreen:
+    name: Exit fullscreen
+    role: ''

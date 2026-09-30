@@ -1,74 +1,110 @@
 name: tif多页图_suite
 app: deepin-image-viewer
-description: ''
 module: tif多页图
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
 - id: case_1652071_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: tif多页图-工具栏切换上一张图片
+  description: 点击工具栏上一张按钮切换图片
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652069_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: tif多页图-切换页后检查缩略图
+  description: 切换页面后验证缩略图列表更新
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652039_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: tif多页图-缩略图切换图片
+  description: 点击缩略图列表切换图片
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
+  - step_type: action
+    action: element_action
+    selector:
+      name: NormalThumbnailDelegate
+    do: click
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652067_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: tif多页图-Ctrl滚轮切换图片
+  description: 按住Ctrl同时滚动鼠标滚轮切换tif多页图
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
     wait: 1.0
+  - step_type: action
+    action: mouse_scroll
+    value: -3
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 3
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1651905_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: tif多页图-播放幻灯片
+  description: 按F5播放幻灯片，ESC退出
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f5
-    wait: 1.0
-  - action: keyboard_press
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
     key: escape
+    wait: 1.5
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop

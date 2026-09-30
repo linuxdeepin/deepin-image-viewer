@@ -41,5 +41,73 @@ suites:
     action: assert_element
     selector:
       name: BottomthumbnaillistView
+- id: case_1652779_s1
+  name: 视图切换放大旋转翻转-综合操作场景
+  description: 点击左右切换按钮切换图片，滚动滚轮缩放，点击旋转翻转按钮，点击1:1与适应窗口
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: 下一张
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 1
+    wait: 0.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: Rotate clockwise
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: Original size
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: Fit to window
+    do: click
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652773_s1
+  name: 格式支持-多格式图片查看检查
+  description: 打开看图应用，验证应用正常运行且图片视图正常展示
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop

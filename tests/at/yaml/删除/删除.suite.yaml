@@ -1,0 +1,65 @@
+name: 删除_suite
+app: deepin-image-viewer
+module: 删除
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: case_1652211_s1
+  name: 删除-删除单张图片后看图界面展示
+  description: 按Delete键唤起删除对话框后取消删除，验证返回看图界面正常展示
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: delete
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652061_s1
+  name: 删除-只读权限图片删除检查
+  description: 打开只读图片后检查删除行为，验证删除操作不会直接执行需确认
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: delete
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_RemoveDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652213_s1
+  name: 删除-右键菜单删除图片
+  description: 在图片查看区域右键唤起菜单选择删除，验证删除对话框弹出
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Delete
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_RemoveDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

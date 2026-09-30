@@ -1,84 +1,193 @@
 name: 工具栏_suite
 app: deepin-image-viewer
-description: ''
 module: 工具栏
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
 - id: case_1652135_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 工具栏-下一张按钮切换图片
+  description: 点击工具栏下一张按钮切换图片
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
+  - step_type: action
+    action: element_action
+    selector:
+      name: 下一张
+    do: click
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652133_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 工具栏-上一张按钮切换图片
+  description: 点击工具栏上一张按钮切换图片
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1651973_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 工具栏-横图适应窗口
+  description: 点击适应窗口按钮，验证横图适应窗口显示
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
+  - step_type: action
+    action: element_action
+    selector:
+      name: Fit to window
+    do: click
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1651971_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 工具栏-竖图适应窗口
+  description: 点击适应窗口按钮，验证竖图适应窗口显示
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
+  - step_type: action
+    action: element_action
+    selector:
+      name: Fit to window
+    do: click
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1651975_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 工具栏-全屏旋转按钮
+  description: 进入全屏后点击旋转按钮
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f11
-  - action: mouse_click
-    x: 500
-    y: 400
     wait: 1.0
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+r
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
     key: f11
+    wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652105_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 工具栏-删除按钮检查
+  description: 点击工具栏删除按钮，验证删除对话框弹出
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
+  - step_type: action
+    action: element_action
+    selector:
+      name: Delete
+    do: click
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_RemoveDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652123_s1
+  name: 工具栏-多张图片时检查工具栏
+  description: 使用看图打开多张图片，检查工具栏各项按钮正常展示
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Next
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Previous
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651981_s1
+  name: 工具栏-单张可读写图片按钮展示
+  description: 使用看图打开单张可读写图片，检查工具栏正常展示
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651997_s1
+  name: 工具栏-全屏唤出工具栏
+  description: 进入全屏后将鼠标移至图片下方，验证工具栏唤出
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.5
+  - step_type: action
+    action: mouse_move
+    selector:
+      name: FullImageViewer
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop
