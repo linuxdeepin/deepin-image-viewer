@@ -1,0 +1,80 @@
+name: 工具栏场景三_suite
+app: deepin-image-viewer
+module: 工具栏场景三
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_gongjulanchangjing3_001_s1
+  name: 工具栏-删除按钮检查
+  description: 点击工具栏删除按钮删除当前图片，验证图片视图和工具栏存在且应用运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Delete
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulanchangjing3_002_s1
+  name: 工具栏-多张图片时检查工具栏按钮
+  description: 切换到下一张图片后检查工具栏各按钮存在，验证工具栏和图片视图正常
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulanchangjing3_003_s1
+  name: 工具栏-单张可读写图片按钮展示
+  description: 检查单张可读写图片时工具栏按钮齐全，验证工具栏和旋转按钮存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Rotate clockwise
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

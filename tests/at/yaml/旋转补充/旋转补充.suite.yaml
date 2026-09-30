@@ -1,0 +1,57 @@
+name: 旋转补充_suite
+app: deepin-image-viewer
+module: 旋转补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_xuanzhuanbuchong_001_s1
+  name: 旋转-全屏快捷键顺时针旋转
+  description: 双击进入全屏后按Ctrl+R顺时针旋转图片，验证全屏视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+r
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_xuanzhuanbuchong_002_s1
+  name: 旋转-全屏右键菜单逆时针旋转
+  description: 全屏模式下右键选择逆时针旋转，验证全屏视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: FullImageViewer
+    items:
+    - Rotate counterclockwise
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

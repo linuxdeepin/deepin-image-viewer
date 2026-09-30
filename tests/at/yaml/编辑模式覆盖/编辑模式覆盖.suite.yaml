@@ -23,5 +23,29 @@ suites:
     action: assert_element
     selector:
       name: EditToolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel_ToolButton
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Color
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Thickness
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TextEditor
 teardown:
 - action: session_stop

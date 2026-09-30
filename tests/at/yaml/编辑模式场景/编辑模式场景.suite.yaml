@@ -1,0 +1,240 @@
+name: 编辑模式场景_suite
+app: deepin-image-viewer
+module: 编辑模式场景
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_bianjimoshichangjing_001_s1
+  name: 编辑模式-按钮点击进入编辑模式
+  description: 点击工具栏编辑按钮进入编辑模式，验证编辑画布和编辑工具栏出现
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageEditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing_002_s1
+  name: 编辑模式-快捷键Ctrl+Shift+E进入编辑模式
+  description: 按Ctrl+Shift+E快捷键进入编辑模式，验证编辑画布和属性面板出现
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+e
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageEditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing_003_s1
+  name: 编辑模式-ESC退出编辑模式（无修改）
+  description: 进入编辑模式后按ESC退出，验证返回正常图片视图
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing_004_s1
+  name: 编辑模式-验证编辑属性面板工具按钮
+  description: 进入编辑模式验证属性面板工具按钮、颜色选择和粗细调节控件存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel_ToolButton
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Color
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Thickness
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing_005_s1
+  name: 编辑模式-验证文本编辑器控件
+  description: 进入编辑模式验证文本编辑器控件存在，用于文字标注输入
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TextEditor
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing_006_s1
+  name: 编辑模式-Ctrl+Z撤销操作
+  description: 进入编辑模式后按Ctrl+Z执行撤销，验证编辑画布仍然存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+z
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageEditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing_007_s1
+  name: 编辑模式-Ctrl+Y重做操作
+  description: 进入编辑模式后按Ctrl+Y执行重做，验证编辑画布仍然存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+y
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageEditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing_008_s1
+  name: 编辑模式-编辑画布与全屏编辑画布切换
+  description: 进入编辑模式验证EditCanvas和FullImageEditCanvas同时存在，编辑模式视图正常
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageEditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing_009_s1
+  name: 编辑模式-浮动提示标签验证
+  description: 进入编辑模式验证浮动提示标签控件存在，用于显示编辑操作提示
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FloatLabel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageEditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing_010_s1
+  name: 编辑模式-进入编辑后切换全屏
+  description: 进入编辑模式后按F11切换全屏，验证全屏编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageEditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

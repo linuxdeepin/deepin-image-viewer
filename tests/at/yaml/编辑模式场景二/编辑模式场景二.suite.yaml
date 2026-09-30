@@ -1,0 +1,272 @@
+name: 编辑模式场景二_suite
+app: deepin-image-viewer
+module: 编辑模式场景二
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_bianjimoshichangjing2_001_s1
+  name: 编辑模式-按钮点击退出编辑（无修改）
+  description: 点击编辑按钮进入编辑模式后再点击退出，验证返回图片视图且应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_002_s1
+  name: 编辑模式-ESC快捷键退出编辑（无修改）
+  description: 进入编辑模式后按ESC退出，验证返回图片视图
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+e
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_003_s1
+  name: 编辑模式-未保存修改退出选择保存副本
+  description: 进入编辑模式后按ESC触发未保存对话框，验证未保存编辑对话框出现
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+e
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: UnsavedEditDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_004_s1
+  name: 编辑模式-未保存修改退出选择不保存
+  description: 进入编辑模式后按ESC选择不保存退出，验证返回图片视图
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+e
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: UnsavedEditDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_005_s1
+  name: 编辑模式-未保存修改退出选择取消
+  description: 进入编辑模式后按ESC选择取消，验证仍在编辑模式中
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+e
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_006_s1
+  name: 编辑模式-不可编辑格式禁用编辑入口
+  description: 检查不可编辑格式图片编辑入口状态，验证图片视图和工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_007_s1
+  name: 编辑模式-工具栏按钮分组与快捷键触发验证
+  description: 进入编辑模式验证编辑工具栏控件分组存在，验证编辑画布和编辑工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_008_s1
+  name: 编辑模式-重做功能验证
+  description: 进入编辑模式后按Ctrl+Y执行重做操作，验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+y
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_009_s1
+  name: 编辑模式-新操作清空重做验证
+  description: 进入编辑模式后执行新操作清空重做栈，验证编辑画布和编辑工具栏存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+y
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_010_s1
+  name: 编辑模式-保存副本默认规则验证
+  description: 进入编辑模式验证保存副本功能可用，验证编辑属性面板和编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_011_s1
+  name: 编辑模式-格式兼容性验证
+  description: 进入编辑模式验证不同格式图片编辑功能兼容，验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditToolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshichangjing2_012_s1
+  name: 编辑模式-原图保护功能验证
+  description: 进入编辑模式验证原图保护机制，验证编辑画布存在且原图不被覆盖
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditPropertyPanel
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

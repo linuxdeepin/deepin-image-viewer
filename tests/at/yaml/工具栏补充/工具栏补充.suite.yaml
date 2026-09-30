@@ -1,0 +1,82 @@
+name: 工具栏补充_suite
+app: deepin-image-viewer
+module: 工具栏补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_gongjulanbuchong_001_s1
+  name: 工具栏-适应窗口按钮单独点击
+  description: 单独点击工具栏适应窗口按钮，验证图片视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Fit to window
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulanbuchong_002_s1
+  name: 工具栏-原始尺寸按钮单独点击
+  description: 单独点击工具栏原始尺寸按钮，验证图片视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Original size
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_gongjulanbuchong_003_s1
+  name: 工具栏-全屏下一张上一张联合切换
+  description: 全屏模式下依次点击下一张和上一张按钮切换图片，验证全屏视图存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 2.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

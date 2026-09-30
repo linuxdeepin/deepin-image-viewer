@@ -1,11 +1,77 @@
-scan_total: 98
-unreachable: 2
-denominator: 96
-covered: 96
+scan_total: 81
+transient_items:
+- name: RightMenu
+  role: menuitem
+  ui_name: RightMenu
+  locator: name
+- name: LiveMenu
+  role: menu
+  ui_name: LiveMenu
+  locator: name
+- name: SliderMenu
+  role: menu
+  ui_name: SliderMenu
+  locator: name
+- name: Extract text
+  role: menuitem
+  ui_name: Extract text
+  locator: name
+- name: Edit
+  role: menuitem
+  ui_name: Edit
+  locator: name
+- name: Delete
+  role: menuitem
+  ui_name: Delete
+  locator: name
+- name: OptionMenu
+  role: menu
+  ui_name: OptionMenu
+  locator: name
+- name: Print
+  role: menuitem
+  ui_name: Print
+  locator: name
+- name: Slide show
+  role: menuitem
+  ui_name: Slide show
+  locator: name
+- name: Copy
+  role: menuitem
+  ui_name: Copy
+  locator: name
+- name: Rename
+  role: menuitem
+  ui_name: Rename
+  locator: name
+- name: Rotate clockwise
+  role: menuitem
+  ui_name: Rotate clockwise
+  locator: name
+- name: Rotate counterclockwise
+  role: menuitem
+  ui_name: Rotate counterclockwise
+  locator: name
+- name: Set as wallpaper
+  role: menuitem
+  ui_name: Set as wallpaper
+  locator: name
+- name: Display in file manager
+  role: menuitem
+  ui_name: Display in file manager
+  locator: name
+- name: Image info
+  role: menuitem
+  ui_name: Image info
+  locator: name
+- name: ViewTopTitleMenu
+  role: menu
+  ui_name: ViewTopTitleMenu
+  locator: name
+unreachable: 24
+denominator: 57
+covered: 57
 uncovered: 0
 coverage: 100.0
 passed: true
-accessible_named: 96
-accessible_covered: 96
-accessible_coverage: 100.0
 uncovered_elements: []

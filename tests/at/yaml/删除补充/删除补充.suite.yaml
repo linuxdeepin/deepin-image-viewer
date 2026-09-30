@@ -1,0 +1,51 @@
+name: 删除补充_suite
+app: deepin-image-viewer
+module: 删除补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_shanchubuchong_001_s1
+  name: 删除-Delete快捷键删除图片
+  description: 按Delete键删除当前图片，验证图片视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: delete
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_shanchubuchong_002_s1
+  name: 删除-全屏模式右键菜单删除
+  description: 全屏模式下右键选择删除图片，验证全屏视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: FullImageViewer
+    items:
+    - Delete
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop
