@@ -16,7 +16,7 @@
 // | makeVaultLocalPath    | mid   | in_degree:3                               | 2   | 3      |
 // | isVaultFile           | mid   | in_degree:4                               | 2   | 4      |
 // | isCanRemove           | mid   | name_pattern:isCanRemove                  | 2   | 3      |
-// | imageSupportRead      | mid   | in_degree:3                               | 2   | 6      |
+// | imageSupportRead      | mid   | in_degree:3                               | 2   | 7      |
 // | imageSupportSave      | mid   | name_pattern:imageSupportSave             | 2   | 2      |
 // | imageSupportWallPaper | low   | -                                         | 1   | 2      |
 // | rotate                | mid   | in_degree:6                               | 2   | 2      |
@@ -167,6 +167,8 @@
 //
 // 用例映射：
 // - ImageSupportRead_VariousSuffixes_ReturnsExpectedFlag（TEST_P 6 组）→ B1~B5
+// - BUG41021_ImageSupportRead_GifSuffix_ReturnsTrue → B3（GIF 后缀走"其余后缀"分支返回 true）
+//   PMS 回归：修复前实现误用 isImageSupportRotate 白名单，GIF 不在旋转表导致 gif 文件无法打开
 //
 // 分支清单（来源：imageutils.cpp 自由函数 thumbnailPath）
 // B1: case ThumbNormal → /normal/<md5>.png
@@ -1413,4 +1415,27 @@ TEST_F(FreeImageUtilsTest, ScaleImage_LargerBoundingBox_ReturnsUpscaledImage)
     // Assert（tSize.scale 放大到边界盒：100x60 → 200x120）
     EXPECT_FALSE(got.isNull());
     EXPECT_EQ(got.size(), QSize(200, 120));
+}
+
+// PMS: BUG41021 sev2 | commit 85b6d700 "title 修复不能打开gif文件" | 根因: 打开入口的 imageSupportRead
+// 误用 isImageSupportRotate(path) 判定，GIF 不在旋转白名单导致 gif 文件被判为不可读而无法打开
+// 修复语义: 改为 后缀 ∈ unionImageSupportFormat() 白名单判定（现行实现: icns 直通 / X3F 黑名单 / 其余 true）
+// 锚定: imageSupportRead 对 GIF 后缀（大小写不敏感）返回 true，且 X3F 黑名单语义不回退
+TEST_F(FreeImageUtilsTest, BUG41021_ImageSupportRead_GifSuffix_ReturnsTrue)
+{
+    // Arrange：GIF 大小写后缀路径（imageSupportRead 仅做后缀判定，不要求文件存在）
+    const QString lower = QStringLiteral("/tmp/gallery/animation.gif");
+    const QString upper = QStringLiteral("/tmp/gallery/ANIMATION.GIF");
+    const QString mixed = QStringLiteral("/tmp/gallery/animation.Gif");
+
+    // Act + Assert：GIF 必须被判定为可读（修复点）
+    EXPECT_TRUE(liu::imageSupportRead(lower));
+    EXPECT_TRUE(liu::imageSupportRead(upper));
+    EXPECT_TRUE(liu::imageSupportRead(mixed));
+
+    // Assert：GIF 仍位于联合支持格式表（修复后的判定源，同源于 test_free_unionimage 的表覆盖）
+    EXPECT_TRUE(LibUnionImage_NameSpace::unionImageSupportFormat().contains(QStringLiteral("GIF")));
+
+    // Assert：黑名单语义不回退（修复只放行 GIF，不放宽 X3F）
+    EXPECT_FALSE(liu::imageSupportRead(QStringLiteral("/tmp/gallery/raw.x3f")));
 }
