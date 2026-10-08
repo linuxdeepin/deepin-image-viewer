@@ -228,7 +228,7 @@
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="207"/>
         <source>Max aperture</source>
-        <translation>Макс диафрагма</translation>
+        <translation>Макс. диафрагма</translation>
     </message>
     <message>
         <location filename="../qml/InformationDialog/InformationDialog.qml" line="239"/>
@@ -270,7 +270,7 @@
     <message>
         <location filename="../qml/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>Открыть  Изображение</translation>
+        <translation>Открыть изображение</translation>
     </message>
 </context>
 <context>
@@ -484,7 +484,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="263"/>
         <source>Display in file manager</source>
-        <translation>Отобразить в файловом менеджере </translation>
+        <translation>Показать в файловом менеджере</translation>
     </message>
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
@@ -502,12 +502,12 @@
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="191"/>
         <source>Image Viewer</source>
-        <translation>Просмотр Изображений</translation>
+        <translation>Просмотр изображений</translation>
     </message>
     <message>
         <location filename="../qml/ViewTopTitle.qml" line="167"/>
         <source>Open image</source>
-        <translation>Открытое изображение</translation>
+        <translation>Открыть изображение</translation>
     </message>
 </context>
 </TS>
