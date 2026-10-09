@@ -16,7 +16,7 @@
 // | makeVaultLocalPath    | mid   | in_degree:3                               | 2   | 3      |
 // | isVaultFile           | mid   | in_degree:4                               | 2   | 4      |
 // | isCanRemove           | mid   | name_pattern:isCanRemove                  | 2   | 3      |
-// | imageSupportRead      | mid   | in_degree:3                               | 2   | 7      |
+// | imageSupportRead      | mid   | in_degree:3                               | 2   | 8      |
 // | imageSupportSave      | mid   | name_pattern:imageSupportSave             | 2   | 2      |
 // | imageSupportWallPaper | low   | -                                         | 1   | 2      |
 // | rotate                | mid   | in_degree:6                               | 2   | 2      |
@@ -168,6 +168,7 @@
 // 用例映射：
 // - ImageSupportRead_VariousSuffixes_ReturnsExpectedFlag（TEST_P 6 组）→ B1~B5
 // - BUG41021_ImageSupportRead_GifSuffix_ReturnsTrue → B3（GIF 后缀走"其余后缀"分支返回 true）
+// - BUG254663_ImageSupportRead_HeifAvifSuffix_ReturnsTrue → B3（HEIF/AVIF 家族后缀走"其余后缀"分支返回 true）
 //   PMS 回归：修复前实现误用 isImageSupportRotate 白名单，GIF 不在旋转表导致 gif 文件无法打开
 //
 // 分支清单（来源：imageutils.cpp 自由函数 thumbnailPath）
@@ -1437,5 +1438,32 @@ TEST_F(FreeImageUtilsTest, BUG41021_ImageSupportRead_GifSuffix_ReturnsTrue)
     EXPECT_TRUE(LibUnionImage_NameSpace::unionImageSupportFormat().contains(QStringLiteral("GIF")));
 
     // Assert：黑名单语义不回退（修复只放行 GIF，不放宽 X3F）
+    EXPECT_FALSE(liu::imageSupportRead(QStringLiteral("/tmp/gallery/raw.x3f")));
+}
+
+TEST_F(FreeImageUtilsTest, BUG254663_ImageSupportRead_HeifAvifSuffix_ReturnsTrue)
+{
+    // PMS BUG-254663：看图不支持 HEIF/AVIF 格式图片打开（1071 SIT 第一轮）。
+    // 修复：397291af "feat: add avif and heif image format file support"
+    // （desktop MimeType 补 image/heif、image/avif，打开接受链以联合格式表为判定源）。
+
+    // Arrange：HEIF/AVIF 家族大小写后缀路径（imageSupportRead 仅做后缀判定，不要求文件存在）
+    const QString heif = QStringLiteral("/tmp/gallery/photo.heif");
+    const QString heic = QStringLiteral("/tmp/gallery/photo.heic");
+    const QString avif = QStringLiteral("/tmp/gallery/photo.avif");
+    const QString upper = QStringLiteral("/tmp/gallery/photo.AVIF");
+
+    // Act + Assert：HEIF/AVIF 家族后缀必须被判定为可读（打开入口不再拒绝）
+    EXPECT_TRUE(liu::imageSupportRead(heif));
+    EXPECT_TRUE(liu::imageSupportRead(heic));
+    EXPECT_TRUE(liu::imageSupportRead(avif));
+    EXPECT_TRUE(liu::imageSupportRead(upper));
+
+    // Assert：HEIF/HEIC/AVIF 仍位于联合支持格式表（同源判定，防白名单回退）
+    EXPECT_TRUE(LibUnionImage_NameSpace::unionImageSupportFormat().contains(QStringLiteral("HEIF")));
+    EXPECT_TRUE(LibUnionImage_NameSpace::unionImageSupportFormat().contains(QStringLiteral("HEIC")));
+    EXPECT_TRUE(LibUnionImage_NameSpace::unionImageSupportFormat().contains(QStringLiteral("AVIF")));
+
+    // Assert：黑名单语义不回退（格式家族扩展不放宽 X3F）
     EXPECT_FALSE(liu::imageSupportRead(QStringLiteral("/tmp/gallery/raw.x3f")));
 }
