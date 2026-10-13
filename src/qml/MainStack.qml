@@ -143,7 +143,12 @@ Item {
     function switchOpenImage() {
         IV.GStatus.stackPage = Number(IV.Types.OpenImagePage);
         window.title = "";
+        if (IV.GStatus.showFullScreen) {
+            IV.GStatus.showFullScreen = false;
+        }
         contentLoader.setSource("qrc:/qt/qml/IVModule/qml/OpenImageWidget.qml");
+        window.opacity = 1;
+        IV.GStatus.fullScreenAnimating = false;
     }
 
     function switchSliderShow() {

@@ -249,7 +249,7 @@ Item {
         width: imageViewer.targetImageReady
                ? imageViewer.targetImage.paintedWidth * imageViewer.targetImage.scale : 0
         x: {
-            if (!imageViewer.targetImageReady) return 0;
+            if (!IV.GStatus.editMode || !imageViewer.targetImageReady) return 0;
             // Keep the binding sensitive to image transforms used by mapToItem().
             imageViewer.targetImage.x;
             imageViewer.targetImage.y;
@@ -262,7 +262,7 @@ Item {
             return origin.x;
         }
         y: {
-            if (!imageViewer.targetImageReady) return 0;
+            if (!IV.GStatus.editMode || !imageViewer.targetImageReady) return 0;
             imageViewer.targetImage.x;
             imageViewer.targetImage.y;
             imageViewer.targetImage.scale;
