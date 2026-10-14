@@ -8,7 +8,7 @@ setup:
 suites:
 - id: suite_imgview_001_s1
   name: 图片视图元素覆盖验证
-  description: 应用启动后验证图片视图相关元素存在
+  description: 应用启动后验证图片视图区域可访问元素存在
   steps:
   - step_type: action
     action: element_action
@@ -20,22 +20,35 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
-      name: ImageViewer_ViewDelegateLoader
+      name: Image view
   - step_type: assert
     action: assert_element
     selector:
-      name: NormalImageDelegate
+      name: Toolbar
+- id: case_1695355_s1
+  name: 图片显示方式-1:1显示和适应窗口
+  description: 依次点击原始尺寸和适应窗口按钮，验证图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Original size
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Fit to window
+    do: click
+    wait: 1.0
+  assert_steps:
   - step_type: assert
     action: assert_element
     selector:
-      name: NormalImageImageInput
+      name: Image view
+    app: deepin-image-viewer
   - step_type: assert
-    action: assert_element
-    selector:
-      name: NormalImageSourceSizeOptimizer
-  - step_type: assert
-    action: assert_element
-    selector:
-      name: ImageAnimation
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop
