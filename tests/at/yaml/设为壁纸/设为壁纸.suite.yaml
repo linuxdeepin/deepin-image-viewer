@@ -1,0 +1,35 @@
+name: 设为壁纸_suite
+app: deepin-image-viewer
+module: 设为壁纸
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_shiweibizhi_001_s1
+  name: 壁纸-全屏模式下右键设置壁纸
+  description: 全屏模式下右键图片选择设为壁纸，验证全屏视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: FullImageViewer
+    items:
+    - Set as wallpaper
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: FullImageViewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

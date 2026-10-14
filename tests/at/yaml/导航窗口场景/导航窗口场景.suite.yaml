@@ -1,0 +1,101 @@
+name: 导航窗口场景_suite
+app: deepin-image-viewer
+module: 导航窗口场景
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_daohangchuangkouchangjing_001_s1
+  name: 导航窗口-右键菜单唤起导航窗口
+  description: 右键图片选择在文件管理器中显示后验证导航窗口相关控件存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Display in file manager
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkouchangjing_002_s1
+  name: 导航窗口-缩略图列表切换图片后验证视图
+  description: 通过缩略图列表切换图片后验证图片视图和缩略图列表存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: NormalThumbnailDelegate
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkouchangjing_003_s1
+  name: 导航窗口-关闭导航窗口后验证图片视图
+  description: 关闭导航窗口后验证图片视图仍然存在且应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Close navigation window
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkouchangjing_004_s1
+  name: 导航窗口-缩略图与下一张按钮联合切换
+  description: 先点击缩略图再点击下一张按钮切换图片，验证图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: NormalThumbnailDelegate
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop
