@@ -1,185 +1,302 @@
 name: 键鼠交互_suite
 app: deepin-image-viewer
-description: ''
 module: 键鼠交互
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
 - id: case_1652667_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-F11进入退出全屏
+  description: 按F11进入全屏再按F11退出
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f11
-  - action: keyboard_press
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
     key: f11
     wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652645_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-F5播放幻灯片并退出
+  description: 按F5播放幻灯片，ESC退出
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f5
-  - action: keyboard_press
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
     key: escape
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652643_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-Ctrl+Shift+/快捷键
+  description: 按Ctrl+Shift+/快捷键
   steps:
-  - action: keyboard_hot_key
+  - step_type: action
+    action: keyboard_hot_key
     key: ctrl+shift+/
-  - action: keyboard_press
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
     key: escape
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652657_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-F1唤起帮助
+  description: 按F1唤起帮助窗口
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f1
+    wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652671_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-快捷键Right切换下一张
+  description: 按Right键切换到下一张图片
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: right
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652669_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-快捷键Left切换上一张
+  description: 按Left键切换到上一张图片
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: left
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652673_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-快捷键Ctrl+F9设置壁纸
+  description: 按Ctrl+F9设置当前图片为壁纸
   steps:
-  - action: keyboard_hot_key
+  - step_type: action
+    action: keyboard_hot_key
     key: ctrl+f9
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652677_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-快捷键Down缩小图片
+  description: 按Down键缩小图片
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: down
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652653_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-快捷键Up放大图片
+  description: 按Up键放大图片
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: up
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652675_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-快捷键Ctrl+-缩小图片
+  description: 按Ctrl+-缩小图片
   steps:
-  - action: keyboard_hot_key
+  - step_type: action
+    action: keyboard_hot_key
     key: ctrl+-
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652651_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-快捷键Ctrl++放大图片
+  description: 按Ctrl++放大图片
   steps:
-  - action: keyboard_hot_key
+  - step_type: action
+    action: keyboard_hot_key
     key: ctrl++
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652663_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-鼠标滚轮缩放图片
+  description: 鼠标滚轮向下缩小，向上放大
   steps:
-  - action: mouse_scroll
+  - step_type: action
+    action: mouse_scroll
     value: -3
-  - action: mouse_scroll
-    value: -3
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 3
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652661_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-F2唤起重命名窗口
+  description: 按F2唤起重命名窗口后关闭
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f2
-  - action: keyboard_press
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
     key: escape
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652659_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-Ctrl+I查看图片信息
+  description: 按Ctrl+I查看图片信息后关闭
   steps:
-  - action: keyboard_hot_key
+  - step_type: action
+    action: keyboard_hot_key
     key: ctrl+i
-  - action: keyboard_press
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
     key: escape
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652655_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-Ctrl+C复制图片
+  description: 按Ctrl+C复制当前图片
   steps:
-  - action: keyboard_hot_key
+  - step_type: action
+    action: keyboard_hot_key
     key: ctrl+c
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652649_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-Alt+D删除图片
+  description: 按Alt+D删除当前图片
   steps:
-  - action: keyboard_hot_key
+  - step_type: action
+    action: keyboard_hot_key
     key: alt+d
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_RemoveDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652647_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 键鼠交互-Ctrl+O打开图片
+  description: 按Ctrl+O打开文件对话框后关闭
   steps:
-  - action: keyboard_hot_key
+  - step_type: action
+    action: keyboard_hot_key
     key: ctrl+o
-  - action: keyboard_press
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
     key: escape
+    wait: 0.5
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop

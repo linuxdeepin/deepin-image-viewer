@@ -1,0 +1,118 @@
+name: 缩放_suite
+app: deepin-image-viewer
+module: 缩放
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: case_1652137_s1
+  name: 缩放-最大放大倍数检查
+  description: 持续按Up键放大图片至最大倍数，验证看图应用正常响应不崩溃
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.3
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652139_s1
+  name: 缩放-最小缩小倍数检查
+  description: 持续按Down键缩小图片至最小倍数，验证看图应用正常响应不崩溃
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: down
+    wait: 0.3
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

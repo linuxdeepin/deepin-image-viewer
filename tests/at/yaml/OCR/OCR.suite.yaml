@@ -1,25 +1,28 @@
 name: OCR_suite
 app: deepin-image-viewer
-description: ''
 module: OCR
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
 - id: case_1651809_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: OCR-点击工具栏识别文字按钮
+  description: 点击工具栏识别文字按钮，验证OCR结果展示
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
-    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: 识别文字
+    do: click
+    wait: 2.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LiveTextWidget
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop

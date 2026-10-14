@@ -1,0 +1,90 @@
+name: 公共能力_suite
+app: deepin-image-viewer
+module: 公共能力
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: case_1652427_s1
+  name: 公共能力-看图工具栏多张图片检查
+  description: 使用看图打开多张图片，检查工具栏各项按钮正常展示
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Next
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Previous
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652429_s1
+  name: 公共能力-看图工具栏单张图片检查
+  description: 使用看图打开单张图片，检查工具栏正常展示
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652433_s1
+  name: 公共能力-看图自有窗口属性检查
+  description: 使用看图打开多张图片，检查窗口标题栏与工具栏正常展示
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Title bar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop
