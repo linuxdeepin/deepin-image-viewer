@@ -27,6 +27,11 @@ Item {
         editCanvas.commitTextInput();
     }
 
+    function exitCropMode() {
+        if (editToolbar.currentTool === "crop")
+            editToolbar.currentTool = "";
+    }
+
     function openSaveDialog(shouldExit) {
         exitAfterSave = shouldExit;
         saveDialog.currentFile = IV.ImageEditor.defaultSaveUrl();
@@ -300,6 +305,7 @@ Item {
             if (IV.ImageEditor.crop(normalizedRect)) {
                 editCanvas.finishCrop(normalizedRect);
             }
+            exitCropMode();
         }
         Accessible.name: "FullImageEditCanvas"
         Accessible.role: Accessible.Pane
@@ -558,18 +564,18 @@ Item {
 
         onCloseRequested: stackView.requestExitEditMode()
         onRedoRequested: {
-            if (editToolbar.currentTool === "crop") editToolbar.currentTool = "";
+            exitCropMode();
             if (IV.ImageEditor.redo() && editCanvas.redoHistory())
                 IV.GStatus.editModified = IV.ImageEditor.modified;
         }
         onRotateRequested: {
-            if (editToolbar.currentTool === "crop") editToolbar.currentTool = "";
+            exitCropMode();
             if (IV.ImageEditor.rotateClockwise())
                 editCanvas.rotateClockwise();
         }
         onSaveRequested: fullThumbnail.openSaveDialog(false)
         onUndoRequested: {
-            if (editToolbar.currentTool === "crop") editToolbar.currentTool = "";
+            exitCropMode();
             if (IV.ImageEditor.undo() && editCanvas.undoHistory())
                 IV.GStatus.editModified = IV.ImageEditor.modified;
         }
@@ -623,7 +629,7 @@ Item {
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
 
-                    onClicked: editToolbar.currentTool = ""
+                    onClicked: exitCropMode()
                 }
 
                 ToolButton {
