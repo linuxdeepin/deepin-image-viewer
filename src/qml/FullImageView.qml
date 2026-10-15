@@ -229,6 +229,8 @@ Item {
         }
         onTargetImageReadyChanged: {
             delayAnimationTimer.start();
+            if (imageViewer.targetImageReady)
+                editCanvas.completeEffectCommit();
         }
         Accessible.name: "FullImageViewer"
         Accessible.role: Accessible.Pane
@@ -242,14 +244,19 @@ Item {
         currentTool: editToolbar.currentTool
         effectStrength: editPropertyPanel.effectStrength
         height: imageViewer.targetImageReady
-                ? imageViewer.targetImage.paintedHeight * imageViewer.targetImage.scale : 0
+                ? imageViewer.targetImage.paintedHeight * imageViewer.targetImage.scale
+                : (editCanvas.effectCommitPending ? editCanvas.previousCanvasHeight : 0)
         textMode: editToolbar.textMode
         thickness: editPropertyPanel.thickness
-        visible: IV.GStatus.editMode && imageViewer.targetImageReady
+        visible: IV.GStatus.editMode
+                 && (imageViewer.targetImageReady || editCanvas.effectCommitPending)
         width: imageViewer.targetImageReady
-               ? imageViewer.targetImage.paintedWidth * imageViewer.targetImage.scale : 0
+               ? imageViewer.targetImage.paintedWidth * imageViewer.targetImage.scale
+               : (editCanvas.effectCommitPending ? editCanvas.previousCanvasWidth : 0)
         x: {
-            if (!IV.GStatus.editMode || !imageViewer.targetImageReady) return 0;
+            if (!IV.GStatus.editMode) return 0;
+            if (!imageViewer.targetImageReady)
+                return editCanvas.effectCommitPending ? editCanvas.previousCanvasX : 0;
             // Keep the binding sensitive to image transforms used by mapToItem().
             imageViewer.targetImage.x;
             imageViewer.targetImage.y;
@@ -262,7 +269,9 @@ Item {
             return origin.x;
         }
         y: {
-            if (!IV.GStatus.editMode || !imageViewer.targetImageReady) return 0;
+            if (!IV.GStatus.editMode) return 0;
+            if (!imageViewer.targetImageReady)
+                return editCanvas.effectCommitPending ? editCanvas.previousCanvasY : 0;
             imageViewer.targetImage.x;
             imageViewer.targetImage.y;
             imageViewer.targetImage.scale;
@@ -281,8 +290,11 @@ Item {
             IV.GStatus.editModified = true;
         }
         onEffectRequested: (effect, normalizedRect, strength) => {
-            if (IV.ImageEditor.applyEffect(effect, normalizedRect, strength))
+            if (IV.ImageEditor.applyEffect(effect, normalizedRect, strength)) {
                 editCanvas.strokeCommitted();
+            } else {
+                editCanvas.completeEffectCommit();
+            }
         }
         onCropRequested: normalizedRect => {
             if (IV.ImageEditor.crop(normalizedRect)) {

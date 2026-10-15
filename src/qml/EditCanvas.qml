@@ -14,6 +14,7 @@ Item {
 
     property color currentColor: "#e53935"
     property string currentTool: ""
+    property bool effectCommitPending: false
     property int effectStrength: 15
     property color selectionActiveColor: "#2f80ed"
     property int selectedIndex: -1
@@ -22,6 +23,8 @@ Item {
     property rect cropRect: Qt.rect(0, 0, 0, 0)
     property real previousCanvasHeight: 0
     property real previousCanvasWidth: 0
+    property real previousCanvasX: 0
+    property real previousCanvasY: 0
     readonly property real stableCanvasHeight: height > 0 ? height : previousCanvasHeight
     readonly property real stableCanvasWidth: width > 0 ? width : previousCanvasWidth
     property string textMode: "plain"
@@ -588,6 +591,15 @@ Item {
         drawingCanvas.interactionChanged = false;
         drawingCanvas.activePoints = [];
         drawingCanvas.resizeHandle = "";
+        effectCommitPending = false;
+        drawingCanvas.requestPaint();
+    }
+
+    function completeEffectCommit() {
+        if (!effectCommitPending) return;
+        effectCommitPending = false;
+        drawingCanvas.interaction = "";
+        drawingCanvas.activePoints = [];
         drawingCanvas.requestPaint();
     }
 
@@ -614,6 +626,8 @@ Item {
         if (currentTool === "crop") resetCrop();
         drawingCanvas.requestPaint();
     }
+    onXChanged: previousCanvasX = x
+    onYChanged: previousCanvasY = y
 
     clip: true
 
@@ -749,7 +763,9 @@ Item {
             for (var i = 0; i < editCanvas.strokes.length; ++i) {
                 drawStroke(editCanvas.strokes[i]);
             }
-            drawStroke({ type: drawingCanvas.interaction === "effect" ? "effectSelection" : editCanvas.currentTool,
+            drawStroke({ type: drawingCanvas.interaction === "effect"
+                               || drawingCanvas.interaction === "effectPending"
+                               ? "effectSelection" : editCanvas.currentTool,
                          points: activePoints, color: editCanvas.currentColor.toString(), width: editCanvas.thickness });
 
             if (editCanvas.selectedIndex >= 0 && editCanvas.selectedIndex < editCanvas.strokes.length) {
@@ -881,7 +897,8 @@ Item {
                 }
                 return editCanvas.strokeAt(mouseX, mouseY) >= 0 ? Qt.SizeAllCursor : Qt.ArrowCursor;
             }
-            enabled: IV.GStatus.editMode && (editCanvas.currentTool === "pen"
+            enabled: IV.GStatus.editMode && !editCanvas.effectCommitPending
+                                             && (editCanvas.currentTool === "pen"
                                              || editCanvas.currentTool === "line"
                                              || editCanvas.currentTool === "arrow"
                                              || editCanvas.currentTool === "rect"
@@ -1172,14 +1189,17 @@ Item {
                     var effectWidth = Math.abs(effectEnd.x - effectStart.x);
                     var effectHeight = Math.abs(effectEnd.y - effectStart.y);
                     if (effectWidth >= 2 && effectHeight >= 2 && editCanvas.width > 0 && editCanvas.height > 0) {
+                        editCanvas.effectCommitPending = true;
+                        drawingCanvas.interaction = "effectPending";
                         editCanvas.effectRequested(editCanvas.blurMode,
                                                    Qt.rect(left / editCanvas.width, top / editCanvas.height,
                                                            effectWidth / editCanvas.width, effectHeight / editCanvas.height),
                                                    editCanvas.effectStrength);
+                    } else {
+                        drawingCanvas.interaction = "";
+                        drawingCanvas.activePoints = [];
+                        drawingCanvas.requestPaint();
                     }
-                    drawingCanvas.interaction = "";
-                    drawingCanvas.activePoints = [];
-                    drawingCanvas.requestPaint();
                     return;
                 }
                 if (drawingCanvas.interaction === "move" || drawingCanvas.interaction === "resize"
