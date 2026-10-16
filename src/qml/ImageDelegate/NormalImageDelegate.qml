@@ -81,6 +81,11 @@ BaseImageDelegate {
     Image {
         id: image
 
+        function requestFullResolution() {
+            // The original-size command bypasses the zoom threshold check.
+            sourceSizeOptimizer.applyUpgrade(true)
+        }
+
         asynchronous: true
         cache: false
         fillMode: Image.PreserveAspectFit
@@ -135,6 +140,7 @@ BaseImageDelegate {
         imageInfo: targetImageInfo
         delegateWidth: delegate.width
         delegateHeight: delegate.height
+        upgradeWhenDisplayedSizeExceedsSource: true
         Accessible.name: "NormalImageSourceSizeOptimizer"
         Accessible.role: Accessible.Pane
     }

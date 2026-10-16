@@ -59,6 +59,9 @@ Item {
         if (targetImageReady) {
             // 按图片原始大小执行缩放
             imageAnimation.scaleAnime(targetImageInfo.width / targetImage.paintedWidth);
+            if (typeof targetImage.requestFullResolution === "function") {
+                targetImage.requestFullResolution();
+            }
 
             ltwLoader.recalculateLiveText();
         }
