@@ -19,6 +19,7 @@ Item {
     property int maxDimension: 15000
     // 225M pixels * 4 bytes = ~900MB GPU memory cap
     property int maxTotalPixels: 225 * 1000 * 1000
+    property bool upgradeWhenDisplayedSizeExceedsSource: false
     // Skip upgrade if original pixel count is below this factor of display pixels.
     property real upgradeThreshold: 2.0
     // Debounce delay (ms) for scroll-wheel zoom before upgrading sourceSize.
@@ -54,10 +55,21 @@ Item {
             return
         }
 
+        // Upgrade immediately when the zoomed display outgrows the decoded image.
+        if (optimizer.upgradeWhenDisplayedSizeExceedsSource) {
+            if (optimizer.imageInfo && optimizer.imageInfo.width > 0 && optimizer.imageInfo.height > 0) {
+                sourceSizeUpdateTimer.stop()
+                applyUpgrade(false)
+            } else {
+                sourceSizeUpdateTimer.restart()
+            }
+            return
+        }
+
         sourceSizeUpdateTimer.restart()
     }
 
-    function applyUpgrade() {
+    function applyUpgrade(force) {
         if (zoomedWidth > 0) {
             return
         }
@@ -74,8 +86,34 @@ Item {
             return
         }
 
-        if (actualWidth * actualHeight <= optimizer.delegateWidth * optimizer.delegateHeight * optimizer.upgradeThreshold) {
-            return
+        if (!force) {
+            if (optimizer.upgradeWhenDisplayedSizeExceedsSource) {
+                var requestedSize = optimizer.targetImage.sourceSize
+                // Estimate decoded dimensions while preserving the source aspect ratio.
+                var sourceScale = Math.min(1,
+                                           requestedSize.width / actualWidth,
+                                           requestedSize.height / actualHeight)
+                var loadedWidth = actualWidth * sourceScale
+                var loadedHeight = actualHeight * sourceScale
+                var displayedWidth = optimizer.targetImage.paintedWidth
+                var displayedHeight = optimizer.targetImage.paintedHeight
+
+                if (displayedWidth <= 0 || displayedHeight <= 0) {
+                    var fitScale = Math.min(optimizer.delegateWidth / actualWidth,
+                                            optimizer.delegateHeight / actualHeight)
+                    displayedWidth = actualWidth * fitScale
+                    displayedHeight = actualHeight * fitScale
+                }
+
+                if ((loadedWidth >= actualWidth && loadedHeight >= actualHeight)
+                        || (displayedWidth * optimizer.targetImage.scale <= loadedWidth
+                            && displayedHeight * optimizer.targetImage.scale <= loadedHeight)) {
+                    return
+                }
+            } else if (actualWidth * actualHeight
+                       <= optimizer.delegateWidth * optimizer.delegateHeight * optimizer.upgradeThreshold) {
+                return
+            }
         }
 
         var w = actualWidth
@@ -116,7 +154,7 @@ Item {
             if (optimizer.imageInfo.width > 0 && optimizer.imageInfo.height > 0
                     && optimizer.targetImage && optimizer.targetImage.scale > 1.0) {
                 immediateUpgradeFlag = true
-                applyUpgrade()
+                applyUpgrade(false)
             }
         }
     }
@@ -139,7 +177,7 @@ Item {
 
             if (zoomedWidth <= 0) {
                 immediateUpgradeFlag = false
-                applyUpgrade()
+                applyUpgrade(false)
             }
         }
     }
