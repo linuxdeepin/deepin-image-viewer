@@ -59,6 +59,9 @@ public:
     Q_SIGNAL void changeRotationCacheBegin();
     Q_SIGNAL void currentRotationChanged();
     Q_SIGNAL void requestRotateCacheImage();
+    Q_SIGNAL void requestCommitRotateCache();
+    Q_SIGNAL void requestInvalidateImageCache(const QString &localPath);
+    Q_SIGNAL void requestReloadCurrentImage();
 
     // 图片切换操作
     bool hasPreviousImage() const;

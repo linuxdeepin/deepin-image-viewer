@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -19,6 +19,7 @@ public:
     virtual ~ProviderCache();
 
     void rotateImageCached(int angle, const QString &imagePath, int frameIndex = 0);
+    void commitRotationCache();
     void removeImageCache(const QString &imagePath);
     void renameImageCache(const QString &oldPath, const QString &newPath);
     void clearCache();

@@ -217,19 +217,23 @@ ProviderCache::~ProviderCache()
 }
 
 /**
-   @brief 对缓存的 \a imagePath 图片执行旋转 \a angle 的操作。
+   @brief 将缓存图片重建为目标累计角度。
    @note 待操作的图片必须在缓存中，当前展示的图片必定在缓存中
  */
 void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int frameIndex)
 {
     qCDebug(logImageViewer) << "ProviderCache::rotateImageCached called for:" << imagePath << "frame:" << frameIndex;
-    // 旋转角度为0时，清除旋转状态缓存，防止外部文件变更后仍使用上一次的旋转状态。
     QMutexLocker _locker(&mutex);
     if (0 == angle) {
+        if (imagePath == lastRotatePath && !lastRotateImage.isNull()) {
+            imageCache.add(imagePath, frameIndex, lastRotateImage);
+            QImage tmpImage = lastRotateImage.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+            ThumbnailCache::instance()->add(imagePath, frameIndex, tmpImage);
+        }
         lastRotatePath.clear();
         lastRotateImage = QImage();
         lastRotation = 0;
-        qCDebug(logImageViewer) << "Cleared rotation state for angle 0:" << imagePath;
+        qCDebug(logImageViewer) << "Restored base image and cleared rotation state:" << imagePath;
         return;
     }
 
@@ -240,13 +244,12 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
         // 首次处理时记录图像数据，防止多次旋转处理导致图片质量降低
         lastRotateImage = image;
         lastRotatePath = imagePath;
-        lastRotation = angle;
         qCDebug(logImageViewer) << "Starting new rotation:" << imagePath << "angle:" << angle;
     } else {
         image = lastRotateImage;
-        lastRotation += angle;
-        qCDebug(logImageViewer) << "Continuing rotation:" << imagePath << "total angle:" << lastRotation;
+        qCDebug(logImageViewer) << "Retargeting rotation:" << imagePath << "angle:" << angle;
     }
+    lastRotation = angle;
     _locker.unlock();
 
     if (!image.isNull()) {
@@ -269,8 +272,16 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
 }
 
 /**
-   @brief 移除文件路径为 \a imagePath 的图片信息，主要用于文件删除，重命名等变更时重置状态
+   @brief 清除旋转基准，但保留当前缓存图像，用于旋转结果提交到文件后。
  */
+void ProviderCache::commitRotationCache()
+{
+    QMutexLocker _locker(&mutex);
+    lastRotatePath.clear();
+    lastRotateImage = QImage();
+    lastRotation = 0;
+}
+
 void ProviderCache::removeImageCache(const QString &imagePath)
 {
     qCDebug(logImageViewer) << "Removing image cache:" << imagePath;
@@ -280,6 +291,17 @@ void ProviderCache::removeImageCache(const QString &imagePath)
         if (key.first == imagePath) {
             imageCache.remove(key.first, key.second);
         }
+    }
+    keys = ThumbnailCache::instance()->keys();
+    for (const ThumbnailCache::Key &key : keys) {
+        if (key.first == imagePath) {
+            ThumbnailCache::instance()->remove(key.first, key.second);
+        }
+    }
+    if (lastRotatePath == imagePath) {
+        lastRotatePath.clear();
+        lastRotateImage = QImage();
+        lastRotation = 0;
     }
     qCDebug(logImageViewer) << "ProviderCache::removeImageCache finished";
 }
