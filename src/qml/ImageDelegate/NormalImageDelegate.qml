@@ -175,6 +175,27 @@ BaseImageDelegate {
             id: rotateItem
 
             property real previousRealWidth: 0
+            property bool restartingAnimation: false
+
+            // Restart the animation group from the proxy's current state.
+            function retargetRotation() {
+                var wasRunning = animation.running;
+                rotationAnimation.from = imageProxy.rotation;
+                rotationAnimation.to = IV.GControl.currentRotation;
+                if (image.paintedWidth > 0) {
+                    previousRealWidth = image.paintedWidth;
+                }
+                delayUpdate.restart();
+
+                if (wasRunning) {
+                    restartingAnimation = true;
+                    animation.restart();
+                    restartingAnimation = false;
+                } else {
+                    // Restart the animation driver if it ended before the image was ready.
+                    animation.start();
+                }
+            }
 
             function calcAnimation() {
                 rotationAnimation.to = IV.GControl.currentRotation;
@@ -193,16 +214,25 @@ BaseImageDelegate {
                 delegate.targetImageInfo.y = 0;
 
                 // 记录之前的绘制宽度，用于计算缩放比例
-                previousRealWidth = image.paintedWidth;
+                if (image.paintedWidth > 0) {
+                    previousRealWidth = image.paintedWidth;
+                }
 
                 // 触发动画
-                aniamtion.start();
+                animation.start();
             }
 
             anchors.fill: parent
 
             Connections {
                 function onPaintedWidthChanged() {
+                    if (image.paintedWidth <= 0) {
+                        return;
+                    }
+                    if (rotateItem.previousRealWidth <= 0) {
+                        rotateItem.previousRealWidth = image.paintedWidth;
+                        return;
+                    }
                     // 注意宽高交换，缩放比 = 实际显示的高度(绘制高度 * 缩放比) / 之前绘制的高度
                     // 因此缩放的图片也能正常旋转匹配
                     imageProxy.scale = (image.paintedHeight * image.scale) / rotateItem.previousRealWidth;
@@ -252,11 +282,12 @@ BaseImageDelegate {
 
             // 并行动画
             ParallelAnimation {
-                id: aniamtion
-
-                alwaysRunToEnd: true
+                id: animation
 
                 onRunningChanged: {
+                    if (rotateItem.restartingAnimation) {
+                        return;
+                    }
                     if (running) {
                         image.visible = false;
                         delayUpdate.start();
@@ -299,11 +330,17 @@ BaseImageDelegate {
     }
 
     Connections {
+        function onRequestReloadCurrentImage() {
+            delegate.resetSource();
+        }
+
         function onChangeRotationCacheBegin() {
             // Note: 确保缓存中的数据已刷新后更新界面
-            // 0 为复位，缓存中的数据已转换，无需再次加载
-            if (0 !== IV.GControl.currentRotation) {
-                // 激活旋转动画加载器
+            if (rotateAnimationLoader.active) {
+                // Retarget the running animation to the newly accumulated angle.
+                rotateAnimationLoader.item.retargetRotation();
+            } else if (0 !== IV.GControl.currentRotation) {
+                // Activate the rotation animation loader.
                 rotateAnimationLoader.active = true;
             }
         }

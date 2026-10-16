@@ -9,6 +9,7 @@
 #include <QApplication>
 #include <QQueue>
 #include <QFutureWatcher>
+#include <QHash>
 #include <QTemporaryDir>
 #include <QtConcurrent>
 #include <QLoggingCategory>
@@ -96,14 +97,8 @@ void RotateImageHelper::rotateImageFile(const QString &path, int angle)
     totalAngle %= 360;
     qCDebug(logImageViewer) << "Updated total rotation angle for" << path << "to" << totalAngle << "degrees";
 
-    // 累计角度归零时无实际旋转需求，不再入队执行无效旋转，
-    // 按成功补发与 rotateImageImpl 正常路径相同的信号序列，保证接收方状态一致
     if (0 == totalAngle) {
-        qCDebug(logImageViewer) << "Skipping rotation for accumulated 0 degrees:" << path;
-        Q_EMIT recordRotateImage(path);
-        Q_EMIT clearRotateStatus(path);
-        Q_EMIT rotateImageFinished(path, true);
-        return;
+        qCDebug(logImageViewer) << "Queueing reset to the original image for:" << path;
     }
 
     if (data->watcher.isRunning()) {
@@ -203,6 +198,7 @@ void RotateImageHelper::enqueueRotateTask(const QString &path, int angle)
     auto rotateFuture = QtConcurrent::run([this]() {
         qCDebug(logImageViewer) << "Starting rotation task processing";
         int queueSize = 0;
+        QHash<QString, bool> latestResults;
         do {
             QPair<QString, int> currentData;
 
@@ -218,7 +214,9 @@ void RotateImageHelper::enqueueRotateTask(const QString &path, int angle)
             // 执行拷贝文件及旋转
             QFileInfo file(currentData.first);
             QString cacheFile = data->cacheDir.filePath(file.fileName());
-            if (!rotateImageImpl(cacheFile, currentData.first, currentData.second)) {
+            const bool result = rotateImageImpl(cacheFile, currentData.first, currentData.second);
+            latestResults.insert(currentData.first, result);
+            if (!result) {
                 qCWarning(logImageViewer) << "Failed to process rotation task for" << currentData.first;
             }
 
@@ -226,6 +224,9 @@ void RotateImageHelper::enqueueRotateTask(const QString &path, int angle)
             queueSize = data->processQueue.size();
             locker.unlock();
         } while (queueSize > 0);
+        for (auto it = latestResults.cbegin(); it != latestResults.cend(); ++it) {
+            Q_EMIT RotateImageHelper::instance()->rotationQueueFinished(it.key(), it.value());
+        }
         qCDebug(logImageViewer) << "Completed rotation task processing";
     });
 

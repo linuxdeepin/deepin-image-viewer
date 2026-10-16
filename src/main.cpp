@@ -164,6 +164,12 @@ int main(int argc, char *argv[])
         qCDebug(logImageViewer) << "Rotating image cache.";
         providerCache->rotateImageCached(control.currentRotation(), control.currentSource().toLocalFile());
     });
+    QObject::connect(&control, &GlobalControl::requestCommitRotateCache, [&]() {
+        providerCache->commitRotationCache();
+    });
+    QObject::connect(&control, &GlobalControl::requestInvalidateImageCache, [&](const QString &path) {
+        providerCache->removeImageCache(path);
+    });
     qCDebug(logImageViewer) << "Connect signal requestRotateCacheImage.";
 
     status.setEnableNavigation(fileControl.isEnableNavigation());
