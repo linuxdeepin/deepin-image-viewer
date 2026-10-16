@@ -19,19 +19,11 @@ base: org.deepin.base/25.2.2
 runtime: org.deepin.runtime.dtk/6.7.0
 
 build: |
-  # 下载和安装依赖
-  apt -y install --download-only libdtk6gui-dev libdtk6widget-dev qt6-svg-dev qt6-tools-dev qt6-tools-dev-tools qt6-base-dev qt6-base-dev-tools qt6-base-private-dev qt6-l10n-tools libraw-dev libexif-dev libdeepin-ocr-plugin-manager-dev libncnn-dev libopencv-mobile-dev kimageformat6-plugins
-  bash ./install_dep /var/cache/apt/archives "$PREFIX"
-
   # for linglong DBus service
   sed -i "s|Exec=/usr/bin/deepin-image-viewer|Exec=deepin-image-viewer|g" ./src/com.deepin.imageViewer.service
 
   # add path for searching OpenGL
   export PATH=$PATH:/runtime/include:/runtime/lib/${TRIPLET}
-
-  # 准备插件
-  mkdir -p $PREFIX/bin/imageformats
-  cp ${PREFIX}/lib/${TRIPLET}/qt6/plugins/imageformats/*.so $PREFIX/bin/imageformats
 
   VERSION=$(head -1 debian/changelog | awk -F'[()]' '{print $2}')
   cmake -B build \
@@ -40,35 +32,22 @@ build: |
         -DCMAKE_INSTALL_LIBDIR=${PREFIX}/lib/${TRIPLET} \
         -DVERSION=${VERSION}
   cmake --build build -j`nproc`
-  cmake --build build --target install >install.log 2>&1
+  cmake --build build --target install
 
-  # 项目生成应用名和动态隐式加载的依赖库，ldd无法找到的其他库
-  LDD_FILES=(
-    deepin-image-viewer
-    ../../bin/imageformats/kimg_avif.so
-    ../../bin/imageformats/kimg_heif.so
-    # plugins for libheif.so.1
-    libheif/plugins/libheif-aomenc.so
-    libheif/plugins/libheif-dav1d.so
-    libheif/plugins/libheif-j2kdec.so
-    libheif/plugins/libheif-libde265.so
-    libheif/plugins/libheif-x265.so
-  )
+  # buildext.apt.depends 只合并 bin/sbin/lib 到应用层，
+  # OCR 模型文件位于 /usr/share，需手动带入
+  mkdir -p ${PREFIX}/share
+  cp -a /usr/share/deepin-ocr-plugin-manager ${PREFIX}/share/
 
-  # 生成.install 文件
-  bash ./deploy_dep "${LDD_FILES[@]}"
-
-  ID_VALUE=$(awk -F ': ' '/^  id: / {print $2}' linglong.yaml)
-  # deepin-ocr-plugin-manager model 文件添加到 install 文件
-  find "${PREFIX}/share/deepin-ocr-plugin-manager/model/" -type f -o -type d >> "${ID_VALUE}.install"
-
-  # set LIBHEIF_PLUGIN_PATH for libheif.so.1 to load plugins
-  mkdir -p $PREFIX/etc
-  echo export LIBHEIF_PLUGIN_PATH=$PREFIX/lib/${TRIPLET}/libheif/plugins > $PREFIX/etc/profile
-  echo $PREFIX/etc/profile >> "${ID_VALUE}.install"
-
-# allow apt download in build and do apt update
 buildext:
   apt:
     build_depends:
-      - libc6
+      - cmake
+      - libdeepin-ocr-plugin-manager-dev
+      - libncnn-dev
+      - libopencv-mobile-dev
+      - libraw-dev
+    depends:
+      - kimageformat6-plugins
+      - libdeepin-ocr-plugin-manager
+      - libraw23
