@@ -38,8 +38,12 @@ DCORE_USE_NAMESPACE
 int main(int argc, char *argv[])
 {
 #ifdef Q_OS_LINUX
-    // Keep large image buffers mmap-backed instead of retaining them in the heap after repeated decoding.
-    constexpr int imageBufferMmapThreshold = 128 * 1024;
+    // Buffers below 8MB stay on the heap for fast reuse across decodes (a
+    // 1920x1080 ARGB frame is ~7.9MB); anything larger (4K/zoom decodes) is
+    // mmap-backed so its pages return to the OS immediately on free. This
+    // trades a little retained heap for startup/navigation speed instead of
+    // forcing every large allocation through mmap like the old 128KB threshold.
+    constexpr int imageBufferMmapThreshold = 8 * 1024 * 1024;
     if (!mallopt(M_MMAP_THRESHOLD, imageBufferMmapThreshold)) {
         qCWarning(logImageViewer) << "Failed to set image buffer mmap threshold";
     }
@@ -147,6 +151,10 @@ int main(int argc, char *argv[])
 
         providerCache = static_cast<ProviderCache *>(asyncImageProvider);
 
+        if (!cliParam.isEmpty()) {
+            qCDebug(logImageViewer) << "Preloading image from commandline parameter.";
+            asyncImageProvider->preloadImage(cliParam);
+        }
     }
 
     ThumbnailProvider *multiImageLoad = new ThumbnailProvider;
