@@ -18,11 +18,8 @@ DialogWindow {
     // 操作结束 true: 允许删除 false: 取消
     signal finished(bool ret)
 
-    flags: Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint
-    height: 180
-    maximumHeight: 180
+    flags: Qt.Dialog | Qt.WindowCloseButtonHint
     maximumWidth: 400
-    minimumHeight: 180
     minimumWidth: 400
     modality: Qt.ApplicationModal
     visible: false
@@ -34,29 +31,32 @@ DialogWindow {
         // 仅保留默认状态，否则 hover 上会有变化效果
         icon {
             mode: DTK.NormalState
-            name: "user-trash-full-opened"
+            name: "deepin-image-viewer"
         }
     }
 
     Component.onCompleted: {
-        setX(window.x + window.width / 2 - width / 2);
-        setY(window.y + window.height / 2 - height / 2);
         show();
+    }
+    onVisibleChanged: {
+        if (visible) {
+            setX(window.x + window.width / 2 - width / 2);
+            setY(window.y + window.height / 2 - height / 2);
+        }
     }
     onClosing: {
         finished(false);
     }
 
     ColumnLayout {
-        height: parent.height
         width: parent.width
 
         ColumnLayout {
-            Layout.alignment: Qt.AlignCenter
+            Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
-            Layout.maximumHeight: 80
-            Layout.minimumHeight: 80
-            Layout.preferredHeight: 80
+            Layout.topMargin: 8
+            Layout.bottomMargin: 16
+            spacing: 4
 
             Label {
                 id: notifyText
@@ -72,7 +72,7 @@ DialogWindow {
                 font: DTK.fontManager.t5
                 horizontalAlignment: Text.AlignHCenter
                 text: qsTr("Cannot move \"%1\" to the trash. Do you want to permanently delete it?").arg(textMetics.elidedText)
-                wrapMode: Text.Wrap
+                wrapMode: Text.WordWrap
 
                 TextMetrics {
                     id: textMetics
@@ -87,22 +87,27 @@ DialogWindow {
                 id: messageText
 
                 Layout.alignment: Qt.AlignHCenter
-                Layout.fillHeight: true
+                Layout.fillWidth: true
                 font: DTK.fontManager.t6
+                horizontalAlignment: Text.AlignHCenter
                 text: qsTr("This action cannot be undone")
-                width: dialog.width
+                wrapMode: Text.WordWrap
             }
         }
 
+        // uos-design: allow-manual-dialog-action-row
+        // DTK DialogButtonBox reorders dynamic roles on Linux and cannot evenly
+        // split the footer width, so this dialog mirrors ReName.qml's layout:
+        // two half-width buttons centered with 10px margins and gap.
         Row {
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignHCenter
+            Layout.bottomMargin: 10
             spacing: 10
 
             Button {
-                height: 36
                 Accessible.name: text
                 Accessible.role: Accessible.Button
+                height: 36
                 text: qsTr("Cancel")
                 width: 185
 
@@ -111,11 +116,11 @@ DialogWindow {
                 }
             }
 
-            RecommandButton {
-                height: 36
+            WarningButton {
                 Accessible.name: text
                 Accessible.role: Accessible.Button
-                text: qsTr("Confirm")
+                height: 36
+                text: qsTr("Delete")
                 width: 185
 
                 onClicked: {
