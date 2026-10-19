@@ -616,9 +616,9 @@
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../qml/Dialog/RemoveDialog.qml" line="111"/>
-        <source>Confirm</source>
-        <translation>确定</translation>
+        <location filename="../qml/Dialog/RemoveDialog.qml" line="124"/>
+        <source>Delete</source>
+        <translation>删除</translation>
     </message>
 </context>
 <context>
