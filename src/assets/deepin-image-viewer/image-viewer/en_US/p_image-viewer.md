@@ -129,6 +129,21 @@ You can view detailed information of the image.
 
 ![1|view info](fig/info.png)
 
+### Edit Images
+
+In browsing mode, click the Edit icon on the toolbar or press **Ctrl + Shift + E** to enter editing mode.
+
+![1|edit-mode](fig/edit-mode.png)
+
+In editing mode, the browsing toolbar and thumbnail strip are hidden, and the editing toolbar appears at the bottom of the window. You can use the pen, line, arrow, rectangle, ellipse, text, blur, and crop tools.
+
+- The Text tool includes Plain Text and Numbered Step modes.
+- The Blur tool includes Gaussian Blur, Mosaic, and Graffiti modes.
+- Press **Ctrl + Z** to undo and **Ctrl + Y** to redo. Select an annotation and press **Delete** to remove it.
+
+When you finish editing, click the Save Copy icon. The edited image is saved in its original format in the source image's folder, leaving the original unchanged.
+Press **Esc** or click the close icon on the editing toolbar to exit. If there are unsaved changes, choose **Save Copy**, **Don't Save**, or **Cancel**.
+
 ### Delete Images
 
 You can delete images from Image Viewer in the following ways.

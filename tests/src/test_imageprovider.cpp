@@ -11,6 +11,7 @@
 // | textureFactory() | low | - | 1 | 3 |
 // | ProviderCache() | low | - | 1 | 1 |
 // | ~ProviderCache | low | - | 1 | 1 |
+// | commitRotationCache() | low | - | 1 | 1 |
 // | clearCache() | mid | - | 2 | 2 |
 // | preloadImage(filePath) | low | - | 1 | 1 |
 // | removeImageCache(imagePath) | mid | - | 2 | 2 |
@@ -55,7 +56,7 @@
 // - 全部测试图片位于各 Fixture 独立的 QTemporaryDir，路径天然唯一，不依赖测试机固定路径
 //
 // 已修复的历史源码缺陷（本批次修复，测试按新语义断言）：
-// 1. ProviderCache::rotateImageCached：angle==0 现清除旋转状态缓存（lastRotatePath/lastRotateImage/lastRotation）后返回
+// 1. ProviderCache::rotateImageCached：angle==0 现恢复基准图并清除旋转状态（lastRotatePath/lastRotateImage/lastRotation）后返回
 // 2. ThumbnailProvider::requestImage：null 缩略图不再入单例缓存，不污染后续有效请求
 // 3. ProviderCache::clearCache：现同时复位 lastRotation
 // 4. parseProviderID：无 scheme 裸路径回退使用原串作为文件路径（file:/// 形态行为不变）
@@ -110,18 +111,18 @@
 // - Run_NonexistentFile_EmitsFinishedWithNullTexture               → B5
 //
 // 分支清单（来源：get_code_snippet imageprovider.cpp:218-261 ProviderCache::rotateImageCached）
-// B1: angle == 0 → 加锁后清除旋转状态缓存（lastRotatePath/lastRotateImage/lastRotation）再 return
+// B1: angle == 0 → 恢复基准图像缓存并清除旋转状态后 return
 // B2: imagePath != lastRotatePath → imageCache.get + 记录 lastRotate*/lastRotation=angle
-// B3: imagePath == lastRotatePath → image=lastRotateImage，lastRotation += angle
+// B3: imagePath == lastRotatePath → image=lastRotateImage，lastRotation = angle
 // B4: image 非 null && lastRotation%360 != 0 → LibUnionImage_NameSpace::rotateImage
 // B5: image 非 null && lastRotation%360 == 0 → 跳过旋转
 // B6: image 非 null → imageCache.add + ThumbnailCache::instance()->add
 // B7: image 为 null → 仅告警，不写缓存
 // 用例映射：
-// - RotateImageCached_ZeroAngle_ClearsRotationStateCache          → B1（断言状态被清空）
+// - RotateImageCached_ZeroAngle_RestoresBaseImage          → B1（断言基准图恢复且状态清空）
 // - RotateImageCached_MissingImage_WritesNoCaches                  → B2/B7
 // - RotateImageCached_DifferentPath_ResetsRotationState            → B2×2
-// - RotateImageCached_SamePathTwice_AccumulatesRotationAngle       → B2/B3/B4/B6
+// - RotateImageCached_SamePathRetarget_UsesAbsoluteAngle       → B2/B3/B4/B6
 // - RotateImageCached_TotalMultipleOf360_SkipsRotationUpdatesCaches → B2/B5/B6
 // - RotateImageCached_AngleVariations_RotatesAndCaches（TEST_P×4）  → B2/B3/B4/B5/B6
 //
@@ -943,27 +944,45 @@ TEST_F(ProviderCacheTest, RenameImageCache_NonexistentPath_IsNoOp)
     EXPECT_EQ(obj->imageCache.keys().size(), 1);
 }
 
-TEST_F(ProviderCacheTest, RotateImageCached_ZeroAngle_ClearsRotationStateCache)
+TEST_F(ProviderCacheTest, RotateImageCached_ZeroAngle_RestoresBaseImage)
 {
-    // Arrange: 预置缓存与旋转状态（模拟此前已旋转过）
     const QString path = tempDir.filePath("zero_angle.png");
     QImage img(100, 50, QImage::Format_ARGB32);
-    img.fill(Qt::green);
+    for (int y = 0; y < img.height(); ++y) {
+        for (int x = 0; x < img.width(); ++x) {
+            img.setPixelColor(x, y, QColor(x, y, (x + y) % 256));
+        }
+    }
     obj->imageCache.add(path, 0, img);
-    obj->lastRotatePath = path;
-    obj->lastRotateImage = img;
-    obj->lastRotation = 90;
 
-    // Act
+    obj->rotateImageCached(90, path, 0);
+    ASSERT_EQ(obj->imageCache.get(path, 0).size(), QSize(50, 100));
+
     obj->rotateImageCached(0, path, 0);
 
-    // Assert  // 0 度：清除旋转状态缓存（lastRotatePath/lastRotateImage/lastRotation），不旋转、不写缩略图缓存
     EXPECT_EQ(obj->lastRotation, 0);
     EXPECT_TRUE(obj->lastRotatePath.isEmpty());
     EXPECT_TRUE(obj->lastRotateImage.isNull());
-    EXPECT_TRUE(obj->imageCache.contains(path, 0));
-    EXPECT_EQ(obj->imageCache.get(path, 0).size(), QSize(100, 50));
-    EXPECT_FALSE(ThumbnailCache::instance()->contains(path, 0));
+    EXPECT_EQ(obj->imageCache.get(path, 0), img);
+    EXPECT_TRUE(ThumbnailCache::instance()->contains(path, 0));
+}
+
+TEST_F(ProviderCacheTest, CommitRotationCache_PreservesDisplayedImageAndClearsBase)
+{
+    const QString path = tempDir.filePath("commit_rotation.png");
+    QImage img(100, 50, QImage::Format_ARGB32);
+    img.fill(Qt::green);
+    obj->imageCache.add(path, 0, img);
+    obj->rotateImageCached(90, path, 0);
+    const QImage rotatedImage = obj->imageCache.get(path, 0);
+    ASSERT_NE(rotatedImage, img);
+
+    obj->commitRotationCache();
+
+    EXPECT_EQ(obj->imageCache.get(path, 0), rotatedImage);
+    EXPECT_TRUE(obj->lastRotatePath.isEmpty());
+    EXPECT_TRUE(obj->lastRotateImage.isNull());
+    EXPECT_EQ(obj->lastRotation, 0);
 }
 
 TEST_F(ProviderCacheTest, RotateImageCached_MissingImage_WritesNoCaches)
@@ -1003,7 +1022,7 @@ TEST_F(ProviderCacheTest, RotateImageCached_DifferentPath_ResetsRotationState)
     EXPECT_EQ(obj->imageCache.get(pathA, 0).size(), QSize(50, 100));
 }
 
-TEST_F(ProviderCacheTest, RotateImageCached_SamePathTwice_AccumulatesRotationAngle)
+TEST_F(ProviderCacheTest, RotateImageCached_SamePathRetarget_UsesAbsoluteAngle)
 {
     // Arrange: 100x50 缓存图
     const QString path = tempDir.filePath("rot_acc.png");
@@ -1013,9 +1032,9 @@ TEST_F(ProviderCacheTest, RotateImageCached_SamePathTwice_AccumulatesRotationAng
 
     // Act
     obj->rotateImageCached(90, path, 0);
-    obj->rotateImageCached(90, path, 0);
+    obj->rotateImageCached(180, path, 0);
 
-    // Assert  // 第二次基于 lastRotateImage 累计 180 度：不换维，且缓存/缩略图缓存均更新
+    // Assert  // 第二次基于 lastRotateImage 直接重建到 180 度：不换维，且缓存/缩略图缓存均更新
     EXPECT_EQ(obj->lastRotation, 180);
     EXPECT_EQ(obj->imageCache.get(path, 0).size(), QSize(100, 50));
     EXPECT_TRUE(ThumbnailCache::instance()->contains(path, 0));

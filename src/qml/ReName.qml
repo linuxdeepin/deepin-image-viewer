@@ -30,7 +30,7 @@ DialogWindow {
         filesuffix = suffix;
     }
 
-    flags: Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint
+    flags: Qt.Dialog | Qt.WindowCloseButtonHint
     height: 180
     maximumHeight: 180
     maximumWidth: 400

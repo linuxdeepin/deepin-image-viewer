@@ -17,7 +17,8 @@ BaseImageDelegate {
         if (delegate.targetImageInfo.hasCachedThumbnail) {
             notExistImage.source = "image://ThumbnailLoad/" + delegate.source;
         } else {
-            notExistImage.source = "qrc:/res/icon_import_photo.svg";
+            notExistImage.visible = false;
+            breachIcon.visible = true;
         }
     }
 
@@ -29,6 +30,20 @@ BaseImageDelegate {
         height: 100
         mipmap: true
         smooth: true
+        width: 100
+    }
+
+    // 文件不存在且无缓存缩略图时显示的占位图标
+    DciIcon {
+        id: breachIcon
+
+        anchors.centerIn: parent
+        height: 100
+        name: "photo_breach"
+        sourceSize.height: 100
+        sourceSize.width: 100
+        theme: DTK.themeType
+        visible: false
         width: 100
     }
 

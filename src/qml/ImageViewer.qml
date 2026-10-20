@@ -59,6 +59,9 @@ Item {
         if (targetImageReady) {
             // 按图片原始大小执行缩放
             imageAnimation.scaleAnime(targetImageInfo.width / targetImage.paintedWidth);
+            if (typeof targetImage.requestFullResolution === "function") {
+                targetImage.requestFullResolution();
+            }
 
             ltwLoader.recalculateLiveText();
         }
@@ -97,8 +100,8 @@ Item {
     }
 
     function rotateImage(angle) {
-        if (targetImageReady && !rotateDelay.running) {
-            rotateDelay.start();
+        // Accumulate rotation requests and retarget an active animation instead of dropping clicks.
+        if (targetImageReady) {
             IV.GControl.currentRotation += angle;
         }
     }
@@ -185,12 +188,6 @@ Item {
         targetImage: imageViewer.targetImage
         Accessible.name: "ImageAnimation"
         Accessible.role: Accessible.Pane
-    }
-
-    Timer {
-        id: rotateDelay
-
-        interval: IV.GStatus.animationDefaultDuration + 50
     }
 
     Connections {
