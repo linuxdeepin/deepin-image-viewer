@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -19,6 +19,7 @@ public:
     Q_SLOT void resetRotateState();
 
     Q_SIGNAL void rotateImageFinished(const QString &path, bool ret);
+    Q_SIGNAL void rotationQueueFinished(const QString &path, bool ret);
 
     static bool rotateImageImpl(const QString &cachePath, const QString &path, int angle);
 

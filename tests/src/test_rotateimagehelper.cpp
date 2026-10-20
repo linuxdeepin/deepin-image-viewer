@@ -49,7 +49,7 @@
 //   -fno-access-control 可达），不污染单例；TearDown 统一 waitForDone + 单例复位。
 // - 旋转状态转移断言 = 前后状态对比（rotationCache / processQueue 镜像直读）+
 //   QSignalSpy（rotateImageImpl 三信号发射于 instance() 单例上，spy 挂单例；
-//   rotateImageFile 累计归零短路（B8）的三信号发射于操作实例上，spy 挂该实例）。
+//   rotateImageFile 累计归零时将零角度目标写入队列，由 worker 发出完成信号）。
 // - enqueueRotateTask 的 QtConcurrent 工作线程真实启动，rotateImageImpl 以函数地址
 //   stub 隔离文件写入；ImplRecorder 内置 QMutex 保证工作线程并发记录安全。
 // - QThread::msleep(10)（rotateImageImpl 内同步短睡眠）保持真实，仅 10ms。
@@ -65,12 +65,11 @@
 // B5: if (proc.first == path) → 原地更新该任务角度并 return
 // B6: for 未命中 → 追加队列（不启动新线程）
 // B7: else（watcher 未运行）→ enqueueRotateTask（入队并启动 QtConcurrent 线程）
-// B8: totalAngle %= 360 后为 0 → 不更新/不入队任务，在操作实例上按成功补发
-//     record/clear/finished(path,true) 三信号（与 rotateImageImpl 正常路径序列一致）后 return
+// B8: totalAngle %= 360 后为 0 → 将零角度目标加入或更新到队列，恢复原文件
 // 映射： RotateImageFile_ZeroOrFullTurnAngle_ReturnsBeforePathCheck → B1
 //        RotateImageFile_UnsupportedPathType_SkipsRotationWithoutCaching（TEST_P）→ B2
 //        RotateImageFile_LocalPath_EnqueuesAsyncRotationTask → B3+B7
-//        RotateImageFile_AccumulatedFullTurnWhileRunning_CompletesWithoutEnqueue → B3+B6+B8（累计归零短路）
+//        RotateImageFile_AccumulatedFullTurnWhileRunning_QueuesReset → B3+B5+B8（累计归零更新队列目标）
 //        RotateImageFile_DifferentPathsWhileRunning_AppendsToQueue → B3+B4+B6
 //        RotateImageFile_AngleBeyondFullTurn_ReducesModulo360 → B3+B6（>360° 边界）
 //
@@ -418,7 +417,7 @@ TEST_F(RotateImageHelperTest, RotateImageFile_LocalPath_EnqueuesAsyncRotationTas
     EXPECT_FALSE(scoped.data->watcher.isRunning());
 }
 
-TEST_F(RotateImageHelperTest, RotateImageFile_AccumulatedFullTurnWhileRunning_CompletesWithoutEnqueue)
+TEST_F(RotateImageHelperTest, RotateImageFile_AccumulatedFullTurnWhileRunning_QueuesReset)
 {
     // Arrange
     RotateImageHelper scoped;
@@ -435,19 +434,18 @@ TEST_F(RotateImageHelperTest, RotateImageFile_AccumulatedFullTurnWhileRunning_Co
     QSignalSpy spyClear(&scoped, &RotateImageHelper::clearRotateStatus);
     QSignalSpy spyFinished(&scoped, &RotateImageHelper::rotateImageFinished);
 
-    // Act：90° 入队后再追加 270°，累计取模归零 → 短路按成功完成，不再入队 0° 无效旋转
+    // Act：90° 入队后再追加 270°，累计取模归零 → 将队列目标更新为基准图
     scoped.rotateImageFile(path, 90);
     scoped.rotateImageFile(path, 270);
 
-    // Assert：B3+B6+B8 —— 累计角度归零；首个任务保持 90° 未被改写、未重复入队/启动线程；
-    // 短路路径在操作实例上按成功补发与正常路径相同的三信号序列
+    // Assert：累计角度归零后，待处理任务不再保留过期的 90° 目标。
     EXPECT_EQ(scoped.data->rotationCache.value(path), 0);
     ASSERT_EQ(scoped.data->processQueue.size(), 1);
-    EXPECT_EQ(scoped.data->processQueue.head().second, 90);
+    EXPECT_EQ(scoped.data->processQueue.head().second, 0);
     EXPECT_EQ(scoped.data->processQueue.head().first, path);
-    EXPECT_EQ(spyRecord.count(), 1);
-    EXPECT_EQ(spyClear.count(), 1);
-    EXPECT_EQ(spyFinished.count(), 1);
+    EXPECT_EQ(spyRecord.count(), 0);
+    EXPECT_EQ(spyClear.count(), 0);
+    EXPECT_EQ(spyFinished.count(), 0);
 }
 
 TEST_F(RotateImageHelperTest, RotateImageFile_DifferentPathsWhileRunning_AppendsToQueue)
@@ -700,6 +698,7 @@ TEST_F(RotateImageHelperTest, EnqueueRotateTask_ImplFails_ContinuesRemainingTask
                        recorder.record(cachePath, p, angle);
                        return p.endsWith(QStringLiteral("b.png"));
                    });
+    QSignalSpy spyQueueFinished(helper, &RotateImageHelper::rotationQueueFinished);
 
     // Act：a 任务委托失败、b 任务成功
     scoped.enqueueRotateTask(pathA, 90);
@@ -712,6 +711,17 @@ TEST_F(RotateImageHelperTest, EnqueueRotateTask_ImplFails_ContinuesRemainingTask
     EXPECT_TRUE(calls.contains(qMakePair(pathA, 90)));
     EXPECT_TRUE(calls.contains(qMakePair(pathB, 180)));
     EXPECT_EQ(scoped.data->processQueue.size(), 0);
+    ASSERT_EQ(spyQueueFinished.count(), 2);
+    bool pathAFailed = false;
+    bool pathBSucceeded = false;
+    for (const QList<QVariant> &arguments : spyQueueFinished) {
+        const QString path = arguments.at(0).toString();
+        const bool result = arguments.at(1).toBool();
+        pathAFailed |= path == pathA && !result;
+        pathBSucceeded |= path == pathB && result;
+    }
+    EXPECT_TRUE(pathAFailed);
+    EXPECT_TRUE(pathBSucceeded);
 }
 
 // ── resetRotateState ──────────────────────────────────────────────

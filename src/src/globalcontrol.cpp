@@ -37,15 +37,22 @@ GlobalControl::GlobalControl(QObject *parent)
         switchCheckTimer.start(50, this);
     });
 
-    // 图片旋转完成后触发信息变更
-    connect(RotateImageHelper::instance(), &RotateImageHelper::rotateImageFinished, this, [this](const QString &path, bool ret) {
-        qCDebug(logImageViewer) << "Rotation finished for" << path << "success:" << ret;
-        if (path == currentImage.source().toLocalFile()) {
-            submitImageChangeImmediately();
-            qCDebug(logImageViewer) << "Image change submitted immediately after rotation.";
+    // 只在该图片的旋转队列排空后处理最终结果，避免旧任务回调干扰新目标。
+    connect(RotateImageHelper::instance(), &RotateImageHelper::rotationQueueFinished, this, [this](const QString &path, bool ret) {
+        qCDebug(logImageViewer) << "Rotation queue finished for" << path << "success:" << ret;
+        if (!ret && path == currentImage.source().toLocalFile()) {
+            qCWarning(logImageViewer) << "Image rotation failed; restoring the image from disk:" << path;
+            submitTimer.stop();
+            Q_EMIT requestInvalidateImageCache(path);
+            currentImage.clearCurrentCache();
+            currentImage.reloadData();
+            imageRotation = 0;
+            Q_EMIT currentRotationChanged();
+            Q_EMIT changeRotationCacheBegin();
+            Q_EMIT requestReloadCurrentImage();
         }
     });
-    qCDebug(logImageViewer) << "Connected RotateImageHelper::rotateImageFinished signal.";
+    qCDebug(logImageViewer) << "Connected RotateImageHelper::rotationQueueFinished signal.";
 }
 
 GlobalControl::~GlobalControl()
@@ -158,8 +165,9 @@ void GlobalControl::setCurrentRotation(int angle)
             qCWarning(logImageViewer) << "Invalid rotation angle:" << angle << "- must be multiple of 90 degrees";
         }
 
-        // 计算相较上一次是否需要交换宽高，angle 为 0 时特殊处理，不调整
-        bool needSwap = angle && !!((angle - imageRotation) % 180);
+        // 计算相较上一次是否需要交换宽高
+        const int rotationDelta = angle - imageRotation;
+        bool needSwap = !!(rotationDelta % 180);
         qCDebug(logImageViewer) << "Rotation change requires width/height swap:" << needSwap;
 
         imageRotation = angle;
@@ -174,8 +182,8 @@ void GlobalControl::setCurrentRotation(int angle)
         }
 
         // 执行实际的旋转文件操作
-        qCDebug(logImageViewer) << "Requesting image rotation:" << currentImage.source().toLocalFile() << "angle:" << angle;
-        RotateImageHelper::instance()->rotateImageFile(currentImage.source().toLocalFile(), angle);
+        qCDebug(logImageViewer) << "Requesting image rotation:" << currentImage.source().toLocalFile() << "delta:" << rotationDelta;
+        RotateImageHelper::instance()->rotateImageFile(currentImage.source().toLocalFile(), rotationDelta);
         // 保证更新界面旋转前刷新缓存，为0时同样通知，用以复位状态
         Q_EMIT requestRotateCacheImage();
         Q_EMIT currentRotationChanged();
@@ -545,10 +553,12 @@ void GlobalControl::submitImageChangeImmediately()
         // 请求更新图片，同步图片旋转状态到文件中，将覆写文件
         Q_EMIT requestRotateImage(currentImage.source().toLocalFile(), rotation);
         qCDebug(logImageViewer) << "Emitted requestRotateImage signal.";
+        Q_EMIT requestCommitRotateCache();
     }
 
-    // 重置状态
-    setCurrentRotation(0);
+    // Reset UI state without applying a reverse rotation to the cache or file helper.
+    imageRotation = 0;
+    Q_EMIT currentRotationChanged();
     qCDebug(logImageViewer) << "Image changes submitted";
 }
 

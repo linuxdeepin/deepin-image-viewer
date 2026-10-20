@@ -181,11 +181,11 @@ enum class InvalidImageKind {
 // 分支清单（来源：GlobalControl::setCurrentRotation，共 3 分支）
 // B1: imageRotation != angle → 进入更新（else：角度未变，跳过全部处理）
 // B2: 0 != angle % 90 → qCWarning（非 90 倍数仅告警不拒绝）
-// B3: needSwap（angle 非 0 且 (angle - imageRotation) % 180 非 0）→ currentImage.swapWidthAndHeight()
+// B3: needSwap（(angle - imageRotation) % 180 非 0）→ currentImage.swapWidthAndHeight()
 // 用例映射：
 // - SetCurrentRotation_NinetyDegrees_UpdatesStateEmitsAndSwapsSize → B1+B3（B2 为假）
 // - SetCurrentRotation_SameAngle_SkipsUpdate → B1 为假
-// - SetCurrentRotation_ResetToZero_EmitsWithoutSwap → B1+B3(假，angle 为 0 特殊处理)
+// - SetCurrentRotation_ResetToZero_RestoresDimensions → B1+B3
 // - SetCurrentRotation_AngleNotMultipleOfNinety_StillApplied → B1+B2+B3
 //
 // 分支清单（来源：GlobalControl::setImageFiles，共 5 分支）
@@ -218,6 +218,7 @@ protected:
     void SetUp() override {
         stub.clear();
         rotateFileCalls = 0;
+        rotateFileAngles.clear();
         swapCalls = 0;
         reloadCalls = 0;
 
@@ -229,7 +230,10 @@ protected:
 
         // 基础 stub：RotateImageHelper 为真实单例，rotateImageFile 会排队异步写文件，必须隔离
         stub.set_lamda(VADDR(RotateImageHelper, rotateImageFile),
-                       [this](RotateImageHelper *, const QString &, int) { ++rotateFileCalls; });
+                       [this](RotateImageHelper *, const QString &, int angle) {
+                           ++rotateFileCalls;
+                           rotateFileAngles.append(angle);
+                       });
     }
 
     void TearDown() override {
@@ -267,6 +271,7 @@ protected:
     GlobalControl *ctrl = nullptr;
     QTemporaryDir tempDir;
     int rotateFileCalls = 0;
+    QList<int> rotateFileAngles;
     int swapCalls = 0;
     int reloadCalls = 0;
 };
@@ -1298,7 +1303,21 @@ TEST_F(GlobalControlTest, SetCurrentRotation_SameAngle_SkipsUpdate)
     EXPECT_EQ(rotateFileCalls, 1);
 }
 
-TEST_F(GlobalControlTest, SetCurrentRotation_ResetToZero_EmitsWithoutSwap)
+TEST_F(GlobalControlTest, SetCurrentRotation_RetargetsWithDeltaAngles)
+{
+    loadThreeImages();
+
+    ctrl->setCurrentRotation(90);
+    ctrl->setCurrentRotation(180);
+    ctrl->setCurrentRotation(0);
+
+    ASSERT_EQ(rotateFileAngles.size(), 3);
+    EXPECT_EQ(rotateFileAngles.at(0), 90);
+    EXPECT_EQ(rotateFileAngles.at(1), 90);
+    EXPECT_EQ(rotateFileAngles.at(2), -180);
+}
+
+TEST_F(GlobalControlTest, SetCurrentRotation_ResetToZero_RestoresDimensions)
 {
     // Arrange
     stub.set_lamda(VADDR(ImageInfo, swapWidthAndHeight), [this](ImageInfo *) { ++swapCalls; });
@@ -1307,14 +1326,14 @@ TEST_F(GlobalControlTest, SetCurrentRotation_ResetToZero_EmitsWithoutSwap)
     ASSERT_EQ(swapCalls, 1);
     QSignalSpy spyRotation(ctrl, &GlobalControl::currentRotationChanged);
 
-    // Act：复位到 0（angle 为 0 时特殊处理，不交换宽高）
+    // Act：复位到 0 并还原宽高
     ctrl->setCurrentRotation(0);
 
     // Assert
     EXPECT_EQ(ctrl->currentRotation(), 0);
-    EXPECT_EQ(swapCalls, 1);  // branch: needSwap 为假（angle == 0）
+    EXPECT_EQ(swapCalls, 2);  // 90 度到 0 度需要再次交换宽高
     EXPECT_EQ(spyRotation.count(), 1);
-    EXPECT_EQ(rotateFileCalls, 2);  // 复位同样会下发一次 0 度旋转请求
+    EXPECT_EQ(rotateFileCalls, 2);  // 复位会将反向角度差下发给文件旋转辅助器
 }
 
 TEST_F(GlobalControlTest, SetCurrentRotation_AngleNotMultipleOfNinety_StillApplied)
@@ -1613,9 +1632,8 @@ TEST_F(GlobalControlTest, TimerEvent_SubmitTimerExpired_SubmitsPendingRotation)
     EXPECT_EQ(spyRotate.count(), 1);  // branch: submitTimer.timerId() == event->timerId()
     EXPECT_EQ(spyRotate.at(0).at(1).toInt(), 90);
     EXPECT_EQ(ctrl->currentRotation(), 0);
-    // 真实行为：submit 内部 setCurrentRotation(0) 会再次 submitTimer.start()，
-    // 提交后定时器被重新武装（下次到期时旋转为 0 → 早退），并非停止态
-    EXPECT_TRUE(ctrl->submitTimer.isActive());
+    // 提交后不再通过 setCurrentRotation(0) 重启定时器。
+    EXPECT_FALSE(ctrl->submitTimer.isActive());
 }
 
 TEST_F(GlobalControlTest, TimerEvent_SwitchCheckTimerExpired_RechecksNavigationFlags)
@@ -1766,33 +1784,47 @@ TEST_F(GlobalControlTest, ViewModel_AfterSetImageFiles_StillReturnsSameInstance)
     EXPECT_EQ(ctrl->viewModel(), proxy);
 }
 
-// ── 构造函数 rotateImageFinished 连接（补测：对 sender 单例直接 emit 驱动 ctor lambda）───
-// 分支（来源：get_code_snippet GlobalControl ctor globalcontrol.cpp:38-44）：
-// B1: path == currentImage.source().toLocalFile() → submitImageChangeImmediately()
-// B2: 路径不匹配 → 仅记录日志，无副作用
-// 映射： GlobalControl_RotateFinishedHook_MatchingPathSubmitsPendingRotation    → B1
-//        GlobalControl_RotateFinishedHook_MismatchedPathKeepsPendingRotation    → B2
+// ── 构造函数旋转队列完成连接：不得提交仍在防抖期内的新目标 ──
 
-TEST_F(GlobalControlTest, GlobalControl_RotateFinishedHook_MatchingPathSubmitsPendingRotation)
+TEST_F(GlobalControlTest, GlobalControl_RotationQueueFinished_MatchingPathKeepsPendingRotation)
 {
-    // Arrange：三张图打开 b.png 并挂起 90 度未提交旋转；lambda 已在构造函数中连接到
-    // RotateImageHelper::instance() 的 rotateImageFinished 信号
+    // Arrange：三张图打开 b.png 并挂起 90 度未提交旋转；回调已连接到
+    // RotateImageHelper::instance() 的 rotationQueueFinished 信号
     const QList<QUrl> urls = loadThreeImages();
     ctrl->setCurrentRotation(90);
     ASSERT_EQ(ctrl->currentRotation(), 90);
     QSignalSpy spyRotate(ctrl, &GlobalControl::requestRotateImage);
 
     // Act：对 sender 单例直接 emit，路径与当前图一致
-    Q_EMIT RotateImageHelper::instance()->rotateImageFinished(urls.at(1).toLocalFile(), true);
+    Q_EMIT RotateImageHelper::instance()->rotationQueueFinished(urls.at(1).toLocalFile(), true);
 
-    // Assert：B1 命中 → submitImageChangeImmediately 发出 (路径, 90) 请求并复位角度
-    EXPECT_EQ(spyRotate.count(), 1);
-    EXPECT_EQ(spyRotate.at(0).at(0).toString(), urls.at(1).toLocalFile());
-    EXPECT_EQ(spyRotate.at(0).at(1).toInt(), 90);
-    EXPECT_EQ(ctrl->currentRotation(), 0);
+    // 完成信号可能来自较早的队列任务，不能提交或清零当前最新目标。
+    EXPECT_EQ(spyRotate.count(), 0);
+    EXPECT_EQ(ctrl->currentRotation(), 90);
+    EXPECT_TRUE(ctrl->submitTimer.isActive());
 }
 
-TEST_F(GlobalControlTest, GlobalControl_RotateFinishedHook_MismatchedPathKeepsPendingRotation)
+TEST_F(GlobalControlTest, GlobalControl_RotationQueueFinished_FailedTaskRestoresSource)
+{
+    const QList<QUrl> urls = loadThreeImages();
+    stub.set_lamda(VADDR(ImageInfo, reloadData), [this](ImageInfo *) { ++reloadCalls; });
+    ctrl->setCurrentRotation(90);
+    QSignalSpy spyRotate(ctrl, &GlobalControl::requestRotateImage);
+    QSignalSpy spyInvalidate(ctrl, &GlobalControl::requestInvalidateImageCache);
+    QSignalSpy spyReload(ctrl, &GlobalControl::requestReloadCurrentImage);
+
+    Q_EMIT RotateImageHelper::instance()->rotationQueueFinished(urls.at(1).toLocalFile(), false);
+
+    EXPECT_EQ(spyRotate.count(), 0);
+    EXPECT_EQ(ctrl->currentRotation(), 0);
+    EXPECT_FALSE(ctrl->submitTimer.isActive());
+    ASSERT_EQ(spyInvalidate.count(), 1);
+    EXPECT_EQ(spyInvalidate.at(0).at(0).toString(), urls.at(1).toLocalFile());
+    EXPECT_EQ(spyReload.count(), 1);
+    EXPECT_EQ(reloadCalls, 1);
+}
+
+TEST_F(GlobalControlTest, GlobalControl_RotationQueueFinished_MismatchedPathKeepsPendingRotation)
 {
     // Arrange：挂起 90 度旋转，准备与当前图不同的路径
     const QList<QUrl> urls = loadThreeImages();
@@ -1802,9 +1834,9 @@ TEST_F(GlobalControlTest, GlobalControl_RotateFinishedHook_MismatchedPathKeepsPe
     const QString otherPath = tempDir.filePath(QStringLiteral("other.png"));
 
     // Act：emit 的路径与当前图不匹配
-    Q_EMIT RotateImageHelper::instance()->rotateImageFinished(otherPath, true);
+    Q_EMIT RotateImageHelper::instance()->rotationQueueFinished(otherPath, true);
 
-    // Assert：B2 —— 不提交，挂起旋转与当前源原样保留（强异常安全）
+    // 不提交，挂起旋转与当前源原样保留。
     EXPECT_EQ(spyRotate.count(), 0);
     EXPECT_EQ(ctrl->currentRotation(), 90);
     EXPECT_EQ(ctrl->currentSource(), urls.at(1));
