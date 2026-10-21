@@ -22,9 +22,14 @@
 
 #include <QDebug>
 #include <QImage>
+#include <QLoggingCategory>
 #include <QVariant>
 
 #include <libraw.h>
+
+// RAW 图像格式插件分类：挂在本应用前缀下（org.deepin.dde.imageviewer），
+// 便于 debug-config 通配规则统一开关
+Q_LOGGING_CATEGORY(logXRaw, "org.deepin.dde.imageviewer.libraw")
 
 class RawIOHandlerPrivate
 {
@@ -134,13 +139,13 @@ bool RawIOHandler::read(QImage *image)
 
     if (finalSize.width() < imgdata.thumbnail.twidth ||
             finalSize.height() < imgdata.thumbnail.theight) {
-        qDebug() << "Using thumbnail";
+        qCDebug(logXRaw) << "Using thumbnail";
         d->raw->unpack_thumb();
 
         errCode = LIBRAW_SUCCESS;
         output = d->raw->dcraw_make_mem_thumb(&errCode);
         if (errCode) {
-            qWarning() << QString("LibRaw make mem thumb error! error code: %1, error string: %2")
+            qCWarning(logXRaw) << QString("LibRaw make mem thumb error! error code: %1, error string: %2")
                           .arg(errCode).arg(QString(d->raw->strerror(errCode)));
             if (output) {
                 d->raw->dcraw_clear_mem(output);
@@ -150,20 +155,20 @@ bool RawIOHandler::read(QImage *image)
     }
 
     if (!output) {
-        qDebug() << "Decoding raw data";
+        qCDebug(logXRaw) << "Decoding raw data";
         if ((errCode = d->raw->unpack()) != LIBRAW_SUCCESS) {
-            qWarning() << "Decoding raw data unpack error:" << LibRaw::strerror(errCode);
+            qCWarning(logXRaw) << "Decoding raw data unpack error:" << LibRaw::strerror(errCode);
             return false;
         }
         if ((errCode = d->raw->dcraw_process()) != LIBRAW_SUCCESS) {
-            qWarning() << "Decoding raw data dcraw_process error:" << LibRaw::strerror(errCode);
+            qCWarning(logXRaw) << "Decoding raw data dcraw_process error:" << LibRaw::strerror(errCode);
             return false;
         }
 
         errCode = LIBRAW_SUCCESS;
         output = d->raw->dcraw_make_mem_image(&errCode);
         if (errCode) {
-            qWarning() << QString("LibRaw make mem image error! error code: %1, error string: %2")
+            qCWarning(logXRaw) << QString("LibRaw make mem image error! error code: %1, error string: %2")
                           .arg(errCode).arg(QString(d->raw->strerror(errCode)));
             if (output) {
                 d->raw->dcraw_clear_mem(output);
