@@ -16,6 +16,9 @@
 #include <QImage>
 #include <QBuffer>
 #include <QDebug>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(logImageViewer)
 
 class OcrInterface: public QDBusAbstractInterface
 {
@@ -54,14 +57,14 @@ public Q_SLOTS: // METHODS
     */
     inline QDBusPendingReply<> openImage(const QImage &image)
     {
-        qDebug() << __FUNCTION__;
+        qCDebug(logImageViewer) << __FUNCTION__;
         QByteArray data;
         QBuffer buf(&data);
         if (image.save(&buf, "PNG")) {
             data = qCompress(data, 9);
             data = data.toBase64();
         } else {
-            qWarning() << __FUNCTION__ << "failed to save image to buffer, size:" << image.size();
+            qCWarning(logImageViewer) << __FUNCTION__ << "failed to save image to buffer, size:" << image.size();
         }
         return call(QStringLiteral("openImage"), QVariant::fromValue(data));
     }
@@ -75,14 +78,14 @@ public Q_SLOTS: // METHODS
     */
     inline QDBusPendingReply<> openImageAndName(const QImage &image, const QString &imageName)
     {
-        qDebug() << __FUNCTION__;
+        qCDebug(logImageViewer) << __FUNCTION__;
         QByteArray data;
         QBuffer buf(&data);
         if (image.save(&buf, "PNG")) {
             data = qCompress(data, 9);
             data = data.toBase64();
         } else {
-            qWarning() << __FUNCTION__ << "failed to save image:" << imageName;
+            qCWarning(logImageViewer) << __FUNCTION__ << "failed to save image:" << imageName;
         }
         return call(QStringLiteral("openImageAndName"), QVariant::fromValue(data), imageName);
     }

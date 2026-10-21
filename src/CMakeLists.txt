@@ -184,3 +184,14 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/assets/deepin-image-viewer
 #context-menu conf 文管右键菜单配置文件
 install(FILES ${PROJECT_SOURCE_DIR}/src/misc/context-menus/deepin-print-pictures.conf
     DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications/context-menus/)
+
+# 安装 DConfig 配置文件（动态日志规则，调试模式适配）
+# DConfig meta 需要安装到 share/dsg/configs/<appId>/ 下
+set(DCONFIG_APPID org.deepin.dde.imageviewer)
+file(GLOB DCONFIG_FILES "${CMAKE_SOURCE_DIR}/assets/configs/*.json")
+if(DEFINED DSG_DATA_DIR AND DTK_VERSION_MAJOR EQUAL "6")
+    dtk_add_config_meta_files(APPID ${DCONFIG_APPID} FILES ${DCONFIG_FILES})
+else()
+    install(FILES ${DCONFIG_FILES}
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/dsg/configs/${DCONFIG_APPID})
+endif()
