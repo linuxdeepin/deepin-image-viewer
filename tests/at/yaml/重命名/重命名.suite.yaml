@@ -1,42 +1,53 @@
 name: 重命名_suite
 app: deepin-image-viewer
-description: ''
 module: 重命名
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
-- id: case_1652281_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+- id: suite_chongmingming_001_s1
+  name: 重命名-快捷键F2重命名
+  description: 按F2打开重命名对话框，输入新名称并确认
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f2
-  - action: keyboard_type
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
     text: test_rename
-  - action: keyboard_press
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
     key: enter
+    wait: 1.0
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
-- id: case_1652343_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_chongmingming_002_s1
+  name: 重命名-右键菜单重命名
+  description: 右键图片选择重命名，验证重命名对话框出现
   steps:
-  - action: keyboard_press
-    key: f2
-  - action: keyboard_type
-    text: Test123!@#
-  - action: keyboard_press
-    key: enter
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rename
+    wait: 1.0
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Renamedialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop

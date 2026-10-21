@@ -1,25 +1,25 @@
 name: 打印_suite
 app: deepin-image-viewer
-description: ''
 module: 打印
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
-- id: case_1652143_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+- id: suite_dayin_001_s1
+  name: 打印-右键菜单打印
+  description: 右键图片选择打印，验证应用正常运行
   steps:
-  - action: keyboard_hot_key
-    key: ctrl+p
-  - action: keyboard_press
-    key: escape
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Print
+    wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop
