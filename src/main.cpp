@@ -17,6 +17,7 @@
 #include "src/imagedata/imageprovider.h"
 #include "src/utils/filetrashhelper.h"
 #include "src/commandparser.h"
+#include "src/logger.h"
 #include "config.h"
 
 #include <DApplication>
@@ -38,6 +39,10 @@ DCORE_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
+    // 动态日志规则监听：必须在任何日志打印之前、Application 实例化之前
+    // （qunsetenv("QT_LOGGING_RULES") 之前不能有日志输出，参考 deepin-reader MLogger）
+    MLogger logger;
+
 #ifdef Q_OS_LINUX
     // Keep large image buffers mmap-backed instead of retaining them in the heap after repeated decoding.
     constexpr int imageBufferMmapThreshold = 128 * 1024;

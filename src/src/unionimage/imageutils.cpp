@@ -471,7 +471,7 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
     /*lmh0724使用USE_UNIONIMAGE*/
     else if (QFileInfo(failEncodePath).exists()) {
         qCWarning(logImageViewer) << "Fail-thumbnail exists, won't regenerate for:" << path;
-        qDebug() << "Fail-thumbnail exist, won't regenerate: ";
+        qCDebug(logImageViewer) << "Fail-thumbnail exist, won't regenerate: ";
         return QPixmap();
     } else {
         qCDebug(logImageViewer) << "Thumbnail not found, attempting to generate (if not cacheOnly).";
