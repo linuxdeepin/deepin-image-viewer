@@ -8,7 +8,7 @@ setup:
 suites:
 - id: suite_edit_001_s1
   name: 编辑模式元素覆盖验证
-  description: 进入编辑模式验证所有编辑相关元素存在
+  description: 进入编辑模式验证编辑工具栏可访问元素存在
   steps:
   - step_type: action
     action: keyboard_hot_key
@@ -18,10 +18,60 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
-      name: FullImageEditCanvas
+      name: Edit toolbar
   - step_type: assert
     action: assert_element
     selector:
-      name: EditToolbar
+      name: Pen (P)
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Line (L)
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Arrow (A)
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Rect (R)
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Ellipse (C)
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Text (T)
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Blur (B)
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Crop (X)
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Undo (Ctrl+Z)
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Redo (Ctrl+Y)
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Save Copy
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Close Edit
+  - step_type: action
+    action: element_action
+    selector:
+      name: Close Edit
+    do: click
+    wait: 1.0
 teardown:
 - action: session_stop

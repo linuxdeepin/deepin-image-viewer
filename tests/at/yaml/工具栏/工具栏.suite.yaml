@@ -80,5 +80,86 @@ suites:
     wait: 1.0
   assert_steps:
   - action: assert_process_running
+- id: case_1651981_s1
+  name: 工具栏-单张可读写图片按钮展示
+  description: 验证单张图片时工具栏控件存在且应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651997_s1
+  name: 工具栏-全屏唤出工具栏
+  description: 双击进入全屏后ESC退出，验证工具栏交互正常
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652123_s1
+  name: 工具栏-多张图片时检查工具栏
+  description: 点击下一张后验证工具栏包含上一张、下一张、适应窗口等按钮
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Next
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Previous
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Fit to window
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop

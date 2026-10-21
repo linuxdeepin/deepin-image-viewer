@@ -1,89 +1,310 @@
 name: 右键菜单_suite
 app: deepin-image-viewer
-description: ''
 module: 右键菜单
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
-- id: case_1652413_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+- id: suite_yjbuancaidan_001_s1
+  name: 右键菜单-复制图片
+  description: 右键图片选择复制，验证应用正常运行
   steps:
-  - action: mouse_right_click
-    x: 500
-    y: 400
-  - action: keyboard_press
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_002_s1
+  name: 右键菜单-重命名
+  description: 右键图片选择重命名，验证重命名输入框出现后键盘取消关闭
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rename
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: New file name
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+- id: suite_yjbuancaidan_003_s1
+  name: 右键菜单-删除图片
+  description: 右键图片选择删除，弹出确认框后取消删除
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Delete
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
     key: escape
-  assert_steps:
-  - action: assert_process_running
-- id: case_1652147_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+    wait: 0.5
+- id: suite_yjbuancaidan_004_s1
+  name: 右键菜单-顺时针旋转
+  description: 右键图片选择顺时针旋转，验证图片视图存在
   steps:
-  - action: keyboard_hot_key
-    key: ctrl+c
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate clockwise
+    wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_005_s1
+  name: 右键菜单-逆时针旋转
+  description: 右键图片选择逆时针旋转，验证图片视图存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate counterclockwise
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_006_s1
+  name: 右键菜单-打印
+  description: 右键图片键盘导航到打印菜单项后取消（避免拉起打印对话框），验证菜单导航与进程存活
+  steps:
+  - step_type: action
+    action: mouse_right_click
+    selector:
+      name: Image view
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_008_s1
+  name: 右键菜单-幻灯片放映
+  description: 右键图片选择幻灯片放映，ESC退出后验证应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Slide show
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_009_s1
+  name: 右键菜单-设为壁纸
+  description: 右键图片选择设为壁纸，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_010_s1
+  name: 右键菜单-在文件管理器中显示
+  description: 右键图片选择在文件管理器中显示，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Display in file manager
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_yjbuancaidan_011_s1
+  name: 右键菜单-识别文字
+  description: 右键图片选择识别文字，验证OCR识别完成（HighlightText按钮出现）后ESC退出OCR状态
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Extract text
+    wait: 25.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: HighlightText
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+- id: suite_yjbuancaidan_007_s1
+  name: 右键菜单-图片信息
+  description: 右键图片选择图片信息，验证信息对话框出现（放在末尾避免对话框残留影响后续用例）
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Image info
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Basic info
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652213_s1
+  name: 删除-右键菜单删除
+  description: 右键图片选择删除，弹出确认框后取消删除，验证应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Delete
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
 - id: case_1652217_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 壁纸-窗口下设置壁纸
+  description: 右键图片选择设为壁纸，验证应用正常运行
   steps:
-  - action: keyboard_hot_key
-    key: ctrl+f9
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652221_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 图片信息-右键菜单打开图片信息
+  description: 右键图片选择图片信息，验证信息对话框出现后ESC关闭
   steps:
-  - action: keyboard_hot_key
-    key: ctrl+i
-    wait: 0.5
-  - action: keyboard_press
-    key: escape
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Image info
+    wait: 1.5
   assert_steps:
-  - action: assert_process_running
-- id: case_1652237_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Basic info
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+- id: case_1652413_s1
+  name: 公共能力-右键菜单检查
+  description: 右键图片验证右键菜单包含复制、重命名、删除、旋转等常用功能项
   steps:
-  - action: keyboard_hot_key
-    key: alt+d
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Copy
+    - Rename
+    - Delete
+    - Rotate clockwise
+    - Rotate counterclockwise
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
-- id: case_1652245_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
-  steps:
-  - action: keyboard_hot_key
-    key: ctrl+shift+r
-    wait: 0.5
-  assert_steps:
-  - action: assert_process_running
-- id: case_1652199_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
-  steps:
-  - action: keyboard_press
-    key: f11
-    wait: 0.5
-  - action: keyboard_press
-    key: escape
-  assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop
