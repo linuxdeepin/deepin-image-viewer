@@ -26,19 +26,28 @@ MLogger::MLogger(QObject *parent)
 
 #ifdef DTKCORE_CLASS_DConfigFile
     // set dconfig
+    // DConfig 为运行时唯一权威来源：meta 未安装或创建失败时 create() 返回空指针，
+    // 此时仅使用环境变量继承的规则兑底，不影响应用启动。
     m_config = DConfig::create("org.deepin.dde.imageviewer", "org.deepin.dde.imageviewer");
-    logRules = m_config->value("log_rules").toByteArray();
-    appendRules(logRules);
-    setRules(m_rules);
+    if (m_config) {
+        logRules = m_config->value("log_rules").toByteArray();
+        appendRules(logRules);
+        setRules(m_rules);
 
-    // watch dconfig
-    // LCOV_EXCL_START
-    connect(m_config, &DConfig::valueChanged, this, [this](const QString &key) {
-        if (key == "log_rules") {
-            setRules(m_config->value(key).toByteArray());
-        }
-    });
-    // LCOV_EXCL_STOP
+        // watch dconfig
+        // 注：DConfig 变更后 setRules 会整体覆盖规则，即运行时以 DConfig 为唯一
+        // 权威来源，环境变量 QT_LOGGING_RULES 仅作为 DConfig 不可用时的兑底（与
+        // deepin-reader 的 MLogger 行为保持一致）。
+        // LCOV_EXCL_START
+        connect(m_config, &DConfig::valueChanged, this, [this](const QString &key) {
+            if (key == "log_rules") {
+                setRules(m_config->value(key).toByteArray());
+            }
+        });
+        // LCOV_EXCL_STOP
+    } else {
+        setRules(m_rules);
+    }
 #else
     setRules(m_rules);
 #endif
@@ -64,14 +73,17 @@ void MLogger::appendRules(const QString &rules)
 {
     QString tmpRules = rules;
     tmpRules = tmpRules.replace(";", "\n");
-    auto tmplist = tmpRules.split('\n');
-    for (int i = 0; i < tmplist.count(); i++)
-        if (m_rules.contains(tmplist.at(i))) {
-            tmplist.removeAt(i);
-            i--;
+    // 按行精确去重，避免子串误判（如 "org...debug=false" 与 "*.debug=false"）
+    const QStringList existing = m_rules.split('\n', Qt::SkipEmptyParts);
+    QStringList adding = tmpRules.split('\n', Qt::SkipEmptyParts);
+    for (int i = 0; i < adding.count(); ++i) {
+        if (existing.contains(adding.at(i))) {
+            adding.removeAt(i);
+            --i;
         }
-    if (tmplist.isEmpty())
+    }
+    if (adding.isEmpty())
         return;
-    m_rules.isEmpty() ? m_rules = tmplist.join("\n")
-                      : m_rules += "\n" + tmplist.join("\n");
+    m_rules.isEmpty() ? m_rules = adding.join("\n")
+                      : m_rules += "\n" + adding.join("\n");
 }

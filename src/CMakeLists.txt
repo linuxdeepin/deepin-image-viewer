@@ -189,7 +189,7 @@ install(FILES ${PROJECT_SOURCE_DIR}/src/misc/context-menus/deepin-print-pictures
 # DConfig meta 需要安装到 share/dsg/configs/<appId>/ 下
 set(DCONFIG_APPID org.deepin.dde.imageviewer)
 file(GLOB DCONFIG_FILES "${CMAKE_SOURCE_DIR}/assets/configs/*.json")
-if(DEFINED DSG_DATA_DIR AND DTK_VERSION_MAJOR EQUAL "6")
+if(DEFINED DSG_DATA_DIR AND DTK_VERSION_MAJOR EQUAL 6)
     dtk_add_config_meta_files(APPID ${DCONFIG_APPID} FILES ${DCONFIG_FILES})
 else()
     install(FILES ${DCONFIG_FILES}
