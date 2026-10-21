@@ -14,7 +14,7 @@ class DConfig;
 DCORE_END_NAMESPACE
 #endif
 
-// 动态日志规则监听：从 DConfig(org.deepin.dde.imageviewer) 读取 log_rules，
+// 动态日志规则监听：从 DConfig(org.deepin.imageviewer) 读取 log_rules，
 // 运行中随 debug-config 调试模式切换动态生效（参考 deepin-reader 的 MLogger）
 class MLogger : public QObject
 {

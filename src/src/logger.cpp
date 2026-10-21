@@ -28,7 +28,7 @@ MLogger::MLogger(QObject *parent)
     // set dconfig
     // DConfig 为运行时唯一权威来源：meta 未安装或创建失败时 create() 返回空指针，
     // 此时仅使用环境变量继承的规则兑底，不影响应用启动。
-    m_config = DConfig::create("org.deepin.dde.imageviewer", "org.deepin.dde.imageviewer");
+    m_config = DConfig::create("org.deepin.imageviewer", "org.deepin.imageviewer");
     if (m_config) {
         logRules = m_config->value("log_rules").toByteArray();
         appendRules(logRules);
