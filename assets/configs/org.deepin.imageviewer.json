@@ -3,7 +3,7 @@
   "version": "1.0",
   "contents": {
     "log_rules": {
-      "value": "org.deepin.dde.imageviewer*.debug=false;org.deepin.dde.imageviewer*.info=false;org.deepin.dde.imageviewer*.warning=true",
+      "value": "org.deepin.imageviewer*.debug=false;org.deepin.imageviewer*.info=false;org.deepin.imageviewer*.warning=true",
       "serial": 0,
       "flags": [
         "global"

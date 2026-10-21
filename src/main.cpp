@@ -33,7 +33,7 @@
 #include <malloc.h>
 #endif
 
-Q_LOGGING_CATEGORY(logImageViewer, "org.deepin.dde.imageviewer")
+Q_LOGGING_CATEGORY(logImageViewer, "org.deepin.imageviewer")
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 

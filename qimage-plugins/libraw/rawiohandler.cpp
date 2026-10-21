@@ -27,9 +27,9 @@
 
 #include <libraw.h>
 
-// RAW 图像格式插件分类：挂在本应用前缀下（org.deepin.dde.imageviewer），
+// RAW 图像格式插件分类：挂在本应用前缀下（org.deepin.imageviewer），
 // 便于 debug-config 通配规则统一开关
-Q_LOGGING_CATEGORY(logXRaw, "org.deepin.dde.imageviewer.libraw")
+Q_LOGGING_CATEGORY(logXRaw, "org.deepin.imageviewer.libraw")
 
 class RawIOHandlerPrivate
 {
