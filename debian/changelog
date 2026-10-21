@@ -1,3 +1,24 @@
+deepin-image-viewer (6.1.3) unstable; urgency=medium
+
+  * chore: migrate linglong.yaml to declarative buildext.apt
+  * fix: exit crop mode after crop confirmation
+  * fix(dialog): rework remove dialog per dtk rules
+  * fix(viewer): replace deleted-file placeholder with breach icon
+  * fix: drop stay-on-top hint from rename dialog
+  * [skip CI] Translate deepin-image-viewer.ts in ru
+  * docs(help): add image editing section to user manuals
+  * fix(rotation): preserve accumulated rotation
+  * fix(image): keep zoomed images sharp
+  * fix(editor): prevent flicker on first effect application
+  * fix: reset fullscreen safely on switch to open image page
+  * test(imageutils): add heif/avif suffix readability regression test
+  * test(imageutils): add gif suffix readability regression test
+  * fix: warn instead of silently swallowing exceptions in convertToSRgbColorSpace
+  * test: suppress dtk6gui framework leaks in LSan
+  * test(unionimage): add CMYK colorspace conversion regression test
+
+ -- Tian Shilin <tianshilin@uniontech.com>  Wed, 21 Oct 2026 10:29:43 +0800
+
 deepin-image-viewer (6.1.2) unstable; urgency=medium
 
   * chore: update version to 6.1.2
