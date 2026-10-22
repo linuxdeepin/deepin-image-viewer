@@ -405,6 +405,46 @@ TEST_F(PathViewRangeHandlerTest, EventFilter_MouseButtonRelease_ResetsBasePoint)
     EXPECT_EQ(obj->basePoint, QPointF());
 }
 
+TEST_F(PathViewRangeHandlerTest, EventFilter_FirstMoveAfterPress_BlocksOutOfRangeDirection)
+{
+    // Arrange: the first move must be compared to the press, not accepted as a baseline.
+    QQuickItem view;
+    obj->setTarget(&view);
+    obj->setEnableForward(false);
+    const QPointF start(100, 50);
+    QMouseEvent press(QEvent::MouseButtonPress, start, start, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    EXPECT_FALSE(obj->eventFilter(&view, &press));
+    QMouseEvent move(QEvent::MouseMove, QPointF(120, 50), QPointF(120, 50),
+                     Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+
+    // Act
+    const bool filtered = obj->eventFilter(&view, &move);
+
+    // Assert: the first forbidden frame never reaches PathView.
+    EXPECT_TRUE(filtered);
+    EXPECT_FALSE(move.isAccepted());
+}
+
+TEST_F(PathViewRangeHandlerTest, EventFilter_PressAtOrigin_BlocksFirstOutOfRangeMove)
+{
+    // Arrange: (0, 0) is a valid press position, not an uninitialized sentinel.
+    QQuickItem view;
+    obj->setTarget(&view);
+    obj->setEnableBackward(false);
+    const QPointF start(0, 0);
+    QMouseEvent press(QEvent::MouseButtonPress, start, start, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    EXPECT_FALSE(obj->eventFilter(&view, &press));
+    QMouseEvent move(QEvent::MouseMove, QPointF(-10, 0), QPointF(-10, 0),
+                     Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+
+    // Act
+    const bool filtered = obj->eventFilter(&view, &move);
+
+    // Assert
+    EXPECT_TRUE(filtered);
+    EXPECT_FALSE(move.isAccepted());
+}
+
 TEST_F(PathViewRangeHandlerTest, EventFilter_MouseMoveOnNonTargetObject_SetsBasePoint)
 {
     // Arrange

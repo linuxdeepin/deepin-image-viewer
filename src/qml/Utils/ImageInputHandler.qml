@@ -90,8 +90,21 @@ Item {
         onPressAndHold: {
         }
         onPressed: mouse => {
+            if (Qt.LeftButton === mouse.button && Window.window) {
+                Window.window.imagePointerDown = true;
+            }
             if (Qt.RightButton === mouse.button && !IV.GStatus.editMode) {
                 IV.GStatus.showRightMenu = true;
+            }
+        }
+        onReleased: {
+            if (Window.window) {
+                Window.window.imagePointerDown = false;
+            }
+        }
+        onCanceled: {
+            if (Window.window) {
+                Window.window.imagePointerDown = false;
             }
         }
         onWheel: wheel => {

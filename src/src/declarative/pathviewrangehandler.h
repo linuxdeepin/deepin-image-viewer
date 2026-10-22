@@ -40,6 +40,7 @@ private:
     bool enableForwardFlag { true };   // 允许向前
     bool enableBackwardFlag { true };  // 允许向后
     QPointF basePoint;
+    bool hasBasePoint { false };
 };
 
 #endif  // PATHVIEWRANGEHANDLER_H
