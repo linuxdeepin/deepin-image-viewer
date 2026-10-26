@@ -1,0 +1,210 @@
+name: 键鼠切换_suite
+app: deepin-image-viewer
+module: 键鼠切换
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: case_1652095_s1
+  name: 键鼠切换-光标在预览区域图片上时Ctrl+滚轮切换图片
+  description: 光标在图片预览区域图片上时按住Ctrl滚动鼠标滚轮切换图片
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 1
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652089_s1
+  name: 键鼠切换-光标在图片旁空白区域时Ctrl+滚轮切换图片
+  description: 光标在图片预览区域图片旁空白区域时按住Ctrl滚动鼠标滚轮切换图片
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 1
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652081_s1
+  name: 键鼠切换-光标在缩略图区域时Ctrl+滚轮无响应
+  description: 光标在工具栏缩略图区域时按住Ctrl滚动鼠标滚轮，看图无响应
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: BottomthumbnaillistView
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652079_s1
+  name: 键鼠切换-光标在工具栏非缩略图区域时Ctrl+滚轮无响应
+  description: 光标在工具栏非缩略图区域时按住Ctrl滚动鼠标滚轮，看图无响应
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Toolbar
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 1
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652077_s1
+  name: 键鼠切换-光标在标题栏时Ctrl+滚轮无响应
+  description: 光标在标题栏时按住Ctrl滚动鼠标滚轮，看图无响应
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Title bar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652073_s1
+  name: 键鼠切换-首张图时切换上一张不循环
+  description: 切换至首张图片后按上一张不循环切换，只可向下切换
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: 下一张
+    do: click
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652119_s1
+  name: 键鼠切换-滚动缩放过程中按下Ctrl切换图片
+  description: 在图片预览区域来回滚动鼠标滚轮缩放过程中按下Ctrl键切换图片
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -3
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 3
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652093_s1
+  name: 键鼠切换-撕裂图页面检查图片切换功能
+  description: 移动光标至图片预览区域图片上，按住Ctrl滚动鼠标滚轮切换图片
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: click
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: 1
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

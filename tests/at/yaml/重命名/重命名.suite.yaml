@@ -1,42 +1,150 @@
 name: 重命名_suite
 app: deepin-image-viewer
-description: ''
 module: 重命名
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
 - id: case_1652281_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 重命名-快捷键F2唤起重命名窗口
+  description: 按F2唤起重命名窗口，输入名称并确认
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f2
-  - action: keyboard_type
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
     text: test_rename
-  - action: keyboard_press
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
     key: enter
+    wait: 1.0
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1652343_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 重命名-文件名字符类型检查
+  description: 输入包含大小写字母、数字、特殊符号的名称，验证重命名成功
   steps:
-  - action: keyboard_press
+  - step_type: action
+    action: keyboard_press
     key: f2
-  - action: keyboard_type
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
     text: Test123!@#
-  - action: keyboard_press
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
     key: enter
+    wait: 1.0
   assert_steps:
-  - action: assert_process_running
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652283_s1
+  name: 重命名-只读图片重命名检查
+  description: 对只读图片按F2，验证无重命名响应
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652285_s1
+  name: 重命名-文件名字符长度检查
+  description: 输入超长文件名（228字符），验证最大长度限制
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652307_s1
+  name: 重命名-修改名称与其他非同格式图片重名
+  description: 重命名为其他不同格式图片的文件名，验证重命名窗口展示
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: next
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652319_s1
+  name: 重命名-修改图片名称较长时省略号展示
+  description: 输入长名称（40+字符），验证名称展示省略号
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_type
+    text: very_long_filename_for_ellipsis_display_test
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: enter
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: RenameDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop
