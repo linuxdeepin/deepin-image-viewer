@@ -36,9 +36,44 @@ DTK.Control {
     implicitWidth: 514
     padding: 0
 
-    background: DTK.FloatingPanel {
+    // 使用自定义背景替代 DTK.FloatingPanel：FloatingPanel 内部 ItemViewport 生成
+    // 低分辨率遮罩纹理并以 Nearest 采样，圆角边缘出现锯齿。Rectangle 的圆角由
+    // Qt Quick GPU 管线原生抗锯齿渲染，从根本上消除锯齿。
+    // 不使用 DTK.InWindowBlur：同仓库 ReName.qml 已确认 DTK InWindowBlur 存在
+    // bug（见 ReName.qml:45 注释），且工具栏无需毛玻璃模糊效果。
+    background: Item {
         Accessible.ignored: true
         implicitHeight: editToolbar.implicitHeight
+
+        // hollow: true 使投影仅绘制在圆角外缘，不遮挡面板内容
+        DTK.BoxShadow {
+            anchors.fill: parent
+            cornerRadius: 18
+            hollow: true
+            shadowBlur: 20
+            shadowColor: Qt.rgba(editToolbar.palette.shadow.r,
+                                 editToolbar.palette.shadow.g,
+                                 editToolbar.palette.shadow.b, 0.24)
+            shadowOffsetY: 6
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            radius: 18
+            color: Qt.rgba(editToolbar.palette.window.r,
+                           editToolbar.palette.window.g,
+                           editToolbar.palette.window.b, 0.72)
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            radius: 18
+            color: "transparent"
+            border.color: Qt.rgba(editToolbar.themeTextColor.r,
+                                  editToolbar.themeTextColor.g,
+                                  editToolbar.themeTextColor.b, 0.12)
+            border.width: 1
+        }
     }
 
     component ToolbarButton: DTK.ToolButton {
