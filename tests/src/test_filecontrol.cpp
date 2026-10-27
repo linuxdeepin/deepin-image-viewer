@@ -20,6 +20,7 @@
 // | getNamePath | low | - | 1 | 3 |
 // | getPrimaryScreenCenterX | low | - | 1 | 2 |
 // | getPrimaryScreenCenterY | low | - | 1 | 2 |
+// | activateMainWindow | low | - | 1 | 3 |
 // | getlastHeight | low | - | 1 | 2 |
 // | getlastWidth | low | - | 1 | 4 |
 // | isCanDelete | mid | - | 2 | 3 |
@@ -395,6 +396,7 @@
 #include <QImageReader>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QtTest/QTest>
 #include <QObject>
 #include <QProcess>
 #include <QScreen>
@@ -406,6 +408,7 @@
 #include <QTimer>
 #include <QUrl>
 #include <QVariant>
+#include <QWindow>
 
 #include <atomic>
 
@@ -1196,6 +1199,84 @@ TEST_F(FileControlTest, GetPrimaryScreenCenterY_RealScreen_MatchesGeometryCalc)
     // Assert（B2）
     EXPECT_EQ(y, expected);
     EXPECT_EQ(obj->getPrimaryScreenCenterY(0), g.y() + g.height() / 2);
+}
+
+// ─── activateMainWindow ───
+
+TEST_F(FileControlTest, ActivateMainWindow_NoVisibleWindow_NoActionTaken)
+{
+    // Arrange：进程内无任何可见顶层窗口
+    int raiseCalls = 0;
+    int activateCalls = 0;
+    stub.set_lamda(&QWindow::raise,
+                   [&raiseCalls](QWindow *) { ++raiseCalls; });
+    stub.set_lamda(&QWindow::requestActivate,
+                   [&activateCalls](QWindow *) { ++activateCalls; });
+
+    // Act
+    obj->activateMainWindow();
+
+    // Assert：无窗口时不触发任何窗口操作
+    EXPECT_EQ(raiseCalls, 0);
+    EXPECT_EQ(activateCalls, 0);
+}
+
+TEST_F(FileControlTest, ActivateMainWindow_VisibleWindow_RaisesAndRequestsActivate)
+{
+    // Arrange：可见主窗口非最小化；先建窗口再打桩，避免影响平台窗口初始化
+    QWindow win;
+    win.setVisible(true);
+    int restoreCalls = 0;
+    int raiseCalls = 0;
+    int activateCalls = 0;
+    stub.set_lamda(&QWindow::setWindowStates,
+                   [&restoreCalls](QWindow *, Qt::WindowStates) { ++restoreCalls; });
+    stub.set_lamda(&QWindow::raise,
+                   [&raiseCalls](QWindow *) { ++raiseCalls; });
+    stub.set_lamda(&QWindow::requestActivate,
+                   [&activateCalls](QWindow *) { ++activateCalls; });
+
+    // Act
+    obj->activateMainWindow();
+
+    // Assert：非最小化无需还原，直接置顶并请求焦点各一次
+    EXPECT_EQ(restoreCalls, 0);
+    EXPECT_EQ(raiseCalls, 1);
+    EXPECT_EQ(activateCalls, 1);
+}
+
+TEST_F(FileControlTest, ActivateMainWindow_MinimizedWindow_RestoresKeepingOtherStates)
+{
+    // Arrange：窗口已创建可见；打桩 windowStates 返回“最小化+最大化”组合，
+    // 捕获还原请求参数（不真实修改窗口状态）
+    QWindow win;
+    win.setVisible(true);
+    int restoreCalls = 0;
+    int raiseCalls = 0;
+    int activateCalls = 0;
+    Qt::WindowStates requestedStates = Qt::WindowNoState;
+    stub.set_lamda(&QWindow::windowStates,
+                   [](const QWindow *) -> Qt::WindowStates {
+                       return Qt::WindowMaximized | Qt::WindowMinimized;
+                   });
+    stub.set_lamda(&QWindow::setWindowStates,
+                   [&restoreCalls, &requestedStates](QWindow *, Qt::WindowStates s) {
+                       ++restoreCalls;
+                       requestedStates = s;
+                   });
+    stub.set_lamda(&QWindow::raise,
+                   [&raiseCalls](QWindow *) { ++raiseCalls; });
+    stub.set_lamda(&QWindow::requestActivate,
+                   [&activateCalls](QWindow *) { ++activateCalls; });
+
+    // Act
+    obj->activateMainWindow();
+
+    // Assert：仅清除最小化标志（保留最大化形态），置顶+激活走延迟路径
+    EXPECT_EQ(restoreCalls, 1);
+    EXPECT_EQ(requestedStates, Qt::WindowStates(Qt::WindowMaximized));
+    QTRY_COMPARE(raiseCalls, 1);
+    QTRY_COMPARE(activateCalls, 1);
 }
 
 // ═════════════════ getlastWidth / getlastHeight ═════════════════
