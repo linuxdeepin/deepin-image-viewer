@@ -348,6 +348,16 @@
         <source>The file format must match the original image.</source>
         <translation>文件格式必须与原图一致。</translation>
     </message>
+    <message>
+        <location filename="../src/imageeditcontroller.cpp" line="153"/>
+        <source>Invalid file path.</source>
+        <translation>无效的文件路径。</translation>
+    </message>
+    <message>
+        <location filename="../src/imageeditcontroller.cpp" line="275"/>
+        <source>Failed to save the image. Please check the file path and permissions.</source>
+        <translation>保存图片失败，请检查文件路径和权限。</translation>
+    </message>
 </context>
 <context>
     <name>InformationDialog</name>

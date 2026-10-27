@@ -272,17 +272,17 @@ bool ImageEditController::saveComposite(const QUrl &destination, const QVariantL
 
     QSaveFile file(targetPath);
     if (!file.open(QIODevice::WriteOnly)) {
-        Q_EMIT saveFailed(file.errorString());
+        Q_EMIT saveFailed(tr("Failed to save the image. Please check the file path and permissions."));
         return false;
     }
     QImageWriter writer(&file, normalizedSource);
     if (!writer.write(result)) {
-        Q_EMIT saveFailed(writer.errorString());
+        Q_EMIT saveFailed(tr("Failed to save the image. Please check the file path and permissions."));
         file.cancelWriting();
         return false;
     }
     if (!file.commit()) {
-        Q_EMIT saveFailed(file.errorString());
+        Q_EMIT saveFailed(tr("Failed to save the image. Please check the file path and permissions."));
         return false;
     }
     return true;
