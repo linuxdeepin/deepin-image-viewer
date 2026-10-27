@@ -19,6 +19,9 @@ ApplicationWindow {
     property bool isFullScreen: window.visibility === Window.FullScreen
     property bool closeConfirmed: false
     property bool imagePointerDown: false
+    // Treeland reads this QWindow property when installing its automatic move
+    // handler. DWindow.enableSystemMove does not disable that handler there.
+    property bool _d_enableSystemMove: false
 
     signal sigTitlePress
 

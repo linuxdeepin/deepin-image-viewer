@@ -78,8 +78,21 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.fill: parent
         drag.axis: Drag.XAndYAxis
-        drag.target: targetImage
+        // The drag target is owned by the shared left-button state, not by this
+        // MouseArea's own grab. If Treeland loses the release event the
+        // MouseArea's pressed can stay set; the window-level release fallback
+        // and the hover guard below clear the state, so a mere mouse move can
+        // never keep dragging the image.
+        drag.target: Window.window && Window.window.imagePointerDown ? targetImage : null
         propagateComposedEvents: true
+
+        // Hover moves carry no pressed buttons. Clear any leftover drag state
+        // so a fast flick that lost its release cannot keep moving the image.
+        onPositionChanged: mouse => {
+            if (!(mouse.buttons & Qt.LeftButton) && Window.window) {
+                Window.window.imagePointerDown = false;
+            }
+        }
 
         onDoubleClicked: {
             if (IV.GStatus.stackPage === IV.Types.ImageViewPage) {

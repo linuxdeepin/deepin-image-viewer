@@ -82,6 +82,19 @@ Rectangle {
     BoxInsetShadow {
     }
 
+    // With Treeland's window-wide automatic move disabled, only the empty
+    // title-bar surface should initiate a compositor move. Keep this behind
+    // the title and window buttons so their clicks retain their own handlers.
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.LeftButton
+
+        onPressed: {
+            if (Window.window)
+                Window.window.startSystemMove();
+        }
+    }
+
     Control {
         id: titlecontrol
 

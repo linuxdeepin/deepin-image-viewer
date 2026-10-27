@@ -115,6 +115,11 @@ bool PathViewRangeHandler::eventFilter(QObject *obj, QEvent *event)
             qCDebug(logImageViewer) << "Event type: MouseMove.";
             auto mouseEvent = dynamic_cast<QMouseEvent *>(event);
 
+            // Boundary gestures are left-button drags. Do not interpret
+            // hover or a right-button context-menu gesture as navigation.
+            if (obj != targetView || !(mouseEvent->buttons() & Qt::LeftButton))
+                return false;
+
             if (!hasBasePoint) {
                 qCDebug(logImageViewer) << "basePoint is null, setting to current mouse position.";
                 // currentIndex 会在拖动时动态变更，因此在切换到受限图片时更新触发限制状态
@@ -134,8 +139,11 @@ bool PathViewRangeHandler::eventFilter(QObject *obj, QEvent *event)
                 }
 
                 if (filter) {
-                    qCDebug(logImageViewer) << "Event filtered, ignoring and returning true.";
-                    event->ignore();
+                    qCDebug(logImageViewer) << "Out-of-range image drag consumed without moving the window.";
+                    // A filtered drag belongs to the image view. Leaving the
+                    // move unaccepted lets Treeland's window-move helper
+                    // interpret it as a request to move the whole window.
+                    event->accept();
                     return true;
                 }
             }
