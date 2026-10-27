@@ -603,10 +603,35 @@ Item {
 
             anchors.fill: parent
 
-            FloatingPanel {
-                Accessible.ignored: true
+            // uos-design: allow-manual-blur-overlay See EditToolbar.qml.
+            Item {
                 anchors.fill: parent
-                implicitHeight: cropActionButtons.height
+                Accessible.ignored: true
+
+                BoxShadow {
+                    anchors.fill: cropPanelBackground
+                    cornerRadius: cropPanelBackground.radius
+                    hollow: true
+                    shadowBlur: 20
+                    shadowColor: Qt.rgba(cropActionPanel.palette.shadow.r,
+                                         cropActionPanel.palette.shadow.g,
+                                         cropActionPanel.palette.shadow.b, 0.24)
+                    shadowOffsetY: 6
+                }
+
+                Rectangle {
+                    id: cropPanelBackground
+
+                    anchors.fill: parent
+                    border.color: Qt.rgba(cropActionPanel.palette.windowText.r,
+                                          cropActionPanel.palette.windowText.g,
+                                          cropActionPanel.palette.windowText.b, 0.12)
+                    border.width: 1
+                    color: Qt.rgba(cropActionPanel.palette.window.r,
+                                   cropActionPanel.palette.window.g,
+                                   cropActionPanel.palette.window.b, 0.72)
+                    radius: 18
+                }
             }
 
             Row {
