@@ -5,6 +5,8 @@
 import QtQuick
 import QtQuick.Controls
 import org.deepin.dtk 1.0 as DTK
+import org.deepin.dtk.style 1.0 as DS
+import org.deepin.dtk.private 1.0 as P
 import org.deepin.image.viewer 1.0 as IV
 
 DTK.Control {
@@ -66,6 +68,76 @@ DTK.Control {
         icon.width: 20
         padding: 8
         width: 36
+
+        DTK.ColorSelector.family: DTK.Palette.CrystalColor
+
+        background: P.ButtonPanel {
+            button: modeButton
+            implicitWidth: DS.Style.iconButton.backgroundSize
+            implicitHeight: DS.Style.iconButton.backgroundSize
+
+            insideBorderColor: DTK.Palette {
+                normal {
+                    common: Qt.rgba(1, 1, 1, 0.1)
+                    crystal: Qt.rgba(1, 1, 1, 0.1)
+                }
+                normalDark {
+                    common: Qt.rgba(1, 1, 1, 0.1)
+                    crystal: Qt.rgba(1, 1, 1, 0.1)
+                }
+                hovered {
+                    common: Qt.rgba(1, 1, 1, 0.2)
+                    crystal: Qt.rgba(1, 1, 1, 0.15)
+                }
+                pressed {
+                    common: Qt.rgba(1, 1, 1, 0.03)
+                    crystal: Qt.rgba(0, 0, 0, 0.03)
+                }
+            }
+
+            outsideBorderColor: DTK.Palette {
+                normal {
+                    common: Qt.rgba(0, 0, 0, 0.08)
+                    crystal: Qt.rgba(0, 0, 0, 0.08)
+                }
+                hovered {
+                    common: Qt.rgba(0, 0, 0, 0.2)
+                    crystal: Qt.rgba(0, 0, 0, 0.2)
+                }
+                pressed {
+                    common: ("transparent")
+                    crystal: ("transparent")
+                }
+            }
+
+            color1: DTK.Palette {
+                normal {
+                    common: Qt.rgba(0, 0, 0, 0.1)
+                    crystal: Qt.rgba(1, 1, 1, 0.4)
+                }
+                normalDark {
+                    common: Qt.rgba(1, 1, 1, 0.1)
+                    crystal: Qt.rgba(1, 1, 1, 0.08)
+                }
+                hovered {
+                    common: Qt.rgba(0, 0, 0, 0.2)
+                    crystal: Qt.rgba(0, 0, 0, 0.1)
+                }
+                hoveredDark {
+                    common: Qt.rgba(1, 1, 1, 0.2)
+                    crystal: Qt.rgba(1, 1, 1, 0.2)
+                }
+                pressed {
+                    common: Qt.rgba(0, 0, 0, 0.15)
+                    crystal: Qt.rgba(0, 0, 0, 0.15)
+                }
+                pressedDark {
+                    common: Qt.rgba(1, 1, 1, 0.05)
+                    crystal: Qt.rgba(1, 1, 1, 0.05)
+                }
+            }
+            color2: color1
+        }
 
         DTK.ToolTip.delay: 500
         DTK.ToolTip.timeout: 5000
