@@ -52,6 +52,7 @@
 #include <QStringList>
 #include <QThread>
 #include <QUrl>
+#include <QWindow>
 
 #include "stub_ext/stubext.h"
 
@@ -253,3 +254,70 @@ INSTANTIATE_TEST_SUITE_P(
         OpenFileCase{"file:///virtual/pic.png", false, false, false, "file:///virtual/pic.png", 0, 0},
         // B4：可读但非图像，不发信号
         OpenFileCase{"file:///virtual/pic.png", true, false, false, "file:///virtual/pic.png", 0, 1}));
+
+// ─── openImageFile 触发的主窗口激活（B5 附属行为）───
+
+// 窗口激活计数器打桩：raise/requestActivate 非虚成员，直接地址替换
+class ActivationCounter {
+public:
+    void attach(stub_ext::StubExt &s)
+    {
+        s.set_lamda(&QWindow::raise, [this](QWindow *) { ++raiseCalls; });
+        s.set_lamda(&QWindow::requestActivate, [this](QWindow *) { ++activateCalls; });
+    }
+
+    int raiseCalls = 0;
+    int activateCalls = 0;
+};
+
+TEST_F(ApplicationAdaptorTest, OpenImageFile_Success_ActivatesMainWindow)
+{
+    // Arrange：可读且为图片的成功路径（B5）；先建窗口再打桩，避免影响平台窗口初始化
+    stub.set_lamda(VADDR(FileControl, isCanReadable),
+                   [](FileControl *, const QString &) -> bool { return true; });
+    stub.set_lamda(VADDR(FileControl, isImage),
+                   [](FileControl *, const QString &) -> bool { return true; });
+    QWindow win;
+    win.setVisible(true);
+    ActivationCounter counter;
+    counter.attach(stub);
+    QSignalSpy spy(m_fileControl, SIGNAL(openImageFile(QString)));
+    ASSERT_TRUE(spy.isValid());
+    m_adaptor = new ApplicationAdaptor(m_fileControl);
+
+    // Act
+    const bool ret = m_adaptor->openImageFile("file:///virtual/pic.png");
+
+    // Assert：打开成功且主窗口被置顶激活
+    EXPECT_TRUE(ret);
+    EXPECT_EQ(spy.count(), 1);
+    EXPECT_EQ(counter.raiseCalls, 1);
+    EXPECT_EQ(counter.activateCalls, 1);
+}
+
+TEST_F(ApplicationAdaptorTest, OpenImageFile_RejectedInput_DoesNotActivateMainWindow)
+{
+    // Arrange：不可读文件（B3 短路），不应激活窗口也不应发信号
+    stub.set_lamda(VADDR(FileControl, isCanReadable),
+                   [](FileControl *, const QString &) -> bool { return false; });
+    stub.set_lamda(VADDR(FileControl, isImage),
+                   [](FileControl *, const QString &) -> bool {
+                       ADD_FAILURE() << "isImage should not be called after readability short-circuit";
+                       return false;
+                   });
+    QWindow win;
+    win.setVisible(true);
+    ActivationCounter counter;
+    counter.attach(stub);
+    QSignalSpy spy(m_fileControl, SIGNAL(openImageFile(QString)));
+    m_adaptor = new ApplicationAdaptor(m_fileControl);
+
+    // Act
+    const bool ret = m_adaptor->openImageFile("file:///virtual/pic.png");
+
+    // Assert：拒绝打开时窗口状态不被扰动
+    EXPECT_FALSE(ret);
+    EXPECT_EQ(spy.count(), 0);
+    EXPECT_EQ(counter.raiseCalls, 0);
+    EXPECT_EQ(counter.activateCalls, 0);
+}

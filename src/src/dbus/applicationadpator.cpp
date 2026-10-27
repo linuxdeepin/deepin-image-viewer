@@ -26,6 +26,7 @@ bool ApplicationAdaptor::openImageFile(const QString &fileName)
                 : inputUrl;
         const QString urlPath = normalizedUrl.toString();
         if (fileControl->isCanReadable(urlPath) && fileControl->isImage(urlPath)) {
+            fileControl->activateMainWindow();
             Q_EMIT fileControl->openImageFile(urlPath);
             return true;
         }
