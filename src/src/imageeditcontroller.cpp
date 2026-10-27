@@ -233,12 +233,12 @@ bool ImageEditController::saveComposite(const QUrl &destination, const QVariantL
                 painter.setFont(font);
                 painter.drawText(textBounds.translated(textBounds.width()
                                                        * kNumberTextHorizontalOffsetRatio, 0),
-                                 Qt::AlignCenter,
+                                 Qt::AlignCenter | Qt::TextDontClip,
                                  QString::number(annotation.value(QStringLiteral("number")).toInt()));
             } else {
                 font.setPixelSize(qMax(1, qRound(textBounds.height() * 0.8)));
                 painter.setFont(font);
-                painter.drawText(textBounds, Qt::AlignLeft | Qt::AlignVCenter,
+                painter.drawText(textBounds, Qt::AlignLeft | Qt::AlignVCenter | Qt::TextSingleLine | Qt::TextDontClip,
                                  annotation.value(QStringLiteral("text")).toString());
             }
         } else {
