@@ -181,5 +181,30 @@ suites:
     key: escape
   assert_steps:
   - action: assert_process_running
+- id: case_1652129_s1
+  name: 键鼠切换-Ctrl+滚轮切换图片
+  description: 按住Ctrl滚动鼠标滚轮切换图片，验证应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl
+    wait: 0.2
+  - step_type: action
+    action: mouse_scroll
+    value: 1
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -1
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+    app: deepin-image-viewer
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop
