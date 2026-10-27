@@ -512,4 +512,22 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>ImageEditController</name>
+    <message>
+        <location filename="../src/imageeditcontroller.cpp" line="129"/>
+        <source>The file format must match the original image.</source>
+        <translation>The file format must match the original image.</translation>
+    </message>
+    <message>
+        <location filename="../src/imageeditcontroller.cpp" line="153"/>
+        <source>Invalid file path.</source>
+        <translation>Invalid file path.</translation>
+    </message>
+    <message>
+        <location filename="../src/imageeditcontroller.cpp" line="275"/>
+        <source>Failed to save the image. Please check the file path and permissions.</source>
+        <translation>Failed to save the image. Please check the file path and permissions.</translation>
+    </message>
+</context>
 </TS>
