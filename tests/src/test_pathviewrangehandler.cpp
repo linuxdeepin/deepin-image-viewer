@@ -31,18 +31,19 @@
 // B0: if (QEvent::MouseButtonRelease == event->type()) → basePoint 重置为空 QPointF
 //     （位于 B1 提前放行之前，双向允许时 Release 也会重置，防止残留状态误过滤）
 // B1: if (enableForwardFlag && enableBackwardFlag && obj == targetView) → 双向放行且来自目标视图
-// B2: case QEvent::MouseMove → 进入鼠标移动处理（dynamic_cast 后按 basePoint 分流）
-// B3: if (basePoint.isNull()) → basePoint = mouseEvent->position()（首次移动记录基准点）
+// B2: case QEvent::MouseMove → 仅目标视图左键拖拽进入基准点处理，悬停/右键放行
+// B3: if (!hasBasePoint) → basePoint = mouseEvent->position()（首次移动记录基准点）
 // B4: if (!enableForwardFlag && newPoint.x() > basePoint.x()) → filter = true（禁止前移却前移）
 // B5: if (!enableBackwardFlag && newPoint.x() < basePoint.x()) → filter = true（禁止后移却后移）
-// B6: if (filter) → event->ignore()（过滤命中）
+// B6: if (filter) → event->accept()（过滤命中，避免窗口移动）
 // B7: default → break → 落到末尾 return false（其它事件类型放行）
 // B8: return false（B1 早退：双向允许 + obj == targetView，事件不处理）
 // B9: return true（B6 过滤命中路径，事件被吞掉）
 // 用例映射：
 // - EventFilter_BothEnabledOnTarget_PassesThrough                      → B1/B8
 // - EventFilter_MouseButtonRelease_ResetsBasePoint                     → B0（含 B1 早退前的重置）
-// - EventFilter_MouseMoveOnNonTargetObject_SetsBasePoint               → B2+B3
+// - EventFilter_MouseMoveOnNonTargetObject_LeavesBasePointUntouched    → B2 放行
+// - EventFilter_HoverAndRightDrag_DoNotMoveGestureBaseline             → B2 非左键放行
 // - EventFilter_MouseMoveDirection_FilteringMatchesFlags（TEST_P×7）   → B4/B5/B6/B9 过滤 + B1/B8 放行 + dx==0 边界放行
 // - EventFilter_UnhandledEventType_PassesThrough                       → B7
 //
@@ -316,7 +317,7 @@ TEST_F(PathViewRangeHandlerTest, SetTarget_NewView_InstallsFilterAndEmitsChanged
     // Act
     obj->setTarget(&view);
     const QPointF pos(42, 24);
-    QMouseEvent move(QEvent::MouseMove, pos, pos, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    QMouseEvent move(QEvent::MouseMove, pos, pos, Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
     QCoreApplication::sendEvent(&view, &move);   // 经真实事件派发验证 installEventFilter
 
     // Assert  // branch T3+T4→B3+B4: 新 view 非空 → 安装过滤器 + 发信号
@@ -338,10 +339,10 @@ TEST_F(PathViewRangeHandlerTest, SetTarget_Retarget_RemovesFilterFromOldView)
     obj->setTarget(&newView);
     const QPointF oldPos(10, 10);
     const QPointF newPos(99, 99);
-    QMouseEvent moveOld(QEvent::MouseMove, oldPos, oldPos, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    QMouseEvent moveOld(QEvent::MouseMove, oldPos, oldPos, Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
     QCoreApplication::sendEvent(&oldView, &moveOld);   // 旧 view 事件不应再进入过滤器
     const bool basePointUntouchedByOldView = obj->basePoint.isNull();
-    QMouseEvent moveNew(QEvent::MouseMove, newPos, newPos, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    QMouseEvent moveNew(QEvent::MouseMove, newPos, newPos, Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
     QCoreApplication::sendEvent(&newView, &moveNew);   // 新 view 事件应进入过滤器
 
     // Assert  // branch T2+T3→B2+B3: 旧 view 移除过滤器、新 view 安装过滤器
@@ -390,7 +391,7 @@ TEST_F(PathViewRangeHandlerTest, EventFilter_MouseButtonRelease_ResetsBasePoint)
     QQuickItem view;
     obj->setTarget(&view);
     const QPointF base(30, 40);
-    QMouseEvent move(QEvent::MouseMove, base, base, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    QMouseEvent move(QEvent::MouseMove, base, base, Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
     obj->eventFilter(&view, &move);   // 先建立 basePoint
     const bool basePointEstablished = !obj->basePoint.isNull();
     obj->setEnableForward(true);   // 恢复双向允许：Release 需在提前 return 前重置 basePoint
@@ -405,22 +406,79 @@ TEST_F(PathViewRangeHandlerTest, EventFilter_MouseButtonRelease_ResetsBasePoint)
     EXPECT_EQ(obj->basePoint, QPointF());
 }
 
-TEST_F(PathViewRangeHandlerTest, EventFilter_MouseMoveOnNonTargetObject_SetsBasePoint)
+TEST_F(PathViewRangeHandlerTest, EventFilter_FirstMoveAfterPress_BlocksOutOfRangeDirection)
+{
+    // Arrange: the first move must be compared to the press, not accepted as a baseline.
+    QQuickItem view;
+    obj->setTarget(&view);
+    obj->setEnableForward(false);
+    const QPointF start(100, 50);
+    QMouseEvent press(QEvent::MouseButtonPress, start, start, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    EXPECT_FALSE(obj->eventFilter(&view, &press));
+    QMouseEvent move(QEvent::MouseMove, QPointF(120, 50), QPointF(120, 50),
+                     Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+    move.ignore();
+
+    // Act
+    const bool filtered = obj->eventFilter(&view, &move);
+
+    // Assert: the first forbidden frame never reaches PathView.
+    EXPECT_TRUE(filtered);
+    EXPECT_TRUE(move.isAccepted());
+}
+
+TEST_F(PathViewRangeHandlerTest, EventFilter_PressAtOrigin_BlocksFirstOutOfRangeMove)
+{
+    // Arrange: (0, 0) is a valid press position, not an uninitialized sentinel.
+    QQuickItem view;
+    obj->setTarget(&view);
+    obj->setEnableBackward(false);
+    const QPointF start(0, 0);
+    QMouseEvent press(QEvent::MouseButtonPress, start, start, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    EXPECT_FALSE(obj->eventFilter(&view, &press));
+    QMouseEvent move(QEvent::MouseMove, QPointF(-10, 0), QPointF(-10, 0),
+                     Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+    move.ignore();
+
+    // Act
+    const bool filtered = obj->eventFilter(&view, &move);
+
+    // Assert
+    EXPECT_TRUE(filtered);
+    EXPECT_TRUE(move.isAccepted());
+}
+
+TEST_F(PathViewRangeHandlerTest, EventFilter_MouseMoveOnNonTargetObject_LeavesBasePointUntouched)
 {
     // Arrange
     QQuickItem view;
     obj->setTarget(&view);
-    QObject stranger;   // 非 targetView → B1 因 obj 不匹配而不成立
+    QObject stranger;
     const QPointF pos(11, 22);
-    QMouseEvent move(QEvent::MouseMove, pos, pos, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    QMouseEvent move(QEvent::MouseMove, pos, pos, Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
 
     // Act
     const bool filtered = obj->eventFilter(&stranger, &move);
 
-    // Assert  // branch B3+B4: MouseMove 且 basePoint 为空 → 记录鼠标位置，事件放行
+    // A different object's movement must not establish a gesture baseline.
     EXPECT_EQ(filtered, false);
-    EXPECT_EQ(obj->basePoint, pos);
+    EXPECT_EQ(obj->basePoint, QPointF());
     EXPECT_EQ(move.isAccepted(), true);
+}
+
+TEST_F(PathViewRangeHandlerTest, EventFilter_HoverAndRightDrag_DoNotMoveGestureBaseline)
+{
+    QQuickItem view;
+    obj->setTarget(&view);
+    obj->setEnableForward(false);
+    const QPointF pos(30, 40);
+    QMouseEvent hover(QEvent::MouseMove, pos, pos, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    QMouseEvent rightDrag(QEvent::MouseMove, pos + QPointF(10, 0), pos + QPointF(10, 0),
+                          Qt::NoButton, Qt::RightButton, Qt::NoModifier);
+
+    EXPECT_FALSE(obj->eventFilter(&view, &hover));
+    EXPECT_FALSE(obj->eventFilter(&view, &rightDrag));
+    EXPECT_EQ(obj->basePoint, QPointF());
 }
 
 TEST_F(PathViewRangeHandlerTest, EventFilter_UnhandledEventType_PassesThrough)
@@ -469,17 +527,18 @@ TEST_P(PathViewRangeHandlerMoveTest, EventFilter_MouseMoveDirection_FilteringMat
     const auto &c = GetParam();
     // Arrange: 第一次移动建立 basePoint
     const QPointF base(100.0, 50.0);
-    QMouseEvent firstMove(QEvent::MouseMove, base, base, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    QMouseEvent firstMove(QEvent::MouseMove, base, base, Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
     handler->eventFilter(view, &firstMove);
 
     // Act: 第二次移动沿 x 方向偏移 dx
     QMouseEvent secondMove(QEvent::MouseMove, base + QPointF(c.dx, 0), base + QPointF(c.dx, 0),
-                           Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+                           Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+    secondMove.ignore();
     const bool filtered = handler->eventFilter(view, &secondMove);
 
-    // Assert  // B5/B6/B7/B10: 受阻方向过滤并 ignore；允许方向（B8 末尾）放行
+    // Assert  // B5/B6/B7/B10: 受阻方向消耗事件；允许方向（B8 末尾）放行
     EXPECT_EQ(filtered, c.expectFiltered);
-    EXPECT_EQ(secondMove.isAccepted(), !c.expectFiltered);
+    EXPECT_EQ(secondMove.isAccepted(), c.expectFiltered);
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -494,3 +553,84 @@ INSTANTIATE_TEST_SUITE_P(
         MoveFilterCase{false, true,   0.0,  false},  // B7 边界: dx==0 既不大于也不小于 → 放行
         MoveFilterCase{false, false,  5.0,  true}    // B4+B6: 双向禁止 → 任何非零位移均过滤
         ));
+
+// ─── 窗口级指针释放兜底（BUG-345097） ───
+// 快速甩动时 PathView 可能夺走代理的鼠标抓取，代理 MouseArea 收不到
+// onReleased/onCanceled，导致 imagePointerDown 残留、松开左键后图片仍跟随
+// 移动。此过滤器在窗口边界兜底清除该标志。
+// 用例映射：
+// - LeftReleaseStopsImageDragEvenIfDelegateMissesRelease → MouseButtonRelease+左键
+// - RightReleaseDoesNotEndLeftButtonDrag                 → MouseButtonRelease+右键
+// - WindowDeactivationEndsUnfinishedDrag                 → WindowDeactivate
+// - LeftHoverMoveEndsDragWithoutButton                   → MouseMove+无按键
+// - LeftButtonMoveKeepsDragActive                        → MouseMove+左键按住
+
+TEST(WindowPointerReleaseFilterTest, LeftReleaseStopsImageDragEvenIfDelegateMissesRelease)
+{
+    QQuickWindow window;
+    WindowPointerReleaseFilter filter;
+    window.installEventFilter(&filter);
+    window.setProperty("imagePointerDown", true);
+
+    QMouseEvent release(QEvent::MouseButtonRelease, QPointF(30, 30), QPointF(30, 30),
+                        Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+    QCoreApplication::sendEvent(&window, &release);
+
+    EXPECT_FALSE(window.property("imagePointerDown").toBool());
+}
+
+TEST(WindowPointerReleaseFilterTest, RightReleaseDoesNotEndLeftButtonDrag)
+{
+    QQuickWindow window;
+    WindowPointerReleaseFilter filter;
+    window.installEventFilter(&filter);
+    window.setProperty("imagePointerDown", true);
+
+    QMouseEvent release(QEvent::MouseButtonRelease, QPointF(30, 30), QPointF(30, 30),
+                        Qt::RightButton, Qt::LeftButton, Qt::NoModifier);
+    QCoreApplication::sendEvent(&window, &release);
+
+    EXPECT_TRUE(window.property("imagePointerDown").toBool());
+}
+
+TEST(WindowPointerReleaseFilterTest, WindowDeactivationEndsUnfinishedDrag)
+{
+    QQuickWindow window;
+    WindowPointerReleaseFilter filter;
+    window.installEventFilter(&filter);
+    window.setProperty("imagePointerDown", true);
+
+    QEvent deactivation(QEvent::WindowDeactivate);
+    QCoreApplication::sendEvent(&window, &deactivation);
+
+    EXPECT_FALSE(window.property("imagePointerDown").toBool());
+}
+
+TEST(WindowPointerReleaseFilterTest, LeftHoverMoveEndsDragWithoutButton)
+{
+    QQuickWindow window;
+    WindowPointerReleaseFilter filter;
+    window.installEventFilter(&filter);
+    window.setProperty("imagePointerDown", true);
+
+    // A move with no buttons held means the drag ended (release was lost).
+    QMouseEvent hover(QEvent::MouseMove, QPointF(50, 50), QPointF(50, 50),
+                      Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    QCoreApplication::sendEvent(&window, &hover);
+
+    EXPECT_FALSE(window.property("imagePointerDown").toBool());
+}
+
+TEST(WindowPointerReleaseFilterTest, LeftButtonMoveKeepsDragActive)
+{
+    QQuickWindow window;
+    WindowPointerReleaseFilter filter;
+    window.installEventFilter(&filter);
+    window.setProperty("imagePointerDown", true);
+
+    QMouseEvent drag(QEvent::MouseMove, QPointF(80, 50), QPointF(80, 50),
+                     Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+    QCoreApplication::sendEvent(&window, &drag);
+
+    EXPECT_TRUE(window.property("imagePointerDown").toBool());
+}

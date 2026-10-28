@@ -40,6 +40,8 @@ void PathViewRangeHandler::setTarget(QQuickItem *view)
         }
 
         targetView = view;
+        basePoint = QPointF();
+        hasBasePoint = false;
 
         if (targetView) {
             qCDebug(logImageViewer) << "Installing event filter on new target view.";
@@ -89,7 +91,18 @@ bool PathViewRangeHandler::eventFilter(QObject *obj, QEvent *event)
     if (QEvent::MouseButtonRelease == event->type()) {
         qCDebug(logImageViewer) << "Event type: MouseButtonRelease.";
         basePoint = QPointF();
+        hasBasePoint = false;
         qCDebug(logImageViewer) << "basePoint reset.";
+    }
+
+    // Capture the press before PathView sees its first movement. Otherwise the
+    // first out-of-range move is used as a baseline and reaches an empty page.
+    if (obj == targetView && event->type() == QEvent::MouseButtonPress) {
+        auto *mouseEvent = static_cast<QMouseEvent *>(event);
+        if (mouseEvent->button() == Qt::LeftButton) {
+            basePoint = mouseEvent->position();
+            hasBasePoint = true;
+        }
     }
 
     if (enableForwardFlag && enableBackwardFlag && obj == targetView) {
@@ -102,10 +115,16 @@ bool PathViewRangeHandler::eventFilter(QObject *obj, QEvent *event)
             qCDebug(logImageViewer) << "Event type: MouseMove.";
             auto mouseEvent = dynamic_cast<QMouseEvent *>(event);
 
-            if (basePoint.isNull()) {
+            // Boundary gestures are left-button drags. Do not interpret
+            // hover or a right-button context-menu gesture as navigation.
+            if (obj != targetView || !(mouseEvent->buttons() & Qt::LeftButton))
+                return false;
+
+            if (!hasBasePoint) {
                 qCDebug(logImageViewer) << "basePoint is null, setting to current mouse position.";
                 // currentIndex 会在拖动时动态变更，因此在切换到受限图片时更新触发限制状态
                 basePoint = mouseEvent->position();
+                hasBasePoint = true;
             } else {
                 qCDebug(logImageViewer) << "basePoint is not null, checking for filtering.";
                 bool filter = false;
@@ -120,8 +139,11 @@ bool PathViewRangeHandler::eventFilter(QObject *obj, QEvent *event)
                 }
 
                 if (filter) {
-                    qCDebug(logImageViewer) << "Event filtered, ignoring and returning true.";
-                    event->ignore();
+                    qCDebug(logImageViewer) << "Out-of-range image drag consumed without moving the window.";
+                    // A filtered drag belongs to the image view. Leaving the
+                    // move unaccepted lets Treeland's window-move helper
+                    // interpret it as a request to move the whole window.
+                    event->accept();
                     return true;
                 }
             }

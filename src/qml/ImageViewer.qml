@@ -339,6 +339,63 @@ Item {
         property bool preloadNeighbors: false
         property bool rapidSwitching: false
         property bool viewInitialized: false
+        property bool boundaryDragActive: false
+        property real boundaryDragOffset: 0
+        property bool canDragPrevious: true
+        property bool canDragNext: true
+        property bool navigationCommitted: false
+        property int pressProxyIndex: -1
+        property int committedDirection: 0
+
+        function beginBoundaryDrag() {
+            boundaryDragOffset = offset;
+            pressProxyIndex = IV.GControl.viewModel.currentIndex;
+            canDragPrevious = IV.GControl.hasPreviousImage;
+            canDragNext = IV.GControl.hasNextImage;
+            navigationCommitted = false;
+            committedDirection = 0;
+            boundaryDragActive = true;
+        }
+
+        function finishBoundaryPress() {
+            // A press that never moved is a tap and may clear immediately.
+            // A real drag must keep its boundary guard until the view has fully
+            // settled: fast flicks can drop the release event and, if the guard
+            // is cleared here, the remaining flick momentum would complete a
+            // second page flip after the button is already up.
+            Qt.callLater(function() {
+                if (!view.moving && !view.dragging && !view.navigationCommitted) {
+                    view.boundaryDragActive = false;
+                }
+            });
+        }
+
+        // The proxy model is cyclic even at the actual first/last image: its
+        // missing neighbours are empty delegates. Capture availability at
+        // press time so reaching an edge during a valid swipe stays valid.
+        TapHandler {
+            acceptedButtons: Qt.LeftButton
+
+            onPressedChanged: {
+                if (pressed)
+                    view.beginBoundaryDrag();
+            }
+            onTapped: view.finishBoundaryPress()
+        }
+
+        // A delegate's MouseArea can own the press instead of PathView's
+        // TapHandler. The window-level pointer state is set by that MouseArea
+        // (and by the empty image area), so capture both input paths.
+        Connections {
+            target: Window.window
+
+            function onImagePointerDownChanged() {
+                if (Window.window.imagePointerDown)
+                    view.beginBoundaryDrag();
+                else
+                    view.finishBoundaryPress();
+            }
+        }
 
         function scheduleNeighborPreload() {
             if (viewInitialized && neighborPreloadTimer.running) {
@@ -477,36 +534,91 @@ Item {
 
             var curIndex = view.currentIndex;
             var previousIndex = IV.GControl.viewModel.currentIndex;
-            // Reloading the edited image provider can briefly move PathView's
-            // index. Editing must never turn that layout change into navigation.
             if (IV.GStatus.editMode)
                 return;
             var lastIndex = view.count - 1;
 
-            // 若索引变更通过model触发，则没有必要更新
             if (curIndex == previousIndex) {
                 return;
             }
 
-            // 特殊场景处理，到达边界后循环显示图片
-            if (0 === curIndex && previousIndex === lastIndex) {
-                IV.GControl.nextImage();
-                return;
-            }
-            if (curIndex === lastIndex && 0 === previousIndex) {
-                IV.GControl.previousImage();
+            // During an active drag gesture the proxy index may cross several
+            // items in one fast flick. Only the first transition may navigate
+            // the source model; every later transition is pinned back to the
+            // committed page so the momentum after button-up cannot flip two
+            // pictures.
+            if (boundaryDragActive && navigationCommitted) {
+                var committed = committedIndex();
+                if (curIndex !== committed)
+                    view.currentIndex = committed;
                 return;
             }
 
-            // 当通过界面拖拽导致索引变更，需要调整多页图索引范围
-            if (view.currentIndex < previousIndex) {
-                IV.GControl.previousImage();
-            } else if (view.currentIndex > previousIndex) {
-                IV.GControl.nextImage();
+            if (boundaryDragActive) {
+                navigationCommitted = true;
+                committedDirection = curIndex < previousIndex ? -1 : 1;
+            }
+
+            var changed = false;
+            if (0 === curIndex && previousIndex === lastIndex) {
+                changed = IV.GControl.nextImage();
+            } else if (curIndex === lastIndex && 0 === previousIndex) {
+                changed = IV.GControl.previousImage();
+            } else if (curIndex < previousIndex) {
+                changed = IV.GControl.previousImage();
+            } else {
+                changed = IV.GControl.nextImage();
+            }
+            if (!changed) {
+                navigationCommitted = false;
+                view.currentIndex = previousIndex;
+            }
+        }
+
+        function committedIndex() {
+            var count = view.count;
+            if (count === 0)
+                return pressProxyIndex;
+            if (committedDirection < 0)
+                return pressProxyIndex === 0 ? count - 1 : pressProxyIndex - 1;
+            return (pressProxyIndex + 1) % count;
+        }
+        onOffsetChanged: {
+            if (!boundaryDragActive || count === 0)
+                return;
+
+            // PathView wraps offsets at count. Compare the shortest movement
+            // from the press rather than the raw cyclic coordinates.
+            var distance = offset - boundaryDragOffset;
+            if (distance > count / 2)
+                distance -= count;
+            else if (distance < -count / 2)
+                distance += count;
+
+            if ((!canDragPrevious && distance > 0) || (!canDragNext && distance < 0)) {
+                offset = boundaryDragOffset;
+            } else if (navigationCommitted) {
+                // The gesture already navigated one page. A fast flick can now
+                // carry the offset past the committed item; keep it at the
+                // committed page so the momentum cannot complete a second flip.
+                // PathView maps next-page to a decreasing offset, so a forward
+                // (committedDirection > 0) drag clamps to boundaryDragOffset-1.
+                var committed = (committedDirection < 0)
+                        ? (boundaryDragOffset + 1 + count) % count
+                        : (boundaryDragOffset - 1 + count) % count;
+                if (committed !== offset)
+                    offset = committed;
+            } else if (distance > 1) {
+                offset = (boundaryDragOffset + 1) % count;
+            } else if (distance < -1) {
+                offset = (boundaryDragOffset - 1 + count) % count;
             }
         }
         onMovementEnded: {
             IV.GStatus.viewFlicking = false;
+            boundaryDragActive = false;
+            navigationCommitted = false;
+            committedDirection = 0;
         }
         onMovementStarted: {
             IV.GStatus.viewFlicking = true;
