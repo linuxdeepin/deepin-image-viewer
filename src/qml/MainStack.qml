@@ -143,6 +143,7 @@ Item {
     function switchOpenImage() {
         IV.GStatus.stackPage = Number(IV.Types.OpenImagePage);
         window.title = "";
+        titleRect.animationShow = true;
         if (IV.GStatus.showFullScreen) {
             IV.GStatus.showFullScreen = false;
         }
