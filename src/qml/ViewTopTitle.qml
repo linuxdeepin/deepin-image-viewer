@@ -56,6 +56,13 @@ Rectangle {
         }
     }
 
+    // 退出全屏时重置标题栏位置，修复全屏删除图片后标题栏不可见的问题 (PMS #381383)
+    onVisibleChanged: {
+        if (visible) {
+            animationShow = true;
+        }
+    }
+
     Timer {
         id: animationQuitDelay
 
