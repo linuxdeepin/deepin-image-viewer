@@ -1,3 +1,9 @@
+deepin-image-viewer (6.0.61) unstable; urgency=medium
+
+  * docs(image-viewer): add Portuguese help manual
+
+ -- re2zero <yangwu@uniontech.com>  Fri, 30 Oct 2026 13:48:49 +0800
+
 deepin-image-viewer (6.0.60) unstable; urgency=medium
 
   * fix(image): restore startup preload, raise mmap threshold
