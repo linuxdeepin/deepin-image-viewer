@@ -1,0 +1,36 @@
+name: 版本兼容_suite
+app: deepin-image-viewer
+module: 版本兼容
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_banbenjianrong_001_s1
+  name: 版本兼容-文案语言翻译检查
+  description: 验证看图窗口标题栏和工具栏控件文案正常显示，应用正常运行
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Title bar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

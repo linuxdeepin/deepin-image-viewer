@@ -1,0 +1,55 @@
+name: 全屏补充_suite
+app: deepin-image-viewer
+module: 全屏补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_quanpingbuchong_001_s1
+  name: 全屏-右键菜单退出全屏
+  description: 双击进入全屏后右键选择退出全屏，验证返回窗口模式图片视图
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Image view
+    do: double_click
+    wait: 1.5
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: FullImageViewer
+    items:
+    - Exit fullscreen
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_quanpingbuchong_002_s1
+  name: 全屏-F11切换进出全屏
+  description: 按F11进入全屏再按F11退出全屏，验证窗口模式图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.5
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

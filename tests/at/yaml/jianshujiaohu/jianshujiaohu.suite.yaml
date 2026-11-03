@@ -8,62 +8,187 @@ setup:
 suites:
 - id: suite_jianshujiaohu_001_s1
   name: 快捷键Down缩小图片
-  description: ''
+  description: 按Down键缩小图片，验证图片视图存在
   steps:
   - step_type: action
     action: keyboard_press
     key: down
+    wait: 0.5
   assert_steps:
   - step_type: assert
     action: assert_element
     selector:
       name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: suite_jianshujiaohu_002_s1
   name: 快捷键Ctrl+-缩小图片
-  description: ''
+  description: 按Ctrl+-缩小图片，验证图片视图存在
   steps:
   - step_type: action
     action: keyboard_hot_key
     key: ctrl+-
+    wait: 0.5
   assert_steps:
   - step_type: assert
     action: assert_element
     selector:
       name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: suite_jianshujiaohu_003_s1
   name: 快捷键Ctrl+F9设置壁纸
-  description: ''
+  description: 按Ctrl+F9设置壁纸，验证应用正常运行
   steps:
   - step_type: action
     action: keyboard_hot_key
     key: ctrl+f9
+    wait: 1.0
   assert_steps:
   - step_type: assert
     action: assert_process_running
-- id: suite_jianshujiaohu_008_s1
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_004_s1
   name: 鼠标滚轮缩放图片
-  description: ''
+  description: 滚轮上下滚动缩放图片，验证图片视图存在
   steps:
   - step_type: action
     action: mouse_scroll
     value: -3
+    wait: 0.5
   - step_type: action
     action: mouse_scroll
     value: 3
+    wait: 0.5
   assert_steps:
   - step_type: assert
     action: assert_element
     selector:
       name: Image view
-- id: suite_jianshujiaohu_011_s1
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_005_s1
   name: 快捷键F1唤起帮助窗口
-  description: ''
+  description: 按F1打开帮助窗口，验证应用正常运行
   steps:
   - step_type: action
     action: keyboard_press
     key: f1
+    wait: 1.0
   assert_steps:
   - step_type: assert
     action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_006_s1
+  name: 快捷键Up放大图片
+  description: 按Up键放大图片，验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: up
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_007_s1
+  name: 快捷键Left切换上一张
+  description: 按Left键切换上一张图片，验证缩略图列表存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: left
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_008_s1
+  name: 快捷键Right切换下一张
+  description: 按Right键切换下一张图片，验证缩略图列表存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: right
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_009_s1
+  name: 快捷键Ctrl++放大图片
+  description: 按Ctrl++放大图片，验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl++
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_010_s1
+  name: 快捷键F2重命名图片
+  description: 按F2打开重命名对话框，验证重命名对话框出现
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Renamedialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_011_s1
+  name: 快捷键Ctrl+C复制图片
+  description: 按Ctrl+C复制图片，验证应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+c
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_jianshujiaohu_012_s1
+  name: 快捷键Ctrl+I查看图片信息
+  description: 按Ctrl+I打开图片信息对话框，验证信息对话框出现
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+i
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Loader_InformationDialog
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop

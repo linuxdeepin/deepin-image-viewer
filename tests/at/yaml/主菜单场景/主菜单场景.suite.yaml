@@ -1,0 +1,66 @@
+name: 主菜单场景_suite
+app: deepin-image-viewer
+module: 主菜单场景
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_zhucaidancahangjing_001_s1
+  name: 主菜单-标题栏菜单验证
+  description: 验证标题栏菜单控件存在，主菜单可正常访问
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ViewTopTitleMenu
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_zhucaidancahangjing_002_s1
+  name: 主菜单-F1帮助与图片视图共存验证
+  description: 按F1打开帮助后验证图片视图仍然存在，应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f1
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_zhucaidancahangjing_003_s1
+  name: 主菜单-标题栏区域验证
+  description: 验证标题栏区域控件存在，窗口组件正常显示
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Title bar
+    do: click
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TitleRect
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MainStack
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

@@ -1,0 +1,154 @@
+name: 缩放场景_suite
+app: deepin-image-viewer
+module: 缩放场景
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_suofangchangjing_001_s1
+  name: 缩放-最大放大倍数检查
+  description: 连续按Ctrl++放大至最大倍数，验证图片视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl++
+    wait: 0.3
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl++
+    wait: 0.3
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl++
+    wait: 0.3
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl++
+    wait: 0.3
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl++
+    wait: 0.3
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl++
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_suofangchangjing_002_s1
+  name: 缩放-最小缩小倍数检查
+  description: 连续按Ctrl+-缩小至最小倍数，验证图片视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+-
+    wait: 0.3
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+-
+    wait: 0.3
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+-
+    wait: 0.3
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+-
+    wait: 0.3
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+-
+    wait: 0.3
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+-
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_suofangchangjing_003_s1
+  name: 缩放-放大后恢复原始尺寸
+  description: 放大图片后点击原始尺寸按钮恢复，验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl++
+    wait: 0.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: Original size
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_suofangchangjing_004_s1
+  name: 缩放-缩小后适应窗口
+  description: 缩小图片后点击适应窗口按钮，验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+-
+    wait: 0.5
+  - step_type: action
+    action: element_action
+    selector:
+      name: Fit to window
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_suofangchangjing_005_s1
+  name: 缩放-鼠标滚轮连续缩放
+  description: 使用鼠标滚轮连续放大缩小，验证图片视图存在且应用稳定运行
+  steps:
+  - step_type: action
+    action: mouse_scroll
+    value: 5
+    wait: 0.3
+  - step_type: action
+    action: mouse_scroll
+    value: -5
+    wait: 0.3
+  - step_type: action
+    action: mouse_scroll
+    value: 3
+    wait: 0.3
+  - step_type: action
+    action: mouse_scroll
+    value: -3
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

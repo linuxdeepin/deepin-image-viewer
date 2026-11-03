@@ -42,6 +42,18 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
+      name: Dimensions
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: DeviceModel
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: LensModel
+  - step_type: assert
+    action: assert_element
+    selector:
       name: Aperture
   - step_type: assert
     action: assert_element

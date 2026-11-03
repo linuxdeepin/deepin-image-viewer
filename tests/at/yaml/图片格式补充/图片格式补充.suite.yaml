@@ -1,0 +1,80 @@
+name: 图片格式补充_suite
+app: deepin-image-viewer
+module: 图片格式补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_tupiangeshibuchong_001_s1
+  name: 图片格式-图片支持检查
+  description: 切换图片检查不同格式图片是否均支持打开，验证图片视图和缩略图列表存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Next
+    do: click
+    wait: 1.0
+  - step_type: action
+    action: element_action
+    selector:
+      name: Previous
+    do: click
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: BottomthumbnaillistView
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tupiangeshibuchong_002_s1
+  name: 图片格式-右键菜单检查
+  description: 右键图片验证右键菜单功能项对不同格式图片可用，验证图片视图存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate clockwise
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_tupiangeshibuchong_003_s1
+  name: 图片格式-支持旋转格式图片检查
+  description: 旋转图片后验证图片视图和图片动画控件存在
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Rotate clockwise
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: ImageAnimation
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

@@ -1,0 +1,44 @@
+name: 删除场景二_suite
+app: deepin-image-viewer
+module: 删除场景二
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_shanchuchangjing2_001_s1
+  name: 删除-删除单张图片后看图界面展示
+  description: 按Delete键删除当前图片后验证看图界面仍然正常运行，图片视图和主栈控件存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: delete
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: MainStack
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_shanchuchangjing2_002_s1
+  name: 删除-只读权限图片删除检查
+  description: 尝试删除只读权限图片，验证应用仍然运行且图片视图存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Delete
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

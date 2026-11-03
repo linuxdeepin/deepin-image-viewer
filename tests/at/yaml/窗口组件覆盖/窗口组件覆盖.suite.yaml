@@ -19,5 +19,9 @@ suites:
     action: assert_element
     selector:
       name: MainStack
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Title bar
 teardown:
 - action: session_stop

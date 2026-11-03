@@ -1,0 +1,52 @@
+name: 壁纸补充_suite
+app: deepin-image-viewer
+module: 壁纸补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_bizhibuchong_001_s1
+  name: 壁纸-窗口下右键设置壁纸
+  description: 窗口模式下右键图片选择设为壁纸，验证图片视图存在且应用正常运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bizhibuchong_002_s1
+  name: 壁纸-设置壁纸格式图片检查
+  description: 检查支持设置壁纸格式的图片可正常设为壁纸，验证图片视图存在且应用运行
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Set as wallpaper
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Toolbar
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

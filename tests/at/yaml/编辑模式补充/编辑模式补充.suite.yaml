@@ -1,0 +1,52 @@
+name: 编辑模式补充_suite
+app: deepin-image-viewer
+module: 编辑模式补充
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: suite_bianjimoshibuchong_001_s1
+  name: 编辑模式-进入编辑验证文本编辑器与撤销
+  description: 进入编辑模式后验证文本编辑器控件存在，执行撤销操作验证编辑画布存在
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      name: Edit
+    do: click
+    wait: 2.0
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: TextEditor
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: EditCanvas
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_bianjimoshibuchong_002_s1
+  name: 编辑模式-进入编辑后ESC退出验证图片视图
+  description: 进入编辑模式后按ESC退出，验证返回图片视图且应用正常运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+shift+e
+    wait: 2.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

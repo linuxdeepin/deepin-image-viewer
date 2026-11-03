@@ -5,3 +5,47 @@ unreachable:
   reason: 'QML Accessible.name contains dot (.) character; cover.py _is_noise filter excludes dotted names from suite refs, making this element statically uncoverable by selector.name'
 - name: ToolTip.text
   reason: 'QML Accessible.name contains dot (.) character; cover.py _is_noise filter excludes dotted names from suite refs, making this element statically uncoverable by selector.name'
+- name: DynamicImageDelegate
+  reason: 'Internal QML delegate for dynamic (GIF/animated) images; not directly exposed as a persistent AT-SPI accessible element'
+- name: ImageDelegate
+  reason: 'Internal QML delegate base type; not directly exposed as a persistent AT-SPI accessible element'
+- name: ImageDelegateImageInput
+  reason: 'Internal QML image input component; not directly exposed as a persistent AT-SPI accessible element'
+- name: ImageDelegateSourceSizeOptimizer
+  reason: 'Internal QML source size optimizer; not directly exposed as a persistent AT-SPI accessible element'
+- name: FadeInOutImage
+  reason: 'Internal QML fade animation image; not directly exposed as a persistent AT-SPI accessible element'
+- name: ImageInput
+  reason: 'Internal QML image input base component; not directly exposed as a persistent AT-SPI accessible element'
+- name: FloatLabel
+  reason: 'Internal QML floating label; not directly exposed as a persistent AT-SPI accessible element'
+- name: MultiImageDelegate
+  reason: 'Internal QML delegate for multi-page images; not directly exposed as a persistent AT-SPI accessible element'
+- name: MultiThumbnailDelegate
+  reason: 'Internal QML delegate for multi-page thumbnails; not directly exposed as a persistent AT-SPI accessible element'
+- name: MultiThumbnailImg
+  reason: 'Internal QML image component within multi-thumbnail delegate; not directly exposed as a persistent AT-SPI accessible element'
+- name: NonexitImageDelegate
+  reason: 'Internal QML delegate for non-existent images; not directly exposed as a persistent AT-SPI accessible element'
+- name: NormalThumbnailImg
+  reason: 'Internal QML image component within normal thumbnail delegate; not directly exposed as a persistent AT-SPI accessible element'
+- name: RubberBand
+  reason: 'Internal QML selection rubber band rectangle; not directly exposed as a persistent AT-SPI accessible element'
+- name: SvgImageDelegate
+  reason: 'Internal QML delegate for SVG images; not directly exposed as a persistent AT-SPI accessible element'
+- name: SvgImageImageInput
+  reason: 'Internal QML image input for SVG delegate; not directly exposed as a persistent AT-SPI accessible element'
+- name: SvgImageSourceSizeOptimizer
+  reason: 'Internal QML source size optimizer for SVG delegate; not directly exposed as a persistent AT-SPI accessible element'
+- name: Loader_NavigationWidget
+  reason: 'Internal QML Loader component for navigation widget; not directly exposed as a persistent AT-SPI accessible element'
+- name: Loader_RemoveDialog
+  reason: 'Internal QML Loader component for remove dialog; only instantiated on delete action, not persistent'
+- name: ImageViewer
+  reason: 'Top-level QML item not directly exposed as a persistent AT-SPI accessible element; accessible via child elements'
+- name: text
+  reason: 'Generic text element; not a specific named AT-SPI accessible element, covered by parent components'
+- name: OverwriteDialog
+  reason: 'Conditional dialog only appears on rename conflict; not assertable in a standard coverage suite without triggering rename collision'
+- name: UnsavedEditDialog
+  reason: 'Conditional dialog only appears when exiting edit mode with unsaved changes; not assertable in a standard coverage suite without specific edit state'
