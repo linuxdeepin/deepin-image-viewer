@@ -1,32 +1,68 @@
 name: 导航窗口_suite
 app: deepin-image-viewer
-description: ''
 module: 导航窗口
-tags: []
-fast_fail: false
-env_check: []
 setup:
 - action: session_start
   command: tests/at/launch.sh
   wait: 7.0
 suites:
 - id: case_1651939_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
+  name: 导航窗口-按钮关闭导航窗口
+  description: 点击关闭导航窗口按钮，验证导航窗口关闭
   steps:
-  - action: mouse_click
-    x: 500
-    y: 400
+  - step_type: action
+    action: element_action
+    selector:
+      name: Close navigation window
+    do: click
     wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 - id: case_1651933_s1
-  name: 启动看图应用
-  description: ''
-  tags: []
-  steps: []
+  name: 导航窗口-右键菜单唤起或关闭
+  description: 通过右键菜单操作导航窗口
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    selector:
+      name: Image view
+    items:
+    - Close navigation window
+    wait: 1.0
   assert_steps:
-  - action: assert_process_running
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651955_s1
+  name: 导航窗口-移动显示区域
+  description: 拖拽移动图片显示区域，验证导航窗口跟随更新
+  steps:
+  - step_type: action
+    action: mouse_scroll
+    value: -5
+    wait: 0.5
+  - step_type: action
+    action: mouse_click
+    x: 500
+    y: 400
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
 teardown:
 - action: session_stop

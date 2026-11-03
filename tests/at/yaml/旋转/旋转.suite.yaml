@@ -6,9 +6,9 @@ setup:
   command: tests/at/launch.sh
   wait: 7.0
 suites:
-- id: suite_xuanzhuan_001_s1
-  name: 全屏快捷键顺时针旋转
-  description: ''
+- id: case_1652255_s1
+  name: 旋转-全屏快捷键顺时针旋转
+  description: 双击图片进入全屏后使用Ctrl+R快捷键顺时针旋转图片
   steps:
   - step_type: action
     action: element_action
