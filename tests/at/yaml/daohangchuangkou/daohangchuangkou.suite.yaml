@@ -7,14 +7,102 @@ setup:
   wait: 7.0
 suites:
 - id: suite_daohangchuangkou_001_s1
-  name: 导航窗口-缩略图切换图片
-  description: ''
+  name: 导航窗口-右键菜单开启导航窗口
+  description: 右键图片键盘导航选择显示导航窗口开关，放大图片，验证图片视图与进程正常
   steps:
+  - step_type: action
+    action: mouse_right_click
+    selector:
+      name: Image view
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
   - step_type: action
     action: element_action
     selector:
-      name: NormalThumbnailDelegate
+      name: Image view
     do: click
+    wait: 0.5
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+plus
+    wait: 1.5
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      name: Image view
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: suite_daohangchuangkou_002_s1
+  name: 导航窗口-右键菜单关闭导航窗口
+  description: 右键图片再次选择显示导航窗口（切换关闭），验证图片视图存在
+  steps:
+  - step_type: action
+    action: mouse_right_click
+    selector:
+      name: Image view
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: down
+  - step_type: action
+    action: keyboard_press
+    key: return
     wait: 1.0
   assert_steps:
   - step_type: assert

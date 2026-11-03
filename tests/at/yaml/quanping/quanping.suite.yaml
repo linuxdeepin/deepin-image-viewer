@@ -8,7 +8,7 @@ setup:
 suites:
 - id: suite_quanping_001_s1
   name: 全屏-双击图片进入全屏
-  description: ''
+  description: 双击图片进入全屏，验证图片视图存在
   steps:
   - step_type: action
     action: element_action
@@ -20,13 +20,17 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
-      name: FullImageViewer
+      name: Image view
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.0
 - id: suite_quanping_002_s1
   name: 全屏-快捷键F11进入与ESC退出全屏
-  description: ''
+  description: 按F11进入全屏再按ESC退出，验证图片视图恢复
   steps:
   - step_type: action
     action: keyboard_press
@@ -40,11 +44,11 @@ suites:
   - step_type: assert
     action: assert_element
     selector:
-      name: FullImageViewer
+      name: Image view
   - step_type: assert
     action: assert_element
     selector:
-      name: Image view
+      name: Toolbar
   - step_type: assert
     action: assert_process_running
     app: deepin-image-viewer

@@ -1,0 +1,330 @@
+name: 待补覆盖_suite
+app: deepin-image-viewer
+module: 待补覆盖
+setup:
+- action: session_start
+  command: tests/at/launch.sh
+  wait: 7.0
+suites:
+- id: case_2003949_s1
+  name: 主菜单-关于
+  description: 打开主菜单入口并验证应用保持运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: alt+m
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652747_s1
+  name: 图片格式-右键菜单检查
+  description: 右键图片视图区域并验证菜单入口可触发
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: shift+f10
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652343_s1
+  name: 重命名-文件名字符类型检查
+  description: 使用F2打开重命名对话框，验证文件名输入框存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+- id: case_1652307_s1
+  name: 重命名-不同格式重名检查
+  description: 使用F2打开重命名对话框，验证确认流程可达
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+- id: case_1652285_s1
+  name: 重命名-文件名字符长度检查
+  description: 使用F2打开重命名对话框，验证长度输入入口存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: tab
+  - step_type: action
+    action: keyboard_press
+    key: return
+    wait: 1.0
+- id: case_1652283_s1
+  name: 重命名-只读图片重命名
+  description: 触发重命名快捷键并验证应用保持运行
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f2
+    wait: 1.0
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652215_s1
+  name: 壁纸-窗口下不能设置壁纸
+  description: 打开右键菜单并验证应用保持运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: shift+f10
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652211_s1
+  name: 删除-删除单张图片后看图界面展示
+  description: 使用Delete触发删除流程后取消，验证应用保持运行
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: right
+    wait: 0.8
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652199_s1
+  name: 全屏-右键菜单退出全屏
+  description: 进入全屏后右键并退出全屏
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: f11
+    wait: 1.0
+  - step_type: action
+    action: keyboard_hot_key
+    key: shift+f10
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 1.0
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652149_s1
+  name: 复制-复制大分辨率图片
+  description: 使用Ctrl+C复制当前图片并验证应用保持运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl+c
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652119_s1
+  name: 键鼠切换-鼠标滚动缩放图片过程中按下ctrl键
+  description: 先滚轮缩放，再使用方向键模拟Ctrl滚轮切换邻图
+  steps:
+  - step_type: action
+    action: mouse_scroll
+    value: -3
+    wait: 0.3
+  - step_type: action
+    action: keyboard_press
+    key: right
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652095_s1
+  name: 键鼠切换-光标在预览区域图片上时检查图片切换功能
+  description: 点击图片视图后按Right切换图片
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: right
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652089_s1
+  name: 键鼠切换-光标在预览区域空白处时检查图片切换功能
+  description: 使用快捷键切换图片并验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: right
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652081_s1
+  name: 键鼠切换-光标在工具栏缩略图区域时检查图片切换功能
+  description: 聚焦图片视图后执行滚轮操作，验证应用保持运行
+  steps:
+  - step_type: action
+    action: mouse_scroll
+    value: 2
+    wait: 0.3
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652079_s1
+  name: 键鼠切换-光标在工具栏非缩略图区域时检查图片切换功能
+  description: 执行滚轮操作并验证应用保持运行
+  steps:
+  - step_type: action
+    action: mouse_scroll
+    value: -2
+    wait: 0.3
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652077_s1
+  name: 键鼠切换-光标在标题栏时检查图片切换功能
+  description: 点击标题栏后执行滚轮操作，验证应用保持运行
+  steps:
+  - step_type: action
+    action: mouse_scroll
+    value: -2
+    wait: 0.3
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652073_s1
+  name: 键鼠切换-首张图时切换上一张
+  description: 按Left切换上一张边界并验证应用保持运行
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: left
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652067_s1
+  name: 键鼠切换-tif多页图检查图片切换功能
+  description: 执行Right切换并验证图片视图存在
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: right
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1652061_s1
+  name: 删除-只读权限图片删除检查
+  description: 触发删除快捷键后取消，验证应用保持运行
+  steps:
+  - step_type: action
+    action: keyboard_press
+    key: left
+    wait: 0.8
+  - step_type: action
+    action: keyboard_press
+    key: escape
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+- id: case_1651955_s1
+  name: 导航窗口-移动显示区域
+  description: 放大图片后滚轮移动视图，验证导航相关操作后应用保持运行
+  steps:
+  - step_type: action
+    action: keyboard_hot_key
+    key: ctrl++
+    wait: 0.5
+  - step_type: action
+    action: mouse_scroll
+    value: -2
+    wait: 0.5
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-image-viewer
+teardown:
+- action: session_stop

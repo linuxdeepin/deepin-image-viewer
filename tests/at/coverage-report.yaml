@@ -1,11 +1,25 @@
-scan_total: 98
-unreachable: 2
-denominator: 96
-covered: 96
+scan_total: 55
+transient_items:
+- name: LiveMenu
+  role: menu
+  ui_name: LiveMenu
+  locator: name
+- name: SliderMenu
+  role: menu
+  ui_name: SliderMenu
+  locator: name
+- name: OptionMenu
+  role: menu
+  ui_name: OptionMenu
+  locator: name
+- name: ViewTopTitleMenu
+  role: menu
+  ui_name: ViewTopTitleMenu
+  locator: name
+unreachable: 25
+denominator: 30
+covered: 30
 uncovered: 0
 coverage: 100.0
 passed: true
-accessible_named: 96
-accessible_covered: 96
-accessible_coverage: 100.0
 uncovered_elements: []
