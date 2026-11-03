@@ -72,6 +72,7 @@ public:
     // 获取主屏幕中心坐标
     Q_INVOKABLE int getPrimaryScreenCenterX(int windowWidth);
     Q_INVOKABLE int getPrimaryScreenCenterY(int windowHeight);
+    Q_INVOKABLE void activateMainWindow();  // 激活主窗口：最小化则还原，置顶并请求焦点
     Q_INVOKABLE void setEnableNavigation(bool b);  // 设置是否允许展示导航窗口
     Q_INVOKABLE bool isEnableNavigation();
 

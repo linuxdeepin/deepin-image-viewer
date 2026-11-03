@@ -22,6 +22,8 @@
 #include <QProcess>
 #include <QGuiApplication>
 #include <QScreen>
+#include <QTimer>
+#include <QWindow>
 #include <QDesktopServices>
 #include <QClipboard>
 #include <QApplication>
@@ -747,6 +749,36 @@ int FileControl::getPrimaryScreenCenterY(int windowHeight)
     }
     QRect geometry = screen->geometry();
     return geometry.y() + geometry.height() / 2 - windowHeight / 2;
+}
+
+void FileControl::activateMainWindow()
+{
+    qCDebug(logImageViewer) << "FileControl::activateMainWindow() called.";
+    // 取第一个可见顶层窗口（单窗口应用），排除弹窗
+    const QList<QWindow *> windows = QGuiApplication::topLevelWindows();
+    for (QWindow *win : windows) {
+        if (!win || !win->isVisible() || win->type() == Qt::Popup) {
+            continue;
+        }
+
+        const Qt::WindowStates states = win->windowStates();
+        if (states & Qt::WindowMinimized) {
+            // 仅清除最小化标志，保留最大化/全屏形态
+            win->setWindowStates(states & ~Qt::WindowMinimized);
+            // 还原最小化经 WM 异步完成，推迟一轮事件循环再激活，
+            // 避免与 WM 取消最小化/焦点重分配竞态
+            QTimer::singleShot(0, win, [win]() {
+                win->raise();
+                win->requestActivate();
+            });
+        } else {
+            // X11 下可直接置顶聚焦；Wayland 下可能因缺少 xdg-activation
+            // 令牌仅置顶而无焦点，令牌需调用方配合传递
+            win->raise();
+            win->requestActivate();
+        }
+        break;
+    }
 }
 
 void FileControl::setSettingWidth(int width)
