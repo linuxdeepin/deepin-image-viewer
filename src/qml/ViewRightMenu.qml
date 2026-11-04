@@ -24,7 +24,8 @@ Menu {
     property bool renamable: !isNullImage && IV.FileControl.isCanRename(imageSource)
     property bool rotatable: !isNullImage && IV.FileControl.isRotatable(imageSource)
     property bool supportOcr: !isNullImage && IV.FileControl.isCanSupportOcr(imageSource)
-    property bool supportWallpaper: !isNullImage && IV.FileControl.isSupportSetWallpaper(imageSource)
+    property bool supportWallpaper: !isNullImage && IV.FileControl.setWallpaperVisible
+                                    && IV.FileControl.isSupportSetWallpaper(imageSource)
 
     maxVisibleItems: 20
     x: 250

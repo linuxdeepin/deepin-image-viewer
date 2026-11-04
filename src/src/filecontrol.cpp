@@ -12,6 +12,10 @@
 
 #include <DSysInfo>
 
+#ifdef DTKCORE_CLASS_DConfigFile
+#include <DConfig>
+#endif
+
 #include <QFileInfo>
 #include <QDir>
 #include <QMimeDatabase>
@@ -46,6 +50,9 @@ const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
 const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
 // 是否显示导航窗口
 const QString SETTINGS_ENABLE_NAVIGATION = "EnableNavigation";
+// DConfig 配置：控制右键菜单“设置为壁纸”项的显示/隐藏
+const QString DCONFIG_APPID = "org.deepin.imageviewer";
+const QString DCONFIG_KEY_SET_WALLPAPER_VISIBLE = "setWallpaperVisible";
 const int MAINWIDGET_MINIMUN_HEIGHT = 300;
 const int MAINWIDGET_MINIMUN_WIDTH = 628;
 
@@ -118,6 +125,27 @@ FileControl::FileControl(QObject *parent)
                          << "tif"
                          << "tiff";
     qCDebug(logImageViewer) << "Supported wallpaper formats initialized.";
+
+#ifdef DTKCORE_CLASS_DConfigFile
+    // 读取 DConfig 配置，决定右键菜单“设置为壁纸”项的显示/隐藏（默认显示）
+    m_dconfig = DConfig::create(DCONFIG_APPID, DCONFIG_APPID, QString(), this);
+    if (m_dconfig && m_dconfig->isValid()) {
+        m_setWallpaperVisible = m_dconfig->value(DCONFIG_KEY_SET_WALLPAPER_VISIBLE, true).toBool();
+        qCDebug(logImageViewer) << "setWallpaperVisible from DConfig:" << m_setWallpaperVisible;
+        connect(m_dconfig, &DConfig::valueChanged, this, [this](const QString &key) {
+            if (key == DCONFIG_KEY_SET_WALLPAPER_VISIBLE) {
+                const bool visible = m_dconfig->value(DCONFIG_KEY_SET_WALLPAPER_VISIBLE, true).toBool();
+                if (visible != m_setWallpaperVisible) {
+                    m_setWallpaperVisible = visible;
+                    Q_EMIT setWallpaperVisibleChanged();
+                }
+            }
+        });
+    } else {
+        m_setWallpaperVisible = true;
+        qWarning() << "DConfig is invalid, use default setWallpaperVisible = true";
+    }
+#endif
 }
 
 FileControl::~FileControl()
@@ -815,6 +843,11 @@ bool FileControl::isEnableNavigation()
     bool enabled = getConfigValue(SETTINGS_GROUP, SETTINGS_ENABLE_NAVIGATION, true).toBool();
     qCDebug(logImageViewer) << "Returning enable navigation status: " << enabled;
     return enabled;
+}
+
+bool FileControl::setWallpaperVisible() const
+{
+    return m_setWallpaperVisible;
 }
 
 void FileControl::saveSetting()

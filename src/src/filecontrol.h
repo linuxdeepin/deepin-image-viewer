@@ -15,7 +15,15 @@
 #include <QMap>
 #include <QFileSystemWatcher>
 
+#include <dtkcore_global.h>
+
 #include "imagedata/imagefilewatcher.h"
+
+#ifdef DTKCORE_CLASS_DConfigFile
+DCORE_BEGIN_NAMESPACE
+class DConfig;
+DCORE_END_NAMESPACE
+#endif
 
 class OcrInterface;
 class QProcess;
@@ -23,6 +31,8 @@ class QProcess;
 class FileControl : public QObject
 {
     Q_OBJECT
+    // 是否显示右键菜单“设置为壁纸”项（由 DConfig setWallpaperVisible 控制，默认显示）
+    Q_PROPERTY(bool setWallpaperVisible READ setWallpaperVisible NOTIFY setWallpaperVisibleChanged)
 public:
     explicit FileControl(QObject *parent = nullptr);
     ~FileControl();
@@ -76,6 +86,9 @@ public:
     Q_INVOKABLE void setEnableNavigation(bool b);  // 设置是否允许展示导航窗口
     Q_INVOKABLE bool isEnableNavigation();
 
+    // 是否显示右键菜单“设置为壁纸”项（DConfig setWallpaperVisible，默认 true）
+    bool setWallpaperVisible() const;
+
     Q_INVOKABLE QUrl getCompanyLogo();  // 获取公司 Logo 图标地址
 
     Q_INVOKABLE void showShortcutPanel(int windowCenterX, int windowCenterY);  // 显示快捷键面板
@@ -87,6 +100,8 @@ public:
     Q_SIGNAL void imageRenamed(const QUrl &oldName, const QUrl &newName);
     // 文件变更通知信号，文件被移动、删除、覆盖等操作时触发
     Q_SIGNAL void imageFileChanged(const QString &fileName);
+    // “设置为壁纸”项显示状态变更
+    Q_SIGNAL void setWallpaperVisibleChanged();
 
 private:
     // 生成用于快捷键面板的字符串
@@ -109,6 +124,10 @@ private:
     int m_lastSaveWidth = 0;
     int m_lastSaveHeight = 0;
     QTimer *m_tSaveSetting = nullptr;  // 保存配置信息定时器，在指定时间内只保存一次
+    bool m_setWallpaperVisible = true;  // 是否显示“设置为壁纸”项，默认显示
+#ifdef DTKCORE_CLASS_DConfigFile
+    Dtk::Core::DConfig *m_dconfig = nullptr;  // DConfig(org.deepin.imageviewer) 配置
+#endif
 };
 
 #endif  // FILECONTROL_H
