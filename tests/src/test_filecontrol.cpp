@@ -46,6 +46,10 @@
 // | setWallpaper | high | - | 3 | 5 |
 // | showPrintDialog | low | - | 1 | 1 |
 // | showShortcutPanel | low | - | 1 | 1 |
+// | setWallpaperVisible (getter) | low | - | 1 | 1 |
+// | setWallpaperVisible (DConfig null fallback) | mid | - | 2 | 2 |
+// | setWallpaperVisible (DConfig invalid fallback) | mid | - | 2 | 2 |
+// | setWallpaperVisible (valueChanged → signal) | high | - | 3 | 3 |
 // | slotFileReName | mid | - | 2 | 4 |
 // | slotFileSuffix | mid | - | 2 | 4 |
 // | slotGetFileName | mid | - | 2 | 2 |

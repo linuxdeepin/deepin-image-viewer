@@ -83,6 +83,10 @@ list(REMOVE_ITEM IMAGEVIEWER_SRC_TEST
 qt_add_resources(IMAGEVIEWER_TEST_QRC ${CMAKE_SOURCE_DIR}/src/res.qrc)
 file(GLOB_RECURSE IMAGEVIEWER_UT_SRC ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
 
+# test_dconfig.cpp 包含 <DConfig>，与 -fno-access-control 不兼容；用 -faccess-control 覆盖
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/src/test_dconfig.cpp
+    PROPERTIES COMPILE_OPTIONS "-faccess-control")
+
 # 生成测试可执行程序
 add_executable(${PROJECT_NAME_TEST}
     ${IMAGEVIEWER_SRC_TEST}
