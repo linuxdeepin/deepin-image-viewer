@@ -77,9 +77,7 @@ DTK.DialogWindow {
                 anchors.horizontalCenter: parent.horizontalCenter
                 height: dialog.secondaryMessage === "" ? 24 : 22
                 color: dialog.palette.windowText
-                font.family: DTK.DTK.fontManager.t5.family
-                font.pixelSize: 16
-                font.weight: Font.Medium
+                font: DTK.DTK.fontManager.t5
                 horizontalAlignment: Text.AlignHCenter
                 text: dialog.message
                 verticalAlignment: Text.AlignVCenter
@@ -126,8 +124,6 @@ DTK.DialogWindow {
 
                     height: 36
                     highlighted: Boolean(modelData.recommended)
-                    font.pixelSize: 14
-                    font.weight: Font.Medium
                     text: modelData.text
                     width: (actionRow.width - actionRow.spacing * (dialog.actions.length - 1))
                            / dialog.actions.length
