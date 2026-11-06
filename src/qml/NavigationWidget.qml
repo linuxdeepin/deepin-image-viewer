@@ -197,6 +197,18 @@ Item {
         onTriggered: refreshNaviMaskImpl()
     }
 
+    // 旋转后主视图 targetImage 有 50ms delayUpdate 延迟重载，立即刷新蒙皮
+    // 会使用旋转前的 paintedWidth/paintedHeight，导致蒙皮位置错误
+    // 200ms = 50ms delayUpdate + ~150ms 异步图片重载余量
+    Timer {
+        id: rotationRefreshTimer
+
+        interval: 200
+        repeat: false
+
+        onTriggered: currentImage.updateMask()
+    }
+
     Connections {
         function onPaintedHeightChanged() {
             refreshNaviMask();
@@ -280,7 +292,7 @@ Item {
                 var temp = currentImage.source;
                 currentImage.source = "";
                 currentImage.source = temp;
-                currentImage.updateMask();
+                rotationRefreshTimer.restart();
             }
 
             function onCurrentSourceChanged() {
