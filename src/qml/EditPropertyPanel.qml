@@ -102,6 +102,7 @@ DTK.Control {
             anchors.centerIn: parent
             height: parent.iconHeight
             name: parent.iconName
+            palette: DTK.makeIconPalette(propertyPanel.palette)
             sourceSize.height: parent.iconHeight
             sourceSize.width: parent.iconWidth
             width: parent.iconWidth
