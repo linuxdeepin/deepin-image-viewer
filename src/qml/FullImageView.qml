@@ -447,6 +447,12 @@ Item {
         enabled: !IV.GStatus.delayInit && !IV.GStatus.editMode
         hoverEnabled: true
 
+        // The hover/toolbar overlay also receives presses on the empty image
+        // area; mark them as image input before PathView starts to move.
+        onPressed: window.imagePointerDown = true
+        onReleased: window.imagePointerDown = false
+        onCanceled: window.imagePointerDown = false
+
         onPositionChanged: {
             if (!imageViewer.liveTextActive) return;
             var pos = mapToItem(imageViewer, mouseX, mouseY);

@@ -25,6 +25,7 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQuickWindow>
 #include <QScopedPointer>
 #include <QQmlContext>
 #include <QIcon>
@@ -227,6 +228,8 @@ int main(int argc, char *argv[])
         qCCritical(logImageViewer) << "Failed to load QML file, root objects empty.";
         return -1;
     }
+    if (auto *rootWindow = qobject_cast<QQuickWindow *>(engine.rootObjects().constFirst()))
+        rootWindow->installEventFilter(new WindowPointerReleaseFilter(rootWindow));
     qCDebug(logImageViewer) << "QML file loaded successfully.";
 
     // 设置DBus接口

@@ -18,12 +18,16 @@ ApplicationWindow {
 
     property bool isFullScreen: window.visibility === Window.FullScreen
     property bool closeConfirmed: false
+    property bool imagePointerDown: false
+    // Treeland reads this QWindow property when installing its automatic move
+    // handler. DWindow.enableSystemMove does not disable that handler there.
+    property bool _d_enableSystemMove: false
 
     signal sigTitlePress
 
     // Bug fix: 使用 ListView 替换 PathView 时，出现内部的 mouseArea 鼠标操作会被 DWindow 截取
     // 导致 flicking 时拖动窗口，此处使用此标志禁用此行为
-    DWindow.enableSystemMove: !IV.GStatus.viewFlicking
+    DWindow.enableSystemMove: !imagePointerDown && !IV.GStatus.viewFlicking
 
     // 设置 dtk 风格窗口
     DWindow.enabled: true
