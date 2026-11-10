@@ -248,14 +248,17 @@ Item {
         currentColor: editPropertyPanel.currentColor
         currentTool: editToolbar.currentTool
         effectStrength: editPropertyPanel.effectStrength
-        height: imageViewer.targetImageReady
+        // 浏览模式下画布尺寸必须保持为 0：画布宽高跟随缩放比例，隐藏状态下若仍参与
+        // 绑定求值，QML Canvas 会按缩放后的全尺寸分配后备 QImage，放大到 2000% 时
+        // 单次分配可达 10GB 以上。仅在编辑模式且图片就绪时才使用真实尺寸。
+        height: IV.GStatus.editMode && imageViewer.targetImageReady
                 ? imageViewer.targetImage.paintedHeight * imageViewer.targetImage.scale
                 : (editCanvas.effectCommitPending ? editCanvas.previousCanvasHeight : 0)
         textMode: editToolbar.textMode
         thickness: editPropertyPanel.thickness
         visible: IV.GStatus.editMode
                  && (imageViewer.targetImageReady || editCanvas.effectCommitPending)
-        width: imageViewer.targetImageReady
+        width: IV.GStatus.editMode && imageViewer.targetImageReady
                ? imageViewer.targetImage.paintedWidth * imageViewer.targetImage.scale
                : (editCanvas.effectCommitPending ? editCanvas.previousCanvasWidth : 0)
         x: {
