@@ -44,6 +44,7 @@
 // | setSettingHeight | low | - | 1 | 1 |
 // | setSettingWidth | low | - | 1 | 1 |
 // | setWallpaper | high | - | 3 | 5 |
+// | setWallpaperVisible | low | - | 1 | 7 |
 // | showPrintDialog | low | - | 1 | 1 |
 // | showShortcutPanel | low | - | 1 | 1 |
 // | slotFileReName | mid | - | 2 | 4 |
@@ -413,6 +414,9 @@
 #include <atomic>
 
 #include <DSysInfo>
+#ifdef DTKCORE_CLASS_DConfigFile
+#include <DConfig>
+#endif
 
 #include "stub_ext/stubext.h"
 
@@ -2660,6 +2664,219 @@ TEST_F(FileControlTest, TerminateShortcutPanelProcess_WaitReturnsTrue_CompletesQ
     EXPECT_EQ(procTermCount, 1);
     EXPECT_EQ(procWaitCount, 1);
 }
+
+
+// ═════════════════ setWallpaperVisible（DConfig 控制）═════════════════
+
+#ifdef DTKCORE_CLASS_DConfigFile
+
+// DConfig 相关测试专用 fixture：在构造 FileControl 前拦截 DConfig::create，
+// 返回预创建的真实 DConfig 对象，使构造函数的 connect 路径可达。
+// isValid / value 由各用例单独 stub 控制返回值。
+class FileControlDConfigTest : public ::testing::Test {
+protected:
+    void SetUp() override
+    {
+        // 在 stub 拦截前调用真实 DConfig::create，获取一个真实 DConfig 对象。
+        // DConfig::create 始终返回非 null 指针，有效性由 isValid() 决定。
+        m_realDConfig = Dtk::Core::DConfig::create(
+                QStringLiteral("org.deepin.imageviewer"),
+                QStringLiteral("org.deepin.imageviewer"));
+        ASSERT_NE(m_realDConfig, nullptr);
+
+        // 拦截 DConfig::create，返回预创建对象（不设置 parent，由本 fixture 管理生命周期）
+        stub.set_lamda(
+                static_cast<Dtk::Core::DConfig *(*)(const QString &, const QString &,
+                                                     const QString &, QObject *)>(
+                        &Dtk::Core::DConfig::create),
+                [this](const QString &, const QString &, const QString &,
+                       QObject *) -> Dtk::Core::DConfig * {
+                    return m_realDConfig;
+                });
+    }
+
+    void TearDown() override
+    {
+        delete obj;
+        obj = nullptr;
+        delete m_realDConfig;
+        m_realDConfig = nullptr;
+        stub.clear();
+    }
+
+    stub_ext::StubExt stub;
+    FileControl *obj = nullptr;
+    Dtk::Core::DConfig *m_realDConfig = nullptr;
+};
+
+// TC2：DConfig 有效且值为 false → m_setWallpaperVisible = false
+TEST_F(FileControlDConfigTest, SetWallpaperVisible_DConfigValidValueFalse_ReturnsFalse)
+{
+    // Arrange
+    stub.set_lamda(static_cast<bool (Dtk::Core::DConfig::*)() const>(&Dtk::Core::DConfig::isValid),
+                   [](Dtk::Core::DConfig *) -> bool { return true; });
+    stub.set_lamda(
+            static_cast<QVariant (Dtk::Core::DConfig::*)(const QString &, const QVariant &) const>(
+                    &Dtk::Core::DConfig::value),
+            [](Dtk::Core::DConfig *, const QString &, const QVariant &) -> QVariant {
+                return QVariant(false);
+            });
+
+    // Act
+    obj = new FileControl();
+
+    // Assert
+    EXPECT_FALSE(obj->setWallpaperVisible());
+    EXPECT_FALSE(obj->m_setWallpaperVisible);
+}
+
+// TC3：DConfig 无效（isValid=false）→ 回落默认 true
+TEST_F(FileControlDConfigTest, SetWallpaperVisible_DConfigInvalid_ReturnsDefaultTrue)
+{
+    // Arrange
+    stub.set_lamda(static_cast<bool (Dtk::Core::DConfig::*)() const>(&Dtk::Core::DConfig::isValid),
+                   [](Dtk::Core::DConfig *) -> bool { return false; });
+
+    // Act
+    obj = new FileControl();
+
+    // Assert
+    EXPECT_TRUE(obj->setWallpaperVisible());
+    EXPECT_TRUE(obj->m_setWallpaperVisible);
+}
+
+// TC4：DConfig::create 返回 null → 回落默认 true
+TEST_F(FileControlDConfigTest, SetWallpaperVisible_DConfigCreateNull_ReturnsDefaultTrue)
+{
+    // Arrange：重新拦截 DConfig::create 返回 null
+    stub.set_lamda(
+            static_cast<Dtk::Core::DConfig *(*)(const QString &, const QString &,
+                                                 const QString &, QObject *)>(
+                    &Dtk::Core::DConfig::create),
+            [](const QString &, const QString &, const QString &,
+               QObject *) -> Dtk::Core::DConfig * {
+                return nullptr;
+            });
+
+    // Act
+    obj = new FileControl();
+
+    // Assert
+    EXPECT_TRUE(obj->setWallpaperVisible());
+    EXPECT_TRUE(obj->m_setWallpaperVisible);
+}
+
+// TC5：valueChanged false→true → 更新 m_setWallpaperVisible 并发射信号
+TEST_F(FileControlDConfigTest, ValueChanged_FalseToTrue_UpdatesAndEmitsSignal)
+{
+    // Arrange：构造时 DConfig 有效，初始值 false
+    bool dconfigValue = false;
+    stub.set_lamda(static_cast<bool (Dtk::Core::DConfig::*)() const>(&Dtk::Core::DConfig::isValid),
+                   [](Dtk::Core::DConfig *) -> bool { return true; });
+    stub.set_lamda(
+            static_cast<QVariant (Dtk::Core::DConfig::*)(const QString &, const QVariant &) const>(
+                    &Dtk::Core::DConfig::value),
+            [&dconfigValue](Dtk::Core::DConfig *, const QString &,
+                            const QVariant &) -> QVariant {
+                return QVariant(dconfigValue);
+            });
+    obj = new FileControl();
+    ASSERT_FALSE(obj->setWallpaperVisible());
+
+    QSignalSpy spy(obj, &FileControl::setWallpaperVisibleChanged);
+
+    // Act：模拟 DConfig 值变更为 true，触发 valueChanged 信号
+    dconfigValue = true;
+    QMetaObject::invokeMethod(m_realDConfig, "valueChanged", Qt::DirectConnection,
+                              Q_ARG(QString, QStringLiteral("setWallpaperVisible")));
+
+    // Assert
+    EXPECT_EQ(spy.count(), 1);
+    EXPECT_TRUE(obj->setWallpaperVisible());
+}
+
+// TC6：valueChanged true→false → 更新 m_setWallpaperVisible 并发射信号
+TEST_F(FileControlDConfigTest, ValueChanged_TrueToFalse_UpdatesAndEmitsSignal)
+{
+    // Arrange：构造时 DConfig 有效，初始值 true
+    bool dconfigValue = true;
+    stub.set_lamda(static_cast<bool (Dtk::Core::DConfig::*)() const>(&Dtk::Core::DConfig::isValid),
+                   [](Dtk::Core::DConfig *) -> bool { return true; });
+    stub.set_lamda(
+            static_cast<QVariant (Dtk::Core::DConfig::*)(const QString &, const QVariant &) const>(
+                    &Dtk::Core::DConfig::value),
+            [&dconfigValue](Dtk::Core::DConfig *, const QString &,
+                            const QVariant &) -> QVariant {
+                return QVariant(dconfigValue);
+            });
+    obj = new FileControl();
+    ASSERT_TRUE(obj->setWallpaperVisible());
+
+    QSignalSpy spy(obj, &FileControl::setWallpaperVisibleChanged);
+
+    // Act：模拟 DConfig 值变更为 false，触发 valueChanged 信号
+    dconfigValue = false;
+    QMetaObject::invokeMethod(m_realDConfig, "valueChanged", Qt::DirectConnection,
+                              Q_ARG(QString, QStringLiteral("setWallpaperVisible")));
+
+    // Assert
+    EXPECT_EQ(spy.count(), 1);
+    EXPECT_FALSE(obj->setWallpaperVisible());
+}
+
+// TC7：valueChanged 信号触发但值未变 → 不发射 setWallpaperVisibleChanged
+TEST_F(FileControlDConfigTest, ValueChanged_ValueUnchanged_NoSignalEmitted)
+{
+    // Arrange：构造时 DConfig 有效，初始值 true
+    stub.set_lamda(static_cast<bool (Dtk::Core::DConfig::*)() const>(&Dtk::Core::DConfig::isValid),
+                   [](Dtk::Core::DConfig *) -> bool { return true; });
+    stub.set_lamda(
+            static_cast<QVariant (Dtk::Core::DConfig::*)(const QString &, const QVariant &) const>(
+                    &Dtk::Core::DConfig::value),
+            [](Dtk::Core::DConfig *, const QString &, const QVariant &) -> QVariant {
+                return QVariant(true);  // 值始终为 true，不变化
+            });
+    obj = new FileControl();
+    ASSERT_TRUE(obj->setWallpaperVisible());
+
+    QSignalSpy spy(obj, &FileControl::setWallpaperVisibleChanged);
+
+    // Act：触发 valueChanged 信号，但值仍为 true
+    QMetaObject::invokeMethod(m_realDConfig, "valueChanged", Qt::DirectConnection,
+                              Q_ARG(QString, QStringLiteral("setWallpaperVisible")));
+
+    // Assert：值未变，不应发射信号
+    EXPECT_EQ(spy.count(), 0);
+    EXPECT_TRUE(obj->setWallpaperVisible());
+}
+
+// TC8：valueChanged 信号携带其他 key → 不更新，不发射信号
+TEST_F(FileControlDConfigTest, ValueChanged_KeyMismatch_NoUpdateNoSignal)
+{
+    // Arrange：构造时 DConfig 有效，初始值 true
+    stub.set_lamda(static_cast<bool (Dtk::Core::DConfig::*)() const>(&Dtk::Core::DConfig::isValid),
+                   [](Dtk::Core::DConfig *) -> bool { return true; });
+    stub.set_lamda(
+            static_cast<QVariant (Dtk::Core::DConfig::*)(const QString &, const QVariant &) const>(
+                    &Dtk::Core::DConfig::value),
+            [](Dtk::Core::DConfig *, const QString &, const QVariant &) -> QVariant {
+                return QVariant(true);  // 初始值 true；key 不匹配时 lambda 不会读取此值
+            });
+    obj = new FileControl();
+    ASSERT_TRUE(obj->setWallpaperVisible());
+
+    QSignalSpy spy(obj, &FileControl::setWallpaperVisibleChanged);
+
+    // Act：触发 valueChanged 信号，但 key 不匹配
+    QMetaObject::invokeMethod(m_realDConfig, "valueChanged", Qt::DirectConnection,
+                              Q_ARG(QString, QStringLiteral("otherKey")));
+
+    // Assert：key 不匹配，不应更新或发射信号
+    EXPECT_EQ(spy.count(), 0);
+    EXPECT_TRUE(obj->setWallpaperVisible());
+}
+
+#endif  // DTKCORE_CLASS_DConfigFile
 
 // ═════════════════ 源码缺陷修复状态（fix/scan-defects 分支）═════════════════
 // D1 setWallpaper: X11 分支 primaryScreen() 已判空，空屏时安全返回不发起设置（已修复）
