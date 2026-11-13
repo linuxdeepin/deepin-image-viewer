@@ -489,7 +489,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
         <source>Image info</source>
-        <translation>Информация о изображении</translation>
+        <translation>Информация об изображении</translation>
     </message>
 </context>
 <context>
