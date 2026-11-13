@@ -176,6 +176,15 @@ Item {
             requestSourcePath(fileName);
         }
 
+        // 所有监控的图片文件已消失（如U盘卸载），移除所有图片并返回初始界面
+        function onImageDirAllRemoved() {
+            while (IV.GControl.imageCount > 0) {
+                IV.GControl.removeImage(IV.GControl.currentSource);
+            }
+            IV.FileControl.resetImageFiles();
+            switchOpenImage();
+        }
+
         target: IV.FileControl
     }
 

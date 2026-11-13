@@ -100,6 +100,8 @@ public:
     Q_SIGNAL void imageRenamed(const QUrl &oldName, const QUrl &newName);
     // 文件变更通知信号，文件被移动、删除、覆盖等操作时触发
     Q_SIGNAL void imageFileChanged(const QString &fileName);
+    // 所有监控的图片文件全部消失时触发
+    Q_SIGNAL void imageDirAllRemoved();
     // “设置为壁纸”项显示状态变更
     Q_SIGNAL void setWallpaperVisibleChanged();
 

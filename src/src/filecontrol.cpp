@@ -106,6 +106,9 @@ FileControl::FileControl(QObject *parent)
     QObject::connect(imageFileWatcher, &ImageFileWatcher::imageFileChanged, this, &FileControl::imageFileChanged);
     qCDebug(logImageViewer) << "Connected imageFileWatcher::imageFileChanged signal.";
 
+    QObject::connect(imageFileWatcher, &ImageFileWatcher::imageDirAllRemoved, this, &FileControl::imageDirAllRemoved);
+    qCDebug(logImageViewer) << "Connected imageFileWatcher::imageDirAllRemoved signal.";
+
     // 在1000ms以内只保存一次配置信息
     if (!m_tSaveSetting) {
         m_tSaveSetting = new QTimer(this);

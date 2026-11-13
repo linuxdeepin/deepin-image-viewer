@@ -23,6 +23,8 @@ public:
 
     // 文件变更通知信号
     Q_SIGNAL void imageFileChanged(const QString &imagePath);
+    // 所有监控的图片文件全部消失时触发（如U盘卸载导致目录整体消失）
+    Q_SIGNAL void imageDirAllRemoved();
 
     // internal 用于异步处理图片旋转状态
     Q_SLOT void recordRotateImage(const QString &targetPath);
