@@ -95,7 +95,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="873"/>
         <source>Image Viewing</source>
-        <translation>Просмотр Изображений</translation>
+        <translation>Просмотр изображений</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="877"/>
