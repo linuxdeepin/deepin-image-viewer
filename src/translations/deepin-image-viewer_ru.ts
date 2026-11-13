@@ -95,7 +95,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="873"/>
         <source>Image Viewing</source>
-        <translation>Просмотр Изображений</translation>
+        <translation>Просмотр изображений</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="877"/>
@@ -286,7 +286,7 @@
     <message>
         <location filename="../main.cpp" line="48"/>
         <source>Image Viewer</source>
-        <translation>Просмотр Изображений</translation>
+        <translation>Просмотр изображений</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="102"/>
@@ -489,7 +489,7 @@
     <message>
         <location filename="../qml/ViewRightMenu.qml" line="280"/>
         <source>Image info</source>
-        <translation>Информация о изображении</translation>
+        <translation>Информация об изображении</translation>
     </message>
 </context>
 <context>
