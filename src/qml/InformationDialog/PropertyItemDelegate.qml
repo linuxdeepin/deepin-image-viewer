@@ -28,7 +28,7 @@ Control {
     property int contrlIntimplicitHeight: 40
     property int corners: RoundRectangle.NoneCorner
     property string description
-    property int descriptionWidth: control.width - control.leftPadding - control.rightPadding
+    property int descriptionWidth: control.width - control.leftPadding - control.rightPadding - 20
     property string iconName
     property Palette infoTextColor: Palette {
         normal: Qt.rgba(0, 0, 0, 1)
