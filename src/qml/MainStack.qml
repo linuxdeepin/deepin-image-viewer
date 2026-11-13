@@ -177,8 +177,18 @@ Item {
         }
 
         target: IV.FileControl
-    }
 
+    Connections {
+        // 图片数量变化为0且不在初始界面时，返回初始界面
+        target: IV.GControl
+        function onImageCountChanged() {
+            if (IV.GControl.imageCount === 0
+                    && IV.GStatus.stackPage !== Number(IV.Types.OpenImagePage)) {
+                IV.FileControl.resetImageFiles()
+                switchOpenImage()
+            }
+        }
+    }
     // 标题栏
     ViewTopTitle {
         id: titleRect
