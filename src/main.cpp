@@ -195,6 +195,7 @@ int main(int argc, char *argv[])
     QObject::connect(&fileControl, &FileControl::imageFileChanged, [&](const QString &fileName) {
         qCDebug(logImageViewer) << "Image file changed: " << fileName << ", removing from cache.";
         providerCache->removeImageCache(fileName);
+        control.removeImage(QUrl::fromLocalFile(fileName));
     });
     qCDebug(logImageViewer) << "Connect signal imageFileChanged.";
 

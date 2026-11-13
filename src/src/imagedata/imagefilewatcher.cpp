@@ -225,6 +225,26 @@ void ImageFileWatcher::onImageDirChanged(const QString &dir)
     QStringList dirFiles = imageDir.entryList();
     qCDebug(logImageViewer) << "Files in directory: " << dirFiles.count();
 
+    // 检测目录不存在或所有监控文件消失（如U盘移除），通知外部清理
+    const bool dirExists = imageDir.exists();
+    bool allWatchedFilesGone = true;
+    for (auto itr = cacheFileInfo.begin(); itr != cacheFileInfo.end(); ++itr) {
+        if (QFile::exists(itr.key())) {
+            allWatchedFilesGone = false;
+            break;
+        }
+    }
+
+    if (!dirExists || (allWatchedFilesGone && !cacheFileInfo.isEmpty())) {
+        qCWarning(logImageViewer) << "Watched directory gone or all files disappeared:" << dir;
+        for (auto itr = cacheFileInfo.begin(); itr != cacheFileInfo.end(); ++itr) {
+            if (!QFile::exists(itr.key()) && !removedFile.contains(itr.key())) {
+                qCInfo(logImageViewer) << "Notifying missing watched file:" << itr.key();
+                onImageFileChanged(itr.key());
+            }
+        }
+    }
+
     for (auto itr = removedFile.begin(); itr != removedFile.end();) {
         QFileInfo info(itr.key());
         if (dirFiles.contains(info.fileName())) {
