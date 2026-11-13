@@ -36,9 +36,37 @@ DTK.Control {
     implicitWidth: 514
     padding: 0
 
-    background: DTK.FloatingPanel {
+    // DTK.FloatingPanel uses DQuickItemViewport to render rounded corners
+    // with a low-resolution mask texture and Nearest filtering, causing
+    // visible aliasing. Use Qt Quick native Rectangle.radius for smooth
+    // anti-aliased corners instead.
+    background: Item {
         Accessible.ignored: true
-        implicitHeight: editToolbar.implicitHeight
+
+        DTK.BoxShadow {
+            anchors.fill: panelBackground
+            cornerRadius: panelBackground.radius
+            hollow: true
+            shadowBlur: 20
+            shadowColor: Qt.rgba(editToolbar.palette.shadow.r,
+                                 editToolbar.palette.shadow.g,
+                                 editToolbar.palette.shadow.b, 0.24)
+            shadowOffsetY: 6
+        }
+
+        Rectangle {
+            id: panelBackground
+
+            anchors.fill: parent
+            border.color: Qt.rgba(editToolbar.themeTextColor.r,
+                                  editToolbar.themeTextColor.g,
+                                  editToolbar.themeTextColor.b, 0.12)
+            border.width: 1
+            color: Qt.rgba(editToolbar.palette.window.r,
+                           editToolbar.palette.window.g,
+                           editToolbar.palette.window.b, 0.72)
+            radius: 18
+        }
     }
 
     component ToolbarButton: DTK.ToolButton {
