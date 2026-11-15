@@ -28,6 +28,7 @@
 #include <QScopedPointer>
 #include <QQmlContext>
 #include <QIcon>
+#include <QFile>
 
 #ifdef Q_OS_LINUX
 #include <malloc.h>
@@ -195,6 +196,10 @@ int main(int argc, char *argv[])
     QObject::connect(&fileControl, &FileControl::imageFileChanged, [&](const QString &fileName) {
         qCDebug(logImageViewer) << "Image file changed: " << fileName << ", removing from cache.";
         providerCache->removeImageCache(fileName);
+        if (!QFile::exists(fileName)) {
+            qCDebug(logImageViewer) << "File no longer exists, removing from model:" << fileName;
+            control.removeImage(QUrl::fromLocalFile(fileName));
+        }
     });
     qCDebug(logImageViewer) << "Connect signal imageFileChanged.";
 

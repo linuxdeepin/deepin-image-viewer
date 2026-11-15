@@ -179,6 +179,16 @@ Item {
         target: IV.FileControl
     }
 
+    Connections {
+        target: IV.GControl
+        function onImageCountChanged() {
+            if (0 === IV.GControl.imageCount) {
+                IV.FileControl.resetImageFiles();
+                switchOpenImage();
+            }
+        }
+    }
+
     // 标题栏
     ViewTopTitle {
         id: titleRect
