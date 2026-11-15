@@ -11,6 +11,7 @@
 #include "imagedata/imageinfo.h"
 
 #include <DSysInfo>
+#include <DMessageBox>
 
 #ifdef DTKCORE_CLASS_DConfigFile
 #include <DConfig>
@@ -334,6 +335,10 @@ void FileControl::setWallpaper(const QString &imgPath)
                     } else {
                         qCWarning(logImageViewer) << "Failed to initialize wallpaper interfaces - v23:"
                                                   << interfaceV23.lastError().message() << "v20:" << interfaceV20.lastError().message();
+                        QMetaObject::invokeMethod(qApp, []() {
+                            DMessageBox::warning(nullptr, FileControl::tr("Set as wallpaper failed"),
+                                                  FileControl::tr("Failed to set wallpaper: wallpaper service is unavailable."));
+                        }, Qt::QueuedConnection);
                     }
                 }
             }
