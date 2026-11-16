@@ -72,8 +72,7 @@ Control {
 
         ElideLabel {
             Layout.fillWidth: true
-            // 系数微调整以满足默认字号标签均显示的效果
-            Layout.minimumWidth: descriptionWidth + 5
+            Layout.minimumWidth: descriptionWidth
             color: control.ColorSelector.sectionTextColor
             font: DTK.fontManager.t10
             sourceText: control.title
