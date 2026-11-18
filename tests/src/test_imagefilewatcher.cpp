@@ -11,7 +11,7 @@
 // | fileRename(oldPath,newPath) | low | - | 1 | 2 |
 // | instance() | low | - | 1 | 1 |
 // | isCurrentDir(filePath) | low | - | 1 | 1 |
-// | onImageDirChanged(dir) | mid | - | 2 | 2 |
+// | onImageDirChanged(dir) | mid | - | 2 | 4 |
 // | onImageFileChanged(file) | low | - | 1 | 4 |
 // | recordRotateImage(targetPath) | low | - | 1 | 1 |
 // | resetImageFiles(filePaths) | mid | - | 2 | 5 |
@@ -447,6 +447,47 @@ TEST_F(ImageFileWatcherTest, OnImageDirChanged_StillMissingFile_RecordRetainedSi
     EXPECT_EQ(spy.count(), 1);
     QLoggingCategory::setFilterRules(QStringLiteral("org.deepin.dde.imageviewer.debug=true"));
 }
+
+
+TEST_F(ImageFileWatcherTest, OnImageDirChanged_AllFilesRemoved_EmitsImageDirAllRemoved)
+{
+    // Arrange：多文件均被监控，全部删除后触发目录变更
+    const QString path1 = createWatchableFile(tmpDir, QStringLiteral("a.png"));
+    const QString path2 = createWatchableFile(tmpDir, QStringLiteral("b.png"));
+    watcher->addImageFile(watchUrl(path1));
+    watcher->addImageFile(watchUrl(path2));
+    ASSERT_TRUE(QFile::remove(path1));
+    ASSERT_TRUE(QFile::remove(path2));
+    QSignalSpy allRemovedSpy(watcher, &ImageFileWatcher::imageDirAllRemoved);
+
+    // Act：目录变更扫描，所有被监控文件均已消失
+    QLoggingCategory::setFilterRules(QStringLiteral("org.deepin.dde.imageviewer.debug=false"));
+    watcher->onImageDirChanged(tmpDir.path());
+
+    // Assert：发出 imageDirAllRemoved 信号
+    EXPECT_EQ(allRemovedSpy.count(), 1);
+    QLoggingCategory::setFilterRules(QStringLiteral("org.deepin.dde.imageviewer.debug=true"));
+}
+
+TEST_F(ImageFileWatcherTest, OnImageDirChanged_PartialFilesRemoved_NoAllRemovedSignal)
+{
+    // Arrange：两文件监控，仅删除其中一个
+    const QString path1 = createWatchableFile(tmpDir, QStringLiteral("c.png"));
+    const QString path2 = createWatchableFile(tmpDir, QStringLiteral("d.png"));
+    watcher->addImageFile(watchUrl(path1));
+    watcher->addImageFile(watchUrl(path2));
+    ASSERT_TRUE(QFile::remove(path1));
+    QSignalSpy allRemovedSpy(watcher, &ImageFileWatcher::imageDirAllRemoved);
+
+    // Act：目录变更扫描，仅部分文件消失
+    QLoggingCategory::setFilterRules(QStringLiteral("org.deepin.dde.imageviewer.debug=false"));
+    watcher->onImageDirChanged(tmpDir.path());
+
+    // Assert：不发出 imageDirAllRemoved 信号（仍有文件存在）
+    EXPECT_EQ(allRemovedSpy.count(), 0);
+    QLoggingCategory::setFilterRules(QStringLiteral("org.deepin.dde.imageviewer.debug=true"));
+}
+
 
 // ── resetImageFiles ───────────────────────────────────────────────
 

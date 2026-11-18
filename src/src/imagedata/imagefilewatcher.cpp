@@ -244,5 +244,20 @@ void ImageFileWatcher::onImageDirChanged(const QString &dir)
             ++itr;
         }
     }
+    // 检查所有被监控的文件是否全部消失（如U盘卸载导致目录整体消失）
+    if (!cacheFileInfo.isEmpty()) {
+        bool allFilesGone = true;
+        for (auto it = cacheFileInfo.constBegin(); it != cacheFileInfo.constEnd(); ++it) {
+            if (QFile::exists(it.key())) {
+                allFilesGone = false;
+                break;
+            }
+        }
+        if (allFilesGone) {
+            qCWarning(logImageViewer) << "All watched image files are gone, emitting imageDirAllRemoved signal.";
+            Q_EMIT imageDirAllRemoved();
+        }
+    }
+
     qCDebug(logImageViewer) << "Directory change processing complete.";
 }
