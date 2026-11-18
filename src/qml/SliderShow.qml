@@ -128,11 +128,36 @@ Item {
             to: screen.height - 80
         }
 
-        FloatingPanel {
+        Item {
             id: sliderFloatPanel
 
             height: 70
             width: 232
+
+            BoxShadow {
+                anchors.fill: panelBackground
+                cornerRadius: panelBackground.radius
+                hollow: true
+                shadowBlur: 20
+                shadowColor: Qt.rgba(sliderFloatPanel.palette.shadow.r,
+                                     sliderFloatPanel.palette.shadow.g,
+                                     sliderFloatPanel.palette.shadow.b, 0.24)
+                shadowOffsetY: 6
+            }
+
+            Rectangle {
+                id: panelBackground
+
+                anchors.fill: parent
+                border.color: Qt.rgba(sliderFloatPanel.palette.windowText.r,
+                                      sliderFloatPanel.palette.windowText.g,
+                                      sliderFloatPanel.palette.windowText.b, 0.12)
+                border.width: 1
+                color: Qt.rgba(sliderFloatPanel.palette.window.r,
+                               sliderFloatPanel.palette.window.g,
+                               sliderFloatPanel.palette.window.b, 0.72)
+                radius: 18
+            }
 
             Component.onCompleted: {
                 sliderFloatPanel.x = (screen.width - width) / 2;

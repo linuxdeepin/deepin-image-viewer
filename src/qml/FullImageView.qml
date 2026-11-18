@@ -520,10 +520,31 @@ Item {
         visible: !IV.GStatus.editMode
         y: Window.height - IV.GStatus.showBottomY
 
-        background: FloatingPanel {
-            id: control
+        background: Item {
+            BoxShadow {
+                anchors.fill: thumbnailPanelBackground
+                cornerRadius: thumbnailPanelBackground.radius
+                hollow: true
+                shadowBlur: 20
+                shadowColor: Qt.rgba(thumbnailViewBackGround.palette.shadow.r,
+                                     thumbnailViewBackGround.palette.shadow.g,
+                                     thumbnailViewBackGround.palette.shadow.b, 0.24)
+                shadowOffsetY: 6
+            }
 
-            implicitHeight: 70
+            Rectangle {
+                id: thumbnailPanelBackground
+
+                anchors.fill: parent
+                border.color: Qt.rgba(thumbnailViewBackGround.palette.windowText.r,
+                                      thumbnailViewBackGround.palette.windowText.g,
+                                      thumbnailViewBackGround.palette.windowText.b, 0.12)
+                border.width: 1
+                color: Qt.rgba(thumbnailViewBackGround.palette.window.r,
+                               thumbnailViewBackGround.palette.window.g,
+                               thumbnailViewBackGround.palette.window.b, 0.72)
+                radius: 18
+            }
         }
         Behavior on y {
             enabled: fullThumbnail.enableAnimation
@@ -606,10 +627,34 @@ Item {
 
             anchors.fill: parent
 
-            FloatingPanel {
+            Item {
                 Accessible.ignored: true
                 anchors.fill: parent
-                implicitHeight: cropActionButtons.height
+
+                BoxShadow {
+                    anchors.fill: cropPanelBackground
+                    cornerRadius: cropPanelBackground.radius
+                    hollow: true
+                    shadowBlur: 20
+                    shadowColor: Qt.rgba(cropActionButtons.palette.shadow.r,
+                                         cropActionButtons.palette.shadow.g,
+                                         cropActionButtons.palette.shadow.b, 0.24)
+                    shadowOffsetY: 6
+                }
+
+                Rectangle {
+                    id: cropPanelBackground
+
+                    anchors.fill: parent
+                    border.color: Qt.rgba(cropActionButtons.palette.windowText.r,
+                                          cropActionButtons.palette.windowText.g,
+                                          cropActionButtons.palette.windowText.b, 0.12)
+                    border.width: 1
+                    color: Qt.rgba(cropActionButtons.palette.window.r,
+                                   cropActionButtons.palette.window.g,
+                                   cropActionButtons.palette.window.b, 0.72)
+                    radius: 18
+                }
             }
 
             Row {
