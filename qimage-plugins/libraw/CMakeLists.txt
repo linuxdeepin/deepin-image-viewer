@@ -13,7 +13,7 @@ find_package(PkgConfig REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}Gui REQUIRED)
 
-pkg_check_modules(RAW REQUIRED libraw)
+pkg_check_modules(RAW REQUIRED IMPORTED_TARGET libraw_r)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -36,11 +36,10 @@ list(APPEND SRCS
     datastream.cpp)
 
 add_library(${CMD_NAME} SHARED ${SRCS})
-target_include_directories(xraw PUBLIC ${RAW_INCLUDE_DIRS})
 target_link_libraries(${CMD_NAME}
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Gui
-    raw)
+    PkgConfig::RAW)
 set_target_properties(${CMD_NAME} PROPERTIES VERSION 1.0.0 SOVERSION 1)
 
 # Install the image format plugin

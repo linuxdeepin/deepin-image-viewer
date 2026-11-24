@@ -150,6 +150,11 @@ target_link_libraries(${BIN_NAME} PRIVATE
     Qt${QT_VERSION_MAJOR}::DBus
     Qt${QT_VERSION_MAJOR}::Concurrent
     Qt${QT_VERSION_MAJOR}::Svg
+    PkgConfig::EXIF
+    PkgConfig::LIBRAW
+    PkgConfig::TIFF
+    PkgConfig::HEIF
+    ZLIB::ZLIB
 
     # 移除
     Dtk${DTK_VERSION_MAJOR}::Widget

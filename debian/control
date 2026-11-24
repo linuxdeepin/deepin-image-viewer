@@ -21,6 +21,9 @@ Build-Depends:
 # 3rd party
  libraw-dev,
  libexif-dev,
+ libtiff-dev (>= 4.5),
+ libheif-dev,
+ zlib1g-dev,
  libncnn-dev,
  libopencv-mobile-dev
 Standards-Version: 3.9.8

@@ -8,6 +8,7 @@
 #include "configsetter.h"
 
 #include <QObject>
+#include <QDateTime>
 #include <QFileInfo>
 #include <QTimer>
 #include <QImage>
@@ -31,6 +32,7 @@ class QProcess;
 class FileControl : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(uint metadataRevision READ metadataRevision NOTIFY metadataRevisionChanged)
     // 是否显示右键菜单“设置为壁纸”项（由 DConfig setWallpaperVisible 控制，默认显示）
     Q_PROPERTY(bool setWallpaperVisible READ setWallpaperVisible NOTIFY setWallpaperVisibleChanged)
 public:
@@ -43,6 +45,7 @@ public:
     Q_INVOKABLE void addImageFile(const QString &filePath);                    // 追加监控当前目录中的图片文件
     Q_INVOKABLE QStringList getDirImagePath(const QString &path);              // 获得路径下的所有图片路径
     Q_INVOKABLE bool isCurrentWatcherDir(const QUrl &path);                    // 判断是否为当前正在监控的文件路径
+    uint metadataRevision() const { return m_metadataRevision; }
     Q_INVOKABLE QString slotGetInfo(const QString &key, const QString &path);  // 获取某项info
     Q_INVOKABLE QString slotGetFileName(const QString &path);                  // 获取文件名
     Q_INVOKABLE QString slotGetFileNameSuffix(const QString &path);            // 获取文件名及其后缀
@@ -100,12 +103,14 @@ public:
     Q_SIGNAL void imageRenamed(const QUrl &oldName, const QUrl &newName);
     // 文件变更通知信号，文件被移动、删除、覆盖等操作时触发
     Q_SIGNAL void imageFileChanged(const QString &fileName);
+    Q_SIGNAL void metadataRevisionChanged();
     // “设置为壁纸”项显示状态变更
     Q_SIGNAL void setWallpaperVisibleChanged();
 
 private:
     // 生成用于快捷键面板的字符串
     QString createShortcutString();
+    void invalidateImageMetadata(const QString &path);
 
 private:
     OcrInterface *m_ocrInterface;
@@ -115,8 +120,11 @@ private:
     QStringList listsupportWallPaper;              // 支持设置壁纸的图片后缀类型
     ImageFileWatcher *imageFileWatcher = nullptr;  // 图片文件变更监控
 
-    QString m_currentPath;                    // 当前操作的旋转图片路径
-    QMap<QString, QString> m_currentAllInfo;  // 当前图片详细信息
+    QString m_currentPath;                  // Path of the cached metadata
+    QMap<QString, QString> m_currentAllInfo;
+    QDateTime m_metadataModified;
+    qint64 m_metadataSize = -1;
+    uint m_metadataRevision = 0;
 
     LibConfigSetter *m_config;
     int m_windowWidth = 0;

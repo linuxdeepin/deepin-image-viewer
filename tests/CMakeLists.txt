@@ -108,6 +108,11 @@ target_link_libraries(${PROJECT_NAME_TEST}
     Qt6::Test
     Qt6::Quick
     Qt6::Qml
+    PkgConfig::EXIF
+    PkgConfig::LIBRAW
+    PkgConfig::TIFF
+    PkgConfig::HEIF
+    ZLIB::ZLIB
     ${InferenceEngine_LIBRARIES}
     ${OCR_PLUGIN_LIBRARIES}
     GL

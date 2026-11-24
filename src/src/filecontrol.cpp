@@ -9,6 +9,7 @@
 #include "printdialog/printhelper.h"
 #include "ocr/ocrinterface.h"
 #include "imagedata/imageinfo.h"
+#include "utils/rotateimagehelper.h"
 
 #include <DSysInfo>
 
@@ -103,7 +104,14 @@ FileControl::FileControl(QObject *parent)
     imageFileWatcher = ImageFileWatcher::instance();
     qCDebug(logImageViewer) << "OCR interface, shortcut view process, config, and image file watcher initialized.";
 
+    connect(imageFileWatcher, &ImageFileWatcher::imageFileChanged, this, &FileControl::invalidateImageMetadata);
     QObject::connect(imageFileWatcher, &ImageFileWatcher::imageFileChanged, this, &FileControl::imageFileChanged);
+    // The file watcher suppresses changes while a rotation is writing to disk.
+    connect(RotateImageHelper::instance(), &RotateImageHelper::rotateImageFinished, this,
+            [this](const QString &path, bool saved) {
+                if (saved)
+                    invalidateImageMetadata(path);
+            }, Qt::QueuedConnection);
     qCDebug(logImageViewer) << "Connected imageFileWatcher::imageFileChanged signal.";
 
     // 在1000ms以内只保存一次配置信息
@@ -568,13 +576,29 @@ QString FileControl::slotGetFileNameSuffix(const QString &path)
     return info.fileName();
 }
 
+void FileControl::invalidateImageMetadata(const QString &path)
+{
+    if (path.isEmpty() || path != m_currentPath)
+        return;
+    m_currentPath.clear();
+    m_currentAllInfo.clear();
+    ++m_metadataRevision;
+    Q_EMIT metadataRevisionChanged();
+}
+
 QString FileControl::slotGetInfo(const QString &key, const QString &path)
 {
     qCDebug(logImageViewer) << "Getting info for key: " << key << ", path: " << path;
-    QString localPath = QUrl(path).toLocalFile();
-    if (localPath != m_currentPath) {
-        qCDebug(logImageViewer) << "Local path changed, updating current path and metadata.";
+    const QString localPath = QUrl(path).toLocalFile();
+    if (localPath.isEmpty())
+        return QStringLiteral("-");
+    const QFileInfo file(localPath);
+    const auto modified = file.lastModified();
+    const qint64 size = file.size();
+    if (localPath != m_currentPath || modified != m_metadataModified || size != m_metadataSize) {
         m_currentPath = localPath;
+        m_metadataModified = modified;
+        m_metadataSize = size;
         m_currentAllInfo = LibUnionImage_NameSpace::getAllMetaData(localPath);
     }
 
