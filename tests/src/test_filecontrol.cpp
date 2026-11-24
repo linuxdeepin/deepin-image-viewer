@@ -2589,6 +2589,43 @@ TEST_F(FileControlTest, SlotGetInfo_FirstLookup_LoadsMetadataOnce)
     EXPECT_EQ(obj->m_currentPath, png);
 }
 
+TEST_F(FileControlTest, SlotGetInfo_SamePathOverwriteRefreshesMetadata)
+{
+    const QString png = makePngFile(tmpDir.path(), "changed.png");
+    const QString url = localUrl(png);
+    fakeMetaData = {{QStringLiteral("Model"), QStringLiteral("Camera")}};
+    stub.set_lamda(&LibUnionImage_NameSpace::getAllMetaData,
+                   [this](const QString &) -> QMap<QString, QString> { return fakeMetaData; });
+    ASSERT_EQ(obj->slotGetInfo(QStringLiteral("Model"), url), QStringLiteral("Camera"));
+
+    QFile file(png);
+    ASSERT_TRUE(file.open(QIODevice::Append));
+    ASSERT_EQ(file.write("a"), 1);
+    file.close();
+    fakeMetaData.clear();
+    EXPECT_EQ(obj->slotGetInfo(QStringLiteral("Model"), url), QStringLiteral("-"));
+}
+
+TEST_F(FileControlTest, SlotGetInfo_WatcherChangeInvalidatesCacheAndNotifiesPanel)
+{
+    const QString png = makePngFile(tmpDir.path(), "watched.png");
+    const QString url = localUrl(png);
+    fakeMetaData = {{QStringLiteral("Model"), QStringLiteral("Before")}};
+    stub.set_lamda(&LibUnionImage_NameSpace::getAllMetaData,
+                   [this](const QString &) -> QMap<QString, QString> { return fakeMetaData; });
+    ASSERT_EQ(obj->slotGetInfo(QStringLiteral("Model"), url), QStringLiteral("Before"));
+
+    QSignalSpy revisionChanged(obj, &FileControl::metadataRevisionChanged);
+    const uint revision = obj->metadataRevision();
+    fakeMetaData.insert(QStringLiteral("Model"), QStringLiteral("After"));
+    Q_EMIT ImageFileWatcher::instance()->imageFileChanged(tmpDir.filePath("unrelated.png"));
+    EXPECT_EQ(revisionChanged.count(), 0);
+    Q_EMIT ImageFileWatcher::instance()->imageFileChanged(png);
+    EXPECT_EQ(revisionChanged.count(), 1);
+    EXPECT_EQ(obj->metadataRevision(), revision + 1);
+    EXPECT_EQ(obj->slotGetInfo(QStringLiteral("Model"), url), QStringLiteral("After"));
+}
+
 TEST_F(FileControlTest, SlotGetInfo_UnknownKey_ReturnsDash)
 {
     // Arrange

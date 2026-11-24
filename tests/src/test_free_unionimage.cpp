@@ -216,9 +216,11 @@
 
 #include <gtest/gtest.h>
 
+#include <QBuffer>
 #include <QByteArray>
 #include <QColor>
 #include <QColorSpace>
+#include <QDateTime>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -228,6 +230,9 @@
 #include <QTemporaryDir>
 #include <QImageReader>
 #include <QTransform>
+#include <QtEndian>
+
+#include <zlib.h>
 
 #include "stub_ext/stubext.h"
 
@@ -273,6 +278,96 @@ QImage makePatternImage(int width, int height)
     img.setPixelColor(width - 1, 0, QColor(0, 0, 255));   // 右上 blue
     img.setPixelColor(0, height - 1, QColor(0, 255, 0));  // 左下 green
     return img;
+}
+
+QByteArray makeJpegWithSegments(const QByteArray &segments)
+{
+    QByteArray jpeg;
+    QBuffer buffer(&jpeg);
+    if (!buffer.open(QIODevice::WriteOnly) || !makePatternImage(16, 8).save(&buffer, "JPEG"))
+        return {};
+    buffer.close();
+
+    // Keep the JFIF APP0 immediately after SOI when adding test segments.
+    if (jpeg.size() < 6 || jpeg.mid(2, 2) != QByteArrayLiteral("\xff\xe0"))
+        return {};
+    const int app0End = 4 + qFromBigEndian<quint16>(jpeg.constData() + 4);
+    jpeg.insert(app0End, segments);
+    return jpeg;
+}
+
+QByteArray standardExifApp1()
+{
+    // JPEG APP1 containing little-endian EXIF. IFD0 holds Model and an EXIF IFD pointer.
+    // The EXIF IFD holds ExposureTime, ISO, DateTimeOriginal, DateTimeDigitized and LensModel.
+    return QByteArray::fromHex(
+        "ffe100bb45786966000049492a0008000000"
+        "020010010200110000006800000069870400010000002600000000000000"
+        "05009a82050001000000ab000000278803000100000090010000039002001400000083000000"
+        "04900200140000009700000034a402000a0000007900000000000000"
+        "4558494620546573742043616d65726100546573742035306d6d00"
+        "323031383a30313a30322031363a30343a303500323031393a30323a30332031373a30353a303600"
+        "010000007d000000");
+}
+
+QByteArray makePngWithExif(const QByteArray &tiff = standardExifApp1().mid(10))
+{
+    QByteArray png;
+    QBuffer buffer(&png);
+    if (!buffer.open(QIODevice::WriteOnly) || !makePatternImage(16, 8).save(&buffer, "PNG"))
+        return {};
+    buffer.close();
+
+    // The eXIf chunk contains the TIFF data from standardExifApp1(), without the EXIF prefix.
+    const QByteArray chunkData = "eXIf" + tiff;
+    QByteArray chunk(4, Qt::Uninitialized);
+    qToBigEndian<quint32>(tiff.size(), chunk.data());
+    chunk.append(chunkData);
+    char checksum[4];
+    const auto crc = crc32(0, reinterpret_cast<const Bytef *>(chunkData.constData()), chunkData.size());
+    qToBigEndian<quint32>(crc, checksum);
+    chunk.append(checksum, sizeof(checksum));
+    png.insert(33, chunk); // After the PNG signature and IHDR chunk.
+
+    return png;
+}
+
+QByteArray cameraXmp()
+{
+    return QByteArrayLiteral(R"xml(<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:exif="http://ns.adobe.com/exif/1.0/">
+    <rdf:Description rdf:about="" tiff:Model="XMP Test Camera" exif:ExposureTime="1/125"
+                     exif:FNumber="4/1" exif:DateTimeOriginal="2018-01-02T16:04:05+08:00">
+      <exif:ISOSpeedRatings><rdf:Seq><rdf:li>400</rdf:li><rdf:li>800</rdf:li></rdf:Seq></exif:ISOSpeedRatings>
+      <exif:FocalLength>50/1</exif:FocalLength>
+    </rdf:Description>
+    </rdf:RDF>)xml");
+}
+
+QByteArray photoshopResource(quint16 id, const QByteArray &name, const QByteArray &data)
+{
+    QByteArray resource = QByteArrayLiteral("8BIM") + QByteArray(2, '\0');
+    qToBigEndian(id, resource.data() + 4);
+    resource.append(char(name.size()));
+    resource.append(name);
+    if ((name.size() + 1) % 2)
+        resource.append('\0');
+    char length[4];
+    qToBigEndian<quint32>(data.size(), length);
+    resource.append(length, sizeof(length));
+    resource.append(data);
+    if (data.size() % 2)
+        resource.append('\0');
+    return resource;
+}
+
+QByteArray canonFlashApp1()
+{
+    // Canon ShotInfo[15] = -0x14 represents -2/3 EV.
+    return QByteArray::fromHex(
+        "ffe1007845786966000049492a000800000002000f010200060000002600000069870400010000002c00"
+        "00000000000043616e6f6e0001007c920700320000003e00000000000000010004000300100000005000"
+        "000000000000200000000000000000000000000000000000000000000000000000000000ecff");
 }
 
 QString writeRawFile(const QTemporaryDir &dir, const QString &name, const QByteArray &data)
@@ -342,6 +437,482 @@ protected:
     stub_ext::StubExt stub;
     QTemporaryDir tmpDir;
 };
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_JpegWithExif_ReturnsCameraAndShootingFields)
+{
+    const QByteArray jpeg = makeJpegWithSegments(standardExifApp1());
+    ASSERT_FALSE(jpeg.isEmpty());
+    const QString path = writeRawFile(tmpDir, QStringLiteral("相机.jpg"), jpeg);
+    const QString modifiedTime = QFileInfo(path).lastModified().toString(QStringLiteral("yyyy/MM/dd HH:mm"));
+    ASSERT_FALSE(modifiedTime.isEmpty());
+    ASSERT_NE(modifiedTime, QStringLiteral("2019/02/03 17:05"));
+    const auto metadata = getAllMetaData(path);
+
+    EXPECT_EQ(metadata.value("Dimension"), QStringLiteral("16x8"));
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+    EXPECT_EQ(metadata.value("LensType"), QStringLiteral("Test 50mm"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+    EXPECT_TRUE(metadata.value("ExposureTime").contains(QStringLiteral("1/125")));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+    EXPECT_EQ(metadata.value("DateTimeDigitized"), modifiedTime);
+    EXPECT_FALSE(metadata.contains("ColorSpace"));
+    EXPECT_FALSE(metadata.contains("FlashExposureComp"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_PngWithExif_ReturnsCameraAndCaptureTime)
+{
+    const QByteArray png = makePngWithExif();
+    ASSERT_FALSE(png.isEmpty());
+
+    const QString path = writeRawFile(tmpDir, "camera.png", png);
+    ASSERT_FALSE(QImage(path).isNull());
+    const auto metadata = getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Dimension"), QStringLiteral("16x8"));
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+    EXPECT_EQ(metadata.value("DateTimeDigitized"),
+              QFileInfo(path).lastModified().toString(QStringLiteral("yyyy/MM/dd HH:mm")));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_PngExifDirectoryBeyondApp1Limit)
+{
+    QByteArray tiff = standardExifApp1().mid(10);
+    // Move the EXIF IFD past 64 KiB, preserving the referenced values near the start.
+    constexpr quint32 directoryOffset = 70000;
+    const auto directory = tiff.mid(38, 66);
+    qToLittleEndian(directoryOffset, tiff.data() + 30);
+    tiff.append(QByteArray(directoryOffset - tiff.size(), '\0'));
+    tiff.append(directory);
+    const auto png = makePngWithExif(tiff);
+    ASSERT_FALSE(png.isEmpty());
+    const auto path = writeRawFile(tmpDir, "large-exif.png", png);
+    const auto metadata = getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+    EXPECT_EQ(metadata.value("LensType"), QStringLiteral("Test 50mm"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+    EXPECT_EQ(metadata.value("ExposureTime"), QStringLiteral("1/125 sec."));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_PngWithBadExifChecksum_IgnoresTheChunk)
+{
+    QByteArray png = makePngWithExif();
+    ASSERT_FALSE(png.isEmpty());
+    const qsizetype checksumEnd = 33 + 8 + standardExifApp1().size() - 10 + 4;
+    png[checksumEnd - 1] = png.at(checksumEnd - 1) ^ 1;
+    const auto path = writeRawFile(tmpDir, "bad-exif-crc.png", png);
+    const auto metadata = getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Dimension"), QStringLiteral("16x8"));
+    EXPECT_FALSE(metadata.contains("Model"));
+    EXPECT_FALSE(metadata.contains("ISOSpeedRatings"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_WebpWithExif_ReadsChunkAfterOddSizedImageData)
+{
+    if (!QImageReader::supportedImageFormats().contains("webp"))
+        GTEST_SKIP() << "WebP image format plugin is unavailable";
+
+    // VP8X announces EXIF and a 16x8 canvas. The 17-byte VP8L payload has a padding byte.
+    const auto image = QByteArray::fromHex(
+        "524946460000000057454250565038580a000000080000000f0000070000"
+        "5650384c110000002f0fc0010007508a5294a2ff8188e87f0000");
+    for (const bool withPrefix : {false, true}) {
+        SCOPED_TRACE(withPrefix ? "EXIF prefix" : "Raw TIFF");
+        const QByteArray payload = standardExifApp1().mid(withPrefix ? 4 : 10);
+        QByteArray webp = image + "EXIF" + QByteArray(4, '\0') + payload;
+        if (payload.size() % 2)
+            webp.append('\0');
+        qToLittleEndian<quint32>(webp.size() - 8, webp.data() + 4);
+        qToLittleEndian<quint32>(payload.size(), webp.data() + image.size() + 4);
+
+        const QString path = writeRawFile(tmpDir, withPrefix ? "prefixed.webp" : "camera.webp", webp);
+        ASSERT_FALSE(QImage(path).isNull());
+        const auto metadata = getAllMetaData(path);
+        EXPECT_EQ(metadata.value("Dimension"), QStringLiteral("16x8"));
+        EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+        EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+    }
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_IcoWithPngExif_UsesOnlyTheDeclaredIconEntry)
+{
+    const QByteArray png = makePngWithExif();
+    ASSERT_FALSE(png.isEmpty());
+    QByteArray icon = QByteArray::fromHex("00000100010010080000010020000000000016000000");
+    qToLittleEndian<quint32>(png.size(), icon.data() + 14);
+    icon.append(png);
+    const QString path = writeRawFile(tmpDir, "camera.ico", icon);
+    ASSERT_FALSE(QImage(path).isNull());
+    const auto metadata = getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+
+    // The valid PNG bytes extend beyond this directory entry's stated length.
+    qToLittleEndian<quint32>(33, icon.data() + 14);
+    const QString truncated = writeRawFile(tmpDir, "truncated.ico", icon);
+    EXPECT_FALSE(getAllMetaData(truncated).contains("Model"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_PsdWithExifAndXmp_PrefersExif)
+{
+    const QByteArray header = QByteArray::fromHex("384250530001000000000000000300000001000000010008000300000000");
+    const QByteArray otherResource = photoshopResource(1000, "nm", QByteArrayLiteral("odd"));
+    const QByteArray xmpResource = photoshopResource(1060, {}, cameraXmp());
+    const QByteArray exifResource = photoshopResource(1058, "Exif", standardExifApp1().mid(10));
+    for (bool includeExif : {false, true}) {
+        SCOPED_TRACE(includeExif);
+        const QByteArray resources = otherResource + xmpResource + (includeExif ? exifResource : QByteArray());
+        QByteArray psd = header + QByteArray(4, '\0');
+        qToBigEndian<quint32>(resources.size(), psd.data() + header.size());
+        psd.append(resources);
+        psd.append(QByteArray(9, '\0')); // Empty layer data and an uncompressed RGB pixel.
+        const QString path = writeRawFile(tmpDir, includeExif ? "camera.psd" : "xmp.psd", psd);
+        if (QImageReader::supportedImageFormats().contains("psd"))
+            ASSERT_FALSE(QImage(path).isNull());
+        const auto metadata = getAllMetaData(path);
+        EXPECT_EQ(metadata.value("Model"), includeExif ? QStringLiteral("EXIF Test Camera") : QStringLiteral("XMP Test Camera"));
+        EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+        EXPECT_EQ(metadata.value("FocalLength"), QStringLiteral("50 mm"));
+    }
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_GifWithXmp_ReturnsShootingFields)
+{
+    QByteArray gif = QByteArray::fromHex("47494638396101000100800000000000ffffff2c00000000010001000002024401003b");
+    QByteArray extension = QByteArray::fromHex("21ff0b") + "XMP DataXMP" + cameraXmp();
+    extension.append('\x01');
+    for (int byte = 255; byte >= 0; --byte)
+        extension.append(static_cast<char>(byte));
+    extension.append('\0');
+    gif.insert(gif.size() - 1, extension); // After the first frame, before the GIF trailer.
+    const QString path = writeRawFile(tmpDir, "camera.gif", gif);
+    ASSERT_FALSE(QImage(path).isNull());
+    const auto metadata = getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("XMP Test Camera"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+    EXPECT_EQ(metadata.value("ExposureTime"), QStringLiteral("1/125 sec."));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_SvgWithXmp_ReadsCameraPropertiesFromMetadata)
+{
+    const QByteArray svg = QByteArrayLiteral("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"8\"><metadata>")
+                          + cameraXmp() + "</metadata><rect width=\"16\" height=\"8\"/></svg>";
+    const QString path = writeRawFile(tmpDir, "camera.svg", svg);
+    ASSERT_FALSE(QImage(path).isNull());
+    const auto metadata = getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("XMP Test Camera"));
+    EXPECT_EQ(metadata.value("ApertureValue"), QStringLiteral("f/4"));
+    EXPECT_EQ(metadata.value("FocalLength"), QStringLiteral("50 mm"));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_SvgzWithNestedXmp_ReadsExtendedIso)
+{
+    QByteArray xmp = cameraXmp();
+    xmp.replace("xmlns:tiff=", "xmlns:exifEX=\"http://cipa.jp/exif/1.0/\" xmlns:tiff=");
+    xmp.replace("exif:FNumber=", "exifEX:PhotographicSensitivity=\"65535\" exifEX:SensitivityType=\"3\" "
+                                "exifEX:ISOSpeed=\"102400\" exif:FNumber=");
+    const QByteArray svg = QByteArrayLiteral("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"8\"><g><metadata>")
+                          + xmp + "</metadata></g><rect width=\"16\" height=\"8\"/></svg>";
+    const QString uncompressed = writeRawFile(tmpDir, "nested.svg", svg);
+    const QString compressed = tmpDir.filePath("nested.svgz");
+    gzFile file = gzopen(QFile::encodeName(compressed).constData(), "wb");
+    ASSERT_NE(file, nullptr);
+    const int bytesWritten = gzwrite(file, svg.constData(), static_cast<unsigned int>(svg.size()));
+    const int closeResult = gzclose(file);
+    ASSERT_EQ(bytesWritten, svg.size());
+    ASSERT_EQ(closeResult, Z_OK);
+
+    for (const QString &path : {uncompressed, compressed}) {
+        SCOPED_TRACE(path.toStdString());
+        ASSERT_FALSE(QImage(path).isNull());
+        const auto metadata = getAllMetaData(path);
+        EXPECT_EQ(metadata.value("Model"), QStringLiteral("XMP Test Camera"));
+        EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("102400"));
+        EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+    }
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_SvgWithLargePrefixAndMultipleMetadataBlocks)
+{
+    QByteArray svg = R"(<svg xmlns="http://www.w3.org/2000/svg" width="16" height="8">
+        <metadata><rdf:Description xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+            xmlns:tiff="http://ns.adobe.com/tiff/1.0/" tiff:ImageWidth="16"/></metadata>
+        <metadata><rdf:Description xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+            xmlns:tiff="http://ns.adobe.com/tiff/1.0/" tiff:Model="Oversized Metadata"/><!--)";
+    svg.append(QByteArray(1024 * 1024, ' '));
+    svg.append("--></metadata><metadata>");
+    svg.append(cameraXmp());
+    svg.append("</metadata></svg>");
+    const auto path = writeRawFile(tmpDir, "multiple-metadata.svg", svg);
+    const auto metadata = getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("XMP Test Camera"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_TiffWithExif_ReturnsShootingFields)
+{
+    // A 64x64 grayscale TIFF with its EXIF directory before the pixel strip and IFD0 after it.
+    QByteArray tiff = QByteArray::fromBase64(
+        "SUkqAIQQAAAGAJqCBQABAAAAcgAAAJ2CBQABAAAAagAAACeIAwABAAAAkAEAAAOQAgAUAAAA"
+        "VgAAAAmSAwABAAAAAAAAADSkAgAKAAAAegAAAAAAAAAyMDE4OjAxOjAyIDE2OjA0OjA1AAQA"
+        "AAABAAAAbxKDAAAAAEBUZXN0IDUwbW0=");
+    tiff.append(QByteArray(64 * 64, '\0'));
+    tiff.append(QByteArray::fromBase64(
+        "AAwAAAEDAAEAAABAAAAAAQEDAAEAAABAAAAAAgEDAAEAAAAIAAAAAwEDAAEAAAABAAAABgED"
+        "AAEAAAABAAAAEAECABEAAAAaEQAAEQEEAAEAAACEAAAAFQEDAAEAAAABAAAAFgEDAAEAAABA"
+        "AAAAFwEEAAEAAAAAEAAAHAEDAAEAAAABAAAAaYcEAAEAAAAIAAAAAAAAAEVYSUYgVGVzdCBD"
+        "YW1lcmEA"));
+    const QString path = writeRawFile(tmpDir, QStringLiteral("相机.tiff"), tiff);
+    const auto metadata = getAllMetaData(path);
+
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+    EXPECT_EQ(metadata.value("LensType"), QStringLiteral("Test 50mm"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+    EXPECT_EQ(metadata.value("ApertureValue"), QStringLiteral("f/4"));
+    EXPECT_EQ(metadata.value("ExposureTime"), QStringLiteral("1/125 sec."));
+    EXPECT_FALSE(metadata.value("Flash").isEmpty());
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_HeifAndAvifWithExif_ReadPrimaryImageMetadata)
+{
+    // Both files store the tags from standardExifApp1() in the primary image's Exif item.
+    // The HEIC has a six-byte prefix before the TIFF header, and the AVIF has a zero offset.
+    const QByteArray heic = QByteArray::fromBase64(
+        "AAAAHGZ0eXBoZWljAAAAAG1pZjFoZWljbWlhZgAAAadtZXRhAAAAAAAAACFoZGxyAAAAAAAA"
+        "AABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAANGlsb2MAAAAAREAAAgABAAAA"
+        "AAHLAAEAAAAAAAAANgACAAAAAAIBAAEAAAAAAAAAvQAAADhpaW5mAAAAAAACAAAAFWluZmUC"
+        "AAAAAAEAAGh2YzEAAAAAFWluZmUCAAABAAIAAEV4aWYAAAAA5mlwcnAAAADHaXBjbwAAAHNo"
+        "dmNDAQNwAAAAAAAAAAAAHvAA/P34+AAADwMgAAEAGEABDAH//wNwAAADAJAAAAMAAAMAHroC"
+        "QCEAAQAnQgEBA3AAAAMAkAAAAwAAAwAeoCCBBZbqrprmwIAAAAMAgAAAAwCEIgABAAZEAcFz"
+        "wYkAAAAUaXNwZQAAAAAAAABAAAAAQAAAAChjbGFwAAAAEAAAAAEAAAAIAAAAAf///9AAAAAC"
+        "////yAAAAAIAAAAQcGl4aQAAAAADCAgIAAAAF2lwbWEAAAAAAAAAAQABBIECgwQAAAAaaXJl"
+        "ZgAAAAAAAAAOY2RzYwACAAEAAQAAAPttZGF0AAAAMigBrxMhXsNA9rQ5i2ppI/049gjmjksY"
+        "DcyGh2GEVn0iYbn6kNCsfWCQg6pApoCrXxycAAAABkV4aWYAAElJKgAIAAAAAgAQAQIAEQAA"
+        "AGgAAABphwQAAQAAACYAAAAAAAAABQCaggUAAQAAAKsAAAAniAMAAQAAAJABAAADkAIAFAAA"
+        "AIMAAAAEkAIAFAAAAJcAAAA0pAIACgAAAHkAAAAAAAAARVhJRiBUZXN0IENhbWVyYQBUZXN0"
+        "IDUwbW0AMjAxODowMTowMiAxNjowNDowNQAyMDE5OjAyOjAzIDE3OjA1OjA2AAEAAAB9AAAA");
+    const QByteArray avif = QByteArray::fromBase64(
+        "AAAAHGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZgAAASttZXRhAAAAAAAAACFoZGxyAAAAAAAA"
+        "AABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAANGlsb2MAAAAAREAAAgABAAAA"
+        "AAFPAAEAAAAAAAAAGgACAAAAAAFpAAEAAAAAAAAAtwAAADhpaW5mAAAAAAACAAAAFWluZmUC"
+        "AAAAAAEAAGF2MDEAAAAAFWluZmUCAAABAAIAAEV4aWYAAAAAamlwcnAAAABLaXBjbwAAABNj"
+        "b2xybmNseAABAA0ABoAAAAAMYXYxQ4EADAAAAAAUaXNwZQAAAAAAAAAQAAAACAAAABBwaXhp"
+        "AAAAAAMICAgAAAAXaXBtYQAAAAAAAAABAAEEAYIDBAAAABppcmVmAAAAAAAAAA5jZHNjAAIA"
+        "AQABAAAA2W1kYXQSAAoFGAy/sCEyDxgACiiihAACOK3SEQiEgAAAAABJSSoACAAAAAIAEAEC"
+        "ABEAAABoAAAAaYcEAAEAAAAmAAAAAAAAAAUAmoIFAAEAAACrAAAAJ4gDAAEAAACQAQAAA5AC"
+        "ABQAAACDAAAABJACABQAAACXAAAANKQCAAoAAAB5AAAAAAAAAEVYSUYgVGVzdCBDYW1lcmEA"
+        "VGVzdCA1MG1tADIwMTg6MDE6MDIgMTY6MDQ6MDUAMjAxOTowMjowMyAxNzowNTowNgABAAAA"
+        "fQAAAA==");
+    const QMap<QString, QByteArray> fixtures = {
+        {QStringLiteral("相机.heic"), heic},
+        {QStringLiteral("相机.heif"), heic},
+        {QStringLiteral("相机.avif"), avif},
+    };
+    for (auto it = fixtures.cbegin(); it != fixtures.cend(); ++it) {
+        SCOPED_TRACE(it.key().toStdString());
+        const QString path = writeRawFile(tmpDir, it.key(), it.value());
+        const auto metadata = getAllMetaData(path);
+        EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+        EXPECT_EQ(metadata.value("LensType"), QStringLiteral("Test 50mm"));
+        EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+        EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+    }
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_DngWithExif_ReturnsRawShootingFields)
+{
+    // Little-endian DNG with a 64x64 CFA strip, camera and lens names, and EXIF shooting settings.
+    QByteArray dng = QByteArray::fromHex(
+        "49492a0008000000140000010400010000004000000001010400010000004000"
+        "0000020103000100000010000000030103000100000001000000060103000100"
+        "0000238000000f010200050000004c0100001001020010000000520100001101"
+        "040001000000a801000012010300010000000100000015010300010000000100"
+        "00001601040001000000400000001701040001000000002000001c0103000100"
+        "0000010000008d82030002000000020002008e82010004000000000101026987"
+        "040001000000fe00000012c60100040000000104000013c60100040000000101"
+        "000014c6020010000000620100001dc6040001000000ff0f0000000000000600"
+        "9a82050001000000720100009d820500010000007a0100002788030001000000"
+        "900100000390020014000000820100000a920500010000009601000034a40200"
+        "0a0000009e0100000000000054657374000052415720546573742043616d6572"
+        "610052415720546573742043616d65726100010000007d000000040000000100"
+        "0000323031383a30313a30322031363a30343a30350032000000010000005465"
+        "73742035306d6d00");
+    dng.replace("2018:01:02 16:04:05", "2024:03:10 02:30:00");
+    dng.append(QByteArray(64 * 64 * 2, '\0'));
+    const QString path = writeRawFile(tmpDir, QStringLiteral("相机.dng"), dng);
+    ASSERT_TRUE(QFileInfo(path).exists());
+
+    const auto metadata = getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("RAW Test Camera"));
+    EXPECT_EQ(metadata.value("LensType"), QStringLiteral("Test 50mm"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+    EXPECT_EQ(metadata.value("ApertureValue"), QStringLiteral("f/4"));
+    EXPECT_EQ(metadata.value("ExposureTime"), QStringLiteral("1/125 sec."));
+    EXPECT_EQ(metadata.value("FocalLength"), QStringLiteral("50 mm"));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2024/03/10 02:30"));
+    EXPECT_EQ(metadata.value("DateTimeDigitized"),
+              QFileInfo(path).lastModified().toString(QStringLiteral("yyyy/MM/dd HH:mm")));
+
+    // LibRaw also reports DateTimeDigitized as its aggregate timestamp. It is not the capture time.
+    dng.replace(QByteArray::fromHex("0390020014000000"), QByteArray::fromHex("0490020014000000"));
+    const QString digitizedPath = writeRawFile(tmpDir, "digitized-only.dng", dng);
+    const auto digitized = getAllMetaData(digitizedPath);
+    EXPECT_EQ(digitized.value("Model"), QStringLiteral("RAW Test Camera"));
+    const QString modified = QFileInfo(digitizedPath).lastModified().toString(QStringLiteral("yyyy/MM/dd HH:mm"));
+    ASSERT_NE(modified, QStringLiteral("2024/03/10 02:30"));
+    EXPECT_EQ(digitized.value("DateTimeOriginal"), modified);
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_CanonMakerNote_DecodesSignedThirdStops)
+{
+    const QByteArray jpeg = makeJpegWithSegments(canonFlashApp1());
+    ASSERT_FALSE(jpeg.isEmpty());
+    const QString path = writeRawFile(tmpDir, "canon-flash.jpg", jpeg);
+    EXPECT_EQ(getAllMetaData(path).value("FlashExposureComp"), QStringLiteral("-0.67 EV"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_CanonMakerNote_IgnoresInvalidShotInfoOffsets)
+{
+    constexpr qsizetype shotInfoOffsetField = 82;
+    const struct {
+        quint32 offset;
+        const char *name;
+    } invalidOffsets[] = {
+        {0, "TIFF header"},
+        {8, "IFD0"},
+        {44, "EXIF IFD"},
+        {62, "MakerNote IFD"},
+        {78, "MakerNote next IFD pointer"},
+        {82, "ShotInfo data after the size field"},
+        {0xffffffff, "Outside the TIFF payload"},
+    };
+    for (const auto &testCase : invalidOffsets) {
+        SCOPED_TRACE(testCase.name);
+        QByteArray app1 = canonFlashApp1();
+        qToLittleEndian(testCase.offset, app1.data() + shotInfoOffsetField);
+        const QByteArray jpeg = makeJpegWithSegments(app1);
+        ASSERT_FALSE(jpeg.isEmpty());
+        const QString path = writeRawFile(tmpDir, QStringLiteral("canon-offset-%1.jpg").arg(testCase.offset), jpeg);
+        const auto metadata = getAllMetaData(path);
+        EXPECT_EQ(metadata.value("Dimension"), QStringLiteral("16x8"));
+        EXPECT_FALSE(metadata.contains("FlashExposureComp"));
+    }
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_CanonMakerNote_IgnoresInconsistentShotInfoSize)
+{
+    QByteArray app1 = canonFlashApp1();
+    // The ShotInfo array has 16 shorts (32 bytes) but its first short declares 30 bytes.
+    qToLittleEndian<quint16>(30, app1.data() + 90);
+    const QByteArray jpeg = makeJpegWithSegments(app1);
+    ASSERT_FALSE(jpeg.isEmpty());
+    const QString path = writeRawFile(tmpDir, "canon-shotinfo-size.jpg", jpeg);
+    EXPECT_FALSE(getAllMetaData(path).contains("FlashExposureComp"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_NikonMakerNote_DecodesPositiveAndZeroCompensation)
+{
+    // Outer EXIF is little-endian. The Nikon type 3 note uses its own big-endian TIFF header.
+    // Tag 0x0012 is {4, 1, 6, 0}, meaning +2/3 EV.
+    QByteArray app1 = QByteArray::fromHex(
+        "ffe1005845786966000049492a0008000000010069870400010000001a0000000000000001007c920700"
+        "240000002c000000000000004e696b6f6e00021000004d4d002a00000008000100120007000000040401"
+        "060000000000");
+    const QByteArray jpeg = makeJpegWithSegments(app1);
+    ASSERT_FALSE(jpeg.isEmpty());
+    const QString path = writeRawFile(tmpDir, "nikon-flash.jpg", jpeg);
+    EXPECT_EQ(getAllMetaData(path).value("FlashExposureComp"), QStringLiteral("+0.67 EV"));
+
+    app1[app1.size() - 8] = 0; // First byte of tag value, retaining its multiplier and divisor.
+    const QString zeroPath = writeRawFile(tmpDir, "nikon-no-compensation.jpg", makeJpegWithSegments(app1));
+    EXPECT_EQ(getAllMetaData(zeroPath).value("FlashExposureComp"), QStringLiteral("0.00 EV"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_JpegWithApp12BeforeExif_ReturnsCameraFields)
+{
+    // The leading 0xff is a marker fill byte. APP12 contains 8 bytes after its length.
+    const QByteArray app12 = QByteArray::fromHex("ffffec000a4475636b79000000");
+    // A non-EXIF APP1 should also be skipped.
+    const QByteArray otherApp1 = QByteArray::fromHex("ffe100066d657461");
+    const QByteArray jpeg = makeJpegWithSegments(app12 + otherApp1 + standardExifApp1());
+    ASSERT_FALSE(jpeg.isEmpty());
+    const QString path = writeRawFile(tmpDir, "app12-first.jpg", jpeg);
+    ASSERT_FALSE(QImage(path).isNull());
+    const auto metadata = getAllMetaData(path);
+
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_JpegWithIsoOverflow_UsesSensitivityType)
+{
+    const auto original = QByteArray::fromHex(
+        "ffe1004c45786966000049492a0008000000010069870400010000001a00000000000000"
+        "03002788030001000000ffff000030880300010000000300000033880400010000000090010000000000");
+    const struct {
+        char type;
+        const char *tag;
+        const char *name;
+    } variants[] = {
+        {1, "3188040001000000", "sos.jpg"},
+        {2, "3288040001000000", "rei.jpg"},
+        {3, "3388040001000000", "iso-speed.jpg"},
+    };
+    for (const auto &variant : variants) {
+        SCOPED_TRACE(variant.name);
+        QByteArray app1 = original;
+        app1.replace(QByteArray::fromHex("030000003388040001000000"),
+                     QByteArray(1, variant.type) + QByteArray(3, '\0') + QByteArray::fromHex(variant.tag));
+        const QByteArray jpeg = makeJpegWithSegments(app1);
+        ASSERT_FALSE(jpeg.isEmpty());
+        const QString path = writeRawFile(tmpDir, QString::fromLatin1(variant.name), jpeg);
+        EXPECT_EQ(getAllMetaData(path).value("ISOSpeedRatings"), QStringLiteral("102400"));
+    }
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_JpegWithBothApertureTags_PrefersFNumber)
+{
+    // FNumber is f/5.6, while the APEX ApertureValue of 5 converts to about f/5.7.
+    const QByteArray app1 = QByteArray::fromHex(
+        "ffe1005045786966000049492a0008000000010069870400010000001a00000000000000"
+        "02009d820500010000003800000002920500010000004000000000000000380000000a00"
+        "00000500000001000000");
+    const QByteArray jpeg = makeJpegWithSegments(app1);
+    ASSERT_FALSE(jpeg.isEmpty());
+    const QString path = writeRawFile(tmpDir, "aperture.jpg", jpeg);
+    EXPECT_EQ(getAllMetaData(path).value("ApertureValue"), QStringLiteral("f/5.6"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_ExifCaptureTimeInDstGap_PreservesRecordedTime)
+{
+    QByteArray app1 = standardExifApp1();
+    app1.replace("2018:01:02 16:04:05", "2024:03:10 02:30:00");
+    const QByteArray jpeg = makeJpegWithSegments(app1);
+    ASSERT_FALSE(jpeg.isEmpty());
+    const QString path = writeRawFile(tmpDir, "dst-gap.jpg", jpeg);
+    const auto metadata = getAllMetaData(path);
+
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2024/03/10 02:30"));
+}
+
+TEST_F(FreeUnionImageTest, GetAllMetaData_JpegWithoutExif_ReturnsFileInfo)
+{
+    const QString path = writeImageFile(tmpDir, "plain.jpg", 16, 8, "JPEG");
+    const QFileInfo file(path);
+    ASSERT_TRUE(file.exists());
+    const auto metadata = getAllMetaData(path);
+    const QString modifiedTime = file.lastModified().toString(QStringLiteral("yyyy/MM/dd HH:mm"));
+
+    EXPECT_EQ(metadata.value("Dimension"), QStringLiteral("16x8"));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), modifiedTime);
+    EXPECT_EQ(metadata.value("DateTimeDigitized"), modifiedTime);
+    EXPECT_FALSE(metadata.contains("Model"));
+    EXPECT_FALSE(metadata.contains("ISOSpeedRatings"));
+}
 
 struct SuffixParamTest : public FreeUnionImageTest,
                          public ::testing::WithParamInterface<SuffixCase> {};

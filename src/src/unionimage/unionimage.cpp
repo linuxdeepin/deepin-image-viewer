@@ -4,11 +4,13 @@
 
 #include "unionimage.h"
 
+#include "exifreader.h"
+
 #include <QObject>
 #include <QMutex>
 #include <QMutexLocker>
-#include <QDate>
-#include <QTime>
+#include <QDateTime>
+#include <QFile>
 #include <QtMath>
 #include <QMovie>
 #include <QTransform>
@@ -125,7 +127,6 @@ static QImage convertToSRgbColorSpace(const QImage &image)
 }
 #endif
 const QString DATETIME_FORMAT_NORMAL = "yyyy.MM.dd";
-const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm";
 
 namespace LibUnionImage_NameSpace {
 
@@ -443,9 +444,8 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
         errorMsg = "error file!";
         return false;
     }
-    QMap<QString, QString> dataMap = getAllMetaData(path);
-    QString file_suffix_upper = dataMap.value("FileFormat").toUpper();
-    QString file_mimeType = dataMap.value("FileMimeType").toUpper();
+    QString file_suffix_upper = getFileFormat(path).toUpper();
+    QString file_mimeType = getFileMimeType(path).toUpper();
     qCDebug(logImageViewer) << "Detected file suffix:" << file_suffix_upper << ", MIME type:" << file_mimeType;
 
     QByteArray temp_path;
@@ -851,15 +851,7 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
 {
     qCDebug(logImageViewer) << "Getting metadata for:" << path;
     QMap<QString, QString> admMap;
-    // 移除秒　　2020/6/5 DJH
-    // 需要转义才能读出：或者/　　2020/8/21 DJH
     QFileInfo info(path);
-    if (admMap.contains("DateTime")) {
-        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
-        admMap["DateTimeOriginal"] = time.toString("yyyy/MM/dd hh:mm");
-    } else {
-        admMap.insert("DateTimeOriginal", info.lastModified().toString("yyyy/MM/dd HH:mm"));
-    }
     admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
 
     // The value of width and height might incorrect
@@ -870,6 +862,11 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     qCDebug(logImageViewer) << "Set QImageReader allocation limit to 2048MB for metadata reading";
     
     QSize originalSize = reader.size();
+    readExifMetadata(path, reader.format(), admMap);
+
+    if (!admMap.contains("DateTimeOriginal"))
+        admMap.insert("DateTimeOriginal", info.lastModified().toString("yyyy/MM/dd HH:mm"));
+
     const int maxDimension = 4096;
     int w = originalSize.width();
     int h = originalSize.height();
@@ -911,8 +908,7 @@ UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path)
 
 UNIONIMAGESHARED_EXPORT int getOrientation(const QString &path)
 {
-    Q_UNUSED(path);
-    return 1;
+    return getExifOrientation(path);
 }
 
 UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width, int height, int depth, SupportType type)

@@ -7,7 +7,7 @@ CONFIG += \
 DESTDIR = imageformats
 
 PKGCONFIG += \
-    libraw
+    libraw_r
 
 HEADERS += \
     datastream.h \

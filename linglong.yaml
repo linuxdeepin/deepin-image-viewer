@@ -44,10 +44,18 @@ buildext:
     build_depends:
       - cmake
       - libdeepin-ocr-plugin-manager-dev
+      - libexif-dev
+      - libheif-dev
       - libncnn-dev
       - libopencv-mobile-dev
       - libraw-dev
+      - libtiff-dev
+      - zlib1g-dev
     depends:
       - kimageformat6-plugins
       - libdeepin-ocr-plugin-manager
+      - libexif12
+      - libheif1
       - libraw23
+      - libtiff6
+      - zlib1g

@@ -23,6 +23,12 @@ DialogWindow {
     property int propRightWidth: 86
     property int topY: 70
 
+    function imageInfoValue(key) {
+        // Track same-path saves as a binding dependency.
+        IV.FileControl.metadataRevision;
+        return IV.FileControl.slotGetInfo(key, filePath);
+    }
+
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint
     maximumWidth: 280
     minimumWidth: 280
@@ -102,7 +108,7 @@ DialogWindow {
                     PropertyItemDelegate {
                         contrlImplicitWidth: propLeftWidth
                         corners: RoundRectangle.BottomLeftCorner
-                        description: IV.FileControl.slotGetInfo("FileSize", filePath)
+                        description: dialog.imageInfoValue("FileSize")
                         title: qsTr("Size")
                         Accessible.name: "InfoSize"
                         Accessible.role: Accessible.ListItem
@@ -112,7 +118,7 @@ DialogWindow {
                         Layout.fillWidth: true
                         contrlImplicitWidth: propMidWidth
                         description: {
-                            var originalDim = IV.FileControl.slotGetInfo("OriginalDimension", filePath);
+                            var originalDim = dialog.imageInfoValue("OriginalDimension");
                             if (originalDim && originalDim !== "-") {
                                 return originalDim;
                             } else {
@@ -141,7 +147,7 @@ DialogWindow {
                 PropertyItemDelegate {
                     Layout.fillWidth: true
                     corners: RoundRectangle.TopCorner
-                    description: IV.FileControl.slotGetInfo("DateTimeOriginal", filePath)
+                    description: dialog.imageInfoValue("DateTimeOriginal")
                     title: qsTr("Date captured")
                     Accessible.name: "DateCaptured"
                     Accessible.role: Accessible.ListItem
@@ -150,7 +156,7 @@ DialogWindow {
                 PropertyItemDelegate {
                     Layout.fillWidth: true
                     corners: RoundRectangle.BottomCorner
-                    description: IV.FileControl.slotGetInfo("DateTimeDigitized", filePath)
+                    description: dialog.imageInfoValue("DateTimeDigitized")
                     title: qsTr("Date modified")
                     Accessible.name: "DateModified"
                     Accessible.role: Accessible.ListItem
@@ -177,7 +183,7 @@ DialogWindow {
                 PropertyItemDelegate {
                     contrlImplicitWidth: propLeftWidth
                     corners: RoundRectangle.TopLeftCorner
-                    description: IV.FileControl.slotGetInfo("ApertureValue", filePath)
+                    description: dialog.imageInfoValue("ApertureValue")
                     title: qsTr("Aperture")
                     Accessible.name: "Aperture"
                     Accessible.role: Accessible.ListItem
@@ -187,7 +193,7 @@ DialogWindow {
                     Layout.fillWidth: true
                     Layout.minimumWidth: propMidWidth
                     contrlImplicitWidth: propMidWidth
-                    description: IV.FileControl.slotGetInfo("ExposureProgram", filePath)
+                    description: dialog.imageInfoValue("ExposureProgram")
                     title: qsTr("Exposure program")
                     Accessible.name: "ExposureProgram"
                     Accessible.role: Accessible.ListItem
@@ -196,7 +202,7 @@ DialogWindow {
                 PropertyItemDelegate {
                     contrlImplicitWidth: propRightWidth
                     corners: RoundRectangle.TopRightCorner
-                    description: IV.FileControl.slotGetInfo("FocalLength", filePath)
+                    description: dialog.imageInfoValue("FocalLength")
                     title: qsTr("Focal length")
                     Accessible.name: "FocalLength"
                     Accessible.role: Accessible.ListItem
@@ -204,7 +210,7 @@ DialogWindow {
 
                 PropertyItemDelegate {
                     contrlImplicitWidth: propLeftWidth
-                    description: IV.FileControl.slotGetInfo("ISOSpeedRatings", filePath)
+                    description: dialog.imageInfoValue("ISOSpeedRatings")
                     title: qsTr("ISO")
                     Accessible.name: "Iso"
                     Accessible.role: Accessible.ListItem
@@ -213,7 +219,7 @@ DialogWindow {
                 PropertyItemDelegate {
                     Layout.fillWidth: true
                     contrlImplicitWidth: propMidWidth
-                    description: IV.FileControl.slotGetInfo("ExposureMode", filePath)
+                    description: dialog.imageInfoValue("ExposureMode")
                     title: qsTr("Exposure mode")
                     Accessible.name: "ExposureMode"
                     Accessible.role: Accessible.ListItem
@@ -221,7 +227,7 @@ DialogWindow {
 
                 PropertyItemDelegate {
                     contrlImplicitWidth: propRightWidth
-                    description: IV.FileControl.slotGetInfo("ExposureTime", filePath)
+                    description: dialog.imageInfoValue("ExposureTime")
                     title: qsTr("Exposure time")
                     Accessible.name: "ExposureTime"
                     Accessible.role: Accessible.ListItem
@@ -229,7 +235,7 @@ DialogWindow {
 
                 PropertyItemDelegate {
                     contrlImplicitWidth: propLeftWidth
-                    description: IV.FileControl.slotGetInfo("Flash", filePath)
+                    description: dialog.imageInfoValue("Flash")
                     title: qsTr("Flash")
                     Accessible.name: "Flash"
                     Accessible.role: Accessible.ListItem
@@ -238,7 +244,7 @@ DialogWindow {
                 PropertyItemDelegate {
                     Layout.fillWidth: true
                     contrlImplicitWidth: propMidWidth
-                    description: IV.FileControl.slotGetInfo("FlashExposureComp", filePath)
+                    description: dialog.imageInfoValue("FlashExposureComp")
                     title: qsTr("Flash compensation")
                     Accessible.name: "FlashCompensation"
                     Accessible.role: Accessible.ListItem
@@ -246,7 +252,7 @@ DialogWindow {
 
                 PropertyItemDelegate {
                     contrlImplicitWidth: propRightWidth
-                    description: IV.FileControl.slotGetInfo("MaxApertureValue", filePath)
+                    description: dialog.imageInfoValue("MaxApertureValue")
                     title: qsTr("Max aperture")
                     Accessible.name: "MaxAperture"
                     Accessible.role: Accessible.ListItem
@@ -255,7 +261,7 @@ DialogWindow {
                 PropertyItemDelegate {
                     contrlImplicitWidth: propLeftWidth
                     corners: RoundRectangle.BottomLeftCorner
-                    description: IV.FileControl.slotGetInfo("ColorSpace", filePath)
+                    description: dialog.imageInfoValue("ColorSpace")
                     title: qsTr("Colorspace")
                     Accessible.name: "Colorspace"
                     Accessible.role: Accessible.ListItem
@@ -264,7 +270,7 @@ DialogWindow {
                 PropertyItemDelegate {
                     Layout.fillWidth: true
                     contrlImplicitWidth: propMidWidth
-                    description: IV.FileControl.slotGetInfo("MeteringMode", filePath)
+                    description: dialog.imageInfoValue("MeteringMode")
                     title: qsTr("Metering mode")
                     Accessible.name: "MeteringMode"
                     Accessible.role: Accessible.ListItem
@@ -273,7 +279,7 @@ DialogWindow {
                 PropertyItemDelegate {
                     contrlImplicitWidth: propRightWidth
                     corners: RoundRectangle.BottomRightCorner
-                    description: IV.FileControl.slotGetInfo("WhiteBalance", filePath)
+                    description: dialog.imageInfoValue("WhiteBalance")
                     title: qsTr("White balance")
                     Accessible.name: "WhiteBalance"
                     Accessible.role: Accessible.ListItem
@@ -286,7 +292,7 @@ DialogWindow {
                 PropertyItemDelegate {
                     contrlImplicitWidth: propFullWidth
                     corners: RoundRectangle.AllCorner
-                    description: IV.FileControl.slotGetInfo("Model", filePath)
+                    description: dialog.imageInfoValue("Model")
                     title: qsTr("Device model")
                     Accessible.name: "DeviceModel"
                     Accessible.role: Accessible.ListItem
@@ -295,7 +301,7 @@ DialogWindow {
                 PropertyItemDelegate {
                     contrlImplicitWidth: propFullWidth
                     corners: RoundRectangle.AllCorner
-                    description: IV.FileControl.slotGetInfo("LensType", filePath)
+                    description: dialog.imageInfoValue("LensType")
                     title: qsTr("Lens model")
                     Accessible.name: "LensModel"
                     Accessible.role: Accessible.ListItem
