@@ -270,6 +270,15 @@ Item {
             onSourceChanged: updateMask()
         }
 
+        // 延迟刷新蒙皮：旋转后重设 source 导致异步加载，立即调用 updateMask 时
+        // paintedWidth/paintedHeight 仍为旧值，蒙皮位置错误；延迟 200ms 等待异步加载完成
+        Timer {
+            id: rotationRefreshTimer
+            interval: 200
+            repeat: false
+            onTriggered: currentImage.updateMask()
+        }
+
         // 旋转图片触发更新导航窗口，重设图片后绑定会失效，因此手动触发图片源更新
         Connections {
             function onCurrentFrameIndexChanged() {
@@ -280,7 +289,7 @@ Item {
                 var temp = currentImage.source;
                 currentImage.source = "";
                 currentImage.source = temp;
-                currentImage.updateMask();
+                rotationRefreshTimer.restart();
             }
 
             function onCurrentSourceChanged() {
