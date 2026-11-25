@@ -1,3 +1,22 @@
+deepin-image-viewer (6.1.5) unstable; urgency=medium
+
+  * fix(InformationDialog): anchor content column below the dialog header
+  * feat: read EXIF metadata via libexif for image details
+  * [skip CI] Translate deepin-image-viewer.ts in ru
+  * [skip CI] Translate desktop.ts in ru
+  * [skip CI] Translate desktop.ts in ru
+  * [skip CI] Translate deepin-image-viewer.ts in ru
+  * [skip CI] Translate deepin-image-viewer.ts in ru
+  * test: add unit tests for setWallpaperVisible DConfig
+  * fix: gate EditCanvas size by editMode to avoid zoom OOM
+  * perf(viewer): cache toFixed result in scale notice
+  * refactor(viewer): bind notice margin to showBottomY
+  * chore: update spdx copyright year range
+  * fix(viewer): migrate scale notice to dtk message
+  * feat: support hiding "Set as wallpaper" via DConfig
+
+ -- Wang Yu <wangyu@uniontech.com>  Wed, 25 Nov 2026 09:26:31 +0800
+
 deepin-image-viewer (6.1.4) unstable; urgency=medium
 
   * fix: reset title bar animationShow in switchOpenImage
