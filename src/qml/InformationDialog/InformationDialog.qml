@@ -76,8 +76,10 @@ DialogWindow {
         width: 260
 
         anchors {
+            top: dialog.header.bottom
             horizontalCenter: parent.horizontalCenter
-            margins: 10
+            topMargin: 8
+            bottomMargin: 10
         }
 
         PropertyItem {
