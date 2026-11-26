@@ -58,7 +58,8 @@ ColumnLayout {
         id: info
 
         Layout.fillWidth: true
-        Layout.preferredHeight: contentHeight
+        Layout.minimumHeight: 0
+        Layout.preferredHeight: visible ? contentHeight : 0
         interactive: false
         spacing: 10
 
