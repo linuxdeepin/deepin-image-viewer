@@ -25,6 +25,8 @@ Build-Depends:
  libheif-dev,
  zlib1g-dev,
  libncnn-dev,
+ libgtest-dev,
+ libgmock-dev,
  libopencv-mobile-dev
 Standards-Version: 3.9.8
 Homepage: http://www.deepin.org
